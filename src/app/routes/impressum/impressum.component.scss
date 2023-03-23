@@ -1,0 +1,19 @@
+:host{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+p{
+    margin: 0;
+}
+  
+.sectiondiv {
+    max-width: 24em;
+    padding-top: 0;
+}
+
+section{
+    display: flex;
+    flex-flow: column;
+}

@@ -1,0 +1,263 @@
+@charset "UTF-8";
+/*Basics-------------------------------------------------------------------------------*/
+hr {
+  width: clamp(1em, 65%, 60em);
+  margin: 1em 0;
+}
+
+h2 {
+  font-size: 10rem;
+  margin: 0;
+  font-size: clamp(0.5rem, 7vw, 2rem);
+  text-align: center;
+}
+
+.unsichtbar {
+  display: none;
+}
+
+/*Home-------------------------------------------------------------------------------*/
+#home .sectiondiv {
+  display: grid;
+  justify-content: space-evenly;
+  grid-template-columns: 60% 40%;
+}
+
+#home .sectiondiv .imgdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(0.8em, 25vw, 15em);
+  color: var(--primary-variant-brighter);
+}
+
+.homebanner {
+  box-sizing: border-box;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: column;
+}
+
+.titeluntertext {
+  margin: 2% 0;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+.divTitel span {
+  font-size: 0.8em;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  line-height: 100%;
+  color: var(--schrift);
+}
+
+.homebanner button {
+  margin-bottom: 2%;
+}
+
+.labels {
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.8rem, 0.5vw, 1.2rem);
+  width: 100%;
+}
+
+.labels span {
+  margin: 0 1em;
+}
+
+.labels .icon {
+  font-size: clamp(1.8rem, 15vw, 1.2rem);
+  color: var(--primary-variant-darker);
+}
+
+.infobanner {
+  border-left: 10px solid #b60e0e;
+  background-color: #f2dede;
+  padding: 15px;
+  line-height: 1.65em;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  color: #a94442;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.darkmode .infobanner {
+  background-color: rgb(24, 24, 24);
+  color: var(--schrift);
+}
+
+@media only screen and (max-width: 700px) {
+  #home .sectiondiv {
+    grid-template-columns: 100%;
+  }
+  #home .sectiondiv .imgdiv {
+    order: -1;
+  }
+}
+/*Info-------------------------------------------------------------------------------*/
+#info .Erklärung {
+  margin-top: 1em;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+}
+
+.antragsartdiv {
+  display: flex;
+  margin-top: 0.5em;
+  width: 85%;
+}
+
+.icondiv {
+  font-size: clamp(0.8rem, 3vw, 2rem);
+  padding: clamp(0.8rem, 5vw, 1.2rem);
+  box-shadow: 5px 3px 5px 2px rgba(0, 0, 0, 0.231372549);
+  border-radius: 20px;
+  background-color: var(--primary-variant-much-brighter);
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.icondiv .svg-inline--fa {
+  width: 1em;
+  height: 1em;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+}
+
+.antragsarttext {
+  text-align: center;
+  font-size: clamp(0.8rem, 1vw, 1.2rem);
+  margin-top: 1em;
+}
+
+.antragsart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.antragsartfalsch .icondiv {
+  background-color: rgb(255, 118, 118);
+}
+
+#info button {
+  margin: 0 0 0 1em;
+}
+
+#info .sectiondiv .Banner {
+  border: 0.18em solid #ec2828;
+  max-width: 80%;
+  padding: 0.5em;
+  border-radius: 8px;
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  margin-top: 1em;
+}
+
+#info .sectiondiv .BannerMusterantrag {
+  display: flex;
+  align-items: center;
+  margin: 1em;
+}
+
+/*Wo-------------------------------------------------------------------------------*/
+.Zuständigkeiten {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.Zuständigkeit {
+  margin: 0.5em;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  border-radius: 15px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ErklärungZuständigkeit {
+  border: 0.15rem solid var(--primary-variant-darker);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  padding: 0.5em;
+  padding: auto;
+  font-size: 0.9em;
+}
+
+.icondivz {
+  padding: 0.5em;
+  font-size: 2em;
+  background-color: var(--primary-variant-much-brighter);
+  border: 0.15rem solid var(--primary-variant-darker);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+/*Berechtigtes-Interesse-------------------------------------------------------------------------------*/
+#Berechtigtes-Interesse span {
+  margin: 2em 0 1em 0;
+}
+
+/*GB-Inhalt-------------------------------------------------------------------------------*/
+#GB-Inhalt .Erklärung {
+  margin: 1.5em 0;
+}
+
+#GB-Inhalt .sectiondiv .grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 20em);
+  justify-content: center;
+  gap: 0.5em;
+  max-width: 61em;
+  margin-bottom: 1.5em;
+}
+
+.GB-Abschnitt {
+  border: 0.1em solid var(--primary-variant-darker);
+  border-radius: 0.4em;
+  display: flex;
+  flex-direction: column;
+  padding: 0.3em;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.GB-Abschnitt h3 {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+  color: var(--primary-variant-darker);
+}
+
+.GB-Abschnitt span {
+  margin: 0.5em 0;
+  text-align: center;
+}
+
+.GB-Abschnitt ul {
+  margin: 0.3em 0;
+  padding: 0;
+}
+
+/*FAQ-------------------------------------------------------------------------------*/
+#FAQ .sectiondiv {
+  margin-bottom: 2em;
+}
+
+.Fragen {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+}/*# sourceMappingURL=home.component.css.map */

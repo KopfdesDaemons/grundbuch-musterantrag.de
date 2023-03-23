@@ -1,0 +1,43 @@
+.formularcontent {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: inherit;
+}
+
+:host {
+    background-color: inherit;
+}
+
+.inputfelder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: inherit;
+}
+
+.inputfelder .inputfeld {
+    width: 48%;
+}
+
+hr {
+    margin: 0.5em 0;
+    width: 80%;
+    display: block;
+}
+
+.hrdiv {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+@media only screen and (max-width: 580px) {
+    .inputfelder .inputfeld {
+        width: 100%;
+    }
+}
+
+.formNavBtn {
+    display: flex;
+    justify-content: flex-end;
+  }

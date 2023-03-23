@@ -1,0 +1,25 @@
+#berechtigtesinteresse li {
+  display: flex;
+  margin: 0.5rem 0;
+}
+
+ul {
+  padding-left: 1rem;
+}
+
+#berechtigtesinteresse textarea {
+  width: 100%;
+  height: 5em;
+  resize: vertical;
+  background-color: var(--hintergrund-inputfeld);
+}
+
+@media only screen and (max-width: 580px) {
+  #berechtigtesinteresse ul {
+    padding-left: 0em;
+  }
+}
+.formNavBtn {
+  display: flex;
+  justify-content: flex-end;
+}/*# sourceMappingURL=berechtigtes-interesse.component.css.map */

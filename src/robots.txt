@@ -1,0 +1,4 @@
+user-agent: *
+Disallow: /datenschutz
+Disallow: /impressum
+Disallow: /adminpanel

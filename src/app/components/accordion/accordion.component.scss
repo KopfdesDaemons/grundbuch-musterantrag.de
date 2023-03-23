@@ -1,0 +1,51 @@
+.Frage {
+  margin-top: 0.3em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.FrageHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  user-select: none;
+}
+
+.FrageHead .fa-angle-down {
+  // margin-right: 1.5em;s
+  // height: 32px;
+  // width: 32px;
+  font-size: 20px;
+  margin: 5px;
+}
+
+.darkmode .FrageHead {
+  background-color: rgb(22, 24, 28);
+}
+
+.Antwort {
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+  overflow: hidden;
+}
+
+.Antwortpanel {
+  padding: 0 1em;
+}
+
+.darkmode .FrageHeadAngeglickt,
+.FrageHeadAngeglickt {
+  border: 0.2em solid var(--primary-variant-darker);
+  background-color: var(--primary-variant-much-brighter);
+  font-weight: 700;
+}
+
+.FrageHeadAngeglickt Span {
+  font-weight: 700;
+}
+
+.FrageHeadAngeglickt .fa-angle-down {
+  color: var(--primary-variant-darker);
+  transform: rotate(180deg);
+  transition: all 0.2s;
+}

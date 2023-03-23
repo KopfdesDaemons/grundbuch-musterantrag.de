@@ -1,0 +1,112 @@
+:host{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sectiondiv {
+  align-items: unset;
+  max-width: 50em;
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+}
+
+h2 {
+  margin: 0.3em 0;
+}
+
+.formNavBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+// FormdesAusdrucks ###############################################################
+
+#formdesausdrucks .formularcontent {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1em 0;
+  flex-wrap: wrap;
+}
+
+.auswahlcard {
+  margin: 0.2em 0;
+  width: 20em;
+  user-select: none;
+}
+
+.auswahlcard label {
+  border: 5px solid #dadce0;
+  border-radius: 8px;
+  min-height: 17em;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.auswahlcard input[type="radio"]:checked + label {
+  border: 5px solid var(--primary-variant-much-brighter);
+  background-color: var(--hintergrund-inputfeld);
+  strong {
+    color: var(--primary-color);
+  }
+}
+
+.auswahlcard input {
+  display: none;
+  &:not(:disabled) ~ label {
+    cursor: pointer;
+  }
+}
+
+.auswahlcard strong {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.auswahlcard span {
+  margin: 1em 0 0 0;
+}
+
+// Ende ################################################################################
+
+#ende{
+  display: flex;
+  flex-direction: column;
+
+  span{
+    margin-top: 0.5em;
+  }
+
+  .kachelcontainer{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1em;
+    gap: 1em;
+  }
+
+  .kachel{
+    fa-icon{
+      font-size: 64px;
+      margin: 1rem;;
+    }
+    // border: 1px solid;
+    width: clamp(4em, 15em, 15em);
+    display: flex;
+    align-items: center;
+    height: unset;
+  }
+
+  .status{
+    margin-top: 1rem;
+    border-left: 2px solid var(--primary-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: var(--hintergrund-inputfeld);
+  }
+
+  .fehlerstatus div{
+    // border: 2px solid red;
+    color: red;
+  }
+}

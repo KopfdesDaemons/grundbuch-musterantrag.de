@@ -1,0 +1,110 @@
+@media only screen and (min-width: 700px) {
+  .artikelcontent {
+    flex-grow: 1;
+    margin-left: 19em;
+    // background-color: bisque;
+  }
+}
+.artikelcontent{
+    app-artikel section{
+        background-color: aqua;
+    }
+    
+    p,
+    span {
+      font-size: 16px;
+    }
+    
+    hr {
+      width: clamp(1em, 65%, 60em);
+      margin: 1em 0;
+    }
+    
+    ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    
+    li {
+      list-style: circle;
+    }
+    
+    
+    #disqus_thread {
+      margin: 10px auto;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 1300px;
+    }
+    
+    .infokasten {
+      padding: 1em;
+      background-color: var(--primary-variant-much-brighter);
+      border-left: 6px solid var(--primary-variant-darker);
+      border-radius: 3px;
+      max-width: 80%;
+      margin: 1em 0 0 1em;
+    }
+    
+    .sectiondiv {
+      align-items: flex-start;
+      //background-color: rgb(22, 24, 28);
+    }
+    
+    section:first-of-type .sectiondiv {
+      margin-top: 1em;
+    }
+    
+    // section:last-of-type {
+    //   margin-bottom: 5em;
+    // }
+    
+    .variant {
+      color: var(--primary-variant-darker);
+    }
+    
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    h2,
+    .darkmode h2 {
+      color: var(--primary-variant-darker);
+      margin-top: 0;
+      font-size: 1.9rem;
+      margin-bottom: 0.5em;
+    }
+    
+    h3,
+    .darkmode h3 {
+      margin: 1em 0 0 0;
+      color: var(--primary-variant-darker);
+      font-size: 1.5rem;
+    }
+    
+    h4,
+    .darkmode h4 {
+      margin: 1em 0 0 1em;
+      // color: var(--primary-variant-darker);
+      text-decoration: underline;
+    }
+    
+    p {
+      margin: 0.5em 0;
+    }
+    
+    /*----------------------------------------------------------------------------------*/
+    
+    .nächsteseite {
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 20%;
+      // margin-bottom: 5em;
+    }
+}
+

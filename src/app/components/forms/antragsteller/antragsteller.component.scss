@@ -1,0 +1,96 @@
+:host {
+    background-color: inherit;
+}
+
+#antragsteller .formularcontent {
+    flex-wrap: nowrap;
+    background-color: inherit;
+    display: flex;
+}
+
+.inputfelder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: inherit;
+}
+
+.inputfelder .inputfeld {
+    width: 48%;
+}
+
+#telefonnummer {
+    width: 40%;
+}
+
+#email {
+    width: 58%;
+}
+
+#straße {
+    width: 100%;
+}
+
+fa-icon {
+    font-size: 10rem;
+    color: rgb(204, 204, 204);
+    // color: var(--primary-variant-darker);
+    margin: 0.2em 0.4em;
+}
+
+.material-icons-outlined {
+    font-size: 10rem;
+    color: rgb(204, 204, 204);
+    margin: 0.2em 0.4em;
+}
+
+hr {
+    margin: 0.5em 0;
+    width: 80%;
+    display: block;
+}
+
+.formNavBtn {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+.hrdiv {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+label {
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (max-width: 580px) {
+    .inputfelder .inputfeld {
+        width: 100%;
+    }
+
+    #telefonnummer {
+        width: 100%;
+    }
+
+    #email {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    .profilicon {
+        display: none;
+    }
+}
+
+.anredediv {
+    display: inline-flex;
+    margin-bottom: 0.5em;
+}
+
+.zeileAnrede{
+    width: 100%;
+}

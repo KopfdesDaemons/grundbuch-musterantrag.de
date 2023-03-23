@@ -1,0 +1,91 @@
+<header [ngClass]="{'darkmode': dl.darkmode.value}">
+  <div class="desktopheader">
+    <div class="farbauswahlbuttondiv">
+      <div class="farbauswahlbutton" style="cursor: pointer"></div>
+      <div class="farbauswahl">
+        <div class="farbefarbauswahl" style="background-color: hsl(195, 75%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(0, 60%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(323, 82%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(132, 64%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(35, 100%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(173, 63%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(281, 94%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(81, 56%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(0, 0%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(334, 100%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(225, 6%, 50%)"></div>
+        <div class="farbefarbauswahl" style="background-color: hsl(110, 69%, 50%)"></div>
+        <div class="anderefarbediv">
+          <span>Eigene Farbe auswählen</span>
+          <input #colorPicker type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event)"/>
+        </div>
+      </div>
+    </div>
+    <div class="darkmodebtn" (click)="switchMode()">
+      <fa-icon [icon]="faMoon"></fa-icon>
+    </div>
+    <nav>
+      <ul>
+        <li><a routerLink="">Home</a></li>
+        <li>
+          <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
+        </li>
+        <!-- <li><a href="../index.php#home">Anträge</a></li>
+          <li><a href="../index.php#home">Mustergrundbuch</a> -->
+        <!-- </li> -->
+      </ul>
+    </nav>
+  </div>
+  <div class="mobileheader">
+    <div class="mobileheadercontent">
+      <a routerLink="">
+        <i class="fa-solid fa-house"></i>
+      </a>
+      <button class="mobilemenübutton" (click)="toggle()">Menü</button>
+      <div class="designbuttons">
+        <div class="farbauswahlbuttondiv">
+          <div class="farbauswahlbutton" style="cursor: pointer"></div>
+          <div class="farbauswahl">
+            <div class="farbefarbauswahl" style="background-color: hsl(195, 75%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(0, 60%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(323, 82%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(132, 64%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(35, 100%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(173, 63%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(281, 94%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(81, 56%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(0, 0%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(334, 100%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(225, 6%, 50%)"></div>
+            <div class="farbefarbauswahl" style="background-color: hsl(110, 69%, 50%)"></div>
+            <div class="anderefarbediv">
+              <span>Eigene Farbe auswählen</span>
+              <input type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event)"/>
+            </div>
+          </div>
+        </div>
+        <div class="darkmodebtn" (click)="switchMode()">
+          <fa-icon [icon]="faMoon"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <nav #mobilenav class="mobilenav">
+      <ul>
+        <li><a routerLink="">Home</a></li>
+        <li>
+          <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
+        </li>
+        <!-- <li><a href="../index.php#home">Anträge</a></li>
+          <li><a href="../index.php#home">Mustergrundbuch</a></li> -->
+      </ul>
+    </nav>
+  </div>
+  <div #closingdiv class="closingdiv unsichtbar" (click)="togglebodydiv()"></div>
+  <div #cookiebanner class="cookiebanner ausgeblendet">
+    <div>
+      <span [innerText]="consent"></span>
+      <button (click)="akzeptieren()" id="cookiejabtn" class="btntext">Ja</button>
+      <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
+    </div>
+  </div>
+</header>

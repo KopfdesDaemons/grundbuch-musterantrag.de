@@ -1,0 +1,25 @@
+:host {
+    margin-top: auto;
+    width: 100%;
+}
+
+footer {
+    background-color: rgb(243, 243, 243);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.darkmode {
+    background-color: rgb(22, 24, 28);
+}
+
+footer ul {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    margin-right: 1em 3%;
+}
+
+footer ul li {
+    margin-right: clamp(1em, 4vw, 3em);
+    list-style: none;
+}

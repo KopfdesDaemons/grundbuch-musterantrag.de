@@ -1,0 +1,161 @@
+.navigationlinks {
+    width: 19em;
+    overflow: hidden;
+    position: fixed;
+    padding: 0;
+    transition: 0.3s;
+    z-index: 1;
+  }
+  
+  /* width */
+  .themenliste::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Handle */
+  .themenliste::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  .themenliste::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  .themenliste::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+  
+  .darkmode .themenliste,
+  .themenliste {
+    height: 100vh;
+    padding: 4em 1em 0 1em;
+    box-sizing: border-box;
+    overflow: scroll;
+  
+    ul {
+      padding: 0;
+      margin: 0 0 0 1em;
+    }
+  
+    li {
+      margin-bottom: 1em;
+      list-style: none;
+    }
+  
+    a {
+      display: block;
+      flex-grow: 1;
+      padding: 1em 1em 1em 0.5em;
+      text-decoration: none;
+      font-weight: bold;
+      color: var(--schrift);
+      border: 1px solid rgb(197, 197, 197);
+      border-radius: 0 15px 15px 0;
+    }
+  
+    .icon {
+      padding: 1em;
+      border: 1px solid;
+      cursor: pointer;
+      border-radius: 8px 0 0 8px;
+    }
+  
+    .thema {
+      div {
+        list-style: none;
+        display: flex;
+      }
+  
+      ul {
+        max-height: 0;
+        overflow: hidden;
+        margin: 0;
+        transition: 0.2s;
+      }
+  
+      li {
+        margin: 0;
+      }
+    }
+  
+    .themaangeklickt {
+      ul {
+        max-height: 1000px;
+        transition: 0.5s;
+      }
+      div a {
+        background-color: var(--primary-variant-much-brighter);
+      }
+    }
+  
+    .unterthema {
+      a {
+        margin: 0;
+        padding: 0.5em 0 0.5em 1em;
+        font-size: 14px;
+        box-sizing: border-box;
+        font-weight: normal;
+        border: 1px solid transparent;
+        border-radius: 10px;
+      }
+    }
+  
+    .icon:hover,
+    .unterthema a:hover {
+      border: 1px solid var(--primary-variant-darker);
+    }
+  }
+  
+  .sidebarbutton {
+    display: none;
+    position: absolute;
+  }
+  
+  @media only screen and (max-width: 700px) {
+    .navigationlinks {
+      left: -19em;
+      overflow-x: hidden;
+      background-color: var(--hintergrund);
+    }
+  
+    .sidebarbutton {
+      display: block;
+      top: 2.5em;
+      left: 1em;
+      border: 1px solid var(--primary-variant-darker);
+      background-color: var(--hintergrund);
+      padding: 0.5em;
+      width: 30px;
+      height: 30px;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      cursor: pointer;
+      z-index: 1;
+  
+      i {
+        height: 24px;
+        width: 24px;
+        vertical-align: middle;
+      }
+    }
+  }
+  
+  .sidebarbutton:hover {
+    background-color: var(--primary-variant-much-brighter);
+  }
+  
+  .sidebaroffen {
+    left: 0em;
+  }
+  
+  .closingDiv{
+    position: fixed;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+  }
