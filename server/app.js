@@ -47,7 +47,9 @@ app.get('/api/amtsgerichtausplz', async function (req, res){
   try {
     const plzSuche = req.query.plz;
     const url = `https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=${plzSuche}&ort=`;
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox']
+    });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'networkidle0'});
     const html = await page.content();
