@@ -78,4 +78,4 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(distDir, 'index.html'));
 });
 
-app.listen(80, () => console.log('Server started', distDir));
+app.listen(8080, () => console.log('Server started', distDir));
