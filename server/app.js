@@ -9,13 +9,17 @@ const app = express();
 app.use(fileUpload());
 app.use(express.json());
 
-app.post('/antraggrundbuchausdruck', async function (req, res) {
+var distDir = __dirname + "/../dist/grundbuch";
+app.use(express.static(distDir));
+
+
+app.post('/api/antraggrundbuchausdruck', async function (req, res) {
   if (!req.files || !req.files.docx) return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
   let { docx } = req.files;
 
   //Einzigartiger Dateiname
   let filename = uuidv4();
-
+  
   //Pfade
   let folderpath = path.join(__dirname, 'uploads');
   let filepath =  path.join(folderpath, `${filename}.docx`);
@@ -39,7 +43,7 @@ async function convertToPdf(filepath, folderpath) {
   });
 }
 
-app.get('/amtsgerichtausplz', async function (req, res){
+app.get('/api/amtsgerichtausplz', async function (req, res){
   try {
     const plzSuche = req.query.plz;
     const url = `https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=${plzSuche}&ort=`;
@@ -51,23 +55,27 @@ app.get('/amtsgerichtausplz', async function (req, res){
     const amtsgerichtRegex = /<h6>(.*?)<\/h6>/;
     const amtsgerichtMatch = amtsgerichtRegex.exec(html);
     const amtsgericht = amtsgerichtMatch && amtsgerichtMatch[1];
-
+    
     const straßeRegex = /<strong>Lieferanschrift<\/strong><br>\s*([^<]*)<br>/s;
     const straßeMatch = straßeRegex.exec(html);
     const straße = straßeMatch && straßeMatch[1];
-
+    
     const plzOrtRegex = new RegExp(straße + "<br>\\s*([^<]*?)<br>");
     const plzOrtMatch = plzOrtRegex.exec(html);
     const plzOrt = plzOrtMatch && plzOrtMatch[1];
-
+    
     let [plz, ort] = (plzOrt || '').split(/\s+/).filter(Boolean);
-
+    
     if (!amtsgericht || !straße || !plz || !ort) {
       throw new Error('Die benötigten Informationen konnten nicht aus der Webseite der Justiz extrahiert werden.');
     }
-
+    
     res.send({amtsgericht, straße, plz, ort});
   }catch(error){res.status(500).send(error.message || 'Ein Fehler bei Laden der Daten aus der Webseite der Justiz.');}
 });
 
-app.listen(8080, () => console.log('Server started'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distDir, 'index.html'));
+});
+
+app.listen(8080, () => console.log('Server started', distDir));
