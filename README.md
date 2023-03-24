@@ -1,27 +1,23 @@
-# Grundbuch
+# `grundbuch-musterantrag.de`
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.4.
+Eine Webseite über Grundbuchrecht, mit der Möglichkeit kostenfreie Musteranträge zu generieren.
+Es gibt ein bunutzerfreundliches Formular. Der User wird Schritt für Schritt durch das Formular geleitet. Am Ende wird eine docx und eine pdf Datei erstellt.
 
-## Development server
+Zudem bietet die Webseite einen kompakten Einstieg ins Grundbuchrecht für Laien.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+> Die Webseite ist live unter [www.grundbuch-musterantrag.de](https://www.grundbuch-musterantrag.de).
 
-## Code scaffolding
+Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## `Verfügbare Musteranträge`
 
-## Build
+- Antrag auf Erteilung eines Grundbuchsausdrucks
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## `Frameworks`
 
-## Running unit tests
+- **Javascript**: Angular
+- **CSS**: keins bzw. eigenes Framework
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## `Backend`
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- **API**: Node.js
