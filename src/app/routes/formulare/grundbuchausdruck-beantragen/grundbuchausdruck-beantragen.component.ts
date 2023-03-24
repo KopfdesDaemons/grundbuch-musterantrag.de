@@ -114,7 +114,7 @@ export class GrundbuchausdruckBeantragenComponent {
           const uploadProzent = Math.round(100 * res.loaded / res.total!);
           this.prozentProgressSpinnerPdf = uploadProzent.toString();
           if(uploadProzent == 100){
-            this.statusmeldung = 'Die docx Datei wurde zur Konvertierung an den Server gesendet. Der Server muss die Datei noch eine pdf Datei konvertieren.';
+            this.statusmeldung = 'Die docx Datei wurde zur Konvertierung an den Server gesendet. Der Server muss die Datei noch in eine pdf Datei konvertieren.';
             this.prozentProgressSpinnerPdf = '0';
           }
         } 
