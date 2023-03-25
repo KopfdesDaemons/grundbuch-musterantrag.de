@@ -60,7 +60,7 @@
             <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(110, 69%, 50%)"></div>
             <div class="anderefarbediv">
               <span>Eigene Farbe auswählen</span>
-              <input type="color" [value]="dl.primaryColorHSL" [style.background]="'#1de4d7'" [value]="'#1de4d7'" name="farbe" id="anderefarbe" (change)="CustomColor($event)"/>
+              <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event.target)"/>
             </div>
           </div>
         </div>
