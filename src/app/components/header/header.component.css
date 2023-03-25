@@ -173,6 +173,21 @@ header nav ul li a {
 .anderefarbediv span {
   margin-left: 4px;
 }
+.anderefarbediv input {
+  border-radius: 10px;
+  height: 40px;
+  width: 90px;
+  border: none;
+  background: none;
+}
+.anderefarbediv input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.anderefarbediv input::-webkit-color-swatch {
+  border: 2px solid #707070;
+  border-radius: 10px;
+  background-color: unset;
+}
 
 .mobileheader {
   display: none;
@@ -232,24 +247,6 @@ header nav ul li a {
     justify-content: center;
   }
 }
-#anderefarbe {
-  border-radius: 10px;
-  height: 40px;
-  width: 90px;
-  border: none;
-  background: none;
-}
-
-#anderefarbe::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-
-#anderefarbe::-webkit-color-swatch {
-  border: 2px solid #707070;
-  border-radius: 10px;
-  background-color: unset;
-}
-
 .closingdiv {
   background-color: transparent;
   height: 100vh;

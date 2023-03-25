@@ -176,6 +176,24 @@ header nav ul li a {
   span {
     margin-left: 4px;
   }
+
+  input {
+    border-radius: 10px;
+    height: 40px;
+    width: 90px;
+    border: none;
+    background: none;
+  }
+  
+  input::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  
+  input::-webkit-color-swatch {
+    border: 2px solid #707070;
+    border-radius: 10px;
+    background-color: unset;
+  }
 }
 
 .mobileheader {
@@ -247,24 +265,6 @@ header nav ul li a {
     flex-direction: column;
     justify-content: center;
   }
-}
-
-#anderefarbe {
-  border-radius: 10px;
-  height: 40px;
-  width: 90px;
-  border: none;
-  background: none;
-}
-
-#anderefarbe::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-
-#anderefarbe::-webkit-color-swatch {
-  border: 2px solid #707070;
-  border-radius: 10px;
-  background-color: unset;
 }
 
 .closingdiv {

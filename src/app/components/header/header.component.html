@@ -17,7 +17,7 @@
         <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(110, 69%, 50%)"></div>
         <div class="anderefarbediv">
           <span>Eigene Farbe auswählen</span>
-          <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event.target)"/>
+          <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
             <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(110, 69%, 50%)"></div>
             <div class="anderefarbediv">
               <span>Eigene Farbe auswählen</span>
-              <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event.target)"/>
+              <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>
             </div>
           </div>
         </div>
