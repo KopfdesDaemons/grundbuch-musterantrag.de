@@ -21,7 +21,6 @@ export class HeaderComponent implements AfterViewInit {
   constructor(public cs: CookiesService, public farbConv: FarbconverterService, public dl: DesignloaderService) {}
   
   ngAfterViewInit(): void {
-    this.initializeFarbBtn();
     this.cs.cookieListe.subscribe((c: cookie[]) => {this.showCookieBanner();});
   }
 
@@ -43,37 +42,23 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   // Farbe aus Auswahl ##########################################################################
-  initializeFarbBtn()
-  {
-    const farbbtn:any = document.getElementsByClassName("farbefarbauswahl");
+
+  farbeAusAuswahl(btn: any){
+    let farbe = (btn as HTMLElement).style.backgroundColor;
+    let sep = farbe.indexOf(",") > -1 ? "," : " ";
+    let rgb = farbe.substring(4).split(")")[0].split(sep);
   
-    for (const btn of farbbtn ) {
-      btn.addEventListener("click",  (event:any) => {
-        let rgb = event.target.style.backgroundColor;
-        let sep = rgb.indexOf(",") > -1 ? "," : " ";
-  
-        rgb = rgb.substr(4).split(")")[0].split(sep);
-  
-        let r = (+rgb[0]),
-          g = (+rgb[1]),
-          b = (+rgb[2]);
-  
-        let hslfromrgb = this.farbConv.RGBToHSL(r, g, b);
-        
-        this.dl.FarbeÄndern(hslfromrgb["h"], hslfromrgb["s"], hslfromrgb["l"]);
-        let hex = this.farbConv.HSLToHex(
-          hslfromrgb["h"],
-          hslfromrgb["s"],
-          hslfromrgb["l"]
-        );
-        this.colorPicker!.nativeElement.value = hex;
-      });
-    }
+    let r = (+rgb[0]),
+      g = (+rgb[1]),
+      b = (+rgb[2]);
+
+    let hslfromrgb = this.farbConv.RGBToHSL(r, g, b);
+    this.dl.FarbeÄndern(hslfromrgb["h"], hslfromrgb["s"], hslfromrgb["l"]);
   }
 
   // Eigene Farbe ################################################################################
   CustomColor(color: any) {
-    let hslfromhex = this.farbConv.HexToHSL(color);
+    let hslfromhex = this.farbConv.HexToHSL(color.value);
     this.dl.FarbeÄndern(hslfromhex["h"], hslfromhex["s"], hslfromhex["l"]);
   }
 

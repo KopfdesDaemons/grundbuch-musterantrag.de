@@ -119,11 +119,11 @@ export class FarbconverterService {
 
     // Prepend 0s, if necessary
     if (rstr.length == 1)
-      rstr = "0" + r;
+      rstr = "0" + rstr;
     if (gstr.length == 1)
-      gstr = "0" + g;
+      gstr = "0" + gstr;
     if (bstr.length == 1)
-      bstr = "0" + b;
+      bstr = "0" + bstr;
   
     return "#" + rstr + gstr + bstr;
   }

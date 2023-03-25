@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { cookie } from '../models/cookie';
 import { CookiesService } from './cookies.service';
+import { FarbconverterService } from './farbconverter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,9 @@ export class DesignloaderService{
 
   darkmode: BehaviorSubject<boolean>;
   private initialized = false;
+  primaryColorHSL:string | null = "#1de4d7";
 
-  constructor(public cs: CookiesService) {
+  constructor(public cs: CookiesService, public farbConv: FarbconverterService) {
 
     this.darkmode = new BehaviorSubject(this.schemaAusCookie() ?? this.detectPreferenceScheme());
     if(this.darkmode.value == true) this.aktiviereDarkmode(true);
@@ -68,5 +70,8 @@ export class DesignloaderService{
     r.style.setProperty("--hsl-color", hsl);
     var c:cookie = new cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");
     this.cs.CheckCookie(c);
+    this.primaryColorHSL = `hsl(${h}, ${s}, 100)`;
+    let hex = this.farbConv.HSLToHex(h, s, 50);
+    this.primaryColorHSL = hex;
   }
 }

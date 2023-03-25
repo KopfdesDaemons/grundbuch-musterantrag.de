@@ -1,5 +1,3 @@
-/*Header-------------------------------------------------------------------------------*/
-
 header {
   width: 100%;
   position: fixed;
@@ -53,22 +51,6 @@ header {
   width: 100%;
   background-color: inherit;
   background-color: var(--hintergrund);
-}
-
-.darkmodebtn {
-  padding: clamp(0.1rem, 0.2rem, 2rem);
-  box-sizing: border-box;
-  font-size: clamp(1rem, 1.3rem, 1.5rem);
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  margin: 0 0.5em;
-  border: 3px solid #707070;
-  border-radius: 10px;
-  width: 2.3rem;
-  height: 2.3rem;
-  cursor: pointer;
-  // margin-right: auto;
 }
 
 header button {
@@ -129,28 +111,45 @@ header nav ul li a {
   color: whitesmoke;
 }
 
+.btnDesign{
+  border: 3px solid #707070;
+  height: 2.3rem;
+  width: 2.3rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.darkmodebtn {
+  box-sizing: border-box;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-left: 0.5em;
+
+  fa-icon{
+    display: flex;
+    align-items: center;
+  }
+}
+
+.farbauswahlbutton {
+  background-color: var(--primary-color);
+  box-sizing: border-box;
+  margin-left: 1em;
+}
+
 .farbauswahlbuttondiv {
   height: 100%;
   display: flex;
   align-items: center;
   background-color: inherit;
-  // margin-left: auto;
-}
-
-.farbauswahlbutton {
-  background-color: var(--primary-color);
-  border-radius: 10px;
-  height: 2.3em;
-  width: 2.3em;
-  border: 3px solid #707070;
-  box-sizing: border-box;
-  margin-left: 1em;
 }
 
 .farbauswahlbuttondiv:hover .farbauswahl,
 .farbauswahl:hover {
   display: grid;
   grid-template-columns: auto auto auto auto;
+  gap: 0.2rem;
 }
 
 .farbauswahl {
@@ -163,19 +162,7 @@ header nav ul li a {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   display: none;
   border-radius: 0 0 10px 10px;
-  border: 1px solid;
   border-top: none;
-}
-
-.farbefarbauswahl {
-  border-radius: 10px;
-  height: 2rem;
-  width: 2rem;
-  border: 3px solid #707070;
-  text-align: center;
-  margin: auto;
-  cursor: pointer;
-  // vertical-align: middle;
 }
 
 .anderefarbediv {
@@ -213,11 +200,20 @@ header nav ul li a {
   nav ul {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    margin: 0;
+    
+    li{
+      padding: 0.5em;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
 
-    li {
-      margin: 0.5em;
     }
+    li:nth-of-type(2n -1) {
+      background-color: var(--hintergrund-variant-darker);
+    } 
+
   }
 
   .farbauswahl {
@@ -242,8 +238,6 @@ header nav ul li a {
   }
 }
 
-
-
 @media only screen and (max-width: 700px) {
   .desktopheader {
     display: none;
@@ -256,12 +250,11 @@ header nav ul li a {
 }
 
 #anderefarbe {
-  margin-right: 4px;
-  border-radius: 15px;
-  height: 60px;
-  width: 60px;
+  border-radius: 10px;
+  height: 40px;
+  width: 90px;
   border: none;
-  outline: none;
+  background: none;
 }
 
 #anderefarbe::-webkit-color-swatch-wrapper {
@@ -270,7 +263,8 @@ header nav ul li a {
 
 #anderefarbe::-webkit-color-swatch {
   border: 2px solid #707070;
-  border-radius: 15px;
+  border-radius: 10px;
+  background-color: unset;
 }
 
 .closingdiv {

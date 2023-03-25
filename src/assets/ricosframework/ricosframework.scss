@@ -1,4 +1,5 @@
 @use "farben";
+
 @font-face {
   font-family: "Quicksand";
   font-style: normal;
@@ -6,6 +7,15 @@
   src: local(""), url("fonts/quicksand-v29-latin-regular.woff2") format("woff2"),
     /* Chrome 26+, Opera 23+, Firefox 39+ */
       url("fonts/quicksand-v29-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/roboto-v30-latin-regular.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
+       url('fonts/roboto-v30-latin-regular.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /*#region basics*/
@@ -24,7 +34,7 @@ body {
 }
 
 .darkmode body {
-  background-color: black;
+  background-color: rgb(15, 15, 15);
 }
 
 li {
@@ -41,7 +51,6 @@ table,
 label,
 div {
   font-family: "Quicksand", sans-serif;
-  // font-weight: 500;
 }
 
 h1 {
@@ -63,10 +72,6 @@ h1 {
 
 .darkmode a {
   color: rgb(183, 189, 255);
-}
-
-.primary-variant-darker {
-  color: var(--primary-color);
 }
 
 .darkmode .rot,
@@ -301,12 +306,16 @@ td {
   padding: 12px 15px;
 }
 
+th {
+  color: var(--primary-variant-darker);
+}
+
 tbody tr {
   border-bottom: 1px solid #dddddd;
 }
 
 tbody tr:nth-of-type(even) {
-  background-color: var(--primary-variant-much-brighter);
+  background-color: var(--hintergrund-variant-darker);
 }
 
 tbody tr:last-of-type {
@@ -348,7 +357,7 @@ section {
 }
 
 section:first-of-type .sectiondiv {
-  margin-top: 8vh;
+  margin-top: 5vh;
 }
 
 @media only screen and (max-width: 700px) {

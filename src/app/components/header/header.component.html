@@ -1,27 +1,27 @@
 <header [ngClass]="{'darkmode': dl.darkmode.value}">
   <div class="desktopheader">
     <div class="farbauswahlbuttondiv">
-      <div class="farbauswahlbutton" style="cursor: pointer"></div>
+      <div class="btnDesign farbauswahlbutton"></div>
       <div class="farbauswahl">
-        <div class="farbefarbauswahl" style="background-color: hsl(195, 75%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(0, 60%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(323, 82%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(132, 64%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(35, 100%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(173, 63%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(281, 94%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(81, 56%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(0, 0%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(334, 100%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(225, 6%, 50%)"></div>
-        <div class="farbefarbauswahl" style="background-color: hsl(110, 69%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(195, 75%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 60%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(323, 82%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(132, 64%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(35, 100%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(173, 63%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(281, 94%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(81, 56%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 0%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(334, 100%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(225, 6%, 50%)"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(110, 69%, 50%)"></div>
         <div class="anderefarbediv">
           <span>Eigene Farbe auswählen</span>
-          <input #colorPicker type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event)"/>
+          <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event.target)"/>
         </div>
       </div>
     </div>
-    <div class="darkmodebtn" (click)="switchMode()">
+    <div class="btnDesign darkmodebtn" (click)="switchMode()">
       <fa-icon [icon]="faMoon"></fa-icon>
     </div>
     <nav>
@@ -44,27 +44,27 @@
       <button class="mobilemenübutton" (click)="toggle()">Menü</button>
       <div class="designbuttons">
         <div class="farbauswahlbuttondiv">
-          <div class="farbauswahlbutton" style="cursor: pointer"></div>
+          <div class="btnDesign farbauswahlbutton"></div>
           <div class="farbauswahl">
-            <div class="farbefarbauswahl" style="background-color: hsl(195, 75%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(0, 60%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(323, 82%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(132, 64%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(35, 100%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(173, 63%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(281, 94%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(81, 56%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(0, 0%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(334, 100%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(225, 6%, 50%)"></div>
-            <div class="farbefarbauswahl" style="background-color: hsl(110, 69%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(195, 75%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 60%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(323, 82%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(132, 64%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(35, 100%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(173, 63%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(281, 94%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(81, 56%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 0%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(334, 100%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(225, 6%, 50%)"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(110, 69%, 50%)"></div>
             <div class="anderefarbediv">
               <span>Eigene Farbe auswählen</span>
-              <input type="color" name="farbe" id="anderefarbe" (change)="CustomColor($event)"/>
+              <input type="color" [value]="dl.primaryColorHSL" [style.background]="'#1de4d7'" [value]="'#1de4d7'" name="farbe" id="anderefarbe" (change)="CustomColor($event)"/>
             </div>
           </div>
         </div>
-        <div class="darkmodebtn" (click)="switchMode()">
+        <div class="btnDesign darkmodebtn" (click)="switchMode()">
           <fa-icon [icon]="faMoon"></fa-icon>
         </div>
       </div>

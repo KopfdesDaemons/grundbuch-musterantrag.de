@@ -7,14 +7,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1em;
+  padding: 0.5em 1em;
   user-select: none;
 }
 
-.FrageHead .fa-angle-down {
-  // margin-right: 1.5em;s
-  // height: 32px;
-  // width: 32px;
+.FrageHead fa-icon {
   font-size: 20px;
   margin: 5px;
 }
@@ -27,6 +24,7 @@
   max-height: 0;
   transition: max-height 0.2s ease-out;
   overflow: hidden;
+  background-color: var(--hintergrund-variant-darker);
 }
 
 .Antwortpanel {
@@ -44,7 +42,7 @@
   font-weight: 700;
 }
 
-.FrageHeadAngeglickt .fa-angle-down {
+.FrageHeadAngeglickt fa-icon {
   color: var(--primary-variant-darker);
   transform: rotate(180deg);
   transition: all 0.2s;

@@ -12,10 +12,6 @@ h2 {
   text-align: center;
 }
 
-.unsichtbar {
-  display: none;
-}
-
 /*Home-------------------------------------------------------------------------------*/
 #home .sectiondiv {
   display: grid;
@@ -23,12 +19,20 @@ h2 {
   grid-template-columns: 60% 40%;
 }
 
-#home .sectiondiv .imgdiv {
+section:nth-of-type(2n - 1) {
+  background-color: var(--hintergrund-variant);
+}
+
+.imgdiv {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: clamp(0.8em, 25vw, 15em);
+  font-size: clamp(5em, 15vw, 10em);
   color: var(--primary-variant-brighter);
+}
+
+.darkmode .imgdiv {
+  color: var(--schrift);
 }
 
 .homebanner {
@@ -72,18 +76,19 @@ h1 {
 
 .labels .icon {
   font-size: clamp(1.8rem, 15vw, 1.2rem);
-  color: var(--primary-variant-darker);
+  color: var(--schrift);
 }
 
 .infobanner {
   border-left: 10px solid #b60e0e;
   background-color: #f2dede;
   padding: 15px;
-  line-height: 1.65em;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   color: #a94442;
   margin-top: 10px;
   border-radius: 5px;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 .darkmode .infobanner {
@@ -93,10 +98,7 @@ h1 {
 
 @media only screen and (max-width: 700px) {
   #home .sectiondiv {
-    grid-template-columns: 100%;
-  }
-  #home .sectiondiv .imgdiv {
-    order: -1;
+    grid-template-columns: 70% 30%;
   }
 }
 /*Info-------------------------------------------------------------------------------*/
@@ -115,7 +117,7 @@ h1 {
   font-size: clamp(0.8rem, 3vw, 2rem);
   padding: clamp(0.8rem, 5vw, 1.2rem);
   box-shadow: 5px 3px 5px 2px rgba(0, 0, 0, 0.231372549);
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: var(--primary-variant-much-brighter);
   display: flex;
   text-align: center;
@@ -133,7 +135,7 @@ h1 {
 .antragsarttext {
   text-align: center;
   font-size: clamp(0.8rem, 1vw, 1.2rem);
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 .antragsart {
@@ -145,10 +147,6 @@ h1 {
 
 .antragsartfalsch .icondiv {
   background-color: rgb(255, 118, 118);
-}
-
-#info button {
-  margin: 0 0 0 1em;
 }
 
 #info .sectiondiv .Banner {
@@ -181,6 +179,7 @@ h1 {
   font-size: clamp(1rem, 1.2vw, 1.2rem);
   border-radius: 15px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  max-width: 25rem;
 }
 
 .ErklärungZuständigkeit {
@@ -188,7 +187,6 @@ h1 {
   border-top: 0;
   border-radius: 0 0 8px 8px;
   padding: 0.5em;
-  padding: auto;
   font-size: 0.9em;
 }
 
@@ -225,12 +223,13 @@ h1 {
 }
 
 .GB-Abschnitt {
-  border: 0.1em solid var(--primary-variant-darker);
   border-radius: 0.4em;
   display: flex;
   flex-direction: column;
   padding: 0.3em;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--hintergrund-variant-darker);
+  border: 2px solid var(--primary-color);
 }
 
 .GB-Abschnitt h3 {
@@ -259,5 +258,5 @@ h1 {
   margin-top: 1em;
   display: flex;
   flex-direction: column;
-  font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
 }/*# sourceMappingURL=home.component.css.map */

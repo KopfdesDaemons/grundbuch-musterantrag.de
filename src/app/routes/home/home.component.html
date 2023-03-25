@@ -3,9 +3,7 @@
   <div class="sectiondiv">
     <div class="homebanner">
       <h1>
-        Kostenloser Musterantrag
-        <br />
-        für einen Grundbuchausdruck
+        Musterantrag auf Erteilung eines Grundbuchausdrucks
       </h1>
       <div class="titeluntertext">
         <b class="primary-variant-darker"> Keine</b>
@@ -13,10 +11,10 @@
         <span class="nurgerichtskosten"> (nur&nbsp;Gerichtsgebühr)</span>
       </div>
       <div>
-        <button (click)="grundbuchausdruckBeantragen()">
+        <button class="btnoutlined" (click)="grundbuchausdruckBeantragen()">
           Antrag ausfüllen
         </button>
-        <button class="btnoutlined" onclick="location.href='#info'">
+        <button class="btntext" onclick="location.href='#mehrInfos'">
           Mehr Infos
         </button>
       </div>
@@ -28,22 +26,21 @@
         <fa-icon class="icon" [icon]="faPrint"></fa-icon>
         <span>direkt drucken</span>
       </div>
-      <div class="infobanner">
-        <span>Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10&nbsp;€
-          Gerichtsgebühren. Internetanbieter verlangen oft über 25&nbsp;€ und
-          verstecken die <b style="color: red">zusätzlichen</b>
-          10&nbsp;€ Gerichtsgebühren im Kleingedruckten.
-        </span>
-      </div>
     </div>
     <div class="imgdiv"><fa-icon [icon]="faHome"></fa-icon></div>
+    <div class="infobanner" id="mehrInfos">
+      <span>Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10&nbsp;€
+        Gerichtsgebühren. Internetanbieter verlangen oft über 25&nbsp;€ und
+        verstecken die <b style="color: red">zusätzlichen</b>
+        10&nbsp;€ Gerichtsgebühren im Kleingedruckten.
+      </span>
+    </div>
   </div>
 </section>
 
 <!--Über  ############################################################################################################ -->
 
 <section id="info" [ngClass]="{'darkmode': dl.darkmode.value}">
-  <hr />
   <div class="sectiondiv">
     <h2>Wie beantrage ich einen Grundbuchausdruck?</h2>
     <div class="Erklärung">
@@ -72,7 +69,7 @@
     </div>
     <div class="BannerMusterantrag">
       Nutzen Sie diesen kostenlosen Musterantrag
-      <button (click)="grundbuchausdruckBeantragen()">Antrag ausfüllen</button>
+      <button class="btnoutlined" (click)="grundbuchausdruckBeantragen()">Antrag ausfüllen</button>
     </div>
     <span class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">NICHT</b> beantragt
       werden...</span>
@@ -103,7 +100,6 @@
 
 <!--Wo  ############################################################################################################ -->
 <section id="Wo">
-  <hr />
   <div class="sectiondiv">
     <h2>Wo beantrage ich einen Grundbuchausdruck?</h2>
     <div class="Zuständigkeiten">
@@ -121,17 +117,16 @@
           <fa-icon [icon]="faMapMarkedAlt"></fa-icon>
         </div>
         <div class="ErklärungZuständigkeit">
-          <div>
+          <span>
             <b>Örtlich</b> zuständig ist das Amtsgericht in dessen Bezirk das
             Grundstück liegt.
-          </div>
-          <br />
-          <div>
+          </span>
+          <span>
             Prüfen, in welchem Amtsgerichtsbezirk das Grundstück liegt, können
             Sie
             <a href="https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=&ort="
               target="_blank">hier</a>.
-          </div>
+          </span>
         </div>
       </div>
     </div>
@@ -141,7 +136,6 @@
 <!--Berechtigtes Interesse  ############################################################################################################ -->
 
 <section id="Berechtigtes-Interesse">
-  <hr />
   <div class="sectiondiv">
     <h2>Wer darf einen Grundbuchausdruck beantragen?</h2>
     <span>Jeder der ein <b>"berechtigtes Interesse"</b> hat, darf Einsicht in das
@@ -193,7 +187,6 @@
 <!--FAQ  ############################################################################################################ -->
 
 <section id="GB-Inhalt">
-  <hr />
   <div class="sectiondiv">
     <h2>Was steht im Grundbuch?</h2>
     <span class="Erklärung">Für jede Gemarkung (Ort) gibt es für jedes Eigentumsverhältnis ein
@@ -258,8 +251,8 @@
     <table>
       <thead>
         <tr>
-          <th class="primary-variant-darker">Dokument</th>
-          <th class="primary-variant-darker">zuständiges Amt</th>
+          <th>Dokument</th>
+          <th>zuständiges Amt</th>
         </tr>
       </thead>
       <tbody>
@@ -299,7 +292,6 @@
 <!--FAQ  ############################################################################################################ -->
 
 <section id="FAQ">
-  <hr />
   <div class="sectiondiv">
     <h2>Fragen und Antworten</h2>
     <div class="Fragen">
@@ -317,8 +309,7 @@
           <p>
             Die Gebühren richteten sich nach dem GNotKG. Sie können den
             <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank">
-              Gesetzestext
-            </a>
+              Gesetzestext</a>
             nachlesen. (ab der KV. Nr. 17000)
           </p>
         </div>

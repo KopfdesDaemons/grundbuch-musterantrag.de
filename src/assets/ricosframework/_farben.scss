@@ -16,6 +16,10 @@
   // --hintergrund-inputfeld: rgb(241, 241, 241);
   --hintergrund-inputfeld: hsl(var(--hsl-color),
   calc(var(--helligkeit) + 45%));
+  --hintergrund-variant: hsl(var(--hsl-color),
+  calc(var(--helligkeit) + 45%));
+  --hintergrund-variant-darker: hsl(var(--hsl-color),
+  calc(var(--helligkeit) + 35%));
 }
 
 .darkmode {
@@ -27,5 +31,9 @@
   --schrift: rgb(238, 238, 238);
   // --hintergrund-inputfeld: rgb(15, 15, 15);
   --hintergrund-inputfeld: hsl(var(--hsl-color),
+  calc(var(--helligkeit) - 45%));
+  --hintergrund-variant: hsl(var(--hsl-color),
+  calc(var(--helligkeit) - 38%));
+  --hintergrund-variant-darker: hsl(var(--hsl-color),
   calc(var(--helligkeit) - 45%));
 }
