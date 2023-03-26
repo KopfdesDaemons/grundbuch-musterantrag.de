@@ -9,6 +9,7 @@
   --primary-variant-much-brighter: hsl(var(--hsl-color),
       calc(var(--helligkeit) + 25%));
   --hintergrund: rgb(248, 248, 248);
+  --hintergrund: rgb(240, 240, 240);
   --schrift: rgb(0, 0, 0);
   --hintergrund-inputfeld: hsl(var(--hsl-color),
   calc(var(--helligkeit) + 45%));
@@ -53,6 +54,7 @@ body {
   padding: 0;
   min-height: 100vh;
   scroll-behavior: smooth;
+  background-color: rgb(252, 252, 252);
 }
 
 body {
@@ -78,6 +80,7 @@ table,
 label,
 div {
   font-family: "Quicksand", sans-serif;
+  color: rgb(80, 80, 80);
 }
 
 h1 {
@@ -311,7 +314,8 @@ table {
   border-collapse: collapse;
   margin-top: 25px;
   font-size: clamp(0.8rem, 4vw, 1rem);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background-color: var(--hintergrund);
 }
 
 table thead tr {
@@ -328,16 +332,8 @@ th {
   color: var(--primary-variant-darker);
 }
 
-tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-
 tbody tr:nth-of-type(even) {
   background-color: var(--hintergrund-variant-darker);
-}
-
-tbody tr:last-of-type {
-  border-bottom: 2px solid #5e5e5e;
 }
 
 /*#endregion*/

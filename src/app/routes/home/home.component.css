@@ -259,4 +259,8 @@ h1 {
   display: flex;
   flex-direction: column;
   font-size: clamp(0.8rem, 1.2vw, 1rem);
+}
+
+app-accordion {
+  margin-top: 0.8em;
 }/*# sourceMappingURL=home.component.css.map */

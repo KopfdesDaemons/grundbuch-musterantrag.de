@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/cookies.service';
 import { FarbconverterService } from 'src/app/services/farbconverter.service';
@@ -20,6 +20,8 @@ export class HeaderComponent implements AfterViewInit {
 
   constructor(public cs: CookiesService, public farbConv: FarbconverterService, public dl: DesignloaderService) {}
   
+  @Input() farbe: string = 'var(--hintergrund)';
+
   ngAfterViewInit(): void {
     this.cs.cookieListe.subscribe((c: cookie[]) => {this.showCookieBanner();});
   }

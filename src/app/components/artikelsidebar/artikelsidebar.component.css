@@ -51,8 +51,8 @@
   text-decoration: none;
   font-weight: bold;
   color: var(--schrift);
-  border: 1px solid rgb(197, 197, 197);
   border-radius: 0 15px 15px 0;
+  background-color: var(--hintergrund);
 }
 .darkmode .themenliste .icon,
 .themenliste .icon {
@@ -60,6 +60,12 @@
   border: 1px solid;
   cursor: pointer;
   border-radius: 8px 0 0 8px;
+}
+.darkmode .themenliste .thema,
+.themenliste .thema {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .darkmode .themenliste .thema div,
 .themenliste .thema div {
@@ -73,10 +79,6 @@
   margin: 0;
   transition: 0.2s;
 }
-.darkmode .themenliste .thema li,
-.themenliste .thema li {
-  margin: 0;
-}
 .darkmode .themenliste .themaangeklickt ul,
 .themenliste .themaangeklickt ul {
   max-height: 1000px;
@@ -85,6 +87,10 @@
 .darkmode .themenliste .themaangeklickt div a,
 .themenliste .themaangeklickt div a {
   background-color: var(--primary-variant-much-brighter);
+}
+.darkmode .themenliste .unterthema,
+.themenliste .unterthema {
+  margin: 0.5rem;
 }
 .darkmode .themenliste .unterthema a,
 .themenliste .unterthema a {

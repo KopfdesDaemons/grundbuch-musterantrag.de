@@ -50,8 +50,9 @@
       text-decoration: none;
       font-weight: bold;
       color: var(--schrift);
-      border: 1px solid rgb(197, 197, 197);
+      // border: 1px solid rgb(197, 197, 197);
       border-radius: 0 15px 15px 0;
+      background-color: var(--hintergrund);
     }
   
     .icon {
@@ -62,6 +63,8 @@
     }
   
     .thema {
+      user-select: none;
+
       div {
         list-style: none;
         display: flex;
@@ -72,10 +75,6 @@
         overflow: hidden;
         margin: 0;
         transition: 0.2s;
-      }
-  
-      li {
-        margin: 0;
       }
     }
   
@@ -90,6 +89,7 @@
     }
   
     .unterthema {
+      margin: 0.5rem;
       a {
         margin: 0;
         padding: 0.5em 0 0.5em 1em;

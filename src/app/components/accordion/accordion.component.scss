@@ -1,14 +1,11 @@
-.Frage {
-  margin-top: 0.3em;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
 .FrageHead {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5em 1em;
   user-select: none;
+  border-radius: 12px;
+  background-color: var(--hintergrund);
 }
 
 .FrageHead fa-icon {
@@ -16,15 +13,13 @@
   margin: 5px;
 }
 
-.darkmode .FrageHead {
-  background-color: rgb(22, 24, 28);
-}
-
 .Antwort {
   max-height: 0;
   transition: max-height 0.2s ease-out;
   overflow: hidden;
-  background-color: var(--hintergrund-variant-darker);
+  background-color: var(--hintergrund-variant);
+  border-radius: 12px;
+  // margin: 0.6em 0;
 }
 
 .Antwortpanel {
@@ -36,6 +31,10 @@
   border: 0.2em solid var(--primary-variant-darker);
   background-color: var(--primary-variant-much-brighter);
   font-weight: 700;
+
+  + .Antwort{
+    margin-top: 0.6em;
+  }
 }
 
 .FrageHeadAngeglickt Span {
