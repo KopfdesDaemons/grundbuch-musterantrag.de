@@ -8,7 +8,8 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, 
 export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
 
   @ViewChild('circle') circle!: ElementRef;
-  @Input() prozent: string = '100';
+  @Input() prozent: number = 100;
+  @Input() endless: boolean = false;
   radius!: number;
   circumference!: number;
 
@@ -21,13 +22,16 @@ export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
     
     this.circle.nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
     this.circle.nativeElement.style.strokeDashoffset = `${this.circumference}`;
-    this.setProgress(parseInt(this.prozent));
+    this.setProgress(this.prozent);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['prozent'] && this.circle) {
       const percent = parseInt(changes['prozent'].currentValue);
       this.setProgress(percent);
+    }
+    if(changes['endless'] && this.circle) {
+      this.setProgress(40);
     }
   }
 
