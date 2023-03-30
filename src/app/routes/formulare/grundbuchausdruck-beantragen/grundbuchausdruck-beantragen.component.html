@@ -48,12 +48,12 @@
                     <button class="btnoutlined kachel" [disabled]="docx == null" (click)="downloadDocx()">
                         <fa-icon [icon]="faFileWord"></fa-icon>
                         <span>.docx (Word)</span>
-                        <app-progress-spinner [prozent]="prozentProgressSpinnerWord" *ngIf="prozentProgressSpinnerWord != '100'"></app-progress-spinner>
+                        <app-progress-spinner [prozent]="prozentProgressSpinnerWord" *ngIf="prozentProgressSpinnerWord != 100"></app-progress-spinner>
                     </button>
                     <button class="btnoutlined kachel" [disabled]="pdf == null" (click)="openPdf()">
                         <fa-icon [icon]="faFilePdf"></fa-icon>
                         <span>.pdf</span>
-                        <app-progress-spinner [prozent]="prozentProgressSpinnerPdf" *ngIf="prozentProgressSpinnerPdf != '100'"></app-progress-spinner>
+                        <app-progress-spinner [prozent]="prozentProgressSpinnerPdf" [endless]="prozentProgressSpinnerWord == 100 && prozentProgressSpinnerPdf != 100" *ngIf="!pdf"></app-progress-spinner>
                     </button>
                 </div>
             </div>

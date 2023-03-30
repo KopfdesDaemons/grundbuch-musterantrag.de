@@ -19,8 +19,8 @@ export class GrundbuchausdruckBeantragenComponent {
   form: FormGroup;
   faFileWord = faFileWord;
   faFilePdf = faFilePdf;
-  prozentProgressSpinnerWord = '0';
-  prozentProgressSpinnerPdf = '0';
+  prozentProgressSpinnerWord = 0;
+  prozentProgressSpinnerPdf = 0;
   fehler = false;
   statusmeldung = 'Der Antrag wird generiert.';
   docx: any;
@@ -71,7 +71,7 @@ export class GrundbuchausdruckBeantragenComponent {
       }
       if(step == 6) this.submitForm();
     })
-    // this.fs.nextStep(6); //debug
+    this.fs.nextStep(6); //debug
   }
 
   next() { 
@@ -81,8 +81,8 @@ export class GrundbuchausdruckBeantragenComponent {
   async submitForm() {
 
     this.fehler = false;
-    this.prozentProgressSpinnerWord = '0';
-    this.prozentProgressSpinnerPdf = '0';
+    this.prozentProgressSpinnerWord = 0;
+    this.prozentProgressSpinnerPdf = 0;
     this.docx, this.pdf = null;
 
 
@@ -112,18 +112,18 @@ export class GrundbuchausdruckBeantragenComponent {
 
         if (res.type === HttpEventType.UploadProgress) {
           const uploadProzent = Math.round(100 * res.loaded / res.total!);
-          this.prozentProgressSpinnerPdf = uploadProzent.toString();
+          this.prozentProgressSpinnerPdf = uploadProzent;
           if(uploadProzent == 100){
             this.statusmeldung = 'Die docx Datei wurde zur Konvertierung an den Server gesendet. Der Server muss die Datei noch in eine pdf Datei konvertieren.';
-            this.prozentProgressSpinnerPdf = '0';
+            this.prozentProgressSpinnerPdf = 0;
           }
         } 
 
         if (res.type === HttpEventType.DownloadProgress) {
           const downloadProzent = Math.round(100 * res.loaded / res.total!);
-          this.prozentProgressSpinnerPdf = downloadProzent.toString();
+          this.prozentProgressSpinnerPdf = downloadProzent;
           this.statusmeldung = 'Die docx Datei wurde vom Server in eine pdf Datei konvertiert und muss nun heruntergeladen werden.';
-          this.prozentProgressSpinnerPdf = '0';
+          // this.prozentProgressSpinnerPdf = '0';
         } 
       },
       error: err => {
@@ -157,7 +157,7 @@ export class GrundbuchausdruckBeantragenComponent {
       const ber = this.fs.form.get("berechtigtesInteresse") as FormGroup;
       const gba = this.fs.form.get("grundbuchamt") as FormGroup;
 
-      this.prozentProgressSpinnerWord = '10';
+      this.prozentProgressSpinnerWord = 10;
       this.statusmeldung = 'Die Variablen werden aus den Formularen gelesen und angepasste Variablen werden zugewiesen.'
 
       let form = this.fs.form.get("form")?.value;
@@ -168,7 +168,7 @@ export class GrundbuchausdruckBeantragenComponent {
       const betreff = `${gst.get('gemarkung')?.value} ${gst.get('blattnummer')?.value}`;
       const straßegrundstück = gst.get('straße')?.value != '' ? gst.get('straße')?.value + ',': '';
 
-      this.prozentProgressSpinnerWord = '20';
+      this.prozentProgressSpinnerWord = 20;
       this.statusmeldung = 'Das Template wird geladen und die Varaiblen eingesetzt.'
 
 
@@ -224,7 +224,7 @@ export class GrundbuchausdruckBeantragenComponent {
           throw error;
         }
 
-        this.prozentProgressSpinnerWord = '40';
+        this.prozentProgressSpinnerWord = 40;
         this.statusmeldung = 'Das Template wird mit den eingesetzten Variablen gerendert.';
 
         try {doc!.render();
@@ -233,7 +233,7 @@ export class GrundbuchausdruckBeantragenComponent {
           throw error;
         }
 
-        this.prozentProgressSpinnerWord = '60';
+        this.prozentProgressSpinnerWord = 60;
         this.statusmeldung = 'Die Datei wird zu einer .docx gezippt.';
 
         try {
@@ -241,7 +241,7 @@ export class GrundbuchausdruckBeantragenComponent {
             type: 'blob',
             mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           });
-          this.prozentProgressSpinnerWord = '100';
+          this.prozentProgressSpinnerWord = 100;
           resolve(blobDocx);
         } catch (error) {
           reject(new Error('Fehler beim Zippen der docx Datei.'))
