@@ -20,7 +20,8 @@ export class GrundbuchausdruckBeantragenComponent {
   faFileWord = faFileWord;
   faFilePdf = faFilePdf;
   prozentProgressSpinnerWord = 0;
-  prozentProgressSpinnerPdf = 0;
+  prozentPdfUpload = 0;
+  prozentPdfDownload = 0;
   fehler = false;
   statusmeldung = 'Der Antrag wird generiert.';
   docx: any;
@@ -71,7 +72,7 @@ export class GrundbuchausdruckBeantragenComponent {
       }
       if(step == 6) this.submitForm();
     })
-    this.fs.nextStep(6); //debug
+    // this.fs.nextStep(6); //debug
   }
 
   next() { 
@@ -82,7 +83,8 @@ export class GrundbuchausdruckBeantragenComponent {
 
     this.fehler = false;
     this.prozentProgressSpinnerWord = 0;
-    this.prozentProgressSpinnerPdf = 0;
+    this.prozentPdfUpload = 0;
+    this.prozentPdfDownload = 0;
     this.docx, this.pdf = null;
 
 
@@ -112,18 +114,16 @@ export class GrundbuchausdruckBeantragenComponent {
 
         if (res.type === HttpEventType.UploadProgress) {
           const uploadProzent = Math.round(100 * res.loaded / res.total!);
-          this.prozentProgressSpinnerPdf = uploadProzent;
+          this.prozentPdfUpload = uploadProzent;
           if(uploadProzent == 100){
             this.statusmeldung = 'Die docx Datei wurde zur Konvertierung an den Server gesendet. Der Server muss die Datei noch in eine pdf Datei konvertieren.';
-            this.prozentProgressSpinnerPdf = 0;
           }
         } 
 
         if (res.type === HttpEventType.DownloadProgress) {
           const downloadProzent = Math.round(100 * res.loaded / res.total!);
-          this.prozentProgressSpinnerPdf = downloadProzent;
+          this.prozentPdfDownload = downloadProzent;
           this.statusmeldung = 'Die docx Datei wurde vom Server in eine pdf Datei konvertiert und muss nun heruntergeladen werden.';
-          // this.prozentProgressSpinnerPdf = '0';
         } 
       },
       error: err => {
