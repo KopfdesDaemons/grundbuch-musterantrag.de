@@ -3,7 +3,6 @@ const fileUpload = require('express-fileupload');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const { spawn } = require('child_process');
-const puppeteer = require('puppeteer');
 
 const app = express();
 app.use(fileUpload());
@@ -46,13 +45,10 @@ async function convertToPdf(filepath, folderpath) {
 app.get('/api/amtsgerichtausplz', async function (req, res){
   try {
     const plzSuche = req.query.plz;
+
     const url = `https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=${plzSuche}&ort=`;
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox']
-    });
-    const page = await browser.newPage();
-    await page.goto(url, {waitUntil: 'networkidle0'});
-    const html = await page.content();
+    const page = await fetch(url);
+    const html = await page.text();
 
     const amtsgerichtRegex = /<h6>(.*?)<\/h6>/;
     const amtsgerichtMatch = amtsgerichtRegex.exec(html);
@@ -80,4 +76,4 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(distDir, 'index.html'));
 });
 
-app.listen(8080, () => console.log('Server started', distDir));
+app.listen(8080, () => console.log('Server started'));
