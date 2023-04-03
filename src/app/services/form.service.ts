@@ -71,7 +71,8 @@ export class FormService {
         })
         console.log(grundbuchamtForm.get('name')?.value + ' wurde ermittelt.')
       }catch(err){
-        console.error('Das Amtsgericht konnte nicht ermittelt werden.')
+        console.error('Das Amtsgericht konnte nicht ermittelt werden.');
+        console.error(err);
       }
     }
   }
