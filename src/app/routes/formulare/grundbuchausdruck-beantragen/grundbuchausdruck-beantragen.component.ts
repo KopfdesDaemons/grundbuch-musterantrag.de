@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DesignloaderService } from 'src/app/services/designloader.service';
 import { FormService } from 'src/app/services/form.service';
@@ -8,6 +8,7 @@ import * as PizZip from 'pizzip';
 import PizZipUtils from 'pizzip/utils/index.js';
 import {faFileWord, faFilePdf} from '@fortawesome/free-regular-svg-icons';
 import * as saveAs from 'file-saver';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-grundbuchausdruck-beantragen',
@@ -15,7 +16,7 @@ import * as saveAs from 'file-saver';
   styleUrls: ['./grundbuchausdruck-beantragen.component.scss']
 })
 
-export class GrundbuchausdruckBeantragenComponent {
+export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
   form: FormGroup;
   faFileWord = faFileWord;
   faFilePdf = faFilePdf;
@@ -27,6 +28,7 @@ export class GrundbuchausdruckBeantragenComponent {
   docx: any;
   pdf:any;
   step = 1;
+  CurrentStepSubscribtion: Subscription;
 
   constructor(private formBuilder: FormBuilder, public fs: FormService, public dl: DesignloaderService, public http: HttpClient, public rd: Renderer2) {
 
@@ -65,7 +67,7 @@ export class GrundbuchausdruckBeantragenComponent {
     fs.init(this.form);
     this.fs.restart();
 
-    this.fs.getCurrentStepBehaviorSubject().subscribe(step => {
+    this.CurrentStepSubscribtion = this.fs.getCurrentStepBehaviorSubject().subscribe(step => {
       this.step = step;
       if(step == 5 && (this.form.get('grundbuchamt') as FormGroup).valid){
         this.fs.nextStep(6);
@@ -74,13 +76,15 @@ export class GrundbuchausdruckBeantragenComponent {
     })
     // this.fs.nextStep(6); //debug
   }
+  ngOnDestroy(): void {
+    this.CurrentStepSubscribtion.unsubscribe();
+  }
 
   next() { 
     this.fs.nextStep(); 
   }
 
   async submitForm() {
-
     this.fehler = false;
     this.prozentProgressSpinnerWord = 0;
     this.prozentPdfUpload = 0;
