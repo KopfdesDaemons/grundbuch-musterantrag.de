@@ -1,24 +1,16 @@
-svg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  background-color: transparent;
+:host {
+  height: 40px;
+  width: 40px;
 }
 
 circle {
   transition: 0.3s stroke-dashoffset;
   transform: rotate(-90deg);
-  position: absolute;
   stroke: white;
   stroke-width: 4;
   fill: transparent;
   background-color: red;
   z-index: 2;
-  height: 3em;
-  width: 3em;
   stroke-dashoffset: 277.717;
   stroke-dasharray: 326.726, 326.726;
 }
