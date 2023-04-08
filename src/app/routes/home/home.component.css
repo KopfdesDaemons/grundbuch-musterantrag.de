@@ -111,8 +111,15 @@ h1 {
   display: flex;
   margin-top: 0.5em;
   width: 85%;
+  transform: scale(0);
+  animation: grow 1s forwards;
 }
 
+@keyframes grow {
+  100% {
+    transform: scale(1);
+  }
+}
 .icondiv {
   font-size: clamp(0.8rem, 3vw, 2rem);
   padding: clamp(0.8rem, 5vw, 1.2rem);

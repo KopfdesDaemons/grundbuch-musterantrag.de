@@ -240,16 +240,15 @@ header nav ul li a {
   }
 
   .farbauswahl {
-    right: 3em;
     top: -15em;
     background-color: var(--hintergrund);
     z-index: -1;
+    right: 0;
   }
   
   .farbauswahlbuttondiv:hover .farbauswahl,
   .farbauswahl:hover {
-    top: 3em;
-    top: 2.3em;
+    top: 2.2em;
     transition: top 80ms ease-in-out;
   }
 

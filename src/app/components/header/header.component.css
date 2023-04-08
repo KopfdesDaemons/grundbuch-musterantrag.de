@@ -223,15 +223,14 @@ header nav ul li a {
   background-color: var(--hintergrund-variant-darker);
 }
 .mobileheader .farbauswahl {
-  right: 3em;
   top: -15em;
   background-color: var(--hintergrund);
   z-index: -1;
+  right: 0;
 }
 .mobileheader .farbauswahlbuttondiv:hover .farbauswahl,
 .mobileheader .farbauswahl:hover {
-  top: 3em;
-  top: 2.3em;
+  top: 2.2em;
   transition: top 80ms ease-in-out;
 }
 .mobileheader .mobilenav {
