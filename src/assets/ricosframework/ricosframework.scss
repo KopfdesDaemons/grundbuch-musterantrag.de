@@ -25,16 +25,12 @@ body {
   padding: 0;
   min-height: 100vh;
   scroll-behavior: smooth;
-  background-color: rgb(252, 252, 252);
+  background-color: var(--body);
 }
 
 body {
   display: flex;
   flex-direction: column;
-}
-
-.darkmode body {
-  background-color: rgb(15, 15, 15);
 }
 
 li {
@@ -365,4 +361,16 @@ section:first-of-type .sectiondiv {
     padding: 0 2%;
   }
 }
+/*#endregion*/
+/*#region images*/
+  .imageZoomBox{
+    overflow: hidden;
+
+    img:hover{
+      transform: scale(1.1);
+    }
+    img{
+      transition: all 0.3s linear;
+    }
+  }
 /*#endregion*/

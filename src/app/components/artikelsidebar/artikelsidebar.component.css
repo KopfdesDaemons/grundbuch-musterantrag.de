@@ -3,7 +3,7 @@
   overflow: hidden;
   position: fixed;
   padding: 0;
-  transition: 0.3s;
+  transition: left 0.3s;
   z-index: 1;
 }
 
@@ -141,6 +141,9 @@
     height: 24px;
     width: 24px;
     vertical-align: middle;
+  }
+  .themenliste a {
+    background-color: var(--body);
   }
 }
 .sidebarbutton:hover {
