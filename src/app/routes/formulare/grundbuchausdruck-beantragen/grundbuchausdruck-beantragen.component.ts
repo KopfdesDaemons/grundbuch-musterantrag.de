@@ -7,7 +7,7 @@ import Docxtemplater from 'docxtemplater';
 import * as PizZip from 'pizzip';
 import PizZipUtils from 'pizzip/utils/index.js';
 import {faFileWord, faFilePdf} from '@fortawesome/free-regular-svg-icons';
-import * as saveAs from 'file-saver';
+import { saveAs } from 'file-saver';
 import { Subscription } from 'rxjs';
 
 @Component({

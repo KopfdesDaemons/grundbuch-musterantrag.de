@@ -28,7 +28,10 @@
               "src/styles.scss",
               "src/assets/ricosframework/ricosframework.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "lodash"
+           ]
           },
           "configurations": {
             "production": {

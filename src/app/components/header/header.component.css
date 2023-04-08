@@ -48,6 +48,9 @@ header {
   width: 100%;
   background-color: inherit;
 }
+.desktopheader .btnDesign:hover {
+  transform: scale(1.05);
+}
 
 header button {
   height: 80%;
@@ -120,7 +123,7 @@ header nav ul li a {
   display: flex;
   text-align: center;
   justify-content: center;
-  margin-left: 0.5em;
+  margin: 0 0.5em;
 }
 .darkmodebtn fa-icon {
   display: flex;
@@ -142,22 +145,24 @@ header nav ul li a {
 
 .farbauswahlbuttondiv:hover .farbauswahl,
 .farbauswahl:hover {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  gap: 0.2rem;
+  top: 3em;
+  transition: top 80ms ease-in-out;
 }
 
 .farbauswahl {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 0.2rem;
+  top: -15em;
   position: absolute;
   background-color: var(--hintergrund-variant-darker);
   height: 200px;
   width: 200px;
   padding: 0.5em;
-  top: 3em;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  display: none;
   border-radius: 0 0 10px 10px;
   border-top: none;
+  z-index: -1;
 }
 
 .anderefarbediv {
@@ -219,9 +224,15 @@ header nav ul li a {
 }
 .mobileheader .farbauswahl {
   right: 3em;
-  top: 2.3em;
+  top: -15em;
   background-color: var(--hintergrund);
-  z-index: 2;
+  z-index: -1;
+}
+.mobileheader .farbauswahlbuttondiv:hover .farbauswahl,
+.mobileheader .farbauswahl:hover {
+  top: 3em;
+  top: 2.3em;
+  transition: top 80ms ease-in-out;
 }
 .mobileheader .mobilenav {
   display: flex;
