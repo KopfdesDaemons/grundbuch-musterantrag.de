@@ -184,6 +184,7 @@ button span {
   outline: none;
   width: 100%;
   border: none;
+  box-sizing: border-box;
 }
 
 input:-webkit-autofill {

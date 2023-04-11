@@ -25,9 +25,10 @@ import { BerechtigtesInteresseComponent } from './components/forms/berechtigtes-
 import { GrundbuchamtComponent } from './components/forms/grundbuchamt/grundbuchamt.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
+import { DashboardComponent } from './routes/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, AccordionComponent, FooterComponent, ImpressumComponent, HomeComponent, DatenschutzComponent, EinleitungComponent, ArtikelComponent, ArtikelsidebarComponent, BestandsverzeichnisComponent, Abteilung1Component, Abteilung2Component, Abteilung3Component, GrundbuchausdruckBeantragenComponent, AntragstellerComponent, GrundstueckComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, ProgressSpinnerComponent],
+  declarations: [AppComponent, HeaderComponent, AccordionComponent, FooterComponent, ImpressumComponent, HomeComponent, DatenschutzComponent, EinleitungComponent, ArtikelComponent, ArtikelsidebarComponent, BestandsverzeichnisComponent, Abteilung1Component, Abteilung2Component, Abteilung3Component, GrundbuchausdruckBeantragenComponent, AntragstellerComponent, GrundstueckComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, ProgressSpinnerComponent, DashboardComponent],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

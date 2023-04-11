@@ -1,13 +1,19 @@
 <footer [ngClass]="{'darkmode': dl.darkmode.value}">
-    <ul>
-      <li>
-        <a routerLink="/impressum">Impressum</a>
-      </li>
-      <li>
-        <a routerLink="/datenschutz">Datenschutz</a>
-      </li>
-      <!-- <li>
-        <a href="/pages/adminpanel/adminpanel.php">Admin-Login</a>
-      </li> -->
-    </ul>
-  </footer>
+  <div class="anmeldediv" [ngClass]="{'anmeldedivOpen': anmeldeInputVisible}">
+    <div class="inputfeld">
+      <input #password (keyup.enter)="anmelden(password.value)"  type="password" id="password" name="email" spellcheck="false" placeholder="&nbsp;">
+      <label class="placeholder" for="password">Passwort</label>
+    </div>
+    <button (click)="anmeldeBtnClick()" class="anmeldungBtn btntext">
+      <fa-icon [icon]="faRightToBracket"></fa-icon>
+    </button>
+  </div>
+  <ul>
+    <li>
+      <a routerLink="/impressum">Impressum</a>
+    </li>
+    <li>
+      <a routerLink="/datenschutz">Datenschutz</a>
+    </li>
+  </ul>
+</footer>

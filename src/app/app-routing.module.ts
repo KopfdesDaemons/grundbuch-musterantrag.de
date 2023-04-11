@@ -9,6 +9,8 @@ import { BestandsverzeichnisComponent } from './routes/grundbuchrecht/bestandsve
 import { EinleitungComponent } from './routes/grundbuchrecht/einleitung/einleitung.component';
 import { HomeComponent } from './routes/home/home.component';
 import { ImpressumComponent } from './routes/impressum/impressum.component';
+import { DashboardComponent } from './routes/dashboard/dashboard.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -20,6 +22,7 @@ const routes: Routes = [
   {path: 'grundbuchrecht/abteilung1', component: Abteilung1Component},
   {path: 'grundbuchrecht/abteilung2', component: Abteilung2Component},
   {path: 'grundbuchrecht/abteilung3', component: Abteilung3Component},
+  {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

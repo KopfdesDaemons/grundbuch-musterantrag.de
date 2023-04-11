@@ -6,6 +6,8 @@
 /out-tsc
 /bazel-out
 
+/server/token.json
+
 # Node
 /node_modules
 npm-debug.log

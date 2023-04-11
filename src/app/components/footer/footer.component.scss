@@ -4,22 +4,82 @@
 }
 
 footer {
-    background-color: rgb(243, 243, 243);
+    background-color: var(--hintergrund);
     display: flex;
     justify-content: flex-end;
-}
-
-.darkmode {
-    background-color: rgb(22, 24, 28);
 }
 
 footer ul {
     display: inline-flex;
     flex-direction: row-reverse;
-    margin-right: 1em 3%;
+    margin: 0;
+    padding: 0;
 }
 
 footer ul li {
     margin-right: clamp(1em, 4vw, 3em);
-    list-style: none;
+    background-color: var(--hintergrund-variant);
+    border-radius: 12px;
+    margin: 0.4rem;
+    display: flex;
+    align-items: center;
+    a{
+        text-decoration: none;
+        font-size: 12px;
+        margin: 8px;
+    }
+}
+
+li:hover {
+    outline: solid 1px var(--primary-color);
+}
+
+.anmeldungBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+}
+
+.anmeldediv{
+    margin: auto auto auto 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.anmeldedivOpen{
+    animation: fromLeft 1s forwards;
+
+    .inputfeld{
+        width: 100px;
+    }
+}
+
+.closebtndiv{
+    display: flex;
+    justify-content: flex-end;
+    
+    button{
+        height: 20px;
+        width: 20px;
+        padding: 0;
+    }
+}
+
+@keyframes fromLeft{
+    0%{
+        left: -100px;
+    }
+    100%{
+        left: 0;
+    }
+}
+
+.inputfeld{
+    height: 35px;
+    width: 0;
+    margin-left: 5px;
 }
