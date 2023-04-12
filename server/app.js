@@ -3,6 +3,10 @@ const fileUpload = require('express-fileupload');
 
 const path = require('path');
 const authMiddleware = require('./middleware/authMiddleware');
+const { log } = require('console');
+const authController = require('./controller/authController')
+const directoryController = require('./controller/directoryController');
+const scrapingController = require('./controller/scrapingController');
 
 const app = express();
 
@@ -17,10 +21,15 @@ var distDir = __dirname + "/../dist/grundbuch";
 app.use(express.static(distDir));
 
 
-//Routen
-app.use('/', require('./routes/login'));
-app.use('/', require('./routes/amtsgerichtAusPLZ'));
-app.use('/', require('./routes/anträge/grundbuchausdruck'));
+//Routen, welche nur einen Controller ansprechen
+app.post('/api/login', authController.login);
+app.get('/api/folder/:dirName', directoryController.getDirectoryContent);
+app.get('/api/amtsgerichtausplz', scrapingController.amtsgerichtausplz);
+
+//ausgelagerte Routen
+app.use('/', require('./routes/anträge/grundbuchausdruckRoute'));
+
+
 
 
 //Nur zum testen
@@ -30,7 +39,8 @@ app.get('/api/test', authMiddleware, (req, res) => {
 
 //Alle restlichen Routen zur index.html
 app.get('*', (req, res) => {
-res.sendFile(path.join(distDir, 'index.html'));
+  log('Route zur Index.html umgeleitet');
+  res.sendFile(path.join(distDir, 'index.html'));
 });
 
 app.listen(8080, () => console.log('Server started'));

@@ -1,8 +1,5 @@
-const express = require('express');
 
-const router = express.Router();
-
-router.route('/api/amtsgerichtausplz').get(async function (req, res) {
+exports.amtsgerichtausplz = async (req, res) => {
     try {
         const plzSuche = req.query.plz;
 
@@ -30,6 +27,4 @@ router.route('/api/amtsgerichtausplz').get(async function (req, res) {
 
         res.send({ amtsgericht, straße, plz, ort });
     } catch (error) { res.status(500).send(error.message || 'Ein Fehler bei Laden der Daten aus der Webseite der Justiz.'); }
-});
-
-module.exports = router;
+};

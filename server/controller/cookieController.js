@@ -1,3 +1,4 @@
+
 exports.getCookie = (cookieName, cookieString) => {
     let name = cookieName + "=";
     let ca = cookieString.split(";");
