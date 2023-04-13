@@ -22,8 +22,7 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
     for (const file of pageFiles) {
       const name = file.split('.').slice(0, -1).join('.'); //Entferne Dateiendung
     
-      const index = mergedFileInfo.findIndex((fileInfo) => fileInfo.name === name);
-      if (index === -1) {
+      if (!mergedFileInfo.some((fileInfo) => fileInfo.name === name)) {
         const fileInfo = {
           name,
           docxFile: '',
@@ -34,8 +33,8 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
         const docxFile = name + '.docx';
         const pdfFile = name + '.pdf';
     
-        if (await checkFileExists(folderPath,'/', docxFile)) fileInfo.docxFile = docxFile;
-        if (await checkFileExists(folderPath,'/', pdfFile)) fileInfo.pdfFile = pdfFile;
+        if (await checkFileExists(folderPath + '/' + docxFile)) fileInfo.docxFile = docxFile;
+        if (await checkFileExists(folderPath + '/' + pdfFile)) fileInfo.pdfFile = pdfFile;
         
         mergedFileInfo.push(fileInfo);
       }
@@ -57,7 +56,8 @@ async function checkFileExists(path){
   try {
     await fs.promises.access(path, fs.constants.F_OK);
     return true;
-  } catch{
+  } catch(err){
+    console.log('Die Datei',path, 'exestiert nicht.');
     return false;
   }
 };
