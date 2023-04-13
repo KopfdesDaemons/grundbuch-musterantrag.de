@@ -1,8 +1,8 @@
-const { v4: uuidv4 } = require('uuid');
-const converterController = require('../../controller/converterController');
 const path = require('path');
 const express = require('express');
 const router = express.Router();
+const converterController = require('../../controller/converterController');
+const moment = require('moment');
 
 router.post('/api/antraggrundbuchausdruck', async (req, res) => {
   try {
@@ -11,8 +11,8 @@ router.post('/api/antraggrundbuchausdruck', async (req, res) => {
       return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
     }
     
-    //Einzigartiger Dateiname
-    const filename = uuidv4();
+    // Einzigartiger Dateiname mit aktuellem Datum und Uhrzeit
+    const filename = moment().format('YYYY-MM-DD-HH-mm-ss');
 
     //Pfade
     const folderpath = path.join(__dirname, '/../../uploads');
@@ -27,6 +27,7 @@ router.post('/api/antraggrundbuchausdruck', async (req, res) => {
 
     //Sendet PDF-Datei an den Client
     res.contentType('application/pdf').sendFile(filepathpdf);
+
   } catch (error) {
     console.error(error);
     res.status(500).send('Interner Serverfehler.');

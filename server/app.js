@@ -10,6 +10,8 @@ const scrapingController = require('./controller/scrapingController');
 
 const app = express();
 
+//Umgebungsvariablen
+process.env.UPLOAD_PATH = path.join(__dirname + '/uploads')
 
 // Middlewares für die gesamte App
 app.use(fileUpload());
@@ -23,13 +25,11 @@ app.use(express.static(distDir));
 
 //Routen, welche nur einen Controller ansprechen
 app.post('/api/login', authController.login);
-app.get('/api/folder/:dirName', directoryController.getDirectoryContent);
+app.get('/api/uploads', (req, res) => {directoryController.getDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
 app.get('/api/amtsgerichtausplz', scrapingController.amtsgerichtausplz);
 
 //ausgelagerte Routen
 app.use('/', require('./routes/anträge/grundbuchausdruckRoute'));
-
-
 
 
 //Nur zum testen
