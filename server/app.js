@@ -25,7 +25,9 @@ app.use(express.static(distDir));
 
 //Routen, welche nur einen Controller ansprechen
 app.post('/api/login', authController.login);
-app.get('/api/uploads', (req, res) => {directoryController.getDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
+app.get('/api/uploads', authMiddleware, (req, res) => {directoryController.getDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
+app.delete('/api/uploads', authMiddleware, (req, res) => {directoryController.deleteDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
+app.get('/api/uploads/getFile', authMiddleware, (req, res) => {directoryController.getFile(req, res, process.env.UPLOAD_PATH);});
 app.get('/api/amtsgerichtausplz', scrapingController.amtsgerichtausplz);
 
 //ausgelagerte Routen

@@ -2,6 +2,33 @@
 <section>
     <div class="sectiondiv">
         <h1>Dashboard</h1>
+        <h2>Generierte Anträge</h2>
+        <!-- <span>Anzahl aller Dateien: {{infoJson && infoJson.totalFiles}}</span> -->
+        <div class="tableContainer" (scroll)="scroll($event.target)">
+            <table>
+                <thead>
+                    <th>
+                        <button>
+                            <fa-icon [icon]="faRotateRight" (click)="neuLaden()">Neuladen</fa-icon>
+                        </button>
+                        Dateiname
+                    </th>
+                    <th>Datum</th>
+                    <th>docx</th>
+                    <th>pdf</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of files">
+                        <td>{{file.name}}</td>
+                        <td>{{file.uploadDate}}</td>
+                        <td><a href="/api/uploads/getFile?name={{file.name}}.docx" *ngIf="file.docxFile != ''; else noFile">download</a></td>
+                        <td><a target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf" *ngIf="file.pdfFile != ''; else noFile">öffnen</a></td>
+                        <ng-template #noFile><fa-icon [icon]="faCircleExclamation"></fa-icon></ng-template>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
     </div>
 </section>
 <app-footer></app-footer>

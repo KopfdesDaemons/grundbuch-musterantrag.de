@@ -2,4 +2,49 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.tableContainer {
+  max-height: 300px;
+  overflow: auto;
+  position: relative;
+}
+.tableContainer table {
+  width: 100%;
+  font-size: clamp(10px, 3vw, 16px);
+}
+.tableContainer thead,
+.tableContainer tbody tr {
+  width: 100%;
+}
+.tableContainer thead {
+  position: sticky;
+  top: 0;
+  background-color: var(--hintergrund);
+}
+.tableContainer table {
+  margin-top: 0;
+}
+.tableContainer button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  height: 30px;
+  width: 30px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-variant-darker);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }/*# sourceMappingURL=dashboard.component.css.map */
