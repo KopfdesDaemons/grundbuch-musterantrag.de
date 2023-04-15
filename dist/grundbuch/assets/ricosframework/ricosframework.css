@@ -80,7 +80,7 @@ h1 {
 .darkmode table,
 .darkmode label,
 .darkmode div {
-  color: rgb(238, 238, 238);
+  color: var(--schrift);
 }
 
 .darkmode a {
@@ -95,6 +95,8 @@ h1 {
 /*#endregion*/
 /*#region button*/
 button {
+  all: unset;
+  color: rgb(10, 10, 10);
   background-color: var(--primary-color);
   border-radius: 4px;
   margin: 0.2rem;
@@ -148,6 +150,7 @@ button span {
 /*#endregion*/
 /*#region buttontext*/
 .btntext {
+  font-family: inherit;
   background-color: transparent;
   color: var(--primary-color);
   border: 0;
@@ -159,6 +162,23 @@ button span {
 }
 
 .btntext:hover {
+  background-color: var(--primary-variant-much-brighter);
+}
+
+/*#endregion*/
+/*#region buttonicon*/
+.btnicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  background-color: unset;
+}
+
+.btnicon:hover {
   background-color: var(--primary-variant-much-brighter);
 }
 

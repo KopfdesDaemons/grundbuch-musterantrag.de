@@ -3,7 +3,7 @@
     <div class="sectiondiv">
         <h1>Dashboard</h1>
         <h2>Generierte Anträge</h2>
-        <!-- <span>Anzahl aller Dateien: {{infoJson && infoJson.totalFiles}}</span> -->
+        <span>Dateien: {{infoJson && infoJson.totalFiles}} </span>
         <div class="tableContainer" (scroll)="scroll($event.target)">
             <table>
                 <thead>
@@ -22,11 +22,12 @@
                     <tr *ngFor="let file of files">
                         <td>{{file.name}}</td>
                         <td>{{file.uploadDate}}</td>
-                        <td><a href="/api/uploads/getFile?name={{file.name}}.docx" *ngIf="file.docxFile != ''; else noFile"><fa-icon [icon]="faFileArrowDown"></fa-icon></a></td>
-                        <td><a target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf" *ngIf="file.pdfFile != ''; else noFile">öffnen</a></td>
-                        <ng-template #noFile><fa-icon [icon]="faCircleExclamation"></fa-icon></ng-template>
-                        <td (click)="click($event.target)" class="dropDown">&#10247;
-                            <ul><li (click)="deleteFile(file.name)">löschen</li></ul>
+                        <td><a class="btnicon" href="/api/uploads/getFile?name={{file.name}}.docx" *ngIf="file.docxFile != ''; else noFile"><fa-icon [icon]="faFileArrowDown"></fa-icon></a></td>
+                        <td><a class="btnicon" target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf" *ngIf="file.pdfFile != ''; else noFile"><fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon></a></td>
+                        <ng-template #noFile><fa-icon [icon]="faCircleExclamation" class="btnicon"></fa-icon></ng-template>
+                        <td (click)="click($event.target)" class="dropDown">
+                            <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
+                            <ul class="dropDownMenu"><li (click)="deleteFile(file.name)">löschen</li></ul>
                         </td>
                     </tr>
                 </tbody>

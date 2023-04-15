@@ -5,9 +5,11 @@
 }
 
 .tableContainer {
-    max-height: 300px;
+    height: 300px;
+    width: clamp(300px, 90vw, 1000px);
     overflow: auto;
     position: relative;
+    resize: both;
 
     table {
         width: 100%;
@@ -16,22 +18,26 @@
 
     thead,
     tbody tr {
-        width: 100%;
+        // width: 100%;
         cursor: pointer;
     }
 
-    tr:hover {
-        background-color: var(--hintergrund-variant);
+    td{
+        text-align: center;
     }
 
-    td{
-        padding: 20px;
+    td:last-child{
+        padding: 0;
+    }
+    tr:hover {
+        background-color: var(--hintergrund-variant);
     }
 
     thead {
         position: sticky;
         top: 0;
         background-color: var(--hintergrund);
+        z-index: 1;
     }
 
     table {
@@ -65,14 +71,13 @@
 
 .dropDown{
     position: relative;
-    cursor: pointer;
 }
 
 .dropDown ul{
     visibility: collapse;
     padding: 0;
     position: absolute;
-    right: 35px;
+    left: -40px;
     top: 0;
     background-color: var(--primary-variant-much-brighter);
     border-radius: 6px;
