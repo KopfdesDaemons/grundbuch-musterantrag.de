@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { faRotateRight, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faRotateRight, faCircleExclamation, faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,11 +10,12 @@ import { faRotateRight, faCircleExclamation } from '@fortawesome/free-solid-svg-
 export class DashboardComponent implements OnInit {
   faRotateRight = faRotateRight;
   faCircleExclamation = faCircleExclamation;
+  faFileArrowDown = faFileArrowDown;
   infoJson: any;
   files: any[] | undefined;
   page: number = 0;
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, private elem: ElementRef) { }
 
   ngOnInit() {
     this.getFiles();
@@ -52,5 +53,27 @@ export class DashboardComponent implements OnInit {
     this.page = 0;
     this.files = [];
     this.getFiles();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: any) {
+    const dropDowns = this.elem.nativeElement.querySelectorAll('.dropDown');
+    
+    for(const dropdown of dropDowns){
+      if(dropdown === event.target) continue;
+      const ul = dropdown.querySelector('ul');
+      ul.style.visibility = 'collapse'
+    }
+  }
+
+  click(element: any){
+    const dropdown = element as HTMLElement;
+    const ulElement = dropdown.querySelector('ul');
+    if(ulElement) ulElement.style.visibility = 'visible';
+  }
+
+  async deleteFile(name: string){
+    await lastValueFrom(this.http.delete('/api/uploads', {params: new HttpParams().set('name', name)}));
+    this.neuLaden();
   }
 }

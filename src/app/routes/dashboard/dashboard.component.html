@@ -16,14 +16,18 @@
                     <th>Datum</th>
                     <th>docx</th>
                     <th>pdf</th>
+                    <th></th>
                 </thead>
                 <tbody>
                     <tr *ngFor="let file of files">
                         <td>{{file.name}}</td>
                         <td>{{file.uploadDate}}</td>
-                        <td><a href="/api/uploads/getFile?name={{file.name}}.docx" *ngIf="file.docxFile != ''; else noFile">download</a></td>
+                        <td><a href="/api/uploads/getFile?name={{file.name}}.docx" *ngIf="file.docxFile != ''; else noFile"><fa-icon [icon]="faFileArrowDown"></fa-icon></a></td>
                         <td><a target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf" *ngIf="file.pdfFile != ''; else noFile">öffnen</a></td>
                         <ng-template #noFile><fa-icon [icon]="faCircleExclamation"></fa-icon></ng-template>
+                        <td (click)="click($event.target)" class="dropDown">&#10247;
+                            <ul><li (click)="deleteFile(file.name)">löschen</li></ul>
+                        </td>
                     </tr>
                 </tbody>
 

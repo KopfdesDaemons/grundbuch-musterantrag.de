@@ -73,8 +73,6 @@ async function checkFileExists(path) {
 exports.deleteDocxAndPdfFiles = async (req, res, folderPath) => {
   try {
     const name = req.query.name;
-
-    log(name);
     // Lösche die docx und pdf Dateien mit dem gegebenen Namen
     await Promise.all([
       fs.promises.unlink(`${folderPath}/${name}.docx`),

@@ -16,6 +16,13 @@
 .tableContainer thead,
 .tableContainer tbody tr {
   width: 100%;
+  cursor: pointer;
+}
+.tableContainer tr:hover {
+  background-color: var(--hintergrund-variant);
+}
+.tableContainer td {
+  padding: 20px;
 }
 .tableContainer thead {
   position: sticky;
@@ -47,4 +54,32 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.dropDown {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropDown ul {
+  visibility: collapse;
+  padding: 0;
+  position: absolute;
+  right: 35px;
+  top: 0;
+  background-color: var(--primary-variant-much-brighter);
+  border-radius: 6px;
+}
+.dropDown ul li {
+  padding: 10px;
+}
+
+details > summary {
+  list-style: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
 }/*# sourceMappingURL=dashboard.component.css.map */
