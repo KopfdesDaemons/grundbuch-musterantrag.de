@@ -3,6 +3,7 @@ import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { faRotateRight, faCircleExclamation, faFileArrowDown, faArrowUpRightFromSquare, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,7 +20,7 @@ export class DashboardComponent implements OnInit {
   page: number = 1;
   isLoading = false;
 
-  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService) { }
+  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService, private router: Router) { }
 
   ngOnInit() {
     this.getFiles();
@@ -52,8 +53,7 @@ export class DashboardComponent implements OnInit {
         this.isLoading = false;
       } catch (err) {
         this.isLoading = false;
-        console.error('Die Dateien konnten nicht geladen werden.');
-        console.error(err);
+        console.error('Die Dateien konnten nicht geladen werden.', err);
         reject();
       }
     });
@@ -102,4 +102,8 @@ export class DashboardComponent implements OnInit {
     }
   }
   
+  abmelden(){
+    this.cs.deleteCookie('loginToken');
+    this.router.navigate(['/']);
+  }
 }
