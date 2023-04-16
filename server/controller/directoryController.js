@@ -56,7 +56,7 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
     res.send(response);
   } catch (error) {
     log(error);
-    res.status(500).send({ error: 'Error getting directory content' });
+    res.status(500).send({ error: 'Error beim Laden der Dateien aus dem Ordner' });
   }
 };
 
@@ -65,7 +65,7 @@ async function checkFileExists(path) {
     await fs.promises.access(path, fs.constants.F_OK);
     return true;
   } catch (err) {
-    console.log('Die Datei', path, 'exestiert nicht.');
+    console.log('Die Datei', path, 'existiert nicht');
     return false;
   }
 };
@@ -116,3 +116,21 @@ exports.getFile = (req, res, folderPath) => {
     res.send(data);
   });
 };
+
+exports.deleteAllFilesInFolder = async (req, res, folderPath) => {
+  try {
+    // Lade alle Dateien aus dem Ordner
+    const files = await fs.promises.readdir(folderPath);
+    
+    // Lösche jede Datei
+    for (const file of files) {
+      const filePath = path.join(folderPath, file);
+      await fs.promises.unlink(filePath);
+    }
+    
+    res.status(200).send('Alle Dateien gelöscht');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error beim Löschen der Dateien');
+  }
+}

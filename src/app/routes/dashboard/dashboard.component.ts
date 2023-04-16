@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
         for (const file of json['files']) {
           this.files.push(file);
         }
-        this.page++;
+        if(this.infoJson['totalPages'] != 0) this.page++;
         this.isLoading = false;
       } catch (err) {
         this.isLoading = false;
@@ -89,7 +89,17 @@ export class DashboardComponent implements OnInit {
   }
 
   async deleteFile(name: string){
-    await lastValueFrom(this.http.delete('/api/uploads', {params: new HttpParams().set('name', name)}));
+    await lastValueFrom(this.http.delete('/api/uploads/deleteFile', {params: new HttpParams().set('name', name)}));
     this.neuLaden();
   }
+
+  async deleteFolder() {
+    try {
+      await lastValueFrom(this.http.delete('/api/uploads/', { responseType: 'text' }));
+      this.neuLaden();
+    } catch (error) {
+      console.error('Error beim Löschen des Ordners:', error);
+    }
+  }
+  
 }
