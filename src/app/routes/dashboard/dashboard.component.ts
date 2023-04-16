@@ -15,7 +15,8 @@ export class DashboardComponent implements OnInit {
   faEllipsisVertical = faEllipsisVertical;
   infoJson: any;
   files: any[] | undefined;
-  page: number = 0;
+  page: number = 1;
+  isLoading = false;
 
   constructor(public http: HttpClient, private elem: ElementRef) { }
 
@@ -24,7 +25,7 @@ export class DashboardComponent implements OnInit {
   }
 
   scroll(element: any) {
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+    if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
       this.getFiles();
     }
   }
@@ -32,6 +33,8 @@ export class DashboardComponent implements OnInit {
   async getFiles() {
     return new Promise(async (resolve, reject) => {
       try {
+        if(this.isLoading) return;
+        this.isLoading = true;
         console.log('Lade Daten...');
         if (this.infoJson && this.page > this.infoJson['totalPages']) return;
         if (!this.files) this.files = [];
@@ -45,7 +48,9 @@ export class DashboardComponent implements OnInit {
           this.files.push(file);
         }
         this.page++;
+        this.isLoading = false;
       } catch (err) {
+        this.isLoading = false;
         console.error('Die Dateien konnten nicht geladen werden.');
         console.error(err);
         reject();
@@ -54,6 +59,7 @@ export class DashboardComponent implements OnInit {
   }
 
   neuLaden() {
+    this.isLoading = false;
     this.page = 0;
     this.files = [];
     this.getFiles();

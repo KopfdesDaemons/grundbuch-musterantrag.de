@@ -4,6 +4,7 @@
         <h1>Dashboard</h1>
         <h2>Generierte Anträge</h2>
         <span>Dateien: {{infoJson && infoJson.totalFiles}} </span>
+        <button class="btntext">alle löschen</button>
         <div class="tableContainer" (scroll)="scroll($event.target)">
             <table>
                 <thead>

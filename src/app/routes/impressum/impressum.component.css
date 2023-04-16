@@ -4,10 +4,6 @@
   flex-direction: column;
 }
 
-p {
-  margin: 0;
-}
-
 .sectiondiv {
   max-width: 24em;
   padding-top: 0;
