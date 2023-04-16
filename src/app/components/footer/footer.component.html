@@ -7,14 +7,30 @@
     <button (click)="anmeldeBtnClick()" class="btnicon" *ngIf="!auth.checkToken()">
       <fa-icon [icon]="faRightToBracket"></fa-icon>
     </button>
-    <a href="/dashboard" *ngIf="auth.checkToken()">Dashboard</a>
+    <div class="adminDiv" *ngIf="auth.checkToken()">
+      <ul>
+        <li>
+          <a href="/dashboard">Dashboard</a>
+        </li>
+      </ul>
+      <div class="farbpalettenDiv">
+        <ul>
+          <li title="primary-color"></li>
+          <li title="primary-variant-darker"></li>
+          <li title="primary-variant-brighter"></li>
+          <li title="primary-variant-much-brighter"></li>
+          <li title="hintergrund-variant"></li>
+          <li title="hintergrund-variant-darker"></li>
+        </ul>
+      </div>
+    </div>
   </div>
   <ul>
     <li>
-      <a routerLink="/impressum">Impressum</a>
+      <a routerLink="/datenschutz">Datenschutz</a>
     </li>
     <li>
-      <a routerLink="/datenschutz">Datenschutz</a>
+      <a routerLink="/impressum">Impressum</a>
     </li>
   </ul>
 </footer>

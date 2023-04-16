@@ -77,9 +77,6 @@ h1 {
 .dropDown ul li {
   padding: 10px;
 }
-.dropDown ul:hover {
-  background-color: var(--primary-color);
-}
 
 details > summary {
   list-style: none;

@@ -73,16 +73,22 @@ async function checkFileExists(path) {
 exports.deleteDocxAndPdfFiles = async (req, res, folderPath) => {
   try {
     const name = req.query.name;
-    // Lösche die docx und pdf Dateien mit dem gegebenen Namen
-    await Promise.all([
-      fs.promises.unlink(`${folderPath}/${name}.docx`),
-      fs.promises.unlink(`${folderPath}/${name}.pdf`)
-    ]);
 
-    res.send({ message: `Successfully deleted docx and pdf files for '${name}'` });
+    // Prüfen, ob die Docx- und PDF-Dateien vorhanden sind
+    const docxExists = await fs.promises.access(`${folderPath}/${name}.docx`).then(() => true).catch(() => false);
+    const pdfExists = await fs.promises.access(`${folderPath}/${name}.pdf`).then(() => true).catch(() => false);
+
+    if (docxExists) {
+      await fs.promises.unlink(`${folderPath}/${name}.docx`);
+    }
+    if (pdfExists) {
+      await fs.promises.unlink(`${folderPath}/${name}.pdf`);
+    }
+
+    res.send({ message: `Die Docx- und PDF-Dateien für '${name}' wurden erfolgreich gelöscht.` });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ error: 'Error deleting docx and pdf files' });
+    res.status(500).send({ error: 'Fehler beim Löschen der Docx- und PDF-Dateien' });
   }
 };
 

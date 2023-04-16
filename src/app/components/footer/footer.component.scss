@@ -1,61 +1,96 @@
 :host {
     margin-top: auto;
-    width: 100%;
 }
 
 footer {
     display: flex;
-    justify-content: flex-end;
+    position: sticky;
+    z-index: 1;
+    background-color: var(--body);
 }
 
 footer ul {
     display: inline-flex;
-    flex-direction: row-reverse;
     margin: 0;
     padding: 0;
 
     li {
-        margin-right: clamp(1em, 4vw, 3em);
-        background-color: var(--hintergrund-variant);
-        border-radius: 6px;
         margin: 0.4rem;
         display: flex;
         align-items: center;
-        a{
-            text-decoration: none;
-            font-size: 14px;
-            margin: 8px;
-        }
     }
 }
 
-
-.anmeldediv{
+.anmeldediv {
     margin: auto auto auto 0;
     position: relative;
     display: flex;
     align-items: center;
-    
-    .inputfeld{
+
+    .inputfeld {
         height: 35px;
         width: 0;
         margin-left: 5px;
     }
 }
 
-.anmeldedivOpen{
+.anmeldedivOpen {
     animation: fromLeft 1s forwards;
 
-    .inputfeld{
+    .inputfeld {
         width: 100px;
     }
 }
 
-@keyframes fromLeft{
-    0%{
+@keyframes fromLeft {
+    0% {
         left: -100px;
     }
-    100%{
+
+    100% {
         left: 0;
+    }
+}
+
+.adminDiv {
+    display: flex;
+    height: 100%;
+}
+
+.farbpalettenDiv {
+    li {
+        height: 30px;
+        width: 30px;
+        border-radius: 8px
+    }
+
+    li:nth-child(1) {
+        background-color: var(--primary-color);
+    }
+
+    li:nth-child(2) {
+        background-color: var(--primary-variant-darker);
+    }
+
+    li:nth-child(3) {
+        background-color: var(--primary-variant-brighter);
+    }
+
+    li:nth-child(4) {
+        background-color: var(--primary-variant-much-brighter);
+    }
+
+    li:nth-child(5) {
+        background-color: var(--hintergrund-variant);
+    }
+
+    li:nth-child(6) {
+        background-color: var(--hintergrund-variant-darker);
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .farbpalettenDiv {
+        display: none;
     }
 }
