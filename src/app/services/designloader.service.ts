@@ -40,13 +40,13 @@ export class DesignloaderService{
     document.documentElement.classList.add("darkmode");
     if(ohneCookie) return;
     var c = new cookie("Darkmode", String(true), 90, "Darf das Designschema gespeichert werden?");
-    this.cs.CheckCookie(c);
+    this.cs.setCookieWithRequest(c);
   }
 
   private deaktiviereDarkmode() {
     document.documentElement.classList.remove("darkmode");
     var c = new cookie("Darkmode", String(false), 90, "Darf das Designschema gespeichert werden?");
-    this.cs.CheckCookie(c);
+    this.cs.setCookieWithRequest(c);
   }
   
   private schemaAusCookie(): boolean | undefined{
@@ -69,7 +69,7 @@ export class DesignloaderService{
     var r = document.querySelector(":root") as HTMLElement;
     r.style.setProperty("--hsl-color", hsl);
     var c:cookie = new cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");
-    this.cs.CheckCookie(c);
+    this.cs.setCookieWithRequest(c);
     this.primaryColorHSL = `hsl(${h}, ${s}, 100)`;
     let hex = this.farbConv.HSLToHex(h, s, 50);
     this.primaryColorHSL = hex;

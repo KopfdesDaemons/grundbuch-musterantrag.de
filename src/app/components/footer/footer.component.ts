@@ -6,6 +6,7 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthGuard } from 'src/app/auth.guard';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class FooterComponent {
   anmeldeInputVisible = false;
   @ViewChild('password') passwordInput!:ElementRef;
 
-  constructor(public dl: DesignloaderService, public http: HttpClient, public Router: Router){}
+  constructor(public dl: DesignloaderService, public http: HttpClient, public Router: Router, public auth: AuthGuard){}
   faRightToBracket = faRightToBracket;
 
   anmeldeBtnClick(){

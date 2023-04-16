@@ -23,7 +23,7 @@ export class HeaderComponent implements AfterViewInit {
   @Input() farbe: string = 'var(--hintergrund)';
 
   ngAfterViewInit(): void {
-    this.cs.cookieListe.subscribe((c: cookie[]) => {this.showCookieBanner();});
+    this.cs.cookieRequestList.subscribe((c: cookie[]) => {this.showCookieBanner();});
   }
 
   // MobileHeaderMenü ############################################################################
@@ -81,23 +81,23 @@ export class HeaderComponent implements AfterViewInit {
   showCookieBanner() {
     // console.log(this.cs.cookieListe.value);
     if(this.isDisplayed) return;
-    if(this.cs.cookieListe.value.length == 0) return;
-    this.consent = this.cs.cookieListe.value[0].consent;
+    if(this.cs.cookieRequestList.value.length == 0) return;
+    this.consent = this.cs.cookieRequestList.value[0].consent;
     this.cookiebanner.nativeElement.classList.remove("ausgeblendet");
     this.isDisplayed = true;
   }
 
   async akzeptieren()
   {
-    this.cs.setcookie(this.cs.cookieListe.value[0]);
+    this.cs.setcookie(this.cs.cookieRequestList.value[0]);
     this.nextBanner();
   }
 
   async nextBanner()
   {
     this.cookiebanner.nativeElement.classList.add("ausgeblendet");
-    var c:cookie = this.cs.cookieListe.value[0];
-    this.cs.removeCookie(c);
+    var c:cookie = this.cs.cookieRequestList.value[0];
+    this.cs.cookieRequested(c);
     await this.delay(1000);
     this.isDisplayed = false;
     this.showCookieBanner();

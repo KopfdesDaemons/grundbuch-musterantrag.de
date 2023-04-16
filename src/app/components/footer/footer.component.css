@@ -4,7 +4,6 @@
 }
 
 footer {
-  background-color: var(--hintergrund);
   display: flex;
   justify-content: flex-end;
 }
@@ -15,18 +14,17 @@ footer ul {
   margin: 0;
   padding: 0;
 }
-
 footer ul li {
   margin-right: clamp(1em, 4vw, 3em);
   background-color: var(--hintergrund-variant);
-  border-radius: 12px;
+  border-radius: 6px;
   margin: 0.4rem;
   display: flex;
   align-items: center;
 }
 footer ul li a {
   text-decoration: none;
-  font-size: 12px;
+  font-size: 14px;
   margin: 8px;
 }
 
@@ -35,6 +33,11 @@ footer ul li a {
   position: relative;
   display: flex;
   align-items: center;
+}
+.anmeldediv .inputfeld {
+  height: 35px;
+  width: 0;
+  margin-left: 5px;
 }
 
 .anmeldedivOpen {
@@ -51,9 +54,4 @@ footer ul li a {
   100% {
     left: 0;
   }
-}
-.inputfeld {
-  height: 35px;
-  width: 0;
-  margin-left: 5px;
 }/*# sourceMappingURL=footer.component.css.map */

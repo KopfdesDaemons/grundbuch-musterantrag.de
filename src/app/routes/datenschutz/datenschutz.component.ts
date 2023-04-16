@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CookiesService } from 'src/app/services/cookies.service';
 
 @Component({
   selector: 'app-datenschutz',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class DatenschutzComponent {
 
+  constructor(public cs: CookiesService){}
+
+  deleteCookies(){
+    this.cs.deleteAllCookies();
+    alert('Allle Cookies gelöscht.');
+  }
 }

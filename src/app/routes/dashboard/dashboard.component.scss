@@ -16,12 +16,6 @@
         font-size: clamp(10px, 3vw, 16px);
     }
 
-    thead,
-    tbody tr {
-        // width: 100%;
-        cursor: pointer;
-    }
-
     td{
         text-align: center;
     }
@@ -71,19 +65,20 @@
 
 .dropDown{
     position: relative;
-}
+    cursor: pointer;
 
-.dropDown ul{
-    visibility: collapse;
-    padding: 0;
-    position: absolute;
-    left: -40px;
-    top: 0;
-    background-color: var(--primary-variant-much-brighter);
-    border-radius: 6px;
-
-    li{
-        padding: 10px;
+    ul{
+        visibility: collapse;
+        padding: 0;
+        position: absolute;
+        left: -40px;
+        top: 0;
+        background-color: var(--primary-variant-much-brighter);
+        border-radius: 6px;
+        
+        li{
+            padding: 10px;
+        }
     }
 }
 

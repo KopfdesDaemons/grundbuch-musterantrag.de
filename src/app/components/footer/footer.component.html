@@ -4,9 +4,10 @@
       <input #password (keyup.enter)="anmelden(password.value)"  type="password" id="password" name="email" spellcheck="false" placeholder="&nbsp;">
       <label class="placeholder" for="password">Passwort</label>
     </div>
-    <button (click)="anmeldeBtnClick()" class="btnicon">
+    <button (click)="anmeldeBtnClick()" class="btnicon" *ngIf="!auth.checkToken()">
       <fa-icon [icon]="faRightToBracket"></fa-icon>
     </button>
+    <a href="/dashboard" *ngIf="auth.checkToken()">Dashboard</a>
   </div>
   <ul>
     <li>

@@ -15,10 +15,6 @@
   width: 100%;
   font-size: clamp(10px, 3vw, 16px);
 }
-.tableContainer thead,
-.tableContainer tbody tr {
-  cursor: pointer;
-}
 .tableContainer td {
   text-align: center;
 }
@@ -63,8 +59,8 @@
 
 .dropDown {
   position: relative;
+  cursor: pointer;
 }
-
 .dropDown ul {
   visibility: collapse;
   padding: 0;
