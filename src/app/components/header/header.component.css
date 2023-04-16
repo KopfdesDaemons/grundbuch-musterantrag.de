@@ -1,9 +1,9 @@
 header {
   width: 100%;
   position: fixed;
-  z-index: 3;
   display: flex;
   flex-direction: column;
+  z-index: 2;
 }
 
 .desktopheader a {
@@ -20,20 +20,14 @@ header {
 }
 
 .cookiebanner div {
-  background-color: var(--primary-variant-darker);
+  background-color: var(--hintergrund-variant-darker);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 .cookiebanner div span {
-  margin: 0.5em;
-  color: white;
   font-size: clamp(0.7rem, 1.5vw, 1rem);
-}
-
-.darkmode .cookiebanner div {
-  background-color: var(--primary-variant-much-brighter);
 }
 
 .ausgeblendet {
@@ -47,7 +41,6 @@ header {
   height: 3em;
   align-items: center;
   width: 100%;
-  background-color: inherit;
 }
 .desktopheader .btnDesign:hover {
   transform: scale(1.05);
@@ -121,7 +114,6 @@ header nav ul li a {
 .darkmodebtn {
   box-sizing: border-box;
   display: flex;
-  text-align: center;
   justify-content: center;
   margin: 0 0.5em;
 }
@@ -140,7 +132,6 @@ header nav ul li a {
   height: 100%;
   display: flex;
   align-items: center;
-  background-color: inherit;
 }
 
 .farbauswahlbuttondiv:hover .farbauswahl,
@@ -196,16 +187,16 @@ header nav ul li a {
   display: none;
 }
 .mobileheader .mobileheadercontent {
+  height: 3em;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--hintergrund);
 }
-.mobileheader .mobileheadercontent .fa-house {
-  margin-left: 1.2em;
-}
-.mobileheader .designbuttons {
+.mobileheader .designButtonsDiv {
   display: flex;
+  height: 100%;
+  align-items: center;
 }
 .mobileheader nav ul {
   display: flex;
@@ -223,15 +214,7 @@ header nav ul li a {
   background-color: var(--hintergrund-variant-darker);
 }
 .mobileheader .farbauswahl {
-  top: -15em;
-  background-color: var(--hintergrund);
-  z-index: -1;
   right: 0;
-}
-.mobileheader .farbauswahlbuttondiv:hover .farbauswahl,
-.mobileheader .farbauswahl:hover {
-  top: 2.2em;
-  transition: top 80ms ease-in-out;
 }
 .mobileheader .mobilenav {
   display: flex;
@@ -256,7 +239,6 @@ header nav ul li a {
   }
 }
 .closingdiv {
-  background-color: transparent;
   height: 100vh;
 }
 

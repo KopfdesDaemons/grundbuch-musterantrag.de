@@ -14,10 +14,10 @@ h1 {
     overflow: auto;
     position: relative;
     resize: both;
+    border-radius: 8px;
 
     table {
         width: 100%;
-        font-size: clamp(10px, 3vw, 16px);
     }
 
     td{
@@ -83,6 +83,10 @@ h1 {
         li{
             padding: 10px;
         }
+    }
+
+    ul:hover{
+        background-color: var(--primary-color);
     }
 }
 

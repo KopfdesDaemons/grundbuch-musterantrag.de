@@ -13,6 +13,8 @@ import { DesignloaderService } from 'src/app/services/designloader.service';
 export class HeaderComponent implements AfterViewInit {
   faMoon = faMoon;
 
+  colors = [  'hsl(195, 75%, 50%)',  'hsl(0, 60%, 50%)',  'hsl(323, 82%, 50%)',  'hsl(132, 64%, 50%)',  'hsl(35, 100%, 50%)',  'hsl(173, 63%, 50%)',  'hsl(281, 94%, 50%)',  'hsl(81, 56%, 50%)',  'hsl(0, 0%, 50%)',  'hsl(334, 100%, 50%)',  'hsl(225, 6%, 50%)',  'hsl(110, 69%, 50%)'];
+
   @ViewChild('mobilenav') mobilenav!: ElementRef;
   @ViewChild('closingdiv') closingdiv!: ElementRef;
   @ViewChild('cookiebanner') cookiebanner!: ElementRef;

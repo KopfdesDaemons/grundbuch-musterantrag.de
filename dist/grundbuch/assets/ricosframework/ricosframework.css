@@ -80,14 +80,6 @@ h2, h3, .darkmode h2, .darkmode h3 {
   color: var(--primary-variant-darker);
 }
 
-.darkmode p,
-.darkmode span,
-.darkmode table,
-.darkmode label,
-.darkmode div {
-  color: var(--schrift);
-}
-
 .darkmode a {
   color: rgb(183, 189, 255);
 }

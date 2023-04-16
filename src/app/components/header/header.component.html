@@ -1,20 +1,10 @@
 <header [ngClass]="{'darkmode': dl.darkmode.value}">
+
   <div class="desktopheader" [style.backgroundColor]="farbe">
     <div class="farbauswahlbuttondiv">
       <div class="btnDesign farbauswahlbutton"></div>
       <div class="farbauswahl">
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(195, 75%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 60%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(323, 82%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(132, 64%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(35, 100%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(173, 63%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(281, 94%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(81, 56%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 0%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(334, 100%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(225, 6%, 50%)"></div>
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(110, 69%, 50%)"></div>
+        <div *ngFor="let color of colors" class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
         <div class="anderefarbediv">
           <span>Eigene Farbe auswählen</span>
           <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>
@@ -30,34 +20,22 @@
         <li>
           <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
         </li>
-        <!-- <li><a href="../index.php#home">Anträge</a></li>
-          <li><a href="../index.php#home">Mustergrundbuch</a> -->
-        <!-- </li> -->
       </ul>
     </nav>
   </div>
+
+
   <div class="mobileheader">
     <div class="mobileheadercontent">
       <a routerLink="">
         <i class="fa-solid fa-house"></i>
       </a>
       <button class="mobilemenübutton" (click)="toggle()">Menü</button>
-      <div class="designbuttons">
+      <div class="designButtonsDiv">
         <div class="farbauswahlbuttondiv">
           <div class="btnDesign farbauswahlbutton"></div>
           <div class="farbauswahl">
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(195, 75%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 60%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(323, 82%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(132, 64%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(35, 100%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(173, 63%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(281, 94%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(81, 56%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(0, 0%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(334, 100%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(225, 6%, 50%)"></div>
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" style="background-color: hsl(110, 69%, 50%)"></div>
+            <div *ngFor="let color of colors" class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
             <div class="anderefarbediv">
               <span>Eigene Farbe auswählen</span>
               <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>
@@ -75,12 +53,12 @@
         <li>
           <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
         </li>
-        <!-- <li><a href="../index.php#home">Anträge</a></li>
-          <li><a href="../index.php#home">Mustergrundbuch</a></li> -->
       </ul>
     </nav>
   </div>
   <div #closingdiv class="closingdiv unsichtbar" (click)="togglebodydiv()"></div>
+
+
   <div #cookiebanner class="cookiebanner ausgeblendet">
     <div>
       <span [innerText]="consent"></span>
@@ -88,4 +66,5 @@
       <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
     </div>
   </div>
+
 </header>

@@ -1,9 +1,9 @@
 header {
   width: 100%;
   position: fixed;
-  z-index: 3;
   display: flex;
   flex-direction: column;
+  z-index: 2;
 }
 
 .desktopheader a {
@@ -20,20 +20,14 @@ header {
 }
 
 .cookiebanner div {
-  background-color: var(--primary-variant-darker);
+  background-color: var(--hintergrund-variant-darker);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   span {
-    margin: 0.5em;
-    color: white;
     font-size: clamp(0.7rem, 1.5vw, 1rem);
   }
-}
-
-.darkmode .cookiebanner div {
-  background-color: var(--primary-variant-much-brighter);
 }
 
 .ausgeblendet {
@@ -47,8 +41,6 @@ header {
   height: 3em;
   align-items: center;
   width: 100%;
-  background-color: inherit;
-  // background-color: var(--hintergrund);
 
   .btnDesign:hover{
     transform: scale(1.05);
@@ -56,7 +48,6 @@ header {
 }
 
 header button {
-  // height: 80%;
   font-size: 1.2rem;
 }
 
@@ -124,7 +115,6 @@ header nav ul li a {
 .darkmodebtn {
   box-sizing: border-box;
   display: flex;
-  text-align: center;
   justify-content: center;
   margin: 0 0.5em;
 
@@ -144,7 +134,6 @@ header nav ul li a {
   height: 100%;
   display: flex;
   align-items: center;
-  background-color: inherit;
 }
 
 .farbauswahlbuttondiv:hover .farbauswahl,
@@ -202,20 +191,19 @@ header nav ul li a {
 
 .mobileheader {
   display: none;
-
+  
   .mobileheadercontent {
+    height: 3em;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--hintergrund);
-
-    .fa-house {
-      margin-left: 1.2em;
-    }
   }
 
-  .designbuttons {
+  .designButtonsDiv {
     display: flex;
+    height: 100%;
+    align-items: center;
   }
 
   nav ul {
@@ -237,16 +225,7 @@ header nav ul li a {
   }
 
   .farbauswahl {
-    top: -15em;
-    background-color: var(--hintergrund);
-    z-index: -1;
     right: 0;
-  }
-  
-  .farbauswahlbuttondiv:hover .farbauswahl,
-  .farbauswahl:hover {
-    top: 2.2em;
-    transition: top 80ms ease-in-out;
   }
 
   .mobilenav {
@@ -275,7 +254,6 @@ header nav ul li a {
 }
 
 .closingdiv {
-  background-color: transparent;
   height: 100vh;
 }
 
