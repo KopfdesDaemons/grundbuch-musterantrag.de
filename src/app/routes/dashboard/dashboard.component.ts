@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { faRotateRight, faCircleExclamation, faFileArrowDown, faArrowUpRightFromSquare, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { CookiesService } from 'src/app/services/cookies.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -18,7 +19,7 @@ export class DashboardComponent implements OnInit {
   page: number = 1;
   isLoading = false;
 
-  constructor(public http: HttpClient, private elem: ElementRef) { }
+  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService) { }
 
   ngOnInit() {
     this.getFiles();

@@ -5,6 +5,9 @@
         <h2>Generierte Anträge</h2>
         <span>Dateien: {{infoJson && infoJson.totalFiles}} </span>
         <button class="btntext">alle löschen</button>
+
+
+        <!-- Tabelle mit Anträgen -->
         <div class="tableContainer" (scroll)="scroll($event.target)">
             <table>
                 <thead>
@@ -35,6 +38,12 @@
 
             </table>
         </div>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>Cookieverwaltung</h2>
+        <button class="btnoutlined" (click)="cs.deleteAllCookies()">Cookies löschen</button>
     </div>
 </section>
 <app-footer></app-footer>

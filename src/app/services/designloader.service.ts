@@ -56,7 +56,7 @@ export class DesignloaderService{
     return undefined;
   }
 
-  public FarbeAusCookieAnwenden() {
+  FarbeAusCookieAnwenden() {
     let FarbCookie = this.cs.getCookie("Farbe");
     if (FarbCookie != "") {
       let split = FarbCookie.split(",");
@@ -64,7 +64,7 @@ export class DesignloaderService{
     }
   }
   
-  public FarbeÄndern(h: number, s: number, l:number) {
+  FarbeÄndern(h: number, s: number, l:number) {
     let hsl = h + ", " + s + "%"; //, "+ l+"%";
     var r = document.querySelector(":root") as HTMLElement;
     r.style.setProperty("--hsl-color", hsl);

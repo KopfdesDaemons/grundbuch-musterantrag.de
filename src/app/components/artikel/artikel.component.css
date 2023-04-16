@@ -1,19 +1,8 @@
-@charset "UTF-8";
 @media only screen and (min-width: 700px) {
   .artikelcontent {
     flex-grow: 1;
     margin-left: 19em;
   }
-}
-.artikelcontent {
-  /*----------------------------------------------------------------------------------*/
-}
-.artikelcontent app-artikel section {
-  background-color: aqua;
-}
-.artikelcontent p,
-.artikelcontent span {
-  font-size: 16px;
 }
 .artikelcontent hr {
   width: clamp(1em, 65%, 60em);
@@ -23,16 +12,8 @@
   margin-top: 0;
   margin-bottom: 0;
 }
-.artikelcontent li {
+.artikelcontent ul li {
   list-style: circle;
-}
-.artikelcontent #disqus_thread {
-  margin: 10px auto;
-  padding: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 1300px;
 }
 .artikelcontent .infokasten {
   padding: 1em;
@@ -45,21 +26,8 @@
 .artikelcontent .sectiondiv {
   align-items: flex-start;
 }
-.artikelcontent section:first-of-type .sectiondiv {
-  margin-top: 1em;
-}
-.artikelcontent .variant {
-  color: var(--primary-variant-darker);
-}
-.artikelcontent h1 {
-  font-size: 2rem;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
 .artikelcontent h2,
 .artikelcontent .darkmode h2 {
-  color: var(--primary-variant-darker);
   margin-top: 0;
   font-size: 1.9rem;
   margin-bottom: 0.5em;
@@ -67,7 +35,6 @@
 .artikelcontent h3,
 .artikelcontent .darkmode h3 {
   margin: 1em 0 0 0;
-  color: var(--primary-variant-darker);
   font-size: 1.5rem;
 }
 .artikelcontent h4,
@@ -77,9 +44,4 @@
 }
 .artikelcontent p {
   margin: 0.5em 0;
-}
-.artikelcontent .nächsteseite {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 20%;
 }/*# sourceMappingURL=artikel.component.css.map */

@@ -4,6 +4,10 @@
     flex-direction: column;
 }
 
+h1 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
 .tableContainer {
     height: 300px;
     width: clamp(300px, 90vw, 1000px);

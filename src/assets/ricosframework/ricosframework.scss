@@ -47,17 +47,21 @@ table,
 label,
 div {
   font-family: "Quicksand", sans-serif;
-  color: rgb(80, 80, 80);
+  color: var(--schrift);
 }
 
 h1 {
   color: var(--primary-variant-darker);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  width: 100%;
+  text-align: center;
+}
+
+h2, h3, .darkmode h2, .darkmode h3 {
+  color: var(--primary-variant-darker);
 }
 
 .darkmode {
-  // h1,
-  h2,
-  h3,
   p,
   span,
   table,
@@ -74,6 +78,10 @@ h1 {
 .darkmode .rot,
 .rot {
   color: red;
+}
+
+.variantColor {
+  color: var(--primary-variant-darker);
 }
 /*#endregion*/
 /*#region button*/

@@ -10,6 +10,7 @@ h2 {
   margin: 0;
   font-size: clamp(0.5rem, 7vw, 2rem);
   text-align: center;
+  color: var(--schrift);
 }
 
 /*Home-------------------------------------------------------------------------------*/
@@ -56,6 +57,7 @@ h1 {
   margin: 0;
   font-size: clamp(1.2rem, 3vw, 2rem);
   line-height: 100%;
+  text-align: unset;
   color: var(--schrift);
 }
 
@@ -123,19 +125,10 @@ h1 {
 .icondiv {
   font-size: clamp(0.8rem, 3vw, 2rem);
   padding: clamp(0.8rem, 5vw, 1.2rem);
-  box-shadow: 5px 3px 5px 2px rgba(0, 0, 0, 0.231372549);
   border-radius: 10px;
   background-color: var(--primary-variant-much-brighter);
   display: flex;
   text-align: center;
-  justify-content: center;
-}
-
-.icondiv .svg-inline--fa {
-  width: 1em;
-  height: 1em;
-  overflow: visible;
-  display: flex;
   justify-content: center;
 }
 
@@ -154,15 +147,6 @@ h1 {
 
 .antragsartfalsch .icondiv {
   background-color: rgb(255, 118, 118);
-}
-
-#info .sectiondiv .Banner {
-  border: 0.18em solid #ec2828;
-  max-width: 80%;
-  padding: 0.5em;
-  border-radius: 8px;
-  font-size: clamp(0.8rem, 1.2vw, 1rem);
-  margin-top: 1em;
 }
 
 #info .sectiondiv .BannerMusterantrag {
@@ -209,16 +193,7 @@ h1 {
   justify-content: center;
 }
 
-/*Berechtigtes-Interesse-------------------------------------------------------------------------------*/
-#Berechtigtes-Interesse span {
-  margin: 2em 0 1em 0;
-}
-
 /*GB-Inhalt-------------------------------------------------------------------------------*/
-#GB-Inhalt .Erklärung {
-  margin: 1.5em 0;
-}
-
 #GB-Inhalt .sectiondiv .grid {
   width: 100%;
   display: grid;
@@ -257,10 +232,6 @@ h1 {
 }
 
 /*FAQ-------------------------------------------------------------------------------*/
-#FAQ .sectiondiv {
-  margin-bottom: 2em;
-}
-
 .Fragen {
   margin-top: 1em;
   display: flex;
