@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
   }
 
   checkToken(){
-    const tokenCookie = this.cs.getCookie('token')
+    const tokenCookie = this.cs.getCookie('loginToken')
     if (tokenCookie != '') return true;
     return false;
   }
