@@ -6,22 +6,56 @@
 
 h1 {
     font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-top: 0;
 }
 
-.tableContainer {
-    height: 300px;
+.logoutBtn{
+    position: absolute;
+    top: 4em;
+    right: 2em;
+}
+
+.tableHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--hintergrund-variant);
+    border-radius: 8px 8px 0 0;
+    width: clamp(300px, 90vw, 1000px);
+
+    h2{
+        margin: 0.5em;
+        font-size: 1em;
+    }
+
+    .reloadBtn {
+        padding: 0;
+        margin: 0;
+        height: 25px;
+        width: 25px;
+        text-align: center;
+    }
+}
+
+.tableScrollContainer {
+    border: 1px solid var(--hintergrund-variant);
+    height: 500px;
     width: clamp(300px, 90vw, 1000px);
     overflow: auto;
     position: relative;
-    resize: both;
-    border-radius: 8px;
+    resize: vertical;
 
     table {
         width: 100%;
+        font-size: clamp(12px, 1vw, 16px);
+    }
+
+    th{
+        text-align: left;
     }
 
     td{
-        text-align: center;
+        padding: 8px;
     }
 
     td:last-child{
@@ -42,19 +76,11 @@ h1 {
         margin-top: 0;
     }
 
-    button {
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 0;
-        height: 30px;
-        width: 30px;
-    }
 }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
 }
 
 /* Handle */
@@ -77,12 +103,17 @@ h1 {
         position: absolute;
         left: -40px;
         top: 0;
-        background-color: var(--primary-variant-much-brighter);
+        background-color: var(--hintergrund);
         border-radius: 6px;
         
         li{
             padding: 10px;
         }
+        border: 1px solid var(--primary-variant-much-brighter);
+    }
+
+    ul:hover{
+        background-color: var(--hintergrund-variant-darker);
     }
 }
 

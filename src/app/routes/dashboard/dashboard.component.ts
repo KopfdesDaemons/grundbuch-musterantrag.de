@@ -1,7 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { faRotateRight, faCircleExclamation, faFileArrowDown, faArrowUpRightFromSquare, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import {
+  faRotateRight,
+  faCircleExclamation,
+  faFileArrowDown,
+  faArrowUpRightFromSquare,
+  faEllipsisVertical,
+  faArrowRightFromBracket
+} from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Router } from '@angular/router';
 @Component({
@@ -15,6 +22,8 @@ export class DashboardComponent implements OnInit {
   faFileArrowDown = faFileArrowDown;
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faEllipsisVertical = faEllipsisVertical;
+  faArrowRightFromBracket = faArrowRightFromBracket;
+
   infoJson: any;
   files: any[] | undefined;
   page: number = 1;
@@ -35,7 +44,7 @@ export class DashboardComponent implements OnInit {
   async getFiles() {
     return new Promise(async (resolve, reject) => {
       try {
-        if(this.isLoading) return;
+        if (this.isLoading) return;
         this.isLoading = true;
         console.log('Lade Daten...');
         if (this.infoJson && this.page > this.infoJson['totalPages']) return;
@@ -44,12 +53,12 @@ export class DashboardComponent implements OnInit {
         const json: any = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('page', this.page) }));
         this.infoJson = json;
         console.log(this.infoJson);
-        
-        
+
+
         for (const file of json['files']) {
           this.files.push(file);
         }
-        if(this.infoJson['totalPages'] != 0) this.page++;
+        if (this.infoJson['totalPages'] != 0) this.page++;
         this.isLoading = false;
       } catch (err) {
         this.isLoading = false;
@@ -69,10 +78,10 @@ export class DashboardComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: any) {
     const dropDowns = this.elem.nativeElement.querySelectorAll('.dropDown');
-    
+
     for (const dropdown of dropDowns) {
       const ul = dropdown.querySelector('ul');
-      
+
       if (ul.style.visibility === 'visible') {
         if (!dropdown.contains(event.target)) {
           ul.style.visibility = 'collapse';
@@ -81,15 +90,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  click(element: any){
+  click(element: any) {
     const dropdown = element.closest('.dropDown') as HTMLElement;
     const ulElement = dropdown.querySelector('.dropDownMenu') as HTMLElement;
-    
-    if(ulElement) ulElement.style.visibility = 'visible';
+
+    if (ulElement) ulElement.style.visibility = 'visible';
   }
 
-  async deleteFile(name: string){
-    await lastValueFrom(this.http.delete('/api/uploads/deleteFile', {params: new HttpParams().set('name', name)}));
+  async deleteFile(name: string) {
+    await lastValueFrom(this.http.delete('/api/uploads/deleteFile', { params: new HttpParams().set('name', name) }));
     this.neuLaden();
   }
 
@@ -101,8 +110,8 @@ export class DashboardComponent implements OnInit {
       console.error('Error beim Löschen des Ordners:', error);
     }
   }
-  
-  abmelden(){
+
+  abmelden() {
     this.cs.deleteCookie('loginToken');
     this.router.navigate(['/']);
   }

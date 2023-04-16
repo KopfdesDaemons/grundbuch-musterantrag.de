@@ -6,49 +6,72 @@
 
 h1 {
   font-size: clamp(1.5rem, 5vw, 2rem);
+  margin-top: 0;
 }
 
-.tableContainer {
-  height: 300px;
+.logoutBtn {
+  position: absolute;
+  top: 4em;
+  right: 2em;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--hintergrund-variant);
+  border-radius: 8px 8px 0 0;
+  width: clamp(300px, 90vw, 1000px);
+}
+.tableHeader h2 {
+  margin: 0.5em;
+  font-size: 1em;
+}
+.tableHeader .reloadBtn {
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+}
+
+.tableScrollContainer {
+  border: 1px solid var(--hintergrund-variant);
+  height: 500px;
   width: clamp(300px, 90vw, 1000px);
   overflow: auto;
   position: relative;
-  resize: both;
-  border-radius: 8px;
+  resize: vertical;
 }
-.tableContainer table {
+.tableScrollContainer table {
   width: 100%;
+  font-size: clamp(12px, 1vw, 16px);
 }
-.tableContainer td {
-  text-align: center;
+.tableScrollContainer th {
+  text-align: left;
 }
-.tableContainer td:last-child {
+.tableScrollContainer td {
+  padding: 8px;
+}
+.tableScrollContainer td:last-child {
   padding: 0;
 }
-.tableContainer tr:hover {
+.tableScrollContainer tr:hover {
   background-color: var(--hintergrund-variant);
 }
-.tableContainer thead {
+.tableScrollContainer thead {
   position: sticky;
   top: 0;
   background-color: var(--hintergrund);
   z-index: 1;
 }
-.tableContainer table {
+.tableScrollContainer table {
   margin-top: 0;
-}
-.tableContainer button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0;
-  height: 30px;
-  width: 30px;
 }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 /* Handle */
@@ -71,11 +94,15 @@ h1 {
   position: absolute;
   left: -40px;
   top: 0;
-  background-color: var(--primary-variant-much-brighter);
+  background-color: var(--hintergrund);
   border-radius: 6px;
+  border: 1px solid var(--primary-variant-much-brighter);
 }
 .dropDown ul li {
   padding: 10px;
+}
+.dropDown ul:hover {
+  background-color: var(--hintergrund-variant-darker);
 }
 
 details > summary {
