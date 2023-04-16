@@ -6,7 +6,7 @@
 /out-tsc
 /bazel-out
 
-/server/token.json
+/server/hash.json
 /server/uploads
 
 # Node
