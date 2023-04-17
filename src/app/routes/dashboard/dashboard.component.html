@@ -29,7 +29,7 @@
                         <td>{{file.uploadDate}}</td>
                         <td><a class="btnicon" href="/api/uploads/getFile?name={{file.name}}.docx"
                                 *ngIf="file.docxFile != ''; else noFile"><fa-icon
-                                    [icon]="faFileArrowDown"></fa-icon></a></td>
+                                    [icon]="faCircleDown"></fa-icon></a></td>
                         <td><a class="btnicon" target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf"
                                 *ngIf="file.pdfFile != ''; else noFile"><fa-icon
                                     [icon]="faArrowUpRightFromSquare"></fa-icon></a></td>

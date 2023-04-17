@@ -44,4 +44,9 @@
 }
 .artikelcontent p {
   margin: 0.5em 0;
+}
+.artikelcontent .btnNextSiteDiv {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 3em;
 }/*# sourceMappingURL=artikel.component.css.map */

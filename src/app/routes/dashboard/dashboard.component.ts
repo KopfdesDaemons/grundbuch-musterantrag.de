@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import {
   faRotateRight,
   faCircleExclamation,
-  faFileArrowDown,
+  faCircleDown,
   faArrowUpRightFromSquare,
   faEllipsisVertical,
   faArrowRightFromBracket
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   faRotateRight = faRotateRight;
   faCircleExclamation = faCircleExclamation;
-  faFileArrowDown = faFileArrowDown;
+  faCircleDown = faCircleDown;
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faEllipsisVertical = faEllipsisVertical;
   faArrowRightFromBracket = faArrowRightFromBracket;

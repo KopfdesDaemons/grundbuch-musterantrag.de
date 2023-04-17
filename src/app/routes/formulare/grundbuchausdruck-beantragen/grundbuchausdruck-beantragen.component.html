@@ -1,6 +1,6 @@
 <app-header></app-header>
 <section [ngClass]="{'darkmode': dl.darkmode.value}">
-    <div class="formulardiv sectiondiv borderdiv" action="../antraggenerieren/antraggenerieren.php" method="get">
+    <div class="formulardiv sectiondiv borderdiv">
         <app-antragsteller *ngIf="step === 1"></app-antragsteller>
         <app-grundstueck *ngIf="step === 2"></app-grundstueck>
 

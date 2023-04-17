@@ -11,12 +11,21 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
 
     const files = await fs.promises.readdir(folderPath);
 
+    const fileStats = await Promise.all(files.map(async (file) => {
+      const filePath = `${folderPath}/${file}`;
+      const stats = await fs.promises.stat(filePath);
+      return { file, stats };
+    }));
+    
+    // Sortiere: Neuste Datei zuerst
+    const sortedFiles = fileStats.sort((a, b) => b.stats.mtimeMs - a.stats.mtimeMs).map(({ file }) => file);
+
     // Festlegen der Gesamtzahl der Dateien und Gesamtzahl der Seiten
-    const totalFiles = files.length;
+    const totalFiles = sortedFiles.length;
     const totalPages = Math.ceil(totalFiles / pageSize);
 
     // Festlegen der Dateien für die aktuelle Seite
-    const pageFiles = files.slice(offset, offset + pageSize);
+    const pageFiles = sortedFiles.slice(offset, offset + pageSize);
 
     let mergedFileInfo = [];
 
@@ -43,16 +52,17 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
 
         if (await checkFileExists(folderPath + '/' + docxFile)) fileInfo.docxFile = docxFile;
         if (await checkFileExists(folderPath + '/' + pdfFile)) fileInfo.pdfFile = pdfFile;
-
         mergedFileInfo.push(fileInfo);
       }
     }
+
     const response = {
       page,
       totalPages,
       totalFiles,
       files: mergedFileInfo
     };
+
     res.send(response);
   } catch (error) {
     log(error);
@@ -107,13 +117,13 @@ exports.getFile = (req, res, folderPath) => {
     // Bestimmen der Dateiendung aus dem Dateinamen
     const ext = path.extname(filePath);
 
-    if(ext == '.pdf'){
+    if (ext == '.pdf') {
       // Sende .pdf mit der Option die Datei im Browser anzuzeigen
       res.contentType('application/pdf');
       res.setHeader('Content-Disposition', 'inline');
       res.setHeader('title', 'Musterantrag');
     }
-    else{
+    else {
       // Setze den Header auf binär
       res.setHeader('Content-Type', 'application/octet-stream');
       // Setze einen Header der den Download auslöst
@@ -127,13 +137,13 @@ exports.deleteAllFilesInFolder = async (req, res, folderPath) => {
   try {
     // Lade alle Dateien aus dem Ordner
     const files = await fs.promises.readdir(folderPath);
-    
+
     // Lösche jede Datei
     for (const file of files) {
       const filePath = path.join(folderPath, file);
       await fs.promises.unlink(filePath);
     }
-    
+
     res.status(200).send('Alle Dateien gelöscht');
   } catch (err) {
     console.error(err);
