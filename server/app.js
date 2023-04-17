@@ -25,6 +25,7 @@ app.use(express.static(distDir));
 
 //Routen, welche nur einen Controller ansprechen
 app.post('/api/login', authController.login);
+app.post('/api/init', authController.createHashFile);
 app.get('/api/uploads', authMiddleware, (req, res) => {directoryController.getDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
 app.delete('/api/uploads/deleteFile', authMiddleware, (req, res) => {directoryController.deleteDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
 app.delete('/api/uploads', authMiddleware, (req, res) => {directoryController.deleteAllFilesInFolder (req, res, process.env.UPLOAD_PATH);});

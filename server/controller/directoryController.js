@@ -49,9 +49,11 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
 
         const docxFile = name + '.docx';
         const pdfFile = name + '.pdf';
+        const pathDocx = path.join(folderPath + '/' + docxFile)
+        const pathPdf = path.join(folderPath + '/' + pdfFile)
 
-        if (await checkFileExists(folderPath + '/' + docxFile)) fileInfo.docxFile = docxFile;
-        if (await checkFileExists(folderPath + '/' + pdfFile)) fileInfo.pdfFile = pdfFile;
+        if (await this.checkFileExists(pathDocx)) fileInfo.docxFile = docxFile;
+        if (await this.checkFileExists(pathPdf)) fileInfo.pdfFile = pdfFile;
         mergedFileInfo.push(fileInfo);
       }
     }
@@ -70,7 +72,7 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
   }
 };
 
-async function checkFileExists(path) {
+exports.checkFileExists = async (path) => {
   try {
     await fs.promises.access(path, fs.constants.F_OK);
     return true;

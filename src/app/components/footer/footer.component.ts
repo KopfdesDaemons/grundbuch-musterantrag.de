@@ -27,14 +27,22 @@ export class FooterComponent {
   }
 
   async anmelden(password: string){
-    const observable = this.http.post('/api/login', { password: password }, {responseType: 'text' ,observe: 'response'});
     try{
-      const response = await firstValueFrom(observable);
+      await firstValueFrom(this.http.post('/api/login', { password: password }, {responseType: 'text' ,observe: 'response'}));
       console.log("Login erfolgreich");
       this.Router.navigate(['/dashboard'])
     } catch (error: any) {
-      console.log("Login nicht erfolgreich:");
-      console.error(error);
+      switch(error.status){
+        case 401:
+          console.log('Login verweigert');
+          break;
+        case 500:
+          const password = prompt('Initalisierung erforderlich. Bitte neues Passwort vergeben:');         
+          await firstValueFrom(this.http.post('/api/init', { password: password }, {responseType: 'text' ,observe: 'response'}));
+          break
+        default:
+          console.log("Login nicht erfolgreich: ", error);
+      }
     }
   }
 }
