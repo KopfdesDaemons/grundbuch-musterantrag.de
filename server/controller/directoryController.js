@@ -102,12 +102,11 @@ exports.deleteDocxAndPdfFiles = async (req, res, folderPath) => {
   }
 };
 
-exports.getFile = (req, res, folderPath) => {
-  const fileName = req.query.name;
-  const filePath = path.join(folderPath, fileName);
+exports.getFile = (req, res, filePath) => {
+  const fileName = filePath.replace(/^.*[\\\/]/, '')
 
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
+  fs.readFile(filePath, (error, data) => {
+    if (error) {
       // Fehlerbehandlung, falls die Datei nicht gelesen werden konnte
       req.logger.error('Fehler beim Lesen einer Datei.', error);
       res.status(500).send('Datei konnte nicht gelesen werden.');

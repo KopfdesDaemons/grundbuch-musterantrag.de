@@ -30,7 +30,8 @@ app.post('/api/init', authController.createHashFile);
 app.get('/api/uploads', authMiddleware, (req, res) => {directoryController.getDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
 app.delete('/api/uploads/deleteFile', authMiddleware, (req, res) => {directoryController.deleteDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH);});
 app.delete('/api/uploads', authMiddleware, (req, res) => {directoryController.deleteAllFilesInFolder (req, res, process.env.UPLOAD_PATH);});
-app.get('/api/uploads/getFile', authMiddleware, (req, res) => {directoryController.getFile(req, res, process.env.UPLOAD_PATH);});
+app.get('/api/uploads/getFile', authMiddleware, (req, res) => {directoryController.getFile(req, res, path.join(process.env.UPLOAD_PATH, req.query.name));});
+app.get('/api/getLogFile', authMiddleware, (req, res) => {directoryController.getFile(req, res, path.join(__dirname, 'logFile.log'));});
 app.get('/api/amtsgerichtausplz', scrapingController.amtsgerichtausplz);
 
 //ausgelagerte Routen
