@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const HASH_FILE_PATH = path.join(__dirname + '/../hash.json');
 const directoryController = require('./directoryController');
-const { log } = require('console');
 
 exports.login = async (req, res) => {
     try {
@@ -33,7 +32,7 @@ exports.login = async (req, res) => {
             res.status(401).send('Falsches Passwort.');
         }
     } catch (error) {
-        console.log('test ',error);
+        req.logger.error('Fehler bei der Authentifizierung', error);
         res.status(500).send('Fehler bei der Authentifizierung');
     }
 };
@@ -65,9 +64,9 @@ exports.createHashFile = async (req, res) => {
         await fsPromises.writeFile(HASH_FILE_PATH, JSON.stringify(hashObj));
 
         res.status(200).send('Init erfolgreich');
-        console.log('JSON-Datei erfolgreich erstellt.');
+        req.logger.info('hash.json erstellt.');
     } catch (error) {
+        req.logger.error('Fehler beim Erstellen der hash.json.', error);
         res.status(500).send('Fehler bei der Dateigenerierung');
-        console.log('Fehler beim Erstellen der JSON-Datei:', error);
     }
 };

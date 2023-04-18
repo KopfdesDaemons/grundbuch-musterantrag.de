@@ -29,7 +29,7 @@ router.post('/api/antraggrundbuchausdruck', async (req, res) => {
     res.contentType('application/pdf').sendFile(filepathpdf);
 
   } catch (error) {
-    console.error(error);
+    req.logger.error('Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.', error);
     res.status(500).send('Interner Serverfehler.');
   }
 });

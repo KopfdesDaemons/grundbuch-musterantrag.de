@@ -1,4 +1,3 @@
-const { log } = require('console');
 const fs = require('fs');
 const path = require('path');
 
@@ -67,8 +66,7 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
 
     res.send(response);
   } catch (error) {
-    log(error);
-    res.status(500).send({ error: 'Error beim Laden der Dateien aus dem Ordner' });
+    req.logger.error('Fehler beim Laden der Dateien aus dem Ordner', error);
   }
 };
 
@@ -99,7 +97,7 @@ exports.deleteDocxAndPdfFiles = async (req, res, folderPath) => {
 
     res.send({ message: `Die Docx- und PDF-Dateien für '${name}' wurden erfolgreich gelöscht.` });
   } catch (error) {
-    console.error(error);
+    req.logger.error('Fehler beim Löschen der Docx- und PDF-Dateien', error);
     res.status(500).send({ error: 'Fehler beim Löschen der Docx- und PDF-Dateien' });
   }
 };
@@ -111,7 +109,7 @@ exports.getFile = (req, res, folderPath) => {
   fs.readFile(filePath, (err, data) => {
     if (err) {
       // Fehlerbehandlung, falls die Datei nicht gelesen werden konnte
-      console.error(err);
+      req.logger.error('Fehler beim Lesen einer Datei.', error);
       res.status(500).send('Datei konnte nicht gelesen werden.');
       return;
     }
@@ -147,8 +145,8 @@ exports.deleteAllFilesInFolder = async (req, res, folderPath) => {
     }
 
     res.status(200).send('Alle Dateien gelöscht');
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    req.logger.error('Fehler beim Löschen der Datein aus dem Ordner.', error);
     res.status(500).send('Error beim Löschen der Dateien');
   }
 }

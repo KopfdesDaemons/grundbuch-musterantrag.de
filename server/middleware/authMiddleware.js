@@ -22,8 +22,8 @@ const auth = async (req, res, next) => {
     }
 
     next();
-  } catch (err) {
-    console.error(`Fehler beim Lesen von ${HASH_FILE_PATH}`, err);
+  } catch (error) {
+    req.logger.error(`Fehler beim Lesen von ${HASH_FILE_PATH}`, error);
     res.status(500).send('Interner Serverfehler');
   }
 };

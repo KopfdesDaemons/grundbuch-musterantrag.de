@@ -3,7 +3,7 @@ const fileUpload = require('express-fileupload');
 
 const path = require('path');
 const authMiddleware = require('./middleware/authMiddleware');
-const { log } = require('console');
+const loggerMiddleware = require('./middleware/loggerMiddleware');
 const authController = require('./controller/authController')
 const directoryController = require('./controller/directoryController');
 const scrapingController = require('./controller/scrapingController');
@@ -16,6 +16,7 @@ process.env.UPLOAD_PATH = path.join(__dirname + '/uploads')
 // Middlewares für die gesamte App
 app.use(fileUpload());
 app.use(express.json());
+app.use(loggerMiddleware);
 
 
 //Für Sidemap und Robot.txt
@@ -43,7 +44,7 @@ app.get('/api/test', authMiddleware, (req, res) => {
 
 //Alle restlichen Routen zur index.html
 app.get('*', (req, res) => {
-  log('Route zur Index.html umgeleitet');
+  req.logger.info('Route zur Index.html umgeleitet', error);
   res.sendFile(path.join(distDir, 'index.html'));
 });
 
