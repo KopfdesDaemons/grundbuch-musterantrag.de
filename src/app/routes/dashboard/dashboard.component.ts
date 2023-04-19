@@ -7,7 +7,8 @@ import {
   faCircleDown,
   faArrowUpRightFromSquare,
   faEllipsisVertical,
-  faArrowRightFromBracket
+  faArrowRightFromBracket,
+  faTrashCan
 } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit {
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faEllipsisVertical = faEllipsisVertical;
   faArrowRightFromBracket = faArrowRightFromBracket;
+  faTrashCan = faTrashCan;
 
   infoJson: any;
   files: any[] | undefined;
@@ -106,6 +108,15 @@ export class DashboardComponent implements OnInit {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/', { responseType: 'text' }));
       this.neuLaden();
+    } catch (error) {
+      console.error('Error beim Löschen des Ordners:', error);
+    }
+  }
+
+  async deleteLogFile() {
+    try {
+      await lastValueFrom(this.http.delete('/api/deleteLogFile/', { responseType: 'text' }));
+      alert('Logfile gelöscht')
     } catch (error) {
       console.error('Error beim Löschen des Ordners:', error);
     }

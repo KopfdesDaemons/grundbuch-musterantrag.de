@@ -84,14 +84,11 @@ exports.deleteDocxAndPdfFiles = async (req, res, folderPath) => {
   try {
     const name = req.query.name;
 
-    // Prüfen, ob die Docx- und PDF-Dateien vorhanden sind
-    const docxExists = await fs.promises.access(`${folderPath}/${name}.docx`).then(() => true).catch(() => false);
-    const pdfExists = await fs.promises.access(`${folderPath}/${name}.pdf`).then(() => true).catch(() => false);
-
-    if (docxExists) {
+    // Prüfen, ob die Docx- und PDF-Dateien vorhanden sind und lösche sie
+    if (await this.checkFileExists(`${folderPath}/${name}.docx`)) {
       await fs.promises.unlink(`${folderPath}/${name}.docx`);
     }
-    if (pdfExists) {
+    if (await this.checkFileExists(`${folderPath}/${name}.pdf`)) {
       await fs.promises.unlink(`${folderPath}/${name}.pdf`);
     }
 

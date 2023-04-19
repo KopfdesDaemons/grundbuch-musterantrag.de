@@ -3,6 +3,12 @@
     <button (click)="abmelden()"><fa-icon class="logoutBtn btnicon" [icon]="faArrowRightFromBracket"></fa-icon></button>
     <div class="sectiondiv">
         <h1>Dashboard</h1>
+        <div>
+            <a target="_blank"  href="/api/getlogfile">öffne Server Logfile</a>
+            <button (click)="deleteLogFile()" class="btnicon">
+                <fa-icon [icon]="faTrashCan"></fa-icon>
+            </button>
+        </div>
 
 
         <!-- Tabelle mit Anträgen -->
@@ -54,4 +60,4 @@
         <button class="btnoutlined" (click)="cs.deleteAllCookies()">Cookies löschen</button>
     </div>
 </section> -->
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->
