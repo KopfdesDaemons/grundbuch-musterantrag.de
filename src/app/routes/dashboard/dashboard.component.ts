@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -31,7 +32,9 @@ export class DashboardComponent implements OnInit {
   page: number = 1;
   isLoading = false;
 
-  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService, private router: Router) { }
+  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService, private router: Router, public titleService: Title) { 
+      this.titleService.setTitle('Dashboard');
+  }
 
   ngOnInit() {
     this.getFiles();

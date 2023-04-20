@@ -9,6 +9,7 @@ import PizZipUtils from 'pizzip/utils/index.js';
 import {faFileWord, faFilePdf} from '@fortawesome/free-regular-svg-icons';
 import { saveAs } from 'file-saver';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-grundbuchausdruck-beantragen',
@@ -30,7 +31,9 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
   step = 1;
   CurrentStepSubscribtion: Subscription;
 
-  constructor(private formBuilder: FormBuilder, public fs: FormService, public dl: DesignloaderService, public http: HttpClient, public rd: Renderer2) {
+  constructor(private titleService: Title, private formBuilder: FormBuilder, public fs: FormService, public dl: DesignloaderService, public http: HttpClient, public rd: Renderer2) {
+
+    this.titleService.setTitle('Musterantrag Grundbuchausdruck');
 
     this.form = this.formBuilder.group({
       antragsteller: this.formBuilder.group({

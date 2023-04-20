@@ -16,6 +16,7 @@ import {
   faMapMarkedAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { DesignloaderService } from './services/designloader.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 
 
@@ -40,5 +41,10 @@ export class AppComponent{
   faUniversity = faUniversity;
   faMapMarkedAlt = faMapMarkedAlt;
 
-  constructor(public dl: DesignloaderService) { }
+  constructor(private meta: Meta, private titleService: Title, public dl: DesignloaderService) {
+    this.meta.addTag({ 
+      name: 'description',
+      content: 'Kostenloser Musterantrag für einen Antrag auf Erteilung eines Grundbuchausdrucks. Download als .pdf oder .docx.' });
+    this.titleService.setTitle('Grundbuch-Musterantrag.de');
+  }
 }

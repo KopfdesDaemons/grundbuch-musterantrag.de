@@ -1,6 +1,6 @@
 :root {
   --helligkeit: 50%;
-  --hsl-color: 195, 100%;
+  --hsl-color: 173, 63%;
   --primary-color: hsl(var(--hsl-color), var(--helligkeit));
   --primary-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) - 20%));
   --primary-variant-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 20%));
