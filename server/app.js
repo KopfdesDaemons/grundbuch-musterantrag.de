@@ -10,7 +10,7 @@ const fs = require('fs').promises;
 
 const app = express();
 
-//Umgebungsvariablen
+// Umgebungsvariablen
 process.env.UPLOAD_PATH = path.join(__dirname, '/uploads')
 
 // Middlewares für die gesamte App
@@ -18,8 +18,12 @@ app.use(fileUpload());
 app.use(express.json());
 app.use(loggerMiddleware);
 
+// In Production zeigt Apache auf 8080; Express muss die lokalen Dateien abrufen können
+// Wichtig für alle lokalen Dateien! z.B. index.html, sidemap.txt und robot.txt
+const distDir = __dirname + "/../dist/grundbuch";
+app.use(express.static(distDir));
 
-//Routen, welche nur einen Controller ansprechen
+// Routen, welche nur einen Controller ansprechen
 app.post('/api/login', authController.login);
 app.post('/api/init', authController.createHashFile);
 app.get('/api/uploads', authMiddleware, (req, res) => { directoryController.getDocxAndPdfFiles(req, res, process.env.UPLOAD_PATH); });
@@ -56,14 +60,15 @@ app.get('/api/getLogFile', authMiddleware, async (req, res) => {
   }
 });
 
-//ausgelagerte Routen
+// ausgelagerte Routen
 app.use('/', require('./routes/anträge/grundbuchausdruckRoute'));
 
 
-//Alle restlichen Routen zur index.html
+// Alle restlichen Routen zur index.html
+// Betrifft auch die '/' Route für die index.html 
 app.get('*', (req, res) => {
   req.logger.info(`Anfrage an ${req.originalUrl} wurde zur Index.html umgeleitet`);
-  res.redirect('/');
+  res.sendFile(path.join(distDir, 'index.html'));
 });
 
 app.listen(8080, () => console.log('Server started'));
