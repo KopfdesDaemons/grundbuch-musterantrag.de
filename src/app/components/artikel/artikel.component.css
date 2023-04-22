@@ -45,8 +45,8 @@
 .artikelcontent p {
   margin: 0.5em 0;
 }
-.artikelcontent .btnNextSiteDiv {
+.artikelcontent .artikelButtonDiv {
   display: flex;
-  justify-content: flex-end;
-  margin-right: 3em;
+  justify-content: space-between;
+  flex-direction: row;
 }/*# sourceMappingURL=artikel.component.css.map */

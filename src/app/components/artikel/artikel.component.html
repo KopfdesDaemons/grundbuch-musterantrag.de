@@ -1,6 +1,14 @@
 <app-header></app-header>
 <app-artikelsidebar></app-artikelsidebar>
 <div class="artikelcontent">
-    <ng-content ></ng-content>
+    <ng-content></ng-content>
+    <section>
+        <div class="sectiondiv artikelButtonDiv"> 
+            <button onclick="print()">
+                <fa-icon [icon]="faPrint"></fa-icon>
+            </button>
+            <button routerLink="{{nextSite}}">Nächste Seite</button>
+        </div>
+    </section>
 </div>
 <app-footer></app-footer>

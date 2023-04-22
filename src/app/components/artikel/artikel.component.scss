@@ -56,9 +56,9 @@
     margin: 0.5em 0;
   }
 
-  .btnNextSiteDiv{
+  .artikelButtonDiv{
     display: flex;
-    justify-content: flex-end;
-    margin-right: 3em;
+    justify-content: space-between;
+    flex-direction: row;
   }
 }
