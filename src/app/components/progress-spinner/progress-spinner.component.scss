@@ -6,7 +6,7 @@
 circle {
     transition: 0.3s stroke-dashoffset;
     transform: rotate(-90deg);
-    stroke: white;
+    stroke: var(--primary-color);
     stroke-width: 4;
     fill: transparent;
     background-color: red;

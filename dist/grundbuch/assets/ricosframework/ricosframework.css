@@ -153,7 +153,7 @@ button span {
 .btntext {
   font-family: inherit;
   background-color: transparent;
-  color: var(--primary-color);
+  color: var(--primary-variant-darker);
   border: 0;
   box-shadow: none;
   padding: 0 8px;

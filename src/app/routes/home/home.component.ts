@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {
   faFilePdf,
@@ -41,7 +42,12 @@ export class HomeComponent {
   faUniversity = faUniversity;
   faMapMarkedAlt = faMapMarkedAlt;
 
-  constructor(public dl: DesignloaderService, public router: Router) { }
+  constructor(public dl: DesignloaderService, public router: Router, private meta: Meta, private titleService: Title) {
+    this.meta.addTag({ 
+      name: 'description',
+      content: 'Download eines Musterantrags als pdf oder docx.' });
+    this.titleService.setTitle('Kostenloser Musterantrag auf Erteilung eines Grundbuchausdrucks');
+   }
 
   grundbuchausdruckBeantragen(){
     this.router.navigate([ '/grundbuchausdruck-beantragen' ])
