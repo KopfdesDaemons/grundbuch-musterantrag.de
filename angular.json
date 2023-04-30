@@ -25,8 +25,8 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets", "src/antragtemplate.docx", "src/sitemap.txt", "src/robots.txt"],
             "styles": [
-              "src/styles.scss",
-              "src/assets/ricosframework/ricosframework.css"
+              "src/assets/ricosCSS/ricosframework.css",
+              "src/styles.scss"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [

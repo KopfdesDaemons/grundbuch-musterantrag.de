@@ -1,0 +1,3 @@
+[submodule "src/assets/ricosCSS"]
+	path = src/assets/ricosCSS
+	url = https://github.com/KopfdesDaemons/RicosCSS
