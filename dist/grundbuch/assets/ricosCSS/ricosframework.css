@@ -7,7 +7,7 @@
   --primary-variant-much-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 25%));
   --body: rgb(252, 252, 252);
   --hintergrund: rgb(240, 240, 240);
-  --schrift: rgb(0, 0, 0);
+  --schrift: rgb(10, 10, 10);
   --hintergrund-inputfeld: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%));
   --hintergrund-variant: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%));
   --hintergrund-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) + 35%));
@@ -114,18 +114,29 @@
   src: url("fonts/rubik-v26-latin-900.woff2") format("woff2"), url("fonts/rubik-v26-latin-900.woff") format("woff");
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+/* comic Sans */
+@font-face {
+  font-display: swap;
+  font-family: "Comic Sans MS";
+  font-style: normal;
+  font-weight: 900;
+  src: url("fonts/Comic-Sans-MS.woff2") format("woff2");
+}
 @font-face {
   font-family: "Quicksand";
   font-style: normal;
+  font-display: swap;
   font-weight: 400;
-  src: local(""), url("fonts/quicksand-v29-latin-regular.woff2") format("woff2"), url("fonts/quicksand-v29-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src: local(""), url("fonts/quicksand-v29-latin-regular.woff2") format("woff2"), url("fonts/quicksand-v29-latin-regular.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 @font-face {
   font-display: swap;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
-  src: url("fonts/roboto-v30-latin-regular.woff2") format("woff2"), url("fonts/roboto-v30-latin-regular.woff") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src: url("fonts/roboto-v30-latin-regular.woff2") format("woff2"), url("fonts/roboto-v30-latin-regular.woff") format("woff");
+  /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 /*#region basics*/
 html,
@@ -166,7 +177,10 @@ h1 {
   text-align: center;
 }
 
-h2, h3, .darkmode h2, .darkmode h3 {
+h2,
+h3,
+.darkmode h2,
+.darkmode h3 {
   color: var(--primary-variant-darker);
 }
 
@@ -266,7 +280,7 @@ button span {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
-  background-color: unset;
+  background-color: var(--hintergrund-variant);
   color: var(--schrift);
 }
 
@@ -333,7 +347,9 @@ input::-webkit-inner-spin-button {
   pointer-events: none;
 }
 
-.inputfeld .invalid:invalid, input.ng-dirty.ng-invalid, .ng-submitted input.ng-invalid {
+.inputfeld .invalid:invalid,
+input.ng-dirty.ng-invalid,
+.ng-submitted input.ng-invalid {
   border-bottom: 2px solid red;
 }
 
@@ -483,12 +499,35 @@ section:first-of-type .sectiondiv {
 /*#region images*/
 .imageZoomBox {
   overflow: hidden;
+  display: flex;
 }
 .imageZoomBox img:hover {
   transform: scale(1.1);
 }
 .imageZoomBox img {
   transition: all 0.3s linear;
+}
+
+/*#endregion*/
+/*#region scrollbar*/
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-variant-much-brighter);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
 }
 
 /*#endregion*//*# sourceMappingURL=ricosframework.css.map */

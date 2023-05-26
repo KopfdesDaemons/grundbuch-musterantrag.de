@@ -67,7 +67,7 @@ app.use('/', require('./routes/anträge/grundbuchausdruckRoute'));
 // Alle restlichen Routen zur index.html
 // Betrifft auch die '/' Route für die index.html 
 app.get('*', (req, res) => {
-  req.logger.info(`Anfrage an ${req.originalUrl} wurde zur Index.html umgeleitet`);
+  // req.logger.info(`Anfrage an ${req.originalUrl} wurde zur Index.html umgeleitet`);
   res.sendFile(path.join(distDir, 'index.html'));
 });
 
