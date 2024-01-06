@@ -1,3 +1,0 @@
-user-agent: *
-Disallow: /datenschutz
-Disallow: /impressum
