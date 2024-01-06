@@ -249,7 +249,7 @@ button span {
 }
 
 .btnoutlined:hover {
-  background-color: (var(--primary-variant-much-brighter));
+  background-color: var(--primary-variant-much-brighter);
 }
 
 .btnoutlined:disabled {
@@ -262,7 +262,6 @@ button span {
 /*#endregion*/
 /*#region buttontext*/
 .btntext {
-  font-family: inherit;
   background-color: transparent;
   color: var(--primary-variant-darker);
   border: 0;
@@ -389,7 +388,6 @@ input:-webkit-autofill+.placeholder {
 
   input {
     display: none;
-
   }
 
   input:checked+label {
@@ -404,6 +402,10 @@ input:-webkit-autofill+.placeholder {
     background-color: var(--hintergrund-inputfeld);
     border-radius: 6px;
     cursor: pointer;
+
+    &:hover {
+      background-color: var(--hintergrund-variant);
+    }
   }
 
   input {
@@ -466,7 +468,6 @@ tbody tr:nth-of-type(even) {
 section {
   display: flex;
   padding: 0 5%;
-
   display: flex;
   flex-direction: column;
   align-items: center;

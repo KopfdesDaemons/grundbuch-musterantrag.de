@@ -255,7 +255,6 @@ button span {
 /*#endregion*/
 /*#region buttontext*/
 .btntext {
-  font-family: inherit;
   background-color: transparent;
   color: var(--primary-variant-darker);
   border: 0;
@@ -397,6 +396,9 @@ input:-webkit-autofill + .placeholder {
   background-color: var(--hintergrund-inputfeld);
   border-radius: 6px;
   cursor: pointer;
+}
+.radiochip label:hover {
+  background-color: var(--hintergrund-variant);
 }
 .radiochip input {
   display: none;
