@@ -35,15 +35,7 @@ section:first-of-type .sectiondiv .infokasten {
   display: flex;
   flex-direction: column;
 }
-
-.ErklärungZuständigkeit {
-  border-top: 0;
-  border-radius: 0 0 8px 8px;
-  padding: 0.5em;
-  margin-bottom: auto;
-}
-
-.icondivz {
+.Zuständigkeit .iconContainer {
   padding: 0.5em;
   font-size: 2em;
   background-color: var(--primary-variant-much-brighter);
@@ -52,4 +44,10 @@ section:first-of-type .sectiondiv .infokasten {
   display: flex;
   text-align: center;
   justify-content: center;
+}
+.Zuständigkeit figcaption {
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  padding: 0.5em;
+  margin-bottom: auto;
 }/*# sourceMappingURL=einleitung.component.css.map */

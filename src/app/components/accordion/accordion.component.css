@@ -9,6 +9,9 @@
   border-radius: 12px;
   background-color: var(--hintergrund);
 }
+.FrageHead:hover {
+  background-color: var(--hintergrund-variant);
+}
 
 .FrageHead fa-icon {
   font-size: 20px;

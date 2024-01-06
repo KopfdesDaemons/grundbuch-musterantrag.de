@@ -12,6 +12,7 @@ ul {
   height: 5em;
   resize: vertical;
   background-color: var(--hintergrund-inputfeld);
+  color: var(--schrift);
 }
 
 @media only screen and (max-width: 580px) {

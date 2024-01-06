@@ -6,6 +6,10 @@
   user-select: none;
   border-radius: 12px;
   background-color: var(--hintergrund);
+
+  &:hover {
+    background-color: var(--hintergrund-variant);
+  }
 }
 
 .FrageHead fa-icon {
@@ -19,7 +23,6 @@
   overflow: hidden;
   background-color: var(--hintergrund-variant);
   border-radius: 12px;
-  // margin: 0.6em 0;
 }
 
 .Antwortpanel {

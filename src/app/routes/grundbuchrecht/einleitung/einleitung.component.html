@@ -3,11 +3,12 @@
         <div class="sectiondiv">
             <h1>Einleitung Grundbuchrecht</h1>
             <h2>Definition Grundbuch</h2>
-            <p class="infokasten">„Das Grundbuch ist ein <b>beschränkt öffentliches</b> Register, in welchem
+            <blockquote class="infokasten">„Das Grundbuch ist ein <b>beschränkt öffentliches</b> Register, in welchem
                 die <b>Grundstücke</b>, die hieran bestehenden <b>Eigentumsverhältnisse</b> und
-                die damit verbundenen <b>Rechte</b> und <b>Belastungen</b> verzeichnet sind.“</p>
+                die damit verbundenen <b>Rechte</b> und <b>Belastungen</b> verzeichnet sind.“</blockquote>
             <p>Für jeden Ort wird je Eigentumsverhältnis ein Grundbuch geführt. (Personalfolium) <br>
-                § 4 Abs. 1 GBO, § 2 Abs. 1 GBO
+                <a href="https://dejure.org/gesetze/GBO/4.html">§§ 4 Abs. 1, </a>
+                <a href="https://dejure.org/gesetze/GBO/2.html">2 Abs. 1 GBO</a>
             </p>
             <b>Beispiel:</b>
             <span>Max <b class="variantColor">Alleineigentum</b> in Musterstadt = ein Grundbuch in Musterstadt</span>
@@ -25,10 +26,14 @@
             <span>Ein Grundbuch hat immer die folgende Struktur:</span>
             <ul id="aufbau">
                 <li><b>Aufschrift</b><br><span>(Titelblatt/Deckblatt)</span></li>
-                <li><b>Bestandsverzeichnis</b><br><span>(Grundstücke)</span></li>
-                <li><b>Abteilung I</b><br><span>(Eigentümer)</span></li>
-                <li><b>Abteilung II</b><br><span>(Lasten und Beschränkungen)</span></li>
-                <li><b>Abteilung III</b><br><span>(Grundschulden, Hypotheken und Rentenschulden)</span></li>
+                <li><a
+                        routerLink="/grundbuchrecht/bestandsverzeichnis"><b>Bestandsverzeichnis</b></a><br><span>(Grundstücke)</span>
+                </li>
+                <li><a routerLink="/grundbuchrecht/abteilung1"><b>Abteilung I</b></a><br><span>(Eigentümer)</span></li>
+                <li><a routerLink="/grundbuchrecht/abteilung2"><b>Abteilung II</b></a><br><span>(Lasten und
+                        Beschränkungen)</span></li>
+                <li><a routerLink="/grundbuchrecht/abteilung3"><b>Abteilung III</b></a><br><span>(Grundschulden,
+                        Hypotheken und Rentenschulden)</span></li>
             </ul>
         </Div>
     </section>
@@ -37,28 +42,29 @@
         <div class="sectiondiv">
             <h2>Zuständigkeiten</h2>
             <div class="Zuständigkeiten">
-                <div class="Zuständigkeit">
-                    <div class="icondivz">
+                <figure class="Zuständigkeit">
+                    <div class="iconContainer">
                         <fa-icon class="icon" [icon]="faUniversity"></fa-icon>
                     </div>
-                    <div class="ErklärungZuständigkeit">
-                        <span><b>Sachlich</b> zuständig ist das Amtsgericht (als&nbsp;Grundbuchamt).</span>
-                    </div>
-                </div>
-                <div class="Zuständigkeit">
-                    <div class="icondivz">
+                    <figcaption>
+                        <span><b>Sachlich</b> zuständig ist das Amtsgericht (als&nbsp;Grundbuchamt). </span>
+                        <a href="https://dejure.org/gesetze/GBO/1.html" target="_blank">§ 1 Abs. 1 S. 1 GBO</a>
+                    </figcaption>
+                </figure>
+                <figure class="Zuständigkeit">
+                    <div class="iconContainer">
                         <fa-icon class="icon" [icon]="faMapMarkedAlt"></fa-icon>
                     </div>
-                    <div class="ErklärungZuständigkeit">
-                        <div><b>Örtlich</b> zuständig ist das Amtsgericht in dessen Bezirk das Grundstück liegt.
-                        </div>
-                        <br>
-                        <div>Prüfen, in welchem Amtsgerichtsbezirk ein Grundstück liegt, können Sie <a
+                    <figcaption>
+                        <p><b>Örtlich</b> zuständig ist das Amtsgericht in dessen Bezirk das Grundstück liegt.
+                            <a href="https://dejure.org/gesetze/GBO/1.html" target="_blank">§ 1 Abs. 1 S. 2 GBO</a>
+                        </p>
+                        <p>Prüfen, in welchem Amtsgerichtsbezirk ein Grundstück liegt, können Sie im <a
                                 href="https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=&ort="
-                                target="_blank"><u>hier</u></a>.
-                        </div>
-                    </div>
-                </div>
+                                target="_blank"><u>Justizportal</u></a>.
+                        </p>
+                    </figcaption>
+                </figure>
             </div>
         </div>
     </section>
@@ -67,15 +73,16 @@
         <div class="sectiondiv">
             <h2>Öffentlicher Glaube</h2>
             <span>Das Grundbuch genießt öffentlichen Glauben.</span>
-            <span class="infokasten">„Jeder gutgläubiger Erwerber kann sich auf die Angaben im Grundbuch
-                verlassen, auch wenn diese nicht der Richtigkeit entsprechen.“</span>
+            <blockquote class="infokasten">„Jeder gutgläubiger Erwerber kann sich auf die Angaben im Grundbuch
+                verlassen, auch wenn diese nicht der Richtigkeit entsprechen.“</blockquote>
             <p>Es gilt die Vermutung, dass ein im Grundbuch eingetragenes Recht
                 demjenigen zusteht, zu dessen Gunsten es eingetragen ist. Zugleich wird
                 vermutet, dass ein im Grundbuch gelöschtes
                 Recht nicht mehr besteht.</p>
             <span class="rot">Gilt nicht, wenn man anderweitige Kenntnisse hat.</span>
-            <span>Der öffentliche Glaube des Grundbuchs dient dem
-                Schutz des Rechtsverkehrs.</span>
+            <p>Der öffentliche Glaube des Grundbuchs dient dem
+                Schutz des Rechtsverkehrs.</p>
+                <a href="https://dejure.org/gesetze/BGB/892.html" target="_blank">§ 892 Abs. 1 BGB</a>
         </div>
     </section>
 </app-artikel>
