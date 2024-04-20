@@ -8,7 +8,7 @@
 
 /server/logFile.log
 /server/hash.json
-/server/uploads
+/server/uploads/*
 
 # Node
 /node_modules

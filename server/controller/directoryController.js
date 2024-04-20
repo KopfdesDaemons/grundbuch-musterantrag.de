@@ -1,3 +1,4 @@
+const { log } = require('console');
 const fs = require('fs');
 const path = require('path');
 
@@ -37,6 +38,7 @@ exports.getDocxAndPdfFiles = async (req, res, folderPath) => {
       const year = uploadDate.getFullYear().toString();
 
       const formattedDate = `${day}.${month}.${year}`;
+      log(uploadDate);
 
       if (!mergedFileInfo.some((fileInfo) => fileInfo.name === name)) {
         const fileInfo = {
