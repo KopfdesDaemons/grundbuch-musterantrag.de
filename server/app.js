@@ -20,7 +20,7 @@ app.use(loggerMiddleware);
 
 // In Production zeigt Apache auf 8080; Express muss die lokalen Dateien abrufen können
 // Wichtig für alle lokalen Dateien! z.B. index.html, sidemap.txt und robot.txt
-const distDir = __dirname + "/../dist/grundbuch";
+const distDir = __dirname + "/../dist/grundbuch/browser";
 app.use(express.static(distDir));
 
 // Routen, welche nur einen Controller ansprechen
@@ -33,11 +33,11 @@ app.get('/api/uploads/getFile', authMiddleware, (req, res) => { directoryControl
 app.get('/api/amtsgerichtausplz', scrapingController.amtsgerichtausplz);
 
 
-app.delete('/api/deleteLogFile', authMiddleware, async (req, res) => { 
-  try{
+app.delete('/api/deleteLogFile', authMiddleware, async (req, res) => {
+  try {
     await fs.writeFile(path.join(__dirname, 'logFile.log'), '');
     res.status(200).send('LogFile.log gelöscht.');
-  } catch(error){
+  } catch (error) {
     req.logger.error('Fehler beim Löschen der LogFile.log', error);
     res.status(500).send('Fehler beim Löschen der LogFile.log.' + error)
   }
@@ -49,7 +49,7 @@ app.get('/api/getLogFile', authMiddleware, async (req, res) => {
     const logFilePath = path.join(__dirname, 'logFile.log');
     const data = await fs.readFile(logFilePath, 'utf8');
 
-    if(data == '') return res.send('Keine Serverlogs');
+    if (data == '') return res.send('Keine Serverlogs');
 
     // Trenne die JSON-Zeilen und füge sie zu einem Array zusammen
     const logs = data.trim().split('\n').map(line => JSON.parse(line));
