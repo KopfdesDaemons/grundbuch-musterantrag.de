@@ -32,8 +32,8 @@ export class DashboardComponent implements OnInit {
   page: number = 1;
   isLoading = false;
 
-  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService, private router: Router, public titleService: Title) { 
-      this.titleService.setTitle('Dashboard');
+  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService, private router: Router, public titleService: Title) {
+    this.titleService.setTitle('Dashboard');
   }
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
         const url = '/api/uploads';
         const json: any = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('page', this.page) }));
         this.infoJson = json;
-        console.log(this.infoJson);
+        // console.log(this.infoJson);
 
 
         for (const file of json['files']) {

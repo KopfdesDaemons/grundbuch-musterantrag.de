@@ -10,7 +10,7 @@ const logger = winston.createLogger({
     transports: [
         new winston.transports.Console(),
         new winston.transports.File({
-            filename: './server/logFile.log',
+            filename: './logFile.log',
             maxsize: 10000000,
             maxFiles: 5,
             tailable: true
