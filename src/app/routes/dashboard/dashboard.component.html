@@ -1,63 +1,73 @@
 <app-header farbe="transparent"></app-header>
 <section>
-    <button (click)="abmelden()" class="logoutBtn btnicon"  ><fa-icon [icon]="faArrowRightFromBracket"></fa-icon></button>
-    <div class="sectiondiv">
-        <h1>Dashboard</h1>
-        <div>
-            <a target="_blank"  href="/api/getlogfile">öffne Server Logfile</a>
-            <button (click)="deleteLogFile()" class="btnicon">
-                <fa-icon [icon]="faTrashCan"></fa-icon>
-            </button>
-        </div>
-
-
-        <!-- Tabelle mit Anträgen -->
-        <div class="tableHeader">
-            <h2>Generierte Anträge</h2>
-            <span>Dateien: {{infoJson && infoJson.totalFiles}} </span>
-            <button class="reloadBtn">
-                <fa-icon [icon]="faRotateRight" (click)="neuLaden()">Neuladen</fa-icon>
-            </button>
-            <button class="btntext" (click)="deleteFolder()">alle löschen</button>
-        </div>
-        <div class="tableScrollContainer" (scroll)="scroll($event.target)">
-            <table>
-                <thead>
-                    <th>Dateiname</th>
-                    <th>Datum</th>
-                    <th>docx</th>
-                    <th>pdf</th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let file of files">
-                        <td>{{file.name}}</td>
-                        <td>{{file.uploadDate}}</td>
-                        <td><a class="btnicon" href="/api/uploads/getFile?name={{file.name}}.docx"
-                                *ngIf="file.docxFile != ''; else noFile"><fa-icon
-                                    [icon]="faCircleDown"></fa-icon></a></td>
-                        <td><a class="btnicon" target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf"
-                                *ngIf="file.pdfFile != ''; else noFile"><fa-icon
-                                    [icon]="faArrowUpRightFromSquare"></fa-icon></a></td>
-                        <ng-template #noFile><fa-icon [icon]="faCircleExclamation"
-                                class="btnicon"></fa-icon></ng-template>
-                        <td (click)="click($event.target)" class="dropDown">
-                            <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
-                            <ul class="dropDownMenu">
-                                <li (click)="deleteFile(file.name)">löschen</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-        </div>
+  <button (click)="abmelden()" class="logoutBtn btnicon"  ><fa-icon [icon]="faArrowRightFromBracket"></fa-icon></button>
+  <div class="sectiondiv">
+    <h1>Dashboard</h1>
+    <div>
+      <a target="_blank"  href="/api/getlogfile">öffne Server Logfile</a>
+      <button (click)="deleteLogFile()" class="btnicon">
+        <fa-icon [icon]="faTrashCan"></fa-icon>
+      </button>
     </div>
+
+
+    <!-- Tabelle mit Anträgen -->
+    <div class="tableHeader">
+      <h2>Generierte Anträge</h2>
+      <span>Dateien: {{infoJson && infoJson.totalFiles}} </span>
+      <button class="reloadBtn">
+        <fa-icon [icon]="faRotateRight" (click)="neuLaden()">Neuladen</fa-icon>
+      </button>
+      <button class="btntext" (click)="deleteFolder()">alle löschen</button>
+    </div>
+    <div class="tableScrollContainer" (scroll)="scroll($event.target)">
+      <table>
+        <thead>
+          <th>Dateiname</th>
+          <th>Datum</th>
+          <th>docx</th>
+          <th>pdf</th>
+          <th></th>
+        </thead>
+        <tbody>
+          @for (file of files; track file) {
+            <tr>
+              <td>{{file.name}}</td>
+              <td>{{file.uploadDate}}</td>
+              <td>@if (file.docxFile != '') {
+                <a class="btnicon" href="/api/uploads/getFile?name={{file.name}}.docx"
+                  ><fa-icon
+                [icon]="faCircleDown"></fa-icon></a>
+              } @else {
+                <fa-icon [icon]="faCircleExclamation"
+                class="btnicon"></fa-icon>
+              }</td>
+              <td>@if (file.pdfFile != '') {
+                <a class="btnicon" target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf"
+                  ><fa-icon
+                [icon]="faArrowUpRightFromSquare"></fa-icon></a>
+              } @else {
+                <fa-icon [icon]="faCircleExclamation"
+                class="btnicon"></fa-icon>
+              }</td>
+              <td (click)="click($event.target)" class="dropDown">
+                <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
+                <ul class="dropDownMenu">
+                  <li (click)="deleteFile(file.name)">löschen</li>
+                </ul>
+              </td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+    </div>
+  </div>
 </section>
 <!-- <section>
-    <div class="sectiondiv">
-        <h2>Cookieverwaltung</h2>
-        <button class="btnoutlined" (click)="cs.deleteAllCookies()">Cookies löschen</button>
-    </div>
+<div class="sectiondiv">
+  <h2>Cookieverwaltung</h2>
+  <button class="btnoutlined" (click)="cs.deleteAllCookies()">Cookies löschen</button>
+</div>
 </section> -->
 <!-- <app-footer></app-footer> -->

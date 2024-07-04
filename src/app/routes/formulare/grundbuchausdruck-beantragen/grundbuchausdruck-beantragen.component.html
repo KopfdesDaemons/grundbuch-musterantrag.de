@@ -1,63 +1,85 @@
 <app-header></app-header>
 <section [ngClass]="{'darkmode': dl.darkmode.value}">
-    <div class="formulardiv sectiondiv borderdiv">
-        <app-antragsteller *ngIf="step === 1"></app-antragsteller>
-        <app-grundstueck *ngIf="step === 2"></app-grundstueck>
+  <div class="formulardiv sectiondiv borderdiv">
+    @if (step === 1) {
+      <app-antragsteller></app-antragsteller>
+    }
+    @if (step === 2) {
+      <app-grundstueck></app-grundstueck>
+    }
 
-        <form *ngIf="step === 3" [formGroup]="form">
-            <div id="formdesausdrucks">
-                <h2>Form des Ausdrucks</h2>
-                <div class="formularcontent">
-                    <div class="auswahlcard">
-                        <input formControlName="form" id="einfach" type="radio" name="form" value="einfach">
-                        <label for="einfach"><strong>Einfacher Ausdruck</strong>
-                            <span class="gebühr">Gerichtsgebühr <b>10 €</b></span>
-                            <span class="beschreibung">Ein Ausdruck auf normalem Papier.</span>
-                            <span><i class="fa-solid fa-circle-info"></i> In den meisten Fällen ist dieser
-                                ausreichend.</span>
-                        </label>
-                    </div>
-                    <div class="auswahlcard">
-                        <input formControlName="form" id="beglaubigt" type="radio" name="form" value="beglaubigt">
-                        <label for="beglaubigt"><strong>Beglaubigter/Amtlicher Ausdruck</strong>
-                            <span class="gebühr">Gerichtsgebühr <b>20 €</b></span>
-                            <span class="beschreibung">Ein Ausdruck auf farbigen dicken Wappenpapier. Dem Ausdruck wird
-                                ein Siegel beigedrückt.</span>
-                            <span><i class="fa-solid fa-circle-info"></i> Sparen Sie sich das Geld, wenn ein
-                                beglaubigter Ausdruck nicht explizit verlangt wird.</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="formNavBtn">
-                <button *ngIf="step > 1" class="btntext" type="button" (click)="fs.back()">zurück</button>
-                <button *ngIf="step < 6" class="btnoutlined" id="weiterbtn" type="submit" (click)="next()">Weiter</button>
-            </div>
-        </form>
-
-        <app-berechtigtes-interesse *ngIf="step === 4"></app-berechtigtes-interesse>
-        <app-grundbuchamt *ngIf="step === 5"></app-grundbuchamt>
-        <div *ngIf="step === 6">
-            <div id="ende">
-                <h2>Geschafft!</h2>
-                <span>Sie sind fast fertig.</span>
-                <span>Vergessen Sie nicht den Antrag zu unterschreiben</span>
-                <!-- <button class="btnoutlined" (click)="submitForm()">Antrag generieren</button> -->
-                <div class="status" [class.fehlerstatus] = "fehler === true"><div>{{statusmeldung}}</div><button *ngIf="fehler" class="btntext" (click)="submitForm()">erneut versuchen</button></div>
-                <div class="kachelcontainer">
-                    <button class="btnoutlined kachel" [disabled]="docx == null" (click)="downloadDocx()">
-                        <fa-icon [icon]="faFileWord"></fa-icon>
-                        <span>.docx (Word)</span>
-                        <app-progress-spinner [prozent]="prozentProgressSpinnerWord" *ngIf="prozentProgressSpinnerWord != 100"></app-progress-spinner>
-                    </button>
-                    <button class="btnoutlined kachel" [disabled]="pdf == null" (click)="openPdf()">
-                        <fa-icon [icon]="faFilePdf"></fa-icon>
-                        <span>.pdf</span>
-                        <app-progress-spinner [prozent]="prozentPdfUpload != 100 ? prozentPdfUpload : prozentPdfDownload" [endless]="prozentProgressSpinnerWord == 100 && prozentPdfUpload == 100 && prozentPdfDownload == 0" *ngIf="!pdf"></app-progress-spinner>
-                    </button>
-                </div>
-            </div>
+    @if (step === 3) {
+      <form [formGroup]="form">
+        <div id="formdesausdrucks">
+          <h2>Form des Ausdrucks</h2>
+          <div class="formularcontent">
+            <div class="auswahlcard">
+              <input formControlName="form" id="einfach" type="radio" name="form" value="einfach">
+              <label for="einfach"><strong>Einfacher Ausdruck</strong>
+              <span class="gebühr">Gerichtsgebühr <b>10 €</b></span>
+              <span class="beschreibung">Ein Ausdruck auf normalem Papier.</span>
+              <span><i class="fa-solid fa-circle-info"></i> In den meisten Fällen ist dieser
+            ausreichend.</span>
+          </label>
         </div>
+        <div class="auswahlcard">
+          <input formControlName="form" id="beglaubigt" type="radio" name="form" value="beglaubigt">
+          <label for="beglaubigt"><strong>Beglaubigter/Amtlicher Ausdruck</strong>
+          <span class="gebühr">Gerichtsgebühr <b>20 €</b></span>
+          <span class="beschreibung">Ein Ausdruck auf farbigen dicken Wappenpapier. Dem Ausdruck wird
+          ein Siegel beigedrückt.</span>
+          <span><i class="fa-solid fa-circle-info"></i> Sparen Sie sich das Geld, wenn ein
+        beglaubigter Ausdruck nicht explizit verlangt wird.</span>
+      </label>
     </div>
+  </div>
+</div>
+<div class="formNavBtn">
+  @if (step > 1) {
+    <button class="btntext" type="button" (click)="fs.back()">zurück</button>
+  }
+  @if (step < 6) {
+    <button class="btnoutlined" id="weiterbtn" type="submit" (click)="next()">Weiter</button>
+  }
+</div>
+</form>
+}
+
+@if (step === 4) {
+  <app-berechtigtes-interesse></app-berechtigtes-interesse>
+}
+@if (step === 5) {
+  <app-grundbuchamt></app-grundbuchamt>
+}
+@if (step === 6) {
+  <div>
+    <div id="ende">
+      <h2>Geschafft!</h2>
+      <span>Sie sind fast fertig.</span>
+      <span>Vergessen Sie nicht den Antrag zu unterschreiben</span>
+      <!-- <button class="btnoutlined" (click)="submitForm()">Antrag generieren</button> -->
+      <div class="status" [class.fehlerstatus] = "fehler === true"><div>{{statusmeldung}}</div>@if (fehler) {
+      <button class="btntext" (click)="submitForm()">erneut versuchen</button>
+    }</div>
+    <div class="kachelcontainer">
+      <button class="btnoutlined kachel" [disabled]="docx == null" (click)="downloadDocx()">
+        <fa-icon [icon]="faFileWord"></fa-icon>
+        <span>.docx (Word)</span>
+        @if (prozentProgressSpinnerWord != 100) {
+          <app-progress-spinner [prozent]="prozentProgressSpinnerWord"></app-progress-spinner>
+        }
+      </button>
+      <button class="btnoutlined kachel" [disabled]="pdf == null" (click)="openPdf()">
+        <fa-icon [icon]="faFilePdf"></fa-icon>
+        <span>.pdf</span>
+        @if (!pdf) {
+          <app-progress-spinner [prozent]="prozentPdfUpload != 100 ? prozentPdfUpload : prozentPdfDownload" [endless]="prozentProgressSpinnerWord == 100 && prozentPdfUpload == 100 && prozentPdfDownload == 0"></app-progress-spinner>
+        }
+      </button>
+    </div>
+  </div>
+</div>
+}
+</div>
 </section>
 <app-footer></app-footer>

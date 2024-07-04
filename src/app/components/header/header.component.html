@@ -4,7 +4,9 @@
     <div class="farbauswahlbuttondiv">
       <div class="btnDesign farbauswahlbutton"></div>
       <div class="farbauswahl">
-        <div *ngFor="let color of colors" class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+        @for (color of colors; track color) {
+          <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+        }
         <div class="anderefarbediv">
           <span>Eigene Farbe auswählen</span>
           <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>
@@ -35,7 +37,9 @@
         <div class="farbauswahlbuttondiv">
           <div class="btnDesign farbauswahlbutton"></div>
           <div class="farbauswahl">
-            <div *ngFor="let color of colors" class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+            @for (color of colors; track color) {
+              <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+            }
             <div class="anderefarbediv">
               <span>Eigene Farbe auswählen</span>
               <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>

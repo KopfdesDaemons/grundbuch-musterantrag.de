@@ -4,7 +4,7 @@ import { DesignloaderService } from 'src/app/services/designloader.service';
 import { FormService } from 'src/app/services/form.service';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import Docxtemplater from 'docxtemplater';
-import * as PizZip from 'pizzip';
+import PizZip from 'pizzip';
 import PizZipUtils from 'pizzip/utils/index.js';
 import { faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import { saveAs } from 'file-saver';

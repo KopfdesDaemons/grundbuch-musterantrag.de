@@ -1,13 +1,20 @@
 <footer [ngClass]="{'darkmode': dl.darkmode.value}">
   <div class="anmeldediv" [ngClass]="{'anmeldedivOpen': anmeldeInputVisible}">
-    <div class="inputfeld">
-      <input #password (keyup.enter)="anmelden(password.value)"  type="password" id="password" name="email" spellcheck="false" placeholder="&nbsp;">
+    <form class="inputfeld">
+      <label for="username" style="display: none;">Benutzername:</label>
+      <input type="text" id="username" name="username" autocomplete="username" style="display: none;"
+        aria-hidden="true">
+      <input #password (keyup.enter)="anmelden(password.value)" type="password" id="password" name="password"
+        autocomplete="new-password" spellcheck="false" placeholder="&nbsp;">
       <label class="placeholder" for="password">Passwort</label>
-    </div>
-    <button (click)="anmeldeBtnClick()" class="btnicon" *ngIf="!auth.checkToken()">
+    </form>
+    @if (!auth.checkToken()) {
+    <button (click)="anmeldeBtnClick()" class="btnicon">
       <fa-icon [icon]="faRightToBracket"></fa-icon>
     </button>
-    <div class="adminDiv" *ngIf="auth.checkToken()">
+    }
+    @if (auth.checkToken()) {
+    <div class="adminDiv">
       <ul>
         <li>
           <a routerLink="/dashboard">Dashboard</a>
@@ -24,6 +31,7 @@
         </ul>
       </div>
     </div>
+    }
   </div>
   <ul>
     <li>
