@@ -1,143 +1,153 @@
-:root {
-  --helligkeit: 50%;
-  --hsl-color: 173, 63%;
-  --primary-color: hsl(var(--hsl-color), var(--helligkeit));
-  --primary-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) - 20%));
-  --primary-variant-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 20%));
-  --primary-variant-much-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 25%));
-  --body: rgb(252, 252, 252);
-  --hintergrund: rgb(240, 240, 240);
-  --schrift: rgb(10, 10, 10);
-  --hintergrund-inputfeld: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%));
-  --hintergrund-variant: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%));
-  --hintergrund-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) + 35%));
-}
-
-.darkmode {
-  --primary-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) + 25%));
-  --primary-variant-much-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) - 20%));
-  --body: rgb(15, 15, 15);
-  --hintergrund: rgb(22, 24, 28);
-  --schrift: rgb(238, 238, 238);
-  --hintergrund-inputfeld: hsl(var(--hsl-color),calc(var(--helligkeit) - 45%));
-  --hintergrund-variant: hsl(var(--hsl-color),calc(var(--helligkeit) - 38%));
-  --hintergrund-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) - 45%));
-}
+@use "farben";
 
 /* rubik-300 - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 300;
-  src: url("fonts/rubik-v26-latin-300.woff2") format("woff2"), url("fonts/rubik-v26-latin-300.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-300.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-300.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-300italic - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: italic;
   font-weight: 300;
-  src: url("fonts/rubik-v26-latin-300italic.woff2") format("woff2"), url("fonts/rubik-v26-latin-300italic.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-300italic.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-300italic.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-regular - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 400;
-  src: url("fonts/rubik-v26-latin-regular.woff2") format("woff2"), url("fonts/rubik-v26-latin-regular.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-regular.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-regular.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-italic - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: italic;
   font-weight: 400;
-  src: url("fonts/rubik-v26-latin-italic.woff2") format("woff2"), url("fonts/rubik-v26-latin-italic.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-italic.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-italic.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-500 - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 500;
-  src: url("fonts/rubik-v26-latin-500.woff2") format("woff2"), url("fonts/rubik-v26-latin-500.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-500.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-500.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-600 - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 600;
-  src: url("fonts/rubik-v26-latin-600.woff2") format("woff2"), url("fonts/rubik-v26-latin-600.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-600.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-600.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-700 - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 700;
-  src: url("fonts/rubik-v26-latin-700.woff2") format("woff2"), url("fonts/rubik-v26-latin-700.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-700.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-700.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-800 - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 800;
-  src: url("fonts/rubik-v26-latin-800.woff2") format("woff2"), url("fonts/rubik-v26-latin-800.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-800.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-800.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* rubik-900 - latin */
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 900;
-  src: url("fonts/rubik-v26-latin-900.woff2") format("woff2"), url("fonts/rubik-v26-latin-900.woff") format("woff");
+  src: url('fonts/rubik-v26-latin-900.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/rubik-v26-latin-900.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /* comic Sans */
 @font-face {
   font-display: swap;
-  font-family: "Comic Sans MS";
+  font-family: 'Comic Sans MS';
   font-style: normal;
   font-weight: 900;
-  src: url("fonts/Comic-Sans-MS.woff2") format("woff2");
+  src: url('fonts/Comic-Sans-MS.woff2') format('woff2')
 }
+
 @font-face {
   font-family: "Quicksand";
   font-style: normal;
   font-display: swap;
   font-weight: 400;
-  src: local(""), url("fonts/quicksand-v29-latin-regular.woff2") format("woff2"), url("fonts/quicksand-v29-latin-regular.woff") format("woff");
+  src: local(""), url("fonts/quicksand-v29-latin-regular.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url("fonts/quicksand-v29-latin-regular.woff") format("woff");
   /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 @font-face {
   font-display: swap;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: url("fonts/roboto-v30-latin-regular.woff2") format("woff2"), url("fonts/roboto-v30-latin-regular.woff") format("woff");
+  src: url('fonts/roboto-v30-latin-regular.woff2') format('woff2'),
+    /* Chrome 36+, Opera 23+, Firefox 39+ */
+    url('fonts/roboto-v30-latin-regular.woff') format('woff');
   /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
 /*#region basics*/
 html,
 body {
@@ -146,6 +156,7 @@ body {
   min-height: 100vh;
   scroll-behavior: smooth;
   background-color: var(--body);
+  scrollbar-color: var(--primary-variant-much-brighter) transparent;
 }
 
 body {
@@ -210,9 +221,7 @@ button {
   box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
   font-size: 0.875rem;
   height: 36px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 
 button:hover {
@@ -237,9 +246,7 @@ button span {
   background-color: transparent;
   color: var(--primary-color);
   border: 0.1rem solid var(--primary-variant-darker);
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 
 .btnoutlined:hover {
@@ -250,6 +257,7 @@ button span {
   background-color: var(--hintergrund-inputfeld);
   border-color: #bbbbbb;
   color: #bbbbbb;
+
 }
 
 /*#endregion*/
@@ -260,9 +268,7 @@ button span {
   border: 0;
   box-shadow: none;
   padding: 0 8px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 
 .btntext:hover {
@@ -340,9 +346,7 @@ input::-webkit-inner-spin-button {
   transition: all 0.2s;
   transform-origin: 0% 0%;
   height: 100%;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  user-select: none;
   pointer-events: none;
 }
 
@@ -352,9 +356,9 @@ input.ng-dirty.ng-invalid,
   border-bottom: 2px solid red;
 }
 
-.inputfeld input:not(:placeholder-shown) + .placeholder,
-.inputfeld input:focus + .placeholder,
-input:-webkit-autofill + .placeholder {
+.inputfeld input:not(:placeholder-shown)+.placeholder,
+.inputfeld input:focus+.placeholder,
+input:-webkit-autofill+.placeholder {
   transform: scale(0.8) translateY(-0.1em);
   height: auto;
   color: var(--primary-color);
@@ -364,7 +368,7 @@ input:-webkit-autofill + .placeholder {
   border-bottom: 2px solid var(--primary-variant-much-brighter);
 }
 
-.inputfeld input:focus + .placeholder {
+.inputfeld input:focus+.placeholder {
   color: var(--primary-color);
 }
 
@@ -375,36 +379,43 @@ input:-webkit-autofill + .placeholder {
   display: flex;
   border-radius: 4px;
   overflow: hidden;
-}
-.radiobuttontogglediv label {
-  padding: 0.6rem 0.8rem;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-.radiobuttontogglediv input {
-  display: none;
-}
-.radiobuttontogglediv input:checked + label {
-  background-color: var(--primary-variant-much-brighter);
+
+  label {
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    user-select: none;
+
+  }
+
+  input {
+    display: none;
+  }
+
+  input:checked+label {
+    background-color: var(--primary-variant-much-brighter);
+  }
 }
 
-.radiochip label {
-  padding: 0.5rem;
-  width: 100%;
-  background-color: var(--hintergrund-inputfeld);
-  border-radius: 6px;
-  cursor: pointer;
-}
-.radiochip label:hover {
-  background-color: var(--hintergrund-variant);
-}
-.radiochip input {
-  display: none;
-}
-.radiochip input:checked + label {
-  background-color: var(--primary-variant-much-brighter);
+.radiochip {
+  label {
+    padding: 0.5rem;
+    width: 100%;
+    background-color: var(--hintergrund-inputfeld);
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--hintergrund-variant);
+    }
+  }
+
+  input {
+    display: none;
+  }
+
+  input:checked+label {
+    background-color: var(--primary-variant-much-brighter);
+  }
 }
 
 /*#endregion*/
@@ -493,43 +504,25 @@ section:first-of-type .sectiondiv {
   .sectiondiv {
     padding: 0.8em;
   }
+
   section {
     padding: 0 2%;
   }
 }
+
 /*#endregion*/
 /*#region images*/
 .imageZoomBox {
   overflow: hidden;
   display: flex;
-}
-.imageZoomBox img:hover {
-  transform: scale(1.1);
-}
-.imageZoomBox img {
-  transition: all 0.3s linear;
+
+  img:hover {
+    transform: scale(1.1);
+  }
+
+  img {
+    transition: all 0.3s linear;
+  }
 }
 
 /*#endregion*/
-/*#region scrollbar*/
-/* width */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--primary-variant-much-brighter);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color);
-}
-
-/*#endregion*//*# sourceMappingURL=ricosframework.css.map */
