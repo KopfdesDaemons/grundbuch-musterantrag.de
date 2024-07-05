@@ -43,13 +43,14 @@ export class HomeComponent {
   faMapMarkedAlt = faMapMarkedAlt;
 
   constructor(public dl: DesignloaderService, public router: Router, private meta: Meta, private titleService: Title) {
-    this.meta.addTag({ 
+    this.meta.updateTag({
       name: 'description',
-      content: 'Download eines Musterantrags als pdf oder docx.' });
+      content: 'Download eines Musterantrags auf Erteilung eines Grundbuchausdrucks als pdf oder docx.'
+    });
     this.titleService.setTitle('Kostenloser Musterantrag auf Erteilung eines Grundbuchausdrucks');
-   }
+  }
 
-  grundbuchausdruckBeantragen(){
-    this.router.navigate([ '/grundbuchausdruck-beantragen' ])
+  grundbuchausdruckBeantragen() {
+    this.router.navigate(['/grundbuchausdruck-beantragen'])
   }
 }

@@ -1,13 +1,10 @@
-import { Component, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DesignloaderService } from 'src/app/services/designloader.service';
 import { FormService } from 'src/app/services/form.service';
 import { HttpClient, HttpEventType } from '@angular/common/http';
-import Docxtemplater from 'docxtemplater';
-import PizZip from 'pizzip';
-import PizZipUtils from 'pizzip/utils/index.js';
 import { faFileWord, faFilePdf } from '@fortawesome/free-regular-svg-icons';
-import { saveAs } from 'file-saver';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
@@ -24,11 +21,12 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
   prozentPdfUpload = 0;
   prozentPdfDownload = 0;
   fehler = false;
-  statusmeldung = 'Der Antrag wird generiert.';
+  statusmeldung = 'Die Antragsgenerierung wird gestartet.';
   docx: any;
   pdf: any;
   step = 1;
   currentStepSubscription: Subscription;
+  isBrowser: boolean;
 
   constructor(
     private titleService: Title,
@@ -36,8 +34,11 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
     public fs: FormService,
     public dl: DesignloaderService,
     public http: HttpClient,
-    public rd: Renderer2
+    public rd: Renderer2,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
     this.titleService.setTitle('Musterantrag Grundbuchausdruck');
 
     this.form = this.formBuilder.group({
@@ -93,6 +94,8 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
   }
 
   async submitForm() {
+    if (!this.isBrowser) return;
+
     this.fehler = false;
     this.prozentProgressSpinnerWord = 0;
     this.prozentPdfUpload = 0;
@@ -108,7 +111,7 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
       return;
     }
 
-    this.statusmeldung = 'Die docx Datei wird zur Konvertierung an den Server gesendet.';
+    this.statusmeldung = 'Die .docx Datei wird zur Konvertierung an den Server gesendet.';
     const form = new FormData();
     form.append('docx', this.docx);
     const url = '/api/antraggrundbuchausdruck';
@@ -122,7 +125,7 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
             const uploadProzent = Math.round(100 * res.loaded / res.total!);
             this.prozentPdfUpload = uploadProzent;
             if (uploadProzent === 100) {
-              this.statusmeldung = 'Die docx Datei wurde zur Konvertierung an den Server gesendet. Der Server muss die Datei noch in eine pdf Datei konvertieren.';
+              this.statusmeldung = 'Die .docx Datei wurde zur Konvertierung an den Server gesendet. Der Server muss die Datei noch in eine pdf Datei konvertieren.';
             }
           }
 
@@ -130,7 +133,7 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
           if (res.type === HttpEventType.DownloadProgress) {
             const downloadProzent = Math.round(100 * res.loaded / res.total!);
             this.prozentPdfDownload = downloadProzent;
-            this.statusmeldung = 'Die docx Datei wurde vom Server in eine pdf Datei konvertiert und muss nun heruntergeladen werden.';
+            this.statusmeldung = 'Die .docx Datei wurde vom Server in eine pdf Datei konvertiert und muss nun heruntergeladen werden.';
           }
 
           // Antwort vom Server
@@ -143,25 +146,37 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
           this.fehler = true;
           if (err.status >= 500 && err.status < 600) {
             // Server-Fehler
-            this.statusmeldung = 'Es gab einen Serverfehler. Die pdf Datei konnte nicht generiert werden. Sie können die docx Datei herunterladen.';
+            this.statusmeldung = 'Es gab einen Serverfehler. Die .pdf Datei konnte nicht generiert werden. Sie können die docx Datei herunterladen.';
           } else {
-            this.statusmeldung = 'Es gab einen Netzwerkfehler. Die pdf Datei konnte nicht generiert werden. Sie können die docx Datei herunterladen.';
+            this.statusmeldung = 'Es gab einen Netzwerkfehler. Die .pdf Datei konnte nicht generiert werden. Sie können die docx Datei herunterladen.';
           }
           throw err;
         }
       });
   }
 
-  downloadDocx() {
-    saveAs(this.docx, 'AntragGrundbuchausdruck.docx');
+  async downloadDocx() {
+    if (this.isBrowser && this.docx) {
+      const { default: saveAs } = await import('file-saver');
+      saveAs(this.docx, 'AntragGrundbuchausdruck.docx');
+    }
   }
 
-  openPdf() {
-    // saveAs(this.pdf, 'AntragGrundbuchausdruck.pdf');
-    window.open(URL.createObjectURL(this.pdf));
+  async openPdf() {
+    if (this.isBrowser && this.pdf) {
+      const { default: saveAs } = await import('file-saver');
+      saveAs(this.pdf, 'AntragGrundbuchausdruck.pdf');
+      window.open(URL.createObjectURL(this.pdf));
+    }
   }
 
   async generate() {
+    if (!this.isBrowser) return;
+
+    const { default: Docxtemplater } = await import('docxtemplater');
+    const { default: PizZip } = await import('pizzip');
+    const { default: PizZipUtils } = await import('pizzip/utils/index.js');
+
     return new Promise((resolve, reject) => {
       this.statusmeldung = 'Die Formulare werden geladen.';
       const ast = this.fs.form.get('antragsteller') as FormGroup;
@@ -184,13 +199,16 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
       const formatiertesDatum = `${tag}.${monat}.${jahr}`;
 
       this.prozentProgressSpinnerWord = 10;
-      this.statusmeldung = 'Die Variablen werden aus den Formularen gelesen und angepasste Variablen werden zugewiesen.';
+      this.statusmeldung = 'Die Templatedatei wird heruntergeladen.';
 
       PizZipUtils.getBinaryContent('assets/antragtemplate.docx', (error: Error | null, content: string) => {
         if (error) {
           reject(new Error('Fehler beim Laden der Templatedatei.'));
           throw error;
         }
+
+        this.prozentProgressSpinnerWord = 30;
+        this.statusmeldung = 'Die Templatedatei wird verarbeitet.';
 
         let doc;
         try {
@@ -199,7 +217,6 @@ export class GrundbuchausdruckBeantragenComponent implements OnDestroy {
             paragraphLoop: true,
             linebreaks: true,
           });
-
 
           doc.setData({
             datum: formatiertesDatum,

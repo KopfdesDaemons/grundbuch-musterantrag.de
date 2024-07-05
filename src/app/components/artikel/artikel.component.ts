@@ -11,7 +11,7 @@ export class ArtikelComponent {
   @Input() nextSite: string = '';
   faPrint = faPrint;
 
-  print(){
+  print() {
     window.print();
   }
 }

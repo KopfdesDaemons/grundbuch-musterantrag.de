@@ -13,21 +13,21 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  {path: "", component: HomeComponent},
-  {path: 'grundbuchausdruck-beantragen', component: GrundbuchausdruckBeantragenComponent},
-  {path: 'impressum', component: ImpressumComponent},
-  {path: 'datenschutz', component: DatenschutzComponent},
-  {path: 'grundbuchrecht/einleitung', component: EinleitungComponent},
-  {path: 'grundbuchrecht/bestandsverzeichnis', component: BestandsverzeichnisComponent},
-  {path: 'grundbuchrecht/abteilung1', component: Abteilung1Component},
-  {path: 'grundbuchrecht/abteilung2', component: Abteilung2Component},
-  {path: 'grundbuchrecht/abteilung3', component: Abteilung3Component},
-  {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
-  {path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: "", component: HomeComponent },
+  { path: 'grundbuchausdruck-beantragen', component: GrundbuchausdruckBeantragenComponent },
+  { path: 'impressum', component: ImpressumComponent },
+  { path: 'datenschutz', component: DatenschutzComponent },
+  { path: 'grundbuchrecht/einleitung', component: EinleitungComponent },
+  { path: 'grundbuchrecht/bestandsverzeichnis', component: BestandsverzeichnisComponent },
+  { path: 'grundbuchrecht/abteilung1', component: Abteilung1Component },
+  { path: 'grundbuchrecht/abteilung2', component: Abteilung2Component },
+  { path: 'grundbuchrecht/abteilung3', component: Abteilung3Component },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{
+  imports: [RouterModule.forRoot(routes, {
     scrollPositionRestoration: 'enabled',
     anchorScrolling: 'enabled',
     onSameUrlNavigation: 'reload'

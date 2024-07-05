@@ -1,26 +1,42 @@
-const { promises: fsPromises } = require('fs');
-const path = require('path');
-const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
-const HASH_FILE_PATH = path.join(__dirname + '/../hash.json');
-const directoryController = require('./directoryController');
+import { promises as fsPromises } from 'fs';
+import * as path from 'path';
+import * as crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
+import * as directoryController from './directoryController';
+import { Request, Response } from 'express';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-exports.login = async (req, res) => {
+const SERVER_DIST_FOLDER = dirname(fileURLToPath(import.meta.url));
+const HASH_FILE_PATH = path.join(SERVER_DIST_FOLDER, 'hash.json');
+
+// Funktion zur Erstellung eines Hashes
+const createHash = (password: string): string => {
+    const hash = crypto.createHash('sha256');
+    hash.update(password);
+    return hash.digest('hex');
+};
+
+export const login = async (req: Request, res: Response): Promise<void> => {
     try {
         // Empfange Passwort
         const receivedPassword = req.body.password;
 
         const fileExists = await directoryController.checkFileExists(HASH_FILE_PATH);
-        if(!fileExists) return res.status(500).send('Init erfoderlich');
-        
+        if (!fileExists) {
+            res.status(500).send('Init erforderlich');
+            return;
+        }
+
         // Lese JSON Datei
         const file = await fsPromises.readFile(HASH_FILE_PATH, 'utf8');
         const json = JSON.parse(file);
 
-        // Überprüfe Hash aus JSON mit dem Passwort
-        const correct = await bcrypt.compare(receivedPassword, json.passwordHash);
+        // Erstelle Hash vom empfangenen Passwort
+        const receivedPasswordHash = createHash(receivedPassword);
 
-        if (correct) {
+        // Überprüfe Hash aus JSON mit dem Passwort
+        if (receivedPasswordHash === json.passwordHash) {
             // Setze Cookie mit LoginToken
 
             // Ablaufdatum in 2 Wochen (14 Tage)
@@ -37,19 +53,18 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.createHashFile = async (req, res) => {
+export const createHashFile = async (req: Request, res: Response): Promise<void> => {
     try {
         const password = req.body.password;
 
-        const file = await directoryController.checkFileExists(HASH_FILE_PATH);
-        if (file) return res.status(500).send('bereits initalisiert');
+        const fileExists = await directoryController.checkFileExists(HASH_FILE_PATH);
+        if (fileExists) {
+            res.status(500).send('Bereits initialisiert');
+            return;
+        }
 
-        // Generiere Salt für Hashing
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-
-        // Erstelle Passwort-Hash
-        const passwordHash = await bcrypt.hash(password, salt);
+        // Erstelle Hash vom empfangenen Passwort
+        const passwordHash = createHash(password);
 
         // Generiere zufälligen Login-Token
         const loginToken = uuidv4();

@@ -16,29 +16,30 @@ import { AuthGuard } from 'src/app/auth.guard';
 })
 export class FooterComponent {
   anmeldeInputVisible = false;
-  @ViewChild('password') passwordInput!:ElementRef;
+  @ViewChild('password') passwordInput!: ElementRef;
 
-  constructor(public dl: DesignloaderService, public http: HttpClient, public Router: Router, public auth: AuthGuard){}
+  constructor(public dl: DesignloaderService, public http: HttpClient, public Router: Router, public auth: AuthGuard) { }
   faRightToBracket = faRightToBracket;
 
-  anmeldeBtnClick(){
+  anmeldeBtnClick() {
     this.anmeldeInputVisible = !this.anmeldeInputVisible;
     this.passwordInput.nativeElement.focus();
   }
 
-  async anmelden(password: string){
-    try{
-      await firstValueFrom(this.http.post('/api/login', { password: password }, {responseType: 'text' ,observe: 'response'}));
+  async anmelden(password: string) {
+    try {
+      await firstValueFrom(this.http.post('/api/login', { password: password }, { responseType: 'text', observe: 'response' }));
       console.log("Login erfolgreich");
       this.Router.navigate(['/dashboard'])
     } catch (error: any) {
-      switch(error.status){
+      switch (error.status) {
         case 401:
           console.log('Login verweigert');
           break;
         case 500:
-          const password = prompt('Initalisierung erforderlich. Bitte neues Passwort vergeben:');         
-          await firstValueFrom(this.http.post('/api/init', { password: password }, {responseType: 'text' ,observe: 'response'}));
+          const password = prompt('Initalisierung erforderlich. Bitte neues Passwort vergeben:');
+          await firstValueFrom(this.http.post('/api/init', { password: password }, { responseType: 'text', observe: 'response' }));
+          if (password) this.anmelden(password);
           break
         default:
           console.log("Login nicht erfolgreich: ", error);

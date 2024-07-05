@@ -21,3 +21,12 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 ## `Backend`
 
 - **API**: Node.js
+
+# Wichtige Befehle
+
+`pm2 delete1`
+`pm2 start server/app.js`
+`pm2 restart server/app.js`
+
+`npm run watch`
+`npm run serve:ssr:grundbuch`

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -23,10 +22,45 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GrundstueckComponent } from './components/forms/grundstueck/grundstueck.component';
 import { BerechtigtesInteresseComponent } from './components/forms/berechtigtes-interesse/berechtigtes-interesse.component';
 import { GrundbuchamtComponent } from './components/forms/grundbuchamt/grundbuchamt.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 
-@NgModule({ declarations: [AppComponent, HeaderComponent, AccordionComponent, FooterComponent, ImpressumComponent, HomeComponent, DatenschutzComponent, EinleitungComponent, ArtikelComponent, ArtikelsidebarComponent, BestandsverzeichnisComponent, Abteilung1Component, Abteilung2Component, Abteilung3Component, GrundbuchausdruckBeantragenComponent, AntragstellerComponent, GrundstueckComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, ProgressSpinnerComponent, DashboardComponent],
-    bootstrap: [AppComponent], imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule, ReactiveFormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
-export class AppModule {}
+@NgModule({
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        AccordionComponent,
+        FooterComponent,
+        ImpressumComponent,
+        HomeComponent,
+        DatenschutzComponent,
+        EinleitungComponent,
+        ArtikelComponent,
+        ArtikelsidebarComponent,
+        BestandsverzeichnisComponent,
+        Abteilung1Component,
+        Abteilung2Component,
+        Abteilung3Component,
+        GrundbuchausdruckBeantragenComponent,
+        AntragstellerComponent,
+        GrundstueckComponent,
+        BerechtigtesInteresseComponent,
+        GrundbuchamtComponent,
+        ProgressSpinnerComponent,
+        DashboardComponent,
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FontAwesomeModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    providers: [
+        provideHttpClient(),
+        provideClientHydration(),
+    ],
+})
+export class AppModule { }

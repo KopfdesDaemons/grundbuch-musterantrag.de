@@ -1,11 +1,11 @@
 
-exports.amtsgerichtausplz = async (req, res) => {
+export const amtsgerichtausplz = async (req: any, res: any) => {
     try {
-        const plzSuche = req.query.plz;
+        const plzSuche = req.query.plz as string;
 
         const url = `https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=${plzSuche}&ort=`;
-        const page = await fetch(url);
-        const html = await page.text();
+        const response = await fetch(url);
+        const html = await response.text();
 
         const amtsgerichtRegex = /<h6>(.*?)<\/h6>/;
         const amtsgerichtMatch = amtsgerichtRegex.exec(html);
@@ -24,10 +24,9 @@ exports.amtsgerichtausplz = async (req, res) => {
         if (!amtsgericht || !straße || !plz || !ort) {
             throw new Error('Die benötigten Informationen konnten nicht aus der Webseite der Justiz extrahiert werden.');
         }
-
-        res.send({ amtsgericht, straße, plz, ort });
-    } catch (error) { 
+        res.json({ amtsgericht, straße, plz, ort });
+    } catch (error: any) {
         req.logger.error('Fehler beim Scraping.', error);
-        res.status(500).send(error.message || 'Ein Fehler bei Laden der Daten aus der Webseite der Justiz.'); 
+        res.status(500).send(error.message || 'Ein Fehler beim Laden der Daten aus der Webseite der Justiz.');
     }
 };

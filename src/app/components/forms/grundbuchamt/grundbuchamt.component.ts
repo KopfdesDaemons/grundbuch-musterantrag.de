@@ -12,12 +12,12 @@ import { FormService } from 'src/app/services/form.service';
 export class GrundbuchamtComponent {
   form: FormGroup
 
-  constructor(public fs: FormService, public http: HttpClient){
+  constructor(public fs: FormService, public http: HttpClient) {
     this.form = fs.form.get("grundbuchamt") as FormGroup;
 
     this.form.get('plz')?.valueChanges.subscribe(async plz => {
-      
-      if((plz as string).length === 5){
+
+      if ((plz as string).length === 5) {
         let ort = await this.fs.ortAusPLZ(plz)
         this.form.controls['ort'].setValue(ort);
       }
@@ -26,15 +26,15 @@ export class GrundbuchamtComponent {
     // if(this.form.valid) this.fs.nextStep();
   }
 
-  next(){
-    if(this.form.valid) this.fs.nextStep();
+  next() {
+    if (this.form.valid) this.fs.nextStep();
   }
 
-  onlineSuchen(){
+  onlineSuchen() {
     window.open(
       "https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=" +
-        (this.fs.form.get('grundstück') as FormGroup).get("plz")?.value +
-        "&ort="
+      (this.fs.form.get('grundstück') as FormGroup).get("plz")?.value +
+      "&ort="
     );
   }
 }
