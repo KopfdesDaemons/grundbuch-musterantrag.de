@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/progress-spinner/progress-spinner.component.scss"],
+  "sourcesContent": [":host{\n  height: 40px;\n  width: 40px;\n}\n\ncircle {\n    transition: 0.3s stroke-dashoffset;\n    transform: rotate(-90deg);\n    stroke: var(--primary-color);\n    stroke-width: 4;\n    fill: transparent;\n    background-color: red;\n    z-index: 2;\n    stroke-dashoffset: 277.717;\n    stroke-dasharray: 326.726, 326.726;\n}\n\n.endless{\n    animation-name: loading;\n    animation-duration: 700ms;\n    animation-iteration-count: infinite;\n    animation-timing-function: linear;\n}\n\n@keyframes loading{\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }"],
+  "mappings": ";AAAA;AACE,UAAA;AACA,SAAA;;AAGF;AACI,cAAA,KAAA;AACA,aAAA,OAAA;AACA,UAAA,IAAA;AACA,gBAAA;AACA,QAAA;AACA,oBAAA;AACA,WAAA;AACA,qBAAA;AACA,oBAAA,OAAA,EAAA;;AAGJ,CAAA;AACI,kBAAA;AACA,sBAAA;AACA,6BAAA;AACA,6BAAA;;AAGJ,WANI;AAOA;AACE,eAAA,OAAA;;AAEF;AACE,eAAA,OAAA;;;",
+  "names": []
+}

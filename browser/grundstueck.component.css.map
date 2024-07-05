@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/forms/grundstueck/grundstueck.component.scss"],
+  "sourcesContent": [".formularcontent {\n    display: flex;\n    flex-wrap: wrap;\n    background-color: inherit;\n}\n\n:host {\n    background-color: inherit;\n}\n\n.inputfelder {\n    display: flex;\n    flex-wrap: wrap;\n    justify-content: space-between;\n    background-color: inherit;\n}\n\n.inputfelder .inputfeld {\n    width: 48%;\n}\n\nhr {\n    margin: 0.5em 0;\n    width: 80%;\n    display: block;\n}\n\n.hrdiv {\n    display: flex;\n    justify-content: center;\n    width: 100%;\n}\n\n@media only screen and (max-width: 580px) {\n    .inputfelder .inputfeld {\n        width: 100%;\n    }\n}\n\n.formNavBtn {\n    display: flex;\n    justify-content: flex-end;\n  }"],
+  "mappings": ";AAAA,CAAA;AACI,WAAA;AACA,aAAA;AACA,oBAAA;;AAGJ;AACI,oBAAA;;AAGJ,CAAA;AACI,WAAA;AACA,aAAA;AACA,mBAAA;AACA,oBAAA;;AAGJ,CAPA,YAOA,CAAA;AACI,SAAA;;AAGJ;AACI,UAAA,MAAA;AACA,SAAA;AACA,WAAA;;AAGJ,CAAA;AACI,WAAA;AACA,mBAAA;AACA,SAAA;;AAGJ,OAAA,KAAA,OAAA,IAAA,CAAA,SAAA,EAAA;AACI,GAxBJ,YAwBI,CAjBJ;AAkBQ,WAAA;;;AAIR,CAAA;AACI,WAAA;AACA,mBAAA;;",
+  "names": []
+}
