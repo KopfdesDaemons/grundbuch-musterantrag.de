@@ -6,8 +6,8 @@
 /out-tsc
 /bazel-out
 
-# dist/grundbuch/server/logFile.log
-# dist/grundbuch/server/hash.json
+/server/logFile.log
+/server/hash.json
 # dist/grundbuch/server/uploads/*
 
 # Node
