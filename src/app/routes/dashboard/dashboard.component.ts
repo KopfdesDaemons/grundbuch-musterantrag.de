@@ -57,17 +57,15 @@ export class DashboardComponent implements OnInit {
         const url = '/api/uploads';
         const json: any = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('page', this.page) }));
         this.infoJson = json;
-        // console.log(this.infoJson);
-
 
         for (const file of json['files']) {
           this.files.push(file);
         }
         if (this.infoJson['totalPages'] != 0) this.page++;
         this.isLoading = false;
-      } catch (err) {
+      } catch (err: any) {
         this.isLoading = false;
-        console.error('Die Dateien konnten nicht geladen werden.', err);
+        console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
         reject();
       }
     });

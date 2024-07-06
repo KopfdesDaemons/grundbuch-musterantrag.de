@@ -9,6 +9,9 @@ const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
 
 export const getDocxAndPdfFiles = async (req: Request, res: Response, folderPath: string): Promise<void> => {
     try {
+
+        if (!fs.existsSync(folderPath)) res.status(500).send('Ordner nicht existent');
+
         const page = parseInt(req.query['page'] as string, 10) || 1;
         const offset = (page - 1) * pageSize;
 

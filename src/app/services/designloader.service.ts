@@ -29,7 +29,8 @@ export class DesignloaderService {
   }
 
   detectPreferenceScheme(): boolean {
-    const mediaMatch = isPlatformBrowser(PLATFORM_ID) ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+    const mediaMatch = isPlatformBrowser(this.platformId) ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+
     return typeof mediaMatch === 'boolean' ? mediaMatch : false;
   }
 

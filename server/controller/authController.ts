@@ -8,7 +8,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const SERVER_DIST_FOLDER = dirname(fileURLToPath(import.meta.url));
-const HASH_FILE_PATH = path.join(SERVER_DIST_FOLDER, 'hash.json');
+export const HASH_FILE_PATH = path.join(SERVER_DIST_FOLDER, 'hash.json');
 
 // Funktion zur Erstellung eines Hashes
 const createHash = (password: string): string => {
