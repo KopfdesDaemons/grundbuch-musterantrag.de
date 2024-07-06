@@ -58397,9 +58397,7 @@ router.post("/api/antraggrundbuchausdruck", (req, res) => __async(void 0, null, 
     }
     yield docx.mv(filepath);
     yield convertToPdf(filepath, folderpath);
-    res.contentType("application/pdf");
-    res.attachment("neuer-dateiname.pdf");
-    return res.sendFile(filepathpdf);
+    return res.contentType("application/pdf").sendFile(filepathpdf);
   } catch (error) {
     console.error("Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.", error);
     res.status(500).send("Interner Serverfehler.");
