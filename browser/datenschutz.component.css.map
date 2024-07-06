@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["src/app/routes/datenschutz/datenschutz.component.scss"],
-  "sourcesContent": ["p {\n  margin: 0.5rem 0;\n}\n\nh2,\n.darkmode h2 {\n  width: 100%;\n  text-align: center;\n  margin: 1em 0 0.5em 0;\n}\n\nh3 {\n  font-weight: bold;\n  margin: 0.5em 0 0 1em;\n}\n\n.sectiondiv {\n  align-items: flex-start;\n  margin-bottom: 1em;\n}\n\n.sectiondiv li {\n  list-style: circle;\n}\n\n.eingerückt {\n  margin-left: 1em;\n}"],
+  "sourcesContent": ["p {\r\n  margin: 0.5rem 0;\r\n}\r\n\r\nh2,\r\n.darkmode h2 {\r\n  width: 100%;\r\n  text-align: center;\r\n  margin: 1em 0 0.5em 0;\r\n}\r\n\r\nh3 {\r\n  font-weight: bold;\r\n  margin: 0.5em 0 0 1em;\r\n}\r\n\r\n.sectiondiv {\r\n  align-items: flex-start;\r\n  margin-bottom: 1em;\r\n}\r\n\r\n.sectiondiv li {\r\n  list-style: circle;\r\n}\r\n\r\n.eingerückt {\r\n  margin-left: 1em;\r\n}"],
   "mappings": ";;;AAAA;AACE,UAAA,OAAA;;AAGF;AAAA,CAAA,SAAA;AAEE,SAAA;AACA,cAAA;AACA,UAAA,IAAA,EAAA,MAAA;;AAGF;AACE,eAAA;AACA,UAAA,MAAA,EAAA,EAAA;;AAGF,CAAA;AACE,eAAA;AACA,iBAAA;;AAGF,CALA,WAKA;AACE,cAAA;;AAGF,CAAA;AACE,eAAA;;",
   "names": []
 }

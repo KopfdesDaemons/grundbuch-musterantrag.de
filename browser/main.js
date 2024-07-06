@@ -36789,7 +36789,7 @@ var _DesignloaderService = class _DesignloaderService {
     this.FarbeAusCookieAnwenden();
   }
   detectPreferenceScheme() {
-    const mediaMatch = isPlatformBrowser2(PLATFORM_ID) ? window.matchMedia("(prefers-color-scheme: dark)").matches : false;
+    const mediaMatch = isPlatformBrowser2(this.platformId) ? window.matchMedia("(prefers-color-scheme: dark)").matches : false;
     return typeof mediaMatch === "boolean" ? mediaMatch : false;
   }
   togledesignScheme() {
@@ -50957,7 +50957,7 @@ var _DashboardComponent = class _DashboardComponent {
           this.isLoading = false;
         } catch (err) {
           this.isLoading = false;
-          console.error("Die Dateien konnten nicht geladen werden.", err);
+          console.error("Die Dateien konnten nicht geladen werden." + err.error, err);
           reject();
         }
       }));
