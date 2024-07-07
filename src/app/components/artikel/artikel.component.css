@@ -3,6 +3,10 @@
     flex-grow: 1;
     margin-left: 19em;
   }
+  .artikelcontent .sectiondiv:first-of-type {
+    padding-top: 0;
+    margin-top: 0;
+  }
 }
 .artikelcontent hr {
   width: clamp(1em, 65%, 60em);
@@ -25,6 +29,7 @@
 }
 .artikelcontent .sectiondiv {
   align-items: flex-start;
+  max-width: 60em;
 }
 .artikelcontent h2,
 .artikelcontent .darkmode h2 {

@@ -7,31 +7,13 @@
   z-index: 1;
 }
 
-/* width */
-.themenliste::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Handle */
-.themenliste::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-.themenliste::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-.themenliste::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-
 .darkmode .themenliste,
 .themenliste {
-  height: 100vh;
-  padding: 4em 1em 0 1em;
+  height: calc(100vh - 4em);
+  padding-left: 1em;
   box-sizing: border-box;
   overflow: scroll;
+  margin-top: 4em;
 }
 .darkmode .themenliste ul,
 .themenliste ul {
@@ -60,6 +42,8 @@
   border: 1px solid;
   cursor: pointer;
   border-radius: 8px 0 0 8px;
+  display: flex;
+  align-items: center;
 }
 .darkmode .themenliste .thema,
 .themenliste .thema {
@@ -69,7 +53,6 @@
 }
 .darkmode .themenliste .thema div,
 .themenliste .thema div {
-  list-style: none;
   display: flex;
 }
 .darkmode .themenliste .thema ul,

@@ -19,7 +19,7 @@ export class CookiesService {
     const d = new Date();
     d.setTime(d.getTime() + cookie.days * 24 * 60 * 60 * 1000);
     let expires = "expires=" + d.toUTCString();
-    document.cookie = cookie.name + "=" + cookie.value + ";" + expires + ";path=/";
+    document.cookie = cookie.name + "=" + cookie.value + ";" + expires + "; path=/; domain=" + window.location.hostname;
   }
 
   /**

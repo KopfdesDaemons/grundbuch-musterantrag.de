@@ -2,6 +2,11 @@
   .artikelcontent {
     flex-grow: 1;
     margin-left: 19em;
+
+    .sectiondiv:first-of-type {
+      padding-top: 0;
+      margin-top: 0;
+    }
   }
 }
 
@@ -31,6 +36,7 @@
 
   .sectiondiv {
     align-items: flex-start;
+    max-width: 60em;
   }
 
   h2,
@@ -56,7 +62,7 @@
     margin: 0.5em 0;
   }
 
-  .artikelButtonDiv{
+  .artikelButtonDiv {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
