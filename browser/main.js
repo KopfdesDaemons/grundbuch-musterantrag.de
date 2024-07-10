@@ -36446,7 +36446,7 @@ var _CookiesService = class _CookiesService {
     const d2 = /* @__PURE__ */ new Date();
     d2.setTime(d2.getTime() + cookie2.days * 24 * 60 * 60 * 1e3);
     let expires = "expires=" + d2.toUTCString();
-    document.cookie = cookie2.name + "=" + cookie2.value + ";" + expires + ";path=/";
+    document.cookie = cookie2.name + "=" + cookie2.value + ";" + expires + "; path=/; domain=" + window.location.hostname;
   }
   /**
    * Liest den Wert eines Cookies
@@ -40187,7 +40187,7 @@ var _HeaderComponent = class _HeaderComponent {
     this.dl = dl;
     this.faMoon = faMoon;
     this.colors = ["hsl(195, 75%, 50%)", "hsl(0, 60%, 50%)", "hsl(323, 82%, 50%)", "hsl(132, 64%, 50%)", "hsl(35, 100%, 50%)", "hsl(173, 63%, 50%)", "hsl(281, 94%, 50%)", "hsl(81, 56%, 50%)", "hsl(0, 0%, 50%)", "hsl(334, 100%, 50%)", "hsl(225, 6%, 50%)", "hsl(110, 69%, 50%)"];
-    this.farbe = "var(--hintergrund)";
+    this.farbe = "transparent";
     this.men\u00FCoffen = false;
     this.isDisplayed = false;
   }
@@ -46728,10 +46728,10 @@ var _DatenschutzComponent = class _DatenschutzComponent {
 _DatenschutzComponent.\u0275fac = function DatenschutzComponent_Factory(t) {
   return new (t || _DatenschutzComponent)(\u0275\u0275directiveInject(Title), \u0275\u0275directiveInject(CookiesService));
 };
-_DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DatenschutzComponent, selectors: [["app-datenschutz"]], decls: 107, vars: 0, consts: [[1, "sectiondiv"], ["target", "_blank", "href", "mailto:MailvonRico@gmail.com"], ["target", "_blank", "href", "https://dsgvo-gesetz.de/art-6-dsgvo/", 1, "dsgvo"], [1, "einger\xFCckt"], ["target", "_blank", "href", "https://www.e-recht24.de/artikel/datenschutz/12962-was-sind-essenzielle-cookies.html", 1, "dsgvo"], [1, "btntext", 3, "click"], ["href", "https://api.zippopotam.us"], ["href", "https://www.justizadressen.nrw.de/de/justiz/suche"], ["target", "_blank", "href", "https://dsgvo-gesetz.de/art-13-dsgvo/", 1, "dsgvo"]], template: function DatenschutzComponent_Template(rf, ctx) {
+_DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DatenschutzComponent, selectors: [["app-datenschutz"]], decls: 107, vars: 0, consts: [["farbe", "var(--hintergrund)"], [1, "sectiondiv"], ["target", "_blank", "href", "mailto:MailvonRico@gmail.com"], ["target", "_blank", "href", "https://dsgvo-gesetz.de/art-6-dsgvo/", 1, "dsgvo"], [1, "einger\xFCckt"], ["target", "_blank", "href", "https://www.e-recht24.de/artikel/datenschutz/12962-was-sind-essenzielle-cookies.html", 1, "dsgvo"], [1, "btntext", 3, "click"], ["href", "https://api.zippopotam.us"], ["href", "https://www.justizadressen.nrw.de/de/justiz/suche"], ["target", "_blank", "href", "https://dsgvo-gesetz.de/art-13-dsgvo/", 1, "dsgvo"]], template: function DatenschutzComponent_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "app-header");
-    \u0275\u0275elementStart(1, "section")(2, "div", 0)(3, "h1");
+    \u0275\u0275element(0, "app-header", 0);
+    \u0275\u0275elementStart(1, "section")(2, "div", 1)(3, "h1");
     \u0275\u0275text(4, "Datenschutzerkl\xE4rung");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(5, "h2");
@@ -46746,7 +46746,7 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275elementStart(11, "span");
     \u0275\u0275text(12, "34497 Korbach");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "a", 1);
+    \u0275\u0275elementStart(13, "a", 2);
     \u0275\u0275text(14, "MailvonRico@gmail.com");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(15, "h2");
@@ -46763,14 +46763,14 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(23, "p");
     \u0275\u0275text(24, "Die Rechtsgrundlage f\xFCr die Pflichtangaben und \xDCbertagung der IP-Adresse ist das berechtigte Interesse gem\xE4\xDF ");
-    \u0275\u0275elementStart(25, "a", 2);
+    \u0275\u0275elementStart(25, "a", 3);
     \u0275\u0275text(26, "Art. 6 (1) f)DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(27, ". Dies begr\xFCndet sich damit, dass ohne diese Daten kein Antragsgenerierung m\xF6glich ist. Die Antragsgenerierung liegt auch im Interesse des Nutzers.");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(28, "p");
     \u0275\u0275text(29, "F\xFCr die optionalen Angaben gilt mit der freiwilligen Angabe eine stillschweigende Einwilligung gem\xE4\xDF ");
-    \u0275\u0275elementStart(30, "a", 2);
+    \u0275\u0275elementStart(30, "a", 3);
     \u0275\u0275text(31, "Art. 6 (1) a) DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(32, ". ");
@@ -46784,31 +46784,31 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275elementStart(37, "h3");
     \u0275\u0275text(38, 'Cookie "Darkmode"');
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(39, "p", 3);
+    \u0275\u0275elementStart(39, "p", 4);
     \u0275\u0275text(40, "Speichert die Auswahl des Designschemas (hell oder dunkel). Ohne Cookie wird die Systemeinstellung verwendet. ");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(41, "h3");
     \u0275\u0275text(42, 'Cookie "Farbe"');
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(43, "p", 3);
+    \u0275\u0275elementStart(43, "p", 4);
     \u0275\u0275text(44, "Speichert die Auswahl der Farbe der Webseite. Ohne Cookie wird die Farbe blau verwendet.");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(45, "p");
     \u0275\u0275text(46, "Es ist ");
-    \u0275\u0275elementStart(47, "a", 4);
+    \u0275\u0275elementStart(47, "a", 5);
     \u0275\u0275text(48, " rechtlich umstritten");
     \u0275\u0275elementEnd();
     \u0275\u0275text(49, ", ob Desigen-Cookies als essentiellle Cookies gem\xE4\xDF ");
-    \u0275\u0275elementStart(50, "a", 2);
+    \u0275\u0275elementStart(50, "a", 3);
     \u0275\u0275text(51, "Art. 6 (1) f) DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(52, " gelten. Deshalb wird die Einwilligung eingeholt gem\xE4\xDF ");
-    \u0275\u0275elementStart(53, "a", 2);
+    \u0275\u0275elementStart(53, "a", 3);
     \u0275\u0275text(54, "Art. 6 (1) a) DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(55, ". Die Dauer der Speicherung betr\xE4gt f\xFCr beide Cookies 90 Tage.");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(56, "button", 5);
+    \u0275\u0275elementStart(56, "button", 6);
     \u0275\u0275listener("click", function DatenschutzComponent_Template_button_click_56_listener() {
       return ctx.deleteCookies();
     });
@@ -46823,9 +46823,9 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275elementStart(62, "h3");
     \u0275\u0275text(63, "PLZ-API");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "p", 3);
+    \u0275\u0275elementStart(64, "p", 4);
     \u0275\u0275text(65, "Um den Ort anhand der von Ihnen eingegeben Postleitzahl zu ermitteln, wird die API ");
-    \u0275\u0275elementStart(66, "a", 6);
+    \u0275\u0275elementStart(66, "a", 7);
     \u0275\u0275text(67, "api.zippopotam.us");
     \u0275\u0275elementEnd();
     \u0275\u0275text(68, " verwendet. Die von Ihnen eingegebe Postleitzahl wird \xFCbertragen.");
@@ -46833,9 +46833,9 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275elementStart(69, "h3");
     \u0275\u0275text(70, "Justizportal");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(71, "p", 3);
+    \u0275\u0275elementStart(71, "p", 4);
     \u0275\u0275text(72, "Um das zust\xE4ndige Gericht zu ermitteln, wird das ");
-    \u0275\u0275elementStart(73, "a", 7);
+    \u0275\u0275elementStart(73, "a", 8);
     \u0275\u0275text(74, "Justizportal");
     \u0275\u0275elementEnd();
     \u0275\u0275text(75, " verwendt. Dazu wird ebenfalls die von Ihnen eigegebene Postleitzahl \xFCbertragen. Wenn bei den Grundst\xFCcksdaten keine Postleitzahl angegeben wird, erfolgt auch keine Abfrage.");
@@ -46843,7 +46843,7 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275element(76, "br");
     \u0275\u0275elementStart(77, "p");
     \u0275\u0275text(78, "Die Rechtsgrundlage ist das berechtigte Interesse gem\xE4\xDF ");
-    \u0275\u0275elementStart(79, "a", 2);
+    \u0275\u0275elementStart(79, "a", 3);
     \u0275\u0275text(80, "Art. 6 (1) f) DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(81, ". Diese Dienste werden verwendet damit das Ausf\xFCllen des Antragsformulars erleichtert wird. Dies liegt auch im Interesse des Nutzers. ");
@@ -46856,18 +46856,18 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(86, "ul")(87, "li");
     \u0275\u0275text(88, "gem\xE4\xDF ");
-    \u0275\u0275elementStart(89, "a", 8);
+    \u0275\u0275elementStart(89, "a", 9);
     \u0275\u0275text(90, "Art. 13 (2) b) DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(91, " auf Auskunft seitens des Verantwortlichen \xFCber die betreffenden personenbezogenen Daten sowie auf Berichtigung oder L\xF6schung oder auf Einschr\xE4nkung der Verarbeitung oder eines Widerspruchsrechts gegen die Verarbeitung sowie das Recht auf Daten\xFCbertragbarkeit.");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(92, "li");
     \u0275\u0275text(93, "gem\xE4\xDF ");
-    \u0275\u0275elementStart(94, "a", 8);
+    \u0275\u0275elementStart(94, "a", 9);
     \u0275\u0275text(95, "Art. 13 (2) c) DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(96, " auf Widerruf einer abgegebenen Einwilligung zur Verarbeitung personenbezogener Daten. ");
-    \u0275\u0275elementStart(97, "button", 5);
+    \u0275\u0275elementStart(97, "button", 6);
     \u0275\u0275listener("click", function DatenschutzComponent_Template_button_click_97_listener() {
       return ctx.deleteCookies();
     });
@@ -46875,7 +46875,7 @@ _DatenschutzComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ 
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(99, "li");
     \u0275\u0275text(100, "gem\xE4\xDF ");
-    \u0275\u0275elementStart(101, "a", 8);
+    \u0275\u0275elementStart(101, "a", 9);
     \u0275\u0275text(102, "Art. 13 (2) d) DSGVO");
     \u0275\u0275elementEnd();
     \u0275\u0275text(103, " auf Beschwerde bei einer Aufsichtsbeh\xF6rde.");
@@ -48120,7 +48120,7 @@ _ArtikelsidebarComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent
     \u0275\u0275advance(2);
     \u0275\u0275repeater(ctx.themen);
   }
-}, dependencies: [NgClass, RouterLink, FaIconComponent], styles: ["\n\n.navigationlinks[_ngcontent-%COMP%] {\n  width: 19em;\n  overflow: hidden;\n  position: fixed;\n  padding: 0;\n  transition: left 0.3s;\n  z-index: 1;\n}\n.themenliste[_ngcontent-%COMP%]::-webkit-scrollbar {\n  width: 5px;\n}\n.themenliste[_ngcontent-%COMP%]::-webkit-scrollbar-thumb {\n  background: #888;\n}\n.themenliste[_ngcontent-%COMP%]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.themenliste[_ngcontent-%COMP%]::-webkit-scrollbar-corner {\n  background-color: transparent;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%] {\n  height: 100vh;\n  padding: 4em 1em 0 1em;\n  box-sizing: border-box;\n  overflow: scroll;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  padding: 0;\n  margin: 0 0 0 1em;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   li[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  margin-bottom: 1em;\n  list-style: none;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   a[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  display: block;\n  flex-grow: 1;\n  padding: 1em 1em 1em 0.5em;\n  text-decoration: none;\n  font-weight: bold;\n  color: var(--schrift);\n  border-radius: 0 15px 15px 0;\n  background-color: var(--hintergrund);\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%] {\n  padding: 1em;\n  border: 1px solid;\n  cursor: pointer;\n  border-radius: 8px 0 0 8px;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%] {\n  -webkit-user-select: none;\n  user-select: none;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   div[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   div[_ngcontent-%COMP%] {\n  list-style: none;\n  display: flex;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  max-height: 0;\n  overflow: hidden;\n  margin: 0;\n  transition: 0.2s;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  max-height: 1000px;\n  transition: 0.5s;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]   a[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  background-color: var(--primary-variant-much-brighter);\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%] {\n  margin: 0.5rem;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  margin: 0;\n  padding: 0.5em 0 0.5em 1em;\n  font-size: 14px;\n  box-sizing: border-box;\n  font-weight: normal;\n  border: 1px solid transparent;\n  border-radius: 10px;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%]:hover, \n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover, \n.themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%]:hover, \n.themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  border: 1px solid var(--primary-variant-darker);\n}\n.sidebarbutton[_ngcontent-%COMP%] {\n  display: none;\n  position: absolute;\n}\n@media only screen and (max-width: 700px) {\n  .navigationlinks[_ngcontent-%COMP%] {\n    left: -19em;\n    overflow-x: hidden;\n    background-color: var(--hintergrund);\n  }\n  .sidebarbutton[_ngcontent-%COMP%] {\n    display: block;\n    top: 2.5em;\n    left: 1em;\n    border: 1px solid var(--primary-variant-darker);\n    background-color: var(--hintergrund);\n    padding: 0.5em;\n    width: 30px;\n    height: 30px;\n    font-size: 24px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    cursor: pointer;\n    z-index: 1;\n  }\n  .sidebarbutton[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n    height: 24px;\n    width: 24px;\n    vertical-align: middle;\n  }\n  .themenliste[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n    background-color: var(--body);\n  }\n}\n.sidebarbutton[_ngcontent-%COMP%]:hover {\n  background-color: var(--primary-variant-much-brighter);\n}\n.sidebaroffen[_ngcontent-%COMP%] {\n  left: 0em;\n}\n.closingDiv[_ngcontent-%COMP%] {\n  position: fixed;\n  display: none;\n  width: 100vw;\n  height: 100vh;\n  z-index: -1;\n}\n/*# sourceMappingURL=artikelsidebar.component.css.map */"] });
+}, dependencies: [NgClass, RouterLink, FaIconComponent], styles: ["\n\n.navigationlinks[_ngcontent-%COMP%] {\n  width: 19em;\n  overflow: hidden;\n  position: fixed;\n  padding: 0;\n  transition: left 0.3s;\n  z-index: 1;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%] {\n  height: calc(100vh - 4em);\n  padding-left: 1em;\n  box-sizing: border-box;\n  overflow: scroll;\n  margin-top: 4em;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  padding: 0;\n  margin: 0 0 0 1em;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   li[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   li[_ngcontent-%COMP%] {\n  margin-bottom: 1em;\n  list-style: none;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   a[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  display: block;\n  flex-grow: 1;\n  padding: 1em 1em 1em 0.5em;\n  text-decoration: none;\n  font-weight: bold;\n  color: var(--schrift);\n  border-radius: 0 15px 15px 0;\n  background-color: var(--hintergrund);\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%] {\n  padding: 1em;\n  border: 1px solid;\n  cursor: pointer;\n  border-radius: 8px 0 0 8px;\n  display: flex;\n  align-items: center;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%] {\n  -webkit-user-select: none;\n  user-select: none;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   div[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   div[_ngcontent-%COMP%] {\n  display: flex;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .thema[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  max-height: 0;\n  overflow: hidden;\n  margin: 0;\n  transition: 0.2s;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  max-height: 1000px;\n  transition: 0.5s;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]   a[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .themaangeklickt[_ngcontent-%COMP%]   div[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  background-color: var(--primary-variant-much-brighter);\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%] {\n  margin: 0.5rem;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%], \n.themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n  margin: 0;\n  padding: 0.5em 0 0.5em 1em;\n  font-size: 14px;\n  box-sizing: border-box;\n  font-weight: normal;\n  border: 1px solid transparent;\n  border-radius: 10px;\n}\n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%]:hover, \n.darkmode[_ngcontent-%COMP%]   .themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover, \n.themenliste[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%]:hover, \n.themenliste[_ngcontent-%COMP%]   .unterthema[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\n  border: 1px solid var(--primary-variant-darker);\n}\n.sidebarbutton[_ngcontent-%COMP%] {\n  display: none;\n  position: absolute;\n}\n@media only screen and (max-width: 700px) {\n  .navigationlinks[_ngcontent-%COMP%] {\n    left: -19em;\n    overflow-x: hidden;\n    background-color: var(--hintergrund);\n  }\n  .sidebarbutton[_ngcontent-%COMP%] {\n    display: block;\n    top: 2.5em;\n    left: 1em;\n    border: 1px solid var(--primary-variant-darker);\n    background-color: var(--hintergrund);\n    padding: 0.5em;\n    width: 30px;\n    height: 30px;\n    font-size: 24px;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    cursor: pointer;\n    z-index: 1;\n  }\n  .sidebarbutton[_ngcontent-%COMP%]   i[_ngcontent-%COMP%] {\n    height: 24px;\n    width: 24px;\n    vertical-align: middle;\n  }\n  .themenliste[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\n    background-color: var(--body);\n  }\n}\n.sidebarbutton[_ngcontent-%COMP%]:hover {\n  background-color: var(--primary-variant-much-brighter);\n}\n.sidebaroffen[_ngcontent-%COMP%] {\n  left: 0em;\n}\n.closingDiv[_ngcontent-%COMP%] {\n  position: fixed;\n  display: none;\n  width: 100vw;\n  height: 100vh;\n  z-index: -1;\n}\n/*# sourceMappingURL=artikelsidebar.component.css.map */"] });
 var ArtikelsidebarComponent = _ArtikelsidebarComponent;
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ArtikelsidebarComponent, { className: "ArtikelsidebarComponent", filePath: "src/app/components/artikelsidebar/artikelsidebar.component.ts", lineNumber: 13 });
@@ -48160,7 +48160,7 @@ _ArtikelComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type
     \u0275\u0275advance();
     \u0275\u0275propertyInterpolate("routerLink", ctx.nextSite);
   }
-}, dependencies: [RouterLink, FaIconComponent, HeaderComponent, FooterComponent, ArtikelsidebarComponent], styles: ["/* src/app/components/artikel/artikel.component.scss */\n@media only screen and (min-width: 700px) {\n  .artikelcontent {\n    flex-grow: 1;\n    margin-left: 19em;\n  }\n}\n.artikelcontent hr {\n  width: clamp(1em, 65%, 60em);\n  margin: 1em 0;\n}\n.artikelcontent ul {\n  margin-top: 0;\n  margin-bottom: 0;\n}\n.artikelcontent ul li {\n  list-style: circle;\n}\n.artikelcontent .infokasten {\n  padding: 1em;\n  background-color: var(--primary-variant-much-brighter);\n  border-left: 6px solid var(--primary-variant-darker);\n  border-radius: 3px;\n  max-width: 80%;\n  margin: 1em 0 0 1em;\n}\n.artikelcontent .sectiondiv {\n  align-items: flex-start;\n}\n.artikelcontent h2,\n.artikelcontent .darkmode h2 {\n  margin-top: 0;\n  font-size: 1.9rem;\n  margin-bottom: 0.5em;\n}\n.artikelcontent h3,\n.artikelcontent .darkmode h3 {\n  margin: 1em 0 0 0;\n  font-size: 1.5rem;\n}\n.artikelcontent h4,\n.artikelcontent .darkmode h4 {\n  margin: 1em 0 0 1em;\n  text-decoration: underline;\n}\n.artikelcontent p {\n  margin: 0.5em 0;\n}\n.artikelcontent .artikelButtonDiv {\n  display: flex;\n  justify-content: space-between;\n  flex-direction: row;\n}\n.artikelcontent .imageZoomBox {\n  border-radius: 8px;\n}\n/*# sourceMappingURL=artikel.component.css.map */\n"], encapsulation: 2 });
+}, dependencies: [RouterLink, FaIconComponent, HeaderComponent, FooterComponent, ArtikelsidebarComponent], styles: ["/* src/app/components/artikel/artikel.component.scss */\n@media only screen and (min-width: 700px) {\n  .artikelcontent {\n    flex-grow: 1;\n    margin-left: 19em;\n  }\n  .artikelcontent .sectiondiv:first-of-type {\n    padding-top: 0;\n    margin-top: 0;\n  }\n}\n.artikelcontent hr {\n  width: clamp(1em, 65%, 60em);\n  margin: 1em 0;\n}\n.artikelcontent ul {\n  margin-top: 0;\n  margin-bottom: 0;\n}\n.artikelcontent ul li {\n  list-style: circle;\n}\n.artikelcontent .infokasten {\n  padding: 1em;\n  background-color: var(--primary-variant-much-brighter);\n  border-left: 6px solid var(--primary-variant-darker);\n  border-radius: 3px;\n  max-width: 80%;\n  margin: 1em 0 0 1em;\n}\n.artikelcontent .sectiondiv {\n  align-items: flex-start;\n  max-width: 60em;\n}\n.artikelcontent h2,\n.artikelcontent .darkmode h2 {\n  margin-top: 0;\n  font-size: 1.9rem;\n  margin-bottom: 0.5em;\n}\n.artikelcontent h3,\n.artikelcontent .darkmode h3 {\n  margin: 1em 0 0 0;\n  font-size: 1.5rem;\n}\n.artikelcontent h4,\n.artikelcontent .darkmode h4 {\n  margin: 1em 0 0 1em;\n  text-decoration: underline;\n}\n.artikelcontent p {\n  margin: 0.5em 0;\n}\n.artikelcontent .artikelButtonDiv {\n  display: flex;\n  justify-content: space-between;\n  flex-direction: row;\n}\n.artikelcontent .imageZoomBox {\n  border-radius: 8px;\n}\n/*# sourceMappingURL=artikel.component.css.map */\n"], encapsulation: 2 });
 var ArtikelComponent = _ArtikelComponent;
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ArtikelComponent, { className: "ArtikelComponent", filePath: "src/app/components/artikel/artikel.component.ts", lineNumber: 10 });
@@ -50766,7 +50766,7 @@ _HomeComponent.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _
     \u0275\u0275advance(8);
     \u0275\u0275property("icon", ctx.faMapMarkedAlt);
   }
-}, dependencies: [NgClass, FaIconComponent, HeaderComponent, AccordionComponent, FooterComponent], styles: ['@charset "UTF-8";\n\n\n\nhr[_ngcontent-%COMP%] {\n  width: clamp(1em, 65%, 60em);\n  margin: 1em 0;\n}\nh2[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: clamp(0.5rem, 7vw, 2rem);\n  text-align: center;\n}\n#home[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%] {\n  display: grid;\n  justify-content: space-evenly;\n  grid-template-columns: 60% 40%;\n}\nsection[_ngcontent-%COMP%]:nth-of-type(2n-1) {\n  background-color: var(--hintergrund-variant);\n}\n.imgdiv[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-size: clamp(5em, 15vw, 10em);\n  color: var(--primary-variant-brighter);\n}\n.darkmode[_ngcontent-%COMP%]   .imgdiv[_ngcontent-%COMP%] {\n  color: var(--schrift);\n}\n.homebanner[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n  text-align: left;\n  display: flex;\n  justify-content: flex-start;\n  flex-flow: column;\n}\n.titeluntertext[_ngcontent-%COMP%] {\n  margin: 2% 0;\n  font-size: clamp(12px, 1.5vw, 1rem);\n}\n.divTitel[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n}\nh1[_ngcontent-%COMP%] {\n  margin: 5px 0;\n  font-size: clamp(1.2rem, 3vw, 2rem);\n  line-height: 100%;\n  text-align: unset;\n  color: var(--schrift);\n}\n.homebanner[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  margin-bottom: 2%;\n}\n.labels[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  font-size: clamp(12px, 1vw, 0.8rem);\n  width: 100%;\n  margin: 8px;\n}\n.labels[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  margin: 0 1em;\n}\n.labels[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%] {\n  font-size: clamp(1rem, 1vw, 1.5rem);\n  color: var(--schrift);\n}\n.infobanner[_ngcontent-%COMP%] {\n  border-left: 10px solid #b60e0e;\n  background-color: #f2dede;\n  padding: 15px;\n  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);\n  color: #a94442;\n  margin-top: 10px;\n  border-radius: 5px;\n  grid-column-start: 1;\n  grid-column-end: 3;\n}\n.darkmode[_ngcontent-%COMP%]   .infobanner[_ngcontent-%COMP%] {\n  background-color: rgb(24, 24, 24);\n  color: var(--schrift);\n}\n@media only screen and (max-width: 700px) {\n  #home[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%] {\n    grid-template-columns: 70% 30%;\n  }\n}\n#info[_ngcontent-%COMP%]   .Erkl\\e4rung[_ngcontent-%COMP%] {\n  margin-top: 1em;\n  font-size: clamp(1rem, 1.5vw, 1.5rem);\n}\n.antragsartdiv[_ngcontent-%COMP%] {\n  display: flex;\n  margin-top: 0.5em;\n  width: 85%;\n  transform: scale(0);\n  animation: _ngcontent-%COMP%_grow 1s forwards;\n}\n@keyframes _ngcontent-%COMP%_grow {\n  100% {\n    transform: scale(1);\n  }\n}\n.icondiv[_ngcontent-%COMP%] {\n  font-size: clamp(0.8rem, 3vw, 2rem);\n  padding: clamp(0.8rem, 5vw, 1.2rem);\n  border-radius: 10px;\n  background-color: var(--primary-variant-much-brighter);\n  display: flex;\n  text-align: center;\n  justify-content: center;\n}\n.antragsarttext[_ngcontent-%COMP%] {\n  text-align: center;\n  font-size: clamp(0.8rem, 1vw, 1.2rem);\n  margin-top: 0.5em;\n}\n.antragsart[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  flex: 1;\n}\n.antragsartfalsch[_ngcontent-%COMP%]   .icondiv[_ngcontent-%COMP%] {\n  background-color: rgb(255, 118, 118);\n}\n#info[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%]   .BannerMusterantrag[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  margin: 1em;\n}\n.Zust\\e4ndigkeiten[_ngcontent-%COMP%] {\n  margin-top: 1em;\n  display: flex;\n  flex-direction: row;\n  align-items: flex-start;\n  justify-content: space-around;\n  flex-wrap: wrap;\n}\n.Zust\\e4ndigkeit[_ngcontent-%COMP%] {\n  margin: 0.5em;\n  font-size: clamp(1rem, 1.2vw, 1.2rem);\n  border-radius: 15px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);\n  max-width: 25rem;\n}\n.Erkl\\e4rungZust\\e4ndigkeit[_ngcontent-%COMP%] {\n  border: 0.15rem solid var(--primary-variant-darker);\n  border-top: 0;\n  border-radius: 0 0 8px 8px;\n  padding: 0.5em;\n  font-size: 0.9em;\n}\n.icondivz[_ngcontent-%COMP%] {\n  padding: 0.5em;\n  font-size: 2em;\n  background-color: var(--primary-variant-much-brighter);\n  border: 0.15rem solid var(--primary-variant-darker);\n  border-bottom: 0;\n  border-radius: 8px 8px 0 0;\n  display: flex;\n  text-align: center;\n  justify-content: center;\n}\n#GB-Inhalt[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%]   .grid[_ngcontent-%COMP%] {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, 20em);\n  justify-content: center;\n  gap: 0.5em;\n  max-width: 61em;\n  margin-bottom: 1.5em;\n}\n.GB-Abschnitt[_ngcontent-%COMP%] {\n  border-radius: 0.4em;\n  display: flex;\n  flex-direction: column;\n  padding: 0.3em;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);\n  background-color: var(--hintergrund-variant-darker);\n  border: 2px solid var(--primary-color);\n}\n.GB-Abschnitt[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  text-align: center;\n  font-weight: 700;\n  color: var(--primary-variant-darker);\n}\n.GB-Abschnitt[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  margin: 0.5em 0;\n  text-align: center;\n}\n.GB-Abschnitt[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  margin: 0.3em 0;\n  padding: 0;\n}\n.Fragen[_ngcontent-%COMP%] {\n  margin-top: 1em;\n  display: flex;\n  flex-direction: column;\n  font-size: clamp(0.8rem, 1.2vw, 1rem);\n}\napp-accordion[_ngcontent-%COMP%] {\n  margin-top: 0.8em;\n}\n/*# sourceMappingURL=home.component.css.map */'] });
+}, dependencies: [NgClass, FaIconComponent, HeaderComponent, AccordionComponent, FooterComponent], styles: ['@charset "UTF-8";\n\n\n\nhr[_ngcontent-%COMP%] {\n  width: clamp(1em, 65%, 60em);\n  margin: 1em 0;\n}\nh2[_ngcontent-%COMP%] {\n  margin: 0;\n  font-size: clamp(0.5rem, 7vw, 2rem);\n  text-align: center;\n}\n#home[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%] {\n  display: grid;\n  justify-content: space-evenly;\n  grid-template-columns: 60% 40%;\n}\nsection[_ngcontent-%COMP%]:nth-of-type(2n-1) {\n  background-color: var(--hintergrund-variant);\n}\n.imgdiv[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-size: clamp(5em, 15vw, 10em);\n  color: var(--primary-variant-brighter);\n}\n.darkmode[_ngcontent-%COMP%]   .imgdiv[_ngcontent-%COMP%] {\n  color: var(--schrift);\n}\n.homebanner[_ngcontent-%COMP%] {\n  box-sizing: border-box;\n  text-align: left;\n  display: flex;\n  justify-content: flex-start;\n  flex-flow: column;\n}\n.titeluntertext[_ngcontent-%COMP%] {\n  margin: 2% 0;\n  font-size: clamp(12px, 1.5vw, 1rem);\n}\n.divTitel[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  font-size: 0.8em;\n}\nh1[_ngcontent-%COMP%] {\n  margin: 5px 0;\n  font-size: clamp(1.2rem, 3vw, 2rem);\n  line-height: 100%;\n  text-align: unset;\n  color: var(--schrift);\n}\n.homebanner[_ngcontent-%COMP%]   button[_ngcontent-%COMP%] {\n  margin-bottom: 2%;\n}\n.labels[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  font-size: clamp(12px, 1vw, 0.8rem);\n  width: 100%;\n  margin: 8px;\n}\n.labels[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  margin: 0 1em;\n}\n.labels[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%] {\n  font-size: clamp(1rem, 1vw, 1.5rem);\n  color: var(--schrift);\n}\n.infobanner[_ngcontent-%COMP%] {\n  border-left: 10px solid #b60e0e;\n  background-color: #f2dede;\n  padding: 15px;\n  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);\n  color: #a94442;\n  margin-top: 10px;\n  border-radius: 5px;\n  grid-column-start: 1;\n  grid-column-end: 3;\n}\n.darkmode[_ngcontent-%COMP%]   .infobanner[_ngcontent-%COMP%] {\n  background-color: rgb(24, 24, 24);\n  color: var(--schrift);\n}\n@media only screen and (max-width: 700px) {\n  #home[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%] {\n    grid-template-columns: 70% 30%;\n  }\n}\n#info[_ngcontent-%COMP%]   .Erkl\\e4rung[_ngcontent-%COMP%] {\n  margin-top: 1em;\n  font-size: clamp(1rem, 1.5vw, 1.5rem);\n}\n.antragsartdiv[_ngcontent-%COMP%] {\n  display: flex;\n  margin-top: 0.5em;\n  width: 85%;\n  transform: scale(0);\n  animation: _ngcontent-%COMP%_grow 1s forwards;\n}\n@keyframes _ngcontent-%COMP%_grow {\n  100% {\n    transform: scale(1);\n  }\n}\n.icondiv[_ngcontent-%COMP%] {\n  font-size: clamp(0.8rem, 3vw, 2rem);\n  padding: clamp(0.8rem, 5vw, 1.2rem);\n  border-radius: 10px;\n  background-color: var(--primary-variant-much-brighter);\n  display: flex;\n  text-align: center;\n  justify-content: center;\n}\n.antragsarttext[_ngcontent-%COMP%] {\n  text-align: center;\n  font-size: clamp(0.8rem, 1vw, 1.2rem);\n  margin-top: 0.5em;\n}\n.antragsart[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  flex: 1;\n}\n.antragsartfalsch[_ngcontent-%COMP%]   .icondiv[_ngcontent-%COMP%] {\n  background-color: rgb(255, 118, 118);\n}\n#info[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%]   .BannerMusterantrag[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  margin: 1em;\n}\n.Zust\\e4ndigkeiten[_ngcontent-%COMP%] {\n  margin-top: 1em;\n  display: flex;\n  justify-content: space-around;\n  flex-wrap: wrap;\n}\n.Zust\\e4ndigkeit[_ngcontent-%COMP%] {\n  margin: 0.5em;\n  font-size: clamp(1rem, 1.2vw, 1.2rem);\n  border-radius: 15px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);\n  max-width: 25rem;\n}\n.Erkl\\e4rungZust\\e4ndigkeit[_ngcontent-%COMP%] {\n  border: 0.15rem solid var(--primary-variant-darker);\n  border-top: 0;\n  border-radius: 0 0 8px 8px;\n  padding: 0.5em;\n  font-size: 0.9em;\n}\n.icondivz[_ngcontent-%COMP%] {\n  padding: 0.5em;\n  font-size: 2em;\n  background-color: var(--primary-variant-much-brighter);\n  border: 0.15rem solid var(--primary-variant-darker);\n  border-bottom: 0;\n  border-radius: 8px 8px 0 0;\n  display: flex;\n  text-align: center;\n  justify-content: center;\n}\n#GB-Inhalt[_ngcontent-%COMP%]   .sectiondiv[_ngcontent-%COMP%]   .grid[_ngcontent-%COMP%] {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(auto-fit, 20em);\n  justify-content: center;\n  gap: 0.5em;\n  max-width: 61em;\n  margin-bottom: 1.5em;\n}\n.GB-Abschnitt[_ngcontent-%COMP%] {\n  border-radius: 0.4em;\n  display: flex;\n  flex-direction: column;\n  padding: 0.3em;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);\n  background-color: var(--hintergrund-variant-darker);\n  border: 2px solid var(--primary-color);\n}\n.GB-Abschnitt[_ngcontent-%COMP%]   h3[_ngcontent-%COMP%] {\n  margin: 0;\n  text-align: center;\n  font-weight: 700;\n  color: var(--primary-variant-darker);\n}\n.GB-Abschnitt[_ngcontent-%COMP%]   span[_ngcontent-%COMP%] {\n  margin: 0.5em 0;\n  text-align: center;\n}\n.GB-Abschnitt[_ngcontent-%COMP%]   ul[_ngcontent-%COMP%] {\n  margin: 0.3em 0;\n  padding: 0;\n  list-style: none;\n}\n.Fragen[_ngcontent-%COMP%] {\n  margin-top: 1em;\n  display: flex;\n  flex-direction: column;\n  font-size: clamp(0.8rem, 1.2vw, 1rem);\n}\napp-accordion[_ngcontent-%COMP%] {\n  margin-top: 0.8em;\n}\n/*# sourceMappingURL=home.component.css.map */'] });
 var HomeComponent = _HomeComponent;
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent", filePath: "src/app/routes/home/home.component.ts", lineNumber: 30 });

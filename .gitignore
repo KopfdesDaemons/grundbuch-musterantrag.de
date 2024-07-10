@@ -6,6 +6,8 @@
 /out-tsc
 /bazel-out
 
+/src
+
 /server/logFile.log
 /server/hash.json
 /server/uploads

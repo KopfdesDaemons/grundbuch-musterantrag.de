@@ -1,27 +1,27 @@
 /* src/assets/ricosCSS/ricosframework.css */
 :root {
   --helligkeit: 50%;
-  --hsl-color: 173, 63%;
+  --hsl-color: 195, 74.9%;
   --primary-color: hsl(var(--hsl-color), var(--helligkeit));
-  --primary-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) - 20%));
-  --primary-variant-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 20%));
-  --primary-variant-much-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 25%));
+  --primary-variant-darker: hsl(var(--hsl-color), calc(var(--helligkeit) - 20%));
+  --primary-variant-brighter: hsl(var(--hsl-color), calc(var(--helligkeit) + 20%));
+  --primary-variant-much-brighter: hsl(var(--hsl-color), calc(var(--helligkeit) + 25%));
   --body: rgb(252, 252, 252);
   --hintergrund: rgb(240, 240, 240);
   --schrift: rgb(10, 10, 10);
-  --hintergrund-inputfeld: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%));
-  --hintergrund-variant: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%));
-  --hintergrund-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) + 35%));
+  --hintergrund-inputfeld: hsl(var(--hsl-color), calc(var(--helligkeit) + 45%));
+  --hintergrund-variant: hsl(var(--hsl-color), calc(var(--helligkeit) + 45%));
+  --hintergrund-variant-darker: hsl(var(--hsl-color), calc(var(--helligkeit) + 35%));
 }
 .darkmode {
-  --primary-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) + 25%));
-  --primary-variant-much-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) - 20%));
-  --body: rgb(15, 15, 15);
-  --hintergrund: rgb(22, 24, 28);
+  --primary-variant-darker: hsl(var(--hsl-color), calc(var(--helligkeit) + 25%));
+  --primary-variant-much-brighter: hsl(var(--hsl-color), calc(var(--helligkeit) - 20%));
+  --body: rgb(18, 19, 24);
+  --hintergrund: rgb(27, 30, 38);
   --schrift: rgb(238, 238, 238);
-  --hintergrund-inputfeld: hsl(var(--hsl-color),calc(var(--helligkeit) - 45%));
-  --hintergrund-variant: hsl(var(--hsl-color),calc(var(--helligkeit) - 38%));
-  --hintergrund-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) - 45%));
+  --hintergrund-inputfeld: hsl(var(--hsl-color), calc(var(--helligkeit) - 45%));
+  --hintergrund-variant: hsl(var(--hsl-color), calc(var(--helligkeit) - 38%));
+  --hintergrund-variant-darker: hsl(var(--hsl-color), calc(var(--helligkeit) - 45%));
 }
 @font-face {
   font-display: swap;
@@ -109,127 +109,6 @@
   font-style: normal;
   font-weight: 400;
   src: url("./media/roboto-v30-latin-regular.woff2") format("woff2"), url("./media/roboto-v30-latin-regular.woff") format("woff");
-}
-html,
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  background-color: var(--body);
-  scrollbar-color: var(--primary-variant-much-brighter) transparent;
-}
-body {
-  display: flex;
-  flex-direction: column;
-}
-li {
-  list-style: none;
-}
-h1,
-h2,
-h3,
-a,
-p,
-span,
-table,
-label,
-div {
-  font-family: "Quicksand", sans-serif;
-  color: var(--schrift);
-}
-h1 {
-  color: var(--primary-variant-darker);
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  width: 100%;
-  text-align: center;
-}
-h2,
-h3,
-.darkmode h2,
-.darkmode h3 {
-  color: var(--primary-variant-darker);
-}
-.darkmode a {
-  color: rgb(183, 189, 255);
-}
-.darkmode .rot,
-.rot {
-  color: red;
-}
-.variantColor {
-  color: var(--primary-variant-darker);
-}
-button {
-  all: unset;
-  color: rgb(10, 10, 10);
-  background-color: var(--primary-color);
-  border-radius: 8px;
-  margin: 0.2rem;
-  padding: 0 15px;
-  border: none;
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
-  font-size: 0.875rem;
-  height: 36px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-button:hover {
-  background-color: var(--primary-variant-much-brighter);
-  cursor: pointer;
-}
-button:disabled {
-  background-color: var(--primary-variant-much-brighter);
-  cursor: not-allowed;
-}
-button,
-button div,
-button span {
-  font-family: "Roboto", sans-serif;
-}
-.btnoutlined {
-  background-color: transparent;
-  color: var(--primary-color);
-  border: 0.1rem solid var(--primary-variant-darker);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-.btnoutlined:hover {
-  background-color: var(--primary-variant-much-brighter);
-}
-.btnoutlined:disabled {
-  background-color: var(--hintergrund-inputfeld);
-  border-color: #bbbbbb;
-  color: #bbbbbb;
-}
-.btntext {
-  background-color: transparent;
-  color: var(--primary-variant-darker);
-  border: 0;
-  box-shadow: none;
-  padding: 0 8px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-.btntext:hover {
-  background-color: var(--primary-variant-much-brighter);
-}
-.btnicon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  height: 2rem;
-  width: 2rem;
-  border-radius: 50%;
-  background-color: var(--hintergrund-variant);
-  color: var(--schrift);
-}
-.btnicon:hover {
-  background-color: var(--primary-variant-much-brighter);
 }
 .inputfeld {
   position: relative;
@@ -349,6 +228,112 @@ select:focus-visible {
   color: #284b63;
   border: 2px solid var(--primary-color);
 }
+button {
+  all: unset;
+  color: rgb(10, 10, 10);
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  margin: 0.2rem;
+  padding: 0 15px;
+  border: none;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
+  height: 36px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+button:hover {
+  background-color: var(--primary-variant-much-brighter);
+  cursor: pointer;
+}
+button:disabled {
+  background-color: var(--primary-variant-much-brighter);
+  cursor: not-allowed;
+}
+button,
+button div,
+button span {
+  font-family: "Roboto", sans-serif;
+}
+.btnoutlined {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 0.1rem solid var(--primary-variant-darker);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.btnoutlined:hover {
+  background-color: var(--primary-variant-much-brighter);
+}
+.btnoutlined:disabled {
+  background-color: var(--hintergrund-inputfeld);
+  border-color: #bbbbbb;
+  color: #bbbbbb;
+}
+.btntext {
+  background-color: transparent;
+  color: var(--primary-variant-darker);
+  border: 0;
+  box-shadow: none;
+  padding: 0 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.btntext:hover {
+  background-color: var(--primary-variant-much-brighter);
+}
+.btnicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  background-color: var(--hintergrund-variant);
+  color: var(--schrift);
+}
+.btnicon:hover {
+  background-color: var(--primary-variant-much-brighter);
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  background-color: var(--body);
+  scrollbar-color: var(--primary-variant-much-brighter) transparent;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "Quicksand", sans-serif;
+  color: var(--schrift);
+}
+h1 {
+  color: var(--primary-variant-darker);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  width: 100%;
+  text-align: center;
+}
+h2,
+h3 {
+  color: var(--primary-variant-darker);
+}
+.darkmode a {
+  color: rgb(183, 189, 255);
+}
+.darkmode .rot,
+.rot {
+  color: red;
+}
+.variantColor {
+  color: var(--primary-variant-darker);
+}
 table {
   border-collapse: collapse;
   margin-top: 25px;
@@ -389,11 +374,10 @@ section {
 }
 .borderdiv {
   border: 1px solid #dadce0;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--hintergrund);
   border-radius: 8px;
 }
 .darkmode .borderdiv {
-  background-color: rgb(22, 24, 28);
   border: 1px solid var(--primary-color);
 }
 section:first-of-type .sectiondiv {
