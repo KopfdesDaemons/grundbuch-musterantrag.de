@@ -158,8 +158,6 @@ h1 {
 .Zuständigkeiten {
   margin-top: 1em;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
   justify-content: space-around;
   flex-wrap: wrap;
 }
@@ -192,7 +190,7 @@ h1 {
   justify-content: center;
 }
 
-/*GB-Inhalt-------------------------------------------------------------------------------*/
+/*Was steht im Grundbuch?-------------------------------------------------------------------------------*/
 #GB-Inhalt .sectiondiv .grid {
   width: 100%;
   display: grid;
@@ -212,22 +210,20 @@ h1 {
   background-color: var(--hintergrund-variant-darker);
   border: 2px solid var(--primary-color);
 }
-
 .GB-Abschnitt h3 {
   margin: 0;
   text-align: center;
   font-weight: 700;
   color: var(--primary-variant-darker);
 }
-
 .GB-Abschnitt span {
   margin: 0.5em 0;
   text-align: center;
 }
-
 .GB-Abschnitt ul {
   margin: 0.3em 0;
   padding: 0;
+  list-style: none;
 }
 
 /*FAQ-------------------------------------------------------------------------------*/

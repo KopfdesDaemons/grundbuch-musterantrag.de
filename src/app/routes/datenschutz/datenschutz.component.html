@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header farbe="var(--hintergrund)"></app-header>
 <section>
     <div class="sectiondiv">
         <h1>Datenschutzerklärung</h1>
@@ -20,7 +20,7 @@
             gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) f)DSGVO</a>.
             Dies begründet sich damit, dass ohne diese Daten kein Antragsgenerierung möglich ist. Die
             Antragsgenerierung liegt auch im Interesse des Nutzers.</p>
-        <p>Für die optionalen Angaben gilt mit der freiwilligen Angabe eine stillschweigende Einwilligung gemäß 
+        <p>Für die optionalen Angaben gilt mit der freiwilligen Angabe eine stillschweigende Einwilligung gemäß
             <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) a) DSGVO</a>.
         </p>
 
@@ -34,12 +34,15 @@
         <h3>Cookie "Farbe"</h3>
         <p class="eingerückt">Speichert die Auswahl der Farbe der Webseite. Ohne Cookie wird die Farbe blau
             verwendet.</p>
-        <p>Es ist <a class="dsgvo" target="_blank" href="https://www.e-recht24.de/artikel/datenschutz/12962-was-sind-essenzielle-cookies.html">
-            rechtlich umstritten</a>, ob Desigen-Cookies als essentiellle Cookies gemäß <a class="dsgvo" target="_blank"
-            href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) f) DSGVO</a> gelten. Deshalb wird die Einwilligung 
-            eingeholt gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) a) DSGVO</a>. 
+        <p>Es ist <a class="dsgvo" target="_blank"
+                href="https://www.e-recht24.de/artikel/datenschutz/12962-was-sind-essenzielle-cookies.html">
+                rechtlich umstritten</a>, ob Desigen-Cookies als essentiellle Cookies gemäß <a class="dsgvo"
+                target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) f) DSGVO</a> gelten. Deshalb wird
+            die Einwilligung
+            eingeholt gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) a)
+                DSGVO</a>.
             Die Dauer der Speicherung beträgt für beide Cookies 90 Tage.</p>
-            <button class="btntext" (click)="deleteCookies()">Cookies löschen</button>
+        <button class="btntext" (click)="deleteCookies()">Cookies löschen</button>
 
 
         <h2>Drittanbieterdienste</h2>
@@ -76,7 +79,7 @@
                 sowie das Recht auf Datenübertragbarkeit.</li>
             <li>gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-13-dsgvo/">Art. 13 (2) c)
                     DSGVO</a> auf Widerruf einer abgegebenen Einwilligung zur Verarbeitung personenbezogener Daten.
-                    <button class="btntext" (click)="deleteCookies()">Cookies löschen</button>
+                <button class="btntext" (click)="deleteCookies()">Cookies löschen</button>
             </li>
             <li>gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-13-dsgvo/">Art. 13 (2) d)
                     DSGVO</a> auf Beschwerde bei einer Aufsichtsbehörde.</li>

@@ -19,7 +19,7 @@ h2 {
   grid-template-columns: 60% 40%;
 }
 
-section:nth-of-type(2n - 1){
+section:nth-of-type(2n - 1) {
   background-color: var(--hintergrund-variant);
 }
 
@@ -31,7 +31,7 @@ section:nth-of-type(2n - 1){
   color: var(--primary-variant-brighter);
 }
 
-.darkmode .imgdiv{
+.darkmode .imgdiv {
   color: var(--schrift);
 }
 
@@ -119,8 +119,8 @@ h1 {
   animation: grow 1s forwards;
 }
 
-@keyframes grow{
-  100%{
+@keyframes grow {
+  100% {
     transform: scale(1);
   }
 }
@@ -163,8 +163,6 @@ h1 {
 .Zuständigkeiten {
   margin-top: 1em;
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
   justify-content: space-around;
   flex-wrap: wrap;
 }
@@ -197,7 +195,7 @@ h1 {
   justify-content: center;
 }
 
-/*GB-Inhalt-------------------------------------------------------------------------------*/
+/*Was steht im Grundbuch?-------------------------------------------------------------------------------*/
 
 #GB-Inhalt .sectiondiv .grid {
   width: 100%;
@@ -217,23 +215,24 @@ h1 {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   background-color: var(--hintergrund-variant-darker);
   border: 2px solid var(--primary-color);
-}
 
-.GB-Abschnitt h3 {
-  margin: 0;
-  text-align: center;
-  font-weight: 700;
-  color: var(--primary-variant-darker);
-}
+  h3 {
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary-variant-darker);
+  }
 
-.GB-Abschnitt span {
-  margin: 0.5em 0;
-  text-align: center;
-}
+  span {
+    margin: 0.5em 0;
+    text-align: center;
+  }
 
-.GB-Abschnitt ul {
-  margin: 0.3em 0;
-  padding: 0;
+  ul {
+    margin: 0.3em 0;
+    padding: 0;
+    list-style: none;
+  }
 }
 
 /*FAQ-------------------------------------------------------------------------------*/
@@ -245,6 +244,6 @@ h1 {
   font-size: clamp(0.8rem, 1.2vw, 1rem);
 }
 
-app-accordion{
+app-accordion {
   margin-top: 0.8em;
 }
