@@ -1,0 +1,37 @@
+<form [formGroup]="fs.form">
+    <div id="formdesausdrucks">
+        <h2>Form des Ausdrucks</h2>
+        <div class="formularcontent">
+            <div class="auswahlcard">
+                <input formControlName="formDesAusdrucks" id="einfach" type="radio" name="formDesAusdrucks"
+                    value="einfach">
+                <label for="einfach"><strong>Einfacher Ausdruck</strong>
+                    <span class="gebühr">Gerichtsgebühr <b>10 €</b></span>
+                    <span class="beschreibung">Ein Ausdruck auf normalem Papier.</span>
+                    <span><i class="fa-solid fa-circle-info"></i> In den meisten Fällen ist dieser
+                        ausreichend.</span>
+                </label>
+            </div>
+            <div class="auswahlcard">
+                <input formControlName="formDesAusdrucks" id="beglaubigt" type="radio" name="formDesAusdrucks"
+                    value="beglaubigt">
+                <label for="beglaubigt"><strong>Beglaubigter/Amtlicher Ausdruck</strong>
+                    <span class="gebühr">Gerichtsgebühr <b>20 €</b></span>
+                    <span class="beschreibung">Ein Ausdruck auf farbigen dicken Wappenpapier. Dem Ausdruck wird
+                        ein Siegel beigedrückt.</span>
+                    <span><i class="fa-solid fa-circle-info"></i> Sparen Sie sich das Geld, wenn ein
+                        beglaubigter Ausdruck nicht explizit verlangt wird.</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="formNavBtn">
+        @if (fs.getCurrentStep() > 1) {
+        <button class="btntext" type="button" (click)="fs.back()">zurück</button>
+        }
+        @if (fs.getCurrentStep() < 6) { <button class="btnoutlined" id="weiterbtn" type="submit"
+            (click)="fs.nextStep()">
+            Weiter</button>
+            }
+    </div>
+</form>

@@ -26,6 +26,7 @@ import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/c
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AntragsgenerierungComponent } from "./components/forms/antragsgenerierung/antragsgenerierung.component";
+import { FormDesAusdrucksComponent } from "./components/forms/form-des-ausdrucks/form-des-ausdrucks.component";
 
 @NgModule({
     declarations: [
@@ -50,7 +51,8 @@ import { AntragsgenerierungComponent } from "./components/forms/antragsgenerieru
         GrundbuchamtComponent,
         ProgressSpinnerComponent,
         DashboardComponent,
-        AntragsgenerierungComponent
+        AntragsgenerierungComponent,
+        FormDesAusdrucksComponent
     ],
     bootstrap: [AppComponent],
     imports: [
