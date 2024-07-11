@@ -5,23 +5,23 @@
       <div class="zeileAnrede">
         <div class="anredediv radiobuttontogglediv">
           <div class="radiobuttonchip">
-            <input type="radio" id="herr" name="anrede" value="Herr" formControlName="anrede">
-            <label  for="herr">Herr</label>
+            <input type="radio" id="herr" name="geschlecht" value="Herr" formControlName="geschlecht">
+            <label for="herr">Herr</label>
           </div>
           <div class="radiobuttonchip">
-            <input type="radio" id="frau" name="anrede" value="Frau" formControlName="anrede">
-            <label  for="frau">Frau</label>
+            <input type="radio" id="frau" name="geschlecht" value="Frau" formControlName="geschlecht">
+            <label for="frau">Frau</label>
           </div>
         </div>
       </div>
       <div class="inputfeld" id="vorname">
-        <input formControlName="vorname" type="text" id="vornameinput" name="vorname" required
-          spellcheck="false" placeholder="&nbsp;">
+        <input formControlName="vorname" type="text" id="vornameinput" name="vorname" required spellcheck="false"
+          placeholder="&nbsp;">
         <label class="placeholder" for="vornameinput">Vorname</label>
       </div>
       <div class="inputfeld" id="nachname">
-        <input formControlName="nachname" type="text" id="nachnameinput" name="nachname" required
-          spellcheck="false" placeholder="&nbsp;">
+        <input formControlName="nachname" type="text" id="nachnameinput" name="nachname" required spellcheck="false"
+          placeholder="&nbsp;">
         <label class="placeholder" for="nachnameinput">Nachname</label>
       </div>
       <div class="inputfeld" id="straße">
@@ -30,8 +30,8 @@
         <label class="placeholder" for="straßeinput">Straße + Hausnummer</label>
       </div>
       <div class="inputfeld" id="postleitzahl">
-        <input formControlName="plz" type="text" inputmode="numeric" id="postleitzahlinput" name="postleitzahl"
-          required spellcheck="false" placeholder="&nbsp;">
+        <input formControlName="plz" type="text" inputmode="numeric" id="postleitzahlinput" name="postleitzahl" required
+          spellcheck="false" placeholder="&nbsp;">
         <label class="placeholder" for="postleitzahlinput">PLZ</label>
       </div>
       <div class="inputfeld" id="ort">
@@ -41,27 +41,27 @@
       </div>
       <div class="hrdiv">
         <hr>
-        </div>
-        <div class="formularerklärung">Otionale Angaben für mögliche Rückfragen des Grundbuchamts:</div>
-        <div class="inputfeld" id="telefonnummer">
-          <input formControlName="telefonnummer" type="tel" id="telefonnummerinput" name="telefonnummer"
-            spellcheck="false" placeholder="&nbsp;">
-          <label class="placeholder" for="telefonnummerinput">Telefonnummer</label>
-        </div>
-        <div class="inputfeld" id="email">
-          <input formControlName="email" type="email" id="emailinput" name="email" spellcheck="false"
-            placeholder="&nbsp;">
-          <label class="placeholder" for="emailinput">E-Mail</label>
-        </div>
       </div>
-      <div class="profilicon">
-        <fa-icon [icon]="faCircleUser"></fa-icon>
+      <div class="formularerklärung">Otionale Angaben für mögliche Rückfragen des Grundbuchamts:</div>
+      <div class="inputfeld" id="telefonnummer">
+        <input formControlName="telefonnummer" type="tel" id="telefonnummerinput" name="telefonnummer"
+          spellcheck="false" placeholder="&nbsp;">
+        <label class="placeholder" for="telefonnummerinput">Telefonnummer</label>
+      </div>
+      <div class="inputfeld" id="email">
+        <input formControlName="email" type="email" id="emailinput" name="email" spellcheck="false"
+          placeholder="&nbsp;">
+        <label class="placeholder" for="emailinput">E-Mail</label>
       </div>
     </div>
-    <div class="formNavBtn">
-      @if (fs.getCurrentStep() > 1) {
-        <button class="btntext" type="button" (click)="fs.back()">zurück</button>
-      }
-      <button class="btnoutlined" id="weiterbtn" type="submit" (click)="next()">Weiter</button>
+    <div class="profilicon">
+      <fa-icon [icon]="faCircleUser"></fa-icon>
     </div>
-  </form>
+  </div>
+  <div class="formNavBtn">
+    @if (fs.getCurrentStep() > 1) {
+    <button class="btntext" type="button" (click)="fs.back()">zurück</button>
+    }
+    <button class="btnoutlined" id="weiterbtn" type="submit" (click)="next()">Weiter</button>
+  </div>
+</form>

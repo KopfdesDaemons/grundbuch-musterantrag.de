@@ -1,0 +1,29 @@
+<div>
+    <div id="ende">
+        <h2>Geschafft!</h2>
+        <span>Sie sind fast fertig.</span>
+        <span>Vergessen Sie nicht den Antrag zu unterschreiben</span>
+        <div class="status" [class.fehlerstatus]="fehler === true">
+            <div>{{statusmeldung}}</div>@if (fehler) {
+            <button class="btntext" (click)="generate()">erneut versuchen</button>
+            }
+        </div>
+        <div class="kachelcontainer">
+            <button class="btnoutlined kachel" [disabled]="docx == null" (click)="downloadDocx()">
+                <fa-icon [icon]="faFileWord"></fa-icon>
+                <span>.docx (Word)</span>
+                @if (prozentProgressSpinnerWord != 100) {
+                <app-progress-spinner [prozent]="prozentProgressSpinnerWord"></app-progress-spinner>
+                }
+            </button>
+            <button class="btnoutlined kachel" [disabled]="pdf == null" (click)="openPdf()">
+                <fa-icon [icon]="faFilePdf"></fa-icon>
+                <span>.pdf</span>
+                @if (!pdf) {
+                <app-progress-spinner [prozent]="prozentPdfUpload != 100 ? prozentPdfUpload : prozentPdfDownload"
+                    [endless]="prozentProgressSpinnerWord == 100 && prozentPdfUpload == 100 && prozentPdfDownload == 0"></app-progress-spinner>
+                }
+            </button>
+        </div>
+    </div>
+</div>

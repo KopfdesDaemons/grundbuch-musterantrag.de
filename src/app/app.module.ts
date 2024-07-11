@@ -25,6 +25,7 @@ import { GrundbuchamtComponent } from './components/forms/grundbuchamt/grundbuch
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
+import { AntragsgenerierungComponent } from "./components/forms/antragsgenerierung/antragsgenerierung.component";
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
         GrundbuchamtComponent,
         ProgressSpinnerComponent,
         DashboardComponent,
+        AntragsgenerierungComponent
     ],
     bootstrap: [AppComponent],
     imports: [

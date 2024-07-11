@@ -13,31 +13,31 @@ export class FormService {
   form!: FormGroup
   private Step = new BehaviorSubject<number>(1);
 
-  constructor(public http: HttpClient, public scroll: ViewportScroller) {}
-  
-  init(form: FormGroup){
+  constructor(public http: HttpClient, public scroll: ViewportScroller) { }
+
+  init(form: FormGroup) {
     this.form = form;
-    (this.form.get('grundstück') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz))
+    (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz))
   }
 
   nextStep(step: number = this.Step.value + 1) {
     this.Step.next(step);
-    this.scroll.scrollToPosition([0,0]);
+    this.scroll.scrollToPosition([0, 0]);
   }
 
   getCurrentStepBehaviorSubject() {
     return this.Step.asObservable();
   }
 
-  getCurrentStep(){
+  getCurrentStep() {
     return this.Step.value;
   }
 
-  back(){
+  back() {
     this.Step.next(this.Step.value - 1);
   }
 
-  restart(){
+  restart() {
     this.Step.next(1);
   }
 
@@ -57,12 +57,12 @@ export class FormService {
     }
   }
 
-  async sucheGrundbuchamt(plz: string){
-    if(plz.length === 5){
-      try{
+  async sucheGrundbuchamt(plz: string) {
+    if (plz.length === 5) {
+      try {
         let jsonAmtsgerichtDaten: any = await this.AmtsgerichtAusPLZ(plz);
         const grundbuchamtForm = (this.form.get('grundbuchamt') as FormGroup);
-  
+
         grundbuchamtForm.setValue({
           name: jsonAmtsgerichtDaten['amtsgericht'],
           straße: jsonAmtsgerichtDaten['straße'],
@@ -70,7 +70,7 @@ export class FormService {
           ort: jsonAmtsgerichtDaten['ort']
         })
         console.log(grundbuchamtForm.get('name')?.value + ' wurde ermittelt.')
-      }catch(err){
+      } catch (err) {
         console.error('Das Amtsgericht konnte nicht ermittelt werden.');
         console.error(err);
       }
@@ -81,11 +81,18 @@ export class FormService {
     return new Promise(async (resolve, reject) => {
       try {
         const url = '/api/amtsgerichtausplz';
-        const res = await lastValueFrom(this.http.get(url, {params: new HttpParams().set('plz', plz)}));
+        const res = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('plz', plz) }));
         resolve(res);
       } catch (err) {
         reject(err);
       }
     });
+  }
+
+  getFormattedDate(date: Date): string {
+    const tag = String(date.getDate()).padStart(2, '0');
+    const monat = String(date.getMonth() + 1).padStart(2, '0');
+    const jahr = date.getFullYear();
+    return `${tag}.${monat}.${jahr}`;
   }
 }

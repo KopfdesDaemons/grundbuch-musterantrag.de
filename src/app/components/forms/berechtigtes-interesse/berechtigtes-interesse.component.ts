@@ -8,13 +8,13 @@ import { FormService } from 'src/app/services/form.service';
   styleUrls: ['./berechtigtes-interesse.component.scss']
 })
 export class BerechtigtesInteresseComponent {
-    form: FormGroup
+  form: FormGroup
 
-    constructor(public fs: FormService){
-      this.form = fs.form.get("berechtigtesInteresse") as FormGroup;
-    }
+  constructor(public fs: FormService) {
+    this.form = fs.form.get("berechtigtesInteresse") as FormGroup;
+  }
 
-    next(){
-      if(this.form.valid) this.fs.nextStep();
-    }
+  next() {
+    if (this.form.valid) this.fs.nextStep();
+  }
 }

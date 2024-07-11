@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Antrag } from 'src/app/interfaces/antrag';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
@@ -11,27 +12,25 @@ export class GrundstueckComponent {
 
   form: FormGroup
 
-  constructor(public fs: FormService){
-    this.form = fs.form.get("grundstück") as FormGroup;
+  constructor(public fs: FormService) {
+    this.form = fs.form.get("grundstueck") as FormGroup;
 
     this.form.get('plz')?.valueChanges.subscribe(async plz => {
-      if((plz as string).length === 5){
+      if ((plz as string).length === 5) {
         let ort = await this.fs.ortAusPLZ(plz)
         this.form.controls['ort'].setValue(ort);
       }
     })
-
-
   }
 
-  anschriftuebernehmen(){
-    let antragstellerForm = this.fs.form.get('antragsteller') as FormGroup;
-    this.form.controls['plz'].setValue(antragstellerForm?.get('plz')?.value);
-    this.form.controls['straße'].setValue(antragstellerForm?.get('straße')?.value);
-    this.form.controls['ort'].setValue(antragstellerForm?.get('ort')?.value);
+  anschriftuebernehmen() {
+    let antragsteller = (this.fs.form.value as Antrag).antragsteller;
+    this.form.controls['plz'].setValue(antragsteller.plz);
+    this.form.controls['straße'].setValue(antragsteller.straße);
+    this.form.controls['ort'].setValue(antragsteller.ort);
   }
 
-  next(){
-    if(this.form.valid) this.fs.nextStep();
+  next() {
+    if (this.form.valid) this.fs.nextStep();
   }
 }
