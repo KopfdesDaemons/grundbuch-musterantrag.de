@@ -7,34 +7,46 @@ import { Antrag } from '../interfaces/antrag';
 })
 export class DocxgeneratorService {
   progress = 0;
-  fehler = false;
+  fehler = signal(false);
   statusmeldung = signal('Die Antragsgenerierung wird gestartet.');
   docx: any;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
-  async generateDocx(antrag: Antrag) {
-    this.fehler = false;
+  async generate(antrag: Antrag) {
+    this.fehler.set(false);
     this.progress = 0;
     this.docx = null;
 
     if (!isPlatformBrowser(this.platformId)) return;
 
-    // importiere die notwendigen Skripte
-    this.statusmeldung.set('Die benötigten Libraries werden heruntergeladen.');
-    const { default: Docxtemplater } = await import('docxtemplater');
-    const { default: expressionParser } = await import('docxtemplater/expressions.js');
-    const { default: PizZip } = await import('pizzip');
-    const { default: PizZipUtils } = await import('pizzip/utils/index.js');
+    let Docxtemplater: any;
+    let expressionParser: any;
+    let PizZip: any;
+    let PizZipUtils: any;
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve) => {
+      try {
+        // importiere die notwendigen Skripte
+        this.statusmeldung.set('Die benötigten Libraries werden heruntergeladen.');
+        Docxtemplater = (await import('docxtemplater')).default;
+        expressionParser = (await import('docxtemplater/expressions.js')).default;
+        PizZip = (await import('pizzip')).default;
+        PizZipUtils = (await import('pizzip/utils/index.js')).default;
+      } catch (error: any) {
+        this.statusmeldung.set('Fehler beim Laden der benötigten Libraries.');
+        this.fehler.set(true)
+        throw error;
+      }
+
       this.progress = 10;
       this.statusmeldung.set('Die Templatedatei wird heruntergeladen.');
 
       PizZipUtils.getBinaryContent('assets/antragtemplate.docx',
         (error: Error | null, content: string) => {
           if (error) {
-            reject(new Error('Fehler beim Laden der Templatedatei.'));
+            this.fehler.set(true);
+            this.statusmeldung.set('Fehler beim Laden der Templatedatei.');
             throw error;
           }
 
@@ -51,7 +63,8 @@ export class DocxgeneratorService {
             });
             doc.setData(antrag);
           } catch (error) {
-            reject(new Error('Fehler beim Setzen der Variablen in die Templatedatei.'));
+            this.fehler.set(true);
+            this.statusmeldung.set('Fehler beim Setzen der Variablen in die Templatedatei.');
             throw error;
           }
 
@@ -61,7 +74,8 @@ export class DocxgeneratorService {
           try {
             doc.render();
           } catch (error) {
-            reject(new Error('Fehler beim Rendern der Templatedatei.'));
+            this.fehler.set(true);
+            this.statusmeldung.set('Fehler beim Rendern der Templatedatei.');
             throw error;
           }
 
@@ -76,7 +90,8 @@ export class DocxgeneratorService {
             this.progress = 100;
             resolve(blobDocx);
           } catch (error) {
-            reject(new Error('Fehler beim Zippen der docx Datei.'));
+            this.fehler.set(true);
+            this.statusmeldung.set('Fehler beim Zippen der docx Datei.');
             throw error;
           }
         }
