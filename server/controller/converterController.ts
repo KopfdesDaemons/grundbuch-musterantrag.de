@@ -1,12 +1,9 @@
-import { spawn, SpawnOptions } from 'child_process';
+import { spawn } from 'child_process';
 
 export const convertToPdf = async (filepath: string, folderpath: string): Promise<void> => {
     return new Promise((resolve, reject) => {
         const args = ['--convert-to', 'pdf', filepath, '--outdir', folderpath];
-        const options: SpawnOptions = {
-            shell: true // Wenn nötig, je nach Betriebssystem
-        };
-        const child = spawn('soffice', args, options);
+        const child = spawn('soffice', args);
 
         child.on('error', (err) => {
             reject(err);

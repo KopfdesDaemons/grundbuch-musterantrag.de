@@ -9,7 +9,7 @@ import authMiddleware from './server/middleware/authMiddleware';
 import * as directoryController from './server/controller/directoryController';
 import * as authController from './server/controller/authController';
 import * as scrapingController from './server/controller/scrapingController';
-import grundbuchausdruckRoute from './server/routes/anträge/grundbuchausdruckRoute'
+import docxToPdf from './server/routes/anträge/docxToPfd'
 import { Logger } from 'winston';
 import fileUpload from 'express-fileupload';
 
@@ -58,7 +58,7 @@ export function app(): express.Express {
   server.get('/api/getLogFile', authMiddleware, directoryController.getLogFile);
 
   // ausgelagerte Routen
-  server.use('/', grundbuchausdruckRoute);
+  server.use('/', docxToPdf);
 
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {

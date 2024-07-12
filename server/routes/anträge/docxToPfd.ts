@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
-router.post('/api/antraggrundbuchausdruck', async (req: Request, res: Response) => {
+router.post('/api/docxToPdf', async (req: Request, res: Response) => {
   try {
     const { docx } = req.files as any;
     if (!docx) {

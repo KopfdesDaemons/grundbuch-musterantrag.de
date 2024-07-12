@@ -22,7 +22,7 @@ export class PdfgeneratorService {
     return new Promise((resolve) => {
       const form = new FormData();
       form.append('docx', docx);
-      const url = '/api/antraggrundbuchausdruck';
+      const url = '/api/docxToPdf';
 
       this.http.post(url, form, {
         responseType: 'blob',
