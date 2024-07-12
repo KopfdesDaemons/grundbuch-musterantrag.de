@@ -28,6 +28,7 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AntragsgenerierungComponent } from "./components/forms/antragsgenerierung/antragsgenerierung.component";
 import { FormDesAusdrucksComponent } from "./components/forms/form-des-ausdrucks/form-des-ausdrucks.component";
 import { HinweisComponent } from './components/forms/hinweis/hinweis.component';
+import { AntragslisteComponent } from './routes/antragsliste/antragsliste.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { HinweisComponent } from './components/forms/hinweis/hinweis.component';
         DashboardComponent,
         AntragsgenerierungComponent,
         FormDesAusdrucksComponent,
-        HinweisComponent
+        HinweisComponent,
+        AntragslisteComponent
     ],
     bootstrap: [AppComponent],
     imports: [

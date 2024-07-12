@@ -5,11 +5,12 @@
       <div class="btnDesign farbauswahlbutton"></div>
       <div class="farbauswahl">
         @for (color of colors; track color) {
-          <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
         }
         <div class="anderefarbediv">
           <span>Eigene Farbe auswählen</span>
-          <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>
+          <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe"
+            (change)="CustomColor($event.target)" />
         </div>
       </div>
     </div>
@@ -19,6 +20,9 @@
     <nav>
       <ul>
         <li><a routerLink="">Home</a></li>
+        <li>
+          <a routerLink="/antragsliste">Musteranträge</a>
+        </li>
         <li>
           <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
         </li>
@@ -38,11 +42,12 @@
           <div class="btnDesign farbauswahlbutton"></div>
           <div class="farbauswahl">
             @for (color of colors; track color) {
-              <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
             }
             <div class="anderefarbediv">
               <span>Eigene Farbe auswählen</span>
-              <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe" (change)="CustomColor($event.target)"/>
+              <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe"
+                (change)="CustomColor($event.target)" />
             </div>
           </div>
         </div>
@@ -56,6 +61,9 @@
         <li><a routerLink="">Home</a></li>
         <li>
           <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
+        </li>
+        <li>
+          <a routerLink="/antragsliste">Musteranträge</a>
         </li>
       </ul>
     </nav>

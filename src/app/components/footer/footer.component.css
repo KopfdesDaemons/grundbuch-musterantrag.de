@@ -7,7 +7,6 @@ footer {
   position: sticky;
   z-index: 1;
   background-color: var(--body);
-  margin-top: 10em;
 }
 
 footer ul {

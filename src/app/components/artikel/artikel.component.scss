@@ -37,6 +37,10 @@
   .sectiondiv {
     align-items: flex-start;
     max-width: 60em;
+
+    &:first-of-type {
+      margin-top: 3em;
+    }
   }
 
   h2,

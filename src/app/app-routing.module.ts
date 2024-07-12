@@ -11,12 +11,14 @@ import { HomeComponent } from './routes/home/home.component';
 import { ImpressumComponent } from './routes/impressum/impressum.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AuthGuard } from './auth.guard';
+import { AntragslisteComponent } from './routes/antragsliste/antragsliste.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: 'antrag/:antragsart', component: AntragsformularComponent },
   { path: 'impressum', component: ImpressumComponent },
   { path: 'datenschutz', component: DatenschutzComponent },
+  { path: 'antragsliste', component: AntragslisteComponent },
   { path: 'grundbuchrecht/einleitung', component: EinleitungComponent },
   { path: 'grundbuchrecht/bestandsverzeichnis', component: BestandsverzeichnisComponent },
   { path: 'grundbuchrecht/abteilung1', component: Abteilung1Component },

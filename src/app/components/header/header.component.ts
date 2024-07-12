@@ -22,7 +22,7 @@ export class HeaderComponent implements AfterViewInit {
 
   constructor(public cs: CookiesService, public farbConv: FarbconverterService, public dl: DesignloaderService) { }
 
-  @Input() farbe: string = 'transparent';
+  @Input() farbe: string = 'var(--body)';
 
   ngAfterViewInit(): void {
     this.cs.cookieRequestList.subscribe((c: cookie[]) => { this.showCookieBanner(); });
