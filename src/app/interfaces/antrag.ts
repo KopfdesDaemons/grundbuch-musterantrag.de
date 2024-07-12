@@ -9,4 +9,5 @@ export interface Antrag {
     datum: string
     templateFileName: string
     loadFormValue(formValue: object): void
+    hinweise?: string[]
 }

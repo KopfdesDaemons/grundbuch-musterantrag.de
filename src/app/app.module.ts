@@ -27,6 +27,7 @@ import { ProgressSpinnerComponent } from './components/progress-spinner/progress
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AntragsgenerierungComponent } from "./components/forms/antragsgenerierung/antragsgenerierung.component";
 import { FormDesAusdrucksComponent } from "./components/forms/form-des-ausdrucks/form-des-ausdrucks.component";
+import { HinweisComponent } from './components/forms/hinweis/hinweis.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { FormDesAusdrucksComponent } from "./components/forms/form-des-ausdrucks
         ProgressSpinnerComponent,
         DashboardComponent,
         AntragsgenerierungComponent,
-        FormDesAusdrucksComponent
+        FormDesAusdrucksComponent,
+        HinweisComponent
     ],
     bootstrap: [AppComponent],
     imports: [

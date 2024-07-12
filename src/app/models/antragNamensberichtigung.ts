@@ -8,6 +8,11 @@ export class AntragNamensberichtigung implements Antrag {
     antragsteller: Antragsteller = new Antragsteller();
     grundstueck: Grundstueck = new Grundstueck();
     grundbuchamt: Grundbuchamt = new Grundbuchamt();
+    hinweise?: string[] | undefined = [
+        `Dem Antrag ist zwingend ein Nachweis über die Namensänderung beizufügen. Als Nachweis dient z.B. eine Eheurkunde. 
+        Der Nachweis muss als Original oder als beglaubigte Kopie vorliegen, eine einfache Kopie ist nicht ausreichend. 
+        Wenn Sie keine beglaubigte Kopie erstellen lassen wollen, können Sie das Original mitschicken oder vor Ort vorzeigen.`,
+    ];
 
     templateFileName: string = 'namensberichtigung';
     datum: string = ''

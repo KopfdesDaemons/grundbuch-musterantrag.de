@@ -62,8 +62,13 @@ export class FormService {
     return this.Step.value;
   }
 
-  back() {
-    this.Step.next(this.Step.value - 1);
+  stepback(step: number = this.Step.value - 1): void {
+    if (step >= 0) {
+      const previousComponent = this.requiredComponents[step - 1];
+      this.currentComponent = previousComponent;
+      this.Step.next(step);
+      this.scroll.scrollToPosition([0, 0]);
+    }
   }
 
   antragAbschließen() {
@@ -135,6 +140,7 @@ export class FormService {
         components.push(control.component);
       }
     }
+    if (this.antrag?.hinweise) components.push('hinweis')
     return components;
   }
 }

@@ -24,8 +24,4 @@ export class AntragstellerComponent {
       }
     })
   }
-
-  next() {
-    this.fs.nextStep();
-  }
 }
