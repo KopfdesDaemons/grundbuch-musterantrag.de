@@ -29,7 +29,7 @@
         @if (fs.getCurrentStep() > 1) {
         <button class="btntext" type="button" (click)="fs.back()">zurück</button>
         }
-        @if (fs.getCurrentStep() < 6) { <button class="btnoutlined" id="weiterbtn" type="submit"
+        @if (fs.getCurrentStep() < 6) { <button class="btnoutlined" id="weiterbtn" type="button"
             (click)="fs.nextStep()">
             Weiter</button>
             }

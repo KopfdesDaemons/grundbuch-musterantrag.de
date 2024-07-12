@@ -26,7 +26,8 @@
       <label class="placeholder" for="straßegrundstückinput">Straße + Hausnummer</label>
     </div>
     <div class="inputfeld" id="postleitzahlgrundstück">
-      <input formControlName="plz" name="postleitzahlgrundstück" spellcheck="false" placeholder="&nbsp;">
+      <input formControlName="plz" id="postleitzahlgrundstückinput" name="postleitzahlgrundstück" spellcheck="false"
+        placeholder="&nbsp;">
       <label class="placeholder" for="postleitzahlgrundstückinput">PLZ</label>
     </div>
     <div class="inputfeld" id="ortgrundstück">
@@ -48,6 +49,6 @@
     @if (fs.getCurrentStep() > 1) {
     <button class="btntext" type="button" (click)="fs.back()">zurück</button>
     }
-    <button class="btnoutlined" id="weiterbtn" type="submit" (click)="next()">Weiter</button>
+    <button class="btnoutlined" id="weiterbtn" type="button" (click)="next()">Weiter</button>
   </div>
 </form>
