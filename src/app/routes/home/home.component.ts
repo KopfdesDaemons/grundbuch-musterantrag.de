@@ -51,6 +51,6 @@ export class HomeComponent {
   }
 
   grundbuchausdruckBeantragen() {
-    this.router.navigate(['/grundbuchausdruck-beantragen'])
+    this.router.navigate(['/antrag/grundbuchausdruck'])
   }
 }

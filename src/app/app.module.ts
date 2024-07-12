@@ -16,13 +16,13 @@ import { BestandsverzeichnisComponent } from './routes/grundbuchrecht/bestandsve
 import { Abteilung1Component } from './routes/grundbuchrecht/abteilung1/abteilung1.component';
 import { Abteilung2Component } from './routes/grundbuchrecht/abteilung2/abteilung2.component';
 import { Abteilung3Component } from './routes/grundbuchrecht/abteilung3/abteilung3.component';
-import { GrundbuchausdruckBeantragenComponent } from './routes/formulare/grundbuchausdruck-beantragen/grundbuchausdruck-beantragen.component';
+import { AntragsformularComponent } from './routes/antragsformular/antragsformular.component';
 import { AntragstellerComponent } from './components/forms/antragsteller/antragsteller.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GrundstueckComponent } from './components/forms/grundstueck/grundstueck.component';
 import { BerechtigtesInteresseComponent } from './components/forms/berechtigtes-interesse/berechtigtes-interesse.component';
 import { GrundbuchamtComponent } from './components/forms/grundbuchamt/grundbuchamt.component';
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AntragsgenerierungComponent } from "./components/forms/antragsgenerierung/antragsgenerierung.component";
@@ -44,7 +44,7 @@ import { FormDesAusdrucksComponent } from "./components/forms/form-des-ausdrucks
         Abteilung1Component,
         Abteilung2Component,
         Abteilung3Component,
-        GrundbuchausdruckBeantragenComponent,
+        AntragsformularComponent,
         AntragstellerComponent,
         GrundstueckComponent,
         BerechtigtesInteresseComponent,

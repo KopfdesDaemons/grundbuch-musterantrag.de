@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DatenschutzComponent } from './routes/datenschutz/datenschutz.component';
-import { GrundbuchausdruckBeantragenComponent } from './routes/formulare/grundbuchausdruck-beantragen/grundbuchausdruck-beantragen.component';
+import { AntragsformularComponent } from './routes/antragsformular/antragsformular.component';
 import { Abteilung1Component } from './routes/grundbuchrecht/abteilung1/abteilung1.component';
 import { Abteilung2Component } from './routes/grundbuchrecht/abteilung2/abteilung2.component';
 import { Abteilung3Component } from './routes/grundbuchrecht/abteilung3/abteilung3.component';
@@ -14,7 +14,7 @@ import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: 'grundbuchausdruck-beantragen', component: GrundbuchausdruckBeantragenComponent },
+  { path: 'antrag/:antragsart', component: AntragsformularComponent },
   { path: 'impressum', component: ImpressumComponent },
   { path: 'datenschutz', component: DatenschutzComponent },
   { path: 'grundbuchrecht/einleitung', component: EinleitungComponent },
