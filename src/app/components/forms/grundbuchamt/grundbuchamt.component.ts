@@ -21,8 +21,6 @@ export class GrundbuchamtComponent {
         this.form.controls['ort'].setValue(ort);
       }
     });
-
-    // if(this.form.valid) this.fs.nextStep();
   }
 
   next() {
@@ -32,7 +30,7 @@ export class GrundbuchamtComponent {
   onlineSuchen() {
     window.open(
       "https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=" +
-      (this.fs.form.get('grundstück') as FormGroup).get("plz")?.value +
+      (this.fs.form.get('grundstueck') as FormGroup).get("plz")?.value +
       "&ort="
     );
   }

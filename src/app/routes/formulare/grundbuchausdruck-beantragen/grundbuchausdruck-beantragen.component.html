@@ -1,24 +1,25 @@
 <app-header></app-header>
 <section [ngClass]="{'darkmode': dl.darkmode.value}">
   <div class="formulardiv sectiondiv borderdiv">
-    @if (step === 1) {
+    @switch (fs.currentComponent) {
+    @case ('antragsteller') {
     <app-antragsteller></app-antragsteller>
     }
-    @if (step === 2) {
+    @case ('grundstueck') {
     <app-grundstueck></app-grundstueck>
     }
-    @if (step === 3) {
+    @case ('form-des-ausdrucks') {
     <app-form-des-ausdrucks></app-form-des-ausdrucks>
     }
-    @if (step === 4) {
+    @case ('berechtigtes-interesse') {
     <app-berechtigtes-interesse></app-berechtigtes-interesse>
     }
-    @if (step === 5) {
+    @case ('grundbuchamt') {
     <app-grundbuchamt>"</app-grundbuchamt>
     }
-    @if (step === 6) {
+    @case ('antragsgenerierung') {
     <app-antragsgenerierung></app-antragsgenerierung>
-    }
+    }}
   </div>
 </section>
 <app-footer></app-footer>

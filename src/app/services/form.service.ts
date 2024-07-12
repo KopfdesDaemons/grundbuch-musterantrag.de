@@ -12,21 +12,47 @@ export class FormService {
 
   form!: FormGroup
   private Step = new BehaviorSubject<number>(1);
+  constrolsAndComponents: { control: string, component: string }[] = [
+    { control: 'antragsteller', component: 'antragsteller' },
+    { control: 'grundstueck', component: 'grundstueck' },
+    { control: 'formDesAusdrucks', component: 'form-des-ausdrucks' },
+    { control: 'berechtigtesInteresse', component: 'berechtigtes-interesse' },
+    { control: 'grundbuchamt', component: 'grundbuchamt' }
+  ]
+  requiredComponents: string[] = []
+  currentComponent: string = ''
 
   constructor(public http: HttpClient, public scroll: ViewportScroller) { }
 
   init(form: FormGroup) {
     this.form = form;
-    (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz))
+    this.requiredComponents = this.getRequiredComponents(form);
+    (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz));
+    this.nextStep(1);
   }
 
-  nextStep(step: number = this.Step.value + 1) {
-    this.Step.next(step);
-    this.scroll.scrollToPosition([0, 0]);
+  nextStep(step: number = this.Step.value + 1): void {
+    if (step <= this.requiredComponents.length) {
+      const nextComponent = this.requiredComponents[step - 1];
+      if (this.checkGrundbuchamtSkip(nextComponent)) {
+        return this.nextStep(step + 1);
+      }
+      this.currentComponent = nextComponent;
+      this.Step.next(step);
+      this.scroll.scrollToPosition([0, 0]);
+    }
+
+    // Wenn Ende erreicht
+    if (step === this.requiredComponents.length + 1) {
+      this.currentComponent = 'antragsgenerierung';
+    }
   }
 
-  getCurrentStepBehaviorSubject() {
-    return this.Step.asObservable();
+  private checkGrundbuchamtSkip(nextComponent: string): boolean {
+    if (nextComponent === 'grundbuchamt') {
+      if ((this.form.get('grundbuchamt') as FormGroup).valid) return true
+    }
+    return false;
   }
 
   getCurrentStep() {
@@ -35,10 +61,6 @@ export class FormService {
 
   back() {
     this.Step.next(this.Step.value - 1);
-  }
-
-  restart() {
-    this.Step.next(1);
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {
@@ -94,5 +116,16 @@ export class FormService {
     const monat = String(date.getMonth() + 1).padStart(2, '0');
     const jahr = date.getFullYear();
     return `${tag}.${monat}.${jahr}`;
+  }
+
+  private getRequiredComponents(form: FormGroup): string[] {
+    const components: string[] = [];
+
+    for (const control of this.constrolsAndComponents) {
+      if (form.controls.hasOwnProperty(control.control)) {
+        components.push(control.component);
+      }
+    }
+    return components;
   }
 }
