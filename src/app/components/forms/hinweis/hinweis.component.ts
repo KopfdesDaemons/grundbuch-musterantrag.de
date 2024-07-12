@@ -29,10 +29,7 @@ export class HinweisComponent {
   }
 
   back() {
-
     if (this.index > 0) {
-      console.log('index größer 0 ' + this.index);
-
       this.index--;
       this.hinweis = this.hinweise[this.index];
     } else {

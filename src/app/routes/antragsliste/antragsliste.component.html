@@ -2,10 +2,11 @@
 <section>
     <div class="sectiondiv">
         <h1>Musteranträge</h1>
+        <p>Hier können Sie kostenlose Musterantrage für das Grundbuchamt ausfüllen und herunterladen.</p>
         <ul class="antragsliste">
             <li>
                 <a routerLink="/antrag/grundbuchausdruck">
-                    <h2>Auf Erteilung eines Grundbuchausdrucks</h2>
+                    <h2>Antrag auf Erteilung eines Grundbuchausdrucks</h2>
                 </a>
                 <p>Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck
                     kostet 10,00 €
@@ -15,10 +16,43 @@
             </li>
             <li>
                 <a routerLink="/antrag/namensberichtigung">
-                    <h2>Auf Namensberichtigung einer natürlichen Person</h2>
+                    <h2>Antrag auf Namensberichtigung einer natürlichen Person</h2>
                 </a>
                 <p>Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.</p>
                 <a routerLink="/antrag/namensberichtigung" class="btn">Antrag ausfüllen</a>
+            </li>
+        </ul>
+    </div>
+</section>
+<section>
+    <div class="sectionDiv">
+        <ul class="faq">
+            <li>
+                <app-accordion frage="Welche Kosten entstehen für einen Antrag?">
+                    <p>Die Generierung der Anträge ist kostenlos. Beim Grundbuchamt können Gebühren entstehen. Sofern
+                        der Antrag eine Gebühr auslöst, wird dies im Antragsformular erwähnt.</p>
+                </app-accordion>
+            </li>
+            <li>
+                <app-accordion frage="Wie erhalte ich den Musterantrag?">
+                    <p>
+                        Am Ende des Formulars kann eine .pdf oder .docx Datei heruntergeladen werden.
+                    </p>
+                </app-accordion>
+            </li>
+            <li>
+                <app-accordion frage="Ist eine Registrierung erforderlich?">
+                    <p>
+                        Nein, die Musteranträge können ohne eine Registrierung ausgefüllt und heruntergeladen werden.
+                    </p>
+                </app-accordion>
+            </li>
+            <li>
+                <app-accordion frage="Kann ich einen Antrag elektonisch beim Grundbuchamt einreichen?">
+                    <p>
+                        Die Anträge müssen per Post, per Fax oder persönlich vor Ort gestellt werden.
+                    </p>
+                </app-accordion>
             </li>
         </ul>
     </div>

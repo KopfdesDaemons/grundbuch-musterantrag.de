@@ -10,11 +10,13 @@ section:first-of-type .sectiondiv .infokasten {
 
 #aufbau {
   margin: 0;
+  padding: 0;
 }
 #aufbau li {
   margin: 1em;
   border: 1px solid var(--primary-variant-darker);
   padding: 0.5em;
+  background-color: var(--hintergrund-variant-darker);
 }
 
 /*Wo-------------------------------------------------------------------------------*/

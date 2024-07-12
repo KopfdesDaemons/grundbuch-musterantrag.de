@@ -21,7 +21,7 @@
 }
 .artikelcontent .infokasten {
   padding: 1em;
-  background-color: var(--primary-variant-much-brighter);
+  background-color: var(--hintergrund-variant);
   border-left: 6px solid var(--primary-variant-darker);
   border-radius: 3px;
   max-width: 80%;

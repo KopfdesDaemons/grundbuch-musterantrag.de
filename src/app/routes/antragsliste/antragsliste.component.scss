@@ -7,7 +7,8 @@
 .antragsliste {
     list-style: none;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 1em;
     padding: 0;
 
@@ -31,5 +32,17 @@
         p {
             line-height: 1.4em;
         }
+
+        .btn {
+            margin-top: auto;
+        }
     }
+}
+
+.faq {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 }
