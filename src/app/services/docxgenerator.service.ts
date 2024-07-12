@@ -42,7 +42,7 @@ export class DocxgeneratorService {
       this.progress = 10;
       this.statusmeldung.set('Die Templatedatei wird heruntergeladen.');
 
-      PizZipUtils.getBinaryContent('assets/antragtemplate.docx',
+      PizZipUtils.getBinaryContent('assets/antrag-templates/' + antrag.templateFileName + '.docx',
         (error: Error | null, content: string) => {
           if (error) {
             this.fehler.set(true);

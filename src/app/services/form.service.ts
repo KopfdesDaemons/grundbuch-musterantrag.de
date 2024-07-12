@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
+import { Antrag } from '../interfaces/antrag';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { ViewportScroller } from '@angular/common';
 
 export class FormService {
 
+  antrag: Antrag | null = null;
   form!: FormGroup
   private Step = new BehaviorSubject<number>(1);
   constrolsAndComponents: { control: string, component: string }[] = [
@@ -24,9 +26,10 @@ export class FormService {
 
   constructor(public http: HttpClient, public scroll: ViewportScroller) { }
 
-  init(form: FormGroup) {
-    this.form = form;
-    this.requiredComponents = this.getRequiredComponents(form);
+  init(antrag: Antrag) {
+    this.antrag = antrag;
+    this.form = antrag.getFormGroup();
+    this.requiredComponents = this.getRequiredComponents(this.form);
     (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz));
     this.nextStep(1);
   }
@@ -61,6 +64,12 @@ export class FormService {
 
   back() {
     this.Step.next(this.Step.value - 1);
+  }
+
+  antragAbschließen() {
+    if (!this.antrag) return;
+    this.antrag.loadFormValue(this.form.value);
+    this.antrag.datum = this.getFormattedDate(new Date());
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {

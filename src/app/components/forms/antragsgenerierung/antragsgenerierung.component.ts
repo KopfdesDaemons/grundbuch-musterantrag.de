@@ -1,7 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { faFilePdf, faFileWord } from '@fortawesome/free-regular-svg-icons';
-import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
 import { DocxgeneratorService } from 'src/app/services/docxgenerator.service';
 import { FormService } from 'src/app/services/form.service';
 import { PdfgeneratorService } from 'src/app/services/pdfgenerator.service';
@@ -39,7 +38,9 @@ export class AntragsgenerierungComponent implements OnInit {
 
   async generate() {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.docx = await this.docxS.generate(new AntragGrundbuchausdruck(this.fs.form.value));
+    if (!this.fs.antrag) return;
+    this.fs.antragAbschließen();
+    this.docx = await this.docxS.generate(this.fs.antrag);
     this.pdf = await this.pdfS.generate(this.docx);
   }
 }

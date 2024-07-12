@@ -158,6 +158,7 @@ h1 {
 .Zuständigkeiten {
   margin-top: 1em;
   display: flex;
+  align-items: flex-start;
   justify-content: space-around;
   flex-wrap: wrap;
 }

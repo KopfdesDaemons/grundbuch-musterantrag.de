@@ -5,6 +5,8 @@ import { Grundbuchamt } from "../models/grundbuchamt";
 export interface Antrag {
     antragsteller: Antragsteller
     grundbuchamt: Grundbuchamt
-    betreff: string
     getFormGroup(): FormGroup
+    datum: string
+    templateFileName: string
+    loadFormValue(formValue: object): void
 }

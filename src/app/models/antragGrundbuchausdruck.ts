@@ -7,16 +7,18 @@ import { Grundstueck } from "./grundstueck";
 
 export class AntragGrundbuchausdruck implements Antrag {
     antragsteller: Antragsteller = new Antragsteller();
-    grundstueck: Grundstueck = new Grundstueck;
+    grundstueck: Grundstueck = new Grundstueck();
     _formDesAusdrucks: 'beglaubigt' | 'einfach' = 'einfach';
-    formDesAusdrucksAdjektiv: 'beglaubigten' | 'einfachen' = 'einfachen'
+    formDesAusdrucksAdjektiv: 'beglaubigten' | 'einfachen' = 'einfachen';
     berechtigtesInteresse: BerechtigtesInteresse = new BerechtigtesInteresse;
-    grundbuchamt: Grundbuchamt = new Grundbuchamt;
-    datum: string = ''
-    kosten: '10,00 €' | '20,00 €' = '10,00 €'
-    betreff: string = 'Grundbuchsache'
+    grundbuchamt: Grundbuchamt = new Grundbuchamt();
 
-    constructor(formValue: object | null = null) {
+    datum: string = '';
+    kosten: '10,00 €' | '20,00 €' = '10,00 €';
+    betreff: string = 'Grundbuchsache';
+    templateFileName: string = 'grundbuchausdruck';
+
+    loadFormValue(formValue: object): void {
         if (formValue) Object.assign(this, formValue);
         const antrag = formValue as AntragGrundbuchausdruck;
         if (antrag) {

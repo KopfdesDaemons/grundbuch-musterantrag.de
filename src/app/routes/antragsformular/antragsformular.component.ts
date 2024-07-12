@@ -6,6 +6,7 @@ import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck'
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Antrag } from 'src/app/interfaces/antrag';
+import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
 
 @Component({
   selector: 'app-antragsformular',
@@ -26,15 +27,20 @@ export class AntragsformularComponent implements OnInit {
     this.routeParamsSubscription = this.route.params.subscribe(async (params) => {
 
       const antragArt: string = params['antragsart'];
-      this.titleService.setTitle('Musterantrag ' + antragArt);
+      this.titleService.setTitle('Musterantrag ' + this.capitalizeFirstLetter(antragArt));
 
       let antrag: Antrag | null = null;
       switch (antragArt) {
         case 'grundbuchausdruck': {
           antrag = new AntragGrundbuchausdruck();
+          break;
+        }
+        case 'namensberichtigung': {
+          antrag = new AntragNamensberichtigung();
+          break;
         }
       }
-      if (antrag) this.fs.init(antrag.getFormGroup());
+      if (antrag) this.fs.init(antrag);
     })
   }
 
@@ -42,5 +48,9 @@ export class AntragsformularComponent implements OnInit {
     if (this.routeParamsSubscription) {
       this.routeParamsSubscription.unsubscribe();
     }
+  }
+
+  capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }
