@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/routes/impressum/impressum.component.scss"],
-  "sourcesContent": [":host{\r\n    min-height: 100vh;\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n  \r\n.sectiondiv {\r\n    max-width: 24em;\r\n    padding-top: 0;\r\n}\r\n\r\nsection{\r\n    display: flex;\r\n    flex-flow: column;\r\n}"],
-  "mappings": ";AAAA;AACI,cAAA;AACA,WAAA;AACA,kBAAA;;AAGJ,CAAA;AACI,aAAA;AACA,eAAA;;AAGJ;AACI,WAAA;AACA,aAAA;;",
-  "names": []
-}

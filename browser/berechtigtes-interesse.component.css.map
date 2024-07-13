@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/forms/berechtigtes-interesse/berechtigtes-interesse.component.scss"],
-  "sourcesContent": ["#berechtigtesinteresse li {\r\n  display: flex;\r\n  margin: 0.5rem 0;\r\n}\r\n\r\nul {\r\n  padding-left: 1rem;\r\n\r\n}\r\n\r\n#berechtigtesinteresse textarea {\r\n  width: 100%;\r\n  height: 5em;\r\n  resize: vertical;\r\n  background-color: var(--hintergrund-inputfeld);\r\n  color: var(--schrift);\r\n}\r\n\r\n@media only screen and (max-width: 580px) {\r\n  #berechtigtesinteresse ul {\r\n    padding-left: 0em;\r\n  }\r\n}\r\n\r\n.formNavBtn {\r\n  display: flex;\r\n  justify-content: flex-end;\r\n}"],
-  "mappings": ";AAAA,CAAA,sBAAA;AACE,WAAA;AACA,UAAA,OAAA;;AAGF;AACE,gBAAA;;AAIF,CAVA,sBAUA;AACE,SAAA;AACA,UAAA;AACA,UAAA;AACA,oBAAA,IAAA;AACA,SAAA,IAAA;;AAGF,OAAA,KAAA,OAAA,IAAA,CAAA,SAAA,EAAA;AACE,GAnBF,sBAmBE;AACE,kBAAA;;;AAIJ,CAAA;AACE,WAAA;AACA,mBAAA;;",
-  "names": []
-}
