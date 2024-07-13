@@ -12,27 +12,6 @@
   gap: 1em;
   padding: 0;
 }
-.antragsliste li {
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-  background-color: var(--hintergrund-variant);
-  border-radius: 12px;
-  max-width: 30em;
-}
-.antragsliste li a:has(h2) {
-  font-size: 1.2em;
-  text-decoration: none;
-}
-.antragsliste li a:has(h2) h2 {
-  margin: 0;
-}
-.antragsliste li p {
-  line-height: 1.4em;
-}
-.antragsliste li .btn {
-  margin-top: auto;
-}
 
 .faq {
   list-style: none;

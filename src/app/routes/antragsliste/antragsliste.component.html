@@ -1,26 +1,17 @@
 <app-header></app-header>
 <section>
     <div class="sectiondiv">
-        <h1>Musteranträge</h1>
+        <h1>Grundbuch Musteranträge</h1>
         <p>Hier können Sie kostenlose Musterantrage für das Grundbuchamt ausfüllen und herunterladen.</p>
         <ul class="antragsliste">
+            @for(antrag of antraege; track antrag.title) {
             <li>
-                <a routerLink="/antrag/grundbuchausdruck">
-                    <h2>Antrag auf Erteilung eines Grundbuchausdrucks</h2>
-                </a>
-                <p>Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck
-                    kostet 10,00 €
-                    <a routerLink="">weitere Informationen</a>
-                </p>
-                <a routerLink="/antrag/grundbuchausdruck" class="btn">Antrag ausfüllen</a>
+                <app-antragsart-card [title]="antrag.title" [antragsRoute]="antrag.antragsRoute"
+                    [mehrInfosRoute]="antrag.mehrInfosRoute ?? ''" [description]="antrag.description"
+                    [gebuehr]="antrag.gebuehr ?? ''">
+                </app-antragsart-card>
             </li>
-            <li>
-                <a routerLink="/antrag/namensberichtigung">
-                    <h2>Antrag auf Namensberichtigung einer natürlichen Person</h2>
-                </a>
-                <p>Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.</p>
-                <a routerLink="/antrag/namensberichtigung" class="btn">Antrag ausfüllen</a>
-            </li>
+            }
         </ul>
     </div>
 </section>

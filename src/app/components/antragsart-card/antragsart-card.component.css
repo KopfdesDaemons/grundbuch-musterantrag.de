@@ -1,0 +1,41 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  background-color: var(--hintergrund-variant);
+  border-radius: 12px;
+  max-width: 30em;
+}
+
+a:has(h2) {
+  font-size: clamp(1em, 3vw, 1.2em);
+  text-decoration: none;
+}
+a:has(h2) h2 {
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+p {
+  line-height: 1.4em;
+}
+
+.btn {
+  margin-top: auto;
+}
+
+.gebuehrenfrei {
+  color: green;
+}
+
+.gebuehr {
+  color: red;
+}
+
+.buttonsRow {
+  display: flex;
+  justify-content: flex-end;
+}
+.buttonsRow a {
+  flex: 1;
+}/*# sourceMappingURL=antragsart-card.component.css.map */

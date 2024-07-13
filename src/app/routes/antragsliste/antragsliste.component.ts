@@ -8,6 +8,21 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class AntragslisteComponent {
 
+  antraege = [
+    {
+      title: "Antrag auf Erteilung eines Grundbuchausdrucks",
+      antragsRoute: "/antrag/grundbuchausdruck",
+      mehrInfosRoute: "/",
+      description: "Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck kostet 10,00 €",
+      gebuehr: "mindestens 10,00 €"
+    },
+    {
+      title: "Antrag auf Namensberichtigung einer natürlichen Person",
+      antragsRoute: "/antrag/namensberichtigung",
+      description: "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt."
+    }
+  ];
+
   constructor(meta: Meta, title: Title) {
     meta.updateTag({
       name: 'description',
