@@ -12,7 +12,7 @@ export class AntragslisteComponent {
     {
       title: "Antrag auf Erteilung eines Grundbuchausdrucks",
       antragsRoute: "/antrag/grundbuchausdruck",
-      mehrInfosRoute: "/",
+      mehrInfosRoute: "/antraginfos/grundbuchausdruck",
       description: "Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck kostet 10,00 €",
       gebuehr: "mindestens 10,00 €"
     },

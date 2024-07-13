@@ -7,7 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AccordionComponent } from './components/accordion/accordion.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ImpressumComponent } from './routes/impressum/impressum.component';
-import { HomeComponent } from './routes/home/home.component';
+import { InfopageGrundbuchausdruckComponent } from './routes/antrag-infopages/infopage-grundbuchausdruck/infopage-grundbuchausdruck.component';
 import { DatenschutzComponent } from './routes/datenschutz/datenschutz.component';
 import { EinleitungComponent } from './routes/grundbuchrecht/einleitung/einleitung.component';
 import { ArtikelComponent } from './components/artikel/artikel.component';
@@ -38,7 +38,7 @@ import { AntragsartCardComponent } from "./components/antragsart-card/antragsart
         AccordionComponent,
         FooterComponent,
         ImpressumComponent,
-        HomeComponent,
+        InfopageGrundbuchausdruckComponent,
         DatenschutzComponent,
         EinleitungComponent,
         ArtikelComponent,

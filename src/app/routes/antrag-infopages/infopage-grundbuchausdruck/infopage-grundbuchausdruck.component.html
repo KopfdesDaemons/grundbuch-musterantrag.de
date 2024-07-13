@@ -11,12 +11,12 @@
         <span class="nurgerichtskosten"> (nur&nbsp;Gerichtsgebühr)</span>
       </div>
       <div>
-        <button (click)="grundbuchausdruckBeantragen()">
+        <a routerLink="/antrag/grundbuchausdruck" class="btn">
           Antrag ausfüllen
-        </button>
-        <button class="btntext" onclick="location.href='#mehrInfos'">
+        </a>
+        <a class="btntext" routerLink="/antraginfos/grundbuchausdruck" fragment="info">
           Mehr Infos
-        </button>
+        </a>
       </div>
       <div class="labels">
         <fa-icon class="icon" [icon]="faFilePdf"></fa-icon>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="imgdiv"><fa-icon [icon]="faHome"></fa-icon></div>
-    <div class="infobanner" id="mehrInfos">
+    <div class="infobanner">
       <span>Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10&nbsp;€
         Gerichtsgebühren. Internetanbieter verlangen oft über 25&nbsp;€ und
         verstecken die <b style="color: red">zusätzlichen</b>
@@ -38,7 +38,7 @@
   </div>
 </section>
 
-<!--Über  ############################################################################################################ -->
+<!--Wie  ############################################################################################################ -->
 
 <section id="info" [ngClass]="{'darkmode': dl.darkmode.value}">
   <div class="sectiondiv">
@@ -69,7 +69,7 @@
     </div>
     <div class="BannerMusterantrag">
       Nutzen Sie diesen kostenlosen Musterantrag
-      <button class="btnoutlined" (click)="grundbuchausdruckBeantragen()">Antrag ausfüllen</button>
+      <a class="btnoutlined" routerLink="/antrag/grundbuchausdruck">Antrag ausfüllen</a>
     </div>
     <span class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">NICHT</b> beantragt
       werden...</span>
@@ -123,8 +123,7 @@
             Grundstück liegt.
           </span>
           <span>
-            Prüfen, in welchem Amtsgerichtsbezirk das Grundstück liegt, können
-            Sie
+            Prüfen, in welchem Amtsgerichtsbezirk das Grundstück liegt, können Sie
             <a href="https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=&ort="
               target="_blank">hier</a>.
           </span>
@@ -134,7 +133,7 @@
   </div>
 </section>
 
-<!--Berechtigtes Interesse  ############################################################################################################ -->
+<!--Wer  ############################################################################################################ -->
 
 <section id="Berechtigtes-Interesse">
   <div class="sectiondiv">
@@ -185,7 +184,7 @@
   </div>
 </section>
 
-<!--FAQ  ############################################################################################################ -->
+<!--Was  ############################################################################################################ -->
 
 <section id="GB-Inhalt">
   <div class="sectiondiv">

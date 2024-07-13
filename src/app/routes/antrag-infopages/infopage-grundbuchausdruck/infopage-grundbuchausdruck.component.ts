@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import {
-  faFilePdf,
-  faEnvelope,
-  faUser,
-} from '@fortawesome/free-regular-svg-icons';
+import { faFilePdf, faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
 import {
   faPrint,
   faDownload,
@@ -23,11 +19,11 @@ import { DesignloaderService } from 'src/app/services/designloader.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './infopage-grundbuchausdruck.component.html',
+  styleUrls: ['./infopage-grundbuchausdruck.component.scss']
 })
 
-export class HomeComponent {
+export class InfopageGrundbuchausdruckComponent {
   title = 'grundbuch';
   faFilePdf = faFilePdf;
   faPrint = faPrint;
@@ -48,9 +44,5 @@ export class HomeComponent {
       content: 'Download eines Musterantrags auf Erteilung eines Grundbuchausdrucks als pdf oder docx.'
     });
     this.titleService.setTitle('Kostenloser Musterantrag auf Erteilung eines Grundbuchausdrucks');
-  }
-
-  grundbuchausdruckBeantragen() {
-    this.router.navigate(['/antrag/grundbuchausdruck'])
   }
 }
