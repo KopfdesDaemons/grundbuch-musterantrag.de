@@ -8,16 +8,13 @@ export class PdfgeneratorService {
   prozentPdfUpload = 0;
   prozentPdfDownload = 0;
   fehler = false;
-  statusmeldung = 'Die Antragsgenerierung wird gestartet.';
+  statusmeldung = '';
 
   constructor(public http: HttpClient,) { }
 
   async generate(docx: any) {
-    this.fehler = false;
-    this.prozentPdfUpload = 0;
-    this.prozentPdfDownload = 0;
+    this.reset();
     this.statusmeldung = 'Die .docx Datei wird zur Konvertierung an den Server gesendet.';
-
 
     return new Promise((resolve) => {
       const form = new FormData();
@@ -65,5 +62,12 @@ export class PdfgeneratorService {
           },
         });
     });
+  }
+
+  reset() {
+    this.prozentPdfUpload = 0;
+    this.prozentPdfDownload = 0;
+    this.fehler = false;
+    this.statusmeldung = '';
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-hinweis',
@@ -7,6 +8,8 @@ import { FormService } from 'src/app/services/form.service';
   styleUrl: './hinweis.component.scss'
 })
 export class HinweisComponent {
+  faCircleInfo = faCircleInfo;
+
   index: number = 0;
   hinweise: string[] = [];
   hinweis: string = '';

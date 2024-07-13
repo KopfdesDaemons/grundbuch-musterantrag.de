@@ -32,13 +32,7 @@
   width: 100%;
 }
 
-fa-icon {
-  font-size: 10rem;
-  color: rgb(204, 204, 204);
-  margin: 0.2em 0.4em;
-}
-
-.material-icons-outlined {
+.profilicon fa-icon {
   font-size: 10rem;
   color: rgb(204, 204, 204);
   margin: 0.2em 0.4em;

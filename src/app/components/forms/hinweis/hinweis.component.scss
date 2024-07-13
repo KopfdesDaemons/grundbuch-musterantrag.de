@@ -1,0 +1,16 @@
+h2 {
+    margin-top: 0;
+}
+
+.infoIcon {
+    font-size: 10rem;
+    color: rgb(204, 204, 204);
+    margin: 0.2em 0.4em;
+    float: right;
+}
+
+@media only screen and (max-width: 950px) {
+    .infoIcon {
+        display: none;
+    }
+}

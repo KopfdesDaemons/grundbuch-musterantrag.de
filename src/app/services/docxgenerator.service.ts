@@ -8,15 +8,13 @@ import { Antrag } from '../interfaces/antrag';
 export class DocxgeneratorService {
   progress = 0;
   fehler = signal(false);
-  statusmeldung = signal('Die Antragsgenerierung wird gestartet.');
+  statusmeldung = signal('');
   docx: any;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   async generate(antrag: Antrag) {
-    this.fehler.set(false);
-    this.progress = 0;
-    this.docx = null;
+    this.reset();
 
     if (!isPlatformBrowser(this.platformId)) return;
 
@@ -97,5 +95,12 @@ export class DocxgeneratorService {
         }
       );
     });
+  }
+
+  reset() {
+    this.fehler.set(false);
+    this.statusmeldung.set('Die Antragsgenerierung wird gestartet.');
+    this.progress = 0;
+    this.docx = null;
   }
 }

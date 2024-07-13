@@ -31,14 +31,7 @@
     width: 100%;
 }
 
-fa-icon {
-    font-size: 10rem;
-    color: rgb(204, 204, 204);
-    // color: var(--primary-variant-darker);
-    margin: 0.2em 0.4em;
-}
-
-.material-icons-outlined {
+.profilicon fa-icon {
     font-size: 10rem;
     color: rgb(204, 204, 204);
     margin: 0.2em 0.4em;
@@ -53,7 +46,7 @@ hr {
 .formNavBtn {
     display: flex;
     justify-content: flex-end;
-  }
+}
 
 .hrdiv {
     display: flex;
@@ -91,6 +84,6 @@ label {
     margin-bottom: 0.5em;
 }
 
-.zeileAnrede{
+.zeileAnrede {
     width: 100%;
 }
