@@ -30,6 +30,7 @@ import { FormDesAusdrucksComponent } from "./components/forms/form-des-ausdrucks
 import { HinweisComponent } from './components/forms/hinweis/hinweis.component';
 import { AntragslisteComponent } from './routes/antragsliste/antragsliste.component';
 import { AntragsartCardComponent } from "./components/antragsart-card/antragsart-card.component";
+import { FileNotFoundComponent } from './routes/file-not-found/file-not-found.component';
 
 @NgModule({
     declarations: [
@@ -58,7 +59,8 @@ import { AntragsartCardComponent } from "./components/antragsart-card/antragsart
         FormDesAusdrucksComponent,
         HinweisComponent,
         AntragslisteComponent,
-        AntragsartCardComponent
+        AntragsartCardComponent,
+        FileNotFoundComponent
     ],
     bootstrap: [AppComponent],
     imports: [

@@ -2,13 +2,13 @@
 <section>
     <div class="sectiondiv">
         <h1>Grundbuch Musteranträge</h1>
-        <p>Hier können Sie kostenlose Musterantrage für das Grundbuchamt ausfüllen und herunterladen.</p>
+        <p>Hier können Sie kostenlose Musteranträge für das Grundbuchamt ausfüllen und herunterladen.</p>
         <ul class="antragsliste">
             @for(antrag of antraege; track antrag.title) {
             <li>
                 <app-antragsart-card [title]="antrag.title" [antragsRoute]="antrag.antragsRoute"
                     [mehrInfosRoute]="antrag.mehrInfosRoute ?? ''" [description]="antrag.description"
-                    [gebuehr]="antrag.gebuehr ?? ''" [erforderlicheUnterlagen]=" antrag.erforderlicheUnterlagen ?? []">
+                    [gebuehr]="antrag.gebuehr ?? ''" [erforderlicheUnterlagen]=" antrag.erforderlicheUnterlagen">
                 </app-antragsart-card>
             </li>
             }

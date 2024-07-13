@@ -12,6 +12,7 @@ import { ImpressumComponent } from './routes/impressum/impressum.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AuthGuard } from './auth.guard';
 import { AntragslisteComponent } from './routes/antragsliste/antragsliste.component';
+import { FileNotFoundComponent } from './routes/file-not-found/file-not-found.component';
 
 const routes: Routes = [
   { path: "", component: AntragslisteComponent },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'grundbuchrecht/abteilung2', component: Abteilung2Component },
   { path: 'grundbuchrecht/abteilung3', component: Abteilung3Component },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '**', component: FileNotFoundComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

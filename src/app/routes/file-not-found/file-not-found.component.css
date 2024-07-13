@@ -1,0 +1,32 @@
+:host {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  margin-top: 5em;
+}
+
+h1 {
+  margin: 0;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--hintergrund-variant);
+  border-radius: 12px;
+  padding: 1em;
+  animation: grow 500ms;
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}/*# sourceMappingURL=file-not-found.component.css.map */
