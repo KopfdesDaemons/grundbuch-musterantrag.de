@@ -12,11 +12,15 @@
   gap: 1em;
   padding: 0;
 }
+.antragsliste app-antragsart-card {
+  height: 100%;
+}
 
 .faq {
   list-style: none;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 1em;
+  margin-bottom: 4em;
 }/*# sourceMappingURL=antragsliste.component.css.map */

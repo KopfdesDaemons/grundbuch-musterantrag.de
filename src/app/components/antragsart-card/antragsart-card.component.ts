@@ -10,6 +10,7 @@ export class AntragsartCardComponent {
   @Input() antragsRoute: string = '';
   @Input() title: string = '';
   @Input() description: string = '';
-  @Input() mehrInfosRoute: string = ''
-  @Input() gebuehr: string = ''
+  @Input() mehrInfosRoute: string = '';
+  @Input() gebuehr: string = '';
+  @Input() erforderlicheUnterlagen: string[] = [];
 }

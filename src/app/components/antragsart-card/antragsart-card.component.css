@@ -1,41 +1,69 @@
 :host {
   display: flex;
   flex-direction: column;
-  padding: 1em;
+  padding: 1.5em;
   background-color: var(--hintergrund-variant);
   border-radius: 12px;
   max-width: 30em;
+  box-sizing: border-box;
+  animation: grow 500ms;
+  font-size: 0.9em;
+}
+:host:hover {
+  background-color: var(--hintergrund);
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+h2,
+h3 {
+  margin: 0;
+  overflow-wrap: break-word;
 }
 
 a:has(h2) {
   font-size: clamp(1em, 3vw, 1.2em);
   text-decoration: none;
 }
-a:has(h2) h2 {
-  margin: 0;
-  overflow-wrap: break-word;
-}
 
 p {
   line-height: 1.4em;
 }
 
-.btn {
+.gebuehrDiv {
+  margin-bottom: 0.5em;
   margin-top: auto;
 }
-
-.gebuehrenfrei {
+.gebuehrDiv .gebuehrenfrei {
   color: green;
 }
-
-.gebuehr {
+.gebuehrDiv .gebuehr {
   color: red;
+}
+
+.erforderlicheUnterlagenDiv {
+  background-color: var(--hintergrund-variant-darker);
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 12px;
+}
+.erforderlicheUnterlagenDiv ul {
+  margin: 1em 0;
 }
 
 .buttonsRow {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
 }
 .buttonsRow a {
   flex: 1;
+  font-size: 1.2em;
+  white-space: nowrap;
 }/*# sourceMappingURL=antragsart-card.component.css.map */

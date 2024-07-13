@@ -14,12 +14,14 @@ export class AntragslisteComponent {
       antragsRoute: "/antrag/grundbuchausdruck",
       mehrInfosRoute: "/antraginfos/grundbuchausdruck",
       description: "Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck kostet 10,00 €",
-      gebuehr: "mindestens 10,00 €"
+      gebuehr: "mindestens 10,00 €",
+      erforderlicheUnterlagen: ['Vollmacht, sofern Antragsteller nicht berechtigt ist']
     },
     {
       title: "Antrag auf Namensberichtigung einer natürlichen Person",
       antragsRoute: "/antrag/namensberichtigung",
-      description: "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt."
+      description: "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.",
+      erforderlicheUnterlagen: ['beglaubigte Kopie der Eheurkunde oder vergleichbarer Nachweis über die Namensänderung']
     }
   ];
 

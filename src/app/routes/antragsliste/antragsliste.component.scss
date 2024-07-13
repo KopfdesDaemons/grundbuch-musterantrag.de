@@ -11,6 +11,10 @@
     flex-wrap: wrap;
     gap: 1em;
     padding: 0;
+
+    app-antragsart-card {
+        height: 100%;
+    }
 }
 
 .faq {
@@ -18,5 +22,6 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 1em;
+    margin-bottom: 4em;
 }
