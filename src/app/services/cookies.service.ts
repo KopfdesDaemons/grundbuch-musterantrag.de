@@ -78,9 +78,8 @@ export class CookiesService {
    * @param name Der Name des Cookies, der gelöscht werden soll.
    */
   deleteCookie(name: string) {
-    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + window.location.hostname;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
   }
-
 
   /**
   * Löscht alle Cookies
@@ -100,7 +99,7 @@ export class CookiesService {
  * Prüft, ob mindestens ein Cookie gesetzt ist.
  * @returns {boolean} Gibt true zurück, wenn mindestens ein Cookie vorhanden ist, sonst false.
  */
-  checkForCookies() {
+  checkForCookies(): boolean {
     var cookies = document.cookie.split(";");
 
     if (cookies.length > 0) {
