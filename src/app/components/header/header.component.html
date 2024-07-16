@@ -1,6 +1,6 @@
 <header [ngClass]="{'darkmode': dl.darkmode.value}">
 
-  <div class="desktopheader" [style.backgroundColor]="farbe">
+  <div class="desktopheader" [style.background]="background">
     <div class="farbauswahlbuttondiv">
       <div class="btnDesign farbauswahlbutton"></div>
       <div class="farbauswahl">
@@ -32,10 +32,17 @@
 
   <div class="mobileheader">
     <div class="mobileheadercontent">
-      <a routerLink="">
-        <i class="fa-solid fa-house"></i>
-      </a>
-      <button class="mobilemenübutton" (click)="toggle()">Menü</button>
+      <!-- <button class="mobilemenübutton" (click)="toggle()">Menü</button> -->
+      <nav>
+        <ul>
+          <li>
+            <a routerLink="/"><span>Musteranträge</span></a>
+          </li>
+          <li>
+            <a routerLink="/grundbuchrecht/einleitung"><span>Grundbuchrecht</span></a>
+          </li>
+        </ul>
+      </nav>
       <div class="designButtonsDiv">
         <div class="farbauswahlbuttondiv">
           <div class="btnDesign farbauswahlbutton"></div>

@@ -1,16 +1,7 @@
 header {
   width: 100%;
   position: fixed;
-  display: flex;
-  flex-direction: column;
   z-index: 2;
-}
-
-.desktopheader a {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  height: 100%;
 }
 
 .cookiebanner {
@@ -20,16 +11,17 @@ header {
   overflow: hidden;
   display: flex;
   z-index: -2;
-}
 
-.cookiebanner div {
-  background-color: var(--hintergrund-variant-darker);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  span {
-    font-size: clamp(0.7rem, 1.5vw, 1rem);
+  div {
+    background-color: var(--hintergrund-variant-darker);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    span {
+      font-size: clamp(0.7rem, 1.5vw, 1rem);
+    }
   }
 }
 
@@ -42,49 +34,43 @@ header {
 .desktopheader {
   display: flex;
   height: 3em;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
 
-  .btnDesign:hover{
+  a,
+  a:visited {
+    color: var(--schrift);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  ul {
+    padding-left: 2vw;
+    margin: 0;
+    display: flex;
+    list-style: none;
+    height: 100%;
+    gap: 0.5em;
+    font-size: 1.4em;
+
+    li {
+      &:hover {
+        border-bottom: 3px solid var(--primary-variant-darker);
+      }
+    }
+  }
+
+  .btnDesign:hover {
     transform: scale(1.05);
   }
-}
 
-header button {
-  font-size: 1.2rem;
-}
-
-header nav {
-  display: flex;
-  justify-content: space-between;
-  height: 100%;
-  box-shadow: none;
-  background-color: inherit;
-}
-
-header nav ul {
-  display: flex;
-  height: auto;
-  margin: 0;
-  position: relative;
-  align-items: center;
-  background-color: inherit;
-  padding-left: 2vw;
-}
-
-header nav ul li {
-  display: flex;
-  align-items: center;
-  margin-right: 1.5vw;
-  height: 100%;
-  background-color: inherit;
-}
-
-.desktopheader li:hover {
-  border-bottom: 3px solid var(--primary-variant-darker);
-  background-color: var(--hintergrund);
-  padding: 2% 0 0 0;
-  box-sizing: border-box;
+  .farbauswahlbuttondiv:hover .farbauswahl,
+  .farbauswahl:hover {
+    top: 3em;
+    transition: top 80ms ease-in-out;
+  }
 }
 
 .darkmode header nav ul li:hover {
@@ -92,22 +78,7 @@ header nav ul li {
   border-bottom: 3px solid var(--primary-variant-much-brighter);
 }
 
-header nav ul li:hover a {
-  color: rgb(121, 121, 121);
-  font-weight: 500;
-}
-
-header nav ul li a {
-  color: var(--schrift);
-  list-style-type: none;
-  font-size: 20px;
-}
-
-.darkmode header nav ul li a {
-  color: whitesmoke;
-}
-
-.btnDesign{
+.btnDesign {
   border: 2px solid #707070;
   height: 2.3rem;
   width: 2.3rem;
@@ -119,9 +90,9 @@ header nav ul li a {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  margin: 0 0.5em;
+  margin: auto 0.5em;
 
-  fa-icon{
+  fa-icon {
     display: flex;
     align-items: center;
   }
@@ -137,12 +108,6 @@ header nav ul li a {
   height: 100%;
   display: flex;
   align-items: center;
-}
-
-.farbauswahlbuttondiv:hover .farbauswahl,
-.farbauswahl:hover {
-  top: 3em;
-  transition: top 80ms ease-in-out;
 }
 
 .farbauswahl {
@@ -180,11 +145,11 @@ header nav ul li a {
     border: none;
     background: none;
   }
-  
+
   input::-webkit-color-swatch-wrapper {
     padding: 0;
   }
-  
+
   input::-webkit-color-swatch {
     border: 2px solid #707070;
     border-radius: 10px;
@@ -194,13 +159,15 @@ header nav ul li a {
 
 .mobileheader {
   display: none;
-  
+  border-top: 2px solid var(--primary-color);
+
   .mobileheadercontent {
-    height: 3em;
+    height: 4em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--hintergrund);
+    background-color: var(--hintergrund-variant-darker);
+    align-items: stretch;
   }
 
   .designButtonsDiv {
@@ -209,22 +176,42 @@ header nav ul li a {
     align-items: center;
   }
 
-  nav ul {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 0;
-    
-    li{
-      padding: 0.5em;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
+  .farbauswahlbuttondiv:hover .farbauswahl,
+  .farbauswahl:hover {
+    top: 4em;
+    transition: top 80ms ease-in-out;
+  }
 
+  nav {
+    flex: 1;
+    display: flex;
+    height: 100%;
+
+    ul {
+      display: flex;
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      flex: 1;
+
+      li {
+        flex: 1;
+        display: flex;
+      }
+
+      a {
+        text-decoration: none;
+        flex: 1;
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background-color: var(--hintergrund-variant);
+        }
+      }
     }
-    li:nth-of-type(2n -1) {
-      background-color: var(--hintergrund-variant-darker);
-    } 
   }
 
   .farbauswahl {
@@ -238,7 +225,7 @@ header nav ul li a {
     overflow: hidden;
     background-color: var(--hintergrund);
   }
-  
+
   .mobilenavsichtbar {
     max-height: 500px;
     transition: 1ms;
@@ -249,17 +236,16 @@ header nav ul li a {
   .desktopheader {
     display: none;
   }
+
   .mobileheader {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: block;
   }
 }
 
 .closingdiv {
   height: 100vh;
-}
 
-.unsichtbar {
-  display: none;
+  &.unsichtbar {
+    display: none;
+  }
 }

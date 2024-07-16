@@ -1,8 +1,8 @@
 :host {
     display: flex;
+    background-color: var(--hintergrund);
     flex-direction: column;
     padding: 1.5em;
-    background-color: var(--hintergrund-variant);
     border-radius: 12px;
     max-width: 30em;
     box-sizing: border-box;
@@ -10,7 +10,8 @@
     font-size: 0.9em;
 
     &:hover {
-        background-color: var(--hintergrund);
+        background-color: var(--body);
+        outline: 1px solid;
     }
 }
 
@@ -28,6 +29,7 @@ h2,
 h3 {
     margin: 0;
     overflow-wrap: break-word;
+    color: var(--schrift);
 }
 
 a:has(h2) {
@@ -50,6 +52,7 @@ p {
 
     .gebuehr {
         color: red;
+        white-space: nowrap;
     }
 }
 

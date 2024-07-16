@@ -11,6 +11,8 @@
 }
 
 .artikelcontent {
+  padding-top: 5em;
+
   hr {
     width: clamp(1em, 65%, 60em);
     margin: 1em 0;
@@ -37,10 +39,6 @@
   .sectiondiv {
     align-items: flex-start;
     max-width: 60em;
-
-    &:first-of-type {
-      margin-top: 3em;
-    }
   }
 
   h2,

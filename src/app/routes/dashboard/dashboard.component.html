@@ -1,10 +1,10 @@
-<app-header farbe="transparent"></app-header>
+<app-header background="var(--hintergrund-variant)"></app-header>
 <section>
-  <button (click)="abmelden()" class="logoutBtn btnicon"  ><fa-icon [icon]="faArrowRightFromBracket"></fa-icon></button>
+  <button (click)="abmelden()" class="logoutBtn btnicon"><fa-icon [icon]="faArrowRightFromBracket"></fa-icon></button>
   <div class="sectiondiv">
     <h1>Dashboard</h1>
     <div>
-      <a target="_blank"  href="/api/getlogfile">öffne Server Logfile</a>
+      <a target="_blank" href="/api/getlogfile">öffne Server Logfile</a>
       <button (click)="deleteLogFile()" class="btnicon">
         <fa-icon [icon]="faTrashCan"></fa-icon>
       </button>
@@ -31,32 +31,30 @@
         </thead>
         <tbody>
           @for (file of files; track file) {
-            <tr>
-              <td>{{file.name}}</td>
-              <td>{{file.uploadDate}}</td>
-              <td>@if (file.docxFile != '') {
-                <a class="btnicon" href="/api/uploads/getFile?name={{file.name}}.docx"
-                  ><fa-icon
-                [icon]="faCircleDown"></fa-icon></a>
+          <tr>
+            <td>{{file.name}}</td>
+            <td>{{file.uploadDate}}</td>
+            <td>@if (file.docxFile != '') {
+              <a class="btnicon" href="/api/uploads/getFile?name={{file.name}}.docx"><fa-icon
+                  [icon]="faCircleDown"></fa-icon></a>
               } @else {
-                <fa-icon [icon]="faCircleExclamation"
-                class="btnicon"></fa-icon>
-              }</td>
-              <td>@if (file.pdfFile != '') {
-                <a class="btnicon" target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf"
-                  ><fa-icon
-                [icon]="faArrowUpRightFromSquare"></fa-icon></a>
+              <fa-icon [icon]="faCircleExclamation" class="btnicon"></fa-icon>
+              }
+            </td>
+            <td>@if (file.pdfFile != '') {
+              <a class="btnicon" target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf"><fa-icon
+                  [icon]="faArrowUpRightFromSquare"></fa-icon></a>
               } @else {
-                <fa-icon [icon]="faCircleExclamation"
-                class="btnicon"></fa-icon>
-              }</td>
-              <td (click)="click($event.target)" class="dropDown">
-                <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
-                <ul class="dropDownMenu">
-                  <li (click)="deleteFile(file.name)">löschen</li>
-                </ul>
-              </td>
-            </tr>
+              <fa-icon [icon]="faCircleExclamation" class="btnicon"></fa-icon>
+              }
+            </td>
+            <td (click)="click($event.target)" class="dropDown">
+              <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
+              <ul class="dropDownMenu">
+                <li (click)="deleteFile(file.name)">löschen</li>
+              </ul>
+            </td>
+          </tr>
           }
         </tbody>
 

@@ -1,24 +1,30 @@
 @media print {
-  app-header, app-footer, app-artikelsidebar, button, hr {
+  app-header,
+  app-footer,
+  app-artikelsidebar,
+  button,
+  hr {
     display: none !important;
   }
-  p, span {
+  p,
+  span {
     font-size: 11pt !important;
     color: black !important;
   }
   :root {
     --primary-color: hsl(var(--hsl-color), var(--helligkeit)) !important;
-    --primary-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) - 20%)) !important;
-    --primary-variant-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 20%)) !important;
-    --primary-variant-much-brighter: hsl(var(--hsl-color),calc(var(--helligkeit) + 25%)) !important;
+    --primary-variant-darker: hsl(var(--hsl-color), calc(var(--helligkeit) - 20%)) !important;
+    --primary-variant-brighter: hsl(var(--hsl-color), calc(var(--helligkeit) + 20%)) !important;
+    --primary-variant-much-brighter: hsl(var(--hsl-color), calc(var(--helligkeit) + 25%)) !important;
     --body: rgb(252, 252, 252) !important;
     --hintergrund: rgb(240, 240, 240) !important;
     --schrift: rgb(0, 0, 0) !important;
-    --hintergrund-inputfeld: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%)) !important;
-    --hintergrund-variant: hsl(var(--hsl-color),calc(var(--helligkeit) + 45%)) !important;
-    --hintergrund-variant-darker: hsl(var(--hsl-color),calc(var(--helligkeit) + 35%)) !important;
+    --hintergrund-inputfeld: hsl(var(--hsl-color), calc(var(--helligkeit) + 45%)) !important;
+    --hintergrund-variant: hsl(var(--hsl-color), calc(var(--helligkeit) + 45%)) !important;
+    --hintergrund-variant-darker: hsl(var(--hsl-color), calc(var(--helligkeit) + 35%)) !important;
   }
-  .sectiondiv:first-of-type, section {
+  .sectiondiv:first-of-type,
+  section {
     margin-top: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -34,4 +40,10 @@
   img {
     max-width: 10cm !important;
   }
+}
+:root {
+  --gradient: linear-gradient(90deg, var(--hintergrund-variant) 0%, var(--body) 56%);
+}
+:root body {
+  background: var(--gradient);
 }/*# sourceMappingURL=styles.css.map */
