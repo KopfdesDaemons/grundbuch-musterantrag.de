@@ -2,6 +2,10 @@
   .artikelcontent {
     margin-left: 19em;
   }
+  section:first-of-type .sectiondiv {
+    margin-top: 0;
+    padding-top: 0;
+  }
 }
 .artikelcontent {
   padding-top: 5em;

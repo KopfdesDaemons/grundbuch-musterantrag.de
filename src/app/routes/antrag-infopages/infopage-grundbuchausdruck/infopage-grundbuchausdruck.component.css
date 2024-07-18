@@ -43,10 +43,11 @@ h2 {
 
 h1 {
   margin: 0.5em 0;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   line-height: 100%;
   text-align: unset;
   color: var(--schrift);
+  overflow-wrap: break-word;
 }
 
 .homebanner button {
