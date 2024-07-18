@@ -1,10 +1,4 @@
 @charset "UTF-8";
-/*Basics-------------------------------------------------------------------------------*/
-hr {
-  width: clamp(1em, 65%, 60em);
-  margin: 1em 0;
-}
-
 h2 {
   margin: 0;
   font-size: clamp(0.5rem, 7vw, 2rem);
@@ -16,10 +10,6 @@ h2 {
   display: grid;
   justify-content: space-evenly;
   grid-template-columns: 60% 40%;
-}
-
-section:nth-of-type(2n - 1) {
-  background-color: var(--hintergrund-variant);
 }
 
 .imgdiv {
@@ -52,8 +42,8 @@ section:nth-of-type(2n - 1) {
 }
 
 h1 {
-  margin: 5px 0;
-  font-size: clamp(1.2rem, 3vw, 2rem);
+  margin: 0.5em 0;
+  font-size: 2rem;
   line-height: 100%;
   text-align: unset;
   color: var(--schrift);
@@ -80,28 +70,16 @@ h1 {
   color: var(--schrift);
 }
 
-.infobanner {
-  border-left: 10px solid #b60e0e;
-  background-color: #f2dede;
-  padding: 15px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  color: #a94442;
-  margin-top: 10px;
-  border-radius: 5px;
-  grid-column-start: 1;
-  grid-column-end: 3;
-}
-
-.darkmode .infobanner {
-  background-color: rgb(24, 24, 24);
-  color: var(--schrift);
-}
-
 @media only screen and (max-width: 700px) {
   #home .sectiondiv {
     grid-template-columns: 70% 30%;
   }
 }
+#home p {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
 /*Info-------------------------------------------------------------------------------*/
 #info .Erklärung {
   margin-top: 1em;

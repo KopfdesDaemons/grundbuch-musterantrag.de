@@ -15,7 +15,6 @@ export class HeaderComponent implements AfterViewInit {
 
   colors = ['hsl(195, 75%, 50%)', 'hsl(0, 60%, 50%)', 'hsl(323, 82%, 50%)', 'hsl(132, 64%, 50%)', 'hsl(35, 100%, 50%)', 'hsl(173, 63%, 50%)', 'hsl(281, 94%, 50%)', 'hsl(81, 56%, 50%)', 'hsl(0, 0%, 50%)', 'hsl(334, 100%, 50%)', 'hsl(225, 6%, 50%)', 'hsl(110, 69%, 50%)'];
 
-  @ViewChild('mobilenav') mobilenav!: ElementRef;
   @ViewChild('closingdiv') closingdiv!: ElementRef;
   @ViewChild('cookiebanner') cookiebanner!: ElementRef;
   @ViewChild('colorPicker') colorPicker!: ElementRef;
@@ -26,23 +25,6 @@ export class HeaderComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.cs.cookieRequestList.subscribe((c: cookie[]) => { this.showCookieBanner(); });
-  }
-
-  // MobileHeaderMenü ############################################################################
-  menüoffen = false;
-
-  toggle() {
-    this.mobilenav.nativeElement.classList.toggle('mobilenavsichtbar');
-    this.closingdiv.nativeElement.classList.toggle("unsichtbar");
-    this.menüoffen = !this.menüoffen;
-  }
-
-  togglebodydiv() {
-    if (this.menüoffen == true) {
-      this.mobilenav.nativeElement.classList.toggle('mobilenavsichtbar')
-      this.closingdiv.nativeElement.classList.toggle("unsichtbar");
-      this.menüoffen = false;
-    }
   }
 
   // Farbe aus Auswahl ##########################################################################
@@ -81,7 +63,6 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   showCookieBanner() {
-    // console.log(this.cs.cookieListe.value);
     if (this.isDisplayed) return;
     if (this.cs.cookieRequestList.value.length == 0) return;
     this.consent = this.cs.cookieRequestList.value[0].consent;

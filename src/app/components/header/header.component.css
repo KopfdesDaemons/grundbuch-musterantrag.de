@@ -195,17 +195,6 @@ header {
 .mobileheader .farbauswahl {
   right: 0;
 }
-.mobileheader .mobilenav {
-  display: flex;
-  justify-content: center;
-  max-height: 0;
-  overflow: hidden;
-  background-color: var(--hintergrund);
-}
-.mobileheader .mobilenavsichtbar {
-  max-height: 500px;
-  transition: 1ms;
-}
 
 @media only screen and (max-width: 700px) {
   .desktopheader {
