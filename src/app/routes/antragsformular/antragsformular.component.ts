@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
+import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
 
 @Component({
   selector: 'app-antragsformular',
@@ -37,6 +38,10 @@ export class AntragsformularComponent implements OnInit {
         }
         case 'namensberichtigung': {
           antrag = new AntragNamensberichtigung();
+          break;
+        }
+        case 'grundbuchberichtigung-sterbefall': {
+          antrag = new AntragGrundbuchberichtigungSterbefall();
           break;
         }
       }

@@ -4,7 +4,6 @@
     flex-direction: column;
     padding: 1.5em;
     border-radius: 12px;
-    max-width: 30em;
     box-sizing: border-box;
     animation: grow 500ms;
     font-size: 0.9em;
@@ -45,6 +44,8 @@ p {
 .gebuehrDiv {
     margin-bottom: 0.5em;
     margin-top: auto;
+    display: flex;
+    flex-direction: column;
 
     .gebuehrenfrei {
         color: green;
@@ -52,7 +53,6 @@ p {
 
     .gebuehrenpflichtig {
         color: red;
-        white-space: nowrap;
     }
 }
 

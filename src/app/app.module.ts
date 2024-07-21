@@ -31,6 +31,9 @@ import { HinweisComponent } from './components/forms/hinweis/hinweis.component';
 import { AntragslisteComponent } from './routes/antragsliste/antragsliste.component';
 import { AntragsartCardComponent } from "./components/antragsart-card/antragsart-card.component";
 import { FileNotFoundComponent } from './routes/file-not-found/file-not-found.component';
+import { ErblasserComponent } from './components/forms/erblasser/erblasser.component';
+import { ErbnachweisComponent } from './components/forms/erbnachweis/erbnachweis.component';
+import { WeitererGrundbesitzComponent } from './components/forms/weiterer-grundbesitz/weiterer-grundbesitz.component';
 
 @NgModule({
     declarations: [
@@ -60,7 +63,10 @@ import { FileNotFoundComponent } from './routes/file-not-found/file-not-found.co
         HinweisComponent,
         AntragslisteComponent,
         AntragsartCardComponent,
-        FileNotFoundComponent
+        FileNotFoundComponent,
+        ErblasserComponent,
+        ErbnachweisComponent,
+        WeitererGrundbesitzComponent
     ],
     bootstrap: [AppComponent],
     imports: [

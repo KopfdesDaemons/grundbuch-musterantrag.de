@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
@@ -8,13 +7,7 @@ import { FormService } from 'src/app/services/form.service';
   styleUrl: './form-des-ausdrucks.component.scss'
 })
 export class FormDesAusdrucksComponent {
-  form: FormGroup
 
-  constructor(public fs: FormService) {
-    this.form = fs.form.get("formDesAusdrucks") as FormGroup;
-  }
+  constructor(public fs: FormService) { }
 
-  next() {
-    if (this.form.valid) this.fs.nextStep();
-  }
 }

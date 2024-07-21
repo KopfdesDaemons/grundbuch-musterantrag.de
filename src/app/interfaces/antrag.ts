@@ -4,16 +4,18 @@ import { Grundbuchamt } from "../models/grundbuchamt";
 
 export interface Antrag {
     title: string
-    antragsteller: Antragsteller
-    grundbuchamt: Grundbuchamt
-    getFormGroup(): FormGroup
-    datum: string
-    templateFileName: string
-    loadFormValue(formValue: object): void
-    hinweise?: string[]
+    description: string
     antragsRoute: string
     mehrInfosRoute?: string
-    description: string
-    gebuehr: string
+    templateFileName: string
     erforderlicheUnterlagen: string[]
+    gebuehr: string
+
+    antragsteller: Antragsteller
+    grundbuchamt: Grundbuchamt
+
+    datum: string
+    hinweise?: string[]
+    getFormGroup(): FormGroup
+    loadFormValue(formValue: object): void
 }

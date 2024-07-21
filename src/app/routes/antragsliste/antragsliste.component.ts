@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
+import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
 import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
 
 @Component({
@@ -13,7 +14,8 @@ export class AntragslisteComponent {
 
   antraege: Antrag[] = [
     new AntragGrundbuchausdruck(),
-    new AntragNamensberichtigung()
+    new AntragNamensberichtigung(),
+    new AntragGrundbuchberichtigungSterbefall()
   ];
 
   constructor(meta: Meta, title: Title) {

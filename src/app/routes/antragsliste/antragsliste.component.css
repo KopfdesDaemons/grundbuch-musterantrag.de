@@ -4,16 +4,26 @@
   flex-direction: column;
 }
 
+.sectiondiv {
+  max-width: 100em;
+}
+
 .antragsliste {
   list-style: none;
-  display: flex;
+  display: grid;
   justify-content: center;
-  flex-wrap: wrap;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, 25em);
   gap: 1em;
   padding: 0;
 }
 .antragsliste app-antragsart-card {
   height: 100%;
+}
+@media only screen and (max-width: 600px) {
+  .antragsliste {
+    grid-template-columns: auto;
+  }
 }
 
 .faq {

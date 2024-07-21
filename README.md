@@ -13,6 +13,7 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 - Antrag auf Erteilung eines Grundbuchsausdrucks
 - Antrag auf Namensberichtigung einer natürlichen Person
+- Antrag auf Grundbuchberichtigung aufgrund eines Sterbefalls
 
 ## Frameworks
 

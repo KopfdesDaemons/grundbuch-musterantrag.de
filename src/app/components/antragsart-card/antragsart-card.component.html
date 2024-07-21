@@ -5,7 +5,7 @@
     {{description}}
 </p>
 <div class="gebuehrDiv">
-    Gebühr des Grundbuchamts:
+    <span>Gebühr des Grundbuchamts:</span>
     <span [ngClass]="gebuehr === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{gebuehr}}</span>
 </div>
 @if(erforderlicheUnterlagen.length > 0) {

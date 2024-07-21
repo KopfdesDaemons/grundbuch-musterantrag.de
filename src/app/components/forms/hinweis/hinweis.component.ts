@@ -36,7 +36,6 @@ export class HinweisComponent {
       this.index--;
       this.hinweis = this.hinweise[this.index];
     } else {
-      console.log('index nicht größer 0 ' + this.index);
       this.fs.stepback();
     }
   }

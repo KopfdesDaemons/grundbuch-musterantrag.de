@@ -16,7 +16,10 @@ export class FormService {
   private Step = new BehaviorSubject<number>(1);
   constrolsAndComponents: { control: string, component: string }[] = [
     { control: 'antragsteller', component: 'antragsteller' },
+    { control: 'erblasser', component: 'erblasser' },
     { control: 'grundstueck', component: 'grundstueck' },
+    { control: 'erbnachweis', component: 'erbnachweis' },
+    { control: 'weitererGrundbesitz', component: 'weitererGrundbesitz' },
     { control: 'formDesAusdrucks', component: 'form-des-ausdrucks' },
     { control: 'berechtigtesInteresse', component: 'berechtigtes-interesse' },
     { control: 'grundbuchamt', component: 'grundbuchamt' }
