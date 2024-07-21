@@ -45,7 +45,7 @@ p {
 .gebuehrDiv .gebuehrenfrei {
   color: green;
 }
-.gebuehrDiv .gebuehr {
+.gebuehrDiv .gebuehrenpflichtig {
   color: red;
   white-space: nowrap;
 }

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { Antrag } from 'src/app/interfaces/antrag';
+import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
+import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
 
 @Component({
   selector: 'app-antragsliste',
@@ -8,21 +11,9 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class AntragslisteComponent {
 
-  antraege = [
-    {
-      title: "Antrag auf Erteilung eines Grundbuchausdrucks",
-      antragsRoute: "/antrag/grundbuchausdruck",
-      mehrInfosRoute: "/antraginfos/grundbuchausdruck",
-      description: "Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck kostet 10,00 €",
-      gebuehr: "mindestens 10,00 €",
-      erforderlicheUnterlagen: ['Vollmacht, sofern Antragsteller nicht berechtigt ist']
-    },
-    {
-      title: "Antrag auf Namensberichtigung einer natürlichen Person",
-      antragsRoute: "/antrag/namensberichtigung",
-      description: "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.",
-      erforderlicheUnterlagen: ['beglaubigte Kopie der Eheurkunde oder vergleichbarer Nachweis über die Namensänderung']
-    }
+  antraege: Antrag[] = [
+    new AntragGrundbuchausdruck(),
+    new AntragNamensberichtigung()
   ];
 
   constructor(meta: Meta, title: Title) {

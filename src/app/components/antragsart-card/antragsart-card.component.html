@@ -6,11 +6,7 @@
 </p>
 <div class="gebuehrDiv">
     Gebühr des Grundbuchamts:
-    @if(gebuehr) {
-    <span class="gebuehr">{{gebuehr}}</span>
-    } @else {
-    <span class="gebuehrenfrei">gebührenfrei</span>
-    }
+    <span [ngClass]="gebuehr === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{gebuehr}}</span>
 </div>
 @if(erforderlicheUnterlagen.length > 0) {
 <div class="erforderlicheUnterlagenDiv">

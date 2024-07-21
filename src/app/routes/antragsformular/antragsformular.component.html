@@ -1,6 +1,7 @@
 <app-header></app-header>
 <section [ngClass]="{'darkmode': dl.darkmode.value}">
   <div class="formulardiv sectiondiv borderdiv">
+    <h1>{{fs.antrag?.title}}</h1>
     @switch (fs.currentComponent) {
     @case ('antragsteller') {
     <app-antragsteller></app-antragsteller>

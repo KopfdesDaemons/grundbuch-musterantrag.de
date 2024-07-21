@@ -22,8 +22,21 @@ section {
   max-width: 50em;
   margin-top: 10vh;
   margin-bottom: 5vh;
+  // padding: 0;
+
+  * {}
 }
 
 h2 {
   margin: 0.3em 0;
+}
+
+h1 {
+  text-align: center;
+  background-color: var(--hintergrund-variant);
+  margin: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  font-size: clamp(1.2rem, 2vw, 2rem);
+  text-wrap: pretty;
 }
