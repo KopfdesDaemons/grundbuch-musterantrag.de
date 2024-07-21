@@ -214,6 +214,15 @@ h1 {
   }
 }
 
+a.GB-Abschnitt {
+  text-decoration: none;
+  color: var(--schrift);
+
+  &:hover {
+    background-color: var(--hintergrund-variant);
+  }
+}
+
 /*FAQ-------------------------------------------------------------------------------*/
 
 .Fragen {

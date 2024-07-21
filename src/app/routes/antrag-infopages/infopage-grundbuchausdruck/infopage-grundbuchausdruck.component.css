@@ -206,6 +206,14 @@ h1 {
   list-style: none;
 }
 
+a.GB-Abschnitt {
+  text-decoration: none;
+  color: var(--schrift);
+}
+a.GB-Abschnitt:hover {
+  background-color: var(--hintergrund-variant);
+}
+
 /*FAQ-------------------------------------------------------------------------------*/
 .Fragen {
   margin-top: 1em;
