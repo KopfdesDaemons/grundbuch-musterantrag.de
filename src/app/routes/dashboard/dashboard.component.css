@@ -82,21 +82,6 @@ h1 {
   margin-top: 0;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--primary-variant-darker);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
 .dropDown {
   position: relative;
   cursor: pointer;
@@ -109,6 +94,7 @@ h1 {
   top: 0;
   background-color: var(--hintergrund);
   border-radius: 6px;
+  list-style: none;
   border: 1px solid var(--primary-variant-much-brighter);
 }
 .dropDown ul li {
@@ -116,14 +102,4 @@ h1 {
 }
 .dropDown ul:hover {
   background-color: var(--hintergrund-variant-darker);
-}
-
-details > summary {
-  list-style: none;
-  cursor: pointer;
-  z-index: 2;
-}
-
-details > summary::-webkit-details-marker {
-  display: none;
 }/*# sourceMappingURL=dashboard.component.css.map */

@@ -5,31 +5,31 @@
     background-color: var(--hintergrund-variant);
 }
 
-section{
+section {
     margin-top: 4vh;
     top: -40em;
     position: relative;
     animation: slideInFromTop 500ms forwards;
-  }
-  
-  @keyframes slideInFromTop{
+}
+
+@keyframes slideInFromTop {
     100% {
-      top: 0em;
+        top: 0em;
     }
-  }
+}
 
 h1 {
     font-size: clamp(1.5rem, 5vw, 2rem);
     margin-top: 0;
 }
 
-.logoutBtn{
+.logoutBtn {
     position: absolute;
     top: 4em;
     right: 2em;
 }
 
-.tableHeader{
+.tableHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -37,7 +37,7 @@ h1 {
     border-radius: 8px 8px 0 0;
     width: clamp(300px, 90vw, 1000px);
 
-    h2{
+    h2 {
         margin: 0.5em;
         font-size: 1em;
     }
@@ -65,17 +65,18 @@ h1 {
         font-size: clamp(12px, 1vw, 16px);
     }
 
-    th{
+    th {
         text-align: left;
     }
 
-    td{
+    td {
         padding: 8px;
     }
 
-    td:last-child{
+    td:last-child {
         padding: 0;
     }
+
     tr:hover {
         background-color: var(--hintergrund-variant);
     }
@@ -92,26 +93,11 @@ h1 {
     }
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: var(--primary-variant-darker);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.dropDown{
+.dropDown {
     position: relative;
     cursor: pointer;
 
-    ul{
+    ul {
         visibility: collapse;
         padding: 0;
         position: absolute;
@@ -119,24 +105,16 @@ h1 {
         top: 0;
         background-color: var(--hintergrund);
         border-radius: 6px;
-        
-        li{
+        list-style: none;
+
+        li {
             padding: 10px;
         }
+
         border: 1px solid var(--primary-variant-much-brighter);
     }
 
-    ul:hover{
+    ul:hover {
         background-color: var(--hintergrund-variant-darker);
     }
-}
-
-details>summary {
-    list-style: none;
-    cursor: pointer;
-    z-index: 2;
-}
-
-details>summary::-webkit-details-marker {
-    display: none;
 }
