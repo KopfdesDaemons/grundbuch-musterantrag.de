@@ -30,6 +30,7 @@ section:first-of-type .sectiondiv {
 progress {
   height: 0.5em;
   width: 100%;
+  background: var(--primary-color);
 }
 
 progress[value]::-webkit-progress-value {
