@@ -12,7 +12,8 @@ import { Antrag } from '../interfaces/antrag';
 export class FormService {
 
   antrag: Antrag | null = null;
-  form!: FormGroup
+  form!: FormGroup;
+  progress: number = 0;
   private Step = new BehaviorSubject<number>(1);
   constrolsAndComponents: { control: string, component: string }[] = [
     { control: 'antragsteller', component: 'antragsteller' },
@@ -52,6 +53,14 @@ export class FormService {
     if (step === this.requiredComponents.length + 1) {
       this.currentComponent = 'antragsgenerierung';
     }
+
+    this.setProgress();
+  }
+
+  private setProgress() {
+    const step: number = this.requiredComponents.indexOf(this.currentComponent);
+    const progress: number = step / this.requiredComponents.length * 100;
+    this.progress = progress;
   }
 
   private checkGrundbuchamtSkip(nextComponent: string): boolean {
@@ -71,11 +80,13 @@ export class FormService {
       this.currentComponent = previousComponent;
       this.Step.next(step);
       this.scroll.scrollToPosition([0, 0]);
+      this.setProgress();
     }
   }
 
   antragAbschließen() {
     if (!this.antrag) return;
+    this.progress = 100;
     this.antrag.loadFormValue(this.form.value);
     this.antrag.datum = this.getFormattedDate(new Date());
   }

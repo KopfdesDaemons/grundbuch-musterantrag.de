@@ -24,7 +24,9 @@
 h2,
 h3 {
   margin: 0;
-  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+          hyphens: auto;
+  text-wrap: balance;
   color: var(--schrift);
 }
 

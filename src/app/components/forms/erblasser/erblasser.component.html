@@ -12,10 +12,12 @@
                 placeholder="&nbsp;">
             <label class="placeholder" for="nachnameinput">Nachname</label>
         </div>
-        <div class="inputfeld" id="geburtsdatum">
-            <input formControlName="geburtsdatum" type="date" id="geburtsdatuminput" name="geburtsdatum" required
-                spellcheck="false" placeholder="&nbsp;">
-            <label class="placeholder" for="geburtsdatuminput">Geburtsdatum</label>
+        <div>
+            <div class="inputfeld" id="geburtsdatum">
+                <input formControlName="geburtsdatum" type="date" id="geburtsdatuminput" name="geburtsdatum" required
+                    spellcheck="false" placeholder="&nbsp;">
+                <label class="placeholder" for="geburtsdatuminput">Geburtsdatum</label>
+            </div>
         </div>
         <div class="formNavBtn">
             @if (fs.getCurrentStep() > 1) {

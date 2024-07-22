@@ -4,8 +4,10 @@
     flex-direction: column;
 }
 
-.sectiondiv {
-    max-width: 100em;
+.beschreibung {
+    text-wrap: balance;
+    text-align: center;
+    hyphens: auto;
 }
 
 .antragsliste {

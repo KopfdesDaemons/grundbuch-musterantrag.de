@@ -5,7 +5,7 @@
 }
 
 section {
-  margin-top: 4vh;
+  margin-top: 3.5em;
   top: -40em;
   position: relative;
   animation: slideInFromTop 700ms forwards;
@@ -19,20 +19,30 @@ section {
 .sectiondiv {
   align-items: unset;
   max-width: 50em;
-  margin-top: 10vh;
   margin-bottom: 5vh;
 }
 
-h2 {
-  margin: 0.3em 0;
+section:first-of-type .sectiondiv {
+  margin-top: 2vh;
+}
+
+progress {
+  height: 0.5em;
+  width: 100%;
+}
+
+progress[value]::-webkit-progress-value {
+  -webkit-transition: width 0.5s;
+  transition: width 0.5s;
+  background: var(--primary-color);
 }
 
 h1 {
+  background-color: var(--hintergrund-variant-darker);
   text-align: center;
-  background-color: var(--hintergrund-variant);
   margin: 0;
   padding: 0.5em;
   box-sizing: border-box;
-  font-size: clamp(1.2rem, 2vw, 2rem);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
   text-wrap: pretty;
 }/*# sourceMappingURL=antragsformular.component.css.map */

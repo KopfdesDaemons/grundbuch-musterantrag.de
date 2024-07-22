@@ -148,7 +148,7 @@ header {
   border-top: 2px solid var(--primary-color);
 }
 .mobileheader .mobileheadercontent {
-  height: 4em;
+  height: 3em;
   display: flex;
   justify-content: space-between;
   align-items: center;
