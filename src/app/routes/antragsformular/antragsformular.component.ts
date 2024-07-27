@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
+import { AntragLoesschungAbt2 } from 'src/app/models/antragLoeschungAbt2';
 
 @Component({
   selector: 'app-antragsformular',
@@ -43,6 +44,10 @@ export class AntragsformularComponent implements OnInit {
         case 'grundbuchberichtigung-sterbefall': {
           antrag = new AntragGrundbuchberichtigungSterbefall();
           break;
+        }
+        case 'loeschung-abteilung2': {
+          antrag = new AntragLoesschungAbt2();
+          break
         }
       }
       if (antrag) this.fs.init(antrag);

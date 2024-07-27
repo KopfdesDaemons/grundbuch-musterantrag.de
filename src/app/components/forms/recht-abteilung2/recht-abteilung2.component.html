@@ -1,0 +1,36 @@
+<form [formGroup]="form" class="seite" style="display:block" id="antragsteller">
+    <h2>Recht Abteilung 2</h2>
+    <p>Geben Sie Daten an, mit denen das Grundbuchamt das Recht eindeutig idenifizieren kann. Wenn das Grundbuchamt
+        nicht erkennen kann, welches Recht gemeint ist, erhalten Sie eine Zwischenverfügung mit der Bitte um genauere
+        Angaben.</p>
+    <div class="formularcontent">
+        <div id="bezeichnungContainer">
+            <span>Welches Recht ist betroffen?</span>
+            <div class="inputfeld" id="bezeichnung">
+                <input formControlName="bezeichnung" type="text" id="bezeichnunginput" name="bezeichnung" required
+                    spellcheck="false" placeholder="&nbsp;">
+                <label class="placeholder" for="bezeichnunginput">Bezeichnung des Rechts</label>
+            </div>
+        </div>
+        <div>
+            <label class="placeholder" for="laufendeNummerinput">Laufende Nummer: </label>
+            <div class="inputfeld" id="laufendeNummer">
+                <input formControlName="laufendeNummer" type="number" type="text" id="laufendeNummerinput"
+                    name="laufendeNummer" spellcheck="false" placeholder="&nbsp;">
+            </div>
+        </div>
+        <div>
+            <label class="placeholder" for="datumDerBewilligunginput">Datum der Bewilligung: </label>
+            <div class="inputfeld" id="datumDerBewilligung">
+                <input formControlName="datumDerBewilligung" type="date" id="datumDerBewilligunginput"
+                    name="datumDerBewilligung" spellcheck="false" placeholder="&nbsp;">
+            </div>
+        </div>
+        <div class="formNavBtn">
+            @if (fs.getCurrentStep() > 1) {
+            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+            }
+            <button class="btnoutlined" id="weiterbtn" type="button" (click)="fs.nextStep()">Weiter</button>
+        </div>
+    </div>
+</form>

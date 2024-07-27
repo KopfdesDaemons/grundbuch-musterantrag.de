@@ -34,6 +34,7 @@ import { FileNotFoundComponent } from './routes/file-not-found/file-not-found.co
 import { ErblasserComponent } from './components/forms/erblasser/erblasser.component';
 import { ErbnachweisComponent } from './components/forms/erbnachweis/erbnachweis.component';
 import { WeitererGrundbesitzComponent } from './components/forms/weiterer-grundbesitz/weiterer-grundbesitz.component';
+import { RechtAbteilung2Component } from './components/forms/recht-abteilung2/recht-abteilung2.component';
 
 @NgModule({
     declarations: [
@@ -66,7 +67,8 @@ import { WeitererGrundbesitzComponent } from './components/forms/weiterer-grundb
         FileNotFoundComponent,
         ErblasserComponent,
         ErbnachweisComponent,
-        WeitererGrundbesitzComponent
+        WeitererGrundbesitzComponent,
+        RechtAbteilung2Component
     ],
     bootstrap: [AppComponent],
     imports: [

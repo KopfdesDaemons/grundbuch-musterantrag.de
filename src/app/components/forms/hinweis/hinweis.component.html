@@ -1,6 +1,10 @@
-<fa-icon [icon]="faCircleInfo" class="infoIcon"></fa-icon>
-<h2>Hinweis</h2>
-<p>{{hinweis}}</p>
+<div id="container">
+    <div class="content">
+        <h2>Hinweis</h2>
+        <p>{{hinweis}}</p>
+    </div>
+    <fa-icon [icon]="faCircleInfo" class="infoIcon"></fa-icon>
+</div>
 <div class="formNavBtn">
     <button class="btntext" type="button" (click)="back()">zurück</button>
     <button class="btnoutlined" id="weiterbtn" type="button" (click)="next()">Verstanden</button>

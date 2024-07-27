@@ -19,6 +19,7 @@ export class FormService {
     { control: 'antragsteller', component: 'antragsteller' },
     { control: 'erblasser', component: 'erblasser' },
     { control: 'grundstueck', component: 'grundstueck' },
+    { control: 'rechtAbteilung2', component: 'rechtAbteilung2' },
     { control: 'erbnachweis', component: 'erbnachweis' },
     { control: 'weitererGrundbesitz', component: 'weitererGrundbesitz' },
     { control: 'formDesAusdrucks', component: 'form-des-ausdrucks' },
@@ -89,6 +90,8 @@ export class FormService {
     this.progress = 100;
     this.antrag.loadFormValue(this.form.value);
     this.antrag.datum = this.getFormattedDate(new Date());
+
+    // console.log(this.antrag);
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {

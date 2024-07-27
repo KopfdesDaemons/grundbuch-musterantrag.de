@@ -8,7 +8,7 @@ import { Erblasser } from "./erblasser";
 export class AntragGrundbuchberichtigungSterbefall implements Antrag {
     title: string = 'Grundbuchberichtigung aufgrund eines Sterbefalls'
     description: string = 'Stirbt ein Eigentümer, wird das Grundbuch unrichtig. Die Berichtigung auf die Erben muss beantragt werden.';
-    gebuehr: string = 'gebührenfrei innerhalb von zwei Jahren nach dem Sterbefall';
+    gebuehr: string = 'zwei Jahren nach Sterbefall gebührenfrei';
     templateFileName: string = 'grundbuchberichtigung-sterbefall';
     mehrInfosRoute?: string | undefined;
     antragsRoute: string = '/antrag/grundbuchberichtigung-sterbefall';
