@@ -23,10 +23,6 @@ export class GrundbuchamtComponent {
     });
   }
 
-  next() {
-    if (this.form.valid) this.fs.nextStep();
-  }
-
   onlineSuchen() {
     window.open(
       "https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=" +

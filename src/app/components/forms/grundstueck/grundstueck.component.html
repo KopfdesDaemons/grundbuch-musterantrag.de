@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="seite" id="#Grundstücksdaten">
+<form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
   <h2>Grundstücksangaben</h2>
   <div class="inputfelder">
     <div class="formularerklärung">Welche Angaben zum Grundstück können Sie machen? Geben Sie an, was
@@ -49,6 +49,6 @@
     @if (fs.getCurrentStep() > 1) {
     <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
     }
-    <button class="btnoutlined" id="weiterbtn" type="button" (click)="next()">Weiter</button>
+    <button class="btnoutlined">Weiter</button>
   </div>
 </form>

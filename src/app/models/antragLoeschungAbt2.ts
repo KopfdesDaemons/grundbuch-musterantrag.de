@@ -7,7 +7,7 @@ import { RechtAbteilung2 } from "./rechtAbteilung2";
 
 export class AntragLoesschungAbt2 implements Antrag {
     title: string = 'Löschung von Lasten und Beschränkungen';
-    description: string = 'z.B. die Löschung eines Wohnungrechts';
+    description: string = 'z.B. die Löschung eines Wohnungrechts. Nutzen Sie diesen Antrag nicht für Grundschulden.';
     antragsRoute: string = '/antrag/loeschung-abteilung2';
     mehrInfosRoute?: string | undefined;
     templateFileName: string = 'loeschungAbt2';

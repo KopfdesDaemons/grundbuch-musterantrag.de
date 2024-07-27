@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="seite" id="berechtigtesinteresse">
+<form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
   <h2>Berechtigtes Interesse</h2>
   <div class="formularcontent">
     <div class="inputfelder">
@@ -50,6 +50,6 @@
     @if (fs.getCurrentStep() > 1) {
     <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
     }
-    <button class="btnoutlined" id="weiterbtn" type="button" (click)="next()">Weiter</button>
+    <button class="btnoutlined" [disabled]="!form.valid">Weiter</button>
   </div>
 </form>

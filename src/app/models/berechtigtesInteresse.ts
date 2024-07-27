@@ -1,7 +1,7 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class BerechtigtesInteresse {
-    interesse: string = '';
+    interesse: string = 'Ich bin Eigentümer';
     bemerkung: string = '';
 
     getFormGroup(): FormGroup {

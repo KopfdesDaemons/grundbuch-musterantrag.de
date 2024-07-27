@@ -13,7 +13,6 @@ export class AntragstellerComponent {
   form: FormGroup
   faCircleUser = faCircleUser;
 
-
   constructor(public fs: FormService) {
     this.form = fs.form.get('antragsteller') as FormGroup;
 

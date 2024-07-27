@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="seite" style="display:block" id="antragsteller">
+<form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
     <h2>Recht Abteilung 2</h2>
     <p>Geben Sie Daten an, mit denen das Grundbuchamt das Recht eindeutig idenifizieren kann. Wenn das Grundbuchamt
         nicht erkennen kann, welches Recht gemeint ist, erhalten Sie eine Zwischenverfügung mit der Bitte um genauere
@@ -30,7 +30,7 @@
             @if (fs.getCurrentStep() > 1) {
             <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
             }
-            <button class="btnoutlined" id="weiterbtn" type="button" (click)="fs.nextStep()">Weiter</button>
+            <button class="btnoutlined">Weiter</button>
         </div>
     </div>
 </form>

@@ -1,13 +1,12 @@
-#berechtigtesinteresse li {
+ul {
+  padding-left: 1rem;
+}
+ul li {
   display: flex;
   margin: 0.5rem 0;
 }
 
-ul {
-  padding-left: 1rem;
-}
-
-#berechtigtesinteresse textarea {
+textarea {
   width: 100%;
   height: 5em;
   resize: vertical;
@@ -16,7 +15,7 @@ ul {
 }
 
 @media only screen and (max-width: 580px) {
-  #berechtigtesinteresse ul {
+  ul {
     padding-left: 0em;
   }
 }

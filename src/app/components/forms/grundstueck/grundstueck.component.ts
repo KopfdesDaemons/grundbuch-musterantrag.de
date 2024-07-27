@@ -29,8 +29,4 @@ export class GrundstueckComponent {
     this.form.controls['straße'].setValue(antragsteller.straße);
     this.form.controls['ort'].setValue(antragsteller.ort);
   }
-
-  next() {
-    if (this.form.valid) this.fs.nextStep();
-  }
 }

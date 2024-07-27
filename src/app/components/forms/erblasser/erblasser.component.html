@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="seite" style="display:block" id="antragsteller">
+<form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
     <h2>Erblasser</h2>
     <p>Die Daten des verstorbenen Eigentümers.</p>
     <div class="formularcontent">
@@ -14,7 +14,7 @@
         </div>
         <div>
             <div class="inputfeld" id="geburtsdatum">
-                <input formControlName="geburtsdatum" type="date" id="geburtsdatuminput" name="geburtsdatum" required
+                <input formControlName="geburtsdatum" type="date" id="geburtsdatuminput" name="geburtsdatum"
                     spellcheck="false" placeholder="&nbsp;">
                 <label class="placeholder" for="geburtsdatuminput">Geburtsdatum</label>
             </div>
@@ -23,7 +23,7 @@
             @if (fs.getCurrentStep() > 1) {
             <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
             }
-            <button class="btnoutlined" id="weiterbtn" type="button" (click)="fs.nextStep()">Weiter</button>
+            <button class="btnoutlined" [disabled]="!form.valid">Weiter</button>
         </div>
     </div>
 </form>

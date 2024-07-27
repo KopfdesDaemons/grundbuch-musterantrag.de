@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="seite" style="display:block" id="antragsteller">
+<form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
   <h2>Antragsteller</h2>
   <div class="formularcontent">
     <div class="inputfelder">
@@ -42,14 +42,14 @@
       <div class="hrdiv">
         <hr>
       </div>
-      <div class="formularerklärung">Otionale Angaben für mögliche Rückfragen des Grundbuchamts:</div>
+      <div class="formularerklärung">Optionale Angaben für mögliche Rückfragen des Grundbuchamts:</div>
       <div class="inputfeld" id="telefonnummer">
         <input formControlName="telefonnummer" type="tel" id="telefonnummerinput" name="telefonnummer"
           spellcheck="false" placeholder="&nbsp;">
         <label class="placeholder" for="telefonnummerinput">Telefonnummer</label>
       </div>
       <div class="inputfeld" id="email">
-        <input formControlName="email" type="email" id="emailinput" name="email" spellcheck="false"
+        <input formControlName="email" type="email" id="emailinput" name="email" autocomplete="email" spellcheck="false"
           placeholder="&nbsp;">
         <label class="placeholder" for="emailinput">E-Mail</label>
       </div>
@@ -59,9 +59,7 @@
     </div>
   </div>
   <div class="formNavBtn">
-    @if (fs.getCurrentStep() > 1) {
-    <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-    }
-    <button class="btnoutlined" id="weiterbtn" type="button" (click)="fs.nextStep()">Weiter</button>
+    <button *ngIf="fs.getCurrentStep() > 1" class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+    <button class="btnoutlined" [disabled]="!form.valid">Weiter</button>
   </div>
 </form>

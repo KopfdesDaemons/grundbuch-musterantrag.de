@@ -3,7 +3,7 @@
   background-color: inherit;
 }
 
-#antragsteller .formularcontent {
+.formularcontent {
   flex-wrap: nowrap;
   background-color: inherit;
   display: flex;

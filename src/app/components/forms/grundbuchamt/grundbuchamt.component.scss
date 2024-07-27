@@ -1,28 +1,18 @@
 .formularcontent {
     display: flex;
     flex-wrap: wrap;
-    background-color: inherit;
-}
-
-.seite{
-    background-color: inherit;
-}
-
-:host {
-    background-color: inherit;
 }
 
 .inputfelder {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    background-color: inherit;
 }
 
 .formNavBtn {
     display: flex;
     justify-content: flex-end;
-  }
+}
 
 .inputfelder .inputfeld {
     width: 48%;

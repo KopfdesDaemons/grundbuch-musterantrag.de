@@ -13,8 +13,4 @@ export class BerechtigtesInteresseComponent {
   constructor(public fs: FormService) {
     this.form = fs.form.get("berechtigtesInteresse") as FormGroup;
   }
-
-  next() {
-    if (this.form.valid) this.fs.nextStep();
-  }
 }

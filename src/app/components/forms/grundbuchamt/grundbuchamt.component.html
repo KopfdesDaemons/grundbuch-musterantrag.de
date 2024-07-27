@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="seite" id="#Gundbuchamt">
+<form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
   <h2>Zuständiges Grundbuchamt</h2>
   <div class="inputfelder">
     <div class="formularerklärung">Zuletzt werden die Daten des zuständigen Grundbuchamtes (Amtsgericht) benötigt</div>
@@ -31,9 +31,7 @@
     </div>
   </div>
   <div class="formNavBtn">
-    @if (fs.getCurrentStep() > 1) {
-    <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-    }
-    <button class="btnoutlined" id="weiterbtn" type="button" (click)="next()">Weiter</button>
+    <button *ngIf="fs.getCurrentStep() > 1" class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+    <button class="btnoutlined" [disabled]="!form.valid">Weiter</button>
   </div>
 </form>
