@@ -21,6 +21,8 @@ export class FormService {
     { control: 'grundstueck', component: 'grundstueck' },
     { control: 'rechtAbteilung2', component: 'rechtAbteilung2' },
     { control: 'erbnachweis', component: 'erbnachweis' },
+    { control: 'bewilligung', component: 'bewilligung' },
+    { control: 'farbe', component: 'farbe' },
     { control: 'weitererGrundbesitz', component: 'weitererGrundbesitz' },
     { control: 'formDesAusdrucks', component: 'form-des-ausdrucks' },
     { control: 'berechtigtesInteresse', component: 'berechtigtes-interesse' },
@@ -37,6 +39,9 @@ export class FormService {
     this.requiredComponents = this.getRequiredComponents(this.form);
     (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz));
     this.nextStep(1);
+
+    // For Development:
+    // this.currentComponent = 'bewilligung';
   }
 
   nextStep(step: number = this.Step.value + 1): void {

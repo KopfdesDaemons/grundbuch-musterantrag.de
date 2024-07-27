@@ -15,6 +15,7 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 - Antrag auf Namensberichtigung einer natürlichen Person
 - Antrag auf Grundbuchberichtigung aufgrund eines Sterbefalls
 - Antrag auf Löschung von Lasten und Beschränkungen
+- Antrag auf Erteilung von Abschriften einer Bewilligung
 
 ## Frameworks
 
@@ -23,7 +24,9 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 ## Backend
 
-- **API**: Node.js
+- Apache
+- Node.js
+- Express
 
 # Wichtige Befehle
 

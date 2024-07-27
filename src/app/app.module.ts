@@ -35,6 +35,8 @@ import { ErblasserComponent } from './components/forms/erblasser/erblasser.compo
 import { ErbnachweisComponent } from './components/forms/erbnachweis/erbnachweis.component';
 import { WeitererGrundbesitzComponent } from './components/forms/weiterer-grundbesitz/weiterer-grundbesitz.component';
 import { RechtAbteilung2Component } from './components/forms/recht-abteilung2/recht-abteilung2.component';
+import { FarbeComponent } from './components/forms/farbe/farbe.component';
+import { BewilligungComponent } from './components/forms/bewilligung/bewilligung.component';
 
 @NgModule({
     declarations: [
@@ -68,7 +70,9 @@ import { RechtAbteilung2Component } from './components/forms/recht-abteilung2/re
         ErblasserComponent,
         ErbnachweisComponent,
         WeitererGrundbesitzComponent,
-        RechtAbteilung2Component
+        RechtAbteilung2Component,
+        FarbeComponent,
+        BewilligungComponent
     ],
     bootstrap: [AppComponent],
     imports: [

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
+import { AntragAbschriftBewilligung } from 'src/app/models/antragAbschriftBewilligung';
 import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
 import { AntragLoesschungAbt2 } from 'src/app/models/antragLoeschungAbt2';
@@ -17,7 +18,8 @@ export class AntragslisteComponent {
     new AntragGrundbuchausdruck(),
     new AntragNamensberichtigung(),
     new AntragGrundbuchberichtigungSterbefall(),
-    new AntragLoesschungAbt2()
+    new AntragLoesschungAbt2(),
+    new AntragAbschriftBewilligung()
   ];
 
   constructor(meta: Meta, title: Title) {

@@ -1,0 +1,21 @@
+.formNavBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#laufendeNummer {
+  max-width: 4em;
+}
+#laufendeNummer input {
+  text-align: center;
+}
+
+#bezeichnungContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em;
+}
+#bezeichnungContainer #bezeichnung {
+  flex: 1 1 15em;
+}/*# sourceMappingURL=bewilligung.component.css.map */

@@ -9,6 +9,7 @@ import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
 import { AntragLoesschungAbt2 } from 'src/app/models/antragLoeschungAbt2';
+import { AntragAbschriftBewilligung } from 'src/app/models/antragAbschriftBewilligung';
 
 @Component({
   selector: 'app-antragsformular',
@@ -47,6 +48,10 @@ export class AntragsformularComponent implements OnInit {
         }
         case 'loeschung-abteilung2': {
           antrag = new AntragLoesschungAbt2();
+          break
+        }
+        case 'abschrift-bewilligung': {
+          antrag = new AntragAbschriftBewilligung();
           break
         }
       }
