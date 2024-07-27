@@ -16,6 +16,7 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 - Antrag auf Grundbuchberichtigung aufgrund eines Sterbefalls
 - Antrag auf Löschung von Lasten und Beschränkungen
 - Antrag auf Erteilung von Abschriften einer Bewilligung
+- Antrag auf Erteilung von Abschriften der Teilungserklärung, Abgeschlossenheitsbescheinigung und des Aufteilungsplans
 
 ## Frameworks
 

@@ -8,7 +8,7 @@ import { Bewilligung } from "./bewilligung";
 
 export class AntragAbschriftBewilligung implements Antrag {
     title: string = 'Erteilung von Abschriften einer Bewilligung';
-    description: string = 'Kopien der Eintragungen im Grundbuch zugrundeliegenden Urkunden';
+    description: string = 'Kopien der Eintragungen im Grundbuch zugrundeliegenden Urkunden.';
     antragsRoute: string = '/antrag/abschrift-bewilligung';
     mehrInfosRoute?: string | undefined;
     templateFileName: string = 'abschriftBewilligung';

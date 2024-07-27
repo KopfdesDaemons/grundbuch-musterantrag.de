@@ -22,6 +22,7 @@ export class FormService {
     { control: 'rechtAbteilung2', component: 'rechtAbteilung2' },
     { control: 'erbnachweis', component: 'erbnachweis' },
     { control: 'bewilligung', component: 'bewilligung' },
+    { control: 'teilungserklaerung', component: 'teilungserklaerung' },
     { control: 'farbe', component: 'farbe' },
     { control: 'weitererGrundbesitz', component: 'weitererGrundbesitz' },
     { control: 'formDesAusdrucks', component: 'form-des-ausdrucks' },
@@ -41,7 +42,7 @@ export class FormService {
     this.nextStep(1);
 
     // For Development:
-    // this.currentComponent = 'bewilligung';
+    // this.currentComponent = 'teilungserklaerung';
   }
 
   nextStep(step: number = this.Step.value + 1): void {

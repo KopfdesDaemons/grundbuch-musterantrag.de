@@ -18,6 +18,7 @@
     grid-template-columns: repeat(auto-fit, 25em);
     gap: 1em;
     padding: 0;
+    max-width: 80em;
 
     app-antragsart-card {
         height: 100%;

@@ -1,0 +1,26 @@
+.formNavBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+:host {
+    text-wrap: pretty;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+input {
+    cursor: pointer;
+}
+
+label {
+    color: var(--primary-color);
+    cursor: pointer;
+
+    +p {
+        margin-left: 1.5em;
+    }
+}

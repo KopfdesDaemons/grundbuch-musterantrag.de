@@ -6,6 +6,7 @@ import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck'
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
 import { AntragLoesschungAbt2 } from 'src/app/models/antragLoeschungAbt2';
 import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
+import { AntragTeilungserklaerung } from 'src/app/models/antragTeilungserklaerung';
 
 @Component({
   selector: 'app-antragsliste',
@@ -19,7 +20,8 @@ export class AntragslisteComponent {
     new AntragNamensberichtigung(),
     new AntragGrundbuchberichtigungSterbefall(),
     new AntragLoesschungAbt2(),
-    new AntragAbschriftBewilligung()
+    new AntragAbschriftBewilligung(),
+    new AntragTeilungserklaerung
   ];
 
   constructor(meta: Meta, title: Title) {

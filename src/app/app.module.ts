@@ -37,6 +37,7 @@ import { WeitererGrundbesitzComponent } from './components/forms/weiterer-grundb
 import { RechtAbteilung2Component } from './components/forms/recht-abteilung2/recht-abteilung2.component';
 import { FarbeComponent } from './components/forms/farbe/farbe.component';
 import { BewilligungComponent } from './components/forms/bewilligung/bewilligung.component';
+import { TeilungserklaerungComponent } from './components/forms/teilungserklaerung/teilungserklaerung.component';
 
 @NgModule({
     declarations: [
@@ -72,7 +73,8 @@ import { BewilligungComponent } from './components/forms/bewilligung/bewilligung
         WeitererGrundbesitzComponent,
         RechtAbteilung2Component,
         FarbeComponent,
-        BewilligungComponent
+        BewilligungComponent,
+        TeilungserklaerungComponent
     ],
     bootstrap: [AppComponent],
     imports: [

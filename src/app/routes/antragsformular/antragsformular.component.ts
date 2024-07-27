@@ -10,6 +10,7 @@ import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigun
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
 import { AntragLoesschungAbt2 } from 'src/app/models/antragLoeschungAbt2';
 import { AntragAbschriftBewilligung } from 'src/app/models/antragAbschriftBewilligung';
+import { AntragTeilungserklaerung } from 'src/app/models/antragTeilungserklaerung';
 
 @Component({
   selector: 'app-antragsformular',
@@ -48,11 +49,15 @@ export class AntragsformularComponent implements OnInit {
         }
         case 'loeschung-abteilung2': {
           antrag = new AntragLoesschungAbt2();
-          break
+          break;
         }
         case 'abschrift-bewilligung': {
           antrag = new AntragAbschriftBewilligung();
-          break
+          break;
+        }
+        case 'teilungserklaerung': {
+          antrag = new AntragTeilungserklaerung();
+          break;
         }
       }
       if (antrag) this.fs.init(antrag);
