@@ -10,14 +10,32 @@ section:first-of-type .sectiondiv {
 }
 
 #aufbau {
-  margin: 0;
-  padding: 0;
 
-  li {
-    margin: 1em;
-    border: 1px solid var(--primary-variant-darker);
+  .aufbauList {
+    margin: 0;
     padding: 0.5em;
-    background-color: var(--hintergrund-variant-darker);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    li {
+
+      a,
+      div {
+        border: 1px solid var(--primary-variant-darker);
+        background-color: var(--hintergrund-variant-darker);
+        text-decoration: none;
+        color: var(--schrift);
+        display: flex;
+        flex-direction: column;
+        padding: 0.5em;
+      }
+
+      a:hover {
+        background-color: var(--hintergrund-variant);
+        transition: all 200ms;
+      }
+    }
   }
 }
 

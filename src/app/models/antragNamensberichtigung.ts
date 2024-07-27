@@ -6,10 +6,10 @@ import { Grundstueck } from "./grundstueck";
 
 export class AntragNamensberichtigung implements Antrag {
     mehrInfosRoute?: string | undefined;
-    title: string = 'Antrag auf Namensberichtigung einer natürlichen Person';
+    title: string = 'Namensberichtigung einer natürlichen Person';
     antragsRoute = "/antrag/namensberichtigung";
     description = "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.";
-    erforderlicheUnterlagen = ['beglaubigte Kopie der Eheurkunde oder vergleichbarer Nachweis über die Namensänderung'];
+    erforderlicheUnterlagen = ['beglaubigte Kopie der Eheurkunde oder des Adoptionsbeschlusses'];
     gebuehr: string = 'gebührenfrei';
 
     antragsteller: Antragsteller = new Antragsteller();

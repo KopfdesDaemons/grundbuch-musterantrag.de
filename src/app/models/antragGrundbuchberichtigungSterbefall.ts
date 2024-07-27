@@ -6,8 +6,8 @@ import { Grundstueck } from "./grundstueck";
 import { Erblasser } from "./erblasser";
 
 export class AntragGrundbuchberichtigungSterbefall implements Antrag {
-    title: string = 'Antrag auf Grundbuchberichtigung aufgrund eines Sterbefalls'
-    description: string = 'Stirbt ein Eigentümer, wird das Grundbuch unrichtig. Die Berichtigung auf die Erben muss schriftlich beantragt werden.';
+    title: string = 'Grundbuchberichtigung aufgrund eines Sterbefalls'
+    description: string = 'Stirbt ein Eigentümer, wird das Grundbuch unrichtig. Die Berichtigung auf die Erben muss beantragt werden.';
     gebuehr: string = 'gebührenfrei innerhalb von zwei Jahren nach dem Sterbefall';
     templateFileName: string = 'grundbuchberichtigung-sterbefall';
     mehrInfosRoute?: string | undefined;
@@ -23,7 +23,7 @@ export class AntragGrundbuchberichtigungSterbefall implements Antrag {
     aktenzeichenNachlassgericht: string = '';
     weitererGrundbesitz: boolean = true;
     hinweise?: string[] | undefined = ['Die Grundbuchberichtigung ist innerhalb von 2 Jahren ab dem Sterbefall gebührenfrei. Bei einer Berichtigung nach 2 Jahren entsteht die Gebühr für eine Eigentumsumschreibung.',
-        'Lassen Sie das Grundbuch nicht berichtigen, wenn Sie die Auseinandersetzung einer Erbengemeinschaft planen. Dies würde bei der zweiten Umschreibeung eine Gebühr auslösen, da nur die erste Eintragung gebührenfrei ist.'];
+        'Lassen Sie das Grundbuch nicht berichtigen, wenn Sie die Auseinandersetzung einer Erbengemeinschaft planen. Dies würde bei der zweiten Umschreibung eine Gebühr auslösen, da nur die erste Eintragung gebührenfrei ist.'];
 
     datum: string = '';
 

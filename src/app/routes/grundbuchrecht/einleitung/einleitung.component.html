@@ -31,16 +31,32 @@
             <h2>Aufbau des Grundbuchs</h2>
             <span>Ein <a routerLink="/grundbuchrecht/einleitung" fragment="definitiongrundbuch">Grundbuch</a> hat immer
                 die folgende Struktur:</span>
-            <ul id="aufbau">
-                <li><b>Aufschrift</b><br><span>(Titelblatt/Deckblatt)</span></li>
-                <li><a
-                        routerLink="/grundbuchrecht/bestandsverzeichnis"><b>Bestandsverzeichnis</b></a><br><span>(Grundstücke)</span>
+            <ul class="aufbauList">
+                <li>
+                    <div>
+                        <b>Aufschrift</b><span>(Titelblatt/Deckblatt)</span>
+                    </div>
                 </li>
-                <li><a routerLink="/grundbuchrecht/abteilung1"><b>Abteilung I</b></a><br><span>(Eigentümer)</span></li>
-                <li><a routerLink="/grundbuchrecht/abteilung2"><b>Abteilung II</b></a><br><span>(Lasten und
-                        Beschränkungen)</span></li>
-                <li><a routerLink="/grundbuchrecht/abteilung3"><b>Abteilung III</b></a><br><span>(Grundschulden,
-                        Hypotheken und Rentenschulden)</span></li>
+                <li>
+                    <a routerLink="/grundbuchrecht/bestandsverzeichnis">
+                        <b>Bestandsverzeichnis</b><span>(Grundstücke)</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/grundbuchrecht/abteilung1">
+                        <b>Abteilung I</b><span>(Eigentümer)</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/grundbuchrecht/abteilung2">
+                        <b>Abteilung II</b><span>(Lasten und Beschränkungen)</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/grundbuchrecht/abteilung3">
+                        <b>Abteilung III</b><span>(Grundschulden, Hypotheken und Rentenschulden)</span>
+                    </a>
+                </li>
             </ul>
         </Div>
     </section>
@@ -79,12 +95,12 @@
         <hr>
         <div class="sectiondiv">
             <h2>Öffentlicher Glaube</h2>
-            <span>Das <a routerLink="grundbuchrecht/einleitung" fragment="definitiongrundbuch">Grundbuch</a> genießt
+            <span>Das <a routerLink="/grundbuchrecht/einleitung" fragment="definitiongrundbuch">Grundbuch</a> genießt
                 öffentlichen Glauben.</span>
             <blockquote class="infokasten">„Jeder gutgläubiger Erwerber kann sich auf die Angaben im <a
-                    routerLink="grundbuchrecht/einleitung" fragment="definitiongrundbuch">Grundbuch</a>
+                    routerLink="/grundbuchrecht/einleitung" fragment="definitiongrundbuch">Grundbuch</a>
                 verlassen, auch wenn diese nicht der Richtigkeit entsprechen.“</blockquote>
-            <p>Es gilt die Vermutung, dass ein im <a routerLink="grundbuchrecht/einleitung"
+            <p>Es gilt die Vermutung, dass ein im <a routerLink="/grundbuchrecht/einleitung"
                     fragment="definitiongrundbuch">Grundbuch</a> eingetragenes Recht
                 demjenigen zusteht, zu dessen Gunsten es eingetragen ist. Zugleich wird
                 vermutet, dass ein im Grundbuch gelöschtes

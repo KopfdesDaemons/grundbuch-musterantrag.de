@@ -8,15 +8,26 @@ section:first-of-type .sectiondiv .infokasten {
   margin-top: 0;
 }
 
-#aufbau {
+#aufbau .aufbauList {
   margin: 0;
-  padding: 0;
-}
-#aufbau li {
-  margin: 1em;
-  border: 1px solid var(--primary-variant-darker);
   padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+#aufbau .aufbauList li a,
+#aufbau .aufbauList li div {
+  border: 1px solid var(--primary-variant-darker);
   background-color: var(--hintergrund-variant-darker);
+  text-decoration: none;
+  color: var(--schrift);
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+}
+#aufbau .aufbauList li a:hover {
+  background-color: var(--hintergrund-variant);
+  transition: all 200ms;
 }
 
 /*Wo-------------------------------------------------------------------------------*/
