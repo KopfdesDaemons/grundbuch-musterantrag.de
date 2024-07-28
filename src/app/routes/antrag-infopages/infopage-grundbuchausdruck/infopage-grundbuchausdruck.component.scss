@@ -4,70 +4,66 @@ h2 {
   text-align: center;
 }
 
+.sectiondiv {
+  max-width: 80em;
+}
+
 /*Home-------------------------------------------------------------------------------*/
 
-#home .sectiondiv {
+#home .grid {
   display: grid;
   justify-content: space-evenly;
-  grid-template-columns: 60% 40%;
-}
+  grid-template-columns: 40% 60%;
 
-.imgdiv {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: clamp(5em, 15vw, 10em);
-  color: var(--primary-variant-brighter);
-}
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
-.darkmode .imgdiv {
-  color: var(--schrift);
-}
+    h1 {
+      margin: 0.5em 0;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 100%;
+      text-align: unset;
+      color: var(--schrift);
+      overflow-wrap: break-word;
+    }
 
-.titeluntertext {
-  margin: 2% 0;
-  font-size: clamp(12px, 1.5vw, 1rem);
-}
+    .labels {
+      display: flex;
+      align-items: center;
+      font-size: clamp(12px, 1vw, 0.8rem);
+      width: 100%;
+      margin: 8px;
 
-.divTitel span {
-  font-size: 0.8em;
-}
+      span {
+        margin: 0 1em;
+      }
 
-h1 {
-  margin: 0.5em 0;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 100%;
-  text-align: unset;
-  color: var(--schrift);
-  overflow-wrap: break-word;
-}
-
-.labels {
-  display: flex;
-  align-items: center;
-  font-size: clamp(12px, 1vw, 0.8rem);
-  width: 100%;
-  margin: 8px;
-
-  span {
-    margin: 0 1em;
+      .icon {
+        font-size: clamp(1rem, 1vw, 1.5rem);
+        color: var(--schrift);
+      }
+    }
   }
 
-  .icon {
-    font-size: clamp(1rem, 1vw, 1.5rem);
-    color: var(--schrift);
+  img {
+    height: auto;
+    max-height: 25em;
   }
-}
 
-@media only screen and (max-width: 700px) {
-  #home .sectiondiv {
-    grid-template-columns: 70% 30%;
+  @media only screen and (max-width: 1000px) {
+    grid-template-columns: auto;
+
+    .imageZoomBox {
+      order: -1;
+
+      img {
+        max-height: 18em;
+      }
+    }
   }
-}
-
-#home p {
-  grid-column-start: 1;
-  grid-column-end: 3;
 }
 
 /*Info-------------------------------------------------------------------------------*/

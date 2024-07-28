@@ -5,7 +5,6 @@ import { faFilePdf, faEnvelope, faUser } from '@fortawesome/free-regular-svg-ico
 import {
   faPrint,
   faDownload,
-  faHome,
   faFax,
   faPhone,
   faAt,
@@ -28,7 +27,6 @@ export class InfopageGrundbuchausdruckComponent {
   faFilePdf = faFilePdf;
   faPrint = faPrint;
   faDownload = faDownload;
-  faHome = faHome;
   faEnvelope = faEnvelope;
   faFax = faFax;
   faUser = faUser;
