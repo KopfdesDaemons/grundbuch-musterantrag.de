@@ -9,7 +9,6 @@
   }
 }
 
-
 .artikelcontent {
   margin-top: 5em;
 
@@ -27,7 +26,7 @@
     }
   }
 
-  .infokasten {
+  blockquote {
     padding: 1em;
     background-color: var(--hintergrund-variant);
     border-left: 6px solid var(--primary-variant-darker);

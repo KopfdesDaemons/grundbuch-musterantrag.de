@@ -5,7 +5,7 @@ import { Grundbuchamt } from "./grundbuchamt";
 import { Grundstueck } from "./grundstueck";
 
 export class AntragNamensberichtigung implements Antrag {
-    mehrInfosRoute?: string | undefined;
+    mehrInfosRoute?: string | undefined = '/antragsinfos/namensberichtigung';
     title: string = 'Namensberichtigung einer natürlichen Person';
     antragsRoute = "/antrag/namensberichtigung";
     description = "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.";
@@ -17,7 +17,7 @@ export class AntragNamensberichtigung implements Antrag {
     grundbuchamt: Grundbuchamt = new Grundbuchamt();
     hinweise?: string[] | undefined = [
         `Dem Antrag ist zwingend ein Nachweis über die Namensänderung beizufügen. Als Nachweis dient z.B. eine Eheurkunde. 
-        Der Nachweis muss als Original oder als beglaubigte Kopie vorliegen, eine einfache Kopie ist nicht ausreichend. 
+        Der Nachweis sollte als Original oder als beglaubigte Kopie vorliegen, eine einfache Kopie kann vom Sachbearbeiter abgelehnt werden. 
         Wenn Sie keine beglaubigte Kopie erstellen lassen wollen, können Sie das Original mitschicken oder vor Ort vorzeigen.`,
     ];
 

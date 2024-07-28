@@ -3,10 +3,6 @@
   justify-content: flex-end;
 }
 
-:host {
-  text-wrap: pretty;
-}
-
 ul {
   padding: 0;
   list-style: none;

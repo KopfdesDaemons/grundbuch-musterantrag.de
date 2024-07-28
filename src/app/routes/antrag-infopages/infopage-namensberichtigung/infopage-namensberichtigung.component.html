@@ -1,0 +1,134 @@
+<app-header></app-header>
+<section>
+    <div class="sectiondiv" id="firstSection">
+        <div class="grid">
+            <div class="content">
+                <h1>Namensberichtigung einer natürlichen Person</h1>
+                <div>
+                    <a routerLink="/antrag/namensberichtigung" class="btn">
+                        Musterantrag ausfüllen
+                    </a>
+                </div>
+                <div class="labels">
+                    <fa-icon class="icon" [icon]="faFilePdf"></fa-icon>
+                    <span>.pdf Datei</span>
+                    <fa-icon class="icon" [icon]="faDownload"></fa-icon>
+                    <span>download</span>
+                    <fa-icon class="icon" [icon]="faPrint"></fa-icon>
+                    <span>direkt drucken</span>
+                </div>
+                <br>
+                <span>Der Name einer natürlichen Person kann sich zum Beispiel ändern
+                    aufgrund:</span>
+                <ul>
+                    <li>Eheschließung</li>
+                    <li>Lebenspartnerschaft</li>
+                    <li>Scheidung</li>
+                    <li>Annahme eines Kindes</li>
+                    <li>Verwaltungsakt</li>
+                </ul>
+            </div>
+            <div class="imageZoomBox">
+                <img src="assets/images/eheurkunde.avif" alt="eheurkunde">
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>Wie kann der Name im Grundbuch berichtigt werden?</h2>
+        <p>
+            Das Grundbuchamt benötigt einen Nachweis über die erfolgte Namensänderung.
+            Das Grundbuchamt erhält den Nachweis über die Namensänderung nicht
+            automatisch. Der Nachweis muss schriftlich beim Grundbuchamt eingereicht
+            werden. Ein Antragszwang besteht nicht. Ein Antrag ist als Anregung zur Berichtigung auszulegen.
+        </p>
+        <div><a routerLink="/antrag/namensberichtigung" class="btnoutlined">Kostenloser Musterantrag</a></div>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv" id="womit">
+        <h2>Womit kann die Namensänderung nachgewiesen werden?</h2>
+        <p>
+            Der Nachweis über die Namensänderung sollte als
+            <b class="rot">beglaubigte Abschrift</b> eingereicht werden. Eine einfache
+            Kopie kann vom Sachbearbeiter abgelehnt werden. Wenn Sie keine beglaubigte
+            Abschrift anfertigen lassen wollen, können Sie den Nachweis als Original
+            mitsenden und um Rückgabe bitten. Sie können auch das Original vorort auf
+            der Geschäftsstelle des Grundbuchamts vorzeigen.
+        </p>
+        <span>Die Namensberichtigung kann zum Beispiel nachgewiesen werden durch:</span>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dokument</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Eheurkunde/Heiratsurkunde</td>
+                </tr>
+                <tr>
+                    <td>Bescheinigung über die Namensberichtigung</td>
+                </tr>
+                <tr>
+                    <td>Adoptionsbeschluss</td>
+                </tr>
+                <tr>
+                    <td>Verwaltungsbescheid</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>In welcher Form muss der Nachweis vorliegen?</h2>
+        <p>In der Theorie gilt nach Schöner/Stöber folgendes:</p>
+        <blockquote cite="Schöner/Stöber, Grundbuchrecht 16&nbsp;Auflage 2020 Rn.&nbsp;239">
+            "Namensänderungen, die durch Verheiratung, Tod, Adoption und dergleichen eintreten (ebenso die
+            Berufsänderung),
+            können bei Nachweis, der aber nicht zwingend der Form des <a href="https://dejure.org/gesetze/GBO/22.html"
+                target="_blank">§&nbsp;22&nbsp;GBO </a> bedarf, da keine Berichtigung im Sinne des <a
+                href="https://dejure.org/gesetze/GBO/29.html">§&nbsp;29&nbsp;GBO</a> vorliegt, von Amts wegen (damit
+            ebenso auf Anregung eines Beteiligten) in das Grundbuch eingetragen
+            werden. Es liegt eine Richtigstellung vor, die die Identität des Berechtigten unberührt lässt. Der
+            Amtsermittlungsgrundsatz kommt zur Anwendung, so dass eine Zwischenverfügung ausscheidet."
+        </blockquote>
+        <p>
+            In der Praxis verlangt das Grundbuchamt jedoch in der Regel auch für die
+            Namensberichtigung eine beglaubigte Abschrift. Dies ist auf <a
+                href="https://dejure.org/gesetze/GBO/29.html">§&nbsp;29&nbsp;GBO</a> zurückzuführen. So ist etwa in
+            offiziellen Musteranträgen der Hinweis zu finden, dass eine einfache Kopie nicht ausreichend sei. Es wird
+            daher empfohlen, den
+            Nachweis direkt als <b>beglaubigte Abschrift oder Original</b> einzureichen, auch wenn das theoretisch
+            nicht erforderlich ist.
+        </p>
+    </div>
+</section>
+<section id="Wo">
+    <h2>Wo muss die Namensberichtigung beantragt werden?</h2>
+    <br>
+    <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+</section>
+<section id="FAQ">
+    <div class="sectiondiv">
+        <h2>Fragen und Antworten</h2>
+        <ul>
+            <li>
+                <app-accordion frage="Welche Kosten entstehen für die Namensberichtigung im Grundbuch?">
+                    <p>Die Namensberichtigung im Grundbuch ist gebührenfrei, da der Eigentümer angehalten werden
+                        soll, das Grundbuch richtig zu stellen.</p>
+                </app-accordion>
+            </li>
+            <li>
+                <app-accordion frage="Bin ich verpflichtet meinen Namen im Grundbuch berichtigen zu lassen?">
+                    <p>Nein, jedoch wird die Namensänderung auffallen, wenn Sie die nächste Eintragung in das
+                        Grundbuch beantragen. Spätestens dann muss ein Nachweis über die Namensänderung vorliegen.
+                    </p>
+                </app-accordion>
+            </li>
+        </ul>
+    </div>
+</section>
+<app-footer></app-footer>

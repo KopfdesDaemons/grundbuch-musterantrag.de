@@ -7,22 +7,10 @@
     box-sizing: border-box;
     animation: grow 500ms;
     font-size: 0.9em;
-    text-wrap: pretty;
-
 
     &:hover {
         background-color: var(--body);
         outline: 1px solid;
-    }
-}
-
-@keyframes grow {
-    from {
-        transform: scale(0);
-    }
-
-    to {
-        transform: scale(1);
     }
 }
 

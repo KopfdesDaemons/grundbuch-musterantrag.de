@@ -24,14 +24,6 @@ h2 {
   color: var(--schrift);
 }
 
-.homebanner {
-  box-sizing: border-box;
-  text-align: left;
-  display: flex;
-  justify-content: flex-start;
-  flex-flow: column;
-}
-
 .titeluntertext {
   margin: 2% 0;
   font-size: clamp(12px, 1.5vw, 1rem);
@@ -50,25 +42,21 @@ h1 {
   overflow-wrap: break-word;
 }
 
-.homebanner button {
-  margin-bottom: 2%;
-}
-
 .labels {
   display: flex;
   align-items: center;
   font-size: clamp(12px, 1vw, 0.8rem);
   width: 100%;
   margin: 8px;
-}
 
-.labels span {
-  margin: 0 1em;
-}
+  span {
+    margin: 0 1em;
+  }
 
-.labels .icon {
-  font-size: clamp(1rem, 1vw, 1.5rem);
-  color: var(--schrift);
+  .icon {
+    font-size: clamp(1rem, 1vw, 1.5rem);
+    color: var(--schrift);
+  }
 }
 
 @media only screen and (max-width: 700px) {
@@ -93,14 +81,7 @@ h1 {
   display: flex;
   margin-top: 0.5em;
   width: 85%;
-  transform: scale(0);
   animation: grow 1s forwards;
-}
-
-@keyframes grow {
-  100% {
-    transform: scale(1);
-  }
 }
 
 .icondiv {
@@ -130,48 +111,9 @@ h1 {
   background-color: rgb(255, 118, 118);
 }
 
-#info .sectiondiv .BannerMusterantrag {
-  display: flex;
-  align-items: center;
+#info .btnoutlined {
+  font-size: 1.3em;
   margin: 1em;
-}
-
-/*Wo-------------------------------------------------------------------------------*/
-
-.Zuständigkeiten {
-  margin-top: 1em;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
-.Zuständigkeit {
-  margin: 0.5em;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
-  border-radius: 15px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  max-width: 25rem;
-}
-
-.ErklärungZuständigkeit {
-  border: 0.15rem solid var(--primary-variant-darker);
-  border-top: 0;
-  border-radius: 0 0 8px 8px;
-  padding: 0.5em;
-  font-size: 0.9em;
-}
-
-.icondivz {
-  padding: 0.5em;
-  font-size: 2em;
-  background-color: var(--primary-variant-much-brighter);
-  border: 0.15rem solid var(--primary-variant-darker);
-  border-bottom: 0;
-  border-radius: 8px 8px 0 0;
-  display: flex;
-  text-align: center;
-  justify-content: center;
 }
 
 /*Was steht im Grundbuch?-------------------------------------------------------------------------------*/
@@ -223,15 +165,13 @@ a.GB-Abschnitt {
   }
 }
 
-/*FAQ-------------------------------------------------------------------------------*/
-
-.Fragen {
-  margin-top: 1em;
-  display: flex;
-  flex-direction: column;
-  font-size: clamp(0.8rem, 1.2vw, 1rem);
-}
-
-app-accordion {
-  margin-top: 0.8em;
+#FAQ {
+  ul {
+    margin-top: 1em;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    list-style: none;
+  }
 }

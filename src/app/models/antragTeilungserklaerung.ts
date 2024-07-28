@@ -12,7 +12,7 @@ export class AntragTeilungserklaerung implements Antrag {
     mehrInfosRoute?: string | undefined;
     templateFileName: string = "teilungserklaerung";
     erforderlicheUnterlagen = ['Vollmacht, sofern Antragsteller nicht berechtigt ist'];
-    gebuehr: string = '0,50 € je Seite, ab der 51 Seite 0,15 €';
+    gebuehr: string = '0,50 € je Seite, ab der 51. Seite 0,15 €';
 
     antragsteller: Antragsteller = new Antragsteller();
     grundstueck: Grundstueck = new Grundstueck();

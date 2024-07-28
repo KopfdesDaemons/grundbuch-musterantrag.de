@@ -8,7 +8,7 @@ import { Grundstueck } from "./grundstueck";
 export class AntragGrundbuchausdruck implements Antrag {
     title: string = 'Erteilung eines Grundbuchausdrucks';
     antragsRoute = "/antrag/grundbuchausdruck";
-    mehrInfosRoute = "/antraginfos/grundbuchausdruck";
+    mehrInfosRoute = "/antragsinfos/grundbuchausdruck";
     description = "Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck kostet 10,00 €.";
     gebuehr = "mindestens 10,00 €";
     erforderlicheUnterlagen = ['Vollmacht, sofern Antragsteller nicht berechtigt ist'];

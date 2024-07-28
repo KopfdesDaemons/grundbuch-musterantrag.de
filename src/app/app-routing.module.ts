@@ -13,11 +13,13 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { AuthGuard } from './auth.guard';
 import { AntragslisteComponent } from './routes/antragsliste/antragsliste.component';
 import { FileNotFoundComponent } from './routes/file-not-found/file-not-found.component';
+import { InfopageNamensberichtigungComponent } from './routes/antrag-infopages/infopage-namensberichtigung/infopage-namensberichtigung.component';
 
 const routes: Routes = [
   { path: "", component: AntragslisteComponent },
   { path: 'antrag/:antragsart', component: AntragsformularComponent },
-  { path: 'antraginfos/grundbuchausdruck', component: InfopageGrundbuchausdruckComponent },
+  { path: 'antragsinfos/grundbuchausdruck', component: InfopageGrundbuchausdruckComponent },
+  { path: 'antragsinfos/namensberichtigung', component: InfopageNamensberichtigungComponent },
   { path: 'impressum', component: ImpressumComponent },
   { path: 'datenschutz', component: DatenschutzComponent },
   { path: 'grundbuchrecht/einleitung', component: EinleitungComponent },

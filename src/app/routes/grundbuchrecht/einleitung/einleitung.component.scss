@@ -4,7 +4,7 @@
 }
 
 section:first-of-type .sectiondiv {
-  .infokasten {
+  blockquote {
     margin-top: 0;
   }
 }
@@ -36,43 +36,5 @@ section:first-of-type .sectiondiv {
         transition: all 200ms;
       }
     }
-  }
-}
-
-/*Wo-------------------------------------------------------------------------------*/
-
-.Zuständigkeiten {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.Zuständigkeit {
-  border: 0.15rem solid var(--primary-variant-darker);
-  margin: 0 1em 1em 0;
-  border-radius: 15px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  max-width: 25em;
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
-
-  .iconContainer {
-    padding: 0.5em;
-    font-size: 2em;
-    background-color: var(--primary-variant-much-brighter);
-    border-bottom: 0;
-    border-radius: 13px 13px 0 0;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-  }
-
-  figcaption {
-    border-top: 0;
-    border-radius: 0 0 8px 8px;
-    padding: 0.5em;
-    margin-bottom: auto;
   }
 }

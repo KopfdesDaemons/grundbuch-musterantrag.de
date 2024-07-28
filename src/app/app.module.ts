@@ -38,6 +38,8 @@ import { RechtAbteilung2Component } from './components/forms/recht-abteilung2/re
 import { FarbeComponent } from './components/forms/farbe/farbe.component';
 import { BewilligungComponent } from './components/forms/bewilligung/bewilligung.component';
 import { TeilungserklaerungComponent } from './components/forms/teilungserklaerung/teilungserklaerung.component';
+import { InfopageNamensberichtigungComponent } from './routes/antrag-infopages/infopage-namensberichtigung/infopage-namensberichtigung.component';
+import { SachlicheUndOrtlicheZustaendigkeitComponent } from './components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
 
 @NgModule({
     declarations: [
@@ -74,7 +76,9 @@ import { TeilungserklaerungComponent } from './components/forms/teilungserklaeru
         RechtAbteilung2Component,
         FarbeComponent,
         BewilligungComponent,
-        TeilungserklaerungComponent
+        TeilungserklaerungComponent,
+        InfopageNamensberichtigungComponent,
+        SachlicheUndOrtlicheZustaendigkeitComponent
     ],
     bootstrap: [AppComponent],
     imports: [
