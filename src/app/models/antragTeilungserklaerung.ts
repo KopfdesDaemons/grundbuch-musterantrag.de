@@ -7,7 +7,7 @@ import { BerechtigtesInteresse } from "./berechtigtesInteresse";
 
 export class AntragTeilungserklaerung implements Antrag {
     title: string = 'Teilungserklärung, Abgeschlossenheitsbescheinigung, Aufteilungsplan';
-    description: string = 'Diese Unterlagen gibt nur bei Wohnungseigentum.';
+    description: string = 'Diese Unterlagen gibt es nur bei Wohnungseigentum.';
     antragsRoute: string = '/antrag/teilungserklaerung';
     mehrInfosRoute?: string | undefined;
     templateFileName: string = "teilungserklaerung";

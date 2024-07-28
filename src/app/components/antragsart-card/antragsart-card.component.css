@@ -1,6 +1,5 @@
 :host {
   display: flex;
-  background-color: var(--hintergrund);
   flex-direction: column;
   padding: 1.5em;
   border-radius: 12px;
@@ -9,7 +8,6 @@
   font-size: 0.9em;
 }
 :host:hover {
-  background-color: var(--body);
   outline: 1px solid;
 }
 

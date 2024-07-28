@@ -42,7 +42,7 @@
   }
 }
 :root {
-  --gradient: linear-gradient(90deg, var(--hintergrund-variant) 0%, var(--body) 56%);
+  --gradient: linear-gradient(90deg, var(--hintergrund-variant) 0%, var(--body-variant) 56%);
 }
 :root body {
   background: var(--gradient);

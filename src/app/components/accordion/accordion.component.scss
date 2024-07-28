@@ -31,11 +31,11 @@
 
 .darkmode .FrageHeadAngeglickt,
 .FrageHeadAngeglickt {
-  border: 0.2em solid var(--primary-variant-darker);
+  outline: 0.2em solid var(--primary-variant-darker);
   background-color: var(--primary-variant-much-brighter);
   font-weight: 700;
 
-  + .Antwort{
+  +.Antwort {
     margin-top: 0.6em;
   }
 }
