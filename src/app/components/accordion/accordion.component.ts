@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   Input,
   ElementRef,
@@ -16,11 +15,11 @@ import { DesignloaderService } from 'src/app/services/designloader.service';
 })
 export class AccordionComponent {
   faAngleDown = faAngleDown;
-  
+
   @Input() frage: string = '';
   @ViewChild('accordionhead') accordionhead!: ElementRef;
 
-  constructor(public dl:DesignloaderService){}
+  constructor(public dl: DesignloaderService) { }
 
   click() {
     const selectedElement = this.accordionhead.nativeElement;

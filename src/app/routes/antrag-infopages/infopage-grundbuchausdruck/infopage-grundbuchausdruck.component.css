@@ -9,56 +9,6 @@ h2 {
   max-width: 80em;
 }
 
-/*Home-------------------------------------------------------------------------------*/
-#home .grid {
-  display: grid;
-  justify-content: space-evenly;
-  grid-template-columns: 40% 60%;
-}
-#home .grid .content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-#home .grid .content h1 {
-  margin: 0.5em 0;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 100%;
-  text-align: unset;
-  color: var(--schrift);
-  overflow-wrap: break-word;
-}
-#home .grid .content .labels {
-  display: flex;
-  align-items: center;
-  font-size: clamp(12px, 1vw, 0.8rem);
-  width: 100%;
-  margin: 8px;
-}
-#home .grid .content .labels span {
-  margin: 0 1em;
-}
-#home .grid .content .labels .icon {
-  font-size: clamp(1rem, 1vw, 1.5rem);
-  color: var(--schrift);
-}
-#home .grid img {
-  height: auto;
-  max-height: 25em;
-}
-@media only screen and (max-width: 1000px) {
-  #home .grid {
-    grid-template-columns: auto;
-  }
-  #home .grid .imageZoomBox {
-    order: -1;
-  }
-  #home .grid .imageZoomBox img {
-    max-height: 18em;
-  }
-}
-
 /*Info-------------------------------------------------------------------------------*/
 #info .Erklärung {
   margin-top: 1em;

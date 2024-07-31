@@ -1,37 +1,18 @@
 <app-header></app-header>
 <section>
-    <div class="sectiondiv" id="firstSection">
-        <div class="grid">
-            <div class="content">
-                <h1>Namensberichtigung einer natürlichen Person</h1>
-                <div>
-                    <a routerLink="/antrag/namensberichtigung" class="btn">
-                        Musterantrag ausfüllen
-                    </a>
-                </div>
-                <div class="labels">
-                    <fa-icon class="icon" [icon]="faFilePdf"></fa-icon>
-                    <span>.pdf Datei</span>
-                    <fa-icon class="icon" [icon]="faDownload"></fa-icon>
-                    <span>download</span>
-                    <fa-icon class="icon" [icon]="faPrint"></fa-icon>
-                    <span>direkt drucken</span>
-                </div>
-                <br>
-                <span>Der Name einer natürlichen Person kann sich zum Beispiel ändern
-                    aufgrund:</span>
-                <ul>
-                    <li>Eheschließung</li>
-                    <li>Lebenspartnerschaft</li>
-                    <li>Scheidung</li>
-                    <li>Annahme eines Kindes</li>
-                    <li>Verwaltungsakt</li>
-                </ul>
-            </div>
-            <div class="imageZoomBox">
-                <img height="478" width="327" src="/assets/images/eheurkunde.avif" alt="eheurkunde">
-            </div>
-        </div>
+    <div class="sectiondiv">
+        <app-antragsinfos-hero [antragsart]="antrag">
+            <br>
+            <span>Der Name einer natürlichen Person kann sich zum Beispiel ändern
+                aufgrund:</span>
+            <ul>
+                <li>Eheschließung</li>
+                <li>Lebenspartnerschaft</li>
+                <li>Scheidung</li>
+                <li>Annahme eines Kindes</li>
+                <li>Verwaltungsakt</li>
+            </ul>
+        </app-antragsinfos-hero>
     </div>
 </section>
 <section>
@@ -43,7 +24,7 @@
             automatisch. Der Nachweis muss schriftlich beim Grundbuchamt eingereicht
             werden. Ein Antragszwang besteht nicht. Ein Antrag ist als Anregung zur Berichtigung auszulegen.
         </p>
-        <div><a routerLink="/antrag/namensberichtigung" class="btnoutlined">Kostenloser Musterantrag</a></div>
+        <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
     </div>
 </section>
 <section>

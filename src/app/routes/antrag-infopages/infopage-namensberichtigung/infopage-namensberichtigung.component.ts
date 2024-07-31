@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { faFilePdf, faPrint, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { Antrag } from 'src/app/interfaces/antrag';
+import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
 
 @Component({
   selector: 'app-infopage-namensberichtigung',
@@ -8,9 +9,7 @@ import { faFilePdf, faPrint, faDownload } from '@fortawesome/free-solid-svg-icon
   styleUrl: './infopage-namensberichtigung.component.scss'
 })
 export class InfopageNamensberichtigungComponent {
-  faFilePdf = faFilePdf;
-  faPrint = faPrint;
-  faDownload = faDownload;
+  antrag: Antrag = new AntragNamensberichtigung()
 
   constructor(private meta: Meta, private titleService: Title) {
     this.meta.updateTag({

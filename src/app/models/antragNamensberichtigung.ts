@@ -3,12 +3,14 @@ import { Antrag } from "../interfaces/antrag";
 import { Antragsteller } from "./antragsteller";
 import { Grundbuchamt } from "./grundbuchamt";
 import { Grundstueck } from "./grundstueck";
+import { Image } from "./image";
 
 export class AntragNamensberichtigung implements Antrag {
     mehrInfosRoute?: string | undefined = '/antragsinfos/namensberichtigung';
     title: string = 'Namensberichtigung einer natürlichen Person';
     antragsRoute = "/antrag/namensberichtigung";
     description = "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.";
+    image?: Image | undefined = new Image('/assets/images/eheurkunde.avif', 'eheurkunde', 614, 400);
     erforderlicheUnterlagen = ['beglaubigte Kopie der Eheurkunde oder des Adoptionsbeschlusses'];
     gebuehr: string = 'gebührenfrei';
 

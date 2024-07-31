@@ -1,0 +1,52 @@
+:host {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  justify-content: space-evenly;
+  grid-template-columns: 40% 60%;
+}
+.grid .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.grid .content h1 {
+  margin: 0.5em 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 100%;
+  text-align: unset;
+  color: var(--schrift);
+  overflow-wrap: break-word;
+}
+.grid .content .labels {
+  display: flex;
+  align-items: center;
+  font-size: clamp(12px, 1vw, 0.8rem);
+  width: 100%;
+  margin: 8px;
+}
+.grid .content .labels span {
+  margin: 0 1em;
+}
+.grid .content .labels .icon {
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  color: var(--schrift);
+}
+.grid img {
+  height: auto;
+  max-height: 25em;
+}
+@media only screen and (max-width: 1000px) {
+  .grid {
+    grid-template-columns: auto;
+  }
+  .grid .imageZoomBox {
+    order: -1;
+  }
+  .grid .imageZoomBox img {
+    max-height: 18em;
+  }
+}/*# sourceMappingURL=antragsinfos-hero.component.css.map */

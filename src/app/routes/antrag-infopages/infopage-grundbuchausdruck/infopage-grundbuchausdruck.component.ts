@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { faFilePdf, faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
 import {
-  faPrint,
-  faDownload,
   faFax,
   faPhone,
   faAt,
@@ -12,7 +9,8 @@ import {
   faUniversity,
   faMapMarkedAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { DesignloaderService } from 'src/app/services/designloader.service';
+import { Antrag } from 'src/app/interfaces/antrag';
+import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
 
 
 
@@ -24,9 +22,6 @@ import { DesignloaderService } from 'src/app/services/designloader.service';
 
 export class InfopageGrundbuchausdruckComponent {
   title = 'grundbuch';
-  faFilePdf = faFilePdf;
-  faPrint = faPrint;
-  faDownload = faDownload;
   faEnvelope = faEnvelope;
   faFax = faFax;
   faUser = faUser;
@@ -35,8 +30,9 @@ export class InfopageGrundbuchausdruckComponent {
   faGlobe = faGlobe;
   faUniversity = faUniversity;
   faMapMarkedAlt = faMapMarkedAlt;
+  antrag: Antrag = new AntragGrundbuchausdruck();
 
-  constructor(public dl: DesignloaderService, public router: Router, private meta: Meta, private titleService: Title) {
+  constructor(private meta: Meta, private titleService: Title) {
     this.meta.updateTag({
       name: 'description',
       content: 'Download eines Musterantrags auf Erteilung eines Grundbuchausdrucks als pdf oder docx.'
