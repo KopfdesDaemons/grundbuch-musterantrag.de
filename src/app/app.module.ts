@@ -41,6 +41,7 @@ import { TeilungserklaerungComponent } from './components/forms/teilungserklaeru
 import { InfopageNamensberichtigungComponent } from './routes/antrag-infopages/infopage-namensberichtigung/infopage-namensberichtigung.component';
 import { SachlicheUndOrtlicheZustaendigkeitComponent } from './components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
 import { AntragsinfosHeroComponent } from './components/antragsinfos-hero/antragsinfos-hero.component';
+import { InfopageSterbefallComponent } from './routes/antrag-infopages/infopage-sterbefall/infopage-sterbefall.component';
 
 @NgModule({
     declarations: [
@@ -80,7 +81,8 @@ import { AntragsinfosHeroComponent } from './components/antragsinfos-hero/antrag
         TeilungserklaerungComponent,
         InfopageNamensberichtigungComponent,
         SachlicheUndOrtlicheZustaendigkeitComponent,
-        AntragsinfosHeroComponent
+        AntragsinfosHeroComponent,
+        InfopageSterbefallComponent
     ],
     bootstrap: [AppComponent],
     imports: [

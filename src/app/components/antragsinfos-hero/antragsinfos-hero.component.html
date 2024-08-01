@@ -15,7 +15,7 @@
         <ng-content></ng-content>
     </div>
     @if(antragsart.image) {
-    <div class="imageZoomBox"><img width="{{antragsart.image.widht}}" height="{{antragsart.image.height}}"
-            src="{{antragsart.image.path}}" alt="{{antragsart.image.altText}}"></div>
+    <img width="{{antragsart.image.widht}}" height="{{antragsart.image.height}}" src="{{antragsart.image.path}}"
+        alt="{{antragsart.image.altText}}" title="{{antragsart.image.altText}}">
     }
 </div>

@@ -4,13 +4,15 @@ import { Antragsteller } from "./antragsteller";
 import { Grundbuchamt } from "./grundbuchamt";
 import { Grundstueck } from "./grundstueck";
 import { Erblasser } from "./erblasser";
+import { Image } from "./image";
 
 export class AntragGrundbuchberichtigungSterbefall implements Antrag {
     title: string = 'Grundbuchberichtigung aufgrund eines Sterbefalls'
     description: string = 'Stirbt ein Eigentümer, wird das Grundbuch unrichtig. Die Berichtigung auf die Erben muss beantragt werden.';
+    image?: Image | undefined = new Image('/assets/images/erbschein.avif', 'Muster einer Erbscheinsausfertigung', 566, 798)
     gebuehr: string = 'zwei Jahren nach Sterbefall gebührenfrei';
     templateFileName: string = 'grundbuchberichtigung-sterbefall';
-    mehrInfosRoute?: string | undefined;
+    mehrInfosRoute?: string | undefined = '/antragsinfos/sterbefall';
     antragsRoute: string = '/antrag/grundbuchberichtigung-sterbefall';
     erforderlicheUnterlagen: string[] = ['Erbescheinsausfertigung oder beglaubigte Abschrift eines notariellen Testaments'];
 

@@ -46,4 +46,13 @@
 }
 :root body {
   background: var(--gradient);
+}
+
+#FAQ ul {
+  margin-top: 1em;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  list-style: none;
 }/*# sourceMappingURL=styles.css.map */

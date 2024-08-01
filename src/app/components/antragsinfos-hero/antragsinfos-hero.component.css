@@ -37,16 +37,18 @@
 }
 .grid img {
   height: auto;
-  max-height: 25em;
+  max-height: 33em;
+  -o-object-fit: contain;
+     object-fit: contain;
+  width: 100%;
+  animation: grow 500ms;
 }
 @media only screen and (max-width: 1000px) {
   .grid {
     grid-template-columns: auto;
   }
-  .grid .imageZoomBox {
+  .grid img {
     order: -1;
-  }
-  .grid .imageZoomBox img {
     max-height: 18em;
   }
 }/*# sourceMappingURL=antragsinfos-hero.component.css.map */
