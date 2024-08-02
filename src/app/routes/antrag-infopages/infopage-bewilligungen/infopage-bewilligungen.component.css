@@ -1,0 +1,13 @@
+h2 {
+  margin: 0;
+  font-size: clamp(0.5rem, 6vw, 2rem);
+  text-align: center;
+}
+
+.btnoutlined {
+  font-size: 1.3em;
+}
+
+.beispiel {
+  font-style: italic;
+}/*# sourceMappingURL=infopage-bewilligungen.component.css.map */

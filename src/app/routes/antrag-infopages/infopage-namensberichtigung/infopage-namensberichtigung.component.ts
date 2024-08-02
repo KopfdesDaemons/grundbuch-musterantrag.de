@@ -14,8 +14,8 @@ export class InfopageNamensberichtigungComponent {
   constructor(private meta: Meta, private titleService: Title) {
     this.meta.updateTag({
       name: 'description',
-      content: 'Download eines Musterantrags auf Namensberichtigung als pdf oder docx.'
+      content: 'Download eines Musterantrags auf ' + this.antrag.title + ' als .pdf oder docx.'
     });
-    this.titleService.setTitle('Kostenloser Musterantrag auf Namensberichtigung einer natürlichen Person');
+    this.titleService.setTitle('Kostenloser Musterantrag auf ' + this.antrag.title);
   }
 }

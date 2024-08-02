@@ -42,6 +42,7 @@ import { InfopageNamensberichtigungComponent } from './routes/antrag-infopages/i
 import { SachlicheUndOrtlicheZustaendigkeitComponent } from './components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
 import { AntragsinfosHeroComponent } from './components/antragsinfos-hero/antragsinfos-hero.component';
 import { InfopageSterbefallComponent } from './routes/antrag-infopages/infopage-sterbefall/infopage-sterbefall.component';
+import { InfopageBewilligungenComponent } from './routes/antrag-infopages/infopage-bewilligungen/infopage-bewilligungen.component';
 
 @NgModule({
     declarations: [
@@ -82,7 +83,8 @@ import { InfopageSterbefallComponent } from './routes/antrag-infopages/infopage-
         InfopageNamensberichtigungComponent,
         SachlicheUndOrtlicheZustaendigkeitComponent,
         AntragsinfosHeroComponent,
-        InfopageSterbefallComponent
+        InfopageSterbefallComponent,
+        InfopageBewilligungenComponent
     ],
     bootstrap: [AppComponent],
     imports: [

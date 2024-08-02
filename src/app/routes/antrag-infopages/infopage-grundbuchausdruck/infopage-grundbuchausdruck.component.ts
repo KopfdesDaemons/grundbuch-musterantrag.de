@@ -35,8 +35,8 @@ export class InfopageGrundbuchausdruckComponent {
   constructor(private meta: Meta, private titleService: Title) {
     this.meta.updateTag({
       name: 'description',
-      content: 'Download eines Musterantrags auf Erteilung eines Grundbuchausdrucks als pdf oder docx.'
+      content: 'Download eines Musterantrags auf ' + this.antrag.title + ' als .pdf oder docx.'
     });
-    this.titleService.setTitle('Kostenloser Musterantrag auf Erteilung eines Grundbuchausdrucks');
+    this.titleService.setTitle('Kostenloser Musterantrag auf ' + this.antrag.title);
   }
 }

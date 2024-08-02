@@ -5,12 +5,14 @@ import { Grundbuchamt } from "./grundbuchamt";
 import { Grundstueck } from "./grundstueck";
 import { BerechtigtesInteresse } from "./berechtigtesInteresse";
 import { Bewilligung } from "./bewilligung";
+import { Image } from "./image";
 
 export class AntragAbschriftBewilligung implements Antrag {
     title: string = 'Erteilung von Abschriften einer Bewilligung';
     description: string = 'Kopien der Eintragungen im Grundbuch zugrundeliegenden Urkunden.';
+    image?: Image | undefined = new Image('/assets/images/kaufvertrag.avif', 'Musterkaufvertrag', 564, 802);
     antragsRoute: string = '/antrag/abschrift-bewilligung';
-    mehrInfosRoute?: string | undefined;
+    mehrInfosRoute?: string | undefined = '/antragsinfos/bewilligungen';
     templateFileName: string = 'abschriftBewilligung';
     erforderlicheUnterlagen: string[] = ['Vollmacht, sofern Antragsteller nicht berechtigt ist'];
 

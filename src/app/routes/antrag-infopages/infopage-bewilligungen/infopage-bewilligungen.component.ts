@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
+import { AntragAbschriftBewilligung } from 'src/app/models/antragAbschriftBewilligung';
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
 
 @Component({
-  selector: 'app-infopage-sterbefall',
-  templateUrl: './infopage-sterbefall.component.html',
-  styleUrl: './infopage-sterbefall.component.scss'
+  selector: 'app-infopage-bewilligungen',
+  templateUrl: './infopage-bewilligungen.component.html',
+  styleUrl: './infopage-bewilligungen.component.scss'
 })
-export class InfopageSterbefallComponent {
-  antrag: Antrag = new AntragGrundbuchberichtigungSterbefall();
+export class InfopageBewilligungenComponent {
+  antrag: Antrag = new AntragAbschriftBewilligung();
 
   constructor(private meta: Meta, private titleService: Title) {
     this.meta.updateTag({

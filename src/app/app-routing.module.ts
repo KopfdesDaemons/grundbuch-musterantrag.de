@@ -15,6 +15,7 @@ import { AntragslisteComponent } from './routes/antragsliste/antragsliste.compon
 import { FileNotFoundComponent } from './routes/file-not-found/file-not-found.component';
 import { InfopageNamensberichtigungComponent } from './routes/antrag-infopages/infopage-namensberichtigung/infopage-namensberichtigung.component';
 import { InfopageSterbefallComponent } from './routes/antrag-infopages/infopage-sterbefall/infopage-sterbefall.component';
+import { InfopageBewilligungenComponent } from './routes/antrag-infopages/infopage-bewilligungen/infopage-bewilligungen.component';
 
 const routes: Routes = [
   { path: "", component: AntragslisteComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'antragsinfos/grundbuchausdruck', component: InfopageGrundbuchausdruckComponent },
   { path: 'antragsinfos/namensberichtigung', component: InfopageNamensberichtigungComponent },
   { path: 'antragsinfos/sterbefall', component: InfopageSterbefallComponent },
+  { path: 'antragsinfos/bewilligungen', component: InfopageBewilligungenComponent },
   { path: 'impressum', component: ImpressumComponent },
   { path: 'datenschutz', component: DatenschutzComponent },
   { path: 'grundbuchrecht/einleitung', component: EinleitungComponent },
