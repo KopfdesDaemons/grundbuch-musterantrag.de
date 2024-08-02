@@ -1,0 +1,27 @@
+h2 {
+    margin: 0;
+    font-size: clamp(0.5rem, 6vw, 2rem);
+    text-align: center;
+    hyphens: auto;
+}
+
+.btnoutlined {
+    font-size: 1.3em;
+}
+
+.textAndImage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-top: 1em;
+
+    div {
+        flex: 1 1 50%;
+    }
+
+    img {
+        flex: 1 1 40%;
+        max-height: 27em;
+        object-fit: contain;
+    }
+}

@@ -1,0 +1,134 @@
+<app-header></app-header>
+<section>
+    <div class="sectiondiv">
+        <app-antragsinfos-hero [antragsart]="antrag">
+            <p>{{antrag.description}}</p>
+        </app-antragsinfos-hero>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>Was steht in der Teilungserkärung?</h2>
+        <p>Die Teilungserkärung ist die Urkunde aufgrund der das Wohnungseigentum gebildet wurde. Die Teilungserklärung
+            legt fest, was Gemeinschaftseigentum und was Sondereigentum ist. Alle Miteigentumsanteile sind aufgelistet
+            und die Sondernutzungsrechte für z.B. Stellplätze oder Kellerräume sind festgehalten.</p>
+        <p>In einer Gemeinschaftsordnung, die Teil der Teilungserklärung ist, können
+            weitere Regelungen wie Hausgeld oder Tierhaltung festgehalten werden.</p>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>Was ist die Abgeschlossenheitsbescheinigung?</h2>
+        <p>Das Sondereigentum ist mit dem Miteigentumsanteil an dem Grundstück
+            untrennbar verbunden. Das Sondereigentum muss in sich abschlossen sein <a
+                href="https://www.gesetze-im-internet.de/woeigg/__3.html" target="_blank">§ 3 Abs. 2 WEG</a>.
+            Dies ist bei der Begründung des Wohnungseigentums durch Vorlage einer Abgeschlossenheitsbescheinigung
+            nachzuweisen <a href="https://www.gesetze-im-internet.de/woeigg/__7.html" target="_blank">§ 7 Abs. 4 Nr. 2
+                WEG</a>.
+            Diese wird durch die Baubehörde erteilt.</p>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>Was ist der Aufteilungsplan?</h2>
+        <div class="textAndImage">
+            <div>
+                <p>Aus einem Aufteilungsplan geht die Aufteilung des Gebäudes sowie die
+                    Lage und Größe der Gebäudeteile hervor.
+                    Das Sondereigentum ist im Aufteilungsplan zweifelsfrei zu bezeichnen.
+                    <a href="https://www.gesetze-im-internet.de/woeigg/__7.html" target="_blank">§ 7 Abs. 4 Nr. 1
+                        WEG</a>
+                </p>
+                <p> Alle zu demselben Wohnungseigentum gehörenden Einzelräume müssen
+                    dieselbe Nummer tragen.</p>
+                <p>Der Aufteilungsplan muss alle Gebäudeteile enthalten, also neben
+                    Grundrissen auch die Wohnungsquerschnitte und die Ansichten des
+                    Gebäudes. </p>
+                <p>Der Aufteilungsplan wird von der Baubehörde erstellt und ist mit Siegel
+                    und Unterschrift zu versehen.</p>
+            </div>
+            <img src="/assets/images/aufteilungsplan.avif" height="800" width="800"
+                title="Aufteilungsplan einer Wohnung" alt="Aufteilungsplan einer Wohnung">
+        </div>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>Wie viel kosten Abschriften der Teilungserkärung, der Abgeschlossenheitsbescheinigung und des
+            Aufteilungsplans?</h2>
+        <p>Die Gebühr richtet sich nach der Anzahl der kopierten Seiten. Grundlage ist die KV-Nr. 31000 aus der <a
+                href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank">Anlage 1 des GNotGK</a>.
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Anzahl</th>
+                    <th>Gebühr</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>die ersten 50 Seiten</td>
+                    <td>0,50 € je Seite</td>
+                </tr>
+                <tr>
+                    <td>für jede weitere Seite</td>
+                    <td>0,15 € je Seite</td>
+                </tr>
+                <tr>
+                    <td>die ersten 50 Seiten in Farbe</td>
+                    <td>1,00 € je Seite</td>
+                </tr>
+                <tr>
+                    <td>für jede weitere Seite in Farbe</td>
+                    <td>0,30 € je Seite</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>In der Landeshaushaltsordnung des jeweiligen Bundeslandes ist definiert, wann ein Betrag als Kleinbetrag gilt
+            und die Erhebung der Kosten unterbleiben <b>kann</b>. Zum Beispiel gelten in Hessen, Bayern und NRW Beträge
+            unter 10,00 € als Kleinbetrag, in Saarland und Thüringen Beträge unter 5,00 €. Dies ist keine verbindliche
+            Aussage. Bei Interesse prüfen Sie die jeweilige Landeshaushaltsordnung des Bundeslandes. Der jeweilige
+            Sachbearbeiter kann die Kosten auch trotz Kleinbetrag anfordern.</p>
+    </div>
+</section>
+<section>
+    <div class="sectiondiv">
+        <h2>Wo können Abschriften der Teilungserkärung, der Abgeschlossenheitsbescheinigung und des Aufteilungsplans
+            beantragt werden?</h2>
+        <br>
+        <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+    </div>
+</section>
+<section id="FAQ">
+    <div class="sectiondiv">
+        <h2>Fragen und Antworten</h2>
+        <ul>
+            <li>
+                <app-accordion frage="Wie bezahle ich?">
+                    <p>
+                        Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine
+                        Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen
+                        Zahlungsmöglichkeiten online bezahlen. Genaueres dazu finden Sie auf
+                        der Kostenrechnung.
+                    </p>
+                </app-accordion>
+            </li>
+            <li>
+                <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
+                    <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle
+                        gestellt werden.</p>
+                </app-accordion>
+            </li>
+            <li>
+                <app-accordion frage="In welcher Form kann ich die Unterlagen erhalten?">
+                    <p>
+                        Die Unterlagen erhalten Sie in Papierform. Per E-Mail ist der
+                        Versand nicht zulässig.
+                    </p>
+                </app-accordion>
+            </li>
+        </ul>
+    </div>
+</section>
+<app-footer></app-footer>

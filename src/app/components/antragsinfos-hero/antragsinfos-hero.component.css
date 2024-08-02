@@ -20,6 +20,8 @@
   text-align: unset;
   color: var(--schrift);
   overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+          hyphens: auto;
 }
 .grid .content .labels {
   display: flex;

@@ -43,6 +43,7 @@ import { SachlicheUndOrtlicheZustaendigkeitComponent } from './components/sachli
 import { AntragsinfosHeroComponent } from './components/antragsinfos-hero/antragsinfos-hero.component';
 import { InfopageSterbefallComponent } from './routes/antrag-infopages/infopage-sterbefall/infopage-sterbefall.component';
 import { InfopageBewilligungenComponent } from './routes/antrag-infopages/infopage-bewilligungen/infopage-bewilligungen.component';
+import { InfopageTeilungserklaerungComponent } from './routes/antrag-infopages/infopage-teilungserklaerung/infopage-teilungserklaerung.component';
 
 @NgModule({
     declarations: [
@@ -84,7 +85,8 @@ import { InfopageBewilligungenComponent } from './routes/antrag-infopages/infopa
         SachlicheUndOrtlicheZustaendigkeitComponent,
         AntragsinfosHeroComponent,
         InfopageSterbefallComponent,
-        InfopageBewilligungenComponent
+        InfopageBewilligungenComponent,
+        InfopageTeilungserklaerungComponent
     ],
     bootstrap: [AppComponent],
     imports: [

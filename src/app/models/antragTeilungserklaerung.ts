@@ -4,12 +4,14 @@ import { Antragsteller } from "./antragsteller";
 import { Grundbuchamt } from "./grundbuchamt";
 import { Grundstueck } from "./grundstueck";
 import { BerechtigtesInteresse } from "./berechtigtesInteresse";
+import { Image } from "./image";
 
 export class AntragTeilungserklaerung implements Antrag {
     title: string = 'Teilungserklärung, Abgeschlossenheitsbescheinigung, Aufteilungsplan';
     description: string = 'Diese Unterlagen gibt es nur bei Wohnungseigentum.';
+    image?: Image | undefined = new Image('/assets/images/aufteilungsplan-bunt.avif', 'Aufteilungsplan einer Wohnung', 800, 800);
     antragsRoute: string = '/antrag/teilungserklaerung';
-    mehrInfosRoute?: string | undefined;
+    mehrInfosRoute?: string | undefined = '/antragsinfos/teilungserklaerung';
     templateFileName: string = "teilungserklaerung";
     erforderlicheUnterlagen = ['Vollmacht, sofern Antragsteller nicht berechtigt ist'];
     gebuehr: string = '0,50 € je Seite, ab der 51. Seite 0,15 €';
