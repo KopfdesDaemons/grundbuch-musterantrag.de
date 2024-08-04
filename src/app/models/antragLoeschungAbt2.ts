@@ -4,12 +4,14 @@ import { Antragsteller } from "./antragsteller";
 import { Grundbuchamt } from "./grundbuchamt";
 import { Grundstueck } from "./grundstueck";
 import { RechtAbteilung2 } from "./rechtAbteilung2";
+import { Image } from "./image";
 
 export class AntragLoesschungAbt2 implements Antrag {
     title: string = 'Löschung von Lasten und Beschränkungen';
-    description: string = 'z.B. die Löschung eines Wohnungrechts. Nutzen Sie diesen Antrag nicht für Grundschulden.';
+    description: string = 'z.B. die Löschung eines Wohnungsrechts. Nutzen Sie diesen Antrag nicht für Grundschulden.';
+    image?: Image | undefined = new Image('/assets/images/sterbeurkunde.avif', 'Sterbeurkunde', 571, 841);
     antragsRoute: string = '/antrag/loeschung-abteilung2';
-    mehrInfosRoute?: string | undefined;
+    mehrInfosRoute?: string | undefined = '/antragsinfos/loeschung-abteilung2';
     templateFileName: string = 'loeschungAbt2';
     erforderlicheUnterlagen: string[] = ['beglaubigte Abschrift des Sterbenachweises oder öffentlich beglaubigte Löschungsbewilligung'];
     gebuehr: string = '25,00 € je Recht';
@@ -19,7 +21,7 @@ export class AntragLoesschungAbt2 implements Antrag {
     rechtAbteilung2: RechtAbteilung2 = new RechtAbteilung2();
     grundbuchamt: Grundbuchamt = new Grundbuchamt();
     datum: string = '';
-    hinweise?: string[] | undefined = ['Stellen Sie sicher, dass die Löschung des Rechts überhaupt möglich ist. Ein Wohnungsrecht kann z.B. ohne Weiteres mit einem Sterbenachweis oder einer Löschungsbewilligung gelöscht werden. Ein Nießbrauchrecht ohne Löschungsklausel kann erst nach Ablauf eines Jahres mit einem Sterbenachweis gelöscht werden, davor sind Löschungsbewilligungen der Erben erforderlich. Bei Löschung von Vormerkungen ist der Inhalt der Bewilligung maßgebend.', 'Für jedes zu löschende Recht erhebt das Grundbuchamt eine Gebühr in Höhe von 25,00 €.', 'Dem Antrag ist zwingend eine beglaubigte Abschrift des Sterbenachweises oder eine öffentlich beglaubigte Löschungsbewilligung beizufügen. Eine einfache Kopie ist nicht ausreichend.'];
+    hinweise?: string[] | undefined = ['Stellen Sie sicher, dass die Löschung des Rechts überhaupt möglich ist. Ein Wohnungsrecht kann z.B. ohne Weiteres mit einem Sterbenachweis oder einer Löschungsbewilligung gelöscht werden. Ein Nießbrauchrecht ohne Löschungsklausel kann erst nach Ablauf eines Jahres mit einem Sterbenachweis gelöscht werden, davor sind Löschungsbewilligungen der Erben erforderlich. Bei Löschung von Vormerkungen ist der Inhalt der Bewilligung maßgebend.', 'Fügen Sie die Löschungsbewilligung in öffentlich beglaubigter Form oder den Sterbenachweis als beglaubigte Abschrift bei.', 'Für jedes zu löschende Recht erhebt das Grundbuchamt eine Gebühr in Höhe von 25,00 €.', 'Dem Antrag ist zwingend eine beglaubigte Abschrift des Sterbenachweises oder eine öffentlich beglaubigte Löschungsbewilligung beizufügen. Eine einfache Kopie ist nicht ausreichend.'];
 
     getFormGroup(): FormGroup {
         const formBuilder = new FormBuilder();

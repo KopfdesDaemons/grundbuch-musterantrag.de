@@ -4,7 +4,7 @@ export class Image {
     widht: number;
     height: number;
 
-    constructor(path: string, altText: string, height: number, widht: number) {
+    constructor(path: string, altText: string, widht: number, height: number) {
         this.path = path;
         this.altText = altText;
         this.widht = widht;

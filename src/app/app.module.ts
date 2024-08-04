@@ -44,6 +44,7 @@ import { AntragsinfosHeroComponent } from './components/antragsinfos-hero/antrag
 import { InfopageSterbefallComponent } from './routes/antrag-infopages/infopage-sterbefall/infopage-sterbefall.component';
 import { InfopageBewilligungenComponent } from './routes/antrag-infopages/infopage-bewilligungen/infopage-bewilligungen.component';
 import { InfopageTeilungserklaerungComponent } from './routes/antrag-infopages/infopage-teilungserklaerung/infopage-teilungserklaerung.component';
+import { InfopageLoeschungAbteilung2Component } from './routes/antrag-infopages/infopage-loeschung-abteilung2/infopage-loeschung-abteilung2.component';
 
 @NgModule({
     declarations: [
@@ -86,7 +87,8 @@ import { InfopageTeilungserklaerungComponent } from './routes/antrag-infopages/i
         AntragsinfosHeroComponent,
         InfopageSterbefallComponent,
         InfopageBewilligungenComponent,
-        InfopageTeilungserklaerungComponent
+        InfopageTeilungserklaerungComponent,
+        InfopageLoeschungAbteilung2Component
     ],
     bootstrap: [AppComponent],
     imports: [
