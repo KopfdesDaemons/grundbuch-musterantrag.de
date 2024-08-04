@@ -1,8 +1,9 @@
+@if(fs.antrag){
 <app-header></app-header>
 <section [ngClass]="{'darkmode': dl.darkmode.value}">
   <header>
     <progress class="progressbar" value="{{fs.progress}}" max="100"></progress>
-    <h1>{{fs.antrag?.title}}</h1>
+    <h1>{{fs.antrag.title}}</h1>
   </header>
   <div class="formulardiv sectiondiv">
     @switch (fs.currentComponent) {
@@ -51,3 +52,6 @@
   </div>
 </section>
 <app-footer></app-footer>
+} @else {
+<app-file-not-found></app-file-not-found>
+}

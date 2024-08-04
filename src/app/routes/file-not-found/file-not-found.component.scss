@@ -4,12 +4,13 @@
     flex-direction: column;
 }
 
-section {
-    margin-top: 5em;
-}
-
 h1 {
     margin: 0;
+    font-size: 1.5em;
+}
+
+.sectiondiv {
+    flex-direction: row;
 }
 
 .box {
@@ -20,14 +21,11 @@ h1 {
     border-radius: 12px;
     padding: 1em;
     animation: grow 500ms;
+    text-align: center;
+    flex: 1 1 45em;
 }
 
-@keyframes grow {
-    from {
-        transform: scale(0);
-    }
-
-    to {
-        transform: scale(1);
-    }
+fa-icon {
+    font-size: 3em;
+    padding: 0.5em;
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { faWarning } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-file-not-found',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './file-not-found.component.scss'
 })
 export class FileNotFoundComponent {
-
+  faWarning = faWarning;
 }
