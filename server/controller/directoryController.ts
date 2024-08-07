@@ -1,4 +1,3 @@
-import { log } from 'console';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -38,6 +37,8 @@ export const getDocxAndPdfFiles = async (req: Request, res: Response, folderPath
         for (const file of pageFiles) {
             const name = file.split('.').slice(0, -1).join('.'); // Entferne Dateiendung
             const filePath = path.join(folderPath, file);
+
+            // Lese Erstellungsdatum
             const fileStats = await fs.promises.stat(filePath);
             const uploadDate = fileStats.birthtime;
             const day = uploadDate.getDate().toString().padStart(2, '0');

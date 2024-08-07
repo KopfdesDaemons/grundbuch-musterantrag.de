@@ -32,13 +32,24 @@ router.post('/api/docxToPdf', async (req: Request, res: Response) => {
     await docx.mv(filepath);
 
     // Konvertiert DOCX in PDF
-    await converterController.convertToPdf(filepath, folderpath);
+    try {
+      await converterController.convertToPdf(filepath, folderpath);
+    } catch (convertError) {
+      req.logger.error('Fehler bei der Konvertierung:', convertError);
+      return res.status(500).send('Fehler bei der Konvertierung der Datei.');
+    }
+
+    // Überprüft, ob die PDF-Datei erstellt wurde
+    if (!fs.existsSync(filepathpdf)) {
+      console.error('Die PDF-Datei wurde nicht erstellt.');
+      return res.status(500).send('Interner Serverfehler: PDF-Datei nicht gefunden.');
+    }
 
     // Sendet PDF-Datei an den Client
     return res.contentType('application/pdf').sendFile(filepathpdf);
 
   } catch (error) {
-    console.error('Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.', error);
+    req.logger.error('Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.', error);
     res.status(500).send('Interner Serverfehler.');
   }
 });

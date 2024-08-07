@@ -1,0 +1,26 @@
+name: Deploy to Production Server
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # Checkout damit der Zugriff auf den Repository erlaubt wird
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Konfiguration der SSH-Verbindung
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Baue SSH-Verbindung auf und wechsele in das Verzeichnis, in dem der Repository liegt und git pull
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "cd /var/www/grundbuch-musterantrag.de && git pull origin production"
