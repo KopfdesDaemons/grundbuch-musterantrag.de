@@ -19,11 +19,10 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       # Baue SSH-Verbindung auf und wechsele in das Verzeichnis, in dem der Repository liegt und git pull
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "
             cd /var/www/grundbuch-musterantrag.de && \
-            git pull origin production && \
+            git pull && \
             echo 'Deployment erfolgreich abgeschlossen!'"
