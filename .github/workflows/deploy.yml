@@ -9,8 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # Checkout damit der Zugriff auf den Repository erlaubt wird
     steps:
+      # Checkout damit der Zugriff auf den Repository erlaubt wird
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -23,4 +23,7 @@ jobs:
       # Baue SSH-Verbindung auf und wechsele in das Verzeichnis, in dem der Repository liegt und git pull
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "cd /var/www/grundbuch-musterantrag.de && git pull origin production"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "
+            cd /var/www/grundbuch-musterantrag.de && \
+            git pull origin production && \
+            echo 'Deployment erfolgreich abgeschlossen!'"
