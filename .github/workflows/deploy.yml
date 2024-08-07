@@ -1,29 +1,30 @@
-name: Deploy to Production Server
+name: Deploy to Server
 
 on:
-  push:
-    branches:
-      - production
+  workflow_dispatch: # Erlaubt manuelles Auslösen des Workflows
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout damit der Zugriff auf den Repository erlaubt wird
+      # Checkout, um auf den Repository-Code zuzugreifen
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Konfiguration der SSH-Verbindung
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Baue SSH-Verbindung auf und wechsele in das Verzeichnis, in dem der Repository liegt und git pull
+      # Baue die Angular-Anwendung
+      - name: Build Angular app
+        run: |
+          npm install
+          npm run build --prod
+
+      # Deployment der Anwendung auf den Server
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "
-            cd /var/www/grundbuch-musterantrag.de && \
-            git pull origin production && \
-            echo 'Deployment erfolgreich abgeschlossen!'"
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ rico@217.160.208.184:/var/www/grundbuch-musterantrag.de
