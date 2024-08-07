@@ -11,6 +11,8 @@ jobs:
       # Checkout, um auf den Repository-Code zuzugreifen
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
       # Konfiguration der SSH-Verbindung
       - name: Setup SSH
