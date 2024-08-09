@@ -1,5 +1,6 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Antrag } from '../interfaces/antrag';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,15 @@ export class PdfgeneratorService {
 
   constructor(public http: HttpClient,) { }
 
-  async generate(docx: any) {
+  async generate(docx: any, antrag: Antrag) {
     this.reset();
     this.statusmeldung = 'Die .docx Datei wird zur Konvertierung an den Server gesendet.';
 
     return new Promise((resolve) => {
       const form = new FormData();
       form.append('docx', docx);
-      const url = '/api/docxToPdf';
+      form.append('data', JSON.stringify(antrag));
+      const url = '/api/submitForm';
 
       this.http.post(url, form, {
         responseType: 'blob',

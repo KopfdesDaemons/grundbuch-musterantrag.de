@@ -46,6 +46,6 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     if (!this.fs.antrag) return;
     this.fs.antragAbschließen();
     this.docx = await this.docxS.generate(this.fs.antrag);
-    this.pdf = await this.pdfS.generate(this.docx);
+    this.pdf = await this.pdfS.generate(this.docx, this.fs.antrag);
   }
 }

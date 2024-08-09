@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit {
       } catch (err: any) {
         this.isLoading = false;
         console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
+        if (err.status = 401) this.abmelden();
         reject();
       }
     });
@@ -101,7 +102,10 @@ export class DashboardComponent implements OnInit {
   }
 
   async deleteFile(name: string) {
-    await lastValueFrom(this.http.delete('/api/uploads/deleteFile', { params: new HttpParams().set('name', name) }));
+    await lastValueFrom(this.http.delete('/api/uploads/deleteFiles', {
+      params: new HttpParams().set('fileName', name),
+      responseType: 'text'
+    }));
     this.neuLaden();
   }
 
@@ -125,6 +129,7 @@ export class DashboardComponent implements OnInit {
 
   abmelden() {
     this.cs.deleteCookie('loginToken');
+    console.log('Abmeldung erfolgt');
     this.router.navigate(['/']);
   }
 }

@@ -101,4 +101,8 @@ h1 {
 }
 .dropDown ul:hover {
   background-color: var(--hintergrund-variant-darker);
+}
+
+.notFound {
+  background-color: #c17878;
 }/*# sourceMappingURL=dashboard.component.css.map */

@@ -32,26 +32,26 @@
         <tbody>
           @for (file of files; track file) {
           <tr>
-            <td>{{file.name}}</td>
+            <td>{{file.fileName}}</td>
             <td>{{file.uploadDate}}</td>
             <td>@if (file.docxFile != '') {
-              <a class="btnicon" href="/api/uploads/getFile?name={{file.name}}.docx"><fa-icon
+              <a class="btnicon" href="/api/uploads/getFile?fileName={{file.fileName}}.docx"><fa-icon
                   [icon]="faCircleDown"></fa-icon></a>
               } @else {
-              <fa-icon [icon]="faCircleExclamation" class="btnicon"></fa-icon>
+              <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
               }
             </td>
             <td>@if (file.pdfFile != '') {
-              <a class="btnicon" target="_blank" href="/api/uploads/getFile?name={{file.name}}.pdf"><fa-icon
+              <a class="btnicon" target="_blank" href="/api/uploads/getFile?fileName={{file.fileName}}.pdf"><fa-icon
                   [icon]="faArrowUpRightFromSquare"></fa-icon></a>
               } @else {
-              <fa-icon [icon]="faCircleExclamation" class="btnicon"></fa-icon>
+              <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
               }
             </td>
             <td (click)="click($event.target)" class="dropDown">
               <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
               <ul class="dropDownMenu">
-                <li (click)="deleteFile(file.name)">löschen</li>
+                <li (click)="deleteFile(file.fileName)">löschen</li>
               </ul>
             </td>
           </tr>

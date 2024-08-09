@@ -9,9 +9,11 @@ import authMiddleware from './server/middleware/authMiddleware';
 import * as directoryController from './server/controller/directoryController';
 import * as authController from './server/controller/authController';
 import * as scrapingController from './server/controller/scrapingController';
-import docxToPdf from './server/routes/anträge/docxToPfd'
+import * as loggerController from './server/controller/loggerController';
+import submitForm from './server/routes/submitForm'
 import { Logger } from 'winston';
 import fileUpload from 'express-fileupload';
+import * as fs from 'fs';
 
 declare global {
   namespace Express {
@@ -21,12 +23,14 @@ declare global {
   }
 }
 
+const SERVER_DIST_FOLDER = dirname(fileURLToPath(import.meta.url));
+const UPLOADS_FOLDER_PATH: string = path.join(SERVER_DIST_FOLDER, '/uploads')
+
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
+  const browserDistFolder = resolve(SERVER_DIST_FOLDER, '../browser');
+  const indexHtml = join(SERVER_DIST_FOLDER, 'index.server.html');
 
   const commonEngine = new CommonEngine();
 
@@ -39,8 +43,10 @@ export function app(): express.Express {
     redirect: false
   }));
 
-  // Umgebungsvariablen
-  const uploadPath: string = path.join(serverDistFolder, '/uploads')
+  // Überprüfe, ob der Uploads Ordner existiert und erstelle ihn bei Bedarf
+  if (!fs.existsSync(UPLOADS_FOLDER_PATH)) {
+    fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
+  }
 
   // Middlewares für die gesamte App
   server.use(fileUpload());
@@ -50,16 +56,34 @@ export function app(): express.Express {
   // Routen, welche nur einen Controller ansprechen
   server.post('/api/login', authController.login);
   server.post('/api/init', authController.createHashFile);
-  server.get('/api/uploads', authMiddleware, (req, res) => directoryController.getDocxAndPdfFiles(req, res, uploadPath));
-  server.delete('/api/uploads/deleteFile', authMiddleware, (req, res) => directoryController.deleteDocxAndPdfFiles(req, res, uploadPath));
-  server.delete('/api/uploads', authMiddleware, (req, res) => directoryController.deleteAllFilesInFolder(req, res, uploadPath));
-  server.get('/api/uploads/getFile', authMiddleware, (req, res) => directoryController.getFile(req, res, path.join(uploadPath, req.query['name'] as string)));
+  server.get('/api/uploads', authMiddleware, (req, res) => directoryController.getFileList(req, res, UPLOADS_FOLDER_PATH));
+  server.delete('/api/uploads/deleteFiles', authMiddleware, (req, res) => {
+    const fileName = req.query['fileName'] as string;
+    if (!fileName) res.status(400).send('Fehlender Dateiname');
+    const folderPath = path.join(UPLOADS_FOLDER_PATH, fileName);
+    directoryController.deleteFolder(req, res, folderPath);
+  });
+  server.delete('/api/uploads', authMiddleware, (req, res) => directoryController.deleteFolderContent(req, res, UPLOADS_FOLDER_PATH));
+  server.get('/api/uploads/getFile', authMiddleware, (req, res) => {
+    const fileNameWithExtension: string = req.query['fileName'] as string;
+
+    if (!fileNameWithExtension) {
+      res.status(400).send('Fehlender Dateiname');
+      return;
+    }
+
+    const fileWithoutExtension: string = fileNameWithExtension.split('.')[0];
+    const folderPath: string = path.join(UPLOADS_FOLDER_PATH, fileWithoutExtension);
+
+    directoryController.getFile(req, res, folderPath, fileNameWithExtension);
+
+  });
   server.get('/api/amtsgerichtausplz', scrapingController.amtsgerichtausplz);
-  server.delete('/api/deleteLogFile', authMiddleware, directoryController.deleteLogFile);
-  server.get('/api/getLogFile', authMiddleware, directoryController.getLogFile);
+  server.delete('/api/deleteLogFile', authMiddleware, loggerController.deleteLogFile);
+  server.get('/api/getLogFile', authMiddleware, loggerController.getLogFile);
 
   // ausgelagerte Routen
-  server.use('/', docxToPdf);
+  server.use('/', submitForm);
 
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {

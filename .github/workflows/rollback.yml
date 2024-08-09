@@ -1,0 +1,27 @@
+name: Rollback to Previous Version
+
+on:
+  workflow_dispatch: # Erlaubt manuelles Auslösen des Workflows
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Konfiguration der SSH-Verbindung
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Rollback zur letzten Sicherung
+      - name: Rollback to previous version
+        run: |
+          BACKUP_DIR=$(ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "ls -td /var/www/grundbuch-musterantrag.de_backup_* | head -n 1")
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "rm -rf /var/www/grundbuch-musterantrag.de"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "mv $BACKUP_DIR /var/www/grundbuch-musterantrag.de"
+
+      # Neustart der Node.js-Anwendung mit PM2 nach Rollback
+      - name: Restart PM2 application after rollback
+        run: |
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "pm2 restart server.mjs"

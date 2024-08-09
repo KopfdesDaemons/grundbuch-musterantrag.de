@@ -31,8 +31,13 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 # Wichtige Befehle
 
+## Backend Development
+
+- `ng build --watch`
+- `nodemon dist/server/server.mjs`
+
+## pm2
+
 - `pm2 delete1`
 - `pm2 start server/server.mjs`
 - `pm2 restart server/server.mjs`
-- `npm run watch`
-- `npm run serve:ssr:grundbuch`

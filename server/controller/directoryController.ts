@@ -1,77 +1,77 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-import { fileURLToPath } from 'url';
+import { AntragsData } from 'server/models/antragsData';
 
 const pageSize = 20;
-const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
 
-export const getDocxAndPdfFiles = async (req: Request, res: Response, folderPath: string): Promise<void> => {
+export const getFileList = async (req: Request, res: Response, folderPath: string): Promise<void> => {
     try {
+        if (!fs.existsSync(folderPath)) {
+            res.status(500).send('Ordner nicht existent');
+            return;
+        }
 
-        if (!fs.existsSync(folderPath)) res.status(500).send('Ordner nicht existent');
+        // Lade alle Ordner
+        const folders = await fs.promises.readdir(folderPath, { withFileTypes: true });
 
-        const page = parseInt(req.query['page'] as string, 10) || 1;
-        const offset = (page - 1) * pageSize;
+        const list: AntragsData[] = [];
 
-        const files = await fs.promises.readdir(folderPath);
+        for (const folder of folders) {
+            if (folder.isDirectory()) {
+                const antragsName = folder.name;
+                const antragsData: AntragsData = new AntragsData();
+                antragsData.fileName = antragsName;
 
-        const fileStats = await Promise.all(files.map(async (file) => {
-            const filePath = path.join(folderPath, file);
-            const stats = await fs.promises.stat(filePath);
-            return { file, stats };
-        }));
+                // Prüfe ob .docx und .pdf Dateien vorhanden sind
+                const pathToDocx = path.join(folderPath, folder.name, antragsName + '.docx');
+                const pathToPdf = path.join(folderPath, folder.name, antragsName + '.pdf');
+                if (await checkFileExists(pathToDocx)) antragsData.docxFile = true;
+                if (await checkFileExists(pathToPdf)) antragsData.pdfFile = true;
 
-        // Sortiere: Neuste Datei zuerst
-        const sortedFiles = fileStats.sort((a, b) => b.stats.mtimeMs - a.stats.mtimeMs).map(({ file }) => file);
+                const pathToJSON = path.join(folderPath, folder.name, antragsName + '.json');
+                if (await checkFileExists(pathToJSON)) {
+                    const file = await fs.promises.readFile(pathToJSON, 'utf8');
+                    const data = JSON.parse(file);
+                    antragsData.antragsart = data.title;
+                }
 
-        // Festlegen der Gesamtzahl der Dateien und Gesamtzahl der Seiten
-        const totalFiles = sortedFiles.length;
-        const totalPages = Math.ceil(totalFiles / pageSize);
+                // Lese Erstellungsdatum
+                if (antragsData.docxFile) {
+                    const fileStats = await fs.promises.stat(pathToDocx);
+                    const uploadDate = fileStats.birthtime;
+                    const day = uploadDate.getDate().toString().padStart(2, '0');
+                    const month = (uploadDate.getMonth() + 1).toString().padStart(2, '0');
+                    const year = uploadDate.getFullYear().toString();
 
-        // Festlegen der Dateien für die aktuelle Seite
-        const pageFiles = sortedFiles.slice(offset, offset + pageSize);
+                    const formattedDate = `${day}.${month}.${year}`;
+                    antragsData.uploadDate = formattedDate;
+                }
 
-        let mergedFileInfo: { name: string; docxFile: string; pdfFile: string; uploadDate: string; }[] = [];
-
-        for (const file of pageFiles) {
-            const name = file.split('.').slice(0, -1).join('.'); // Entferne Dateiendung
-            const filePath = path.join(folderPath, file);
-
-            // Lese Erstellungsdatum
-            const fileStats = await fs.promises.stat(filePath);
-            const uploadDate = fileStats.birthtime;
-            const day = uploadDate.getDate().toString().padStart(2, '0');
-            const month = (uploadDate.getMonth() + 1).toString().padStart(2, '0');
-            const year = uploadDate.getFullYear().toString();
-
-            const formattedDate = `${day}.${month}.${year}`;
-
-            if (!mergedFileInfo.some((fileInfo) => fileInfo.name === name)) {
-                const fileInfo = {
-                    name,
-                    docxFile: '',
-                    pdfFile: '',
-                    uploadDate: formattedDate,
-                };
-
-                const docxFile = name + '.docx';
-                const pdfFile = name + '.pdf';
-                const pathDocx = path.join(folderPath, docxFile);
-                const pathPdf = path.join(folderPath, pdfFile);
-
-                if (await checkFileExists(pathDocx)) fileInfo.docxFile = docxFile;
-                if (await checkFileExists(pathPdf)) fileInfo.pdfFile = pdfFile;
-
-                mergedFileInfo.push(fileInfo);
+                list.push(antragsData);
             }
         }
+
+        // Sortiere die Liste nach dem Dateinamen aufsteigend
+        list.sort((a, b) => {
+            return b.fileName.localeCompare(a.fileName);
+        });
+
+        // Paginierung anwenden
+        const page = parseInt(req.query['page'] as string, 10) || 1;
+        const startIndex = (page - 1) * pageSize;
+        const paginatedList = list.slice(startIndex, startIndex + pageSize);
+
+
+        // Festlegen der Gesamtzahl der Dateien und Gesamtzahl der Seiten
+        const totalFiles = folders.length;
+        const totalPages = Math.ceil(totalFiles / pageSize);
 
         const response = {
             page,
             totalPages,
             totalFiles,
-            files: mergedFileInfo
+            files: paginatedList
         };
 
         res.send(response);
@@ -90,36 +90,22 @@ export const checkFileExists = async (filePath: string): Promise<boolean> => {
     }
 };
 
-export const deleteDocxAndPdfFiles = async (req: Request, res: Response, folderPath: string): Promise<void> => {
+export const deleteFolder = async (req: Request, res: Response, folderPath: string): Promise<void> => {
     try {
-        const name = req.query['name'] as string;
-
-        // Prüfen, ob die Docx- und PDF-Dateien vorhanden sind und lösche sie
-        if (await checkFileExists(path.join(folderPath, `${name}.docx`))) {
-            await fs.promises.unlink(path.join(folderPath, `${name}.docx`));
-        }
-        if (await checkFileExists(path.join(folderPath, `${name}.pdf`))) {
-            await fs.promises.unlink(path.join(folderPath, `${name}.pdf`));
-        }
-
-        res.send({ message: `Die Docx- und PDF-Dateien für '${name}' wurden erfolgreich gelöscht.` });
+        await fs.promises.rm(folderPath, { recursive: true });
+        res.status(200).send('Ordner gelöscht');
     } catch (error) {
-        req.logger.error('Fehler beim Löschen der Docx- und PDF-Dateien', error);
-        res.status(500).send({ error: 'Fehler beim Löschen der Docx- und PDF-Dateien' });
+        req.logger.error('Fehler beim Loeschen des Ordners', error);
+        res.status(500).send('Serverfehler beim Löschen des Ordners');
     }
 };
 
-export const getFile = (req: Request, res: Response, filePath: string): void => {
-    const fileName = filePath.replace(/^.*[\\\/]/, '');
+export const getFile = async (req: Request, res: Response, folderPath: string, fileName: string): Promise<void> => {
+    const filePath = path.join(folderPath, fileName);
 
-    fs.readFile(filePath, (error, data) => {
-        if (error) {
-            req.logger.error('Fehler beim Lesen einer Datei.', error);
-            res.status(500).send('Datei konnte nicht gelesen werden.');
-            return;
-        }
-
-        const ext = path.extname(filePath);
+    try {
+        const data = await fs.promises.readFile(filePath);
+        const ext = path.extname(fileName);
 
         if (ext === '.pdf') {
             res.contentType('application/pdf');
@@ -130,50 +116,36 @@ export const getFile = (req: Request, res: Response, filePath: string): void => 
             res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
         }
         res.send(data);
-    });
+    } catch (error) {
+        req.logger.error('Fehler beim Lesen einer Datei.', error);
+        res.status(500).send('Datei konnte nicht gelesen werden.');
+    }
 };
 
-export const deleteAllFilesInFolder = async (req: Request, res: Response, folderPath: string): Promise<void> => {
+export const deleteFolderContent = async (req: Request, res: Response, folderPath: string): Promise<void> => {
     try {
+        await deleteContentRecursive(folderPath);
+        res.status(200).send('Alle Dateien und Unterordner gelöscht');
+    } catch (error) {
+        req.logger.error('Fehler beim Löschen der Dateien und Ordner.', error);
+        res.status(500).send('Fehler beim Löschen der Dateien und Ordner');
+    }
+
+    async function deleteContentRecursive(folderPath: string): Promise<void> {
         const files = await fs.promises.readdir(folderPath);
 
         for (const file of files) {
             const filePath = path.join(folderPath, file);
-            await fs.promises.unlink(filePath);
+            const fileStat = await fs.promises.stat(filePath);
+
+            if (fileStat.isDirectory()) {
+                // Rekursive Löschung für Unterordner
+                await deleteContentRecursive(filePath);
+                await fs.promises.rmdir(filePath);
+            } else {
+                // Datei löschen
+                await fs.promises.unlink(filePath);
+            }
         }
-
-        res.status(200).send('Alle Dateien gelöscht');
-    } catch (error) {
-        req.logger.error('Fehler beim Löschen der Dateien aus dem Ordner.', error);
-        res.status(500).send('Fehler beim Löschen der Dateien');
-    }
-};
-
-export const deleteLogFile = async (req: Request, res: Response) => {
-    try {
-        await fs.promises.writeFile(path.join(SERVER_DIST_FOLDER, 'logFile.log'), '');
-        res.status(200).send('LogFile.log gelöscht.');
-    } catch (error: any) {
-        req.logger.error('Fehler beim Löschen der LogFile.log', error);
-        res.status(500).send('Fehler beim Löschen der LogFile.log: ' + error.message);
-    }
-};
-
-export const getLogFile = async (req: Request, res: Response) => {
-    try {
-        const logFilePath = path.join(SERVER_DIST_FOLDER, 'logFile.log');
-        const data = await fs.promises.readFile(logFilePath, 'utf8');
-
-        if (data === '') {
-            return res.status(200).send('Keine Serverlogs');
-        }
-
-        // Trenne die JSON-Zeilen und füge sie zu einem Array zusammen
-        const logs = data.trim().split('\n').map(line => JSON.parse(line));
-
-        return res.status(200).json(logs.reverse());
-    } catch (error: any) {
-        req.logger.error('Fehler beim Lesen der LogFile.log', error);
-        return res.status(500).send('Fehler beim Lesen der LogFile.log: ' + error.message);
-    }
+    };
 };
