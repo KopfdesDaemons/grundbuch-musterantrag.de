@@ -23,7 +23,7 @@ jobs:
       # Backup der aktuellen Version
       - name: Backup current version
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "cp -r /var/www/grundbuch-musterantrag.de /var/www/grundbuch-musterantrag.de_backup_$(date +'%Y%m%d%H%M%S')"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "cp -r /var/www/grundbuch-musterantrag.de ~/grundbuch-musterantrag.de_backup_$(date +'%Y%m%d%H%M%S')"
 
       # Baue die Angular-Anwendung
       - name: Build Angular app
@@ -56,7 +56,7 @@ jobs:
       # Rollback zur letzten Sicherung
       - name: Rollback to previous version
         run: |
-          BACKUP_DIR=$(ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "ls -td /var/www/grundbuch-musterantrag.de_backup_* | head -n 1")
+          BACKUP_DIR=$(ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "ls -td ~/grundbuch-musterantrag.de_backup_* | head -n 1")
           ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "rm -rf /var/www/grundbuch-musterantrag.de"
           ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "mv $BACKUP_DIR /var/www/grundbuch-musterantrag.de"
 
