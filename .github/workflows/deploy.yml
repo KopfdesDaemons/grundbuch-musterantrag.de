@@ -39,7 +39,7 @@ jobs:
       # Neustart der Node.js-Anwendung mit PM2
       - name: Restart PM2 application
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "pm2 restart server.mjs"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "pm2 restart server"
 
   rollback:
     runs-on: ubuntu-latest
@@ -63,4 +63,4 @@ jobs:
       # Neustart der Node.js-Anwendung mit PM2 nach Rollback
       - name: Restart PM2 application after rollback
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "pm2 restart server.mjs"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "pm2 restart server"
