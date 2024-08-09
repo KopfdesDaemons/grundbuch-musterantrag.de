@@ -13,11 +13,13 @@ import {
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
+
 export class DashboardComponent implements OnInit {
   faRotateRight = faRotateRight;
   faCircleExclamation = faCircleExclamation;
@@ -27,9 +29,9 @@ export class DashboardComponent implements OnInit {
   faArrowRightFromBracket = faArrowRightFromBracket;
   faTrashCan = faTrashCan;
 
-  infoJson: any;
-  files: any[] | undefined;
-  page: number = 1;
+  uploadsData: any;
+  files: any[] = [];
+  loadedPages: number = 0;
   isLoading = false;
 
   constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService, private router: Router, public titleService: Title) {
@@ -51,18 +53,27 @@ export class DashboardComponent implements OnInit {
       try {
         if (this.isLoading) return;
         this.isLoading = true;
-        console.log('Lade Daten...');
-        if (this.infoJson && this.page > this.infoJson['totalPages']) return;
-        if (!this.files) this.files = [];
-        const url = '/api/uploads';
-        const json: any = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('page', this.page) }));
-        this.infoJson = json;
 
-        for (const file of json['files']) {
+        const pageToLoad = this.loadedPages + 1;
+
+        // Nicht laden, wenn über totalPages
+        if (this.uploadsData && pageToLoad > this.uploadsData['totalPages']) return;
+
+        console.log('Lade Daten der Seite:', pageToLoad);
+
+        // Lade neue Seite
+        this.uploadsData = await lastValueFrom(this.http.get('/api/uploads', {
+          params: new HttpParams().set('page', this.loadedPages)
+        }));
+
+        // Füge neu geladene Dateien hinzu
+        for (const file of this.uploadsData['files']) {
           this.files.push(file);
         }
-        if (this.infoJson['totalPages'] != 0) this.page++;
+
+        this.loadedPages++;
         this.isLoading = false;
+
       } catch (err: any) {
         this.isLoading = false;
         console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
@@ -72,15 +83,15 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  neuLaden() {
+  reloadFiles() {
     this.isLoading = false;
-    this.page = 0;
+    this.loadedPages = 0;
     this.files = [];
     this.getFiles();
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: any) {
+  // Schließe Dropdowns, wenn Klick auf anderen Element
+  @HostListener('document:click', ['$event']) onDocumentClick(event: any) {
     const dropDowns = this.elem.nativeElement.querySelectorAll('.dropDown');
 
     for (const dropdown of dropDowns) {
@@ -94,7 +105,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  click(element: any) {
+  clickOnDropdown(element: any) {
     const dropdown = element.closest('.dropDown') as HTMLElement;
     const ulElement = dropdown.querySelector('.dropDownMenu') as HTMLElement;
 
@@ -106,13 +117,13 @@ export class DashboardComponent implements OnInit {
       params: new HttpParams().set('fileName', name),
       responseType: 'text'
     }));
-    this.neuLaden();
+    this.reloadFiles();
   }
 
   async deleteFolder() {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/', { responseType: 'text' }));
-      this.neuLaden();
+      this.reloadFiles();
     } catch (error) {
       console.error('Error beim Löschen des Ordners:', error);
     }

@@ -3,6 +3,8 @@
   <button (click)="abmelden()" class="logoutBtn btnicon"><fa-icon [icon]="faArrowRightFromBracket"></fa-icon></button>
   <div class="sectiondiv">
     <h1>Dashboard</h1>
+
+    <!-- Server Logfile und Cookies löschen -->
     <div>
       <a class="btntext" target="_blank" href="/api/getlogfile">öffne Server Logfile</a>
       <button (click)="deleteLogFile()" class="btnicon">
@@ -11,28 +13,33 @@
       <button class="btntext" (click)="cs.deleteAllCookies()">Cookies löschen</button>
     </div>
 
-    <!-- Tabelle mit Anträgen -->
+    <!-- Tabellen ControllHeader -->
     <div class="tableHeader">
       <h2>Generierte Anträge</h2>
-      <span>Dateien: {{infoJson && infoJson.totalFiles}} </span>
+      <span>Anträge: {{uploadsData && uploadsData.totalFiles}} </span>
       <button class="reloadBtn">
-        <fa-icon [icon]="faRotateRight" (click)="neuLaden()">Neuladen</fa-icon>
+        <fa-icon [icon]="faRotateRight" (click)="reloadFiles()">Neuladen</fa-icon>
       </button>
       <button class="btntext" (click)="deleteFolder()">alle löschen</button>
     </div>
+
     <div class="tableScrollContainer" (scroll)="scroll($event.target)">
       <table>
         <thead>
-          <th>Dateiname</th>
-          <th>Datum</th>
-          <th>docx</th>
-          <th>pdf</th>
-          <th></th>
+          <tr>
+            <th>Dateiname</th>
+            <th>Antragsart</th>
+            <th>Datum</th>
+            <th>docx</th>
+            <th>pdf</th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
           @for (file of files; track file) {
           <tr>
             <td>{{file.fileName}}</td>
+            <td>{{file.antragsart}}</td>
             <td>{{file.uploadDate}}</td>
             <td>@if (file.docxFile != '') {
               <a class="btnicon" href="/api/uploads/getFile?fileName={{file.fileName}}.docx"><fa-icon
@@ -48,7 +55,7 @@
               <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
               }
             </td>
-            <td (click)="click($event.target)" class="dropDown">
+            <td (click)="clickOnDropdown($event.target)" class="dropDown">
               <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
               <ul class="dropDownMenu">
                 <li (click)="deleteFile(file.fileName)">löschen</li>
