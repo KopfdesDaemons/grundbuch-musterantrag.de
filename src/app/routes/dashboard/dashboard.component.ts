@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import {
@@ -13,6 +13,8 @@ import {
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from 'src/app/services/auth.service';
+import saveAs from 'file-saver';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,7 +36,13 @@ export class DashboardComponent implements OnInit {
   loadedPages: number = 0;
   isLoading = false;
 
-  constructor(public http: HttpClient, private elem: ElementRef, public cs: CookiesService, private router: Router, public titleService: Title) {
+  constructor(
+    public http: HttpClient,
+    private elem: ElementRef,
+    public cs: CookiesService,
+    private router: Router,
+    private authS: AuthService,
+    public titleService: Title) {
     this.titleService.setTitle('Dashboard');
   }
 
@@ -62,9 +70,12 @@ export class DashboardComponent implements OnInit {
         console.log('Lade Daten der Seite:', pageToLoad);
 
         // Lade neue Seite
-        this.uploadsData = await lastValueFrom(this.http.get('/api/uploads', {
-          params: new HttpParams().set('page', this.loadedPages)
-        }));
+        this.uploadsData = await lastValueFrom(
+          this.http.get('/api/uploads', {
+            headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+            params: new HttpParams().set('page', this.loadedPages)
+          })
+        );
 
         // Füge neu geladene Dateien hinzu
         for (const file of this.uploadsData['files']) {
@@ -77,7 +88,9 @@ export class DashboardComponent implements OnInit {
       } catch (err: any) {
         this.isLoading = false;
         console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
-        if (err.status = 401) this.abmelden();
+        console.log(err.status);
+
+        if (err.status === 403) this.abmelden();
         reject();
       }
     });
@@ -114,6 +127,7 @@ export class DashboardComponent implements OnInit {
 
   async deleteFile(name: string) {
     await lastValueFrom(this.http.delete('/api/uploads/deleteFiles', {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
       params: new HttpParams().set('fileName', name),
       responseType: 'text'
     }));
@@ -122,25 +136,64 @@ export class DashboardComponent implements OnInit {
 
   async deleteFolder() {
     try {
-      await lastValueFrom(this.http.delete('/api/uploads/', { responseType: 'text' }));
+      await lastValueFrom(this.http.delete('/api/uploads/', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        responseType: 'text'
+      }));
       this.reloadFiles();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error beim Löschen des Ordners:', error);
+    }
+  }
+
+  async getLogFile() {
+    try {
+      const response: any = await lastValueFrom(
+        this.http.get('/api/getLogFile', {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+          responseType: 'json' || 'text'
+        })
+      );
+      window.open(URL.createObjectURL(new Blob([response])), '_blank');
+    } catch (error) {
+      console.error('Error beim Abrufen des Logs:', error);
     }
   }
 
   async deleteLogFile() {
     try {
-      await lastValueFrom(this.http.delete('/api/deleteLogFile/', { responseType: 'text' }));
+      await lastValueFrom(this.http.delete('/api/deleteLogFile/', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        responseType: 'text'
+      }));
       alert('Logfile gelöscht')
     } catch (error) {
       console.error('Error beim Löschen des Ordners:', error);
     }
   }
 
+  async getFile(fileName: string) {
+    try {
+      const response = await lastValueFrom(
+        this.http.get('/api/uploads/getFile', {
+          headers: new HttpHeaders({
+            'Authorization': `Bearer ${this.authS.getToken()}`,
+          }),
+          params: new HttpParams().set('fileName', fileName),
+          responseType: 'blob'
+        })
+      );
+
+      // saveAs(response, fileName);
+      window.open(URL.createObjectURL(response), '_blank');
+
+      this.reloadFiles();
+    } catch (error) {
+      console.error('Error beim Abrufen der Datei:', error);
+    }
+  }
+
   abmelden() {
-    this.cs.deleteCookie('loginToken');
-    console.log('Abmeldung erfolgt');
-    this.router.navigate(['/']);
+    this.authS.abmelden();
   }
 }

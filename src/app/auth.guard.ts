@@ -3,13 +3,14 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@a
 import { Observable } from 'rxjs';
 import { CookiesService } from './services/cookies.service';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard {
 
-  constructor(public cs: CookiesService, public router: Router, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(public cs: CookiesService, public router: Router, @Inject(PLATFORM_ID) private platformId: Object, private authS: AuthService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,8 +24,9 @@ export class AuthGuard {
 
   checkToken() {
     if (!isPlatformBrowser(this.platformId)) return false;
-    const tokenCookie = this.cs.getCookie('loginToken')
-    if (tokenCookie != '') return true;
+    const token = this.authS.getToken();
+    if (token) return true;
+    console.log('Angular AuthGuard: No token found');
     return false;
   }
 }

@@ -115,7 +115,8 @@ export const getFile = async (req: Request, res: Response, folderPath: string, f
             res.setHeader('Content-Type', 'application/octet-stream');
             res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
         }
-        res.send(data);
+
+        res.status(200).send(data);
     } catch (error) {
         req.logger.error('Fehler beim Lesen einer Datei.', error);
         res.status(500).send('Datei konnte nicht gelesen werden.');

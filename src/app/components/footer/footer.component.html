@@ -1,10 +1,10 @@
-<footer [ngClass]="{'darkmode': dl.darkmode.value}">
+<footer>
   <div class="anmeldediv" [ngClass]="{'anmeldedivOpen': anmeldeInputVisible}">
     <form class="inputfeld">
       <label for="username" style="display: none;">Benutzername:</label>
       <input type="text" id="username" name="username" autocomplete="username" style="display: none;"
         aria-hidden="true">
-      <input #password (keyup.enter)="anmelden(password.value)" type="password" id="password" name="password"
+      <input #password (keyup.enter)="authS.anmelden(password.value)" type="password" id="password" name="password"
         autocomplete="new-password" spellcheck="false" placeholder="&nbsp;">
       <label class="placeholder" for="password">Passwort</label>
     </form>

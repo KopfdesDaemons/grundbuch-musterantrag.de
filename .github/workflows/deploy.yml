@@ -7,6 +7,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      DASHBOARD_LOGIN_PASSWORD: ${{ secrets.DASHBOARD_LOGIN_PASSWORD }}
+
     steps:
       # Checkout, um auf den Repository-Code zuzugreifen
       - name: Checkout code
@@ -39,7 +42,7 @@ jobs:
       # Neustart der Node.js-Anwendung mit PM2
       - name: Restart PM2 application
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "pm2 restart server"
+          sh -o StrictHostKeyChecking=no rico@217.160.208.184 "export DASHBOARD_LOGIN_PASSWORD=${DASHBOARD_LOGIN_PASSWORD} && pm2 restart server --update-env"
 
   rollback:
     runs-on: ubuntu-latest

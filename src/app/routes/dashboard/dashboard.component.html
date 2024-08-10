@@ -6,7 +6,7 @@
 
     <!-- Server Logfile und Cookies löschen -->
     <div>
-      <a class="btntext" target="_blank" href="/api/getlogfile">öffne Server Logfile</a>
+      <a class="btntext" (click)="getLogFile()">öffne Server Logfile</a>
       <button (click)="deleteLogFile()" class="btnicon">
         <fa-icon [icon]="faTrashCan"></fa-icon>
       </button>
@@ -42,14 +42,14 @@
             <td>{{file.antragsart}}</td>
             <td>{{file.uploadDate}}</td>
             <td>@if (file.docxFile != '') {
-              <a class="btnicon" href="/api/uploads/getFile?fileName={{file.fileName}}.docx"><fa-icon
+              <a class="btnicon" (click)="getFile(file.fileName + '.docx')"><fa-icon
                   [icon]="faCircleDown"></fa-icon></a>
               } @else {
               <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
               }
             </td>
             <td>@if (file.pdfFile != '') {
-              <a class="btnicon" target="_blank" href="/api/uploads/getFile?fileName={{file.fileName}}.pdf"><fa-icon
+              <a class="btnicon" target="_blank" (click)="getFile(file.fileName + '.pdf')"><fa-icon
                   [icon]="faArrowUpRightFromSquare"></fa-icon></a>
               } @else {
               <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>

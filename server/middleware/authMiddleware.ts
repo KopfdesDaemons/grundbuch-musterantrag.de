@@ -1,35 +1,22 @@
-import { promises as fsPromises } from 'fs';
-import * as cookieController from '../controller/cookieController';
 import { Request, Response, NextFunction } from 'express';
-import { HASH_FILE_PATH } from '../controller/authController'
-import * as directoryController from '../controller/directoryController'
+import * as jwt from 'jsonwebtoken';
 
 // Middleware für Authentifizierung
 export default async function authMiddleware(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-        // Prüfen ob Cookie-Header vorhanden ist
-        if (!req.headers.cookie) {
-            return res.status(401).send('Anmeldung erforderlich! Kein loginToken-Cookie gefunden');
-        }
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
 
-        // Prüfen ob die Hash-Datei existiert
-        const hashFileExist = await directoryController.checkFileExists(HASH_FILE_PATH);
-        if (!hashFileExist) {
-            return res.status(401).send('Initiale Anmeldung erforderlich. Hash File nicht vorhanden.');
-        }
+        if (token == null) return res.sendStatus(401);
 
-        // Lese Hash File
-        const data = await fsPromises.readFile(HASH_FILE_PATH, 'utf8');
-        const json = JSON.parse(data);
+        const secretKey: string | undefined = process.env['DASHBOARD_LOGIN_PASSWORD'];
+        if (!secretKey) throw new Error('DASHBOARD_LOGIN_PASSWORD is not defined');
 
-        // Lese Cookie mit Token
-        const tokenCookie = cookieController.getCookie('loginToken', req.headers.cookie);
-
-        if (tokenCookie !== json.loginToken) {
-            return res.status(401).send('LoginToken nicht korrekt. Neue Anmeldung erforderlich');
-        }
-
-        next();
+        jwt.verify(token, secretKey, (err: any, user: any) => {
+            if (err) return res.sendStatus(403);
+            req.body.user = user;
+            return next();
+        });
     } catch (error) {
         req.logger.error(`Fehler bei der Authentifizierung:`, error);
         res.status(500).send('Interner Serverfehler');

@@ -14,6 +14,7 @@ import submitForm from './server/routes/submitForm'
 import { Logger } from 'winston';
 import fileUpload from 'express-fileupload';
 import * as fs from 'fs';
+import * as dotenv from 'dotenv';
 
 declare global {
   namespace Express {
@@ -31,6 +32,9 @@ export function app(): express.Express {
   const server = express();
   const browserDistFolder = resolve(SERVER_DIST_FOLDER, '../browser');
   const indexHtml = join(SERVER_DIST_FOLDER, 'index.server.html');
+
+  // Daten aus der .env Datei einlesen
+  dotenv.config();
 
   const commonEngine = new CommonEngine();
 
@@ -55,7 +59,7 @@ export function app(): express.Express {
 
   // Routen, welche nur einen Controller ansprechen
   server.post('/api/login', authController.login);
-  server.post('/api/init', authController.createHashFile);
+  server.post('/login', authController.login);
   server.get('/api/uploads', authMiddleware, (req, res) => directoryController.getFileList(req, res, UPLOADS_FOLDER_PATH));
   server.delete('/api/uploads/deleteFiles', authMiddleware, (req, res) => {
     const fileName = req.query['fileName'] as string;
