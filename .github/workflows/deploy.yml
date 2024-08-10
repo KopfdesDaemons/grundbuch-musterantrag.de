@@ -42,7 +42,7 @@ jobs:
       # Neustart der Node.js-Anwendung mit PM2
       - name: Restart PM2 application
         run: |
-          sh -o StrictHostKeyChecking=no rico@217.160.208.184 "export DASHBOARD_LOGIN_PASSWORD=${DASHBOARD_LOGIN_PASSWORD} && pm2 restart server --update-env"
+          sh -o StrictHostKeyChecking=no rico@217.160.208.184 "DASHBOARD_LOGIN_PASSWORD=${DASHBOARD_LOGIN_PASSWORD} && pm2 restart server --update-env"
 
   rollback:
     runs-on: ubuntu-latest
