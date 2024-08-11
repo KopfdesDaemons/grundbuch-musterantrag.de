@@ -5,7 +5,7 @@ import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSqu
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
-import { saveAs } from 'file-saver';
+import FileSaver, { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-dashboard',
@@ -166,7 +166,7 @@ export class DashboardComponent implements OnInit {
     fileName = fileName + `.${fileType}`;
 
     try {
-      const response = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }), {
+      const response: any = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }), {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${this.authS.getToken()}`,
@@ -177,12 +177,29 @@ export class DashboardComponent implements OnInit {
         throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
       }
 
-      const blob = await response.blob();
-      if (fileType === 'pdf') {
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
+      const contentType = fileType === 'pdf'
+        ? 'application/pdf'
+        : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+      // DOCX aus dem body auslesen
+      const reader = response.body.getReader();
+      const chunks: Uint8Array[] = [];
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
       }
-      else saveAs(blob, fileName);
+
+      const file = new window.Blob(chunks, { type: contentType });
+
+      // PDF in neuen Tab öffnen
+      if (fileType === 'pdf') {
+        window.open(URL.createObjectURL(file), '_blank');
+        return;
+      }
+
+      // DOCX als Datei speichern
+      FileSaver.saveAs(file, fileName);
 
     } catch (error) {
       console.error('Error beim Abrufen der Datei:', error);
