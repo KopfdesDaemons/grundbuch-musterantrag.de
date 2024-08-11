@@ -95,7 +95,7 @@ export const deleteFolder = async (req: Request, res: Response, folderPath: stri
         await fs.promises.rm(folderPath, { recursive: true });
         res.status(200).send('Ordner gelöscht');
     } catch (error) {
-        req.logger.error('Fehler beim Loeschen des Ordners', error);
+        req.logger.error('Fehler beim Löschen des Ordners', error);
         res.status(500).send('Serverfehler beim Löschen des Ordners');
     }
 };
@@ -104,24 +104,34 @@ export const getFile = async (req: Request, res: Response, folderPath: string, f
     const filePath = path.join(folderPath, fileName);
 
     try {
-        const data = await fs.promises.readFile(filePath);
-        const ext = path.extname(fileName);
-
-        if (ext === '.pdf') {
-            res.contentType('application/pdf');
-            res.setHeader('Content-Disposition', 'inline');
-            res.setHeader('title', 'Musterantrag');
-        } else {
-            res.setHeader('Content-Type', 'application/octet-stream');
-            res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+        // Überprüfen, ob die Datei existiert
+        if (!await checkFileExists(filePath)) {
+            req.logger.error('Datei nicht gefunden:', fileName);
+            res.status(404).send('Datei nicht gefunden');
+            return
         }
 
-        res.status(200).send(data);
-    } catch (error) {
-        req.logger.error('Fehler beim Lesen einer Datei.', error);
-        res.status(500).send('Datei konnte nicht gelesen werden.');
+        // Datei herunterladen
+        res.download(filePath, fileName, (err) => {
+            if (err) {
+                req.logger.error('Fehler beim Download der Datei', err);
+
+                if (!res.headersSent) {
+                    res.status(500).send('Fehler beim Download der Datei');
+                } else {
+                    res.end();
+                }
+            }
+        });
+    } catch (err) {
+        req.logger.error('Unerwarteter Fehler beim Download der Datei', err);
+
+        if (!res.headersSent) {
+            res.status(500).send('Unerwarteter Fehler beim Download der Datei');
+        }
     }
 };
+
 
 export const deleteFolderContent = async (req: Request, res: Response, folderPath: string): Promise<void> => {
     try {

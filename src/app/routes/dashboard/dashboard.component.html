@@ -42,14 +42,13 @@
             <td>{{file.antragsart}}</td>
             <td>{{file.uploadDate}}</td>
             <td>@if (file.docxFile != '') {
-              <a class="btnicon" (click)="getFile(file.fileName + '.docx')"><fa-icon
-                  [icon]="faCircleDown"></fa-icon></a>
+              <a class="btnicon" (click)="getFile(file.fileName, 'docx')"><fa-icon [icon]="faCircleDown"></fa-icon></a>
               } @else {
               <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
               }
             </td>
             <td>@if (file.pdfFile != '') {
-              <a class="btnicon" target="_blank" (click)="getFile(file.fileName + '.pdf')"><fa-icon
+              <a class="btnicon" target="_blank" (click)="getFile(file.fileName, 'pdf')"><fa-icon
                   [icon]="faArrowUpRightFromSquare"></fa-icon></a>
               } @else {
               <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>

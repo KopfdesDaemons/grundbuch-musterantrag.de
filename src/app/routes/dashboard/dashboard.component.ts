@@ -1,20 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import {
-  faRotateRight,
-  faCircleExclamation,
-  faCircleDown,
-  faArrowUpRightFromSquare,
-  faEllipsisVertical,
-  faArrowRightFromBracket,
-  faTrashCan
-} from '@fortawesome/free-solid-svg-icons';
+import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faArrowRightFromBracket, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
-import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
-import saveAs from 'file-saver';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,7 +31,6 @@ export class DashboardComponent implements OnInit {
     public http: HttpClient,
     private elem: ElementRef,
     public cs: CookiesService,
-    private router: Router,
     private authS: AuthService,
     public titleService: Title) {
     this.titleService.setTitle('Dashboard');
@@ -172,22 +162,28 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  async getFile(fileName: string) {
+  async getFile(fileName: string, fileType: 'pdf' | 'docx') {
+    fileName = fileName + `.${fileType}`;
+
     try {
-      const response = await lastValueFrom(
-        this.http.get('/api/uploads/getFile', {
-          headers: new HttpHeaders({
-            'Authorization': `Bearer ${this.authS.getToken()}`,
-          }),
-          params: new HttpParams().set('fileName', fileName),
-          responseType: 'blob'
-        })
-      );
+      const response = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }), {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.authS.getToken()}`,
+        }
+      });
 
-      // saveAs(response, fileName);
-      window.open(URL.createObjectURL(response), '_blank');
+      if (!response.ok) {
+        throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
+      }
 
-      this.reloadFiles();
+      const blob = await response.blob();
+      if (fileType === 'pdf') {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+      }
+      else saveAs(blob, fileName);
+
     } catch (error) {
       console.error('Error beim Abrufen der Datei:', error);
     }
