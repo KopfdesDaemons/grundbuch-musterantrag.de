@@ -21,7 +21,7 @@ export const getLogFile = async (req: Request, res: Response) => {
         const data = await fs.promises.readFile(logFilePath, 'utf8');
 
         if (data === '') {
-            return res.status(200).send('Keine Serverlogs');
+            return res.status(204).send('Keine Serverlogs');
         }
 
         // Trenne die JSON-Zeilen und füge sie zu einem Array zusammen

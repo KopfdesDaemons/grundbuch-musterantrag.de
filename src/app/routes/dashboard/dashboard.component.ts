@@ -138,15 +138,28 @@ export class DashboardComponent implements OnInit {
 
   async getLogFile() {
     try {
-      const response: any = await lastValueFrom(
+      const response = await lastValueFrom(
         this.http.get('/api/getLogFile', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          responseType: 'json' || 'text'
+          observe: 'response',
+          responseType: 'json' as 'json'
         })
       );
-      window.open(URL.createObjectURL(new Blob([response])), '_blank');
+
+      if (response.status === 204) {
+        // Keine Logs vorhanden
+        const noContentMessage = { message: 'Keine Server-Logs vorhanden' };
+        const jsonString = JSON.stringify(noContentMessage, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        window.open(URL.createObjectURL(blob), '_blank');
+      } else {
+        // Logs vorhanden
+        const jsonString = JSON.stringify(response.body, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        window.open(URL.createObjectURL(blob), '_blank');
+      }
     } catch (error) {
-      console.error('Error beim Abrufen des Logs:', error);
+      console.error('Fehler beim Abrufen der Logs:', error);
     }
   }
 
@@ -173,15 +186,11 @@ export class DashboardComponent implements OnInit {
         }
       });
 
-      if (!response.ok) {
-        throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
-      }
+      if (!response.ok) throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
 
-      const contentType = fileType === 'pdf'
-        ? 'application/pdf'
-        : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      const contentType = fileType === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-      // DOCX aus dem body auslesen
+      // body auslesen
       const reader = response.body.getReader();
       const chunks: Uint8Array[] = [];
       while (true) {
