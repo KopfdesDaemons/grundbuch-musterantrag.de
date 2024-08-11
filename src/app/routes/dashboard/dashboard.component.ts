@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faArrowRightFromBracket, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
-import FileSaver, { saveAs } from 'file-saver';
+import { UploadsService } from 'src/app/services/uploads.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,75 +22,59 @@ export class DashboardComponent implements OnInit {
   faArrowRightFromBracket = faArrowRightFromBracket;
   faTrashCan = faTrashCan;
 
-  uploadsData: any;
   files: any[] = [];
-  loadedPages: number = 0;
-  isLoading = false;
+  private loadedPages: number = 0;
+  totalPages: number = 0;
+  isLoadingNextPage: boolean = false;
 
   constructor(
     public http: HttpClient,
     private elem: ElementRef,
     public cs: CookiesService,
-    private authS: AuthService,
+    public authS: AuthService,
+    public uploadsdS: UploadsService,
     public titleService: Title) {
     this.titleService.setTitle('Dashboard');
   }
 
-  ngOnInit() {
-    this.getFiles();
+  async ngOnInit() {
+    this.totalPages = await this.uploadsdS.getTotalPages();
+    this.loadPage();
   }
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
-      this.getFiles();
+      if (!this.isLoadingNextPage) this.loadPage(this.loadedPages + 1);
     }
   }
 
-  async getFiles() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        if (this.isLoading) return;
-        this.isLoading = true;
-
-        const pageToLoad = this.loadedPages + 1;
-
-        // Nicht laden, wenn über totalPages
-        if (this.uploadsData && pageToLoad > this.uploadsData['totalPages']) return;
-
-        console.log('Lade Daten der Seite:', pageToLoad);
-
-        // Lade neue Seite
-        this.uploadsData = await lastValueFrom(
-          this.http.get('/api/uploads', {
-            headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-            params: new HttpParams().set('page', this.loadedPages)
-          })
-        );
-
-        // Füge neu geladene Dateien hinzu
-        for (const file of this.uploadsData['files']) {
-          this.files.push(file);
-        }
-
-        this.loadedPages++;
-        this.isLoading = false;
-
-      } catch (err: any) {
-        this.isLoading = false;
-        console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
-        console.log(err.status);
-
-        if (err.status === 403) this.abmelden();
-        reject();
-      }
-    });
+  async loadPage(pageNumber: number = 1) {
+    try {
+      this.isLoadingNextPage = true;
+      const { page, files } = await this.uploadsdS.getFiles(pageNumber);
+      this.loadedPages = page;
+      this.files = this.files.concat(files);
+      this.isLoadingNextPage = false;
+    } catch (err: any) {
+      this.isLoadingNextPage = false;
+    }
   }
 
-  reloadFiles() {
-    this.isLoading = false;
+  async reloadFiles() {
     this.loadedPages = 0;
     this.files = [];
-    this.getFiles();
+    this.totalPages = await this.uploadsdS.getTotalPages();
+    this.loadPage();
+  }
+
+  deleteFile(name: string) {
+    this.uploadsdS.deleteFile(name);
+    this.reloadFiles();
+  }
+
+  deleteFolder() {
+    this.uploadsdS.deleteFolder();
+    this.reloadFiles();
   }
 
   // Schließe Dropdowns, wenn Klick auf anderen Element
@@ -113,27 +97,6 @@ export class DashboardComponent implements OnInit {
     const ulElement = dropdown.querySelector('.dropDownMenu') as HTMLElement;
 
     if (ulElement) ulElement.style.visibility = 'visible';
-  }
-
-  async deleteFile(name: string) {
-    await lastValueFrom(this.http.delete('/api/uploads/deleteFiles', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-      params: new HttpParams().set('fileName', name),
-      responseType: 'text'
-    }));
-    this.reloadFiles();
-  }
-
-  async deleteFolder() {
-    try {
-      await lastValueFrom(this.http.delete('/api/uploads/', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        responseType: 'text'
-      }));
-      this.reloadFiles();
-    } catch (error: any) {
-      console.error('Error beim Löschen des Ordners:', error);
-    }
   }
 
   async getLogFile() {
@@ -173,49 +136,5 @@ export class DashboardComponent implements OnInit {
     } catch (error) {
       console.error('Error beim Löschen des Ordners:', error);
     }
-  }
-
-  async getFile(fileName: string, fileType: 'pdf' | 'docx') {
-    fileName = fileName + `.${fileType}`;
-
-    try {
-      const response: any = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }), {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${this.authS.getToken()}`,
-        }
-      });
-
-      if (!response.ok) throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
-
-      const contentType = fileType === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-
-      // body auslesen
-      const reader = response.body.getReader();
-      const chunks: Uint8Array[] = [];
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-      }
-
-      const file = new window.Blob(chunks, { type: contentType });
-
-      // PDF in neuen Tab öffnen
-      if (fileType === 'pdf') {
-        window.open(URL.createObjectURL(file), '_blank');
-        return;
-      }
-
-      // DOCX als Datei speichern
-      FileSaver.saveAs(file, fileName);
-
-    } catch (error) {
-      console.error('Error beim Abrufen der Datei:', error);
-    }
-  }
-
-  abmelden() {
-    this.authS.abmelden();
   }
 }
