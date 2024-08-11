@@ -7,8 +7,8 @@
 
     <!-- Server Logfile und Cookies löschen -->
     <div>
-      <a class="btntext" (click)="getLogFile()">öffne Server Logfile</a>
-      <button (click)="deleteLogFile()" class="btnicon">
+      <a class="btntext" (click)="loggerS.getLogFile()">öffne Server Logfile</a>
+      <button (click)="loggerS.deleteLogFile()" class="btnicon">
         <fa-icon [icon]="faTrashCan"></fa-icon>
       </button>
       <button class="btntext" (click)="cs.deleteAllCookies()">Cookies löschen</button>

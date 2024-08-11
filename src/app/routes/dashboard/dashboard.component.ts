@@ -6,6 +6,7 @@ import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
 import { UploadsService } from 'src/app/services/uploads.service';
+import { LoggerService } from 'src/app/services/logger.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit {
     public cs: CookiesService,
     public authS: AuthService,
     public uploadsdS: UploadsService,
+    public loggerS: LoggerService,
     public titleService: Title) {
     this.titleService.setTitle('Dashboard');
   }
@@ -97,44 +99,5 @@ export class DashboardComponent implements OnInit {
     const ulElement = dropdown.querySelector('.dropDownMenu') as HTMLElement;
 
     if (ulElement) ulElement.style.visibility = 'visible';
-  }
-
-  async getLogFile() {
-    try {
-      const response = await lastValueFrom(
-        this.http.get('/api/getLogFile', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          observe: 'response',
-          responseType: 'json' as 'json'
-        })
-      );
-
-      if (response.status === 204) {
-        // Keine Logs vorhanden
-        const noContentMessage = { message: 'Keine Server-Logs vorhanden' };
-        const jsonString = JSON.stringify(noContentMessage, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        window.open(URL.createObjectURL(blob), '_blank');
-      } else {
-        // Logs vorhanden
-        const jsonString = JSON.stringify(response.body, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        window.open(URL.createObjectURL(blob), '_blank');
-      }
-    } catch (error) {
-      console.error('Fehler beim Abrufen der Logs:', error);
-    }
-  }
-
-  async deleteLogFile() {
-    try {
-      await lastValueFrom(this.http.delete('/api/deleteLogFile/', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        responseType: 'text'
-      }));
-      alert('Logfile gelöscht')
-    } catch (error) {
-      console.error('Error beim Löschen des Ordners:', error);
-    }
   }
 }
