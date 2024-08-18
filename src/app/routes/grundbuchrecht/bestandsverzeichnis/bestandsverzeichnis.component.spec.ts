@@ -8,8 +8,8 @@ describe('BestandsverzeichnisComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BestandsverzeichnisComponent ]
-    })
+    imports: [BestandsverzeichnisComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(BestandsverzeichnisComponent);

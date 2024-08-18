@@ -22,10 +22,7 @@ export class LoggerService {
 
       if (response.status === 204) {
         // Keine Logs vorhanden
-        const noContentMessage = { message: 'Keine Server-Logs vorhanden' };
-        const jsonString = JSON.stringify(noContentMessage, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        window.open(URL.createObjectURL(blob), '_blank');
+        alert('Keine Logs vorhanden');
       } else {
         // Logs vorhanden
         const jsonString = JSON.stringify(response.body, null, 2);

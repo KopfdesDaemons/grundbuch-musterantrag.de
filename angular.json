@@ -29,7 +29,6 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/antragtemplate.docx",
               "src/sitemap.txt",
               "src/robots.txt"
             ],
@@ -83,10 +82,7 @@
               "buildTarget": "grundbuch:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "proxyConfig": "proxy.conf.json"
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

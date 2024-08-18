@@ -1,5 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
@@ -8,9 +9,12 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 })
 export class AuthService {
 
-  private authToken = localStorage.getItem('auth_token');
+  private authToken: string | null = null;
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.authToken = localStorage.getItem('auth_token');
+  }
 
   getToken() {
     return this.authToken;
@@ -41,6 +45,7 @@ export class AuthService {
   }
 
   abmelden() {
+    if (!isPlatformBrowser(this.platformId)) return;
     localStorage.removeItem('auth_token');
     this.authToken = null;
     this.router.navigate(['/']);

@@ -4,11 +4,20 @@ import { CookiesService } from '../../services/cookies.service';
 import { FarbconverterService } from 'src/app/services/farbconverter.service';
 import { cookie } from '../../models/cookie';
 import { DesignloaderService } from 'src/app/services/designloader.service';
+import { RouterLink } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        FaIconComponent,
+        RouterLink,
+    ],
 })
 export class HeaderComponent implements AfterViewInit {
   faMoon = faMoon;

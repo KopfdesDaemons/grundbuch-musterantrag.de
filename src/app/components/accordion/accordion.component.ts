@@ -7,11 +7,15 @@ import {
 
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { DesignloaderService } from 'src/app/services/designloader.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-accordion',
-  templateUrl: './accordion.component.html',
-  styleUrls: ['./accordion.component.scss'],
+    selector: 'app-accordion',
+    templateUrl: './accordion.component.html',
+    styleUrls: ['./accordion.component.scss'],
+    standalone: true,
+    imports: [NgClass, FaIconComponent],
 })
 export class AccordionComponent {
   faAngleDown = faAngleDown;

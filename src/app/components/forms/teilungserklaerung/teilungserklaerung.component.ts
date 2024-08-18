@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
-  selector: 'app-teilungserklaerung',
-  templateUrl: './teilungserklaerung.component.html',
-  styleUrl: './teilungserklaerung.component.scss'
+    selector: 'app-teilungserklaerung',
+    templateUrl: './teilungserklaerung.component.html',
+    styleUrl: './teilungserklaerung.component.scss',
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class TeilungserklaerungComponent {
   form: FormGroup

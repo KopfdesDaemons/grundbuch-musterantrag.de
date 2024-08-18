@@ -5,11 +5,16 @@ import {
   faUniversity,
   faMapMarkedAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
+import { RouterLink } from '@angular/router';
+import { ArtikelComponent } from '../../../components/artikel/artikel.component';
 
 @Component({
-  selector: 'app-einleitung',
-  templateUrl: './einleitung.component.html',
-  styleUrls: ['./einleitung.component.scss']
+    selector: 'app-einleitung',
+    templateUrl: './einleitung.component.html',
+    styleUrls: ['./einleitung.component.scss'],
+    standalone: true,
+    imports: [ArtikelComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent]
 })
 export class EinleitungComponent {
   faUniversity = faUniversity;

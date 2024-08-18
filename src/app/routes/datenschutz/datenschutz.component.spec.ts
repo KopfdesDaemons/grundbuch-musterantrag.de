@@ -8,8 +8,8 @@ describe('DatenschutzComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DatenschutzComponent ]
-    })
+    imports: [DatenschutzComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(DatenschutzComponent);

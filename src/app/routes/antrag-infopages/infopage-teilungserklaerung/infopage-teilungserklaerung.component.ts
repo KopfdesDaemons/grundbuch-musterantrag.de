@@ -2,11 +2,18 @@ import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragTeilungserklaerung } from 'src/app/models/antragTeilungserklaerung';
+import { FooterComponent } from '../../../components/footer/footer.component';
+import { AccordionComponent } from '../../../components/accordion/accordion.component';
+import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
+import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
+import { HeaderComponent } from '../../../components/header/header.component';
 
 @Component({
-  selector: 'app-infopage-teilungserklaerung',
-  templateUrl: './infopage-teilungserklaerung.component.html',
-  styleUrl: './infopage-teilungserklaerung.component.scss'
+    selector: 'app-infopage-teilungserklaerung',
+    templateUrl: './infopage-teilungserklaerung.component.html',
+    styleUrl: './infopage-teilungserklaerung.component.scss',
+    standalone: true,
+    imports: [HeaderComponent, AntragsinfosHeroComponent, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 export class InfopageTeilungserklaerungComponent {
   antrag: Antrag = new AntragTeilungserklaerung();

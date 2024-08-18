@@ -8,8 +8,8 @@ describe('InfopageGrundbuchausdruckComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InfopageGrundbuchausdruckComponent]
-    })
+    imports: [InfopageGrundbuchausdruckComponent]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(InfopageGrundbuchausdruckComponent);

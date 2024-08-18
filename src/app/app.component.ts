@@ -17,11 +17,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { DesignloaderService } from './services/designloader.service';
 import { Title } from '@angular/platform-browser';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [RouterOutlet],
 })
 export class AppComponent {
   title = 'grundbuch';

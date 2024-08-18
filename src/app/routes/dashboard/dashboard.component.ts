@@ -7,11 +7,15 @@ import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { LoggerService } from 'src/app/services/logger.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    standalone: true,
+    imports: [HeaderComponent, FaIconComponent]
 })
 
 export class DashboardComponent implements OnInit {
@@ -69,8 +73,8 @@ export class DashboardComponent implements OnInit {
     this.loadPage();
   }
 
-  deleteFile(name: string) {
-    this.uploadsdS.deleteFile(name);
+  async deleteFile(name: string) {
+    await this.uploadsdS.deleteFile(name);
     this.reloadFiles();
   }
 

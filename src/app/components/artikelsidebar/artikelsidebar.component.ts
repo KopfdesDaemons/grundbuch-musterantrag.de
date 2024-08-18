@@ -1,14 +1,18 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   faSortDown,
   faBars
 } from '@fortawesome/free-solid-svg-icons';
+import { NgClass } from '@angular/common';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-artikelsidebar',
-  templateUrl: './artikelsidebar.component.html',
-  styleUrls: ['./artikelsidebar.component.scss']
+    selector: 'app-artikelsidebar',
+    templateUrl: './artikelsidebar.component.html',
+    styleUrls: ['./artikelsidebar.component.scss'],
+    standalone: true,
+    imports: [FaIconComponent, NgClass, RouterLink]
 })
 export class ArtikelsidebarComponent {
   @ViewChild('sidebar') sidebar!: ElementRef;

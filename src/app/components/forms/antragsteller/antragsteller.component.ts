@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-antragsteller',
-  templateUrl: './antragsteller.component.html',
-  styleUrls: ['./antragsteller.component.scss']
+    selector: 'app-antragsteller',
+    templateUrl: './antragsteller.component.html',
+    styleUrls: ['./antragsteller.component.scss'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, FaIconComponent]
 })
 export class AntragstellerComponent {
 

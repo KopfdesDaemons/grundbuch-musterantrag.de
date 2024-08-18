@@ -8,8 +8,8 @@ describe('InfopageLoeschungAbteilung2Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InfopageLoeschungAbteilung2Component]
-    })
+    imports: [InfopageLoeschungAbteilung2Component]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(InfopageLoeschungAbteilung2Component);
