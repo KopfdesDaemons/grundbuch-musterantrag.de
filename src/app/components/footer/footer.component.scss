@@ -7,6 +7,7 @@ footer {
     position: sticky;
     z-index: 1;
     background: var(--gradient);
+    padding: 0.5em;
 }
 
 footer ul {
@@ -26,30 +27,6 @@ footer ul {
     position: relative;
     display: flex;
     align-items: center;
-
-    .inputfeld {
-        height: 35px;
-        width: 0;
-        margin-left: 5px;
-    }
-}
-
-.anmeldedivOpen {
-    animation: fromLeft 1s forwards;
-
-    .inputfeld {
-        width: 100px;
-    }
-}
-
-@keyframes fromLeft {
-    0% {
-        left: -100px;
-    }
-
-    100% {
-        left: 0;
-    }
 }
 
 .adminDiv {

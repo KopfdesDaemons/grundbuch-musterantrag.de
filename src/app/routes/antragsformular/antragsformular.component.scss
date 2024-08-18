@@ -6,15 +6,7 @@
 
 section {
   margin-top: 3.5em;
-  top: -40em;
-  position: relative;
   animation: slideInFromTop 700ms forwards;
-}
-
-@keyframes slideInFromTop {
-  100% {
-    top: 0em;
-  }
 }
 
 .sectiondiv {

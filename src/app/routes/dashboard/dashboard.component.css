@@ -6,16 +6,9 @@
 
 section {
   margin-top: 4vh;
-  top: -40em;
-  position: relative;
   animation: slideInFromTop 500ms forwards;
 }
 
-@keyframes slideInFromTop {
-  100% {
-    top: 0em;
-  }
-}
 h1 {
   font-size: clamp(1.5rem, 5vw, 2rem);
   margin-top: 0;

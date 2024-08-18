@@ -27,8 +27,9 @@
                     den Erbnachweis noch nicht erhalten haben, fordert dieses den Erbnachweis beim Nachlassgericht an
                     oder Sie erhalten eine
                     Zwischenverfügung mit der Bitte, den Erbnachweis einzureichen.</p>
-                <input type="checkbox" #erbnachweisGerichtbekannt formControlName="erbnachweisGerichtbekannt"
-                    name="erbnachweisGerichtbekannt" id="erbnachweisGerichtbekanntInput" value="false">
+                <input (change)="onCheckboxChange($event)" type="checkbox" #erbnachweisGerichtbekannt
+                    formControlName="erbnachweisGerichtbekannt" name="erbnachweisGerichtbekannt"
+                    id="erbnachweisGerichtbekanntInput" value="false">
                 <label for="erbnachweisGerichtbekanntInput">Erbnachweis ist vom gleichen Amtsgericht</label>
                 @if(erbnachweisGerichtbekannt.checked){
                 <br>
@@ -37,7 +38,9 @@
                         name="aktenzeichenNachlassgericht" spellcheck="false" placeholder="&nbsp;">
                     <label class="placeholder" for="aktenzeichenNachlassgerichtInput">Nachlassaktenzeichen</label>
                 </div>
-                }
+                @if (fs.form.controls['aktenzeichenNachlassgericht'].hasError('IVorVI')) {
+                <p class="rot">Das Nachlassaktenzeichen muss IV oder VI enthalten.</p>
+                }}
             </div>
         </div>
     </div>
@@ -45,7 +48,7 @@
         @if (fs.getCurrentStep() > 1) {
         <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
         }
-        <button class="btnoutlined" type="button" (click)="fs.nextStep()">
+        <button class="btnoutlined" type="button" [disabled]="!fs.form.valid" (click)="fs.nextStep()">
             Weiter</button>
     </div>
 </form>

@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,7 +7,10 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export const appConfig: ApplicationConfig = {
-    providers: [provideRouter(routes),
+    providers: [provideRouter(routes, withInMemoryScrolling({
+        scrollPositionRestoration: "top",
+        anchorScrolling: 'enabled',
+    })),
     importProvidersFrom(BrowserModule, FontAwesomeModule, FormsModule, ReactiveFormsModule),
     provideHttpClient(),
     provideClientHydration(),

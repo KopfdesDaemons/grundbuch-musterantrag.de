@@ -5,6 +5,7 @@ import { Grundbuchamt } from "./grundbuchamt";
 import { Grundstueck } from "./grundstueck";
 import { Erblasser } from "./erblasser";
 import { Image } from "./image";
+import { NachlassAktenzeichenValidator } from "../validators/nachlassAktenzeichen.validator";
 
 export class AntragGrundbuchberichtigungSterbefall implements Antrag {
     title: string = 'Grundbuchberichtigung aufgrund eines Sterbefalls'
@@ -37,7 +38,7 @@ export class AntragGrundbuchberichtigungSterbefall implements Antrag {
             grundstueck: this.grundstueck.getFormGroup(),
             erbnachweis: [this.erbnachweis],
             erbnachweisGerichtbekannt: [this.erbnachweisGerichtbekannt],
-            aktenzeichenNachlassgericht: [this.aktenzeichenNachlassgericht],
+            aktenzeichenNachlassgericht: [this.aktenzeichenNachlassgericht, NachlassAktenzeichenValidator()],
             weitererGrundbesitz: [this.weitererGrundbesitz],
             grundbuchamt: this.grundbuchamt.getFormGroup(),
         });

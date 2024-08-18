@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
@@ -20,35 +21,55 @@ export class AuthService {
     return this.authToken;
   }
 
-  async anmelden(password: string) {
+  async anmelden(username: string, password: string): Promise<{ success: boolean, message: string }> {
     try {
       const response: any = await firstValueFrom(this.http.post('/api/login', {
-        username: 'rico',
+        username: username,
         password: password
       }));
-      console.log(response);
 
       localStorage.setItem('auth_token', response.token);
       this.authToken = response.token;
       console.log("Login erfolgreich");
-      this.router.navigate(['/dashboard'])
+      this.router.navigate(['/dashboard']);
+
+      // Erfolgsmeldung zurückgeben
+      return { success: true, message: "Login erfolgreich" };
     } catch (error: any) {
+      let errorMessage = "Login nicht erfolgreich";
 
       switch (error.status) {
+        case 403:
+          errorMessage = 'Login verweigert';
+          break;
         case 401:
-          console.log('Login verweigert');
+          errorMessage = 'Logindaten unvollständig';
           break;
         default:
-          console.log("Login nicht erfolgreich: ", error);
+          errorMessage = `Login nicht erfolgreich: ${error.message || error.status}`;
       }
+
+      console.log(errorMessage);
+
+      // Fehlernachricht zurückgeben
+      return { success: false, message: errorMessage };
     }
   }
+
 
   abmelden() {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.removeItem('auth_token');
     this.authToken = null;
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
     console.log('Abmeldung erfolgt');
+  }
+
+  getLoginFormGroup(): FormGroup {
+    const formBuilder = new FormBuilder();
+    return formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 }

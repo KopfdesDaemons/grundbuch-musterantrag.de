@@ -96,8 +96,6 @@ export class FormService {
     this.progress = 100;
     this.antrag.loadFormValue(this.form.value);
     this.antrag.datum = this.getFormattedDate(new Date());
-
-    // console.log(this.antrag);
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {

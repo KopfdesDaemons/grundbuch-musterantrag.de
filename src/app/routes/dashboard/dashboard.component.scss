@@ -2,20 +2,11 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    // background-color: var(--hintergrund-variant);
 }
 
 section {
     margin-top: 4vh;
-    top: -40em;
-    position: relative;
     animation: slideInFromTop 500ms forwards;
-}
-
-@keyframes slideInFromTop {
-    100% {
-        top: 0em;
-    }
 }
 
 h1 {

@@ -1,6 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
 import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faArrowRightFromBracket, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
@@ -11,11 +10,11 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
-    standalone: true,
-    imports: [HeaderComponent, FaIconComponent]
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
+  standalone: true,
+  imports: [HeaderComponent, FaIconComponent]
 })
 
 export class DashboardComponent implements OnInit {
@@ -83,7 +82,9 @@ export class DashboardComponent implements OnInit {
     this.reloadFiles();
   }
 
-  // Schließe Dropdowns, wenn Klick auf anderen Element
+  /* 
+    Schließe Dropdowns, wenn Klick auf anderen Element
+  */
   @HostListener('document:click', ['$event']) onDocumentClick(event: any) {
     const dropDowns = this.elem.nativeElement.querySelectorAll('.dropDown');
 

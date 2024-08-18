@@ -1,0 +1,20 @@
+<app-header></app-header>
+<section>
+    <div class="sectiondiv">
+        <h1>Admin Login</h1>
+        <span class="rot">{{errorMessage}}</span>
+        <form [formGroup]="loginForm" (ngSubmit)="tryLogin()">
+            <div class="inputfeld">
+                <input formControlName="username" type="text" id="username" name="username" placeholder="&nbsp;"
+                    autocomplete="username">
+                <label class="placeholder" for="username">Benutzername</label>
+            </div>
+            <div class="inputfeld">
+                <input formControlName="password" (keyup.enter)="tryLogin()" type="password" id="password"
+                    name="password" autocomplete="current-password" spellcheck="false" placeholder="&nbsp;">
+                <label class="placeholder" for="password">Passwort</label>
+            </div>
+            <button class="btnoutlined" type="submit">Anmelden</button>
+        </form>
+    </div>
+</section>

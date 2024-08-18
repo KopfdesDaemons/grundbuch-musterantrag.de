@@ -1,17 +1,10 @@
 <footer>
   <div class="anmeldediv" [ngClass]="{'anmeldedivOpen': anmeldeInputVisible}">
-    <form class="inputfeld">
-      <label for="username" style="display: none;">Benutzername:</label>
-      <input type="text" id="username" name="username" autocomplete="username" style="display: none;"
-        aria-hidden="true">
-      <input #password (keyup.enter)="authS.anmelden(password.value)" type="password" id="password" name="password"
-        autocomplete="new-password" spellcheck="false" placeholder="&nbsp;">
-      <label class="placeholder" for="password">Passwort</label>
-    </form>
+
     @if (!auth.checkToken()) {
-    <button (click)="anmeldeBtnClick()" class="btnicon">
+    <a routerLink="/login" class="btnicon">
       <fa-icon [icon]="faRightToBracket"></fa-icon>
-    </button>
+    </a>
     }
     @if (auth.checkToken()) {
     <div class="adminDiv">
