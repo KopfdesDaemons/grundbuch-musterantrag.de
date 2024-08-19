@@ -162,7 +162,7 @@ header {
 }
 .mobileheader .farbauswahlbuttondiv:hover .farbauswahl,
 .mobileheader .farbauswahl:hover {
-  top: 4em;
+  top: 3em;
   transition: top 80ms ease-in-out;
 }
 .mobileheader nav {
@@ -184,7 +184,7 @@ header {
 .mobileheader nav ul a {
   text-decoration: none;
   flex: 1;
-  color: var(--primary-color);
+  color: var(--schrift);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,6 +194,10 @@ header {
 }
 .mobileheader .farbauswahl {
   right: 0;
+}
+
+.darkmode .mobileheader nav ul a {
+  color: var(--primary-color);
 }
 
 @media only screen and (max-width: 700px) {

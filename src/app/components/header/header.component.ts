@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/cookies.service';
 import { FarbconverterService } from 'src/app/services/farbconverter.service';
@@ -20,6 +20,11 @@ import { NgClass } from '@angular/common';
   ],
 })
 export class HeaderComponent implements AfterViewInit {
+  // Injections
+  cs = inject(CookiesService);
+  farbConv = inject(FarbconverterService);
+  dl = inject(DesignloaderService);
+
   faMoon = faMoon;
 
   colors = [
@@ -34,14 +39,12 @@ export class HeaderComponent implements AfterViewInit {
     'hsl(0, 0%, 50%)',
     'hsl(334, 100%, 50%)',
     'hsl(225, 6%, 50%)',
-    'hsl(110, 69%, 50%)'];
+    'hsl(110, 69%, 50%)'
+  ];
 
   @ViewChild('closingdiv') closingdiv!: ElementRef;
   @ViewChild('cookiebanner') cookiebanner!: ElementRef;
   @ViewChild('colorPicker') colorPicker!: ElementRef;
-
-  constructor(public cs: CookiesService, public farbConv: FarbconverterService, public dl: DesignloaderService) { }
-
   @Input() background: string = 'var(--gradient)';
 
   ngAfterViewInit(): void {

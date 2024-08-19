@@ -178,7 +178,7 @@ header {
 
   .farbauswahlbuttondiv:hover .farbauswahl,
   .farbauswahl:hover {
-    top: 4em;
+    top: 3em;
     transition: top 80ms ease-in-out;
   }
 
@@ -202,7 +202,7 @@ header {
       a {
         text-decoration: none;
         flex: 1;
-        color: var(--primary-color);
+        color: var(--schrift);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -217,6 +217,10 @@ header {
   .farbauswahl {
     right: 0;
   }
+}
+
+.darkmode .mobileheader nav ul a {
+  color: var(--primary-color);
 }
 
 @media only screen and (max-width: 700px) {

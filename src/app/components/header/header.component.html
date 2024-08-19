@@ -8,9 +8,9 @@
         <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
         }
         <div class="anderefarbediv">
-          <span>Eigene Farbe auswählen</span>
+          <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
           <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe"
-            (change)="CustomColor($event.target)" />
+            (change)="CustomColor($event.target)" id="colorPickerDesktop" />
         </div>
       </div>
     </div>
@@ -32,7 +32,6 @@
 
   <div class="mobileheader">
     <div class="mobileheadercontent">
-      <!-- <button class="mobilemenübutton" (click)="toggle()">Menü</button> -->
       <nav>
         <ul>
           <li>
@@ -51,9 +50,9 @@
             <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
             }
             <div class="anderefarbediv">
-              <span>Eigene Farbe auswählen</span>
+              <label for="colorPickerMobile">Eigene Farbe auswählen</label>
               <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe"
-                (change)="CustomColor($event.target)" />
+                (change)="CustomColor($event.target)" id="colorPickerMobile" />
             </div>
           </div>
         </div>
@@ -63,8 +62,6 @@
       </div>
     </div>
   </div>
-  <!-- <div #closingdiv class="closingdiv unsichtbar" (click)="togglebodydiv()"></div> -->
-
 
   <div #cookiebanner class="cookiebanner ausgeblendet">
     <div>
