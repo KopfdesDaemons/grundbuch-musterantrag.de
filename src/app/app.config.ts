@@ -7,12 +7,13 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export const appConfig: ApplicationConfig = {
-    providers: [provideRouter(routes, withInMemoryScrolling({
-        scrollPositionRestoration: "top",
-        anchorScrolling: 'enabled',
-    })),
-    importProvidersFrom(BrowserModule, FontAwesomeModule, FormsModule, ReactiveFormsModule),
-    provideHttpClient(),
-    provideClientHydration(),
+    providers: [
+        provideRouter(routes, withInMemoryScrolling({
+            scrollPositionRestoration: "top",
+            anchorScrolling: 'enabled',
+        })),
+        importProvidersFrom(BrowserModule, FontAwesomeModule, FormsModule, ReactiveFormsModule),
+        provideHttpClient(),
+        provideClientHydration(),
     ],
 };

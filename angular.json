@@ -38,7 +38,19 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "lodash"
+              "angular-expressions",
+              "express-fileupload",
+              "dotenv",
+              "@xmldom/xmldom",
+              "winston",
+              "jsonwebtoken",
+              "moment",
+              "pako/dist/pako.es5.min.js",
+              "docxtemplater",
+              "docxtemplater/expressions.js",
+              "pizzip",
+              "pizzip/utils/index.js",
+              "file-saver"
             ],
             "browser": "src/main.ts",
             "server": "src/main.server.ts",

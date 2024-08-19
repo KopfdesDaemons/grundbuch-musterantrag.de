@@ -5,15 +5,6 @@
   <div class="sectiondiv">
     <h1>Dashboard</h1>
 
-    <!-- Server Logfile und Cookies löschen -->
-    <div>
-      <a class="btntext" (click)="loggerS.getLogFile()">öffne Server Logfile</a>
-      <button (click)="loggerS.deleteLogFile()" class="btnicon">
-        <fa-icon [icon]="faTrashCan"></fa-icon>
-      </button>
-      <button class="btntext" (click)="cs.deleteAllCookies()">Cookies löschen</button>
-    </div>
-
     <!-- Tabellen ControllHeader -->
     <div class="tableHeader">
       <h2>Generierte Anträge</h2>

@@ -30,7 +30,13 @@ export const routes: Routes = [
 
     { path: 'impressum', loadComponent: () => import('./routes/impressum/impressum.component').then(m => m.ImpressumComponent) },
     { path: 'datenschutz', loadComponent: () => import('./routes/datenschutz/datenschutz.component').then(m => m.DatenschutzComponent) },
-    { path: 'dashboard', loadComponent: () => import('./routes/dashboard/dashboard.component').then(m => m.DashboardComponent), canActivate: [AuthGuard] },
+    {
+        path: 'dashboard'
+        , children: [
+            { path: '', loadComponent: () => import('./routes/dashboard/dashboard-home/dashboard-home.component').then(m => m.DashboardHomeComponent) },
+            { path: 'antragsliste', loadComponent: () => import('./routes/dashboard/dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent) },
+        ]
+    },
     { path: 'login', loadComponent: () => import('./routes/login/login.component').then(m => m.LoginComponent) },
     { path: '**', loadComponent: () => import('./routes/file-not-found/file-not-found.component').then(m => m.FileNotFoundComponent) }
 ];

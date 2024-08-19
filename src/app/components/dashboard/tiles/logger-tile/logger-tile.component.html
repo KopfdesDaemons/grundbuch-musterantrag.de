@@ -1,0 +1,8 @@
+<app-dashboard-tile title="Server Logs">
+    <div>
+        <a class="btntext" (click)="loggerS.getLogFile()">öffne Server Logfile</a>
+        <button (click)="loggerS.deleteLogFile()" class="btnicon">
+            <fa-icon [icon]="faTrashCan"></fa-icon>
+        </button>
+    </div>
+</app-dashboard-tile>

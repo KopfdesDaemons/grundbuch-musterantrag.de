@@ -1,0 +1,12 @@
+.container {
+  background-color: var(--hintergrund-variant-darker);
+  padding: 0.5em;
+  border-radius: 4px;
+}
+.container:hover {
+  background-color: var(--hintergrund-variant);
+}
+.container h2 {
+  margin-top: 0.5em;
+  text-align: center;
+}/*# sourceMappingURL=dashboard-tile.component.css.map */

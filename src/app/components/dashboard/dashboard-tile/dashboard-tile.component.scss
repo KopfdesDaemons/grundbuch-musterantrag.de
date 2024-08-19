@@ -1,0 +1,14 @@
+.container {
+    background-color: var(--hintergrund-variant-darker);
+    padding: 0.5em;
+    border-radius: 4px;
+
+    &:hover {
+        background-color: var(--hintergrund-variant);
+    }
+
+    h2 {
+        margin-top: 0.5em;
+        text-align: center;
+    }
+}

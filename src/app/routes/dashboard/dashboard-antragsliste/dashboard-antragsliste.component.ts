@@ -1,23 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faArrowRightFromBracket, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { HeaderComponent } from '../../components/header/header.component';
+import { HeaderComponent } from '../../../components/header/header.component';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-dashboard-antragsliste',
+  templateUrl: './dashboard-antragsliste.component.html',
+  styleUrls: ['./dashboard-antragsliste.component.scss'],
   standalone: true,
   imports: [HeaderComponent, FaIconComponent]
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardAntragslisteComponent implements OnInit {
   // Injections
   private elem = inject(ElementRef);
   http = inject(HttpClient);
@@ -34,7 +34,6 @@ export class DashboardComponent implements OnInit {
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faEllipsisVertical = faEllipsisVertical;
   faArrowRightFromBracket = faArrowRightFromBracket;
-  faTrashCan = faTrashCan;
 
   files: any[] = [];
   private loadedPages: number = 0;
