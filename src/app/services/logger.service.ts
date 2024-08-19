@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -7,8 +7,9 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class LoggerService {
-
-  constructor(private http: HttpClient, private authS: AuthService) { }
+  // Injections
+  http = inject(HttpClient);
+  authS = inject(AuthService);
 
   async getLogFile() {
     try {

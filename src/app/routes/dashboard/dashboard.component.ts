@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
 import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faArrowRightFromBracket, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
@@ -18,6 +18,16 @@ import { HeaderComponent } from '../../components/header/header.component';
 })
 
 export class DashboardComponent implements OnInit {
+  // Injections
+  private elem = inject(ElementRef);
+  http = inject(HttpClient);
+  cs = inject(CookiesService);
+  authS = inject(AuthService);
+  uploadsdS = inject(UploadsService);
+  loggerS = inject(LoggerService);
+  titleService = inject(Title);
+
+  // Fontawesome Icons
   faRotateRight = faRotateRight;
   faCircleExclamation = faCircleExclamation;
   faCircleDown = faCircleDown;
@@ -31,18 +41,8 @@ export class DashboardComponent implements OnInit {
   totalPages: number = 0;
   isLoadingNextPage: boolean = false;
 
-  constructor(
-    public http: HttpClient,
-    private elem: ElementRef,
-    public cs: CookiesService,
-    public authS: AuthService,
-    public uploadsdS: UploadsService,
-    public loggerS: LoggerService,
-    public titleService: Title) {
-    this.titleService.setTitle('Dashboard');
-  }
-
   async ngOnInit() {
+    this.titleService.setTitle('Dashboard');
     this.totalPages = await this.uploadsdS.getTotalPages();
     this.loadPage();
   }
@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
   }
 
   /* 
-    Schließe Dropdowns, wenn Klick auf anderen Element
+    Schließt Dropdowns, wenn Klick auf anderen Element
   */
   @HostListener('document:click', ['$event']) onDocumentClick(event: any) {
     const dropDowns = this.elem.nativeElement.querySelectorAll('.dropDown');

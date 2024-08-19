@@ -40,7 +40,9 @@
           @for (file of files; track file) {
           <tr>
             <td>{{file.fileName}}</td>
-            <td>{{file.antragsart}}</td>
+            <td>
+              <div class="antragsart">{{file.antragsart}}</div>
+            </td>
             <td>{{file.uploadDate}}</td>
             <td>@if (file.docxFile != '') {
               <a class="btnicon" (click)="uploadsdS.getFile(file.fileName, 'docx')"><fa-icon

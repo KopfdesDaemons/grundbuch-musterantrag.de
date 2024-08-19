@@ -1,12 +1,12 @@
 <footer>
-  <div class="anmeldediv" [ngClass]="{'anmeldedivOpen': anmeldeInputVisible}">
+  <div class="anmeldediv">
 
-    @if (!auth.checkToken()) {
+    @if (!authS.getToken()) {
     <a routerLink="/login" class="btnicon">
       <fa-icon [icon]="faRightToBracket"></fa-icon>
     </a>
     }
-    @if (auth.checkToken()) {
+    @if (authS.getToken()) {
     <div class="adminDiv">
       <ul>
         <li>

@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Antrag } from '../interfaces/antrag';
 
@@ -6,12 +6,13 @@ import { Antrag } from '../interfaces/antrag';
   providedIn: 'root'
 })
 export class DocxgeneratorService {
+  // Injections
+  private platformId = inject(PLATFORM_ID);
+
   progress = 0;
   fehler = signal(false);
   statusmeldung = signal('');
   docx: any;
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   async generate(antrag: Antrag) {
     this.reset();

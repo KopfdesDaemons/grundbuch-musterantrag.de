@@ -9,8 +9,6 @@ export class CookiesService {
 
   cookieRequestList: BehaviorSubject<cookie[]> = new BehaviorSubject(new Array());
 
-  constructor() { }
-
   /**
    * Setzt ein Cookie mit Namen, Wert und Tagen bis zum Ablauf.
    * @param cookie Das Cookie-Objekt, das gesetzt werden soll.

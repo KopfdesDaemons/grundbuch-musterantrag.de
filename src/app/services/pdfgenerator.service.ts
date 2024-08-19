@@ -1,17 +1,18 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Antrag } from '../interfaces/antrag';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfgeneratorService {
+  // Injections
+  http = inject(HttpClient);
+
   prozentPdfUpload = 0;
   prozentPdfDownload = 0;
   fehler = false;
   statusmeldung = '';
-
-  constructor(public http: HttpClient,) { }
 
   async generate(docx: any, antrag: Antrag) {
     this.reset();

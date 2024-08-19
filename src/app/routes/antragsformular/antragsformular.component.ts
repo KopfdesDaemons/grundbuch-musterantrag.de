@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { DesignloaderService } from 'src/app/services/designloader.service';
 import { FormService } from 'src/app/services/form.service';
 import { Title } from '@angular/platform-browser';
@@ -31,21 +31,20 @@ import { NgClass } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
-    selector: 'app-antragsformular',
-    templateUrl: './antragsformular.component.html',
-    styleUrls: ['./antragsformular.component.scss'],
-    standalone: true,
-    imports: [HeaderComponent, NgClass, AntragstellerComponent, ErblasserComponent, GrundstueckComponent, RechtAbteilung2Component, ErbnachweisComponent, TeilungserklaerungComponent, FarbeComponent, BewilligungComponent, WeitererGrundbesitzComponent, FormDesAusdrucksComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, HinweisComponent, AntragsgenerierungComponent, FooterComponent, FileNotFoundComponent]
+  selector: 'app-antragsformular',
+  templateUrl: './antragsformular.component.html',
+  styleUrls: ['./antragsformular.component.scss'],
+  standalone: true,
+  imports: [HeaderComponent, NgClass, AntragstellerComponent, ErblasserComponent, GrundstueckComponent, RechtAbteilung2Component, ErbnachweisComponent, TeilungserklaerungComponent, FarbeComponent, BewilligungComponent, WeitererGrundbesitzComponent, FormDesAusdrucksComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, HinweisComponent, AntragsgenerierungComponent, FooterComponent, FileNotFoundComponent]
 })
 export class AntragsformularComponent implements OnInit {
-  private routeParamsSubscription: Subscription | undefined;
+  // Injections
+  private titleService = inject(Title);
+  private route = inject(ActivatedRoute);
+  fs = inject(FormService);
+  dl = inject(DesignloaderService);
 
-  constructor(
-    private titleService: Title,
-    public fs: FormService,
-    public dl: DesignloaderService,
-    private route: ActivatedRoute,
-  ) { }
+  private routeParamsSubscription: Subscription | undefined;
 
   ngOnInit(): void {
     this.routeParamsSubscription = this.route.params.subscribe(async (params) => {

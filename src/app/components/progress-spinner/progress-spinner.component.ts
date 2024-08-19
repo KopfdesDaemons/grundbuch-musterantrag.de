@@ -2,11 +2,11 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, 
 import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-progress-spinner',
-    templateUrl: './progress-spinner.component.html',
-    styleUrls: ['./progress-spinner.component.scss'],
-    standalone: true,
-    imports: [NgClass]
+  selector: 'app-progress-spinner',
+  templateUrl: './progress-spinner.component.html',
+  styleUrls: ['./progress-spinner.component.scss'],
+  standalone: true,
+  imports: [NgClass]
 })
 export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
 
@@ -16,13 +16,10 @@ export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
   radius!: number;
   circumference!: number;
 
-
-  constructor(){
-  }
   ngAfterViewInit(): void {
-    this.radius = this.circle!.nativeElement.getAttribute('r');   
+    this.radius = this.circle!.nativeElement.getAttribute('r');
     this.circumference = this.radius * 2 * Math.PI;
-    
+
     this.circle.nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
     this.circle.nativeElement.style.strokeDashoffset = `${this.circumference}`;
     this.setProgress(this.prozent);
@@ -33,13 +30,13 @@ export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
       const percent = parseInt(changes['prozent'].currentValue);
       this.setProgress(percent);
     }
-    if(changes['endless'] && this.circle) {
+    if (changes['endless'] && this.circle) {
       this.setProgress(40);
     }
   }
 
   setProgress(percent: number) {
-  const offset = this.circumference - percent / 100 * this.circumference;
-  this.circle.nativeElement.style.strokeDashoffset = offset;
+    const offset = this.circumference - percent / 100 * this.circumference;
+    this.circle.nativeElement.style.strokeDashoffset = offset;
   }
 }

@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { cookie } from '../models/cookie';
 import { CookiesService } from './cookies.service';
@@ -9,13 +9,17 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common';
   providedIn: 'root'
 })
 export class DesignloaderService {
+  // Injections
+  cs = inject(CookiesService);
+  farbConv = inject(FarbconverterService);
+  private platformId = inject(PLATFORM_ID);
 
   darkmode: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private initialized = false;
   primaryColorHSL: string | null = "#1de4d7";
 
-  constructor(public cs: CookiesService, public farbConv: FarbconverterService, @Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformServer(platformId)) return;
+  constructor() {
+    if (isPlatformServer(this.platformId)) return;
     this.darkmode.next(this.schemaAusCookie() ?? this.detectPreferenceScheme());
     if (this.darkmode.value == true) this.aktiviereDarkmode(true);
 
@@ -67,7 +71,7 @@ export class DesignloaderService {
   }
 
   FarbeÄndern(h: number, s: number, l: number) {
-    let hsl = h + ", " + s + "%"; //, "+ l+"%";
+    let hsl = h + ", " + s + "%";
     var r = document.querySelector(":root") as HTMLElement;
     r.style.setProperty("--hsl-color", hsl);
     var c: cookie = new cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");

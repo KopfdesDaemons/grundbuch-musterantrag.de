@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
@@ -10,6 +10,9 @@ import { Antrag } from '../interfaces/antrag';
 })
 
 export class FormService {
+  // Injections
+  http = inject(HttpClient);
+  scroll = inject(ViewportScroller);
 
   antrag: Antrag | null = null;
   form!: FormGroup;
@@ -31,8 +34,6 @@ export class FormService {
   ]
   requiredComponents: string[] = []
   currentComponent: string = ''
-
-  constructor(public http: HttpClient, public scroll: ViewportScroller) { }
 
   init(antrag: Antrag) {
     this.antrag = antrag;

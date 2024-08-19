@@ -1,20 +1,20 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import {
-  faSortDown,
-  faBars
-} from '@fortawesome/free-solid-svg-icons';
+import { faSortDown, faBars } from '@fortawesome/free-solid-svg-icons';
 import { NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-    selector: 'app-artikelsidebar',
-    templateUrl: './artikelsidebar.component.html',
-    styleUrls: ['./artikelsidebar.component.scss'],
-    standalone: true,
-    imports: [FaIconComponent, NgClass, RouterLink]
+  selector: 'app-artikelsidebar',
+  templateUrl: './artikelsidebar.component.html',
+  styleUrls: ['./artikelsidebar.component.scss'],
+  standalone: true,
+  imports: [FaIconComponent, NgClass, RouterLink]
 })
 export class ArtikelsidebarComponent {
+  // Injections
+  router = inject(Router);
+
   @ViewChild('sidebar') sidebar!: ElementRef;
   @ViewChild('sidebarbutton') sidebarbutton!: ElementRef;
   @ViewChild('closingdiv') closingdiv!: ElementRef;
@@ -22,7 +22,13 @@ export class ArtikelsidebarComponent {
   faBars = faBars;
 
   themen = [{
-    name: 'Einleitung Grundbuchrecht', routerLink: '/grundbuchrecht/einleitung', unterthemen: [{ name: 'Definition Grundbuch', fragment: 'definitiongrundbuch' }, { name: 'Aufbau des Grundbuchs', fragment: 'aufbau' }, { name: 'Zuständigkeiten', fragment: 'zuständigkeiten' }, { name: 'Öffentlicher Glaube', fragment: 'öffentlicherglaube' }]
+    name: 'Einleitung Grundbuchrecht',
+    routerLink: '/grundbuchrecht/einleitung',
+    unterthemen: [
+      { name: 'Definition Grundbuch', fragment: 'definitiongrundbuch' },
+      { name: 'Aufbau des Grundbuchs', fragment: 'aufbau' },
+      { name: 'Zuständigkeiten', fragment: 'zuständigkeiten' },
+      { name: 'Öffentlicher Glaube', fragment: 'öffentlicherglaube' }]
   },
   {
     name: 'Das Bestandsverzeichnis',
@@ -80,7 +86,6 @@ export class ArtikelsidebarComponent {
     ],
   },
   ];
-  constructor(public router: Router) { }
 
   dropdown(event: Event): void {
     var element = event.target as Element;

@@ -73,6 +73,9 @@ h1 {
 .tableScrollContainer table {
   margin-top: 0;
 }
+.tableScrollContainer .antragsart {
+  max-width: 25em;
+}
 
 .dropDown {
   position: relative;

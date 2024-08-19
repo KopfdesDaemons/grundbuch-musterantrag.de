@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import FileSaver from 'file-saver';
@@ -8,9 +8,11 @@ import FileSaver from 'file-saver';
   providedIn: 'root'
 })
 export class UploadsService {
-  uploadsData: any;
+  // Injections
+  http = inject(HttpClient);
+  authS = inject(AuthService);
 
-  constructor(private http: HttpClient, private authS: AuthService) { }
+  uploadsData: any;
 
   async getTotalPages(): Promise<number> {
     if (!this.uploadsData) {
