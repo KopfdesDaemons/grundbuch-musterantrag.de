@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
@@ -8,13 +8,14 @@ import { UploadsService } from 'src/app/services/uploads.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { HeaderComponent } from '../../../components/header/header.component';
+import { FooterComponent } from "../../../components/footer/footer.component";
 
 @Component({
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],
   standalone: true,
-  imports: [HeaderComponent, FaIconComponent]
+  imports: [HeaderComponent, FaIconComponent, FooterComponent]
 })
 
 export class DashboardAntragslisteComponent implements OnInit {
@@ -33,7 +34,6 @@ export class DashboardAntragslisteComponent implements OnInit {
   faCircleDown = faCircleDown;
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faEllipsisVertical = faEllipsisVertical;
-  faArrowRightFromBracket = faArrowRightFromBracket;
 
   files: any[] = [];
   private loadedPages: number = 0;

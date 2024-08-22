@@ -1,0 +1,10 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+app-progress-spinner {
+  margin: 0 auto;
+  display: block;
+}/*# sourceMappingURL=antragsliste-tile.component.css.map */

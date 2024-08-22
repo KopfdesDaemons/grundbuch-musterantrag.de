@@ -14,12 +14,6 @@ h1 {
   margin-top: 0;
 }
 
-.logoutBtn {
-  position: absolute;
-  top: 4em;
-  right: 2em;
-}
-
 .tableHeader {
   display: flex;
   align-items: center;
@@ -27,6 +21,8 @@ h1 {
   background-color: var(--body);
   border-radius: 8px 8px 0 0;
   width: clamp(300px, 90vw, 1000px);
+  padding-left: 0.5em;
+  box-sizing: border-box;
 }
 .tableHeader h2 {
   margin: 0.5em;
@@ -101,4 +97,4 @@ h1 {
 
 .notFound {
   background-color: #c17878;
-}/*# sourceMappingURL=dashboard.component.css.map */
+}/*# sourceMappingURL=dashboard-antragsliste.component.css.map */

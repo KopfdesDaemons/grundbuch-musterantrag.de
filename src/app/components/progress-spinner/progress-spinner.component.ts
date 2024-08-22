@@ -23,6 +23,9 @@ export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
     this.circle.nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
     this.circle.nativeElement.style.strokeDashoffset = `${this.circumference}`;
     this.setProgress(this.prozent);
+    if (this.endless) {
+      this.setProgress(40);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

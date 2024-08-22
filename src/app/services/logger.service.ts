@@ -11,9 +11,9 @@ export class LoggerService {
   http = inject(HttpClient);
   authS = inject(AuthService);
 
-  async getLogFile() {
+  async getLogFile(): Promise<{ timestamp: string, message: string }[] | null> {
     try {
-      const response = await lastValueFrom(
+      const response: any = await lastValueFrom(
         this.http.get('/api/getLogFile', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
           observe: 'response',
@@ -23,16 +23,42 @@ export class LoggerService {
 
       if (response.status === 204) {
         // Keine Logs vorhanden
-        alert('Keine Logs vorhanden');
+        return null;
       } else {
         // Logs vorhanden
-        const jsonString = JSON.stringify(response.body, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        window.open(URL.createObjectURL(blob), '_blank');
+        const logs = response.body as { timestamp: string, message: string }[];
+
+        // Zeitstempel formatieren
+        const formattedLogs = logs.map(log => {
+          const date = new Date(log.timestamp);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          const hours = String(date.getHours()).padStart(2, '0');
+          const minutes = String(date.getMinutes()).padStart(2, '0');
+          const formattedTimestamp = `${day}.${month}.${year} ${hours}.${minutes} Uhr`;
+
+          return { ...log, timestamp: formattedTimestamp };
+        });
+
+        return formattedLogs;
       }
     } catch (error) {
       console.error('Fehler beim Abrufen der Logs:', error);
+      throw error;
     }
+  }
+
+  async openLogFileInNewTab() {
+    const logFile = await this.getLogFile();
+
+    if (!logFile) {
+      alert('Keine Logs vorhanden');
+      return;
+    }
+    const jsonString = JSON.stringify(logFile, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    window.open(URL.createObjectURL(blob), '_blank');
   }
 
   async deleteLogFile() {

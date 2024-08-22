@@ -4,9 +4,20 @@
   flex-direction: column;
 }
 
-.grid {
+.sectiondiv {
+  max-width: unset;
+}
+
+.logoutBtn {
+  position: absolute;
+  top: 4em;
+  right: 2em;
+}
+
+.tiles {
   width: 100%;
-  display: grid;
+  display: flex;
   gap: 1em;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  flex-wrap: wrap;
+  justify-content: center;
 }/*# sourceMappingURL=dashboard-home.component.css.map */

@@ -1,3 +1,16 @@
-<app-dashboard-tile title="Generierte Anträge">
-    <a routerLink="/dashboard/antragsliste" class="btntext">Anträge anzeigen</a>
+<app-dashboard-tile>
+    <div class="content">
+        @if(totalFiles === undefined || latestFile === undefined) {
+        <app-progress-spinner [endless]="true"></app-progress-spinner>
+        }@else {
+        <span>{{totalFiles}} generierte Anträge</span>
+        <div>
+            <b>Neuster Antrag vom: </b>
+            <span>{{latestFile.uploadDate}}</span>
+        </div>
+        <b>Letzte Antragsart:</b>
+        <span>{{latestFile.antragsart}}</span>
+        }
+        <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
+    </div>
 </app-dashboard-tile>

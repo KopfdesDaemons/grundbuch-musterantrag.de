@@ -1,0 +1,12 @@
+:host {
+  max-width: 800px;
+}
+
+table {
+  margin-top: 0;
+}
+
+.tableContainer {
+  max-height: 800px;
+  overflow-y: scroll;
+}/*# sourceMappingURL=logger-tile.component.css.map */

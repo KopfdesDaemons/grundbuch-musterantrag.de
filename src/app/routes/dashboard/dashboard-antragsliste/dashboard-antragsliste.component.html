@@ -1,17 +1,14 @@
 <app-header></app-header>
 <section>
-  <button (click)="authS.abmelden()" class="logoutBtn btnicon"><fa-icon
-      [icon]="faArrowRightFromBracket"></fa-icon></button>
   <div class="sectiondiv">
-    <h1>Dashboard</h1>
+    <h1>Generierte Anträge</h1>
 
     <!-- Tabellen ControllHeader -->
     <div class="tableHeader">
-      <h2>Generierte Anträge</h2>
-      <span>Anträge: {{uploadsdS.uploadsData && uploadsdS.uploadsData.totalFiles}} </span>
       <button class="reloadBtn">
         <fa-icon [icon]="faRotateRight" (click)="reloadFiles()">Neuladen</fa-icon>
       </button>
+      <span>Anträge: {{uploadsdS.uploadsData && uploadsdS.uploadsData.totalFiles}} </span>
       <button class="btntext" (click)="deleteFolder()">alle löschen</button>
     </div>
 
@@ -63,3 +60,4 @@
 
   </div>
 </section>
+<app-footer></app-footer>
