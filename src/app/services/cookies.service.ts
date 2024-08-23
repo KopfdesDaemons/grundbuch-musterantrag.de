@@ -106,4 +106,27 @@ export class CookiesService {
       return false; // Keine Cookies vorhanden
     }
   }
+
+
+  /**
+   * Liest alle Cookies aus dem Cookie-String
+   * @returns {cookie[]} Array mit allen Cookies
+  */
+  getAllCookies(): cookie[] {
+    const cookies: cookie[] = [];
+    if (!document.cookie) return [];
+
+    const cookieStrings = document.cookie.split(";");
+
+    for (const c of cookieStrings) {
+      const cookie: cookie = {
+        name: c.split("=")[0],
+        value: c.split("=")[1],
+        days: 0,
+        consent: ''
+      }
+      cookies.push(cookie);
+    }
+    return cookies;
+  }
 }

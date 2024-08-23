@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './dashboard-tile.component.scss'
 })
 export class DashboardTileComponent {
-  @Input() title: string = '';
+  @Input() tileTitle: string = '';
 }

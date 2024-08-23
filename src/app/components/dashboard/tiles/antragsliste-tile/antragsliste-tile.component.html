@@ -6,10 +6,10 @@
         <span>{{totalFiles}} generierte Anträge</span>
         <div>
             <b>Neuster Antrag vom: </b>
-            <span>{{latestFile.uploadDate}}</span>
+            <span>{{latestFile?.uploadDate}}</span>
         </div>
         <b>Letzte Antragsart:</b>
-        <span>{{latestFile.antragsart}}</span>
+        <span>{{latestFile?.antragsart}}</span>
         }
         <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
     </div>

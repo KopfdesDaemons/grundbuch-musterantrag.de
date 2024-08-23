@@ -16,7 +16,7 @@ export class LoggerTileComponent implements OnInit {
   // Injections
   loggerS = inject(LoggerService);
 
-  logs: { timestamp: string, message: string }[] | null | undefined = null;
+  logs: { timestamp: string, message: string }[] | null | undefined = undefined;
 
   // Fontawesome Icons
   faTrashCan = faTrashCan;

@@ -2,6 +2,12 @@
   max-width: 800px;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 table {
   margin-top: 0;
 }

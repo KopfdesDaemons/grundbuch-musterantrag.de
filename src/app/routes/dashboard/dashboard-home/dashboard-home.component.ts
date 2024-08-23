@@ -7,6 +7,7 @@ import { AntragslisteTileComponent } from 'src/app/components/dashboard/tiles/an
 import { AuthService } from 'src/app/services/auth.service';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -18,7 +19,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class DashboardHomeComponent {
   // Injections
   authS = inject(AuthService);
+  title = inject(Title);
 
   // FontAwesome Icons
   faArrowRightFromBracket = faArrowRightFromBracket;
+
+  constructor() {
+    this.title.setTitle('Dashboard');
+  }
 }

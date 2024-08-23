@@ -1,14 +1,18 @@
-<app-dashboard-tile title="Server Logs">
-    <div>
+<app-dashboard-tile tileTitle="Server Logs">
+    <div class="content">
+        @if(logs) {
         <a class="btntext" (click)="loggerS.openLogFileInNewTab()">öffne Logfile</a>
         <button (click)="deleteLogFile()" class="btnicon">
             <fa-icon [icon]="faTrashCan"></fa-icon>
         </button>
+        }
         @if(logs === undefined) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
-        }@else if (logs === null) {
+        }
+        @if (logs === null) {
         <p>Keine Logs vorhanden</p>
-        }@else {
+        }
+        @if(logs) {
         <div class="tableContainer">
             <table>
                 <thead>

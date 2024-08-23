@@ -1,1 +1,1 @@
-{"version":3,"sources":["logger-tile.component.scss","logger-tile.component.css"],"names":[],"mappings":"AAAA;EACI,gBAAA;ACCJ;;ADEA;EACI,aAAA;ACCJ;;ADEA;EACI,iBAAA;EACA,kBAAA;ACCJ","file":"logger-tile.component.css"}
+{"version":3,"sources":["logger-tile.component.scss","logger-tile.component.css"],"names":[],"mappings":"AAAA;EACI,gBAAA;ACCJ;;ADEA;EACI,aAAA;EACA,sBAAA;EACA,mBAAA;ACCJ;;ADEA;EACI,aAAA;ACCJ;;ADEA;EACI,iBAAA;EACA,kBAAA;ACCJ","file":"logger-tile.component.css"}

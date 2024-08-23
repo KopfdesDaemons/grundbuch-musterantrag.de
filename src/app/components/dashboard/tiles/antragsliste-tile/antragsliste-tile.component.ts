@@ -15,14 +15,15 @@ import { AntragsData } from 'server/models/antragsData';
 export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
   totalFiles: number | undefined;
-  latestFile: AntragsData | undefined;
+  latestFile: AntragsData | null | undefined;
 
   async ngOnInit(): Promise<void> {
     this.totalFiles = await this.uploadsS.getTotalFiles();
     this.latestFile = await this.getLatestFile();
   }
 
-  async getLatestFile(): Promise<AntragsData> {
+  async getLatestFile(): Promise<AntragsData | null> {
+    if (this.uploadsS.uploadsData['totalFiles'] === 0) return null;
     const { files } = await this.uploadsS.getFiles();
     const latestFile: AntragsData = files[0];
     return latestFile;
