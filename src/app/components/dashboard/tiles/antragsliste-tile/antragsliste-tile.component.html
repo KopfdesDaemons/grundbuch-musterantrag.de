@@ -1,15 +1,19 @@
 <app-dashboard-tile>
     <div class="content">
         @if(totalFiles === undefined || latestFile === undefined) {
+        <h2>Generiere Anträge</h2>
         <app-progress-spinner [endless]="true"></app-progress-spinner>
         }@else {
-        <span>{{totalFiles}} generierte Anträge</span>
+        <h2>Generierte Anträge: {{totalFiles}}</h2>
+        @if(latestFile) {
+        <b>Neuster Antrag vom {{latestFile.uploadDate}}:</b>
         <div>
-            <b>Neuster Antrag vom: </b>
-            <span>{{latestFile?.uploadDate}}</span>
+            <span>{{latestFile.antragsart}} </span>
+            <a (click)="uploadsS.getFile(latestFile.fileName, 'pdf')" class="btnicon" title="Pdf öffnen">
+                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+            </a>
         </div>
-        <b>Letzte Antragsart:</b>
-        <span>{{latestFile?.antragsart}}</span>
+        }
         }
         <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
     </div>

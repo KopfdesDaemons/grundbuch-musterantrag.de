@@ -4,10 +4,6 @@
     flex-direction: column;
 }
 
-.sectiondiv {
-    max-width: unset;
-}
-
 .logoutBtn {
     position: absolute;
     top: 4em;
@@ -16,8 +12,11 @@
 
 .tiles {
     width: 100%;
-    display: flex;
+    display: grid;
     gap: 1em;
-    flex-wrap: wrap;
-    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+}
+
+app-logger-tile {
+    grid-column: span 2;
 }

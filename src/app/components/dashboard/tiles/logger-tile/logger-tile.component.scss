@@ -1,18 +1,22 @@
-:host {
-    max-width: 800px;
-}
-
 .content {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.controlls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
 table {
     margin-top: 0;
+    width: 100%;
 }
 
 .tableContainer {
+    width: 100%;
     max-height: 800px;
     overflow-y: scroll;
 }

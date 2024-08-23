@@ -4,11 +4,13 @@ import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 import { AntragsData } from 'server/models/antragsData';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-antragsliste-tile',
   standalone: true,
-  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent],
+  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule],
   templateUrl: './antragsliste-tile.component.html',
   styleUrl: './antragsliste-tile.component.scss'
 })
@@ -16,6 +18,9 @@ export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
   totalFiles: number | undefined;
   latestFile: AntragsData | null | undefined;
+
+  // FontAwesome Icons
+  faArrowUpRightFromSquare = faArrowUpRightFromSquare;
 
   async ngOnInit(): Promise<void> {
     this.totalFiles = await this.uploadsS.getTotalFiles();
