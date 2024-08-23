@@ -28,4 +28,9 @@ export class CookiesTileComponent implements OnInit {
     this.cs.deleteCookie(cookie.name);
     this.cookies = this.cs.getAllCookies();
   }
+
+  deleteAllCookies() {
+    this.cs.deleteAllCookies();
+    this.cookies = this.cs.getAllCookies();
+  }
 }

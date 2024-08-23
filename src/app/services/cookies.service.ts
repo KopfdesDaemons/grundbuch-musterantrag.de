@@ -75,21 +75,20 @@ export class CookiesService {
    * Löscht ein Cookie
    * @param name Der Name des Cookies, der gelöscht werden soll.
    */
-  deleteCookie(name: string) {
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+  deleteCookie(name: string, domain: string = window.location.hostname) {
+    document.cookie = name + `=; domain=${domain}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 
   /**
   * Löscht alle Cookies
   */
-  deleteAllCookies() {
+  deleteAllCookies(domain: string = window.location.hostname) {
     var cookies = document.cookie.split(";");
 
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i];
-      var eqPos = cookie.indexOf("=");
-      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
+    for (const cookie of cookies) {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+      document.cookie = name + `=; domain=${domain}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
   }
 

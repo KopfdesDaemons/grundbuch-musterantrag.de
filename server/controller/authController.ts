@@ -12,15 +12,17 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             res.status(401).json({ message: 'Anmeldedaten unvollständig' });
         }
 
-        if (username === 'rico' && password === secretKey) {
-            if (!secretKey) throw new Error('DASHBOARD_LOGIN_PASSWORD is not defined');
-
-            // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
-            const token = jwt.sign({ username }, secretKey, { expiresIn: '21d' });
-            res.json({ token });
-        } else {
+        // Ungültige Anmeldedaten
+        if (username != 'rico' || password != secretKey) {
             res.status(403).json({ message: 'Ungültige Anmeldedaten' });
         }
+
+        if (!secretKey) throw new Error('DASHBOARD_LOGIN_PASSWORD is not defined');
+
+        // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
+        const token = jwt.sign({ username }, secretKey, { expiresIn: '21d' });
+
+        res.json({ token });
     } catch (error) {
         req.logger.error('Fehler bei der Anmeldung', error);
         res.status(500).send('Serverfehler bei der Anmeldung');
