@@ -15,14 +15,20 @@ export class AuthService {
   private platformId = inject(PLATFORM_ID);
 
   private authToken: string | null = null;
+  private username: string = "";
 
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.authToken = localStorage.getItem('auth_token');
+    this.username = localStorage.getItem('username') || "";
   }
 
   getToken() {
     return this.authToken;
+  }
+
+  getUsername() {
+    return this.username;
   }
 
   async anmelden(username: string, password: string): Promise<{ success: boolean, message: string }> {
@@ -33,6 +39,8 @@ export class AuthService {
       }));
 
       localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('username', username);
+      this.username = username;
       this.authToken = response.token;
       console.log("Login erfolgreich");
       this.router.navigate(['/dashboard']);
@@ -63,6 +71,8 @@ export class AuthService {
   abmelden() {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('username');
+    this.username = "";
     this.authToken = null;
     this.router.navigate(['/login']);
     console.log('Abmeldung erfolgt');

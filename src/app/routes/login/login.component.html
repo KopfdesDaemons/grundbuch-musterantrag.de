@@ -6,7 +6,7 @@
         <form [formGroup]="loginForm" (ngSubmit)="tryLogin()">
             <div class="inputfeld">
                 <input formControlName="username" type="text" id="username" name="username" placeholder="&nbsp;"
-                    autocomplete="username">
+                    autocomplete="username" #username>
                 <label class="placeholder" for="username">Benutzername</label>
             </div>
             <div class="inputfeld">

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
+import { TimeService } from './time.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class LoggerService {
   // Injections
   http = inject(HttpClient);
   authS = inject(AuthService);
+  timeS = inject(TimeService);
 
   async getLogFile(): Promise<{ timestamp: string, message: string }[] | null> {
     try {
@@ -31,12 +33,9 @@ export class LoggerService {
         // Zeitstempel formatieren
         const formattedLogs = logs.map(log => {
           const date = new Date(log.timestamp);
-          const day = String(date.getDate()).padStart(2, '0');
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const year = date.getFullYear();
-          const hours = String(date.getHours()).padStart(2, '0');
-          const minutes = String(date.getMinutes()).padStart(2, '0');
-          const formattedTimestamp = `${day}.${month}.${year} ${hours}.${minutes} Uhr`;
+          const formattedDate = this.timeS.formatDate(date);
+          const formattedTime = this.timeS.formatTime(date);
+          const formattedTimestamp = `${formattedDate} ${formattedTime}`;
 
           return { ...log, timestamp: formattedTimestamp };
         });

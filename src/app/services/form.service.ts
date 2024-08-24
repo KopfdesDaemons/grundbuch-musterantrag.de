@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { Antrag } from '../interfaces/antrag';
+import { TimeService } from './time.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class FormService {
   // Injections
   http = inject(HttpClient);
   scroll = inject(ViewportScroller);
+  timeS = inject(TimeService);
 
   antrag: Antrag | null = null;
   form!: FormGroup;
@@ -96,7 +98,7 @@ export class FormService {
     if (!this.antrag) return;
     this.progress = 100;
     this.antrag.loadFormValue(this.form.value);
-    this.antrag.datum = this.getFormattedDate(new Date());
+    this.antrag.datum = this.timeS.formatDate(new Date());
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {
@@ -144,13 +146,6 @@ export class FormService {
         reject(err);
       }
     });
-  }
-
-  getFormattedDate(date: Date): string {
-    const tag = String(date.getDate()).padStart(2, '0');
-    const monat = String(date.getMonth() + 1).padStart(2, '0');
-    const jahr = date.getFullYear();
-    return `${tag}.${monat}.${jahr}`;
   }
 
   private getRequiredComponents(form: FormGroup): string[] {

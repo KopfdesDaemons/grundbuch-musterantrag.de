@@ -46,7 +46,7 @@ h1 {
 }
 .tableScrollContainer table {
   width: 100%;
-  font-size: clamp(12px, 1vw, 16px);
+  font-size: clamp(12px, 2vw, 16px);
 }
 .tableScrollContainer th {
   text-align: left;

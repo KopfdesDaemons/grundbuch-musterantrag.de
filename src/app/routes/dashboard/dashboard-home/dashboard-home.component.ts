@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Title } from '@angular/platform-browser';
+import { TimeService } from 'src/app/services/time.service';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -20,11 +21,15 @@ export class DashboardHomeComponent {
   // Injections
   authS = inject(AuthService);
   title = inject(Title);
+  timeS = inject(TimeService);
+
+  greeting: string = "";
 
   // FontAwesome Icons
   faArrowRightFromBracket = faArrowRightFromBracket;
 
   constructor() {
     this.title.setTitle('Dashboard');
+    this.greeting = 'Guten ' + this.timeS.getTimeOfDay() + ', ' + this.authS.getUsername() + '!';
   }
 }
