@@ -9,6 +9,8 @@
     padding: 1em;
     border-radius: 4px;
     flex: 1;
+    max-width: 100%;
+    box-sizing: border-box;
 
     h2 {
         margin-top: 0;

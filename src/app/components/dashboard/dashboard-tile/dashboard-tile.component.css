@@ -1,7 +1,16 @@
+:host {
+  height: 100%;
+  display: flex;
+  animation: grow 500ms;
+}
+
 .container {
   background-color: var(--hintergrund-variant-darker);
   padding: 1em;
   border-radius: 4px;
+  flex: 1;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .container h2 {
   margin-top: 0;
