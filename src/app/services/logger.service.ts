@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { TimeService } from './time.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,10 @@ export class LoggerService {
   http = inject(HttpClient);
   authS = inject(AuthService);
   timeS = inject(TimeService);
+  platformID = inject(PLATFORM_ID);
 
   async getLogFile(): Promise<{ timestamp: string, message: string }[] | null> {
+    if (!isPlatformBrowser(this.platformID)) return null;
     try {
       const response: any = await lastValueFrom(
         this.http.get('/api/getLogFile', {

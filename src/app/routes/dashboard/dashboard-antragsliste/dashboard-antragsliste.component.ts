@@ -38,11 +38,13 @@ export class DashboardAntragslisteComponent implements OnInit {
   files: any[] = [];
   private loadedPages: number = 0;
   totalPages: number = 0;
+  totalFiles: number = 0;
   isLoadingNextPage: boolean = false;
 
   async ngOnInit() {
     this.titleService.setTitle('Dashboard');
     this.totalPages = await this.uploadsdS.getTotalPages();
+    this.totalFiles = await this.uploadsdS.getTotalFiles();
     this.loadPage();
   }
 

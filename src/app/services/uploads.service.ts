@@ -18,11 +18,13 @@ export class UploadsService {
   uploadsData: any;
 
   async getTotalPages(): Promise<number> {
+    if (!isPlatformBrowser(this.platformId)) return 0;
     this.uploadsData = await this.getUploadsData();
     return this.uploadsData['totalPages'];
   }
 
-  async getUploadsData(): Promise<any> {
+  private async getUploadsData(): Promise<any> {
+    if (!isPlatformBrowser(this.platformId)) return null;
     try {
       const data = await lastValueFrom(
         this.http.get('/api/uploads', {
@@ -38,6 +40,7 @@ export class UploadsService {
   }
 
   async getFiles(page: number = 1): Promise<{ page: number, files: AntragsData[] }> {
+    if (!isPlatformBrowser(this.platformId)) return { page: 1, files: [] };
     try {
       // Nicht laden, wenn über totalPages
       if (this.uploadsData && page > this.uploadsData['totalPages']) {

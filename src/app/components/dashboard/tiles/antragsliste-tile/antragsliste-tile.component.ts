@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/uploads.service';
@@ -6,6 +6,7 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 import { AntragsData } from 'server/models/antragsData';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-antragsliste-tile',
@@ -18,6 +19,7 @@ export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
   totalFiles: number | undefined;
   latestFile: AntragsData | null | undefined;
+  platformId = inject(PLATFORM_ID);
 
   // FontAwesome Icons
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
@@ -28,6 +30,7 @@ export class AntragslisteTileComponent implements OnInit {
   }
 
   async getLatestFile(): Promise<AntragsData | null> {
+    if (!isPlatformBrowser(this.platformId)) return null;
     if (this.uploadsS.uploadsData['totalFiles'] === 0) return null;
     const { files } = await this.uploadsS.getFiles();
     const latestFile: AntragsData = files[0];
