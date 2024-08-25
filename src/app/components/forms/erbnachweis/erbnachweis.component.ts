@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NachlassAktenzeichenValidator } from 'src/app/validators/nachlassAktenzeichen.validator';
@@ -12,8 +12,7 @@ import { NachlassAktenzeichenValidator } from 'src/app/validators/nachlassAktenz
 })
 
 export class ErbnachweisComponent {
-
-  constructor(public fs: FormService) { }
+  fs = inject(FormService);
 
   /* 
     Prüft ob "Erbnachweis ist vom gleichen Amtsgericht" angehakt ist,

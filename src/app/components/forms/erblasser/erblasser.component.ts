@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
-    selector: 'app-erblasser',
-    templateUrl: './erblasser.component.html',
-    styleUrl: './erblasser.component.scss',
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule]
+  selector: 'app-erblasser',
+  templateUrl: './erblasser.component.html',
+  styleUrl: './erblasser.component.scss',
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule]
 })
 export class ErblasserComponent {
-  form: FormGroup
+  form: FormGroup;
+  fs = inject(FormService);
 
-  constructor(public fs: FormService) {
-    this.form = fs.form.get("erblasser") as FormGroup;
+  constructor() {
+    this.form = this.fs.form.get("erblasser") as FormGroup;
   }
 }

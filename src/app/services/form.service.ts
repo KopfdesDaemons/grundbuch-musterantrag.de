@@ -49,6 +49,7 @@ export class FormService {
   }
 
   nextStep(step: number = this.Step.value + 1): void {
+    // Wenn step möglich ist
     if (step <= this.requiredComponents.length) {
       const nextComponent = this.requiredComponents[step - 1];
       if (this.checkGrundbuchamtSkip(nextComponent)) {

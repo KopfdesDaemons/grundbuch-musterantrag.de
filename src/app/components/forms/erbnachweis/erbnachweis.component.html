@@ -1,4 +1,4 @@
-<form [formGroup]="fs.form">
+<form [formGroup]="fs.form" (ngSubmit)="fs.form.valid && fs.nextStep()">
     <div>
         <h2>Erbnachweis</h2>
         <p>Welcher Erbnachweis liegt vor?</p>
@@ -48,7 +48,6 @@
         @if (fs.getCurrentStep() > 1) {
         <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
         }
-        <button class="btnoutlined" type="button" [disabled]="!fs.form.valid" (click)="fs.nextStep()">
-            Weiter</button>
+        <button class="btnoutlined">Weiter</button>
     </div>
 </form>

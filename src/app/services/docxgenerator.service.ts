@@ -59,6 +59,7 @@ export class DocxgeneratorService {
               paragraphLoop: true,
               linebreaks: true,
               parser: expressionParser,
+              nullGetter() { return ''; }
             });
             doc.setData(antrag);
           } catch (error) {

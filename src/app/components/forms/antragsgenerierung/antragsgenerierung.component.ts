@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, inject, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { faFilePdf, faFileWord } from '@fortawesome/free-regular-svg-icons';
 import { DocxgeneratorService } from 'src/app/services/docxgenerator.service';
 import { FormService } from 'src/app/services/form.service';
@@ -8,25 +8,23 @@ import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinne
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-    selector: 'app-antragsgenerierung',
-    templateUrl: './antragsgenerierung.component.html',
-    styleUrl: './antragsgenerierung.component.scss',
-    standalone: true,
-    imports: [FaIconComponent, ProgressSpinnerComponent],
+  selector: 'app-antragsgenerierung',
+  templateUrl: './antragsgenerierung.component.html',
+  styleUrl: './antragsgenerierung.component.scss',
+  standalone: true,
+  imports: [FaIconComponent, ProgressSpinnerComponent],
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
+  fs = inject(FormService);
+  docxS = inject(DocxgeneratorService);
+  pdfS = inject(PdfgeneratorService);
+  platformId = inject(PLATFORM_ID);
+
   faFileWord = faFileWord;
   faFilePdf = faFilePdf;
 
   docx: any;
   pdf: any;
-
-  constructor(
-    public fs: FormService,
-    public docxS: DocxgeneratorService,
-    public pdfS: PdfgeneratorService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
 
   ngOnDestroy(): void {
     this.docxS.reset();

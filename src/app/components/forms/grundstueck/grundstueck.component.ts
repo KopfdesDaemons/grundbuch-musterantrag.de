@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
-    selector: 'app-grundstueck',
-    templateUrl: './grundstueck.component.html',
-    styleUrls: ['./grundstueck.component.scss'],
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule]
+  selector: 'app-grundstueck',
+  templateUrl: './grundstueck.component.html',
+  styleUrls: ['./grundstueck.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundstueckComponent {
+  form: FormGroup;
+  fs = inject(FormService);
 
-  form: FormGroup
-
-  constructor(public fs: FormService) {
-    this.form = fs.form.get("grundstueck") as FormGroup;
+  constructor() {
+    this.form = this.fs.form.get("grundstueck") as FormGroup;
 
     this.form.get('plz')?.valueChanges.subscribe(async plz => {
       if ((plz as string).length === 5) {

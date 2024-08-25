@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormService } from 'src/app/services/form.service';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-    selector: 'app-hinweis',
-    templateUrl: './hinweis.component.html',
-    styleUrl: './hinweis.component.scss',
-    standalone: true,
-    imports: [FaIconComponent]
+  selector: 'app-hinweis',
+  templateUrl: './hinweis.component.html',
+  styleUrl: './hinweis.component.scss',
+  standalone: true,
+  imports: [FaIconComponent]
 })
 export class HinweisComponent {
+  fs = inject(FormService);
+
   faCircleInfo = faCircleInfo;
 
   index: number = 0;
   hinweise: string[] = [];
   hinweis: string = '';
 
-  constructor(private fs: FormService) {
-    if (!fs.antrag?.hinweise) return;
-    this.hinweise = fs.antrag.hinweise;
+  constructor() {
+    if (!this.fs.antrag?.hinweise) return;
+    this.hinweise = this.fs.antrag.hinweise;
     this.hinweis = this.hinweise[this.index];
   }
 

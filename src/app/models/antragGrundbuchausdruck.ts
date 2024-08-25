@@ -24,7 +24,7 @@ export class AntragGrundbuchausdruck implements Antrag {
 
     datum: string = '';
     kosten: '10,00 €' | '20,00 €' = '10,00 €';
-    betreff: string = 'Grundbuchsache';
+    betreff: string = '';
     templateFileName: string = 'grundbuchausdruck';
 
     loadFormValue(formValue: object): void {
@@ -34,6 +34,7 @@ export class AntragGrundbuchausdruck implements Antrag {
             this.antragsteller = new Antragsteller();
             Object.assign(this.antragsteller, antrag.antragsteller)
 
+            if (!antrag.grundstueck.blattnummer) antrag.grundstueck.blattnummer = '';
             this.betreff = `${antrag.grundstueck.gemarkung} ${antrag.grundstueck.blattnummer}`;
         }
     }

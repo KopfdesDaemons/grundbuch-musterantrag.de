@@ -1,4 +1,4 @@
-<form [formGroup]="fs.form">
+<form [formGroup]="fs.form" (ngSubmit)="fs.nextStep()">
     <div>
         <h2>Form des Ausdrucks</h2>
         <div class="formularcontent">
@@ -29,7 +29,6 @@
         @if (fs.getCurrentStep() > 1) {
         <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
         }
-        <button class="btnoutlined" id="weiterbtn" type="button" (click)="fs.nextStep()">
-            Weiter</button>
+        <button class="btnoutlined">Weiter</button>
     </div>
 </form>

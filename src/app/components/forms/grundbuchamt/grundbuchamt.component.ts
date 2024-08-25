@@ -1,20 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
-    selector: 'app-grundbuchamt',
-    templateUrl: './grundbuchamt.component.html',
-    styleUrls: ['./grundbuchamt.component.scss'],
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule]
+  selector: 'app-grundbuchamt',
+  templateUrl: './grundbuchamt.component.html',
+  styleUrls: ['./grundbuchamt.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundbuchamtComponent {
-  form: FormGroup
+  form: FormGroup;
 
-  constructor(public fs: FormService, public http: HttpClient) {
-    this.form = fs.form.get("grundbuchamt") as FormGroup;
+  fs = inject(FormService);
+  http = inject(HttpClient);
+
+  constructor() {
+    this.form = this.fs.form.get("grundbuchamt") as FormGroup;
 
     this.form.get('plz')?.valueChanges.subscribe(async plz => {
 
