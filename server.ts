@@ -6,15 +6,16 @@ import path, { dirname, join, resolve } from 'node:path';
 import AppServerModule from './src/main.server';
 import loggerMiddleware from './server/middleware/loggerMiddleware';
 import authMiddleware from './server/middleware/authMiddleware';
-import * as directoryController from './server/controller/directoryController';
 import * as authController from './server/controller/authController';
-import * as scrapingController from './server/controller/scrapingController';
-import * as loggerController from './server/controller/loggerController';
-import submitForm from './server/routes/submitForm'
+import submitForm from './server/routes/submitForm';
+import uploads from './server/routes/uploads';
 import { Logger } from 'winston';
 import fileUpload from 'express-fileupload';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
+import { amtsgerichtausplz } from './server/controller/scrapingController';
+import { deleteLogFile, getLogFile } from './server/controller/loggerController';
+import { generateStatisticFromFiles, getStatistic } from 'server/controller/statisticController';
 
 declare global {
   namespace Express {
@@ -60,34 +61,15 @@ export function app(): express.Express {
   // Routen, welche nur einen Controller ansprechen
   server.post('/api/login', authController.login);
   server.post('/login', authController.login);
-  server.get('/api/uploads', authMiddleware, (req, res) => directoryController.getFileList(req, res, UPLOADS_FOLDER_PATH));
-  server.delete('/api/uploads/deleteFiles', authMiddleware, (req, res) => {
-    const fileName = req.query['fileName'] as string;
-    if (!fileName) res.status(400).send('Fehlender Dateiname');
-    const folderPath = path.join(UPLOADS_FOLDER_PATH, fileName);
-    directoryController.deleteFolder(req, res, folderPath);
-  });
-  server.delete('/api/uploads', authMiddleware, (req, res) => directoryController.deleteFolderContent(req, res, UPLOADS_FOLDER_PATH));
-  server.get('/api/uploads/getFile', authMiddleware, (req, res) => {
-    const fileNameWithExtension: string = req.query['fileName'] as string;
-
-    if (!fileNameWithExtension) {
-      res.status(400).send('Fehlender Dateiname');
-      return;
-    }
-
-    const fileWithoutExtension: string = fileNameWithExtension.split('.')[0];
-    const folderPath: string = path.join(UPLOADS_FOLDER_PATH, fileWithoutExtension);
-
-    directoryController.getFile(req, res, folderPath, fileNameWithExtension);
-
-  });
-  server.get('/api/amtsgerichtausplz', scrapingController.amtsgerichtausplz);
-  server.delete('/api/deleteLogFile', authMiddleware, loggerController.deleteLogFile);
-  server.get('/api/getLogFile', authMiddleware, loggerController.getLogFile);
+  server.get('/api/amtsgerichtausplz', amtsgerichtausplz);
+  server.delete('/api/deleteLogFile', authMiddleware, deleteLogFile);
+  server.get('/api/getLogFile', authMiddleware, getLogFile);
+  server.get('/api/getStatistic', authMiddleware, getStatistic);
+  server.post('/api/generateStatistic', authMiddleware, generateStatisticFromFiles);
 
   // ausgelagerte Routen
   server.use('/', submitForm);
+  server.use('/', uploads)
 
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {

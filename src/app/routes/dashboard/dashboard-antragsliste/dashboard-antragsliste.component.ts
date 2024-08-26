@@ -68,8 +68,8 @@ export class DashboardAntragslisteComponent implements OnInit {
 
   async reloadFiles() {
     this.loadedPages = 0;
-    this.files = [];
     this.totalPages = await this.uploadsdS.getTotalPages();
+    this.files = [];
     this.loadPage();
   }
 

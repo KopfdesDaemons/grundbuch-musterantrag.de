@@ -4,6 +4,8 @@ import moment from 'moment';
 import * as fs from 'fs';
 import * as converterController from '../controller/converterController';
 import { fileURLToPath } from 'url';
+import { changeStatistic } from 'server/controller/statisticController';
+import { Antrag } from 'src/app/interfaces/antrag';
 
 const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
 const UPLOADS_FOLDER_PATH = path.join(SERVER_DIST_FOLDER, '/uploads');
@@ -16,6 +18,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
     const { data } = req.body;
     if (!data) return res.status(400).send('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
+    const antrag = JSON.parse(data) as Antrag;
 
     const filename = moment().format('YYYY-MM-DD-HH-mm-ss');
 
@@ -40,11 +43,13 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
     // Speichere Antragsdaten in JSON-Datei
     try {
-      const formattedData = JSON.stringify(JSON.parse(data), null, 2);
+      const formattedData = JSON.stringify(antrag, null, 2);
       await fs.promises.writeFile(filePathJSON, formattedData, 'utf-8');
     } catch (error) {
       req.logger.error('Fehler beim Speichern der Daten in der JSON-Datei:', error);
     }
+
+    changeStatistic(req, res, antrag.title, 1);
 
     // Überprüfe ob die PDF-Datei erstellt wurde
     if (!fs.existsSync(filePathPdf)) {
