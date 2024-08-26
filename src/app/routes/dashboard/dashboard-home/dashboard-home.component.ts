@@ -9,11 +9,12 @@ import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Title } from '@angular/platform-browser';
 import { TimeService } from 'src/app/services/time.service';
+import { AntragsartenTileComponent } from "../../../components/dashboard/tiles/antragsarten-tile/antragsarten-tile.component";
 
 @Component({
   selector: 'app-dashboard-home',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule],
+  imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent],
   templateUrl: './dashboard-home.component.html',
   styleUrl: './dashboard-home.component.scss'
 })

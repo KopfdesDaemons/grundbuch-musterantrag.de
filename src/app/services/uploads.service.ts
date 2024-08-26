@@ -112,6 +112,37 @@ export class UploadsService {
     return this.uploadsData['totalFiles'];
   }
 
+  async getStatistic(): Promise<any> {
+    if (!isPlatformBrowser(this.platformId)) return;
+    try {
+      const data = await lastValueFrom(
+        this.http.get('/api/getStatistic', {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+        })
+      );
+      return data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+  async generateStatistic(): Promise<any> {
+    if (!isPlatformBrowser(this.platformId)) return;
+    try {
+      const data = await lastValueFrom(
+        this.http.post('/api/generateStatistic', {}, {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+          responseType: 'json'
+        })
+      );
+      return data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
   async deleteFile(name: string) {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/deleteFiles', {

@@ -1,0 +1,32 @@
+<app-dashboard-tile>
+    <div class="content">
+        @if(!statistic) {
+        <app-progress-spinner [endless]="true"></app-progress-spinner>
+        }@else {
+        <div class="scrollContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <span>Antragsart</span>
+                            <button class="reloadBtn">
+                                <fa-icon [icon]="faRotateRight" (click)="loadStatistic()" title="Neuladen"></fa-icon>
+                            </button>
+                        </th>
+                        <th>Anzahl</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(s of statistic; track s) {
+                    <tr>
+                        <td class="antragsart">{{ s.antragsart }}</td>
+                        <td>{{ s.anzahl }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+        <button class="btntext" (click)="genereateStatistic()">Anträge neu zählen</button>
+    </div>
+</app-dashboard-tile>

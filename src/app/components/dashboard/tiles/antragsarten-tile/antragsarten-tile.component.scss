@@ -1,0 +1,37 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+}
+
+.scrollContainer {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    margin-top: 0;
+
+    td {
+        overflow: hidden;
+    }
+
+    tr {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .antragsart {
+        flex: 1;
+    }
+}
+
+.reloadBtn {
+    padding: 0;
+    margin: 0 0.5em;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+}
