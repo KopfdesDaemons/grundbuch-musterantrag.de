@@ -22,7 +22,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     const filename = moment().format('YYYY-MM-DD-HH-mm-ss');
 
     // Erstelle Ordner für Antragsdateien
-    const antragsFolderPath = path.join(UPLOADS_FOLDER_PATH, '/' + filename);
+    const antragsFolderPath = path.join(UPLOADS_FOLDER_PATH, filename);
     await fs.promises.mkdir(antragsFolderPath, { recursive: true });
 
     const filePathDocx = path.join(antragsFolderPath, `${filename}.docx`);
@@ -32,13 +32,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     // Speichere die DOCX-Datei im Upload-Ordner
     await docx.mv(filePathDocx);
 
-    // Konvertiere DOCX in PDF
-    try {
-      await converterController.convertToPdf(filePathDocx, antragsFolderPath);
-    } catch (convertError) {
-      logger.error('Fehler bei der Konvertierung:', convertError);
-      return res.status(500).send('Fehler bei der Konvertierung der Datei.');
-    }
+    await changeStatistic(antrag.title, 1);
 
     // Speichere Antragsdaten in JSON-Datei
     try {
@@ -48,7 +42,14 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       logger.error('Fehler beim Speichern der Daten in der JSON-Datei:', error);
     }
 
-    changeStatistic(antrag.title, 1);
+    // Konvertiere DOCX in PDF
+    try {
+      await converterController.convertToPdf(filePathDocx, antragsFolderPath);
+    } catch (convertError) {
+      logger.error('Fehler bei der Konvertierung:', convertError);
+      return res.status(500).send('Fehler bei der Konvertierung der Datei.');
+    }
+
 
     // Überprüfe ob die PDF-Datei erstellt wurde
     if (!fs.existsSync(filePathPdf)) {

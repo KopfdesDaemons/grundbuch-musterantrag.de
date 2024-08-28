@@ -6,7 +6,7 @@ import path, { dirname, join, resolve } from 'node:path';
 import AppServerModule from './src/main.server';
 import authMiddleware from './server/middleware/authMiddleware';
 import * as authController from './server/controller/authController';
-import submitForm from './server/routes/submitForm';
+import submitForm from './server/controller/submitFormController';
 import uploads from './server/routes/uploads';
 import { Logger } from 'winston';
 import fileUpload from 'express-fileupload';
