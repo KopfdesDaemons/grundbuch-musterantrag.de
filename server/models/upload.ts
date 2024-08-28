@@ -1,4 +1,4 @@
-export class AntragsData {
+export class Upload {
     fileName: string = '';
     docxFile: boolean = false;
     pdfFile: boolean = false;

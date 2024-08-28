@@ -1,7 +1,8 @@
+// src/middlewares/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
-import * as jwt from 'jsonwebtoken';
+import { verifyToken } from '../services/authService';
+import logger from '../config/logger';
 
-// Middleware für Authentifizierung
 export default async function authMiddleware(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
         const authHeader = req.headers['authorization'];
@@ -10,19 +11,17 @@ export default async function authMiddleware(req: Request, res: Response, next: 
         // Unauthorized
         if (token == null) return res.sendStatus(401);
 
-        const secretKey: string | undefined = process.env['DASHBOARD_LOGIN_PASSWORD'];
-        if (!secretKey) throw new Error('DASHBOARD_LOGIN_PASSWORD is not defined');
-
-        jwt.verify(token, secretKey, (err: any, user: any) => {
-            // Forbidden
-            if (err) return res.sendStatus(403);
-
-            // Authenticated
+        // Verifiziere das Token über den Service
+        try {
+            const user = await verifyToken(token);
             req.body.user = user;
             return next();
-        });
+        } catch (error) {
+            // Forbidden
+            return res.sendStatus(403);
+        }
     } catch (error) {
-        req.logger.error(`Fehler bei der Authentifizierung:`, error);
+        logger.error('Fehler bei der Authentifizierung:', error);
         res.status(500).send('Interner Serverfehler');
     }
 };

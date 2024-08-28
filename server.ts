@@ -4,7 +4,6 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import path, { dirname, join, resolve } from 'node:path';
 import AppServerModule from './src/main.server';
-import loggerMiddleware from './server/middleware/loggerMiddleware';
 import authMiddleware from './server/middleware/authMiddleware';
 import * as authController from './server/controller/authController';
 import submitForm from './server/routes/submitForm';
@@ -13,9 +12,9 @@ import { Logger } from 'winston';
 import fileUpload from 'express-fileupload';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
-import { amtsgerichtausplz } from './server/controller/scrapingController';
+import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
-import { generateStatisticFromFiles, getStatistic } from 'server/controller/statisticController';
+import { generateStatistic as handleGenerateStatistic, getStatistic } from 'server/controller/statisticController';
 
 declare global {
   namespace Express {
@@ -56,16 +55,15 @@ export function app(): express.Express {
   // Middlewares für die gesamte App
   server.use(fileUpload());
   server.use(express.json());
-  server.use(loggerMiddleware);
 
   // Routen, welche nur einen Controller ansprechen
   server.post('/api/login', authController.login);
   server.post('/login', authController.login);
-  server.get('/api/amtsgerichtausplz', amtsgerichtausplz);
+  server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
   server.delete('/api/deleteLogFile', authMiddleware, deleteLogFile);
   server.get('/api/getLogFile', authMiddleware, getLogFile);
   server.get('/api/getStatistic', authMiddleware, getStatistic);
-  server.post('/api/generateStatistic', authMiddleware, generateStatisticFromFiles);
+  server.post('/api/generateStatistic', authMiddleware, handleGenerateStatistic);
 
   // ausgelagerte Routen
   server.use('/', submitForm);

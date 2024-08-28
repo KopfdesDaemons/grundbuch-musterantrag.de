@@ -3,7 +3,7 @@ import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.comp
 import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
-import { AntragsData } from 'server/models/antragsData';
+import { Upload } from 'server/models/upload';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { isPlatformBrowser } from '@angular/common';
@@ -18,7 +18,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
   totalFiles: number | undefined;
-  latestFile: AntragsData | null | undefined;
+  latestFile: Upload | null | undefined;
   platformId = inject(PLATFORM_ID);
 
   // FontAwesome Icons
@@ -29,11 +29,11 @@ export class AntragslisteTileComponent implements OnInit {
     this.latestFile = await this.getLatestFile();
   }
 
-  async getLatestFile(): Promise<AntragsData | null> {
+  async getLatestFile(): Promise<Upload | null> {
     if (!isPlatformBrowser(this.platformId)) return null;
     if (this.uploadsS.uploadsData['totalFiles'] === 0) return null;
     const { files } = await this.uploadsS.getFiles();
-    const latestFile: AntragsData = files[0];
+    const latestFile: Upload = files[0];
     return latestFile;
   }
 }

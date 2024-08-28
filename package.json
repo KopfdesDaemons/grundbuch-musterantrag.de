@@ -9,6 +9,13 @@
     "test": "ng test",
     "serve:ssr:grundbuch": "node dist/server/server.mjs"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "dist/server/uploads/*",
+      "dist/server/statistic.json",
+      "dist/server/logFile.log"
+    ]
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.0.6",

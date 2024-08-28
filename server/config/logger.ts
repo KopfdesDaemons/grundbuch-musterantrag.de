@@ -1,5 +1,4 @@
 import { createLogger, transports, format } from 'winston';
-import { Request, Response, NextFunction } from 'express'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -25,7 +24,4 @@ const logger = createLogger({
     exitOnError: false,
 });
 
-export default function loggerMiddleware(req: Request, res: Response, next: NextFunction) {
-    req.logger = logger;
-    next();
-};
+export default logger;

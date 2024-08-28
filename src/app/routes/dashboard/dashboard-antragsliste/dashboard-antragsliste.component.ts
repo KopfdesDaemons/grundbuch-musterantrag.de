@@ -43,9 +43,7 @@ export class DashboardAntragslisteComponent implements OnInit {
 
   async ngOnInit() {
     this.titleService.setTitle('Dashboard');
-    this.totalPages = await this.uploadsdS.getTotalPages();
-    this.totalFiles = await this.uploadsdS.getTotalFiles();
-    this.loadPage();
+    this.reloadFiles();
   }
 
   scroll(element: any) {
@@ -55,6 +53,7 @@ export class DashboardAntragslisteComponent implements OnInit {
   }
 
   async loadPage(pageNumber: number = 1) {
+    if (pageNumber > this.totalPages) return;
     try {
       this.isLoadingNextPage = true;
       const { page, files } = await this.uploadsdS.getFiles(pageNumber);
@@ -69,6 +68,7 @@ export class DashboardAntragslisteComponent implements OnInit {
   async reloadFiles() {
     this.loadedPages = 0;
     this.totalPages = await this.uploadsdS.getTotalPages();
+    this.totalFiles = await this.uploadsdS.getTotalFiles();
     this.files = [];
     this.loadPage();
   }
@@ -78,8 +78,8 @@ export class DashboardAntragslisteComponent implements OnInit {
     this.reloadFiles();
   }
 
-  deleteFolder() {
-    this.uploadsdS.deleteFolder();
+  async deleteFolder() {
+    await this.uploadsdS.deleteFolder();
     this.reloadFiles();
   }
 

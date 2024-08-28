@@ -1,30 +1,26 @@
+// src/controllers/authController.ts
 import { Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
+import { authenticateUser } from '../services/authService';
+import logger from 'server/config/logger';
 
 export const login = async (req: Request, res: Response): Promise<any> => {
     const { username, password } = req.body;
 
     try {
-        const secretKey: string | undefined = process.env['DASHBOARD_LOGIN_PASSWORD'];
-
         // Unvollständige Anmeldedaten
         if (!username || !password) {
             return res.status(401).json({ message: 'Anmeldedaten unvollständig' });
         }
 
-        // Ungültige Anmeldedaten
-        if (username != 'Rico' || password != secretKey) {
-            return res.status(403).json({ message: 'Ungültige Anmeldedaten' });
-        }
-
-        if (!secretKey) throw new Error('DASHBOARD_LOGIN_PASSWORD is not defined');
-
-        // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
-        const token = jwt.sign({ username }, secretKey, { expiresIn: '21d' });
+        // Authentifizierung durch den Service
+        const token = await authenticateUser(username, password);
 
         return res.json({ token });
-    } catch (error) {
-        req.logger.error('Fehler bei der Anmeldung', error);
+    } catch (error: any) {
+        logger.error('Fehler bei der Anmeldung', error);
+        if (error.message === 'Invalid credentials') {
+            return res.status(403).json({ message: 'Ungültige Anmeldedaten' });
+        }
         return res.status(500).send('Serverfehler bei der Anmeldung');
     }
 };

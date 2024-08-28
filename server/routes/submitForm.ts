@@ -2,13 +2,12 @@ import path from 'path';
 import express, { Request, Response } from 'express';
 import moment from 'moment';
 import * as fs from 'fs';
-import * as converterController from '../controller/converterController';
-import { fileURLToPath } from 'url';
-import { changeStatistic } from 'server/controller/statisticController';
+import * as converterController from '../services/converterService';
+import { changeStatistic } from 'server/services/statisticService';
 import { Antrag } from 'src/app/interfaces/antrag';
+import { UPLOADS_FOLDER_PATH } from 'server/config/config';
+import logger from 'server/config/logger';
 
-const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
-const UPLOADS_FOLDER_PATH = path.join(SERVER_DIST_FOLDER, '/uploads');
 const router = express.Router();
 
 router.post('/api/submitForm', async (req: Request, res: Response) => {
@@ -37,7 +36,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     try {
       await converterController.convertToPdf(filePathDocx, antragsFolderPath);
     } catch (convertError) {
-      req.logger.error('Fehler bei der Konvertierung:', convertError);
+      logger.error('Fehler bei der Konvertierung:', convertError);
       return res.status(500).send('Fehler bei der Konvertierung der Datei.');
     }
 
@@ -46,10 +45,10 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       const formattedData = JSON.stringify(antrag, null, 2);
       await fs.promises.writeFile(filePathJSON, formattedData, 'utf-8');
     } catch (error) {
-      req.logger.error('Fehler beim Speichern der Daten in der JSON-Datei:', error);
+      logger.error('Fehler beim Speichern der Daten in der JSON-Datei:', error);
     }
 
-    changeStatistic(req, res, antrag.title, 1);
+    changeStatistic(antrag.title, 1);
 
     // Überprüfe ob die PDF-Datei erstellt wurde
     if (!fs.existsSync(filePathPdf)) {
@@ -61,7 +60,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     return res.contentType('application/pdf').sendFile(filePathPdf);
 
   } catch (error) {
-    req.logger.error('Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.', error);
+    logger.error('Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.', error);
     return res.status(500).send('Interner Serverfehler.');
   }
 });

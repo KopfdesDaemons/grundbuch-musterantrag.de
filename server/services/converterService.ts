@@ -1,10 +1,12 @@
 import { spawn } from 'child_process';
 
 export const convertToPdf = async (docxFilePath: string, folderPath: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-        const args = ['--convert-to', 'pdf', docxFilePath, '--outdir', folderPath];
-        const child = spawn('soffice', args);
+    const args = ['--convert-to', 'pdf', docxFilePath, '--outdir', folderPath];
 
+    const child = spawn('soffice', args);
+
+    // Die Funktion wartet auf den Abschluss des Prozesses und gibt ein Ergebnis zurück.
+    const promise = new Promise<void>((resolve, reject) => {
         child.on('error', (err) => {
             reject(err);
         });
@@ -17,4 +19,6 @@ export const convertToPdf = async (docxFilePath: string, folderPath: string): Pr
             }
         });
     });
+
+    await promise;
 };

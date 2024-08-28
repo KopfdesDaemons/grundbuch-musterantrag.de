@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import FileSaver from 'file-saver';
 import { isPlatformBrowser } from '@angular/common';
-import { AntragsData } from 'server/models/antragsData';
+import { Upload } from 'server/models/upload';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class UploadsService {
     }
   }
 
-  async getFiles(page: number = 1): Promise<{ page: number, files: AntragsData[] }> {
+  async getFiles(page: number = 1): Promise<{ page: number, files: Upload[] }> {
     if (!isPlatformBrowser(this.platformId)) return { page: 1, files: [] };
     try {
       // Nicht laden, wenn über totalPages
@@ -61,8 +61,6 @@ export class UploadsService {
 
     } catch (err: any) {
       console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
-      console.log(err.status);
-
       if (err.status === 403) this.authS.abmelden();
       throw err;
     }

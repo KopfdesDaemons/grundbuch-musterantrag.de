@@ -7,7 +7,7 @@
         <h2>Generierte Anträge: {{totalFiles}}</h2>
         @if(latestFile) {
         <b>Neuster Antrag vom {{latestFile.uploadDate}}:</b>
-        <div>
+        <div class="latestfile">
             <span>{{latestFile.antragsart}} </span>
             <a (click)="uploadsS.getFile(latestFile.fileName, 'pdf')" class="btnicon" title="Pdf öffnen">
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
