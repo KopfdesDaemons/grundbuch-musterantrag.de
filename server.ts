@@ -1,31 +1,20 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
 import express from 'express';
-import { fileURLToPath } from 'node:url';
-import path, { dirname, join, resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 import AppServerModule from './src/main.server';
 import authMiddleware from './server/middleware/authMiddleware';
 import * as authController from './server/controller/authController';
 import submitForm from './server/controller/submitFormController';
-import uploads from './server/routes/uploads';
-import { Logger } from 'winston';
+import uploads from './server/routes/uploadsRoutes';
 import fileUpload from 'express-fileupload';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
 import { generateStatistic as handleGenerateStatistic, getStatistic } from 'server/controller/statisticController';
+import { SERVER_DIST_FOLDER, UPLOADS_FOLDER_PATH } from 'server/config/config';
 
-declare global {
-  namespace Express {
-    interface Request {
-      logger: Logger
-    }
-  }
-}
-
-const SERVER_DIST_FOLDER = dirname(fileURLToPath(import.meta.url));
-const UPLOADS_FOLDER_PATH: string = path.join(SERVER_DIST_FOLDER, '/uploads')
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {

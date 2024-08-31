@@ -11,7 +11,7 @@ export const authenticateUser = async (username: string, password: string): Prom
     }
 
     if (username !== 'Rico' || password !== secretKey) {
-        throw new Error('Invalid credentials');
+        throw new Error('Ungültiger Anmeldeversuch unter dem Nutzernamen ' + username);
     }
 
     // Erstelle ein Token mit einer Gültigkeit von 3 Wochen

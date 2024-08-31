@@ -31,10 +31,18 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 # Wichtige Befehle
 
-## Backend Development
+## Development
 
 - `ng build --watch`
 - `nodemon dist/server/server.mjs`
+
+## Frontend Development with Hot Reload (without backend server)
+
+- `ng serve`
+
+## Deployment
+
+- github action "Deploy to Server"
 
 ## pm2
 

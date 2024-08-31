@@ -17,7 +17,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 
         return res.json({ token });
     } catch (error: any) {
-        logger.error('Fehler bei der Anmeldung', error);
+        logger.error('Fehler bei der Anmeldung:', error);
         if (error.message === 'Invalid credentials') {
             return res.status(403).json({ message: 'Ungültige Anmeldedaten' });
         }
