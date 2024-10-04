@@ -1,7 +1,7 @@
 <app-dashboard-tile>
     <div class="content">
         @if(totalFiles === undefined || latestFile === undefined) {
-        <h2>Generiere Anträge</h2>
+        <h2>Generierte Anträge</h2>
         <app-progress-spinner [endless]="true"></app-progress-spinner>
         }@else {
         <h2>Generierte Anträge: {{totalFiles}}</h2>

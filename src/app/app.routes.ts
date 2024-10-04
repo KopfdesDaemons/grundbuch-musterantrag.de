@@ -33,8 +33,8 @@ export const routes: Routes = [
     {
         path: 'dashboard'
         , children: [
-            { path: '', loadComponent: () => import('./routes/dashboard/dashboard-home/dashboard-home.component').then(m => m.DashboardHomeComponent) },
-            { path: 'antragsliste', loadComponent: () => import('./routes/dashboard/dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent) },
+            { path: '', loadComponent: () => import('./routes/dashboard/dashboard-home/dashboard-home.component').then(m => m.DashboardHomeComponent), canActivate: [AuthGuard] },
+            { path: 'antragsliste', loadComponent: () => import('./routes/dashboard/dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent), canActivate: [AuthGuard] },
         ]
     },
     { path: 'login', loadComponent: () => import('./routes/login/login.component').then(m => m.LoginComponent) },

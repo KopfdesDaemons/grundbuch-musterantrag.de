@@ -47,7 +47,7 @@ export function app(): express.Express {
 
   // Routen, welche nur einen Controller ansprechen
   server.post('/api/login', authController.login);
-  server.post('/login', authController.login);
+  server.get('/api/checkAuth', authController.checkToken);
   server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
   server.delete('/api/deleteLogFile', authMiddleware, deleteLogFile);
   server.get('/api/getLogFile', authMiddleware, getLogFile);

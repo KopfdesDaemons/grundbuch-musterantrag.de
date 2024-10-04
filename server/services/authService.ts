@@ -1,4 +1,3 @@
-// src/services/authService.ts
 import * as jwt from 'jsonwebtoken';
 
 const SECRET_KEY_ENV_VAR = 'DASHBOARD_LOGIN_PASSWORD';
@@ -11,7 +10,7 @@ export const authenticateUser = async (username: string, password: string): Prom
     }
 
     if (username !== 'Rico' || password !== secretKey) {
-        throw new Error('Ungültiger Anmeldeversuch unter dem Nutzernamen ' + username);
+        throw new Error('Ungültige Anmeldedaten');
     }
 
     // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
@@ -19,21 +18,25 @@ export const authenticateUser = async (username: string, password: string): Prom
     return token;
 };
 
+/** 
+*   Prüft, ob das Token gültig ist
+*   @param token Das zu prüfende Token.
+*   @returns username und Generierungszeitpunkt und Ablauffzeitpunkt  
+*/
+export const verifyToken = async (token: string): Promise<any> => {
+    const secretKey: string | undefined = process.env[SECRET_KEY_ENV_VAR];
 
-export const verifyToken = (token: string): Promise<any> => {
+    if (!secretKey) {
+        throw new Error('SECRET_KEY is not defined');
+    }
+
     return new Promise((resolve, reject) => {
-        const secretKey: string | undefined = process.env[SECRET_KEY_ENV_VAR];
-
-        if (!secretKey) {
-            return reject(new Error('SECRET_KEY is not defined'));
-        }
-
         jwt.verify(token, secretKey, (err, user) => {
             if (err) {
-                return reject(err);
+                return reject(new Error('Token ungültig'));
             }
+
             resolve(user);
         });
     });
 };
-

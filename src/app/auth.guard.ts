@@ -12,21 +12,16 @@ export class AuthGuard {
 
   constructor(public cs: CookiesService, public router: Router, @Inject(PLATFORM_ID) private platformId: Object, private authS: AuthService) { }
 
-  canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot): Promise<Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree> {
 
     if (!isPlatformBrowser(this.platformId)) return false;
-    const token = this.checkToken();
-    if (!token) this.router.navigate(['/']);
-    return token;
-  }
-
-  checkToken() {
-    if (!isPlatformBrowser(this.platformId)) return false;
-    const token = this.authS.getToken();
-    if (token) return true;
-    console.log('Angular AuthGuard: No token found');
-    return false;
+    const valid = await this.authS.ckeckAuth();
+    if (!valid) {
+      console.log('Angular AuthGuard: Authentication not valid');
+      this.authS.abmelden();
+    }
+    return valid;
   }
 }

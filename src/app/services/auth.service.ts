@@ -1,8 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
 @Injectable({
@@ -84,5 +85,23 @@ export class AuthService {
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
+  }
+
+  async ckeckAuth(): Promise<boolean> {
+    try {
+      if (!isPlatformBrowser(this.platformId)) return false;
+      await lastValueFrom(this.http.get('/api/checkAuth', {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${this.getToken()}`,
+        }),
+        responseType: 'text'
+      }))
+      return true;
+    } catch (error: any) {
+      if (error.status == 401 || error.status == 403) {
+        return false;
+      }
+      throw error;
+    }
   }
 }
