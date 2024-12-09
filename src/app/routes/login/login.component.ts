@@ -24,7 +24,11 @@ export class LoginComponent implements AfterViewInit {
 
   async tryLogin() {
     if (this.loginForm.invalid) return;
-    const result = await this.authS.anmelden(this.loginForm.value.username, this.loginForm.value.password);
+
+    const username = this.loginForm.value.username.trim();
+    const password = this.loginForm.value.password;
+
+    const result = await this.authS.anmelden(username, password);
 
     if (!result.success) {
       this.errorMessage = result.message;

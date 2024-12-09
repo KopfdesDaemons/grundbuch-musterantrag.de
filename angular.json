@@ -57,7 +57,8 @@
             "prerender": true,
             "ssr": {
               "entry": "server.ts"
-            }
+            },
+            "statsJson": true
           },
           "configurations": {
             "production": {
