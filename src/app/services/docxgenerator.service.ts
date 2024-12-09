@@ -16,87 +16,89 @@ export class DocxgeneratorService {
 
   async generate(antrag: Antrag) {
     this.reset();
-
     if (!isPlatformBrowser(this.platformId)) return;
 
-    let Docxtemplater: any;
-    let expressionParser: any;
-    let PizZip: any;
-    let PizZipUtils: any;
 
-    return new Promise(async (resolve) => {
-      try {
-        // importiere die notwendigen Skripte
-        this.statusmeldung.set('Die benötigten Libraries werden heruntergeladen.');
-        Docxtemplater = (await import('docxtemplater')).default;
-        expressionParser = (await import('docxtemplater/expressions.js')).default;
-        PizZip = (await import('pizzip')).default;
-        PizZipUtils = (await import('pizzip/utils/index.js')).default;
-      } catch (error: any) {
-        this.statusmeldung.set('Fehler beim Laden der benötigten Libraries.');
-        this.fehler.set(true)
-        throw error;
-      }
+    // importiere die notwendigen Skripte
+    let Docxtemplater: any, expressionParser: any, PizZip: any, PizZipUtils: any;
+    this.statusmeldung.set('Die benötigten Libraries werden heruntergeladen.');
+    try {
+      Docxtemplater = (await import('docxtemplater')).default;
+      expressionParser = (await import('docxtemplater/expressions.js')).default;
+      PizZip = (await import('pizzip')).default;
+      PizZipUtils = (await import('pizzip/utils/index.js')).default;
+    } catch (error: any) {
+      this.statusmeldung.set('Fehler beim Laden der benötigten Libraries.');
+      this.fehler.set(true)
+      throw error;
+    }
 
-      this.progress = 10;
-      this.statusmeldung.set('Die Templatedatei wird heruntergeladen.');
 
+    // Lade die Templatedatei
+    this.progress = 10;
+    this.statusmeldung.set('Die Templatedatei wird heruntergeladen.');
+    const content = await new Promise<string>((resolve, reject) => {
       PizZipUtils.getBinaryContent('assets/antrag-templates/' + antrag.templateFileName + '.docx',
         (error: Error | null, content: string) => {
           if (error) {
             this.fehler.set(true);
             this.statusmeldung.set('Fehler beim Laden der Templatedatei.');
-            throw error;
-          }
-
-          this.progress = 30;
-          this.statusmeldung.set('Die Templatedatei wird verarbeitet.');
-
-          let doc;
-          try {
-            const zip = new PizZip(content);
-            doc = new Docxtemplater(zip, {
-              paragraphLoop: true,
-              linebreaks: true,
-              parser: expressionParser,
-              nullGetter() { return ''; }
-            });
-            doc.setData(antrag);
-          } catch (error) {
-            this.fehler.set(true);
-            this.statusmeldung.set('Fehler beim Setzen der Variablen in die Templatedatei.');
-            throw error;
-          }
-
-          this.progress = 40;
-          this.statusmeldung.set('Das Template wird mit den eingesetzten Variablen gerendert.');
-
-          try {
-            doc.render();
-          } catch (error) {
-            this.fehler.set(true);
-            this.statusmeldung.set('Fehler beim Rendern der Templatedatei.');
-            throw error;
-          }
-
-          this.progress = 60;
-          this.statusmeldung.set('Die Datei wird zu einer .docx gezippt.');
-
-          try {
-            const blobDocx = doc.getZip().generate({
-              type: 'blob',
-              mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            });
-            this.progress = 100;
-            resolve(blobDocx);
-          } catch (error) {
-            this.fehler.set(true);
-            this.statusmeldung.set('Fehler beim Zippen der docx Datei.');
-            throw error;
+            reject(error);
+          } else {
+            resolve(content);
           }
         }
       );
     });
+
+
+    // Setze Variablen
+    this.progress = 30;
+    this.statusmeldung.set('Die Templatedatei wird verarbeitet.');
+    let doc;
+    try {
+      const zip = new PizZip(content);
+      doc = new Docxtemplater(zip, {
+        paragraphLoop: true,
+        linebreaks: true,
+        parser: expressionParser,
+        nullGetter() { return ''; }
+      });
+      doc.setData(antrag);
+    } catch (error) {
+      this.fehler.set(true);
+      this.statusmeldung.set('Fehler beim Setzen der Variablen in die Templatedatei.');
+      throw error;
+    }
+
+
+    // Rendere die docx Datei
+    this.progress = 40;
+    this.statusmeldung.set('Das Template wird mit den eingesetzten Variablen gerendert.');
+    try {
+      doc.render();
+    } catch (error) {
+      this.fehler.set(true);
+      this.statusmeldung.set('Fehler beim Rendern der Templatedatei.');
+      throw error;
+    }
+
+
+    // Zippe die docx Datei
+    this.progress = 60;
+    this.statusmeldung.set('Die Datei wird zu einer .docx gezippt.');
+    try {
+      const blobDocx = doc.getZip().generate({
+        type: 'blob',
+        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+      this.progress = 100;
+      return blobDocx;
+    } catch (error) {
+      this.fehler.set(true);
+      this.statusmeldung.set('Fehler beim Zippen der docx Datei.');
+      throw error;
+    }
   }
 
   reset() {
