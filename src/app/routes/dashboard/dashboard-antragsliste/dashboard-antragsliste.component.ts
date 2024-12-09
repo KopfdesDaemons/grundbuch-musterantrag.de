@@ -9,6 +9,7 @@ import { LoggerService } from 'src/app/services/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { FooterComponent } from "../../../components/footer/footer.component";
+import { Upload } from 'server/models/upload';
 
 @Component({
   selector: 'app-dashboard-antragsliste',
@@ -35,7 +36,7 @@ export class DashboardAntragslisteComponent implements OnInit {
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faEllipsisVertical = faEllipsisVertical;
 
-  files: any[] = [];
+  files: Upload[] = [];
   private loadedPages: number = 0;
   totalPages: number = 0;
   totalFiles: number = 0;

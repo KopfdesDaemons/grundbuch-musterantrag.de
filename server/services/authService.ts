@@ -1,9 +1,9 @@
 import * as jwt from 'jsonwebtoken';
 
-const SECRET_KEY_ENV_VAR = 'DASHBOARD_LOGIN_PASSWORD';
+const DASHBOARD_PASSWORD = 'DASHBOARD_LOGIN_PASSWORD';
 
 export const authenticateUser = async (username: string, password: string): Promise<string> => {
-    const secretKey: string | undefined = process.env[SECRET_KEY_ENV_VAR];
+    const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
 
     if (!secretKey) {
         throw new Error('SECRET_KEY is not defined');
@@ -24,10 +24,10 @@ export const authenticateUser = async (username: string, password: string): Prom
 *   @returns username und Generierungszeitpunkt und Ablauffzeitpunkt  
 */
 export const verifyToken = async (token: string): Promise<any> => {
-    const secretKey: string | undefined = process.env[SECRET_KEY_ENV_VAR];
+    const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
 
     if (!secretKey) {
-        throw new Error('SECRET_KEY is not defined');
+        throw new Error(DASHBOARD_PASSWORD + 'is not defined');
     }
 
     return new Promise((resolve, reject) => {

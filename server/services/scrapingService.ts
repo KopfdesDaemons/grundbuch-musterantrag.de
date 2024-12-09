@@ -21,12 +21,12 @@ export const amtsgerichtAusPLZ = async (plz: string): Promise<{ amtsgericht: str
         let [plzAmtsgericht, ort] = (plzOrt || '').split(/\s+/).filter(Boolean);
 
         if (!amtsgericht || !straße || !plzAmtsgericht || !ort) {
-            throw new Error('Die benötigten Informationen konnten nicht aus der Webseite der Justiz extrahiert werden.');
+            throw new Error('Die Daten des Grundbuchamts konten nicht aus dem Justizportal geladen werden für die PLZ: ' + plz);
         }
 
         return ({ amtsgericht, straße, plz: plzAmtsgericht, ort });
     } catch (error: any) {
-        logger.error('Fehler beim Scraping.', error);
+        logger.error('Fehler beim Scraping:', error);
         throw error;
     }
 };

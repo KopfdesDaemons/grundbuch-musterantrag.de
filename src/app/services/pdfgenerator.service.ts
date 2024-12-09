@@ -21,7 +21,7 @@ export class PdfgeneratorService {
     return new Promise((resolve) => {
       const form = new FormData();
       form.append('docx', docx);
-      form.append('data', JSON.stringify(antrag));
+      form.append('uploadinfo', JSON.stringify({ antragsart: antrag.title }));
       const url = '/api/submitForm';
 
       this.http.post(url, form, {

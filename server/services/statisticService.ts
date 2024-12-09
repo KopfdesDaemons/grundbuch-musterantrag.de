@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { STATISTIC_JSON_PATH, UPLOADS_FOLDER_PATH } from "server/config/config";
 import { checkFileExists } from "./directoryService";
 import { Statistic } from "server/interfaces/statistic";
+import { readUploadJSON } from "./uploadsService";
 
 export const readStatisticJSON = async (): Promise<Statistic> => {
     let statistic: Statistic = {};
@@ -37,20 +38,14 @@ export const generateStatisticFromFiles = async (): Promise<void> => {
 
     const folderContent = await fs.promises.readdir(UPLOADS_FOLDER_PATH);
 
-    for (const content of folderContent) {
-        const filePath = path.join(UPLOADS_FOLDER_PATH, content);
+    for (const subFolder of folderContent) {
+        const filePath = path.join(UPLOADS_FOLDER_PATH, subFolder);
         const stat = await fs.promises.stat(filePath);
 
         if (stat.isDirectory()) {
-            // Prüfen, ob eine JSON-Datei mit dem Namen des Ordners existiert
-            const jsonFilePath = path.join(filePath, `${content}.json`);
-            if (fs.existsSync(jsonFilePath)) {
-                const data = JSON.parse(await fs.promises.readFile(jsonFilePath, 'utf-8'));
-                const title = data.title;
-                if (title) {
-                    statistic[title] = (statistic[title] || 0) + 1;
-                }
-            }
+            if (!await checkFileExists(path.join(filePath + '.json'))) continue;
+            const Upload = await readUploadJSON(subFolder);
+            statistic[Upload.antragsart] = (statistic[Upload.antragsart] || 0) + 1;
         }
     }
 

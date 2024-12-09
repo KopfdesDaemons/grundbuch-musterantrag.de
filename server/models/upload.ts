@@ -1,5 +1,5 @@
 export class Upload {
-    fileName: string = '';
+    uploadID: string = '';
     docxFile: boolean = false;
     pdfFile: boolean = false;
     uploadDate: string = '';

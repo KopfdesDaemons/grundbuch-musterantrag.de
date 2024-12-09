@@ -14,6 +14,7 @@ import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
 import { generateStatistic as handleGenerateStatistic, getStatistic } from 'server/controller/statisticController';
 import { SERVER_DIST_FOLDER, UPLOADS_FOLDER_PATH } from 'server/config/config';
+import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -53,6 +54,7 @@ export function app(): express.Express {
   server.get('/api/getLogFile', authMiddleware, getLogFile);
   server.get('/api/getStatistic', authMiddleware, getStatistic);
   server.post('/api/generateStatistic', authMiddleware, handleGenerateStatistic);
+  server.post('/api/migration/fromAntragToUploadinfo', authMiddleware, handleMigrationFromAntragToUploadinfo);
 
   // ausgelagerte Routen
   server.use('/', submitForm);

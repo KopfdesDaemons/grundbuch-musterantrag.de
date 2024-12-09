@@ -9,7 +9,7 @@
         <b>Neuster Antrag vom {{latestFile.uploadDate}}:</b>
         <div class="latestfile">
             <span>{{latestFile.antragsart}} </span>
-            <a (click)="uploadsS.getFile(latestFile.fileName, 'pdf')" class="btnicon" title="Pdf öffnen">
+            <a (click)="uploadsS.getFile(latestFile.uploadID, 'pdf')" class="btnicon" title="Pdf öffnen">
                 <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
             </a>
         </div>

@@ -4,61 +4,104 @@ import moment from 'moment';
 import * as fs from 'fs';
 import * as converterController from '../services/converterService';
 import { changeStatistic } from 'server/services/statisticService';
-import { Antrag } from 'src/app/interfaces/antrag';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
+import { Upload } from 'server/models/upload';
+import { writeUploadJSON } from 'server/services/uploadsService';
+import { log } from 'console';
 
 const router = express.Router();
 
 router.post('/api/submitForm', async (req: Request, res: Response) => {
   try {
+    const uploadID = moment().format('YYYY-MM-DD-HH-mm-ss');
+
+    // Erstelle Ordner für alle Uploaddateien
+    const uploadFolderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
+    await fs.promises.mkdir(uploadFolderPath, { recursive: true });
+
+
+    const filePathDocx = path.join(uploadFolderPath, `${uploadID}.docx`);
+    const filePathPdf = path.join(uploadFolderPath, `${uploadID}.pdf`);
+
+
+    // Prüfe ob Daten in dem Wert "data" in der Formdata empfangen wurden
+    let { uploadinfo } = req.body;
+    if (!uploadinfo) {
+      logger.error('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
+      return res.status(400).send('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
+    }
+    console.log('Daten: ', uploadinfo);
+
+
+    uploadinfo = JSON.parse(uploadinfo) as Upload;
+
+    uploadinfo.uploadDate = moment().format('DD.MM.YYYY');
+    uploadinfo.uploadID = uploadID;
+    console.log(uploadinfo);
+
+
+    // Prüfe ob Dateien in der Formdata empfangen wurden
+    if (!req.files) {
+      logger.error('Es wurde keine Datei in der Formdata empfangen.');
+      saveUploadinfo();
+      return res.status(400).send('Es wurde keine Datei in der Formdata empfangen.');
+    }
+
+
+    // Prüfe ob die Datei in dem Wert "docx" in der Formdata empfangen wurde
     const { docx } = req.files as any;
-    if (!docx) return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
-
-    const { data } = req.body;
-    if (!data) return res.status(400).send('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
-    const antrag = JSON.parse(data) as Antrag;
-
-    const filename = moment().format('YYYY-MM-DD-HH-mm-ss');
-
-    // Erstelle Ordner für Antragsdateien
-    const antragsFolderPath = path.join(UPLOADS_FOLDER_PATH, filename);
-    await fs.promises.mkdir(antragsFolderPath, { recursive: true });
-
-    const filePathDocx = path.join(antragsFolderPath, `${filename}.docx`);
-    const filePathPdf = path.join(antragsFolderPath, `${filename}.pdf`);
-    const filePathJSON = path.join(antragsFolderPath, `${filename}.json`);
+    if (!docx) {
+      logger.error('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
+      saveUploadinfo();
+      return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
+    }
+    else uploadinfo.docxFile = true;
+    saveUploadinfo();
 
     // Speichere die DOCX-Datei im Upload-Ordner
     await docx.mv(filePathDocx);
 
-    await changeStatistic(antrag.title, 1);
+    await changeStatistic(uploadinfo.antragsart, 1);
 
-    // Speichere Antragsdaten in JSON-Datei
-    try {
-      const formattedData = JSON.stringify(antrag, null, 2);
-      await fs.promises.writeFile(filePathJSON, formattedData, 'utf-8');
-    } catch (error) {
-      logger.error('Fehler beim Speichern der Daten in der JSON-Datei:', error);
-    }
 
     // Konvertiere DOCX in PDF
+    console.log('Konvertiere DOCX in PDF...');
+
     try {
-      await converterController.convertToPdf(filePathDocx, antragsFolderPath);
+      await converterController.convertToPdf(filePathDocx, uploadFolderPath);
     } catch (convertError) {
       logger.error('Fehler bei der Konvertierung:', convertError);
       return res.status(500).send('Fehler bei der Konvertierung der Datei.');
     }
 
 
+    console.log(('Prüfe, ob die PDF-Datei erstellt wurde...'));
+
     // Überprüfe ob die PDF-Datei erstellt wurde
     if (!fs.existsSync(filePathPdf)) {
-      console.error('Die PDF-Datei wurde nicht erstellt.');
+      logger.error('Die PDF-Datei wurde nicht erstellt.');
       return res.status(500).send('Interner Serverfehler: PDF-Datei nicht gefunden.');
     }
+    else uploadinfo.pdfFile = true;
+    saveUploadinfo();
+
+    console.log('PDF-Datei erfolgreich erstellt.');
+
 
     // Sende PDF-Datei an den Client
     return res.contentType('application/pdf').sendFile(filePathPdf);
+
+
+
+    // Speichere Antragsdaten in JSON-Datei
+    async function saveUploadinfo() {
+      try {
+        await writeUploadJSON(uploadinfo);
+      } catch (error) {
+        logger.error('Fehler beim Speichern der Daten in der JSON-Datei:', error);
+      }
+    }
 
   } catch (error) {
     logger.error('Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.', error);
