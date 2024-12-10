@@ -18,7 +18,6 @@ export class SettingsTileComponent implements AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     this.settings = await this.settingsS.getSettings();
-    console.log(await this.settingsS.loadSettings());
   }
 
   async changeSetting(settingName: string, value: boolean): Promise<void> {

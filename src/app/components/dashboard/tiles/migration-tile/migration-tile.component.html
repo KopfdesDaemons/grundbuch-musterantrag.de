@@ -3,7 +3,11 @@
     @if(isLoading) {
     <app-progress-spinner [endless]="true"></app-progress-spinner>
     }
-    <button (click)="migrateFromAntragToUploadinfo()">Von "Antrag" zu "Upload" JSON</button>
-    <p>Migration der Struktur der gespeicherten Uploadinfos der Anträge. Es werden nicht mehr alle Daten aus dem
-        Formular gespeichert, sondern nur die, die im Dashboard angezeigt werden.</p>
+    <select #migrationDropdown [(ngModel)]="selectedMigration">
+        @for(migration of migrationS.migrations; track migration.name){
+        <option [ngValue]="migration">{{migration.name}}</option>
+        }
+    </select>
+    <p>{{selectedMigration.description}}</p>
+    <button (click)="migrate()">Migration durchführen</button>
 </app-dashboard-tile>

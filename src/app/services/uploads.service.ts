@@ -5,7 +5,6 @@ import { AuthService } from './auth.service';
 import FileSaver from 'file-saver';
 import { isPlatformBrowser } from '@angular/common';
 import { Upload } from 'server/models/upload';
-import { deleteGeneratedFiles } from 'server/services/uploadsService';
 
 @Injectable({
   providedIn: 'root'
@@ -175,16 +174,5 @@ export class UploadsService {
     } catch (error: any) {
       console.error('Error beim Löschen der Datei:', error);
     }
-  }
-
-  async migrateFromAntragToUploadinfo(): Promise<any> {
-    if (!isPlatformBrowser(this.platformId)) return;
-    const data = await lastValueFrom(
-      this.http.post('/api/migration/fromAntragToUploadinfo', {}, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        responseType: 'text'
-      })
-    );
-    return data;
   }
 }

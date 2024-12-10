@@ -1,30 +1,34 @@
 import { Component, inject } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
-import { UploadsService } from 'src/app/services/uploads.service';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
+import { MigrationService } from 'src/app/services/migration.service';
+import { Migration } from 'src/app/models/migration';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-migration-tile',
   standalone: true,
-  imports: [DashboardTileComponent, ProgressSpinnerComponent],
+  imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule],
   templateUrl: './migration-tile.component.html',
   styleUrl: './migration-tile.component.scss'
 })
 export class MigrationTileComponent {
-  private uploadS = inject(UploadsService);
+  migrationS = inject(MigrationService);
+
+  selectedMigration: Migration = this.migrationS.migrations[0];
+
   responseText: string = '';
   isLoading = false;
 
-  async migrateFromAntragToUploadinfo() {
-    if (!confirm('Soll die Migration von Antrag zu Uploadinfo durchgeführt werden?')) return;
-
+  async migrate() {
+    if (!confirm('Migration ' + this.selectedMigration.name + ' wirklich durchführen?')) return;
     try {
       this.isLoading = true;
-      this.responseText = await this.uploadS.migrateFromAntragToUploadinfo();
+      this.responseText = await this.selectedMigration.migrate();
       this.isLoading = false;
     } catch (error: any) {
       this.isLoading = false;
-      console.error('Error beim Migration von Antrag zu Uploadinfo:', error);
+      console.error('Error beim Migration:', error);
       this.responseText = error.message;
     }
   }
