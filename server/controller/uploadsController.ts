@@ -2,8 +2,10 @@ import { Request, Response } from 'express';
 import path from 'path';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
+import { Upload } from 'server/models/upload';
 import { deleteFolderContent, deleteFolder, getFile } from 'server/services/directoryService';
-import { getUploadsData } from 'server/services/uploadsService';
+import { changeStatistic, clearStatistic } from 'server/services/statisticService';
+import { getUploadsData, readUploadJSON } from 'server/services/uploadsService';
 
 export const getUploads = async (req: Request, res: Response) => {
     const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -19,6 +21,7 @@ export const getUploads = async (req: Request, res: Response) => {
 export const deleteUploads = async (req: Request, res: Response) => {
     try {
         await deleteFolderContent(UPLOADS_FOLDER_PATH);
+        await clearStatistic();
         res.send('Inhalt des Upload Ordners gelöscht');
     } catch (error) {
         logger.error('Fehler beim Löschen des Ordnerinhalts des Uploads-Ordners:', error);
@@ -27,11 +30,19 @@ export const deleteUploads = async (req: Request, res: Response) => {
 }
 
 export const deleteUpload = async (req: Request, res: Response) => {
-    const fileName = req.query['fileName'] as string;
-    if (!fileName) return res.status(400).send('Fehlender Dateiname');
+    const uploadID = req.query['fileName'] as string;
+    if (!uploadID) return res.status(400).send('Fehlender Dateiname');
+
+    // Aktualisiere die Statistik
+    try {
+        const antrag: Upload = await readUploadJSON(uploadID);
+        changeStatistic(antrag.antragsart, -1);
+    } catch (error) {
+        logger.error('Fehler beim Aktualisieren der Statistik:', error);
+    }
 
     // Lösche Ordner sammt Ihnalt
-    const folderPath = path.join(UPLOADS_FOLDER_PATH, fileName);
+    const folderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
     try {
         await deleteFolder(folderPath);
     } catch (error) {

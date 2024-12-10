@@ -8,7 +8,6 @@ import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
 import { writeUploadJSON } from 'server/services/uploadsService';
-import { log } from 'console';
 
 const router = express.Router();
 
@@ -31,14 +30,11 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       logger.error('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
       return res.status(400).send('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
     }
-    console.log('Daten: ', uploadinfo);
 
 
     uploadinfo = JSON.parse(uploadinfo) as Upload;
-
     uploadinfo.uploadDate = moment().format('DD.MM.YYYY');
     uploadinfo.uploadID = uploadID;
-    console.log(uploadinfo);
 
 
     // Prüfe ob Dateien in der Formdata empfangen wurden
@@ -66,8 +62,6 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
 
     // Konvertiere DOCX in PDF
-    console.log('Konvertiere DOCX in PDF...');
-
     try {
       await converterController.convertToPdf(filePathDocx, uploadFolderPath);
     } catch (convertError) {
@@ -76,8 +70,6 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     }
 
 
-    console.log(('Prüfe, ob die PDF-Datei erstellt wurde...'));
-
     // Überprüfe ob die PDF-Datei erstellt wurde
     if (!fs.existsSync(filePathPdf)) {
       logger.error('Die PDF-Datei wurde nicht erstellt.');
@@ -85,8 +77,6 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     }
     else uploadinfo.pdfFile = true;
     saveUploadinfo();
-
-    console.log('PDF-Datei erfolgreich erstellt.');
 
 
     // Sende PDF-Datei an den Client

@@ -80,6 +80,7 @@ export class DashboardAntragslisteComponent implements OnInit {
   }
 
   async deleteFolder() {
+    if (!confirm('Soll wirklich alle Antragsdaten gelöscht werden?')) return;
     await this.uploadsdS.deleteFolder();
     this.reloadFiles();
   }

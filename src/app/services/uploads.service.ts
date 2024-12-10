@@ -163,4 +163,15 @@ export class UploadsService {
       console.error('Error beim Löschen des Ordners:', error);
     }
   }
+
+  async migrateFromAntragToUploadinfo(): Promise<any> {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const data = await lastValueFrom(
+      this.http.post('/api/migration/fromAntragToUploadinfo', {}, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        responseType: 'text'
+      })
+    );
+    return data;
+  }
 }

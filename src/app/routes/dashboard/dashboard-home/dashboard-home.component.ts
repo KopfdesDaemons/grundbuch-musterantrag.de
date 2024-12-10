@@ -10,11 +10,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Title } from '@angular/platform-browser';
 import { TimeService } from 'src/app/services/time.service';
 import { AntragsartenTileComponent } from "../../../components/dashboard/tiles/antragsarten-tile/antragsarten-tile.component";
+import { MigrationTileComponent } from "../../../components/dashboard/tiles/migration-tile/migration-tile.component";
 
 @Component({
   selector: 'app-dashboard-home',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent],
+  imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent],
   templateUrl: './dashboard-home.component.html',
   styleUrl: './dashboard-home.component.scss'
 })

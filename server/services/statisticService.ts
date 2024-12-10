@@ -3,7 +3,9 @@ import * as fs from 'fs';
 import { STATISTIC_JSON_PATH, UPLOADS_FOLDER_PATH } from "server/config/config";
 import { checkFileExists } from "./directoryService";
 import { Statistic } from "server/interfaces/statistic";
-import { readUploadJSON } from "./uploadsService";
+import { Upload } from "server/models/upload";
+import { log } from "console";
+import logger from "server/config/logger";
 
 export const readStatisticJSON = async (): Promise<Statistic> => {
     let statistic: Statistic = {};
@@ -39,17 +41,20 @@ export const generateStatisticFromFiles = async (): Promise<void> => {
     const folderContent = await fs.promises.readdir(UPLOADS_FOLDER_PATH);
 
     for (const subFolder of folderContent) {
-        const filePath = path.join(UPLOADS_FOLDER_PATH, subFolder);
-        const stat = await fs.promises.stat(filePath);
+        const subfolderPath = path.join(UPLOADS_FOLDER_PATH, subFolder);
+        const stat = await fs.promises.stat(subfolderPath);
 
         if (stat.isDirectory()) {
-            if (!await checkFileExists(path.join(filePath + '.json'))) continue;
-            const Upload = await readUploadJSON(subFolder);
-            statistic[Upload.antragsart] = (statistic[Upload.antragsart] || 0) + 1;
+            const JSONPath = path.join(subfolderPath, subFolder + '.json');
+            if (!await checkFileExists(JSONPath)) continue;
+            const file = await fs.promises.readFile(JSONPath, 'utf8');
+            const upload: Upload = JSON.parse(file) as Upload;
+            statistic[upload.antragsart] = (statistic[upload.antragsart] || 0) + 1;
         }
     }
 
     // Schreibe die statistik.json neu
     const formattedData = JSON.stringify(statistic, null, 2);
     await fs.promises.writeFile(STATISTIC_JSON_PATH, formattedData, 'utf-8');
+    logger.info('Statistik neu generiert');
 };
