@@ -7,7 +7,8 @@ import { changeStatistic } from 'server/services/statisticService';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
-import { writeUploadJSON } from 'server/services/uploadsService';
+import { deleteGeneratedFiles, writeUploadJSON } from 'server/services/uploadsService';
+import { SettingsService } from 'server/services/settingsService';
 
 const router = express.Router();
 
@@ -55,6 +56,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     else uploadinfo.docxFile = true;
     saveUploadinfo();
 
+
     // Speichere die DOCX-Datei im Upload-Ordner
     await docx.mv(filePathDocx);
 
@@ -80,9 +82,18 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
 
     // Sende PDF-Datei an den Client
-    return res.contentType('application/pdf').sendFile(filePathPdf);
+    res.contentType('application/pdf').sendFile(filePathPdf, () => {
 
+      // Lösche Uploaddateien, wenn die Einstellung aktiviert ist
+      if (!SettingsService.getSettings().deleteGeneratedFilesAfterResponse) return;
+      try {
+        deleteGeneratedFiles(uploadID);
+      } catch (error) {
+        logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
+      }
+    });
 
+    return;
 
     // Speichere Antragsdaten in JSON-Datei
     async function saveUploadinfo() {

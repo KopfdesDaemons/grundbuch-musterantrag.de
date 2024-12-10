@@ -11,11 +11,12 @@ import { Title } from '@angular/platform-browser';
 import { TimeService } from 'src/app/services/time.service';
 import { AntragsartenTileComponent } from "../../../components/dashboard/tiles/antragsarten-tile/antragsarten-tile.component";
 import { MigrationTileComponent } from "../../../components/dashboard/tiles/migration-tile/migration-tile.component";
+import { SettingsTileComponent } from "../../../components/dashboard/tiles/settings-tile/settings-tile.component";
 
 @Component({
   selector: 'app-dashboard-home',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent],
+  imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent, SettingsTileComponent],
   templateUrl: './dashboard-home.component.html',
   styleUrl: './dashboard-home.component.scss'
 })

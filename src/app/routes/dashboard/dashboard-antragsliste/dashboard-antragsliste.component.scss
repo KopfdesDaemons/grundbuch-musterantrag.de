@@ -50,6 +50,7 @@ h1 {
     table {
         width: 100%;
         font-size: clamp(12px, 2vw, 16px);
+        hyphens: auto;
     }
 
     th {
@@ -118,4 +119,5 @@ h1 {
 
 .notFound {
     background-color: #c17878;
+    cursor: unset;
 }

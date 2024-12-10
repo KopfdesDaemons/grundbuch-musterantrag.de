@@ -34,10 +34,10 @@
 
             <td class="iconTableCell">
               @if (file.docxFile && !file.filesDeleted) {
-              <a class="btnicon" (click)="uploadsdS.getFile(file.uploadID, 'docx')"><fa-icon
-                  [icon]="faCircleDown"></fa-icon></a>
+              <a class="btnicon" (click)="uploadsdS.getFile(file.uploadID, 'docx')"><fa-icon [icon]="faCircleDown"
+                  title="Download .docx Datei"></fa-icon></a>
               } @else if (file.docxFile && file.filesDeleted) {
-              <fa-icon [icon]="faCheck"></fa-icon>
+              <fa-icon [icon]="faCheck" title="Datei wurde generiert und nach dem Response gelöscht"></fa-icon>
               } @else {
               <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
               }
@@ -45,20 +45,20 @@
 
             <td class="iconTableCell">@if (file.pdfFile && !file.filesDeleted) {
               <a class="btnicon" target="_blank" (click)="uploadsdS.getFile(file.uploadID, 'pdf')"><fa-icon
-                  [icon]="faArrowUpRightFromSquare"></fa-icon></a>
+                  [icon]="faArrowUpRightFromSquare" title=".pdf Datei öffnen"></fa-icon></a>
               } @else if (file.pdfFile && file.filesDeleted) {
-              <fa-icon [icon]="faCheck"></fa-icon>
+              <fa-icon [icon]="faCheck" title="Datei wurde generiert und nach dem Response gelöscht"></fa-icon>
               }@else {
-              <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
+              <fa-icon [icon]="faCircleExclamation" class="btnicon notFound" title="Fehler"></fa-icon>
               }
             </td>
 
             <td (click)="clickOnDropdown($event.target)" class="dropDown">
               <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
               <ul class="dropDownMenu">
-                <li (click)="deleteUpload(file.uploadID)">Uploadinfo&nbsp;löschen</li>
+                <li (click)="deleteUpload(file.uploadID)">Upload&nbsp;komplett&nbsp;löschen</li>
                 @if(!file.filesDeleted){<li (click)="deleteGeneratedFiles(file.uploadID)">
-                  generierte&nbsp;Dateien&nbsp;löschen
+                  Nur&nbsp;generierte&nbsp;Dateien&nbsp;löschen (Upload&nbsp;beibehalten)
                 </li>}
               </ul>
             </td>
