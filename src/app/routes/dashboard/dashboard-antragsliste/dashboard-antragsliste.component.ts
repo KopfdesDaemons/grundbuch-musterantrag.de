@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/auth.service';
@@ -35,6 +35,7 @@ export class DashboardAntragslisteComponent implements OnInit {
   faCircleDown = faCircleDown;
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
   faEllipsisVertical = faEllipsisVertical;
+  faCheck = faCheck;
 
   files: Upload[] = [];
   private loadedPages: number = 0;
@@ -74,8 +75,13 @@ export class DashboardAntragslisteComponent implements OnInit {
     this.loadPage();
   }
 
-  async deleteFile(name: string) {
-    await this.uploadsdS.deleteFile(name);
+  async deleteUpload(name: string) {
+    await this.uploadsdS.deleteUpload(name);
+    this.reloadFiles();
+  }
+
+  async deleteGeneratedFiles(uploadID: string) {
+    await this.uploadsdS.deleteGeneratedFiles(uploadID);
     this.reloadFiles();
   }
 

@@ -60,6 +60,10 @@ h1 {
         padding: 8px;
     }
 
+    .iconTableCell {
+        text-align: center;
+    }
+
     td:last-child {
         padding: 0;
     }
@@ -86,13 +90,12 @@ h1 {
 
 .dropDown {
     position: relative;
-    cursor: pointer;
 
     ul {
         visibility: collapse;
         padding: 0;
         position: absolute;
-        left: -40px;
+        right: 0;
         top: 0;
         background-color: var(--hintergrund);
         border-radius: 6px;
@@ -101,13 +104,15 @@ h1 {
 
         li {
             padding: 10px;
+            cursor: pointer;
+            display: block;
+
+            &:hover {
+                background-color: var(--hintergrund-variant-darker);
+            }
+
+            border: 1px solid var(--primary-variant-much-brighter);
         }
-
-        border: 1px solid var(--primary-variant-much-brighter);
-    }
-
-    ul:hover {
-        background-color: var(--hintergrund-variant-darker);
     }
 }
 

@@ -4,4 +4,5 @@ export class Upload {
     pdfFile: boolean = false;
     uploadDate: string = '';
     antragsart: string = '';
+    filesDeleted: boolean = false;
 }

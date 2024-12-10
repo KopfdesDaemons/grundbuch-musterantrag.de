@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import FileSaver from 'file-saver';
 import { isPlatformBrowser } from '@angular/common';
 import { Upload } from 'server/models/upload';
+import { deleteGeneratedFiles } from 'server/services/uploadsService';
 
 @Injectable({
   providedIn: 'root'
@@ -141,11 +142,11 @@ export class UploadsService {
     }
   }
 
-  async deleteFile(name: string) {
+  async deleteUpload(name: string) {
     try {
-      await lastValueFrom(this.http.delete('/api/uploads/deleteFiles', {
+      await lastValueFrom(this.http.delete('/api/uploads/deleteUpload', {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        params: new HttpParams().set('fileName', name),
+        params: new HttpParams().set('UploadID', name),
         responseType: 'text'
       }));
     } catch (error: any) {
@@ -161,6 +162,18 @@ export class UploadsService {
       }));
     } catch (error: any) {
       console.error('Error beim Löschen des Ordners:', error);
+    }
+  }
+
+  async deleteGeneratedFiles(uploadID: string) {
+    try {
+      await lastValueFrom(this.http.delete('/api/uploads/deleteGeneratedFiles', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        params: new HttpParams().set('uploadID', uploadID),
+        responseType: 'text'
+      }));
+    } catch (error: any) {
+      console.error('Error beim Löschen der Datei:', error);
     }
   }
 

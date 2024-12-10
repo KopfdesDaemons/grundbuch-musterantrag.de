@@ -3,7 +3,6 @@ import { Upload } from '../models/upload';
 import { checkFileExists } from './directoryService';
 import fs from 'fs';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
-import { log } from 'console';
 
 const pageSize = 20;
 
@@ -26,8 +25,6 @@ export const getUploadsData = async (folderPath: string, page: number): Promise<
             list.push(upload);
         }
     }
-
-    log(list);
 
     // Sortiere die Liste nach der UploadID absteigend
     list.sort((a, b) => {
@@ -61,3 +58,14 @@ export const writeUploadJSON = async (data: Upload): Promise<void> => {
     const pathToJSON = path.join(UPLOADS_FOLDER_PATH, data.uploadID, data.uploadID + '.json');
     await fs.promises.writeFile(pathToJSON, JSON.stringify(data, null, 2));
 };
+
+export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
+    const pathToPdf = path.join(UPLOADS_FOLDER_PATH, uploadID, uploadID + '.pdf');
+    const pathToDocx = path.join(UPLOADS_FOLDER_PATH, uploadID, uploadID + '.docx');
+    if (await checkFileExists(pathToPdf)) await fs.promises.unlink(pathToPdf);
+    if (await checkFileExists(pathToDocx)) await fs.promises.unlink(pathToDocx);
+
+    const upload: Upload = await readUploadJSON(uploadID);
+    upload.filesDeleted = true;
+    await writeUploadJSON(upload);
+}

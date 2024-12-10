@@ -5,7 +5,7 @@ import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
 import { deleteFolderContent, deleteFolder, getFile } from 'server/services/directoryService';
 import { changeStatistic, clearStatistic } from 'server/services/statisticService';
-import { getUploadsData, readUploadJSON } from 'server/services/uploadsService';
+import { deleteGeneratedFiles, getUploadsData, readUploadJSON } from 'server/services/uploadsService';
 
 export const getUploads = async (req: Request, res: Response) => {
     const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -30,7 +30,7 @@ export const deleteUploads = async (req: Request, res: Response) => {
 }
 
 export const deleteUpload = async (req: Request, res: Response) => {
-    const uploadID = req.query['fileName'] as string;
+    const uploadID = req.query['UploadID'] as string;
     if (!uploadID) return res.status(400).send('Fehlender Dateiname');
 
     // Aktualisiere die Statistik
@@ -74,3 +74,13 @@ export const getUpload = async (req: Request, res: Response) => {
     }
 }
 
+export const handeleDeleteGeneratedFiles = async (req: Request, res: Response) => {
+    const uploadID = req.query['uploadID'] as string;
+    try {
+        await deleteGeneratedFiles(uploadID);
+        res.status(200).send('Generierte Dateien gelöscht');
+    } catch (error) {
+        logger.error('Fehler beim Löschen der generierten Dateien:', error);
+        res.status(500).send('Fehler beim Löschen der generierten Dateien');
+    }
+}
