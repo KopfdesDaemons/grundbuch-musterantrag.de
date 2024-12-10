@@ -2,9 +2,23 @@ ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+li {
+    padding: 0.5em;
+    background-color: var(--hintergrund-variant);
+    border-radius: 16px;
 }
 
 .content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+p {
+    font-style: italic;
 }

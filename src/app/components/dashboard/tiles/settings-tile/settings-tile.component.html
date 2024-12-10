@@ -1,16 +1,21 @@
 <app-dashboard-tile tileTitle="Settings">
     <div class="content">
-        @if(settings){
         <ul>
             <li>
+                @if(settings){
                 <input type="checkbox" id="deleteGeneratedFilesAfterResponse" #deleteGeneratedFilesAfterResponse
                     [checked]="settings.deleteGeneratedFilesAfterResponse"
                     (change)="changeSetting('deleteGeneratedFilesAfterResponse', deleteGeneratedFilesAfterResponse.checked)">
                 <label for="deleteGeneratedFilesAfterResponse">Lösche Dateien sofort nach dem Response</label>
+                <p>Wenn deaktiviert, können die Dateien im Dashboard heruntergeladen werden</p>
+                } @else {
+                <app-progress-spinner [endless]="true"></app-progress-spinner>
+                }
+            </li>
+            <li>
+                <button (click)="deleteAllGeneratedFiles()">Alle generierten Dateien löschen</button>
+                <p>Löscht nur die Dateien, ohne die Uploadsinfos zu löschen</p>
             </li>
         </ul>
-        } @else {
-        <app-progress-spinner [endless]="true"></app-progress-spinner>
-        }
     </div>
 </app-dashboard-tile>

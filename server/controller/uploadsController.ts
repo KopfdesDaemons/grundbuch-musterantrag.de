@@ -5,7 +5,7 @@ import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
 import { deleteFolderContent, deleteFolder, getFile } from 'server/services/directoryService';
 import { changeStatistic, clearStatistic } from 'server/services/statisticService';
-import { deleteGeneratedFiles, getUploadsData, readUploadJSON } from 'server/services/uploadsService';
+import { deleteAllGeneratedFiles, deleteGeneratedFiles, getUploadsData, readUploadJSON } from 'server/services/uploadsService';
 
 export const getUploads = async (req: Request, res: Response) => {
     const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -82,5 +82,15 @@ export const handeleDeleteGeneratedFiles = async (req: Request, res: Response) =
     } catch (error) {
         logger.error('Fehler beim Löschen der generierten Dateien:', error);
         res.status(500).send('Fehler beim Löschen der generierten Dateien');
+    }
+}
+
+export const handeleDeleteAllGeneratedFiles = async (req: Request, res: Response) => {
+    try {
+        await deleteAllGeneratedFiles();
+        res.status(200).send('Alle generierte Dateien gelöscht');
+    } catch (error) {
+        logger.error('Fehler beim Löschen aller generierten Dateien:', error);
+        res.status(500).send('Fehler beim Löschen aller generierten Dateien');
     }
 }

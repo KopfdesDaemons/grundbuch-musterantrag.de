@@ -69,3 +69,11 @@ export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
     upload.filesDeleted = true;
     await writeUploadJSON(upload);
 }
+
+export const deleteAllGeneratedFiles = async (): Promise<void> => {
+    const uploadsFolders = await fs.promises.readdir(UPLOADS_FOLDER_PATH);
+
+    for (const folder of uploadsFolders) {
+        await deleteGeneratedFiles(folder);
+    }
+}

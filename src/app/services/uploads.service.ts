@@ -172,7 +172,18 @@ export class UploadsService {
         responseType: 'text'
       }));
     } catch (error: any) {
-      console.error('Error beim Löschen der Datei:', error);
+      console.error('Error beim Löschen der generierten Dateien:', error);
+    }
+  }
+
+  async deleteAllGeneratedFiles() {
+    try {
+      await lastValueFrom(this.http.delete('/api/uploads/deleteAllGeneratedFiles', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        responseType: 'text'
+      }));
+    } catch (error: any) {
+      console.error('Error beim Löschen aller generierten Dateien:', error);
     }
   }
 }
