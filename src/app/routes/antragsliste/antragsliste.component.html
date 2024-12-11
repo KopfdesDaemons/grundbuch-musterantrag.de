@@ -8,6 +8,7 @@
             kostenlos, eine Gebühr wird gegebenenfalls nur vom Grundbuchamt erhoben.</p>
     </div>
     <ul class="antragsliste">
+        @defer (hydrate never) {
         @for(antrag of antraege; track antrag.title) {
         <li>
             <app-antragsart-card [title]="antrag.title" [antragsRoute]="antrag.antragsRoute"
@@ -16,9 +17,11 @@
             </app-antragsart-card>
         </li>
         }
+        }
     </ul>
 </section>
 <section>
+    @defer (hydrate on interaction) {
     <div class=" sectiondiv">
         <ul class="faq">
             <li>
@@ -52,7 +55,8 @@
             </li>
         </ul>
     </div>
+    }
 </section>
-@defer (on idle) {
+@defer (hydrate on viewport) {
 <app-footer></app-footer>
 }
