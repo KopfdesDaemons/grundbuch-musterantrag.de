@@ -6,6 +6,7 @@ import { Antrag } from "src/app/interfaces/antrag";
 import { writeUploadJSON } from "./uploadsService";
 import logger from "server/config/logger";
 import { checkFileExists } from "./directoryService";
+import { Grundbuchamt } from "src/app/models/grundbuchamt";
 
 /**
  * Migration von Antrag zu Uploadinfo
@@ -33,6 +34,7 @@ export const migrateFromAntragToUploadinfo = async (): Promise<void> => {
             if (!upload.uploadID) upload.uploadID = folder;
             if (!upload.uploadDate) upload.uploadDate = antrag.datum;
             if (!upload.antragsart) upload.antragsart = antrag.title;
+            if (!(typeof upload.grundbuchamt === 'string')) upload.grundbuchamt = antrag.grundbuchamt.name;
 
             if (!upload.docxFile) {
                 upload.docxFile = await checkFileExists(path.join(UPLOADS_FOLDER_PATH, folder, folder + '.docx'));

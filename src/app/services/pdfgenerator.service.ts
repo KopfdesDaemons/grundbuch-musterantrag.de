@@ -21,7 +21,7 @@ export class PdfgeneratorService {
     return new Promise((resolve) => {
       const form = new FormData();
       form.append('docx', docx);
-      form.append('uploadinfo', JSON.stringify({ antragsart: antrag.title }));
+      form.append('uploadinfo', JSON.stringify({ antragsart: antrag.title, grundbuchamt: antrag.grundbuchamt.name }));
       const url = '/api/submitForm';
 
       this.http.post(url, form, {

@@ -50,7 +50,6 @@ h1 {
     table {
         width: 100%;
         font-size: clamp(12px, 2vw, 16px);
-        hyphens: auto;
     }
 
     th {
@@ -59,6 +58,7 @@ h1 {
 
     td {
         padding: 8px;
+        hyphens: auto;
     }
 
     .iconTableCell {

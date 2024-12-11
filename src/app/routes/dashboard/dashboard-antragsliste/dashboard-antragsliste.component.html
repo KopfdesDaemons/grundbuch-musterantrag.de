@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th>uploadID</th>
+            <th>Grundbuchamt</th>
             <th>Antragsart</th>
             <th>Datum</th>
             <th>docx</th>
@@ -27,6 +28,7 @@
           @for (file of files; track file) {
           <tr>
             <td>{{file.uploadID}}</td>
+            <td>{{file.grundbuchamt}}</td>
             <td>
               <div class="antragsart">{{file.antragsart}}</div>
             </td>
