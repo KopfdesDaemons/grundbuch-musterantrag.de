@@ -38,12 +38,12 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 ## Development
 
-- `ng build --watch`
-- `nodemon dist/server/server.mjs`
-
-## Frontend Development with Hot Reload (without backend server)
-
 - `ng serve`
+
+## Test build before deployment
+
+- `npm run build --prod`
+- `DASHBOARD_LOGIN_PASSWORD='admin' node dist/server/server.mjs`
 
 ## Deployment
 

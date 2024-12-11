@@ -13,7 +13,6 @@ import { HeaderComponent } from '../../../components/header/header.component';
     selector: 'app-infopage-namensberichtigung',
     templateUrl: './infopage-namensberichtigung.component.html',
     styleUrl: './infopage-namensberichtigung.component.scss',
-    standalone: true,
     imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 export class InfopageNamensberichtigungComponent {

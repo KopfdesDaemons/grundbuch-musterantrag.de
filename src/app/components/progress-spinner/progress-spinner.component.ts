@@ -2,11 +2,10 @@ import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, 
 import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-progress-spinner',
-  templateUrl: './progress-spinner.component.html',
-  styleUrls: ['./progress-spinner.component.scss'],
-  standalone: true,
-  imports: [NgClass]
+    selector: 'app-progress-spinner',
+    templateUrl: './progress-spinner.component.html',
+    styleUrls: ['./progress-spinner.component.scss'],
+    imports: [NgClass]
 })
 export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
 

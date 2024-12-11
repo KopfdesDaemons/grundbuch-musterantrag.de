@@ -6,11 +6,10 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 
 @Component({
-  selector: 'app-logger-tile',
-  standalone: true,
-  imports: [DashboardTileComponent, FaIconComponent, ProgressSpinnerComponent],
-  templateUrl: './logger-tile.component.html',
-  styleUrl: './logger-tile.component.scss'
+    selector: 'app-logger-tile',
+    imports: [DashboardTileComponent, FaIconComponent, ProgressSpinnerComponent],
+    templateUrl: './logger-tile.component.html',
+    styleUrl: './logger-tile.component.scss'
 })
 export class LoggerTileComponent implements OnInit {
   // Injections

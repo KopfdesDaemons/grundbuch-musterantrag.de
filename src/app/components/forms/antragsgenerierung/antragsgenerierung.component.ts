@@ -8,11 +8,10 @@ import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinne
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-antragsgenerierung',
-  templateUrl: './antragsgenerierung.component.html',
-  styleUrl: './antragsgenerierung.component.scss',
-  standalone: true,
-  imports: [FaIconComponent, ProgressSpinnerComponent],
+    selector: 'app-antragsgenerierung',
+    templateUrl: './antragsgenerierung.component.html',
+    styleUrl: './antragsgenerierung.component.scss',
+    imports: [FaIconComponent, ProgressSpinnerComponent]
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   fs = inject(FormService);

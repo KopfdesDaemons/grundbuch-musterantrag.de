@@ -12,11 +12,10 @@ import { FooterComponent } from "../../../components/footer/footer.component";
 import { Upload } from 'server/models/upload';
 
 @Component({
-  selector: 'app-dashboard-antragsliste',
-  templateUrl: './dashboard-antragsliste.component.html',
-  styleUrls: ['./dashboard-antragsliste.component.scss'],
-  standalone: true,
-  imports: [HeaderComponent, FaIconComponent, FooterComponent]
+    selector: 'app-dashboard-antragsliste',
+    templateUrl: './dashboard-antragsliste.component.html',
+    styleUrls: ['./dashboard-antragsliste.component.scss'],
+    imports: [HeaderComponent, FaIconComponent, FooterComponent]
 })
 
 export class DashboardAntragslisteComponent implements OnInit {

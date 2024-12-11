@@ -31,11 +31,10 @@ import { NgClass } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
-  selector: 'app-antragsformular',
-  templateUrl: './antragsformular.component.html',
-  styleUrls: ['./antragsformular.component.scss'],
-  standalone: true,
-  imports: [HeaderComponent, NgClass, AntragstellerComponent, ErblasserComponent, GrundstueckComponent, RechtAbteilung2Component, ErbnachweisComponent, TeilungserklaerungComponent, FarbeComponent, BewilligungComponent, WeitererGrundbesitzComponent, FormDesAusdrucksComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, HinweisComponent, AntragsgenerierungComponent, FooterComponent, FileNotFoundComponent]
+    selector: 'app-antragsformular',
+    templateUrl: './antragsformular.component.html',
+    styleUrls: ['./antragsformular.component.scss'],
+    imports: [HeaderComponent, NgClass, AntragstellerComponent, ErblasserComponent, GrundstueckComponent, RechtAbteilung2Component, ErbnachweisComponent, TeilungserklaerungComponent, FarbeComponent, BewilligungComponent, WeitererGrundbesitzComponent, FormDesAusdrucksComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, HinweisComponent, AntragsgenerierungComponent, FooterComponent, FileNotFoundComponent]
 })
 export class AntragsformularComponent implements OnInit {
   // Injections

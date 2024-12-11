@@ -20,6 +20,7 @@
             "outputPath": {
               "base": "dist/"
             },
+            "outputMode": "server",
             "index": "src/index.html",
             "polyfills": [
               "zone.js"
@@ -54,7 +55,6 @@
             ],
             "browser": "src/main.ts",
             "server": "src/main.server.ts",
-            "prerender": true,
             "ssr": {
               "entry": "server.ts"
             },

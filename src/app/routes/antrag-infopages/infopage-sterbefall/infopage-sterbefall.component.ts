@@ -13,7 +13,6 @@ import { HeaderComponent } from '../../../components/header/header.component';
     selector: 'app-infopage-sterbefall',
     templateUrl: './infopage-sterbefall.component.html',
     styleUrl: './infopage-sterbefall.component.scss',
-    standalone: true,
     imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 export class InfopageSterbefallComponent {

@@ -4,11 +4,10 @@ import { Antrag } from 'src/app/interfaces/antrag';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
-  selector: 'app-grundstueck',
-  templateUrl: './grundstueck.component.html',
-  styleUrls: ['./grundstueck.component.scss'],
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule]
+    selector: 'app-grundstueck',
+    templateUrl: './grundstueck.component.html',
+    styleUrls: ['./grundstueck.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundstueckComponent {
   form: FormGroup;

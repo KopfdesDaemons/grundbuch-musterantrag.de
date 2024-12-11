@@ -11,7 +11,6 @@ import { HeaderComponent } from '../header/header.component';
     templateUrl: './artikel.component.html',
     styleUrls: ['./artikel.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: true,
     imports: [HeaderComponent, ArtikelsidebarComponent, FaIconComponent, RouterLink, FooterComponent]
 })
 export class ArtikelComponent {

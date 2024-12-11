@@ -7,11 +7,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-cookies-tile',
-  standalone: true,
-  imports: [DashboardTileComponent, FontAwesomeModule],
-  templateUrl: './cookies-tile.component.html',
-  styleUrl: './cookies-tile.component.scss'
+    selector: 'app-cookies-tile',
+    imports: [DashboardTileComponent, FontAwesomeModule],
+    templateUrl: './cookies-tile.component.html',
+    styleUrl: './cookies-tile.component.scss'
 })
 export class CookiesTileComponent implements OnInit {
   cs = inject(CookiesService);

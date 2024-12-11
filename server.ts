@@ -1,8 +1,6 @@
-import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr';
+import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
-import { join, resolve } from 'node:path';
-import AppServerModule from './src/main.server';
+import { resolve } from 'node:path';
 import authMiddleware from './server/middleware/authMiddleware';
 import * as authController from './server/controller/authController';
 import submitForm from './server/controller/submitFormController';
@@ -19,39 +17,24 @@ import { SettingsService } from 'server/services/settingsService';
 import { handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
 
 
-// The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
   const browserDistFolder = resolve(SERVER_DIST_FOLDER, '../browser');
-  const indexHtml = join(SERVER_DIST_FOLDER, 'index.server.html');
+
+  const angularNodeAppEngine = new AngularNodeAppEngine();
 
   // Daten aus der .env Datei einlesen
   dotenv.config();
 
-  const commonEngine = new CommonEngine();
-
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
-
-  server.get('**', express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: 'index.html',
-    redirect: false
-  }));
-
   // Überprüfe, ob der Uploads Ordner existiert und erstelle ihn bei Bedarf
-  if (!fs.existsSync(UPLOADS_FOLDER_PATH)) {
-    fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
-  }
+  if (!fs.existsSync(UPLOADS_FOLDER_PATH)) fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
 
   SettingsService.initSettings();
-
 
   // Middlewares für die gesamte App
   server.use(fileUpload());
   server.use(express.json());
 
-  // Routen, welche nur einen Controller ansprechen
   server.post('/api/login', authController.login);
   server.get('/api/checkAuth', authController.checkToken);
   server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
@@ -65,35 +48,33 @@ export function app(): express.Express {
 
   // ausgelagerte Routen
   server.use('/', submitForm);
-  server.use('/', uploads)
+  server.use('/', uploads);
 
-  // All regular routes use the Angular engine
+  // Routen, welche die Angular Engine ansprechen
+  server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));
+
+
   server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
+    console.log('request', req.url, res.status);
 
-    commonEngine
-      .render({
-        bootstrap: AppServerModule,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
+    angularNodeAppEngine
+      .handle(req, { server: 'express' })
+      .then((response) =>
+        response ? writeResponseToNodeResponse(response, res) : next()
+      )
+      .catch(next);
   });
 
   return server;
 }
 
-function run(): void {
-  const port = process.env['PORT'] || 4000;
+const server = app();
 
-  // Start up the Node server
-  const server = app();
+if (isMainModule(import.meta.url)) {
+  const port = process.env['PORT'] || 4000;
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
-run();
+export const reqHandler = createNodeRequestHandler(server);

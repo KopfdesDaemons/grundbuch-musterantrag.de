@@ -13,7 +13,6 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
     selector: 'app-einleitung',
     templateUrl: './einleitung.component.html',
     styleUrls: ['./einleitung.component.scss'],
-    standalone: true,
     imports: [ArtikelComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent]
 })
 export class EinleitungComponent {

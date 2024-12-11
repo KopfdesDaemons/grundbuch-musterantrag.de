@@ -4,11 +4,10 @@ import { HeaderComponent } from "../../components/header/header.component";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [HeaderComponent, FormsModule, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-login',
+    imports: [HeaderComponent, FormsModule, ReactiveFormsModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss'
 })
 
 export class LoginComponent implements AfterViewInit {

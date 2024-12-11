@@ -14,11 +14,10 @@ import { MigrationTileComponent } from "../../../components/dashboard/tiles/migr
 import { SettingsTileComponent } from "../../../components/dashboard/tiles/settings-tile/settings-tile.component";
 
 @Component({
-  selector: 'app-dashboard-home',
-  standalone: true,
-  imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent, SettingsTileComponent],
-  templateUrl: './dashboard-home.component.html',
-  styleUrl: './dashboard-home.component.scss'
+    selector: 'app-dashboard-home',
+    imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent, SettingsTileComponent],
+    templateUrl: './dashboard-home.component.html',
+    styleUrl: './dashboard-home.component.scss'
 })
 export class DashboardHomeComponent {
   // Injections

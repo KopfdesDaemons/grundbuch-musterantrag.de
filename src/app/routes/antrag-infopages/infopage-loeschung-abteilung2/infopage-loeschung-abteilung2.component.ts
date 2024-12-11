@@ -13,7 +13,6 @@ import { HeaderComponent } from '../../../components/header/header.component';
     selector: 'app-infopage-loeschung-abteilung2',
     templateUrl: './infopage-loeschung-abteilung2.component.html',
     styleUrl: './infopage-loeschung-abteilung2.component.scss',
-    standalone: true,
     imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 export class InfopageLoeschungAbteilung2Component {

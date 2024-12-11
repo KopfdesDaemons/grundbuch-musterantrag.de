@@ -6,11 +6,10 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 import { UploadsService } from 'src/app/services/uploads.service';
 
 @Component({
-  selector: 'app-settings-tile',
-  standalone: true,
-  imports: [DashboardTileComponent, ProgressSpinnerComponent],
-  templateUrl: './settings-tile.component.html',
-  styleUrl: './settings-tile.component.scss'
+    selector: 'app-settings-tile',
+    imports: [DashboardTileComponent, ProgressSpinnerComponent],
+    templateUrl: './settings-tile.component.html',
+    styleUrl: './settings-tile.component.scss'
 })
 export class SettingsTileComponent implements AfterViewInit {
   private settingsS = inject(SettingsService);

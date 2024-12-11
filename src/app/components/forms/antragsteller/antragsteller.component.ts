@@ -5,11 +5,10 @@ import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-antragsteller',
-  templateUrl: './antragsteller.component.html',
-  styleUrls: ['./antragsteller.component.scss'],
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, FaIconComponent]
+    selector: 'app-antragsteller',
+    templateUrl: './antragsteller.component.html',
+    styleUrls: ['./antragsteller.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, FaIconComponent]
 })
 export class AntragstellerComponent {
 

@@ -9,15 +9,14 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  standalone: true,
-  imports: [
-    NgClass,
-    FaIconComponent,
-    RouterLink,
-  ],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    imports: [
+        NgClass,
+        FaIconComponent,
+        RouterLink,
+    ]
 })
 export class HeaderComponent implements AfterViewInit {
   // Injections

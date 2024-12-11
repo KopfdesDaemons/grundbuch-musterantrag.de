@@ -6,7 +6,6 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
     selector: 'app-abteilung3',
     templateUrl: './abteilung3.component.html',
     styleUrls: ['./abteilung3.component.scss'],
-    standalone: true,
     imports: [ArtikelComponent]
 })
 export class Abteilung3Component {

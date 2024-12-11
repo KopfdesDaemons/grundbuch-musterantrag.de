@@ -10,11 +10,10 @@ import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero
 import { HeaderComponent } from '../../../components/header/header.component';
 
 @Component({
-  selector: 'app-infopage-bewilligungen',
-  templateUrl: './infopage-bewilligungen.component.html',
-  styleUrl: './infopage-bewilligungen.component.scss',
-  standalone: true,
-  imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
+    selector: 'app-infopage-bewilligungen',
+    templateUrl: './infopage-bewilligungen.component.html',
+    styleUrl: './infopage-bewilligungen.component.scss',
+    imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 export class InfopageBewilligungenComponent {
   antrag: Antrag = new AntragAbschriftBewilligung();

@@ -4,11 +4,10 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NachlassAktenzeichenValidator } from 'src/app/validators/nachlassAktenzeichen.validator';
 
 @Component({
-  selector: 'app-erbnachweis',
-  templateUrl: './erbnachweis.component.html',
-  styleUrl: './erbnachweis.component.scss',
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule]
+    selector: 'app-erbnachweis',
+    templateUrl: './erbnachweis.component.html',
+    styleUrl: './erbnachweis.component.scss',
+    imports: [FormsModule, ReactiveFormsModule]
 })
 
 export class ErbnachweisComponent {

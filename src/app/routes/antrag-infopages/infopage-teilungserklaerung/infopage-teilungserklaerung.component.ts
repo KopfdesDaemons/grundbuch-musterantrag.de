@@ -12,7 +12,6 @@ import { HeaderComponent } from '../../../components/header/header.component';
     selector: 'app-infopage-teilungserklaerung',
     templateUrl: './infopage-teilungserklaerung.component.html',
     styleUrl: './infopage-teilungserklaerung.component.scss',
-    standalone: true,
     imports: [HeaderComponent, AntragsinfosHeroComponent, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 export class InfopageTeilungserklaerungComponent {

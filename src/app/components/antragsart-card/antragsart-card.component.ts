@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
     selector: 'app-antragsart-card',
     templateUrl: './antragsart-card.component.html',
     styleUrl: './antragsart-card.component.scss',
-    standalone: true,
     imports: [RouterLink, NgClass]
 })
 export class AntragsartCardComponent {

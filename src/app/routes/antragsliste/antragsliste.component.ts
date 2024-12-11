@@ -16,7 +16,6 @@ import { HeaderComponent } from '../../components/header/header.component';
     selector: 'app-antragsliste',
     templateUrl: './antragsliste.component.html',
     styleUrl: './antragsliste.component.scss',
-    standalone: true,
     imports: [HeaderComponent, AntragsartCardComponent, AccordionComponent, FooterComponent]
 })
 export class AntragslisteComponent {

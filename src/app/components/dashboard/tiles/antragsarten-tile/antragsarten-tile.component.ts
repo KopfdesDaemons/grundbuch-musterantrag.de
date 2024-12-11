@@ -6,11 +6,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-antragsarten-tile',
-  standalone: true,
-  imports: [DashboardTileComponent, ProgressSpinnerComponent, FontAwesomeModule],
-  templateUrl: './antragsarten-tile.component.html',
-  styleUrl: './antragsarten-tile.component.scss'
+    selector: 'app-antragsarten-tile',
+    imports: [DashboardTileComponent, ProgressSpinnerComponent, FontAwesomeModule],
+    templateUrl: './antragsarten-tile.component.html',
+    styleUrl: './antragsarten-tile.component.scss'
 })
 export class AntragsartenTileComponent implements OnInit {
   uploadsS = inject(UploadsService);

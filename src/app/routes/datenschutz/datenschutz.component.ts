@@ -6,11 +6,10 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { CookiesTileComponent } from "../../components/dashboard/tiles/cookies-tile/cookies-tile.component";
 
 @Component({
-  selector: 'app-datenschutz',
-  templateUrl: './datenschutz.component.html',
-  styleUrls: ['./datenschutz.component.scss'],
-  standalone: true,
-  imports: [HeaderComponent, FooterComponent, CookiesTileComponent]
+    selector: 'app-datenschutz',
+    templateUrl: './datenschutz.component.html',
+    styleUrls: ['./datenschutz.component.scss'],
+    imports: [HeaderComponent, FooterComponent, CookiesTileComponent]
 })
 export class DatenschutzComponent {
 

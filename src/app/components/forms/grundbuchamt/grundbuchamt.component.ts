@@ -4,11 +4,10 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
 
 @Component({
-  selector: 'app-grundbuchamt',
-  templateUrl: './grundbuchamt.component.html',
-  styleUrls: ['./grundbuchamt.component.scss'],
-  standalone: true,
-  imports: [FormsModule, ReactiveFormsModule]
+    selector: 'app-grundbuchamt',
+    templateUrl: './grundbuchamt.component.html',
+    styleUrls: ['./grundbuchamt.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundbuchamtComponent {
   form: FormGroup;

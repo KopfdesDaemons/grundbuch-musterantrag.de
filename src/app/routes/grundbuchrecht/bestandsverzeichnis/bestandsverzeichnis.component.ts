@@ -7,7 +7,6 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
     selector: 'app-bestandsverzeichnis',
     templateUrl: './bestandsverzeichnis.component.html',
     styleUrls: ['./bestandsverzeichnis.component.scss'],
-    standalone: true,
     imports: [ArtikelComponent, RouterLink]
 })
 export class BestandsverzeichnisComponent {

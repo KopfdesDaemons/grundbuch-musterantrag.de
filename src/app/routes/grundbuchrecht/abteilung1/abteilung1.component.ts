@@ -8,7 +8,6 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
     selector: 'app-abteilung1',
     templateUrl: './abteilung1.component.html',
     styleUrls: ['./abteilung1.component.scss'],
-    standalone: true,
     imports: [ArtikelComponent, RouterLink]
 })
 export class Abteilung1Component {

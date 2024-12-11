@@ -5,11 +5,10 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-accordion',
-  templateUrl: './accordion.component.html',
-  styleUrls: ['./accordion.component.scss'],
-  standalone: true,
-  imports: [NgClass, FaIconComponent],
+    selector: 'app-accordion',
+    templateUrl: './accordion.component.html',
+    styleUrls: ['./accordion.component.scss'],
+    imports: [NgClass, FaIconComponent]
 })
 export class AccordionComponent {
   // Injections

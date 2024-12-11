@@ -6,11 +6,10 @@ import { Migration } from 'src/app/models/migration';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-migration-tile',
-  standalone: true,
-  imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule],
-  templateUrl: './migration-tile.component.html',
-  styleUrl: './migration-tile.component.scss'
+    selector: 'app-migration-tile',
+    imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule],
+    templateUrl: './migration-tile.component.html',
+    styleUrl: './migration-tile.component.scss'
 })
 export class MigrationTileComponent {
   migrationS = inject(MigrationService);

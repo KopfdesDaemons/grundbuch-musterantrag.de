@@ -5,11 +5,10 @@ import { NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-artikelsidebar',
-  templateUrl: './artikelsidebar.component.html',
-  styleUrls: ['./artikelsidebar.component.scss'],
-  standalone: true,
-  imports: [FaIconComponent, NgClass, RouterLink]
+    selector: 'app-artikelsidebar',
+    templateUrl: './artikelsidebar.component.html',
+    styleUrls: ['./artikelsidebar.component.scss'],
+    imports: [FaIconComponent, NgClass, RouterLink]
 })
 export class ArtikelsidebarComponent {
   // Injections

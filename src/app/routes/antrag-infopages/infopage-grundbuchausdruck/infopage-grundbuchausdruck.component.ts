@@ -25,7 +25,6 @@ import { HeaderComponent } from '../../../components/header/header.component';
     selector: 'app-home',
     templateUrl: './infopage-grundbuchausdruck.component.html',
     styleUrls: ['./infopage-grundbuchausdruck.component.scss'],
-    standalone: true,
     imports: [HeaderComponent, AntragsinfosHeroComponent, FaIconComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 

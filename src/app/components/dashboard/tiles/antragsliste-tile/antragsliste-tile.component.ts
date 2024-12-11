@@ -9,11 +9,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-antragsliste-tile',
-  standalone: true,
-  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule],
-  templateUrl: './antragsliste-tile.component.html',
-  styleUrl: './antragsliste-tile.component.scss'
+    selector: 'app-antragsliste-tile',
+    imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule],
+    templateUrl: './antragsliste-tile.component.html',
+    styleUrl: './antragsliste-tile.component.scss'
 })
 export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
