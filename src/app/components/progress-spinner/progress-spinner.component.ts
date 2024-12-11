@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, ViewChild, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -10,8 +10,8 @@ import { NgClass } from '@angular/common';
 export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
 
   @ViewChild('circle') circle!: ElementRef;
-  @Input() prozent: number = 100;
-  @Input() endless: boolean = false;
+  readonly prozent = input<number>(100);
+  readonly endless = input<boolean>(false);
   radius!: number;
   circumference!: number;
 
@@ -21,8 +21,8 @@ export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
 
     this.circle.nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
     this.circle.nativeElement.style.strokeDashoffset = `${this.circumference}`;
-    this.setProgress(this.prozent);
-    if (this.endless) {
+    this.setProgress(this.prozent());
+    if (this.endless()) {
       this.setProgress(40);
     }
   }

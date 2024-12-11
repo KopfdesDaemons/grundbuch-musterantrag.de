@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { faFilePdf, faPrint, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -15,5 +15,5 @@ export class AntragsinfosHeroComponent {
   faPrint = faPrint;
   faDownload = faDownload;
 
-  @Input() antragsart!: Antrag;
+  readonly antragsart = input.required<Antrag>();
 }

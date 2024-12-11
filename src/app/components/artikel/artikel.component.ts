@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, input } from '@angular/core';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterLink } from '@angular/router';
@@ -14,7 +14,7 @@ import { HeaderComponent } from '../header/header.component';
     imports: [HeaderComponent, ArtikelsidebarComponent, FaIconComponent, RouterLink, FooterComponent]
 })
 export class ArtikelComponent {
-  @Input() nextSite: string = '';
+  readonly nextSite = input<string>('');
   faPrint = faPrint;
 
   print() {

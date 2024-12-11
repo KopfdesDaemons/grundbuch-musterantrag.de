@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, ViewChild, input } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/cookies.service';
 import { FarbconverterService } from 'src/app/services/farbconverter.service';
@@ -44,7 +44,7 @@ export class HeaderComponent implements AfterViewInit {
   @ViewChild('closingdiv') closingdiv!: ElementRef;
   @ViewChild('cookiebanner') cookiebanner!: ElementRef;
   @ViewChild('colorPicker') colorPicker!: ElementRef;
-  @Input() background: string = 'var(--gradient)';
+  readonly background = input<string>('var(--gradient)');
 
   ngAfterViewInit(): void {
     this.cs.cookieRequestList.subscribe((c: cookie[]) => { this.showCookieBanner(); });

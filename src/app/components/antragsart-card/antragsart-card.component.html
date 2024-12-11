@@ -1,26 +1,26 @@
-<a routerLink="{{antragsRoute}}">
-    <h2>{{title}}</h2>
+<a routerLink="{{antragsRoute()}}">
+    <h2>{{title()}}</h2>
 </a>
 <p>
-    {{description}}
+    {{description()}}
 </p>
 <div class="gebuehrDiv">
     <span>Gebühr des Grundbuchamts:</span>
-    <span [ngClass]="gebuehr === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{gebuehr}}</span>
+    <span [ngClass]="gebuehr() === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{gebuehr()}}</span>
 </div>
-@if(erforderlicheUnterlagen.length > 0) {
+@if(erforderlicheUnterlagen().length > 0) {
 <div class="erforderlicheUnterlagenDiv">
     <h3>Erforderliche Unterlagen:</h3>
     <ul>
-        @for(unterlage of erforderlicheUnterlagen; track unterlage) {
+        @for(unterlage of erforderlicheUnterlagen(); track unterlage) {
         <li>{{unterlage}}</li>
         }
     </ul>
 </div>
 }
 <div class="buttonsRow">
-    @if(mehrInfosRoute) {
-    <a routerLink="{{mehrInfosRoute}}" class="btntext">mehr Infos</a>
+    @if(mehrInfosRoute()) {
+    <a routerLink="{{mehrInfosRoute()}}" class="btntext">mehr Infos</a>
     }
-    <a routerLink="{{antragsRoute}}" class="btnoutlined">Antrag ausfüllen</a>
+    <a routerLink="{{antragsRoute()}}" class="btnoutlined">Antrag ausfüllen</a>
 </div>

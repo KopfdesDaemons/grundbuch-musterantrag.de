@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     selector: 'app-dashboard-tile',
@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
     styleUrl: './dashboard-tile.component.scss'
 })
 export class DashboardTileComponent {
-  @Input() tileTitle: string = '';
+  readonly tileTitle = input<string>('');
 }
