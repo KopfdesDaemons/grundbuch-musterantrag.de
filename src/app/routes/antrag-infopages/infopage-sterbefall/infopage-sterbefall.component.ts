@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
@@ -16,9 +16,12 @@ import { HeaderComponent } from '../../../components/header/header.component';
     imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
 })
 export class InfopageSterbefallComponent {
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
   antrag: Antrag = new AntragGrundbuchberichtigungSterbefall();
 
-  constructor(private meta: Meta, private titleService: Title) {
+  constructor() {
     this.meta.updateTag({
       name: 'description',
       content: 'Download eines Musterantrags auf ' + this.antrag.title + ' als .pdf oder docx.'

@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CookiesService } from './services/cookies.service';
@@ -9,8 +9,11 @@ import { AuthService } from './services/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard {
+  cs = inject(CookiesService);
+  router = inject(Router);
+  private platformId = inject<Object>(PLATFORM_ID);
+  private authS = inject(AuthService);
 
-  constructor(public cs: CookiesService, public router: Router, @Inject(PLATFORM_ID) private platformId: Object, private authS: AuthService) { }
 
   async canActivate(
     route: ActivatedRouteSnapshot,

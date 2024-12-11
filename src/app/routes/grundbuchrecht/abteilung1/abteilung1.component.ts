@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
@@ -11,7 +11,10 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
     imports: [ArtikelComponent, RouterLink]
 })
 export class Abteilung1Component {
-  constructor(private meta: Meta, private titleService: Title) {
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
+  constructor() {
     this.meta.addTag({ 
       name: 'description',
       content: 'Eine kompakte Einleitung ins Grundbuchrecht. Kurze Erklärung der Eintragungen der Abteilung I des Grundbuchs.' });

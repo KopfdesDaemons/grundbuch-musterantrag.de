@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -29,6 +29,9 @@ import { HeaderComponent } from '../../../components/header/header.component';
 })
 
 export class InfopageGrundbuchausdruckComponent {
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
   title = 'grundbuch';
   faEnvelope = faEnvelope;
   faFax = faFax;
@@ -40,7 +43,7 @@ export class InfopageGrundbuchausdruckComponent {
   faMapMarkedAlt = faMapMarkedAlt;
   antrag: Antrag = new AntragGrundbuchausdruck();
 
-  constructor(private meta: Meta, private titleService: Title) {
+  constructor() {
     this.meta.updateTag({
       name: 'description',
       content: 'Download eines Musterantrags auf ' + this.antrag.title + ' als .pdf oder docx.'

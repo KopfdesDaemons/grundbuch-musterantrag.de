@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -10,7 +10,9 @@ import { HeaderComponent } from '../../components/header/header.component';
     imports: [HeaderComponent, FooterComponent]
 })
 export class ImpressumComponent {
-  constructor(public titleService: Title){
+  titleService = inject(Title);
+
+  constructor(){
     this.titleService.setTitle('Impressum');
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
 import {
@@ -16,10 +16,13 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
     imports: [ArtikelComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent]
 })
 export class EinleitungComponent {
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
   faUniversity = faUniversity;
   faMapMarkedAlt = faMapMarkedAlt;
 
-  constructor(private meta: Meta, private titleService: Title) {
+  constructor() {
     this.meta.addTag({ 
       name: 'description',
       content: 'Eine kompakte Einleitung ins Grundbuchrecht. Einfach geschrieben und die wichtigsten Themen angesprochen.' });

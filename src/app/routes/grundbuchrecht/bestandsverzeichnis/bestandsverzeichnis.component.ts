@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { ArtikelComponent } from '../../../components/artikel/artikel.component';
@@ -10,7 +10,10 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
     imports: [ArtikelComponent, RouterLink]
 })
 export class BestandsverzeichnisComponent {
-  constructor(private meta: Meta, private titleService: Title) {
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
+  constructor() {
     this.meta.addTag({ 
       name: 'description',
       content: 'Eine kompakte Einleitung ins Grundbuchrecht. Kurze Erklärung des Bestandsverzeichnises des Grundbuchs.' });

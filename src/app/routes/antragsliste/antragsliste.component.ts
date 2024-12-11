@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragAbschriftBewilligung } from 'src/app/models/antragAbschriftBewilligung';
@@ -29,7 +29,10 @@ export class AntragslisteComponent {
     new AntragTeilungserklaerung
   ];
 
-  constructor(meta: Meta, title: Title) {
+  constructor() {
+    const meta = inject(Meta);
+    const title = inject(Title);
+
     meta.updateTag({
       name: 'description',
       content: 'Generierung und Download als pdf oder docx. von Musteranträgen für das Grundbuchamt'

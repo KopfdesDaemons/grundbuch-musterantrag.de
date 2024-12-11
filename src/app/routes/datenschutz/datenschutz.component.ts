@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -12,8 +12,11 @@ import { CookiesTileComponent } from "../../components/dashboard/tiles/cookies-t
     imports: [HeaderComponent, FooterComponent, CookiesTileComponent]
 })
 export class DatenschutzComponent {
+  private titleService = inject(Title);
+  cs = inject(CookiesService);
 
-  constructor(private titleService: Title, public cs: CookiesService) {
+
+  constructor() {
     this.titleService.setTitle('Datenschutzerklärung');
   }
 

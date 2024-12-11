@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   faFilePdf,
   faEnvelope,
@@ -26,6 +26,9 @@ import { RouterOutlet } from '@angular/router';
     imports: [RouterOutlet]
 })
 export class AppComponent {
+  private titleService = inject(Title);
+  dl = inject(DesignloaderService);
+
   title = 'grundbuch';
   faFilePdf = faFilePdf;
   faPrint = faPrint;
@@ -40,7 +43,7 @@ export class AppComponent {
   faUniversity = faUniversity;
   faMapMarkedAlt = faMapMarkedAlt;
 
-  constructor(private titleService: Title, public dl: DesignloaderService) {
+  constructor() {
     this.titleService.setTitle('Grundbuch-Musterantrag.de');
   }
 }
