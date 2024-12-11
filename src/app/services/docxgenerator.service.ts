@@ -6,7 +6,6 @@ import { Antrag } from '../interfaces/antrag';
   providedIn: 'root'
 })
 export class DocxgeneratorService {
-  // Injections
   private platformId = inject(PLATFORM_ID);
 
   progress = 0;
@@ -52,7 +51,7 @@ export class DocxgeneratorService {
     });
 
 
-    // Setze Variablen
+    // Setze Variablen und rendere die Templatedatei
     this.progress = 30;
     this.statusmeldung.set('Die Templatedatei wird verarbeitet.');
     let doc;
@@ -64,19 +63,7 @@ export class DocxgeneratorService {
         parser: expressionParser,
         nullGetter() { return ''; }
       });
-      doc.setData(antrag);
-    } catch (error) {
-      this.fehler.set(true);
-      this.statusmeldung.set('Fehler beim Setzen der Variablen in die Templatedatei.');
-      throw error;
-    }
-
-
-    // Rendere die docx Datei
-    this.progress = 40;
-    this.statusmeldung.set('Das Template wird mit den eingesetzten Variablen gerendert.');
-    try {
-      doc.render();
+      doc.render(antrag);
     } catch (error) {
       this.fehler.set(true);
       this.statusmeldung.set('Fehler beim Rendern der Templatedatei.');
