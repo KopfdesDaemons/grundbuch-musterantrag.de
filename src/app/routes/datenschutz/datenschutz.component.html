@@ -7,14 +7,16 @@
         <span>Pommernstraße 48</span>
         <span>34497 Korbach</span>
         <a target="_blank" href="mailto:MailvonRico@gmail.com">MailvonRico&#64;gmail.com</a>
+        <a href="https://ricoswebsite.com/" target="_blank">ricoswebsite.com</a>
     </div>
 </section>
 <section>
     <div class="sectiondiv">
         <h2>Antragsformular</h2>
-        <p>Nach dem Abschließen des Antragsformulars werden die eingegeben Daten an den Webserver gesendet. Dies ist
-            technisch notwendig, damit der Antrag als PDF generiert werden kann. Die Daten werden nur für die
-            Generierung des Antrages genutzt. </p>
+        <p>Nach dem Abschließen des Antragsformulars wird die DOCX-Datei im Browser generiert. Danach wird die
+            DOCX-Datei an den Webserver gesendet. Dies ist
+            technisch notwendig, damit der Antrag als PDF generiert werden kann. Zusätzlich wird das zuständige
+            Grundbuchamt übermittelt.</p>
         <p>Im Antragsformular werden die Pflichtangaben klar von den optionalen Angaben unterschieden. Die
             Pflichtangaben sind die Minimalangaben, die für den Antrag benötigt werden.</p>
         <p>Die IP-Adresse wird zwangsläufig übertragen.</p>
@@ -25,6 +27,22 @@
         <p>Für die optionalen Angaben gilt mit der freiwilligen Angabe eine stillschweigende Einwilligung gemäß
             <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) a) DSGVO</a>.
         </p>
+        <p>Nachdem die PDF-Datei vom Server an die Nutzer gesendet wurde, wird die PDF-Datei und auch die DOCX-Datei
+            gelöscht. Auf dem Server verbleiben folgende Daten ohne Personenbezug:</p>
+        <h3>Angabe, welche Dateien generiert wurden</h3>
+        <p class="eingerückt">Gespeichert wird nur, ob die DOCX-Datei und die PDF-Datei erfolgreich generiert wurden.
+            Dies dient zur Kontrolle, ob die Generierungen erfolgreich sind oder Probleme bestehen.</p>
+        <h3>Uploaddatum</h3>
+        <p class="eingerückt">Das Uploaddatum der Datei. Dient zur Übersicht, wann wie viele Anträge generiert wurden.
+        </p>
+        <h3>Antragsart</h3>
+        <p class="eingerückt">Welcher Antrag generiert wurde. Es wird eine Statistik geführt, welche Anträge wie oft
+            generiert wurden.</p>
+        <h3>Grundbuchamt</h3>
+        <p class="eingerückt">Welches Grundbuchamt zuständig ist. Gespeichert wird nur die Bezeichnung des
+            Grundbuchamts.</p>
+        <p>Der <a href="https://github.com/KopfdesDaemons/grundbuch-musterantrag.de" target="_blank">Quellcode</a> des
+            ganzen Projekts ist öffentlich einsehbar.</p>
     </div>
 </section>
 <section>
@@ -38,16 +56,15 @@
         <h3>Cookie "Farbe"</h3>
         <p class="eingerückt">Speichert die Auswahl der Farbe der Webseite. Ohne Cookie wird die Farbe blau
             verwendet.</p>
-        <p>Es ist <a class="dsgvo" target="_blank"
+        <p>
+            Es ist <a class="dsgvo" target="_blank"
                 href="https://www.e-recht24.de/artikel/datenschutz/12962-was-sind-essenzielle-cookies.html">
                 rechtlich umstritten</a>, ob Desigen-Cookies als essentiellle Cookies gemäß <a class="dsgvo"
                 target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) f) DSGVO</a> gelten. Deshalb
-            wird
-            die Einwilligung
-            eingeholt gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1)
-                a)
-                DSGVO</a>.
-            Die Dauer der Speicherung beträgt für beide Cookies 90 Tage.</p>
+            wird die Einwilligung eingeholt gemäß <a class="dsgvo" target="_blank"
+                href="https://dsgvo-gesetz.de/art-6-dsgvo/">
+                Art. 6 (1) a) DSGVO</a>. Die Dauer der Speicherung beträgt für beide Cookies 90 Tage.
+        </p>
         <app-cookies-tile></app-cookies-tile>
     </div>
 </section>
