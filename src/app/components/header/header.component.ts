@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, ViewChild, input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/cookies.service';
 import { FarbconverterService } from 'src/app/services/farbconverter.service';
@@ -41,9 +41,9 @@ export class HeaderComponent implements AfterViewInit {
     'hsl(110, 69%, 50%)'
   ];
 
-  @ViewChild('closingdiv') closingdiv!: ElementRef;
-  @ViewChild('cookiebanner') cookiebanner!: ElementRef;
-  @ViewChild('colorPicker') colorPicker!: ElementRef;
+  readonly closingdiv = viewChild.required<ElementRef>('closingdiv');
+  readonly cookiebanner = viewChild.required<ElementRef>('cookiebanner');
+  readonly colorPicker = viewChild.required<ElementRef>('colorPicker');
   readonly background = input<string>('var(--gradient)');
 
   ngAfterViewInit(): void {
@@ -89,7 +89,7 @@ export class HeaderComponent implements AfterViewInit {
     if (this.isDisplayed) return;
     if (this.cs.cookieRequestList.value.length == 0) return;
     this.consent = this.cs.cookieRequestList.value[0].consent;
-    this.cookiebanner.nativeElement.classList.remove("ausgeblendet");
+    this.cookiebanner().nativeElement.classList.remove("ausgeblendet");
     this.isDisplayed = true;
   }
 
@@ -99,7 +99,7 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   async nextBanner() {
-    this.cookiebanner.nativeElement.classList.add("ausgeblendet");
+    this.cookiebanner().nativeElement.classList.add("ausgeblendet");
     var c: cookie = this.cs.cookieRequestList.value[0];
     this.cs.cookieRequested(c);
     await this.delay(1000);

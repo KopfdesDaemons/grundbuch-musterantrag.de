@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject, input } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { DesignloaderService } from 'src/app/services/designloader.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -18,10 +18,10 @@ export class AccordionComponent {
   faAngleDown = faAngleDown;
 
   readonly frage = input<string>('');
-  @ViewChild('accordionhead') accordionhead!: ElementRef;
+  readonly accordionhead = viewChild.required<ElementRef>('accordionhead');
 
   click() {
-    const selectedElement = this.accordionhead.nativeElement;
+    const selectedElement = this.accordionhead().nativeElement;
 
     selectedElement.classList.toggle('FrageHeadAngeglickt');
     var Antwort = selectedElement.nextElementSibling;

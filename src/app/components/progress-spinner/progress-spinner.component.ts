@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, ViewChild, input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, input, viewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -9,18 +9,19 @@ import { NgClass } from '@angular/common';
 })
 export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
 
-  @ViewChild('circle') circle!: ElementRef;
+  readonly circle = viewChild.required<ElementRef>('circle');
   readonly prozent = input<number>(100);
   readonly endless = input<boolean>(false);
   radius!: number;
   circumference!: number;
 
   ngAfterViewInit(): void {
-    this.radius = this.circle!.nativeElement.getAttribute('r');
+    this.radius = this.circle()!.nativeElement.getAttribute('r');
     this.circumference = this.radius * 2 * Math.PI;
 
-    this.circle.nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
-    this.circle.nativeElement.style.strokeDashoffset = `${this.circumference}`;
+    const circle = this.circle();
+    circle.nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+    circle.nativeElement.style.strokeDashoffset = `${this.circumference}`;
     this.setProgress(this.prozent());
     if (this.endless()) {
       this.setProgress(40);
@@ -28,17 +29,18 @@ export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['prozent'] && this.circle) {
+    const circle = this.circle();
+    if (changes['prozent'] && circle) {
       const percent = parseInt(changes['prozent'].currentValue);
       this.setProgress(percent);
     }
-    if (changes['endless'] && this.circle) {
+    if (changes['endless'] && circle) {
       this.setProgress(40);
     }
   }
 
   setProgress(percent: number) {
     const offset = this.circumference - percent / 100 * this.circumference;
-    this.circle.nativeElement.style.strokeDashoffset = offset;
+    this.circle().nativeElement.style.strokeDashoffset = offset;
   }
 }

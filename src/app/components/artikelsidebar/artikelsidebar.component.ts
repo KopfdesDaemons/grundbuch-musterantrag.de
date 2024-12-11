@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { faSortDown, faBars } from '@fortawesome/free-solid-svg-icons';
 import { NgClass } from '@angular/common';
@@ -14,9 +14,9 @@ export class ArtikelsidebarComponent {
   // Injections
   router = inject(Router);
 
-  @ViewChild('sidebar') sidebar!: ElementRef;
-  @ViewChild('sidebarbutton') sidebarbutton!: ElementRef;
-  @ViewChild('closingdiv') closingdiv!: ElementRef;
+  readonly sidebar = viewChild.required<ElementRef>('sidebar');
+  readonly sidebarbutton = viewChild.required<ElementRef>('sidebarbutton');
+  readonly closingdiv = viewChild.required<ElementRef>('closingdiv');
   faSortDown = faSortDown;
   faBars = faBars;
 
@@ -92,14 +92,14 @@ export class ArtikelsidebarComponent {
   }
 
   open() {
-    this.sidebar.nativeElement.classList.add("sidebaroffen");
-    this.sidebarbutton.nativeElement.style.display = "none";
-    this.closingdiv.nativeElement.style.display = "block";
+    this.sidebar().nativeElement.classList.add("sidebaroffen");
+    this.sidebarbutton().nativeElement.style.display = "none";
+    this.closingdiv().nativeElement.style.display = "block";
   }
 
   close() {
-    this.sidebar.nativeElement.classList.remove("sidebaroffen");
-    this.sidebarbutton.nativeElement.style.display = "flex";
-    this.closingdiv.nativeElement.style.display = "none";
+    this.sidebar().nativeElement.classList.remove("sidebaroffen");
+    this.sidebarbutton().nativeElement.style.display = "flex";
+    this.closingdiv().nativeElement.style.display = "none";
   }
 }
