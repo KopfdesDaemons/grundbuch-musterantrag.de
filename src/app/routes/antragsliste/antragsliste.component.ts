@@ -13,10 +13,10 @@ import { AntragsartCardComponent } from '../../components/antragsart-card/antrag
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
-    selector: 'app-antragsliste',
-    templateUrl: './antragsliste.component.html',
-    styleUrl: './antragsliste.component.scss',
-    imports: [HeaderComponent, AntragsartCardComponent, AccordionComponent, FooterComponent]
+  selector: 'app-antragsliste',
+  templateUrl: './antragsliste.component.html',
+  styleUrl: './antragsliste.component.scss',
+  imports: [HeaderComponent, AntragsartCardComponent, AccordionComponent, FooterComponent]
 })
 export class AntragslisteComponent {
 
@@ -35,7 +35,7 @@ export class AntragslisteComponent {
 
     meta.updateTag({
       name: 'description',
-      content: 'Generierung und Download als pdf oder docx. von Musteranträgen für das Grundbuchamt'
+      content: 'Generierung und Download von Musteranträgen für das Grundbuchamt als DOCX- oder PDF-Datei'
     });
     title.setTitle('Kostenlose Musteranträge für das Grundbuchamt');
   }
