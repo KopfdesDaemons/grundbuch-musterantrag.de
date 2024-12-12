@@ -26,7 +26,7 @@ jobs:
       # Backup der aktuellen Version
       - name: Backup current version
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "cp -r /var/www/grundbuch-musterantrag.de ~/grundbuch-musterantrag.de_backup_$(date +'%Y%m%d%H%M%S')"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "cp -r /var/www/html/grundbuch-musterantrag.de ~/grundbuch-musterantrag.de_backup_$(date +'%Y%m%d%H%M%S')"
 
       # Baue die Angular-Anwendung
       - name: Build Angular app
@@ -37,7 +37,7 @@ jobs:
       # Deployment der Anwendung auf den Server
       - name: Deploy to server
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ rico@217.160.208.184:/var/www/grundbuch-musterantrag.de
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ rico@217.160.208.184:/var/www/html/grundbuch-musterantrag.de
 
       # Neustart der Node.js-Anwendung mit PM2
       - name: Restart PM2 application
@@ -60,8 +60,8 @@ jobs:
       - name: Rollback to previous version
         run: |
           BACKUP_DIR=$(ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "ls -td ~/grundbuch-musterantrag.de_backup_* | head -n 1")
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "rm -rf /var/www/grundbuch-musterantrag.de"
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "mv $BACKUP_DIR /var/www/grundbuch-musterantrag.de"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "rm -rf /var/www/html/grundbuch-musterantrag.de"
+          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "mv $BACKUP_DIR /var/www/html/grundbuch-musterantrag.de"
 
       # Neustart der Node.js-Anwendung mit PM2 nach Rollback
       - name: Restart PM2 application after rollback
