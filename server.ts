@@ -70,11 +70,9 @@ export function app(): express.Express {
 
 const server = app();
 
-if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 4000;
-  server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
-}
+const port = process.env['PORT'] || 4000;
+server.listen(port, () => {
+  console.log(`Node Express server listening on http://localhost:${port}`);
+});
 
 export const reqHandler = createNodeRequestHandler(server);
