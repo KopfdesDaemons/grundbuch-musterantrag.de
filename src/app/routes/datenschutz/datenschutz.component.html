@@ -86,6 +86,16 @@
             Diese Dienste werden verwendet damit das Ausfüllen des Antragsformulars erleichtert wird. Dies liegt
             auch im Interesse des
             Nutzers. </p>
+        <h3>Disqus</h3>
+        <p class="eingerückt">Zur Bereitstellung der Kommentarfunktion wird der Drittanbieter <a
+                href="https://disqus.com/" target="_blank">Disqus</a> eingesetzt. Die Kommentarfunktion wird nur
+            geladen, wenn der Benutzer
+            zustimmt. Rechtsgrundlage ist daher <a href="https://dsgvo-gesetz.de/art-6-dsgvo/" target="_blank">Art. 6
+                Abs. 1 lit. a
+                DSGVO</a>. Welche Daten übertragen und wie diese genutzt werden, können Sie der <a
+                href="https://disqus.com/privacy-policy/" target="_blank">Datenschutzerklärung von Disqus</a> entnehmen.
+        </p>
+        <button class="btntext" (click)="revokeDisqus('Disqus')">Zustimmung widerrufen</button>
     </div>
 </section>
 <section>
@@ -101,6 +111,7 @@
                 sowie das Recht auf Datenübertragbarkeit.</li>
             <li>gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-13-dsgvo/">Art. 13 (2) c)
                     DSGVO</a> auf Widerruf einer abgegebenen Einwilligung zur Verarbeitung personenbezogener Daten.
+                <br>
                 <button class="btntext" (click)="deleteCookies()">Cookies löschen</button>
             </li>
             <li>gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-13-dsgvo/">Art. 13 (2) d)

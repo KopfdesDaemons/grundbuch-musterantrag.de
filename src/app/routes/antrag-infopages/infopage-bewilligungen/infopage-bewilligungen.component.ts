@@ -8,12 +8,13 @@ import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components
 import { RouterLink } from '@angular/router';
 import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
 import { HeaderComponent } from '../../../components/header/header.component';
+import { DisqusComponent } from "../../../components/disqus/disqus.component";
 
 @Component({
-    selector: 'app-infopage-bewilligungen',
-    templateUrl: './infopage-bewilligungen.component.html',
-    styleUrl: './infopage-bewilligungen.component.scss',
-    imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
+  selector: 'app-infopage-bewilligungen',
+  templateUrl: './infopage-bewilligungen.component.html',
+  styleUrl: './infopage-bewilligungen.component.scss',
+  imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent, DisqusComponent]
 })
 export class InfopageBewilligungenComponent {
   private meta = inject(Meta);

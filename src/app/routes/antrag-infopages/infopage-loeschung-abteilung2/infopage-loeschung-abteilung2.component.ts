@@ -8,12 +8,13 @@ import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components
 import { RouterLink } from '@angular/router';
 import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
 import { HeaderComponent } from '../../../components/header/header.component';
+import { DisqusComponent } from "../../../components/disqus/disqus.component";
 
 @Component({
-    selector: 'app-infopage-loeschung-abteilung2',
-    templateUrl: './infopage-loeschung-abteilung2.component.html',
-    styleUrl: './infopage-loeschung-abteilung2.component.scss',
-    imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
+  selector: 'app-infopage-loeschung-abteilung2',
+  templateUrl: './infopage-loeschung-abteilung2.component.html',
+  styleUrl: './infopage-loeschung-abteilung2.component.scss',
+  imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent, DisqusComponent]
 })
 export class InfopageLoeschungAbteilung2Component {
   private meta = inject(Meta);

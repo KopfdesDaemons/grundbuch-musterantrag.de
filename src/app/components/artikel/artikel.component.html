@@ -10,5 +10,10 @@
             <button routerLink="{{nextSite()}}">Nächste Seite</button>
         </div>
     </section>
+    <section>
+        <div class="sectiondiv">
+            <app-disqus [identifier]="title()"></app-disqus>
+        </div>
+    </section>
 </div>
 <app-footer></app-footer>

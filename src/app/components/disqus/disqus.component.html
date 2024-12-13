@@ -1,0 +1,17 @@
+@if (disqusS.consent()) {
+<div #disqusDiv id="disqus_thread"></div>
+}
+@if (!disqusS.consent()) {
+<div class="consentBanner">
+    <button class="btnoutlined" (click)="giveConsent()">
+        <fa-icon [icon]="faComment"></fa-icon>
+        <span>{{'Kommentare anzeigen'}}</span>
+    </button>
+    <span class="disclaimer">
+        Die Kommentare werden geladen vom Drittanbieter
+        <a href="https://disqus.com/" target="_blank">Disqus</a>
+        . Für mehr Details siehe
+        <a [routerLink]="['/datenschutz']">Datenschutzerklärung</a>.
+    </span>
+</div>
+}

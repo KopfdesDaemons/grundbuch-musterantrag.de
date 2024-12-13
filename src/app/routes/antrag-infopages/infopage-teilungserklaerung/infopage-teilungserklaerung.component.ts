@@ -7,12 +7,13 @@ import { AccordionComponent } from '../../../components/accordion/accordion.comp
 import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
 import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
 import { HeaderComponent } from '../../../components/header/header.component';
+import { DisqusComponent } from "../../../components/disqus/disqus.component";
 
 @Component({
-    selector: 'app-infopage-teilungserklaerung',
-    templateUrl: './infopage-teilungserklaerung.component.html',
-    styleUrl: './infopage-teilungserklaerung.component.scss',
-    imports: [HeaderComponent, AntragsinfosHeroComponent, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
+  selector: 'app-infopage-teilungserklaerung',
+  templateUrl: './infopage-teilungserklaerung.component.html',
+  styleUrl: './infopage-teilungserklaerung.component.scss',
+  imports: [HeaderComponent, AntragsinfosHeroComponent, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent, DisqusComponent]
 })
 export class InfopageTeilungserklaerungComponent {
   private meta = inject(Meta);

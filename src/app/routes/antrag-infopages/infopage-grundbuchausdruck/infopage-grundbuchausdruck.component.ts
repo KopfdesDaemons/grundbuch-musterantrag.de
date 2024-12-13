@@ -18,14 +18,15 @@ import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
 import { HeaderComponent } from '../../../components/header/header.component';
+import { DisqusComponent } from "../../../components/disqus/disqus.component";
 
 
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './infopage-grundbuchausdruck.component.html',
-    styleUrls: ['./infopage-grundbuchausdruck.component.scss'],
-    imports: [HeaderComponent, AntragsinfosHeroComponent, FaIconComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent]
+  selector: 'app-home',
+  templateUrl: './infopage-grundbuchausdruck.component.html',
+  styleUrls: ['./infopage-grundbuchausdruck.component.scss'],
+  imports: [HeaderComponent, AntragsinfosHeroComponent, FaIconComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent, DisqusComponent]
 })
 
 export class InfopageGrundbuchausdruckComponent {
