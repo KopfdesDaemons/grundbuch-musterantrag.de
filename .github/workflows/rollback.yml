@@ -7,6 +7,11 @@ jobs:
   rollback:
     runs-on: ubuntu-latest
 
+    env:
+      SERVER_USER: rico
+      SERVER_HOST: 217.160.208.184
+      TARGET_DIR: /var/www/html/grundbuch-musterantrag.de
+
     steps:
       # Konfiguration der SSH-Verbindung
       - name: Setup SSH
@@ -17,11 +22,11 @@ jobs:
       # Rollback zur letzten Sicherung
       - name: Rollback to previous version
         run: |
-          BACKUP_DIR=$(ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "ls -td ~/grundbuch-musterantrag.de_backup_* | head -n 1")
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "rm -rf /var/www/grundbuch-musterantrag.de"
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "mv $BACKUP_DIR /var/www/grundbuch-musterantrag.de"
+          BACKUP_DIR=$(ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST "ls -td ~/grundbuch-musterantrag.de_backup_* | head -n 1")
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST "rm -rf $TARGET_DIR"
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST "mv $BACKUP_DIR $TARGET_DIR"
 
       # Neustart der Node.js-Anwendung mit PM2 nach Rollback
       - name: Restart PM2 application after rollback
         run: |
-          ssh -o StrictHostKeyChecking=no rico@217.160.208.184 "pm2 restart server"
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST "pm2 restart server"

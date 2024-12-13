@@ -40,7 +40,7 @@ export const checkToken = async (req: Request, res: Response) => {
         if (error.message === 'Token ungültig') {
             return res.sendStatus(403);
         }
-        logger.error('Fehler bei der Prüfung des Tokens:', error);
+        logger.error('Fehler bei der Prüfung des Tokens: ', error);
         return res.status(500).send('Interner Serverfehler');
     }
 }

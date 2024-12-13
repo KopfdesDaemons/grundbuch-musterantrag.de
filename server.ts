@@ -1,4 +1,4 @@
-import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
+import { AngularNodeAppEngine, createNodeRequestHandler, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
 import { resolve } from 'node:path';
 import authMiddleware from './server/middleware/authMiddleware';
@@ -11,7 +11,7 @@ import * as dotenv from 'dotenv';
 import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
 import { generateStatistic as handleGenerateStatistic, getStatistic } from 'server/controller/statisticController';
-import { SERVER_DIST_FOLDER, UPLOADS_FOLDER_PATH } from 'server/config/config';
+import { SERVER_DIST_FOLDER, STORAGE_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/config';
 import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 import { SettingsService } from 'server/services/settingsService';
 import { handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
@@ -26,7 +26,8 @@ export function app(): express.Express {
   // Daten aus der .env Datei einlesen
   dotenv.config();
 
-  // Überprüfe, ob der Uploads Ordner existiert und erstelle ihn bei Bedarf
+  // Überprüfe, ob Ordner existiert und erstelle ihn bei Bedarf
+  if (!fs.existsSync(STORAGE_FOLDER_PATH)) fs.mkdirSync(STORAGE_FOLDER_PATH, { recursive: true });
   if (!fs.existsSync(UPLOADS_FOLDER_PATH)) fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
 
   SettingsService.initSettings();

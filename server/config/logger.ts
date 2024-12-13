@@ -1,9 +1,5 @@
 import { createLogger, transports, format } from 'winston';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-
-const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
+import { LOG_FILE_PATH } from './config';
 
 const logger = createLogger({
     level: 'info',
@@ -15,7 +11,7 @@ const logger = createLogger({
     transports: [
         new transports.Console(),
         new transports.File({
-            filename: SERVER_DIST_FOLDER + '/logFile.log',
+            filename: LOG_FILE_PATH,
             maxsize: 10000000,
             maxFiles: 5,
             tailable: true,

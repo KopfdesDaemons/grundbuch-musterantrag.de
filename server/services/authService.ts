@@ -6,7 +6,7 @@ export const authenticateUser = async (username: string, password: string): Prom
     const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
 
     if (!secretKey) {
-        throw new Error('SECRET_KEY is not defined');
+        throw new Error(DASHBOARD_PASSWORD + ' is not defined');
     }
 
     if (username !== 'Rico' || password !== secretKey) {

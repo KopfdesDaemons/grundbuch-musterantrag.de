@@ -43,7 +43,7 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 ## Test build before deployment
 
 - `npm run build --prod`
-- `DASHBOARD_LOGIN_PASSWORD='admin' node dist/server/server.mjs`
+- `DASHBOARD_LOGIN_PASSWORD='admin' node dist/grundbuch-musterantrag.de/server/server.mjs`
 
 ## Deployment
 
