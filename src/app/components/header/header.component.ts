@@ -12,11 +12,7 @@ import { NgClass } from '@angular/common';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [
-    NgClass,
-    FaIconComponent,
-    RouterLink,
-  ]
+  imports: [NgClass, FaIconComponent, RouterLink]
 })
 export class HeaderComponent implements AfterViewInit {
   cs = inject(CookiesService);
@@ -49,21 +45,17 @@ export class HeaderComponent implements AfterViewInit {
     this.cs.cookieRequestList.subscribe((c: cookie[]) => { this.showCookieBanner(); });
   }
 
-  farbeAusAuswahl(btn: any) {
-    let farbe = (btn as HTMLElement).style.backgroundColor;
-    let sep = farbe.indexOf(",") > -1 ? "," : " ";
-    let rgb = farbe.substring(4).split(")")[0].split(sep);
-
-    let r = (+rgb[0]),
-      g = (+rgb[1]),
-      b = (+rgb[2]);
-
-    let hslfromrgb = this.farbConv.RGBToHSL(r, g, b);
+  setColorFromPresets(btn: any) {
+    const farbe = (btn as HTMLElement).style.backgroundColor;
+    const sep = farbe.indexOf(",") > -1 ? "," : " ";
+    const rgb = farbe.substring(4).split(")")[0].split(sep);
+    const r = (+rgb[0]), g = (+rgb[1]), b = (+rgb[2]);
+    const hslfromrgb = this.farbConv.RGBToHSL(r, g, b);
     this.dl.changeColor(hslfromrgb["h"], hslfromrgb["s"], hslfromrgb["l"]);
   }
 
   CustomColor(color: any) {
-    let hslfromhex = this.farbConv.HexToHSL(color.value);
+    const hslfromhex = this.farbConv.HexToHSL(color.value);
     this.dl.changeColor(hslfromhex["h"], hslfromhex["s"], hslfromhex["l"]);
   }
 
@@ -71,21 +63,19 @@ export class HeaderComponent implements AfterViewInit {
     this.dl.togledesignScheme();
   }
 
-  //CookieBanner ################################################################################
-
+  cookieBannerIsDisplayed: boolean = false;
   consent: string | undefined;
-  isDisplayed: boolean = false;
 
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   showCookieBanner() {
-    if (this.isDisplayed) return;
+    if (this.cookieBannerIsDisplayed) return;
     if (this.cs.cookieRequestList.value.length == 0) return;
     this.consent = this.cs.cookieRequestList.value[0].consent;
     this.cookiebanner().nativeElement.classList.remove("ausgeblendet");
-    this.isDisplayed = true;
+    this.cookieBannerIsDisplayed = true;
   }
 
   async akzeptieren() {
@@ -98,7 +88,7 @@ export class HeaderComponent implements AfterViewInit {
     var c: cookie = this.cs.cookieRequestList.value[0];
     this.cs.cookieRequested(c);
     await this.delay(1000);
-    this.isDisplayed = false;
+    this.cookieBannerIsDisplayed = false;
     this.showCookieBanner();
   }
 }

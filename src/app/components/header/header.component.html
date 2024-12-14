@@ -5,7 +5,7 @@
       <div class="btnDesign farbauswahlbutton"></div>
       <div class="farbauswahl">
         @for (color of colors; track color) {
-        <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+        <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
         }
         <div class="anderefarbediv">
           <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
@@ -47,7 +47,7 @@
           <div class="btnDesign farbauswahlbutton"></div>
           <div class="farbauswahl">
             @for (color of colors; track color) {
-            <div class="btnDesign" (click)="farbeAusAuswahl($event.target)" [style.background-color]="color"></div>
+            <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
             }
             <div class="anderefarbediv">
               <label for="colorPickerMobile">Eigene Farbe auswählen</label>

@@ -1,20 +1,14 @@
-import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import { Component, ElementRef, input, viewChild } from '@angular/core';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { DesignloaderService } from 'src/app/services/designloader.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-accordion',
-    templateUrl: './accordion.component.html',
-    styleUrls: ['./accordion.component.scss'],
-    imports: [NgClass, FaIconComponent]
+  selector: 'app-accordion',
+  templateUrl: './accordion.component.html',
+  styleUrls: ['./accordion.component.scss'],
+  imports: [FaIconComponent]
 })
 export class AccordionComponent {
-  // Injections
-  dl = inject(DesignloaderService);
-
-  // Fontawesome Icons
   faAngleDown = faAngleDown;
 
   readonly frage = input<string>('');

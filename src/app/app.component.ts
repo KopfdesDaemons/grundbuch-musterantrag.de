@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -9,9 +8,4 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
 })
 export class AppComponent {
-  private titleService = inject(Title);
-
-  constructor() {
-    this.titleService.setTitle('Grundbuch-Musterantrag.de');
-  }
 }

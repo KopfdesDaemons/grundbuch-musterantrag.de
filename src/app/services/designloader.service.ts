@@ -16,7 +16,7 @@ export class DesignloaderService {
 
   darkmode: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private initialized = false;
-  primaryColorHSL: string | null = "#1de4d7";
+  primaryColorHSL: string | null = "#20afdf";
 
   constructor() {
     this.darkmode.next(this.getSchemeFromCookie() ?? this.preferenceSchemeIsDarkmode());
@@ -41,11 +41,11 @@ export class DesignloaderService {
     this.darkmode.next(!this.darkmode.value);
   }
 
-  private activateDarkmode(ohneCookie: boolean = false) {
+  private activateDarkmode(withoutCookieConsent: boolean = false) {
     this.document?.classList.add("darkmode");
-    if (ohneCookie) return;
     const c = new cookie("Darkmode", String(true), 90, "Darf das Designschema gespeichert werden?");
-    this.cs.setCookieWithRequest(c);
+    if (withoutCookieConsent) this.cs.setcookie(c);
+    else this.cs.setCookieWithRequest(c);
   }
 
   private deactivateDarkmode() {

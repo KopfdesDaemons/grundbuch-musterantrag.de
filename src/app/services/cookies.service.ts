@@ -1,26 +1,32 @@
 import { inject, Injectable, PLATFORM_ID, REQUEST } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { cookie } from '../models/cookie';
-import { isPlatformServer } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CookiesService {
-  platformId = inject(PLATFORM_ID);
+  private document = inject(DOCUMENT);
   private request = inject(REQUEST);
+  private platfomId = inject(PLATFORM_ID);
 
   cookieRequestList: BehaviorSubject<cookie[]> = new BehaviorSubject(new Array());
+
+  getCookieString(): string {
+    return isPlatformBrowser(this.platfomId) ? this.document.cookie : this.request?.headers.get('cookie') ?? '';
+  }
 
   /**
    * Setzt ein Cookie mit Namen, Wert und Tagen bis zum Ablauf.
    * @param cookie Das Cookie-Objekt, das gesetzt werden soll.
    */
   setcookie(cookie: cookie) {
+    if (!isPlatformBrowser(this.platfomId)) return;
     const d = new Date();
     d.setTime(d.getTime() + cookie.days * 24 * 60 * 60 * 1000);
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cookie.name + "=" + cookie.value + ";" + expires + "; path=/; domain=" + window.location.hostname;
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = cookie.name + "=" + cookie.value + ";" + expires + "; path=/;";
   }
 
   /**
@@ -29,12 +35,10 @@ export class CookiesService {
    * @returns Der Wert des Cookies oder ein leerer String, falls der Cookie nicht gefunden wurde.
    */
   getCookie(cname: string) {
-    let cookieString;
-    if (isPlatformServer(this.platformId)) cookieString = this.request?.headers.get('cookie') ?? '';
-    else cookieString = document.cookie;
+    const cookieString = this.getCookieString();
 
-    let name = cname + "=";
-    let ca = cookieString.split(";");
+    const name = cname + "=";
+    const ca = cookieString.split(";");
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
       while (c.charAt(0) == " ") {
@@ -82,37 +86,22 @@ export class CookiesService {
    * Löscht ein Cookie
    * @param name Der Name des Cookies, der gelöscht werden soll.
    */
-  deleteCookie(name: string, domain: string = window.location.hostname) {
-    document.cookie = name + `=; domain=${domain}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  deleteCookie(name: string) {
+    this.document.cookie = name + `=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 
   /**
   * Löscht alle Cookies
   */
-  deleteAllCookies(domain: string = window.location.hostname) {
-    var cookies = document.cookie.split(";");
+  deleteAllCookies() {
+    const cookies = document.cookie.split(";");
 
     for (const cookie of cookies) {
       const eqPos = cookie.indexOf("=");
       const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
-      document.cookie = name + `=; domain=${domain}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+      this.document.cookie = name + `=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
   }
-
-  /**
- * Prüft, ob mindestens ein Cookie gesetzt ist.
- * @returns {boolean} Gibt true zurück, wenn mindestens ein Cookie vorhanden ist, sonst false.
- */
-  checkForCookies(): boolean {
-    var cookies = document.cookie.split(";");
-
-    if (cookies.length > 0) {
-      return true; // Cookies vorhanden
-    } else {
-      return false; // Keine Cookies vorhanden
-    }
-  }
-
 
   /**
    * Liest alle Cookies aus dem Cookie-String
@@ -120,9 +109,10 @@ export class CookiesService {
   */
   getAllCookies(): cookie[] {
     const cookies: cookie[] = [];
-    if (!document.cookie) return [];
+    const cookieString = this.getCookieString();
+    if (!cookieString) return [];
 
-    const cookieStrings = document.cookie.split(";");
+    const cookieStrings = cookieString.split(";");
 
     for (const c of cookieStrings) {
       const cookie: cookie = {

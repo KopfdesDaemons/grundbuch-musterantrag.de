@@ -1,10 +1,5 @@
-<div class="Frage" [ngClass]="{'darkmode': dl.darkmode.value}">
-  <div
-    #accordionhead
-    style="cursor: pointer"
-    class="FrageHead"
-    (click)="click()"
-  >
+<div class="Frage">
+  <div #accordionhead style="cursor: pointer" class="FrageHead" (click)="click()">
     <span>{{ frage() }}</span>
     <fa-icon [icon]="faAngleDown"></fa-icon>
   </div>
