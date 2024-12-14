@@ -56,7 +56,7 @@ export function app(): express.Express {
 
 
   server.get('**', (req, res, next) => {
-    console.log('request', req.url, res.status);
+    console.log('request', req.url);
 
     angularNodeAppEngine
       .handle(req, { server: 'express' })

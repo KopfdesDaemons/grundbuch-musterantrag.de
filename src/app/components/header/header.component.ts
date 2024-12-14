@@ -9,17 +9,16 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    imports: [
-        NgClass,
-        FaIconComponent,
-        RouterLink,
-    ]
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+  imports: [
+    NgClass,
+    FaIconComponent,
+    RouterLink,
+  ]
 })
 export class HeaderComponent implements AfterViewInit {
-  // Injections
   cs = inject(CookiesService);
   farbConv = inject(FarbconverterService);
   dl = inject(DesignloaderService);
@@ -50,8 +49,6 @@ export class HeaderComponent implements AfterViewInit {
     this.cs.cookieRequestList.subscribe((c: cookie[]) => { this.showCookieBanner(); });
   }
 
-  // Farbe aus Auswahl ##########################################################################
-
   farbeAusAuswahl(btn: any) {
     let farbe = (btn as HTMLElement).style.backgroundColor;
     let sep = farbe.indexOf(",") > -1 ? "," : " ";
@@ -62,16 +59,14 @@ export class HeaderComponent implements AfterViewInit {
       b = (+rgb[2]);
 
     let hslfromrgb = this.farbConv.RGBToHSL(r, g, b);
-    this.dl.FarbeÄndern(hslfromrgb["h"], hslfromrgb["s"], hslfromrgb["l"]);
+    this.dl.changeColor(hslfromrgb["h"], hslfromrgb["s"], hslfromrgb["l"]);
   }
 
-  // Eigene Farbe ################################################################################
   CustomColor(color: any) {
     let hslfromhex = this.farbConv.HexToHSL(color.value);
-    this.dl.FarbeÄndern(hslfromhex["h"], hslfromhex["s"], hslfromhex["l"]);
+    this.dl.changeColor(hslfromhex["h"], hslfromhex["s"], hslfromhex["l"]);
   }
 
-  // Darkmode ################################################################################
   switchMode() {
     this.dl.togledesignScheme();
   }

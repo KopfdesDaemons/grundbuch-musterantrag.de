@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, REQUEST } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { cookie } from '../models/cookie';
+import { isPlatformServer } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CookiesService {
+  platformId = inject(PLATFORM_ID);
+  private request = inject(REQUEST);
 
   cookieRequestList: BehaviorSubject<cookie[]> = new BehaviorSubject(new Array());
 
@@ -26,8 +29,12 @@ export class CookiesService {
    * @returns Der Wert des Cookies oder ein leerer String, falls der Cookie nicht gefunden wurde.
    */
   getCookie(cname: string) {
+    let cookieString;
+    if (isPlatformServer(this.platformId)) cookieString = this.request?.headers.get('cookie') ?? '';
+    else cookieString = document.cookie;
+
     let name = cname + "=";
-    let ca = document.cookie.split(";");
+    let ca = cookieString.split(";");
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
       while (c.charAt(0) == " ") {
