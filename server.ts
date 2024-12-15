@@ -14,7 +14,7 @@ import { generateStatistic as handleGenerateStatistic, getStatistic } from 'serv
 import { SERVER_DIST_FOLDER, STORAGE_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/config';
 import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 import { SettingsService } from 'server/services/settingsService';
-import { handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
+import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
 
 
 export function app(): express.Express {
@@ -46,6 +46,7 @@ export function app(): express.Express {
   server.post('/api/migration/fromAntragToUploadinfo', authMiddleware, handleMigrationFromAntragToUploadinfo);
   server.get('/api/settings', authMiddleware, handleGetSettings);
   server.put('/api/settings', authMiddleware, handleSaveSettings);
+  server.get('/api/settings/getPrimaryColor', handleGetPrimaryColor);
 
   // ausgelagerte Routen
   server.use('/', submitForm);

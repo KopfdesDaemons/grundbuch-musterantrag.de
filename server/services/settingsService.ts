@@ -7,7 +7,7 @@ import { Settings } from "server/models/settings";
 export class SettingsService {
     private static settings: Settings = new Settings();
 
-    static getSettingsFromJSON = async (): Promise<Settings | null> => {
+    private static getSettingsFromJSON = async (): Promise<Settings | null> => {
         if (await checkFileExists(SETTINGS_JSON_PATH)) {
             const settings = await fs.promises.readFile(SETTINGS_JSON_PATH, 'utf8');
             return JSON.parse(settings) as Settings;
@@ -28,5 +28,9 @@ export class SettingsService {
 
     static getSettings = (): Settings => {
         return this.settings;
+    }
+
+    static getSetting = (settingName: string): string => {
+        return (this.settings as any)[settingName];
     }
 }

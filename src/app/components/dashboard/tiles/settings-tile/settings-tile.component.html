@@ -16,6 +16,16 @@
                 <button (click)="deleteAllGeneratedFiles()">Alle generierten Dateien löschen</button>
                 <p>Löscht nur die Dateien, ohne die Uploadsinfos zu löschen</p>
             </li>
+            <li>
+                @if(settings){
+                <input type="color" id="primaryColor" name="primaryColor" #primaryColor [value]="settings.primaryColor"
+                    (change)="changeSetting('primaryColor', primaryColor.value)">
+                <label for="primaryColor"> Standard Primärfarbe</label>
+                <p>Die Standardfarbe, die verwendet wird, wenn der Nutzer keine Farbe ausgewählt hat.</p>
+                } @else {
+                <app-progress-spinner [endless]="true"></app-progress-spinner>
+                }
+            </li>
         </ul>
     </div>
 </app-dashboard-tile>

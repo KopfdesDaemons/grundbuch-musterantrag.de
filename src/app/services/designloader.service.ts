@@ -4,31 +4,49 @@ import { cookie } from '../models/cookie';
 import { CookiesService } from './cookies.service';
 import { FarbconverterService } from './farbconverter.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DesignloaderService {
   cs = inject(CookiesService);
+  settingsS = inject(SettingsService);
   farbConv = inject(FarbconverterService);
   private platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT).documentElement;
 
   darkmode: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private initialized = false;
-  primaryColorHSL: string | null = "#20afdf";
+  primaryColor: string | null = "#20afdf";
 
   constructor() {
+    this.initDesign();
+  }
+
+  async initDesign() {
+    // init darkmode from cookie or preference
     this.darkmode.next(this.getSchemeFromCookie() ?? this.preferenceSchemeIsDarkmode());
     if (this.darkmode.value == true) this.activateDarkmode(true);
 
+    // listen for darkmode change
     this.darkmode.subscribe((state: boolean) => {
       if (this.initialized) {
         if (state) this.activateDarkmode();
         else this.deactivateDarkmode();
       } else this.initialized = true;
     });
-    this.setColorFromCookie();
+
+    // init primary color from cookie
+    if (this.setColorFromCookie()) return;
+
+    // init primary color from settings
+    const primaryColorFromSettings = await this.settingsS.getPrimaryColorFromSetings();
+    if (!primaryColorFromSettings) return;
+    if (!this.isValidHexColor(primaryColorFromSettings)) return;
+    this.primaryColor = primaryColorFromSettings;
+    const hsl = this.farbConv.HexToHSL(primaryColorFromSettings);
+    this.changeColor(hsl["h"], hsl["s"], hsl["l"], true);
   }
 
   preferenceSchemeIsDarkmode(): boolean {
@@ -59,20 +77,26 @@ export class DesignloaderService {
     return cookie === "true" ? true : cookie === "" ? undefined : false;
   }
 
-  setColorFromCookie() {
+  setColorFromCookie(): boolean {
     const FarbCookie = this.cs.getCookie("Farbe");
-    if (!FarbCookie) return;
+    if (!FarbCookie) return false;
     const split = FarbCookie.split(",");
     this.changeColor(Number(split[0]), Number(split[1]));
+    return true;
   }
 
-  changeColor(h: number, s: number, l: number = 50) {
+  changeColor(h: number, s: number, l: number = 50, withoutCookieConsent: boolean = false) {
     const hsl = h + ", " + s + "%";
     this.document?.style.setProperty("--hsl-color", hsl);
-    this.primaryColorHSL = this.farbConv.HSLToHex(h, s, l);
+    this.primaryColor = this.farbConv.HSLToHex(h, s, l);
 
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (withoutCookieConsent) return;
     const c: cookie = new cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");
     this.cs.setCookieWithRequest(c);
+  }
+
+  private isValidHexColor(color: string): boolean {
+    const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    return hexColorRegex.test(color);
   }
 }

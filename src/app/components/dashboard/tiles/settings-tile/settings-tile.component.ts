@@ -6,10 +6,10 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 import { UploadsService } from 'src/app/services/uploads.service';
 
 @Component({
-    selector: 'app-settings-tile',
-    imports: [DashboardTileComponent, ProgressSpinnerComponent],
-    templateUrl: './settings-tile.component.html',
-    styleUrl: './settings-tile.component.scss'
+  selector: 'app-settings-tile',
+  imports: [DashboardTileComponent, ProgressSpinnerComponent],
+  templateUrl: './settings-tile.component.html',
+  styleUrl: './settings-tile.component.scss'
 })
 export class SettingsTileComponent implements AfterViewInit {
   private settingsS = inject(SettingsService);
@@ -21,7 +21,7 @@ export class SettingsTileComponent implements AfterViewInit {
     this.settings = await this.settingsS.getSettings();
   }
 
-  async changeSetting(settingName: string, value: boolean): Promise<void> {
+  async changeSetting(settingName: string, value: boolean | string): Promise<void> {
     const settings = await this.settingsS.getSettings();
     if (!settings) return;
     if (settings.hasOwnProperty(settingName)) {

@@ -9,8 +9,8 @@
         }
         <div class="anderefarbediv">
           <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
-          <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe"
-            (change)="CustomColor($event.target)" id="colorPickerDesktop" />
+          <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="CustomColor($event.target)"
+            id="colorPickerDesktop" />
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
             }
             <div class="anderefarbediv">
               <label for="colorPickerMobile">Eigene Farbe auswählen</label>
-              <input #colorPicker [value]="dl.primaryColorHSL" type="color" name="farbe"
+              <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe"
                 (change)="CustomColor($event.target)" id="colorPickerMobile" />
             </div>
           </div>

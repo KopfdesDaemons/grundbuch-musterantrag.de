@@ -30,3 +30,9 @@ export const handleGetSettings = async (req: Request, res: Response) => {
         return res.status(500).send('Interner Serverfehler');
     }
 };
+
+export const handleGetPrimaryColor = async (req: Request, res: Response) => {
+    const setting = SettingsService.getSetting('primaryColor');
+    if (!setting) logger.info('Setting primaryColor nicht gefunden');
+    return res.status(200).send(setting);
+}

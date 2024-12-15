@@ -4,7 +4,6 @@ import { STATISTIC_JSON_PATH, UPLOADS_FOLDER_PATH } from "server/config/config";
 import { checkFileExists } from "./directoryService";
 import { Statistic } from "server/interfaces/statistic";
 import { Upload } from "server/models/upload";
-import { log } from "console";
 import logger from "server/config/logger";
 
 export const readStatisticJSON = async (): Promise<Statistic> => {

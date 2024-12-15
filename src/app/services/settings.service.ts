@@ -54,5 +54,17 @@ export class SettingsService {
       console.error('Error beim Speichern der Einstellungen:', error);
     }
   }
+
+  async getPrimaryColorFromSetings(): Promise<string | null> {
+    try {
+      const primaryColor = await lastValueFrom(
+        this.http.get('/api/settings/getPrimaryColor', { responseType: 'text' as 'text' })
+      );
+      return primaryColor as string;
+    } catch (error) {
+      console.error('Error beim Laden der primären Farbe:', error);
+      return null;
+    }
+  }
 };
 
