@@ -24,12 +24,8 @@ export class SettingsTileComponent implements AfterViewInit {
   async changeSetting(settingName: string, value: boolean | string): Promise<void> {
     const settings = await this.settingsS.getSettings();
     if (!settings) return;
-    if (settings.hasOwnProperty(settingName)) {
-      (settings as any)[settingName] = value;
-      this.settingsS.saveSettings(settings);
-    } else {
-      console.error(`Einstellung "${settingName}" existiert nicht.`);
-    }
+    (settings as any)[settingName] = value;
+    this.settingsS.saveSettings(settings);
   }
 
   async deleteAllGeneratedFiles(): Promise<void> {
