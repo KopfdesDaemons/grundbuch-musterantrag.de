@@ -9,8 +9,10 @@ export class SettingsService {
 
     private static getSettingsFromJSON = async (): Promise<Settings | null> => {
         if (await checkFileExists(SETTINGS_JSON_PATH)) {
-            const settings = await fs.promises.readFile(SETTINGS_JSON_PATH, 'utf8');
-            return JSON.parse(settings) as Settings;
+            const json = await fs.promises.readFile(SETTINGS_JSON_PATH, 'utf8');
+            const settings = new Settings();
+            Object.assign(settings, JSON.parse(json));
+            return settings;
         };
         return null;
     };
