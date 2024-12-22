@@ -1,4 +1,4 @@
-import { AngularNodeAppEngine, createNodeRequestHandler, writeResponseToNodeResponse } from '@angular/ssr/node';
+import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
 import { resolve } from 'node:path';
 import authMiddleware from './server/middleware/authMiddleware';
@@ -7,7 +7,6 @@ import submitForm from './server/controller/submitFormController';
 import uploads from './server/routes/uploadsRoutes';
 import fileUpload from 'express-fileupload';
 import * as fs from 'fs';
-import * as dotenv from 'dotenv';
 import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
 import { generateStatistic as handleGenerateStatistic, getStatistic } from 'server/controller/statisticController';
@@ -22,9 +21,6 @@ export function app(): express.Express {
   const browserDistFolder = resolve(SERVER_DIST_FOLDER, '../browser');
 
   const angularNodeAppEngine = new AngularNodeAppEngine();
-
-  // Daten aus der .env Datei einlesen
-  dotenv.config();
 
   // Überprüfe, ob Ordner existiert und erstelle ihn bei Bedarf
   if (!fs.existsSync(STORAGE_FOLDER_PATH)) fs.mkdirSync(STORAGE_FOLDER_PATH, { recursive: true });
@@ -72,9 +68,10 @@ export function app(): express.Express {
 
 const server = app();
 
-const port = process.env['PORT'] || 4000;
-server.listen(port, () => {
-  console.log(`Node Express server listening on http://localhost:${port}`);
-});
-
+if (isMainModule(import.meta.url)) {
+  const port = process.env['PORT'] || 4000;
+  server.listen(port, () => {
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
+}
 export const reqHandler = createNodeRequestHandler(server);

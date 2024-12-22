@@ -1,0 +1,45 @@
+name: Deploy to Server (Docker)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy files to server
+        run: |
+          rsync -avz --exclude='.git' ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/app/
+
+      - name: Prepare Docker secrets
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/app/secrets"
+          echo "${{ secrets.DASHBOARD_LOGIN_PASSWORD }}" | ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cat > /home/${{ secrets.SSH_USER }}/app/secrets/my_secret.txt"
+
+      - name: Deploy with Docker Compose
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /home/${{ secrets.SSH_USER }}/app
+            docker compose down
+            docker compose up -d
+          EOF
+
+      - name: Clean up source code
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /home/${{ secrets.SSH_USER }}/app
+            # Lösche alle Dateien außer Docker-Compose-Konfigurationen und Secrets
+            find . -type f ! -name 'docker-compose.yml' ! -path './secrets/*' -delete
+            find . -type d ! -name '.' ! -name 'secrets' -exec rm -rf {} +
+          EOF

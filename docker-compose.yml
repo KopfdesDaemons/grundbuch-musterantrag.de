@@ -1,0 +1,29 @@
+services:
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - type: bind
+        source: ${HOME}/storage  # Verweis auf das Home-Verzeichnis des Benutzers
+        target: /app/storage  
+    stdin_open: true
+    tty: true
+    environment:
+      - DASHBOARD_LOGIN_PASSWORD=grundbuch
+
+  prod:
+    build:
+      context: .
+      target: prod
+    ports:
+      - "4000:4000"
+    volumes:
+      - type: bind
+        source: ${HOME}/storage  # Verweis auf das Home-Verzeichnis des Benutzers
+        target: /app/storage  

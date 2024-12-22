@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy to Server (PM2)
 
 on:
   workflow_dispatch: # Erlaubt manuelles Auslösen des Workflows

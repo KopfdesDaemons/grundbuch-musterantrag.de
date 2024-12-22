@@ -39,7 +39,6 @@
     "cookie-parser": "^1.4.6",
     "docx-templates": "^4.11.0",
     "docxtemplater": "^3.34.3",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-fileupload": "^1.4.0",
     "express-formidable": "^1.2.0",
