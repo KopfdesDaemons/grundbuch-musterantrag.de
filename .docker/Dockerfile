@@ -9,23 +9,7 @@ COPY . .
 RUN npm run build --prod
 
 
-# Stage 2: Entwicklungs-Phase
-FROM node:20-alpine AS dev
-WORKDIR /app
-
-# Installiere LibreOffice
-RUN apk add --no-cache libreoffice openjdk8-jre
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 4200
-CMD ["npm", "run", "start", "--", "--host", "0.0.0.0", "--disable-host-check"]
-
-
-# Stage 3: Produktion
+# Stage 2: Produktion
 FROM node:20-alpine AS prod
 WORKDIR /app
 

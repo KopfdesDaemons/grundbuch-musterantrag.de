@@ -4,42 +4,57 @@ on:
   workflow_dispatch:
 
 jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+    name: Docker Image Build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/grundbuch-musterantrag.de:latest
+
   deploy:
     runs-on: ubuntu-latest
-
+    name: Continuous Deployment
+    needs: [docker_build]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Create directory on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            mkdir -p /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
 
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Copy docker-compose.yml to server
+        uses: appleboy/scp-action@master
+        with:
+          source: ./docker-compose.yml
+          target: /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/docker-compose.yml
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Copy files to server
-        run: |
-          rsync -avz --exclude='.git' ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/app/
-
-      - name: Prepare Docker secrets
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /home/${{ secrets.SSH_USER }}/app/secrets"
-          echo "${{ secrets.DASHBOARD_LOGIN_PASSWORD }}" | ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cat > /home/${{ secrets.SSH_USER }}/app/secrets/my_secret.txt"
-
-      - name: Deploy with Docker Compose
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /home/${{ secrets.SSH_USER }}/app
-            docker compose down
-            docker compose up -d
-          EOF
-
-      - name: Clean up source code
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /home/${{ secrets.SSH_USER }}/app
-            # Lösche alle Dateien außer Docker-Compose-Konfigurationen und Secrets
-            find . -type f ! -name 'docker-compose.yml' ! -path './secrets/*' -delete
-            find . -type d ! -name '.' ! -name 'secrets' -exec rm -rf {} +
-          EOF
+      - name: Deploy using SSH Private Key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
+            docker-compose pull
+            DASHBOARD_LOGIN_PASSWORD=${{ secrets.DASHBOARD_LOGIN_PASSWORD }} \
+            docker-compose up -d

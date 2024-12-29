@@ -1,0 +1,19 @@
+services:
+
+  angular-dev:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+      - type: bind
+        source: ${HOME}/storage  # Home-Verzeichnis des Benutzers
+        target: /app/storage  
+    stdin_open: true
+    tty: true
+    environment:
+      DASHBOARD_LOGIN_PASSWORD: ${DASHBOARD_LOGIN_PASSWORD}

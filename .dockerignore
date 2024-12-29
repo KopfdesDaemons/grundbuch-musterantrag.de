@@ -1,0 +1,17 @@
+node_modules
+dist
+*.log
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+.docker
+
+# Git
+.git
+.gitignore
+
+.vscode
+.github
+README.md

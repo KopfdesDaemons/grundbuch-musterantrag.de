@@ -10,7 +10,8 @@
 
 /server/logFile.log
 /server/hash.json
-# dist/grundbuch/server/uploads/*
+
+.env
 
 # Node
 /node_modules

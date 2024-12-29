@@ -38,12 +38,11 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 ## Development
 
-- `ng serve`
+- `docker-compose -f docker-compose.dev.yml up`
 
 ## Test build before deployment
 
-- `npm run build --prod`
-- `DASHBOARD_LOGIN_PASSWORD='admin' node dist/grundbuch-musterantrag.de/server/server.mjs`
+- `docker-compose up`
 
 ## Deployment
 
