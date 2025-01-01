@@ -6,7 +6,6 @@ dist
 Dockerfile*
 docker-compose*
 .dockerignore
-.docker
 
 # Git
 .git
