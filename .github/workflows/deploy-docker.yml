@@ -22,7 +22,6 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
           file: ./docker/angular/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/grundbuch-musterantrag-angular:latest
