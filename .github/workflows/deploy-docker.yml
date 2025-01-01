@@ -42,8 +42,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
-            mkdir -p /home/${{ secrets.SSH_USER }}/storage/
+            install -d -o ${{ secrets.SSH_USER }} -g ${{ secrets.SSH_USER }} /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
+            install -d -o ${{ secrets.SSH_USER }} -g ${{ secrets.SSH_USER }} /home/${{ secrets.SSH_USER }}/storage/
 
       - name: Checkout code
         uses: actions/checkout@v4
