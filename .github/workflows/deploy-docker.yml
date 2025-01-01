@@ -43,6 +43,7 @@ jobs:
           port: 22
           script: |
             mkdir -p /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
+            mkdir -p /home/${{ secrets.SSH_USER }}/storage/
 
       - name: Checkout code
         uses: actions/checkout@v4
