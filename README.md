@@ -42,7 +42,7 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 ## Test build before deployment
 
-- `docker-compose up`
+- `docker-compose up --build`
 
 ## Deployment
 

@@ -6,7 +6,7 @@ export const authenticateUser = async (username: string, password: string): Prom
     const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
 
     if (!secretKey) {
-        throw new Error(DASHBOARD_PASSWORD + ' is not defined');
+        throw new Error(DASHBOARD_PASSWORD + ' ist nicht definiert');
     }
 
     if (username !== 'Rico' || password !== secretKey) {
@@ -27,7 +27,7 @@ export const verifyToken = async (token: string): Promise<any> => {
     const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
 
     if (!secretKey) {
-        throw new Error(DASHBOARD_PASSWORD + 'is not defined');
+        throw new Error(DASHBOARD_PASSWORD + ' ist nicht definiert');
     }
 
     return new Promise((resolve, reject) => {

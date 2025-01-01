@@ -3,13 +3,13 @@ services:
   angular:
     build:
       context: .
-      dockerfile: .docker/Dockerfile
+      dockerfile: .docker/angular/Dockerfile
     ports:
       - "4000:4000"
     volumes:
       - type: bind
         source: ${HOME}/storage  # Home-Verzeichnis des Benutzers
         target: /app/storage  
-    image: kopfdesdaemons/grundbuch-musterantrag.de:latest
+    image: kopfdesdaemons/grundbuch-musterantrag-angular:latest
     environment:
       DASHBOARD_LOGIN_PASSWORD: ${DASHBOARD_LOGIN_PASSWORD}
