@@ -31,7 +31,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    name: Continuous Deployment
+    name: Deployment to Server
     needs: [build-and-push]
     steps:
       - name: Create directory on server
@@ -43,6 +43,9 @@ jobs:
           port: 22
           script: |
             mkdir -p /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
+
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
