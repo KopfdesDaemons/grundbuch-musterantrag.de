@@ -1,6 +1,18 @@
+include:
+  - docker-compose.base.yml
+
+
 services:
 
+  adminer:
+    image: adminer
+    container_name: adminer_container
+    restart: always
+    ports:
+      - 8089:8080
+
   angular-dev:
+    container_name: angular_dev_container
     build:
       context: .
       dockerfile: .docker/angular/Dockerfile.dev

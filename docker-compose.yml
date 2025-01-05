@@ -1,6 +1,10 @@
+include:
+  - docker-compose.base.yml
+
 services:
 
   angular:
+    container_name: angular_container
     build:
       context: .
       dockerfile: .docker/angular/Dockerfile

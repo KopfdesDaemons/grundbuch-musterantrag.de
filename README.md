@@ -47,9 +47,3 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 ## Deployment
 
 - github action "Deploy to Server"
-
-## pm2
-
-- `pm2 delete1`
-- `pm2 start server/server.mjs`
-- `pm2 restart server/server.mjs`
