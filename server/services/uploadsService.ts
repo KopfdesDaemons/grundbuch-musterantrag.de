@@ -3,60 +3,103 @@ import { Upload } from '../models/upload';
 import { checkFileExists } from './directoryService';
 import fs from 'fs';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
+import { query } from './databaseService';
 
 const pageSize = 20;
 
-export const getUploadsData = async (folderPath: string, page: number): Promise<any> => {
-    if (!fs.existsSync(folderPath)) {
-        throw new Error('Ordner nicht existent');
-    }
+export const getUploadsData = async (page: number): Promise<any> => {
+    if (page < 1) throw new Error("Die Seitennummer muss größer oder gleich 1 sein.");
 
-    // Lade alle Ordner
-    const folders = await fs.promises.readdir(folderPath, { withFileTypes: true });
-    const list: Upload[] = [];
+    // SQL-Abfrage mit LIMIT und OFFSET
+    const offset = (page - 1) * pageSize;
+    const readQuery = `SELECT uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads ORDER BY uploadID DESC LIMIT ? OFFSET ?`;
+    const rows: any = await query(readQuery, [pageSize, offset]);
 
-    for (const folder of folders) {
-        if (folder.isDirectory()) {
-            const uploadID = folder.name;
-            const uploadinfoPath = path.join(folderPath, uploadID, uploadID + '.json');
-            if (! await checkFileExists(uploadinfoPath)) continue;
-            const upload: Upload = await readUploadJSON(uploadID);
-            if (!upload.uploadID) upload.uploadID = uploadID;
-            list.push(upload);
-        }
-    }
+    const list: Upload[] = rows.map((row: {
+        uploadID: string;
+        docxFile: any;
+        pdfFile: any;
+        filesDeleted: any;
+        uploadDate: string | number | Date;
+        antragsart: string;
+        grundbuchamt: string;
+    }) => {
+        const upload = new Upload();
+        upload.uploadID = row.uploadID;
+        upload.docxFile = Boolean(row.docxFile);
+        upload.pdfFile = Boolean(row.pdfFile);
+        upload.filesDeleted = Boolean(row.filesDeleted);
+        upload.uploadDate = new Date(row.uploadDate);
+        upload.antragsart = row.antragsart;
+        upload.grundbuchamt = row.grundbuchamt;
+        return upload;
+    });
 
-    // Sortiere die Liste nach der UploadID absteigend
-    list.sort((a, b) => {
-        return b.uploadID.localeCompare(a.uploadID);
-    })
-
-    // Paginierung anwenden
-    const startIndex = (page - 1) * pageSize;
-    const paginatedList = list.slice(startIndex, startIndex + pageSize);
-
-    // Festlegen der Gesamtzahl der Dateien und Gesamtzahl der Seiten
-    const totalFiles = list.length;
+    // Gesamtanzahl der Dateien berechnen
+    const countQuery = `SELECT COUNT(*) AS totalFiles FROM uploads`;
+    const countResult: any = await query(countQuery, []);
+    const totalFiles = countResult[0].totalFiles;
     const totalPages = Math.ceil(totalFiles / pageSize);
 
     return {
         page,
         totalPages,
         totalFiles,
-        files: paginatedList
+        files: list
     };
 };
 
-export const readUploadJSON = async (UploadID: string): Promise<Upload> => {
-    const pathToJSON = path.join(UPLOADS_FOLDER_PATH, UploadID, UploadID + '.json');
-    const file = await fs.promises.readFile(pathToJSON, 'utf8');
-    const data: Upload = JSON.parse(file) as Upload;
-    return data;
+export const readUpload = async (UploadID: string): Promise<Upload> => {
+    const readQuery = `SELECT uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads WHERE uploadID = ?`;
+    const row: any = await query(readQuery, [UploadID]);
+
+    const upload = new Upload();
+    upload.uploadID = row.uploadID;
+    upload.docxFile = Boolean(row.docxFile);
+    upload.pdfFile = Boolean(row.pdfFile);
+    upload.filesDeleted = Boolean(row.filesDeleted);
+    upload.uploadDate = new Date(row.uploadDate);
+    upload.antragsart = row.antragsart;
+    upload.grundbuchamt = row.grundbuchamt;
+    return upload;
 };
 
-export const writeUploadJSON = async (data: Upload): Promise<void> => {
-    const pathToJSON = path.join(UPLOADS_FOLDER_PATH, data.uploadID, data.uploadID + '.json');
-    await fs.promises.writeFile(pathToJSON, JSON.stringify(data, null, 2));
+export const updateUploadData = async (data: Upload): Promise<void> => {
+    const checkQuery = `SELECT * FROM uploads WHERE uploadID = ?`;
+    const existingUpload: any = await query(checkQuery, [data.uploadID]);
+
+    if (existingUpload && existingUpload.length > 0) {
+        // Datensatz existiert, also UPDATE ausführen
+        const updateQuery = `
+                UPDATE uploads 
+                SET docxFile = ?, pdfFile = ?, filesDeleted = ?, uploadDate = ?, antragsart = ?, grundbuchamt = ?
+                WHERE uploadID = ?
+            `;
+        await query(updateQuery, [
+            data.docxFile,
+            data.pdfFile,
+            data.filesDeleted,
+            data.uploadDate,
+            data.antragsart,
+            data.grundbuchamt,
+            data.uploadID
+        ]);
+    } else {
+        // Datensatz existiert nicht, also INSERT ausführen
+        const insertQuery = `
+                INSERT INTO uploads (uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `;
+        await query(insertQuery, [
+            data.uploadID,
+            data.docxFile,
+            data.pdfFile,
+            data.filesDeleted,
+            data.uploadDate,
+            data.antragsart,
+            data.grundbuchamt
+        ]);
+    }
 };
 
 export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
@@ -65,9 +108,9 @@ export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
     if (await checkFileExists(pathToPdf)) await fs.promises.unlink(pathToPdf);
     if (await checkFileExists(pathToDocx)) await fs.promises.unlink(pathToDocx);
 
-    const upload: Upload = await readUploadJSON(uploadID);
+    const upload: Upload = await readUpload(uploadID);
     upload.filesDeleted = true;
-    await writeUploadJSON(upload);
+    await updateUploadData(upload);
 }
 
 export const deleteAllGeneratedFiles = async (): Promise<void> => {

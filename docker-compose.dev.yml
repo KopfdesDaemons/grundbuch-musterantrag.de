@@ -29,3 +29,5 @@ services:
     tty: true
     environment:
       DASHBOARD_LOGIN_PASSWORD: ${DASHBOARD_LOGIN_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}

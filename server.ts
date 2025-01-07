@@ -14,6 +14,7 @@ import { SERVER_DIST_FOLDER, STORAGE_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'se
 import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 import { SettingsService } from 'server/services/settingsService';
 import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
+import { initializeDatabase } from 'server/services/databaseService';
 
 
 export function app(): express.Express {
@@ -26,6 +27,7 @@ export function app(): express.Express {
   if (!fs.existsSync(STORAGE_FOLDER_PATH)) fs.mkdirSync(STORAGE_FOLDER_PATH, { recursive: true });
   if (!fs.existsSync(UPLOADS_FOLDER_PATH)) fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
 
+  initializeDatabase();
   SettingsService.initSettings();
 
   // Middlewares für die gesamte App

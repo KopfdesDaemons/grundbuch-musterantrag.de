@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import path from "path";
 import { Upload } from "server/models/upload";
 import { Antrag } from "src/app/interfaces/antrag";
-import { writeUploadJSON } from "./uploadsService";
+import { updateUploadData } from "./uploadsService";
 import logger from "server/config/logger";
 import { checkFileExists } from "./directoryService";
 import { Grundbuchamt } from "src/app/models/grundbuchamt";
@@ -32,7 +32,11 @@ export const migrateFromAntragToUploadinfo = async (): Promise<void> => {
 
 
             if (!upload.uploadID) upload.uploadID = folder;
-            if (!upload.uploadDate) upload.uploadDate = antrag.datum;
+            if (!upload.uploadDate) {
+                const [day, month, year] = antrag.datum;
+                const formattedDate = `${year}-${month}-${day}`;
+                upload.uploadDate = new Date(formattedDate);
+            }
             if (!upload.antragsart) upload.antragsart = antrag.title;
             if (!(typeof upload.grundbuchamt === 'string')) upload.grundbuchamt = antrag.grundbuchamt.name;
 
@@ -44,7 +48,7 @@ export const migrateFromAntragToUploadinfo = async (): Promise<void> => {
                 upload.pdfFile = await checkFileExists(path.join(UPLOADS_FOLDER_PATH, folder, folder + '.pdf'));
             }
 
-            writeUploadJSON(upload);
+            updateUploadData(upload);
         } catch (error) {
             logger.error('Fehler beim Migration von Antrag zu Uploadinfo beim Ordner ' + folder + ': ', error);
         }

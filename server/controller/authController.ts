@@ -1,4 +1,3 @@
-// src/controllers/authController.ts
 import { Request, Response } from 'express';
 import { authenticateUser, verifyToken } from '../services/authService';
 import logger from 'server/config/logger';

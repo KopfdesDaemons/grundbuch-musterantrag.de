@@ -3,7 +3,7 @@ export class Upload {
     docxFile: boolean = false;
     pdfFile: boolean = false;
     filesDeleted: boolean = false;
-    uploadDate: string = '';
+    uploadDate: Date = new Date();
     antragsart: string = '';
     grundbuchamt: string = '';
 }

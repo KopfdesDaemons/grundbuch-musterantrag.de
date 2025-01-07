@@ -1,20 +1,20 @@
 import path from 'path';
 import express, { Request, Response } from 'express';
-import moment from 'moment';
 import * as fs from 'fs';
 import * as converterController from '../services/converterService';
 import { changeStatistic } from 'server/services/statisticService';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
-import { deleteGeneratedFiles, writeUploadJSON } from 'server/services/uploadsService';
+import { deleteGeneratedFiles, updateUploadData } from 'server/services/uploadsService';
 import { SettingsService } from 'server/services/settingsService';
+import { randomUUID } from 'crypto';
 
 const router = express.Router();
 
 router.post('/api/submitForm', async (req: Request, res: Response) => {
   try {
-    const uploadID = moment().format('YYYY-MM-DD-HH-mm-ss');
+    const uploadID = randomUUID();
 
     // Erstelle Ordner für alle Uploaddateien
     const uploadFolderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
@@ -32,9 +32,10 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       return res.status(400).send('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
     }
 
-
-    uploadinfo = JSON.parse(uploadinfo) as Upload;
-    uploadinfo.uploadDate = moment().format('DD.MM.YYYY');
+    const newUpload = new Upload();
+    Object.assign(newUpload, JSON.parse(uploadinfo));
+    uploadinfo = newUpload;
+    uploadinfo.uploadDate = new Date();
     uploadinfo.uploadID = uploadID;
 
 
@@ -83,9 +84,9 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
     // Sende PDF-Datei an den Client
     res.contentType('application/pdf').sendFile(filePathPdf, () => {
-
       // Lösche Uploaddateien, wenn die Einstellung aktiviert ist
       if (!SettingsService.getSettings().deleteGeneratedFilesAfterResponse) return;
+
       try {
         deleteGeneratedFiles(uploadID);
       } catch (error) {
@@ -95,17 +96,16 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
     return;
 
-    // Speichere Antragsdaten in JSON-Datei
     async function saveUploadinfo() {
       try {
-        await writeUploadJSON(uploadinfo);
+        await updateUploadData(uploadinfo);
       } catch (error) {
-        logger.error('Fehler beim Speichern der Daten in der JSON-Datei:', error);
+        logger.error('Fehler beim Speichern der Uploadinfos:', error);
       }
     }
 
   } catch (error) {
-    logger.error('Fehler bei der Generierung des Antrags auf Erteilung eines Grundbuchausdrucks.', error);
+    logger.error('Fehler bei der Generierung des Antrags: ', error);
     return res.status(500).send('Interner Serverfehler.');
   }
 });

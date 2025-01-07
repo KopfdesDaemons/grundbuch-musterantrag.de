@@ -5,12 +5,12 @@ import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
 import { deleteFolderContent, deleteFolder, getFile } from 'server/services/directoryService';
 import { changeStatistic, clearStatistic } from 'server/services/statisticService';
-import { deleteAllGeneratedFiles, deleteGeneratedFiles, getUploadsData, readUploadJSON } from 'server/services/uploadsService';
+import { deleteAllGeneratedFiles, deleteGeneratedFiles, getUploadsData, readUpload } from 'server/services/uploadsService';
 
 export const getUploads = async (req: Request, res: Response) => {
     const page = parseInt(req.query['page'] as string, 10) || 1;
     try {
-        const files = await getUploadsData(UPLOADS_FOLDER_PATH, page);
+        const files = await getUploadsData(page);
         res.json(files);
     } catch (error) {
         logger.error('Fehler beim Abrufen der Uploadsdaten:', error);
@@ -35,7 +35,7 @@ export const deleteUpload = async (req: Request, res: Response) => {
 
     // Aktualisiere die Statistik
     try {
-        const antrag: Upload = await readUploadJSON(uploadID);
+        const antrag: Upload = await readUpload(uploadID);
         changeStatistic(antrag.antragsart, -1);
     } catch (error) {
         logger.error('Fehler beim Aktualisieren der Statistik:', error);
@@ -47,7 +47,7 @@ export const deleteUpload = async (req: Request, res: Response) => {
         await deleteFolder(folderPath);
     } catch (error) {
         logger.error('Fehler beim Löschen des Ordner:', error);
-        return res.status(500).send('Fehler beim Löschen der Datei');
+        return res.status(500).send('Fehler beim Löschen des Ordners');
     }
 
     return res.status(200).send('Datei gelöscht');
