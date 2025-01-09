@@ -32,7 +32,7 @@
             <td>
               <div class="antragsart">{{file.antragsart}}</div>
             </td>
-            <td>{{file.uploadDate}}</td>
+            <td>{{file.uploadDate | date: 'dd.MM.yyyy HH:mm'}} Uhr</td>
 
             <td class="iconTableCell">
               @if (file.docxFile && !file.filesDeleted) {

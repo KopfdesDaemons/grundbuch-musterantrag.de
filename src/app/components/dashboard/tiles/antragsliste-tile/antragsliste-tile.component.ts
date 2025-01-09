@@ -6,13 +6,13 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 import { Upload } from 'server/models/upload';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { isPlatformBrowser } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 
 @Component({
-    selector: 'app-antragsliste-tile',
-    imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule],
-    templateUrl: './antragsliste-tile.component.html',
-    styleUrl: './antragsliste-tile.component.scss'
+  selector: 'app-antragsliste-tile',
+  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule, DatePipe],
+  templateUrl: './antragsliste-tile.component.html',
+  styleUrl: './antragsliste-tile.component.scss'
 })
 export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);

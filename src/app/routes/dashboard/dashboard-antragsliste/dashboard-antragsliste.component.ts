@@ -10,12 +10,13 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { FooterComponent } from "../../../components/footer/footer.component";
 import { Upload } from 'server/models/upload';
+import { DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-dashboard-antragsliste',
-    templateUrl: './dashboard-antragsliste.component.html',
-    styleUrls: ['./dashboard-antragsliste.component.scss'],
-    imports: [HeaderComponent, FaIconComponent, FooterComponent]
+  selector: 'app-dashboard-antragsliste',
+  templateUrl: './dashboard-antragsliste.component.html',
+  styleUrls: ['./dashboard-antragsliste.component.scss'],
+  imports: [HeaderComponent, FaIconComponent, FooterComponent, DatePipe]
 })
 
 export class DashboardAntragslisteComponent implements OnInit {
