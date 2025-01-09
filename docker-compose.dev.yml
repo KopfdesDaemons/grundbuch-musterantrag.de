@@ -23,10 +23,11 @@ services:
         source: .
         target: /app
       - type: bind
-        source: ${HOME}/storage  # Home-Verzeichnis des Benutzers
+        source: ./storage  # Home-Verzeichnis des Benutzers
         target: /app/storage  
     stdin_open: true
     tty: true
+
     environment:
       DASHBOARD_LOGIN_PASSWORD: ${DASHBOARD_LOGIN_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}

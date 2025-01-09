@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { Request, Response } from 'express';
 import path from 'path';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
@@ -5,7 +6,7 @@ import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
 import { deleteFolderContent, deleteFolder, getFile } from 'server/services/directoryService';
 import { changeStatistic, clearStatistic } from 'server/services/statisticService';
-import { deleteAllGeneratedFiles, deleteGeneratedFiles, getUploadsData, readUpload } from 'server/services/uploadsService';
+import { deleteAllGeneratedFiles, deleteAllUploads, deleteGeneratedFiles, deleteUpload, getUploadsData, readUpload } from 'server/services/uploadsService';
 
 export const getUploads = async (req: Request, res: Response) => {
     const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -18,18 +19,19 @@ export const getUploads = async (req: Request, res: Response) => {
     }
 }
 
-export const deleteUploads = async (req: Request, res: Response) => {
+export const handleDeleteAllUploads = async (req: Request, res: Response) => {
     try {
-        await deleteFolderContent(UPLOADS_FOLDER_PATH);
+        await deleteAllUploads();
         await clearStatistic();
-        res.send('Inhalt des Upload Ordners gelöscht');
+        res.send('Alle Uploads gelöscht');
+        logger.info('Alle Uploads gelöscht');
     } catch (error) {
-        logger.error('Fehler beim Löschen des Ordnerinhalts des Uploads-Ordners:', error);
-        res.status(500).send('Fehler beim Löschen des Ordnerinhalts');
+        logger.error('Fehler beim Löschen aller Uploads:', error);
+        res.status(500).send('Fehler beim Löschen aller Uploads');
     }
 }
 
-export const deleteUpload = async (req: Request, res: Response) => {
+export const handleDeleteUpload = async (req: Request, res: Response) => {
     const uploadID = req.query['UploadID'] as string;
     if (!uploadID) return res.status(400).send('Fehlender Dateiname');
 
@@ -41,16 +43,13 @@ export const deleteUpload = async (req: Request, res: Response) => {
         logger.error('Fehler beim Aktualisieren der Statistik:', error);
     }
 
-    // Lösche Ordner sammt Ihnalt
-    const folderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
     try {
-        await deleteFolder(folderPath);
+        await deleteUpload(uploadID);
+        return res.status(200).send('Datei gelöscht');
     } catch (error) {
-        logger.error('Fehler beim Löschen des Ordner:', error);
-        return res.status(500).send('Fehler beim Löschen des Ordners');
+        logger.error('Fehler beim Löschen des Uploads:', error);
+        return res.status(500).send('Fehler beim Löschen des Uploads');
     }
-
-    return res.status(200).send('Datei gelöscht');
 }
 
 export const getUpload = async (req: Request, res: Response) => {

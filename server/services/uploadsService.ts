@@ -12,7 +12,7 @@ export const getUploadsData = async (page: number): Promise<any> => {
 
     // SQL-Abfrage mit LIMIT und OFFSET
     const offset = (page - 1) * pageSize;
-    const readQuery = `SELECT uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads ORDER BY uploadID DESC LIMIT ? OFFSET ?`;
+    const readQuery = `SELECT uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads ORDER BY uploadDate DESC LIMIT ? OFFSET ?`;
     const rows: any = await query(readQuery, [pageSize, offset]);
 
     const list: Upload[] = rows.map((row: {
@@ -24,8 +24,7 @@ export const getUploadsData = async (page: number): Promise<any> => {
         antragsart: string;
         grundbuchamt: string;
     }) => {
-        const upload = new Upload();
-        upload.uploadID = row.uploadID;
+        const upload = new Upload(row.uploadID);
         upload.docxFile = Boolean(row.docxFile);
         upload.pdfFile = Boolean(row.pdfFile);
         upload.filesDeleted = Boolean(row.filesDeleted);
@@ -51,10 +50,11 @@ export const getUploadsData = async (page: number): Promise<any> => {
 
 export const readUpload = async (UploadID: string): Promise<Upload> => {
     const readQuery = `SELECT uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads WHERE uploadID = ?`;
-    const row: any = await query(readQuery, [UploadID]);
+    const result: any = await query(readQuery, [UploadID]);
+    const row = result[0];
 
-    const upload = new Upload();
-    upload.uploadID = row.uploadID;
+    const upload = new Upload(row.uploadID);
+
     upload.docxFile = Boolean(row.docxFile);
     upload.pdfFile = Boolean(row.pdfFile);
     upload.filesDeleted = Boolean(row.filesDeleted);
@@ -102,6 +102,16 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
     }
 };
 
+export const deleteUpload = async (uploadID: string): Promise<void> => {
+    const deleteQuery = `DELETE FROM uploads WHERE uploadID = ?`;
+    await query(deleteQuery, [uploadID]);
+}
+
+export const deleteAllUploads = async (): Promise<void> => {
+    const deleteQuery = `DELETE FROM uploads`;
+    await query(deleteQuery, []);
+}
+
 export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
     const pathToPdf = path.join(UPLOADS_FOLDER_PATH, uploadID, uploadID + '.pdf');
     const pathToDocx = path.join(UPLOADS_FOLDER_PATH, uploadID, uploadID + '.docx');
@@ -110,6 +120,7 @@ export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
 
     const upload: Upload = await readUpload(uploadID);
     upload.filesDeleted = true;
+
     await updateUploadData(upload);
 }
 

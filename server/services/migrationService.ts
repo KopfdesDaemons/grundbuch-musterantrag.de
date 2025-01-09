@@ -20,7 +20,7 @@ export const migrateFromAntragToUploadinfo = async (): Promise<void> => {
             const JSONPath = path.join(UPLOADS_FOLDER_PATH, folder, folder + '.json');
             const file = await fs.promises.readFile(JSONPath, 'utf8');
             const antrag: Antrag = JSON.parse(file) as Antrag;
-            const upload: Upload = new Upload();
+            const upload: Upload = new Upload(folder);
 
 
             // Nur gleichnamige Parameter übernehmen

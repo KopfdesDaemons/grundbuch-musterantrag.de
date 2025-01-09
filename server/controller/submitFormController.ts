@@ -26,17 +26,15 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
 
     // Prüfe ob Daten in dem Wert "data" in der Formdata empfangen wurden
-    let { uploadinfo } = req.body;
+    const { uploadinfo } = req.body;
     if (!uploadinfo) {
       logger.error('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
       return res.status(400).send('Es wurde keine Daten in dem Wert "data" in der Formdata empfangen.');
     }
 
-    const newUpload = new Upload();
+    const newUpload = new Upload(uploadID);
     Object.assign(newUpload, JSON.parse(uploadinfo));
-    uploadinfo = newUpload;
-    uploadinfo.uploadDate = new Date();
-    uploadinfo.uploadID = uploadID;
+    newUpload.uploadDate = new Date();
 
 
     // Prüfe ob Dateien in der Formdata empfangen wurden
@@ -54,14 +52,14 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       saveUploadinfo();
       return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
     }
-    else uploadinfo.docxFile = true;
+    else newUpload.docxFile = true;
     saveUploadinfo();
 
 
     // Speichere die DOCX-Datei im Upload-Ordner
     await docx.mv(filePathDocx);
 
-    await changeStatistic(uploadinfo.antragsart, 1);
+    await changeStatistic(newUpload.antragsart, 1);
 
 
     // Konvertiere DOCX in PDF
@@ -78,7 +76,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       logger.error('Die PDF-Datei wurde nicht erstellt.');
       return res.status(500).send('Interner Serverfehler: PDF-Datei nicht gefunden.');
     }
-    else uploadinfo.pdfFile = true;
+    else newUpload.pdfFile = true;
     saveUploadinfo();
 
 
@@ -98,7 +96,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
     async function saveUploadinfo() {
       try {
-        await updateUploadData(uploadinfo);
+        await updateUploadData(newUpload);
       } catch (error) {
         logger.error('Fehler beim Speichern der Uploadinfos:', error);
       }
