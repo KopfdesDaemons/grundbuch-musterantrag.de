@@ -1,38 +1,42 @@
-import { SETTINGS_JSON_PATH } from "server/config/config";
-import * as fs from 'fs';
-import { checkFileExists } from "./directoryService";
 import { Settings } from "server/models/settings";
-
+import { query } from "./databaseService";
 
 export class SettingsService {
-    private static settings: Settings = new Settings();
-
-    private static getSettingsFromJSON = async (): Promise<Settings | null> => {
-        if (await checkFileExists(SETTINGS_JSON_PATH)) {
-            const json = await fs.promises.readFile(SETTINGS_JSON_PATH, 'utf8');
-            const settings = new Settings();
-            Object.assign(settings, JSON.parse(json));
-            return settings;
-        };
-        return null;
-    };
 
     static saveSettings = async (settings: Settings): Promise<void> => {
-        const formattedData = JSON.stringify(settings, null, 2);
-        this.settings = settings;
-        await fs.promises.writeFile(SETTINGS_JSON_PATH, formattedData, 'utf-8');
+        const upsertQuery = `
+        INSERT INTO settings (name, value)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE value = VALUES(value)
+        `;
+
+        const settingsArray = Object.entries(settings);
+        for (const [name, value] of settingsArray) {
+            await query(upsertQuery, [name, value]);
+        }
     };
 
-    static initSettings = async (): Promise<void> => {
-        const savedSettings = await this.getSettingsFromJSON();
-        if (savedSettings) this.settings = savedSettings;
-    }
+    static getSettings = async (): Promise<Settings> => {
+        const selectQuery = `SELECT name, value FROM settings`;
+        const result = await query<{ name: string; value: string }[]>(selectQuery, []);
 
-    static getSettings = (): Settings => {
-        return this.settings;
-    }
+        const settings = new Settings();
+        result.forEach(row => {
+            switch (row.name) {
+                case "deleteGeneratedFilesAfterResponse":
+                    settings.deleteGeneratedFilesAfterResponse = row.value === "1";
+                    break;
+                case "primaryColor":
+                    settings.primaryColor = row.value;
+                    break;
+            }
+        });
+        return settings;
+    };
 
-    static getSetting = (settingName: string): string => {
-        return (this.settings as any)[settingName];
-    }
+    static getSetting = async (settingName: string): Promise<string | undefined> => {
+        const selectQuery = `SELECT value FROM settings WHERE name = ?`;
+        const result = await query<{ value: string }[]>(selectQuery, [settingName]);
+        return result.length > 0 ? result[0].value : undefined;
+    };
 }

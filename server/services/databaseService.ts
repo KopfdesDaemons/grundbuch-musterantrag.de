@@ -49,7 +49,7 @@ export const initializeDatabase = async () => {
 
         const createSettingsTableSQL = `
         CREATE TABLE IF NOT EXISTS settings (
-            settingName VARCHAR(255) PRIMARY KEY,
+            name VARCHAR(255) NOT NULL PRIMARY KEY,
             value VARCHAR(255) NOT NULL
         )`;
         await query(createSettingsTableSQL, []);

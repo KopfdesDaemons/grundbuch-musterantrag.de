@@ -23,7 +23,7 @@ export const handleSaveSettings = async (req: Request, res: Response) => {
 
 export const handleGetSettings = async (req: Request, res: Response) => {
     try {
-        const settings = SettingsService.getSettings();
+        const settings = await SettingsService.getSettings();
         return res.status(200).json(settings);
     } catch (error) {
         logger.error('Fehler beim Laden der Einstellungen:', error);
@@ -32,7 +32,7 @@ export const handleGetSettings = async (req: Request, res: Response) => {
 };
 
 export const handleGetPrimaryColor = async (req: Request, res: Response) => {
-    const setting = SettingsService.getSetting('primaryColor');
+    const setting = await SettingsService.getSetting('primaryColor');
     if (!setting) logger.info('Setting primaryColor nicht gefunden');
     return res.status(200).send(setting);
 }

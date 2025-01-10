@@ -12,7 +12,6 @@ import { deleteLogFile, getLogFile } from './server/controller/loggerController'
 import { handleGetStatistic } from 'server/controller/statisticController';
 import { SERVER_DIST_FOLDER, STORAGE_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/config';
 import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
-import { SettingsService } from 'server/services/settingsService';
 import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
 import { initializeDatabase as initDatabase } from 'server/services/databaseService';
 
@@ -28,7 +27,6 @@ export function app(): express.Express {
   if (!fs.existsSync(UPLOADS_FOLDER_PATH)) fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
 
   initDatabase();
-  SettingsService.initSettings();
 
   // Middlewares für die gesamte App
   server.use(fileUpload());

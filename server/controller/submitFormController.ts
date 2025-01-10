@@ -84,9 +84,9 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     res.contentType('application/pdf').sendFile(filePathPdf, cleanupFiles);
 
 
-    function cleanupFiles() {
+    async function cleanupFiles() {
       // Lösche Uploaddateien, wenn die Einstellung aktiviert ist
-      if (!SettingsService.getSettings().deleteGeneratedFilesAfterResponse) return;
+      if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
 
       try {
         deleteGeneratedFiles(uploadID);
