@@ -6,10 +6,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-    selector: 'app-antragsarten-tile',
-    imports: [DashboardTileComponent, ProgressSpinnerComponent, FontAwesomeModule],
-    templateUrl: './antragsarten-tile.component.html',
-    styleUrl: './antragsarten-tile.component.scss'
+  selector: 'app-antragsarten-tile',
+  imports: [DashboardTileComponent, ProgressSpinnerComponent, FontAwesomeModule],
+  templateUrl: './antragsarten-tile.component.html',
+  styleUrl: './antragsarten-tile.component.scss'
 })
 export class AntragsartenTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
@@ -27,10 +27,5 @@ export class AntragsartenTileComponent implements OnInit {
     const json = await this.uploadsS.getStatistic();
     if (!json) return;
     this.statistic = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value as number }));
-  }
-
-  async genereateStatistic() {
-    await this.uploadsS.generateStatistic();
-    await this.loadStatistic();
   }
 }

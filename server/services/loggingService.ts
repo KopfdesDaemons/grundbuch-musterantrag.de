@@ -1,4 +1,3 @@
-// src/services/logFileService.ts
 import * as fs from 'fs';
 import { LOG_FILE_PATH } from '../config/config';
 

@@ -10,7 +10,6 @@ import { Upload } from 'server/models/upload';
   providedIn: 'root'
 })
 export class UploadsService {
-  // Injections
   http = inject(HttpClient);
   authS = inject(AuthService);
   private platformId = inject(PLATFORM_ID);
@@ -116,22 +115,6 @@ export class UploadsService {
       const data = await lastValueFrom(
         this.http.get('/api/getStatistic', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-      return data;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  }
-
-  async generateStatistic(): Promise<any> {
-    if (!isPlatformBrowser(this.platformId)) return;
-    try {
-      const data = await lastValueFrom(
-        this.http.post('/api/generateStatistic', {}, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          responseType: 'json'
         })
       );
       return data;

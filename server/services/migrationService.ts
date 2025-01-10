@@ -6,7 +6,6 @@ import { Antrag } from "src/app/interfaces/antrag";
 import { updateUploadData } from "./uploadsService";
 import logger from "server/config/logger";
 import { checkFileExists } from "./directoryService";
-import { Grundbuchamt } from "src/app/models/grundbuchamt";
 
 /**
  * Migration von Antrag zu Uploadinfo

@@ -9,12 +9,12 @@ import fileUpload from 'express-fileupload';
 import * as fs from 'fs';
 import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
-import { generateStatistic as handleGenerateStatistic, getStatistic } from 'server/controller/statisticController';
+import { handleGetStatistic } from 'server/controller/statisticController';
 import { SERVER_DIST_FOLDER, STORAGE_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/config';
 import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 import { SettingsService } from 'server/services/settingsService';
 import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
-import { initializeDatabase } from 'server/services/databaseService';
+import { initializeDatabase as initDatabase } from 'server/services/databaseService';
 
 
 export function app(): express.Express {
@@ -27,7 +27,7 @@ export function app(): express.Express {
   if (!fs.existsSync(STORAGE_FOLDER_PATH)) fs.mkdirSync(STORAGE_FOLDER_PATH, { recursive: true });
   if (!fs.existsSync(UPLOADS_FOLDER_PATH)) fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
 
-  initializeDatabase();
+  initDatabase();
   SettingsService.initSettings();
 
   // Middlewares für die gesamte App
@@ -39,8 +39,7 @@ export function app(): express.Express {
   server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
   server.delete('/api/deleteLogFile', authMiddleware, deleteLogFile);
   server.get('/api/getLogFile', authMiddleware, getLogFile);
-  server.get('/api/getStatistic', authMiddleware, getStatistic);
-  server.post('/api/generateStatistic', authMiddleware, handleGenerateStatistic);
+  server.get('/api/getStatistic', authMiddleware, handleGetStatistic);
   server.post('/api/migration/fromAntragToUploadinfo', authMiddleware, handleMigrationFromAntragToUploadinfo);
   server.get('/api/settings', authMiddleware, handleGetSettings);
   server.put('/api/settings', authMiddleware, handleSaveSettings);

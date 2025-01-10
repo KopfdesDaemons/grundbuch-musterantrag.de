@@ -13,9 +13,9 @@ const db = mysql.createPool({
     database: 'grundbuch-musterantrag'
 });
 
-export const query = (sql: string, params: (string | boolean | Date | number)[]) => {
+export const query = <T = unknown>(sql: string, params: (string | boolean | Date | number)[]): Promise<T> => {
     return new Promise((resolve, reject) => {
-        db.query(sql, params, (err: any, results: unknown) => {
+        db.query(sql, params, (err: any, results: T) => {
             if (err) return reject(err);
             resolve(results);
         });
@@ -44,12 +44,27 @@ export const initializeDatabase = async () => {
             antragsart VARCHAR(255) NOT NULL,
             grundbuchamt VARCHAR(255) NOT NULL
         )`;
-
         await query(createUploadTableSQL, []);
+
+
+        const createSettingsTableSQL = `
+        CREATE TABLE IF NOT EXISTS settings (
+            settingName VARCHAR(255) PRIMARY KEY,
+            value VARCHAR(255) NOT NULL
+        )`;
+        await query(createSettingsTableSQL, []);
+
+
+        const createStatisticTableSQL = `
+        CREATE TABLE IF NOT EXISTS statistic (
+            antragsart VARCHAR(255) PRIMARY KEY,
+            anzahl INT NOT NULL
+        )`;
+        await query(createStatisticTableSQL, []);
+
 
         logger.info("Datenbank und Tabellen wurden erfolgreich initialisiert.");
     } catch (error) {
         logger.error("Fehler bei der Initialisierung der Datenbank:", error);
     }
 };
-

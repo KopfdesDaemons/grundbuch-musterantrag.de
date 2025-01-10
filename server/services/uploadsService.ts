@@ -1,6 +1,5 @@
 import path from 'path';
 import { Upload } from '../models/upload';
-import { checkFileExists } from './directoryService';
 import fs from 'fs';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import { query } from './databaseService';
@@ -65,69 +64,48 @@ export const readUpload = async (UploadID: string): Promise<Upload> => {
 };
 
 export const updateUploadData = async (data: Upload): Promise<void> => {
-    const checkQuery = `SELECT * FROM uploads WHERE uploadID = ?`;
-    const existingUpload: any = await query(checkQuery, [data.uploadID]);
+    const checkQuery = `SELECT 1 FROM uploads WHERE uploadID = ?`;
+    const exists = (await query<Upload[]>(checkQuery, [data.uploadID])).length > 0;
 
-    if (existingUpload && existingUpload.length > 0) {
-        // Datensatz existiert, also UPDATE ausführen
-        const updateQuery = `
-                UPDATE uploads 
-                SET docxFile = ?, pdfFile = ?, filesDeleted = ?, uploadDate = ?, antragsart = ?, grundbuchamt = ?
-                WHERE uploadID = ?
-            `;
-        await query(updateQuery, [
-            data.docxFile,
-            data.pdfFile,
-            data.filesDeleted,
-            data.uploadDate,
-            data.antragsart,
-            data.grundbuchamt,
-            data.uploadID
-        ]);
-    } else {
-        // Datensatz existiert nicht, also INSERT ausführen
-        const insertQuery = `
-                INSERT INTO uploads (uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            `;
-        await query(insertQuery, [
-            data.uploadID,
-            data.docxFile,
-            data.pdfFile,
-            data.filesDeleted,
-            data.uploadDate,
-            data.antragsart,
-            data.grundbuchamt
-        ]);
-    }
+    const sql = exists
+        ? `UPDATE uploads 
+           SET docxFile = ?, pdfFile = ?, filesDeleted = ?, uploadDate = ?, antragsart = ?, grundbuchamt = ? 
+           WHERE uploadID = ?`
+        : `INSERT INTO uploads (uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt) 
+           VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+    const params = exists
+        ? [data.docxFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt, data.uploadID]
+        : [data.uploadID, data.docxFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt];
+
+    await query(sql, params);
 };
 
 export const deleteUpload = async (uploadID: string): Promise<void> => {
     const deleteQuery = `DELETE FROM uploads WHERE uploadID = ?`;
     await query(deleteQuery, [uploadID]);
+    deleteGeneratedFiles(uploadID);
 }
 
 export const deleteAllUploads = async (): Promise<void> => {
     const deleteQuery = `DELETE FROM uploads`;
     await query(deleteQuery, []);
+    await fs.promises.rm(UPLOADS_FOLDER_PATH, { recursive: true, force: true });
 }
 
 export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
-    const pathToPdf = path.join(UPLOADS_FOLDER_PATH, uploadID, uploadID + '.pdf');
-    const pathToDocx = path.join(UPLOADS_FOLDER_PATH, uploadID, uploadID + '.docx');
-    if (await checkFileExists(pathToPdf)) await fs.promises.unlink(pathToPdf);
-    if (await checkFileExists(pathToDocx)) await fs.promises.unlink(pathToDocx);
-
+    const folderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
+    await fs.promises.rm(folderPath, { recursive: true, force: true });
     const upload: Upload = await readUpload(uploadID);
     upload.filesDeleted = true;
-
     await updateUploadData(upload);
 }
 
 export const deleteAllGeneratedFiles = async (): Promise<void> => {
-    const uploadsFolders = await fs.promises.readdir(UPLOADS_FOLDER_PATH);
+    const selectQuery = `SELECT uploadID FROM uploads WHERE filesDeleted = 0`;
+    const result: { uploadID: string }[] = await query<{ uploadID: string }[]>(selectQuery, []);
 
-    for (const folder of uploadsFolders) {
-        await deleteGeneratedFiles(folder);
+    for (const id of result) {
+        await deleteGeneratedFiles(id.uploadID);
     }
 }

@@ -2,7 +2,7 @@ import path from 'path';
 import express, { Request, Response } from 'express';
 import * as fs from 'fs';
 import * as converterController from '../services/converterService';
-import { changeStatistic } from 'server/services/statisticService';
+import { updateStatistic } from 'server/services/statisticService';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
@@ -59,7 +59,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     // Speichere die DOCX-Datei im Upload-Ordner
     await docx.mv(filePathDocx);
 
-    await changeStatistic(newUpload.antragsart, 1);
+    await updateStatistic(newUpload.antragsart, 1);
 
 
     // Konvertiere DOCX in PDF
@@ -81,7 +81,10 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
 
 
     // Sende PDF-Datei an den Client
-    res.contentType('application/pdf').sendFile(filePathPdf, () => {
+    res.contentType('application/pdf').sendFile(filePathPdf, cleanupFiles);
+
+
+    function cleanupFiles() {
       // Lösche Uploaddateien, wenn die Einstellung aktiviert ist
       if (!SettingsService.getSettings().deleteGeneratedFilesAfterResponse) return;
 
@@ -90,9 +93,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       } catch (error) {
         logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
       }
-    });
-
-    return;
+    }
 
     async function saveUploadinfo() {
       try {
@@ -102,6 +103,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
       }
     }
 
+    return;
   } catch (error) {
     logger.error('Fehler bei der Generierung des Antrags: ', error);
     return res.status(500).send('Interner Serverfehler.');
