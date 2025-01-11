@@ -128,7 +128,7 @@ export class UploadsService {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/deleteUpload', {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        params: new HttpParams().set('UploadID', name),
+        params: new HttpParams().set('uploadID', name),
         responseType: 'text'
       }));
     } catch (error: any) {

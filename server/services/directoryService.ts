@@ -11,10 +11,6 @@ export const checkFileExists = async (filePath: string): Promise<boolean> => {
     }
 };
 
-export const deleteFolder = async (folderPath: string): Promise<void> => {
-    await fs.promises.rm(folderPath, { recursive: true });
-};
-
 export const deleteFolderContent = async (folderPath: string): Promise<void> => {
     await deleteContentRecursive(folderPath);
 

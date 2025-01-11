@@ -40,7 +40,7 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     // Prüfe ob Dateien in der Formdata empfangen wurden
     if (!req.files) {
       logger.error('Es wurde keine Datei in der Formdata empfangen.');
-      saveUploadinfo();
+      await saveUploadinfo();
       return res.status(400).send('Es wurde keine Datei in der Formdata empfangen.');
     }
 
@@ -49,11 +49,11 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     const { docx } = req.files as any;
     if (!docx) {
       logger.error('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
-      saveUploadinfo();
+      await saveUploadinfo();
       return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
     }
     else newUpload.docxFile = true;
-    saveUploadinfo();
+    await saveUploadinfo();
 
 
     // Speichere die DOCX-Datei im Upload-Ordner
@@ -75,9 +75,8 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     if (!fs.existsSync(filePathPdf)) {
       logger.error('Die PDF-Datei wurde nicht erstellt.');
       return res.status(500).send('Interner Serverfehler: PDF-Datei nicht gefunden.');
-    }
-    else newUpload.pdfFile = true;
-    saveUploadinfo();
+    } else newUpload.pdfFile = true;
+    await saveUploadinfo();
 
 
     // Sende PDF-Datei an den Client

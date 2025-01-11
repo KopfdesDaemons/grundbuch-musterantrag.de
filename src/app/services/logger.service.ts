@@ -69,7 +69,6 @@ export class LoggerService {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
         responseType: 'text'
       }));
-      alert('Logfile gelöscht')
     } catch (error) {
       console.error('Error beim Löschen des Ordners:', error);
     }

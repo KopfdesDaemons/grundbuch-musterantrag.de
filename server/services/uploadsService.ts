@@ -82,9 +82,9 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
 };
 
 export const deleteUpload = async (uploadID: string): Promise<void> => {
+    await deleteGeneratedFiles(uploadID);
     const deleteQuery = `DELETE FROM uploads WHERE uploadID = ?`;
     await query(deleteQuery, [uploadID]);
-    deleteGeneratedFiles(uploadID);
 }
 
 export const deleteAllUploads = async (): Promise<void> => {

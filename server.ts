@@ -6,27 +6,22 @@ import * as authController from './server/controller/authController';
 import submitForm from './server/controller/submitFormController';
 import uploads from './server/routes/uploadsRoutes';
 import fileUpload from 'express-fileupload';
-import * as fs from 'fs';
 import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
 import { handleGetStatistic } from 'server/controller/statisticController';
-import { SERVER_DIST_FOLDER, STORAGE_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/config';
+import { SERVER_DIST_FOLDER } from 'server/config/config';
 import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
 import { initializeDatabase as initDatabase } from 'server/services/databaseService';
 
 
-export function app(): express.Express {
+export async function app(): Promise<express.Express> {
   const server = express();
   const browserDistFolder = resolve(SERVER_DIST_FOLDER, '../browser');
 
   const angularNodeAppEngine = new AngularNodeAppEngine();
 
-  // Überprüfe, ob Ordner existiert und erstelle ihn bei Bedarf
-  if (!fs.existsSync(STORAGE_FOLDER_PATH)) fs.mkdirSync(STORAGE_FOLDER_PATH, { recursive: true });
-  if (!fs.existsSync(UPLOADS_FOLDER_PATH)) fs.mkdirSync(UPLOADS_FOLDER_PATH, { recursive: true });
-
-  initDatabase();
+  await initDatabase();
 
   // Middlewares für die gesamte App
   server.use(fileUpload());
@@ -50,7 +45,6 @@ export function app(): express.Express {
   // Routen, welche die Angular Engine ansprechen
   server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));
 
-
   server.get('**', (req, res, next) => {
     console.log('request', req.url);
 
@@ -65,7 +59,7 @@ export function app(): express.Express {
   return server;
 }
 
-const server = app();
+const server = await app();
 
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
