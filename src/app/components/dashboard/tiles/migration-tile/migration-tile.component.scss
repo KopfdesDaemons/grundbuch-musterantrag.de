@@ -1,3 +1,14 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+app-progress-spinner {
+    margin: 0 auto;
+    width: 100%;
+}
+
 .responseText {
     word-break: break-word;
     margin: 1em 0;

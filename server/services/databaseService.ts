@@ -20,15 +20,6 @@ export const query = <T>(sql: string, params: (string | boolean | Date | number)
 
 export const initializeDatabase = async () => {
     try {
-        // Erstelle die Datenbank, falls sie nicht existiert
-        const createDatabaseSQL = `CREATE DATABASE IF NOT EXISTS \`grundbuch-musterantrag\``;
-        await new Promise<void>((resolve, reject) => {
-            db.query(createDatabaseSQL, (err: any) => {
-                if (err) return reject(err);
-                resolve();
-            });
-        });
-
         // Erstelle Tabellen in der Datenbank
         const createUploadTableSQL = `
         CREATE TABLE IF NOT EXISTS uploads (

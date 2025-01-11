@@ -10,7 +10,7 @@ import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
 import { deleteLogFile, getLogFile } from './server/controller/loggerController';
 import { handleGetStatistic } from 'server/controller/statisticController';
 import { SERVER_DIST_FOLDER } from 'server/config/config';
-import { handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
+import { handleMigrateFromJSONFilesToDatabase, handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
 import { initializeDatabase as initDatabase } from 'server/services/databaseService';
 
@@ -34,6 +34,7 @@ export async function app(): Promise<express.Express> {
   server.get('/api/getLogFile', authMiddleware, getLogFile);
   server.get('/api/getStatistic', authMiddleware, handleGetStatistic);
   server.post('/api/migration/fromAntragToUploadinfo', authMiddleware, handleMigrationFromAntragToUploadinfo);
+  server.post('/api/migration/fromJSONToDatabase', authMiddleware, handleMigrateFromJSONFilesToDatabase);
   server.get('/api/settings', authMiddleware, handleGetSettings);
   server.put('/api/settings', authMiddleware, handleSaveSettings);
   server.get('/api/settings/getPrimaryColor', handleGetPrimaryColor);

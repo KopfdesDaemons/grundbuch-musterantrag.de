@@ -6,10 +6,10 @@ import { Migration } from 'src/app/models/migration';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-migration-tile',
-    imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule],
-    templateUrl: './migration-tile.component.html',
-    styleUrl: './migration-tile.component.scss'
+  selector: 'app-migration-tile',
+  imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule],
+  templateUrl: './migration-tile.component.html',
+  styleUrl: './migration-tile.component.scss'
 })
 export class MigrationTileComponent {
   migrationS = inject(MigrationService);
@@ -28,7 +28,7 @@ export class MigrationTileComponent {
     } catch (error: any) {
       this.isLoading = false;
       console.error('Error beim Migration:', error);
-      this.responseText = error.message;
+      this.responseText = 'Fehler bei der Migration. Siehe Logs für Details.';
     }
   }
 }

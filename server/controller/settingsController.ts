@@ -32,7 +32,12 @@ export const handleGetSettings = async (req: Request, res: Response) => {
 };
 
 export const handleGetPrimaryColor = async (req: Request, res: Response) => {
-    const setting = await SettingsService.getSetting('primaryColor');
-    if (!setting) logger.info('Setting primaryColor nicht gefunden');
-    return res.status(200).send(setting);
+    try {
+        const setting = await SettingsService.getSetting('primaryColor');
+        if (!setting) logger.info('Setting primaryColor nicht gefunden');
+        return res.status(200).send(setting);
+    } catch (error) {
+        logger.error('Fehler beim Laden der Primärfarbe:', error);
+        return res.status(500).send('Interner Serverfehler');
+    }
 }
