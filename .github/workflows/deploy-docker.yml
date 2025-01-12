@@ -42,8 +42,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            # Ordner des Projekts
             install -d -o ${{ secrets.SSH_USER }} -g ${{ secrets.SSH_USER }} /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
-            install -d -o ${{ secrets.SSH_USER }} -g ${{ secrets.SSH_USER }} /home/${{ secrets.SSH_USER }}/storage/
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,9 +76,16 @@ jobs:
           script: |
             cd /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
             docker compose down
-            docker compose pull
+
+            # Setzen der Variablen
             DASHBOARD_LOGIN_PASSWORD=${{ secrets.DASHBOARD_LOGIN_PASSWORD }} \
             MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             MYSQL_USER=${{ secrets.MYSQL_USER }} \
             MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-            docker compose up -d
+
+            docker compose up --pull always -d
+
+            # Bereinigung alter Images und Ressourcen
+            docker image prune -af
+            docker volume prune -f
+            docker network prune -f

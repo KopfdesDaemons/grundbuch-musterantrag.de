@@ -1,7 +1,7 @@
 import { spawn } from 'child_process';
 
 export const convertToPdf = async (docxFilePath: string, folderPath: string): Promise<void> => {
-    const args = ['--convert-to', 'pdf', docxFilePath, '--outdir', folderPath];
+    const args = ['--headless', '--convert-to', 'pdf', docxFilePath, '--outdir', folderPath];
 
     const child = spawn('soffice', args);
 
