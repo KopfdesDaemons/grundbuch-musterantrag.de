@@ -78,4 +78,7 @@ jobs:
             docker-compose down
             docker-compose pull
             DASHBOARD_LOGIN_PASSWORD=${{ secrets.DASHBOARD_LOGIN_PASSWORD }} \
+            MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
+            MYSQL_USER=${{ secrets.MYSQL_USER }} \
+            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
             docker-compose up -d
