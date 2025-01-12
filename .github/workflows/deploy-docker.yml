@@ -82,7 +82,7 @@ jobs:
             MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             MYSQL_USER=${{ secrets.MYSQL_USER }} \
             MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-            docker compose up --pull -d
+            docker compose up --pull missing -d
 
       - name: Remove unused  Docker images, volumes and networks
         uses: appleboy/ssh-action@master
