@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
@@ -11,15 +11,21 @@ import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './antragsarten-tile.component.html',
   styleUrl: './antragsarten-tile.component.scss'
 })
-export class AntragsartenTileComponent implements OnInit {
+export class AntragsartenTileComponent implements AfterViewInit {
   uploadsS = inject(UploadsService);
 
   statistic: { antragsart: string; anzahl: number }[] | undefined = undefined;
 
   faRotateRight = faRotateRight;
+  error: boolean = false;
 
-  ngOnInit(): void {
-    this.loadStatistic();
+  async ngAfterViewInit(): Promise<void> {
+    try {
+      this.error = false;
+      await this.loadStatistic();
+    } catch (error) {
+      this.error = true;
+    }
   }
 
   async loadStatistic() {

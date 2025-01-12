@@ -28,7 +28,7 @@ export class SettingsService {
       return response as Settings;
     } catch (error) {
       console.error('Error beim Laden der Einstellungen:', error);
-      return null;
+      throw error;
     }
   }
 

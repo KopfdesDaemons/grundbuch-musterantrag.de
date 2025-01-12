@@ -1,5 +1,7 @@
 <app-dashboard-tile>
     <div class="content">
+        @if(error){ <p class="error">Fehler beim Laden der Statistik der Antragsarten</p>}
+        @else {
         @if(!statistic) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
         }@else {
@@ -26,6 +28,7 @@
                 </tbody>
             </table>
         </div>
+        }
         }
     </div>
 </app-dashboard-tile>

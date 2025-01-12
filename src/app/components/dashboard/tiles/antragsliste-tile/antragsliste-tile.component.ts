@@ -19,13 +19,19 @@ export class AntragslisteTileComponent implements OnInit {
   totalFiles: number | undefined;
   latestFile: Upload | null | undefined;
   platformId = inject(PLATFORM_ID);
+  error: boolean = false;
 
   // FontAwesome Icons
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
 
   async ngOnInit(): Promise<void> {
-    this.totalFiles = await this.uploadsS.getTotalFiles();
-    this.latestFile = await this.getLatestFile();
+    try {
+      this.error = false;
+      this.totalFiles = await this.uploadsS.getTotalFiles();
+      this.latestFile = await this.getLatestFile();
+    } catch (error) {
+      this.error = true;
+    }
   }
 
   async getLatestFile(): Promise<Upload | null> {

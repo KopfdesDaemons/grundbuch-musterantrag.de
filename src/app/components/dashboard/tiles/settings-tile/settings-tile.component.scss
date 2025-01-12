@@ -13,12 +13,21 @@ li {
     border-radius: 16px;
 }
 
+app-progress-spinner {
+    margin: 0 auto;
+    width: 100%;
+}
+
 .content {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-p {
+.description {
     font-style: italic;
+}
+
+.error {
+    color: red;
 }

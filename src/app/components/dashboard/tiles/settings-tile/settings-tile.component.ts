@@ -16,9 +16,16 @@ export class SettingsTileComponent implements AfterViewInit {
   private uploadS = inject(UploadsService);
 
   settings: Settings | null = null;
+  error: boolean = false;
 
   async ngAfterViewInit(): Promise<void> {
-    this.settings = await this.settingsS.getSettings();
+    try {
+      this.error = false
+
+      this.settings = await this.settingsS.getSettings();
+    } catch (error) {
+      this.error = true;
+    }
   }
 
   async changeSetting(settingName: string, value: boolean | string): Promise<void> {
