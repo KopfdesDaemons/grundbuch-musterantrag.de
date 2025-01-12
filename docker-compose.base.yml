@@ -16,10 +16,10 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
+      test: ["CMD-SHELL", "mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} -e 'SELECT 1'"]
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 60 
 
 volumes:
   db_data:
