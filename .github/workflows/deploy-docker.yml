@@ -75,8 +75,8 @@ jobs:
           port: 22
           script: |
             cd /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
-            docker-compose down
-            docker-compose pull
+            docker compose down
+            docker compose pull
             DASHBOARD_LOGIN_PASSWORD=${{ secrets.DASHBOARD_LOGIN_PASSWORD }} \
             MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             MYSQL_USER=${{ secrets.MYSQL_USER }} \
