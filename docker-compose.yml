@@ -15,5 +15,10 @@ services:
         source: ${HOME}/storage  # Home-Verzeichnis des Benutzers
         target: /app/storage  
     image: kopfdesdaemons/grundbuch-musterantrag-angular:latest
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       DASHBOARD_LOGIN_PASSWORD: ${DASHBOARD_LOGIN_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
