@@ -5,7 +5,7 @@ import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
 import { getFile } from 'server/services/directoryService';
 import { updateStatistic, clearStatistic } from 'server/services/statisticService';
-import { deleteAllGeneratedFiles, deleteAllUploads, deleteGeneratedFiles, deleteUpload, getUploadsData, readUpload } from 'server/services/uploadsService';
+import { deleteAllGeneratedFiles, deleteAllUploads, deleteGeneratedFiles, deleteUpload, getUploadCountPerDays, getUploadDates, getUploadsData, readUpload } from 'server/services/uploadsService';
 
 export const getUploads = async (req: Request, res: Response) => {
     const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -91,5 +91,27 @@ export const handeleDeleteAllGeneratedFiles = async (req: Request, res: Response
     } catch (error) {
         logger.error('Fehler beim Löschen aller generierten Dateien:', error);
         return res.status(500).send('Fehler beim Löschen aller generierten Dateien');
+    }
+}
+
+export const handleGetUploadDates = async (req: Request, res: Response) => {
+    const timespan = req.query['timespan'] as string;
+    try {
+        const dates = await getUploadDates(timespan);
+        return res.status(200).json(dates);
+    } catch (error) {
+        logger.error('Fehler beim Abrufen der Upload-Datumsliste:', error);
+        return res.status(500).send('Fehler beim Abrufen der Upload-Datumsliste');
+    }
+}
+
+export const handleGetUploadCountPerDay = async (req: Request, res: Response) => {
+    const timespan = req.query['timespan'] as string;
+    try {
+        const countPerDay = await getUploadCountPerDays(timespan);
+        return res.status(200).json(countPerDay);
+    } catch (error) {
+        logger.error('Fehler beim Abrufen der Upload-Zahl pro Tag:', error);
+        return res.status(500).send('Fehler beim Abrufen der Upload-Zahl pro Tag');
     }
 }

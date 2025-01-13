@@ -109,3 +109,31 @@ export const deleteAllGeneratedFiles = async (): Promise<void> => {
         await deleteGeneratedFiles(id.uploadID);
     }
 }
+
+export const getUploadDates = async (timeframe: string) => {
+    const timeCondition = timeframe === 'week'
+        ? "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)"
+        : "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
+
+    const sql = `
+        SELECT DATE(uploadDate) as uploadDate
+        FROM uploads
+        WHERE ${timeCondition}
+    `;
+
+    const results = await query<{ uploadDate: Date }[]>(sql, []);
+
+    const dates = results.map(row => row.uploadDate.toISOString());
+    return dates;
+};
+
+export const getUploadCountPerDays = async (timeframe: string) => {
+    const datesArray = await getUploadDates(timeframe);
+    const datesAndCounts: { [date: string]: number } = {};
+
+    for (const date of datesArray) {
+        datesAndCounts[date] = (datesAndCounts[date] || 0) + 1;
+    }
+
+    return datesAndCounts;
+}
