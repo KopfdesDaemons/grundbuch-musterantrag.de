@@ -3,7 +3,6 @@ import { Upload } from '../models/upload';
 import fs from 'fs';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import { query } from './databaseService';
-import logger from 'server/config/logger';
 
 const pageSize = 20;
 
@@ -111,7 +110,7 @@ export const deleteAllGeneratedFiles = async (): Promise<void> => {
     }
 }
 
-export const getUploadDates = async (timeframe: 'week' | 'month') => {
+export const getUploadDates = async (timeframe: 'week' | 'month'): Promise<string[]> => {
     const timeCondition = timeframe === 'week'
         ? "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)"
         : "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
@@ -128,7 +127,7 @@ export const getUploadDates = async (timeframe: 'week' | 'month') => {
     return dates;
 };
 
-export const getUploadCountPerDays = async (timeframe: 'week' | 'month') => {
+export const getUploadCountPerDays = async (timeframe: 'week' | 'month'): Promise<{ date: string, count: number }[]> => {
     const datesArray: string[] = await getUploadDates(timeframe);
     const formattedDates = datesArray.map(date => date.split('T')[0]);
 

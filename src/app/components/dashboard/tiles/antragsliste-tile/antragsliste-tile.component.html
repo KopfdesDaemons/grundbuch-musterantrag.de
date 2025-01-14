@@ -1,5 +1,5 @@
 <app-dashboard-tile>
-    <div class="content">
+    <div class="content" #content>
         @if(error){
         <h2>Generierte Anträge</h2>
         <p class="error">Fehler beim Laden der Antragsliste</p>
@@ -20,6 +20,7 @@
             }
         </div>
         }
+        <div id="chart_div"></div>
         }
         <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
         }

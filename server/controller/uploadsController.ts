@@ -96,13 +96,13 @@ export const handeleDeleteAllGeneratedFiles = async (req: Request, res: Response
 
 export const handleGetUploadDates = async (req: Request, res: Response) => {
     const validTimespans = ['week', 'month'];
-    const timespan = req.query['timespan'] as string;
+    const timeframe = req.query['timeframe'] as string;
 
-    if (!validTimespans.includes(timespan)) {
+    if (!validTimespans.includes(timeframe)) {
         return res.status(400).send('Ungültige Zeitspanne');
     }
     try {
-        const dates = await getUploadDates(timespan as 'week' | 'month');
+        const dates = await getUploadDates(timeframe as 'week' | 'month');
         return res.status(200).json(dates);
     } catch (error) {
         logger.error('Fehler beim Abrufen der Upload-Datumsliste:', error);
@@ -112,14 +112,14 @@ export const handleGetUploadDates = async (req: Request, res: Response) => {
 
 export const handleGetUploadCountPerDay = async (req: Request, res: Response) => {
     const validTimespans = ['week', 'month'];
-    const timespan = req.query['timespan'] as string;
+    const timeframe = req.query['timeframe'] as string;
 
-    if (!validTimespans.includes(timespan)) {
+    if (!validTimespans.includes(timeframe)) {
         return res.status(400).send('Ungültige Zeitspanne');
     }
 
     try {
-        const countPerDay = await getUploadCountPerDays(timespan as 'week' | 'month');
+        const countPerDay = await getUploadCountPerDays(timeframe as 'week' | 'month');
         return res.status(200).json(countPerDay);
     } catch (error) {
         logger.error('Fehler beim Abrufen der Upload-Zahl pro Tag:', error);

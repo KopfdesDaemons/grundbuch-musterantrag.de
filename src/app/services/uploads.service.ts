@@ -169,4 +169,20 @@ export class UploadsService {
       console.error('Error beim Löschen aller generierten Dateien:', error);
     }
   }
+
+
+  async getUploadDatesAndCounts(timeframe: 'week' | 'month'): Promise<{ date: string, count: number }[]> {
+    try {
+      const response = await lastValueFrom(this.http.get('/api/uploads/getUploadCountPerDays', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        params: new HttpParams().set('timeframe', timeframe)
+      }))
+
+      return response as { date: string, count: number }[];
+
+    } catch (error: any) {
+      console.log('Fehler beim Laden der Anzahl der Anträge pro Tag', error);
+      return [];
+    }
+  }
 }
