@@ -3,6 +3,7 @@ import { Upload } from '../models/upload';
 import fs from 'fs';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import { query } from './databaseService';
+import logger from 'server/config/logger';
 
 const pageSize = 20;
 
@@ -110,7 +111,7 @@ export const deleteAllGeneratedFiles = async (): Promise<void> => {
     }
 }
 
-export const getUploadDates = async (timeframe: string) => {
+export const getUploadDates = async (timeframe: 'week' | 'month') => {
     const timeCondition = timeframe === 'week'
         ? "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)"
         : "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
@@ -127,13 +128,29 @@ export const getUploadDates = async (timeframe: string) => {
     return dates;
 };
 
-export const getUploadCountPerDays = async (timeframe: string) => {
-    const datesArray = await getUploadDates(timeframe);
-    const datesAndCounts: { [date: string]: number } = {};
+export const getUploadCountPerDays = async (timeframe: 'week' | 'month') => {
+    const datesArray: string[] = await getUploadDates(timeframe);
+    const formattedDates = datesArray.map(date => date.split('T')[0]);
 
-    for (const date of datesArray) {
-        datesAndCounts[date] = (datesAndCounts[date] || 0) + 1;
+    const startDate = timeframe === 'week'
+        ? new Date(new Date().setDate(new Date().getDate() - 6))
+        : new Date(new Date().setMonth(new Date().getMonth() - 1));
+
+    // erstelle Liste mit allen Tagen aus dem Zeitraum
+    const allDaysInTimeframe: { date: string, count: number }[] = [];
+
+    //  iteriere über Zeitraum
+    for (const date = startDate; date <= new Date(); date.setDate(date.getDate() + 1)) {
+        const formattedDate = date.toISOString().split('T')[0];
+        allDaysInTimeframe.push({ date: formattedDate, count: 0 });
     }
 
-    return datesAndCounts;
+    for (const date of formattedDates) {
+        const dateFromTimeframe = allDaysInTimeframe.find(day => day.date === date);
+        if (dateFromTimeframe) {
+            dateFromTimeframe.count++;
+        }
+    }
+
+    return allDaysInTimeframe;
 }
