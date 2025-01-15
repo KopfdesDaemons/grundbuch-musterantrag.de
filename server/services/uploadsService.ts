@@ -110,46 +110,48 @@ export const deleteAllGeneratedFiles = async (): Promise<void> => {
     }
 }
 
-export const getUploadDates = async (timeframe: 'week' | 'month'): Promise<string[]> => {
+export const getUploadDates = async (timeframe: 'week' | 'month'): Promise<Date[]> => {
     const timeCondition = timeframe === 'week'
-        ? "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)"
-        : "DATE(uploadDate) >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
+        ? "uploadDate >= NOW() - INTERVAL 7 DAY"
+        : "uploadDate >= NOW() - INTERVAL 1 MONTH";
 
     const sql = `
-        SELECT DATE(uploadDate) as uploadDate
+        SELECT uploadDate
         FROM uploads
         WHERE ${timeCondition}
     `;
 
     const results = await query<{ uploadDate: Date }[]>(sql, []);
-
-    const dates = results.map(row => row.uploadDate.toISOString());
+    const dates = results.map(row => row.uploadDate);
     return dates;
 };
 
-export const getUploadCountPerDays = async (timeframe: 'week' | 'month'): Promise<{ date: string, count: number }[]> => {
-    const datesArray: string[] = await getUploadDates(timeframe);
-    const formattedDates = datesArray.map(date => date.split('T')[0]);
+export const getUploadCountPerDays = async (timeframe: 'week' | 'month'): Promise<{ date: Date; count: number }[]> => {
+    const datesArray: Date[] = await getUploadDates(timeframe);
 
     const startDate = timeframe === 'week'
         ? new Date(new Date().setDate(new Date().getDate() - 6))
         : new Date(new Date().setMonth(new Date().getMonth() - 1));
 
-    // erstelle Liste mit allen Tagen aus dem Zeitraum
-    const allDaysInTimeframe: { date: string, count: number }[] = [];
+    startDate.setHours(0, 0, 0, 0);
 
-    //  iteriere über Zeitraum
-    for (const date = startDate; date <= new Date(); date.setDate(date.getDate() + 1)) {
-        const formattedDate = date.toISOString().split('T')[0];
-        allDaysInTimeframe.push({ date: formattedDate, count: 0 });
+    const allDaysInTimeframe: { date: Date; count: number }[] = [];
+    const todayString = new Date().toLocaleDateString('us-US', { timeZone: 'Europe/Berlin' });
+    const today = new Date(todayString);
+
+    // Iteriere über den Zeitraum und füge alle Tage hinzu
+    for (let date = new Date(startDate); date <= today; date.setDate(date.getDate() + 1)) {
+        allDaysInTimeframe.push({ date: new Date(date), count: 0 });
     }
 
-    for (const date of formattedDates) {
-        const dateFromTimeframe = allDaysInTimeframe.find(day => day.date === date);
+    for (const date of datesArray) {
+        const dateFromTimeframe = allDaysInTimeframe.find(day =>
+            day.date.toLocaleDateString('de-DE', { timeZone: 'Europe/Berlin' }) === date.toLocaleDateString('de-DE', { timeZone: 'Europe/Berlin' })
+        );
         if (dateFromTimeframe) {
             dateFromTimeframe.count++;
         }
     }
 
     return allDaysInTimeframe;
-}
+};

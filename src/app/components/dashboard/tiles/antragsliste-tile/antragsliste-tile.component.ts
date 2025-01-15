@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnInit, PLATFORM_ID, Renderer2, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, LOCALE_ID, OnInit, PLATFORM_ID, Renderer2, viewChild } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/uploads.service';
@@ -6,7 +6,7 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 import { Upload } from 'server/models/upload';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DatePipe, isPlatformBrowser } from '@angular/common';
+import { DatePipe, formatDate, isPlatformBrowser } from '@angular/common';
 import { ScriptService } from 'src/app/services/script.service';
 import { FarbconverterService } from 'src/app/services/farbconverter.service';
 import { DesignloaderService } from 'src/app/services/designloader.service';
@@ -23,6 +23,7 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit {
   renderer = inject(Renderer2);
   farbS = inject(FarbconverterService);
   designS = inject(DesignloaderService);
+  local = inject(LOCALE_ID);
   private resizeObserver!: ResizeObserver;
   totalFiles: number | undefined;
   latestFile: Upload | null | undefined;
@@ -30,6 +31,7 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit {
   error: boolean = false;
   chartDates: { date: string, count: number }[] = [];
   chartRows: (string | number)[][] = [];
+  chartTimeframe: 'Woche' | 'Monat' = 'Woche';
   readonly contentDiv = viewChild.required<ElementRef>('content');
 
   // FontAwesome Icons
@@ -56,14 +58,17 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit {
       await this.loadChart();
     });
     this.resizeObserver.observe(this.contentDiv().nativeElement);
-    this.getChartDates();
+    const timeframe = this.chartTimeframe === 'Monat' ? 'month' : 'week';
+    await this.getChartDates(timeframe);
     await this.loadChart();
   }
 
-  async getChartDates() {
-    this.chartDates = await this.uploadsS.getUploadDatesAndCounts('week');
+  async getChartDates(timeframe: 'week' | 'month') {
+    this.chartDates = await this.uploadsS.getUploadDatesAndCounts(timeframe);
+    this.chartRows = [];
     for (const date of this.chartDates) {
-      const row = [date.date, date.count];
+      const formattedDate = formatDate(date.date, 'dd.MM.yyyy', this.local) || '';
+      const row = [formattedDate, date.count];
       this.chartRows.push(row);
     }
   }
@@ -74,6 +79,13 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit {
     const { files } = await this.uploadsS.getFiles();
     const latestFile: Upload = files[0];
     return latestFile;
+  }
+
+  async changeChartTimeframe() {
+    this.chartTimeframe = this.chartTimeframe === 'Woche' ? 'Monat' : 'Woche';
+    const timeframe = this.chartTimeframe === 'Monat' ? 'month' : 'week';
+    await this.getChartDates(timeframe);
+    await this.loadChart();
   }
 
   async loadChart(): Promise<void> {
@@ -94,17 +106,32 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit {
       const options = {
         legend: 'none',
         responsive: true,
+        animation: {
+          duration: 400,
+          startup: true
+        },
         colors: [primaryColor],
         textStyle: {
           color: schriftHEX,
         },
+        chartArea: {
+          left: 20,
+          top: 20,
+          width: '90%',
+          height: '75%'
+        },
         hAxis: {
           title: 'Tage',
+          showTextEvery: this.chartTimeframe === 'Woche' ? 2 : 7,
           textStyle: {
             color: schriftHEX,
           },
           titleTextStyle: {
             color: primaryColor,
+          },
+          viewWindow: {
+            min: new Date(2014, 11, 31, 18),
+            max: new Date(2015, 0, 3, 1)
           },
         },
         vAxis: {
