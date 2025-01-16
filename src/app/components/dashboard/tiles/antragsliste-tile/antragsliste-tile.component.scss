@@ -1,3 +1,11 @@
+:host {
+    grid-column: span 2;
+
+    @media screen and (max-width: 900px) {
+        grid-column: auto;
+    }
+}
+
 .content {
     display: flex;
     flex-direction: column;

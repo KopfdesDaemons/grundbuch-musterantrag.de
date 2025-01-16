@@ -32,6 +32,8 @@ export class AntragsartenTileComponent implements AfterViewInit {
     this.statistic = undefined;
     const json = await this.uploadsS.getStatistic();
     if (!json) return;
-    this.statistic = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value as number }));
+    const statisticArray = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value as number }));
+    const sortedStatistic = statisticArray.sort((a, b) => b.anzahl - a.anzahl);
+    this.statistic = sortedStatistic;
   }
 }

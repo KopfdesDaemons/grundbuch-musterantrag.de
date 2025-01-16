@@ -117,6 +117,7 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit {
         chartArea: {
           left: 20,
           top: 20,
+          right: 20,
           width: '90%',
           height: '75%'
         },
