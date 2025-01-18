@@ -1,6 +1,5 @@
-// src/controllers/logFileController.ts
 import { Request, Response } from 'express';
-import { clearLogFile, readLogFile } from '../services/loggingService';
+import { clearLogFile, readLogFile } from '../helpers/logFileHelper';
 import logger from 'server/config/logger';
 
 export const deleteLogFile = async (req: Request, res: Response) => {

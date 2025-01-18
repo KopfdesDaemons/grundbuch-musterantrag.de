@@ -14,6 +14,14 @@ export const readLogFile = async (): Promise<any[]> => {
     }
 
     // Trenne die JSON-Zeilen und füge sie zu einem Array zusammen
-    const logs = data.trim().split('\n').map(line => JSON.parse(line));
+    const logs = data.trim().split('\n').map(line => {
+        try {
+            return JSON.parse(line) as string;
+        } catch (error) {
+            console.error("Invalid JSON:", line, error);
+            return null;
+        }
+    }).filter(log => log !== null);
+
     return logs.reverse();
 };

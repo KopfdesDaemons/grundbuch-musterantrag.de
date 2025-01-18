@@ -1,4 +1,3 @@
-// src/middlewares/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/authService';
 import logger from '../config/logger';
@@ -16,7 +15,7 @@ export default async function authMiddleware(req: Request, res: Response, next: 
             const user = await verifyToken(token);
             req.body.user = user;
             return next();
-        } catch (error) {
+        } catch {
             // Forbidden
             return res.sendStatus(403);
         }

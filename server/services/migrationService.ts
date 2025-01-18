@@ -1,14 +1,12 @@
-import { SETTINGS_JSON_PATH, STATISTIC_JSON_PATH, UPLOADS_FOLDER_PATH } from "server/config/config";
+import { UPLOADS_FOLDER_PATH } from "server/config/config";
 import * as fs from 'fs';
 import path from "path";
 import { Upload } from "server/models/upload";
 import { Antrag } from "src/app/interfaces/antrag";
 import { updateUploadData } from "./uploadsService";
 import logger from "server/config/logger";
-import { checkFileExists } from "./directoryService";
-import { Settings } from "server/models/settings";
+import { checkFileExists } from "../helpers/fileSystemHelper";
 import { updateStatistic } from "./statisticService";
-import { Statistic } from "server/interfaces/statistic";
 
 /**
  * Migration von Antrag zu Uploadinfo
@@ -50,7 +48,7 @@ export const migrateFromAntragToUploadinfo = async (): Promise<void> => {
                 upload.pdfFile = await checkFileExists(path.join(UPLOADS_FOLDER_PATH, folder, folder + '.pdf'));
             }
 
-            updateUploadData(upload);
+            await updateUploadData(upload);
         } catch (error) {
             logger.error('Fehler beim Migration von Antrag zu Uploadinfo beim Ordner ' + folder + ': ', error);
             throw error;

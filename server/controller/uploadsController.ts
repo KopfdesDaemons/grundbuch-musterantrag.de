@@ -3,7 +3,7 @@ import path from 'path';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
 import { Upload } from 'server/models/upload';
-import { getFile } from 'server/services/directoryService';
+import { getFile } from 'server/helpers/fileSystemHelper';
 import { updateStatistic, clearStatistic } from 'server/services/statisticService';
 import { deleteAllGeneratedFiles, deleteAllUploads, deleteGeneratedFiles, deleteUpload, getUploadCountPerDays, getUploadDates, getUploadsData, readUpload } from 'server/services/uploadsService';
 

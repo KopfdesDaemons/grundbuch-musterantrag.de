@@ -18,7 +18,7 @@ export const amtsgerichtAusPLZ = async (plz: string): Promise<{ amtsgericht: str
         const plzOrtMatch = plzOrtRegex.exec(html);
         const plzOrt = plzOrtMatch && plzOrtMatch[1];
 
-        let [plzAmtsgericht, ort] = (plzOrt || '').split(/\s+/).filter(Boolean);
+        const [plzAmtsgericht, ort] = (plzOrt || '').split(/\s+/).filter(Boolean);
 
         if (!amtsgericht || !straße || !plzAmtsgericht || !ort) {
             throw new Error('Die Daten des Grundbuchamts konten nicht aus dem Justizportal geladen werden für die PLZ: ' + plz);

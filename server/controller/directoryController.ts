@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getFile, deleteFolderContent } from '../services/directoryService';
+import { getFile, deleteFolderContent } from '../helpers/fileSystemHelper';
 import logger from '../config/logger';
 
 

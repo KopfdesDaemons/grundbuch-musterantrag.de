@@ -2,7 +2,7 @@ import { Statistic } from "server/interfaces/statistic";
 import { query } from "./databaseService";
 
 export const getStatistic = async (): Promise<Statistic> => {
-    let statistic: Statistic = {};
+    const statistic: Statistic = {};
 
     const readQuery = 'SELECT antragsart, anzahl FROM statistic';
     const result: { antragsart: string; anzahl: number }[] = await query<{ antragsart: string; anzahl: number }[]>(readQuery, []);

@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 
 const DASHBOARD_PASSWORD = 'DASHBOARD_LOGIN_PASSWORD';
 
-export const authenticateUser = async (username: string, password: string): Promise<string> => {
+export const authenticateUser = (username: string, password: string): string => {
     const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
 
     if (!secretKey) {

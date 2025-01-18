@@ -1,7 +1,7 @@
 import path from 'path';
 import express, { Request, Response } from 'express';
 import * as fs from 'fs';
-import * as converterController from '../services/converterService';
+import * as converterController from '../helpers/fileConversionHelper';
 import { updateStatistic } from 'server/services/statisticService';
 import { UPLOADS_FOLDER_PATH } from 'server/config/config';
 import logger from 'server/config/logger';
