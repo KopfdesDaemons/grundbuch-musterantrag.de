@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, LOCALE_ID, OnDestroy, OnInit, PLATFORM_ID, Renderer2, viewChild } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/uploads.service';
@@ -6,37 +6,21 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 import { Upload } from 'server/models/upload';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DatePipe, DOCUMENT, formatDate, isPlatformBrowser } from '@angular/common';
-import { ScriptService } from 'src/app/services/script.service';
-import { FarbconverterService } from 'src/app/services/farbconverter.service';
-import { DesignloaderService } from 'src/app/services/designloader.service';
-import { GooglechartsService } from 'src/app/services/googlecharts.service';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
+import { AntragsanzahltimeframeComponent } from "../../../charts/antragsanzahltimeframe/antragsanzahltimeframe.component";
 
 @Component({
   selector: 'app-antragsliste-tile',
-  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule, DatePipe],
+  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule, DatePipe, AntragsanzahltimeframeComponent],
   templateUrl: './antragsliste-tile.component.html',
   styleUrl: './antragsliste-tile.component.scss'
 })
-export class AntragslisteTileComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
-  scriptS = inject(ScriptService)
-  renderer = inject(Renderer2);
-  farbS = inject(FarbconverterService);
-  designS = inject(DesignloaderService);
-  gCharts = inject(GooglechartsService);
-  local = inject(LOCALE_ID);
-  private resizeObserver: ResizeObserver | undefined;
-  document = inject(DOCUMENT);
   totalFiles: number | undefined;
   latestFile: Upload | null | undefined;
   platformId = inject(PLATFORM_ID);
   error: boolean = false;
-  chartDates: { date: string, count: number }[] = [];
-  chartRows: (string | number)[][] = [];
-  chartTimeframe: 'Woche' | 'Monat' = 'Monat';
-  readonly contentDiv = viewChild.required<ElementRef>('content');
-  readonly chartDiv = viewChild.required<ElementRef>('chart_div');
 
   // FontAwesome Icons
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
@@ -51,128 +35,11 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit, OnDestr
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
-  }
-
-  async ngAfterViewInit(): Promise<void> {
-    const timeframe = this.chartTimeframe === 'Monat' ? 'month' : 'week';
-    await this.getChartDates(timeframe);
-    await this.loadChart();
-
-    const entriesSeen = new Set();
-    this.resizeObserver = new ResizeObserver(async (entries) => {
-      for (const entry of entries) {
-        if (!entriesSeen.has(entry.target)) {
-          // mache nichts bei Initialisierung
-          entriesSeen.add(entry.target);
-        } else {
-          await this.loadChart();
-        }
-      }
-    });
-    // timeout zur Vermeidung der Auslösung aufgrund der Animation
-    setTimeout(() => this.resizeObserver?.observe(this.contentDiv().nativeElement), 1000);
-  }
-
-  async getChartDates(timeframe: 'week' | 'month') {
-    this.chartDates = await this.uploadsS.getUploadDatesAndCounts(timeframe);
-    this.chartRows = [];
-    for (const date of this.chartDates) {
-      const formattedDate = formatDate(date.date, 'dd.MM.yyyy', this.local) || '';
-      const row = [formattedDate, date.count];
-      this.chartRows.push(row);
-    }
-  }
-
   async getLatestFile(): Promise<Upload | null> {
     if (!isPlatformBrowser(this.platformId)) return null;
     if (this.uploadsS.uploadsData['totalFiles'] === 0) return null;
     const { files } = await this.uploadsS.getFiles();
     const latestFile: Upload = files[0];
     return latestFile;
-  }
-
-  async changeChartTimeframe() {
-    this.chartTimeframe = this.chartTimeframe === 'Woche' ? 'Monat' : 'Woche';
-    const timeframe = this.chartTimeframe === 'Monat' ? 'month' : 'week';
-    await this.getChartDates(timeframe);
-    await this.loadChart();
-  }
-
-  async loadChart(): Promise<void> {
-    if (!isPlatformBrowser(this.platformId)) return;
-    await this.scriptS.addJsScript(this.renderer, 'https://www.gstatic.com/charts/loader.js');
-    const google = (window as any)['google'];
-    const schriftColorRGB = getComputedStyle(this.document.documentElement).getPropertyValue('--schrift').trim();
-    const rgbNumbers = schriftColorRGB.match(/\d+/g);
-    const rgbArray = rgbNumbers!.map(Number);
-    const schriftHEX = this.farbS.rgbToHex(rgbArray[0], rgbArray[1], rgbArray[2]);
-    const primaryColor = this.designS.primaryColor;
-
-    const drawBasic = () => {
-      this.gCharts.isLoaded = true;
-      const data = new google.visualization.DataTable();
-      data.addColumn('string', 'X');
-      data.addColumn('number', 'Anträge');
-      data.addRows(this.chartRows);
-
-      const options = {
-        legend: 'none',
-        responsive: true,
-        animation: {
-          duration: 400,
-          startup: true
-        },
-        colors: [primaryColor],
-        textStyle: {
-          color: schriftHEX,
-        },
-        chartArea: {
-          left: 20,
-          top: 20,
-          right: 20,
-          width: '90%',
-          height: '75%'
-        },
-        hAxis: {
-          title: 'Tage',
-          showTextEvery: this.chartTimeframe === 'Woche' ? 2 : 7,
-          textStyle: {
-            color: schriftHEX,
-          },
-          titleTextStyle: {
-            color: primaryColor,
-          },
-          viewWindow: {
-            min: new Date(2014, 11, 31, 18),
-            max: new Date(2015, 0, 3, 1)
-          },
-        },
-        vAxis: {
-          title: 'Anträge',
-          textStyle: {
-            color: schriftHEX,
-          },
-          titleTextStyle: {
-            color: primaryColor,
-          },
-        },
-        backgroundColor: {
-          fill: 'transparent',
-        }
-      };
-
-      const chart = new google.visualization.LineChart(this.chartDiv().nativeElement);
-
-      chart.draw(data, options);
-    }
-
-    google.charts.load('current', { packages: ['corechart', 'line'] });
-
-    if (this.gCharts.isLoaded) setTimeout(drawBasic, 300);
-    else google.charts.setOnLoadCallback(drawBasic);
   }
 }

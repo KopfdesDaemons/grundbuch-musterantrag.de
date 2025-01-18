@@ -23,7 +23,7 @@ export class AntragsartenTileComponent implements AfterViewInit {
     try {
       this.error = false;
       await this.loadStatistic();
-    } catch (error) {
+    } catch {
       this.error = true;
     }
   }

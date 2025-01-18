@@ -10,6 +10,7 @@ export default [
   pluginJs.configs.recommended,
   {
     files: ["**/*.{js,mjs,cjs,ts}"],
+    ignores: ["**/*.spec.ts"],
     plugins: {
       '@typescript-eslint': tsPlugin,
     },

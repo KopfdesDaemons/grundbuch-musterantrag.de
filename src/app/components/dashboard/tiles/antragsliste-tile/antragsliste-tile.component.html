@@ -1,5 +1,5 @@
 <app-dashboard-tile>
-    <div class="content" #content>
+    <div class="content">
         @if(error){
         <h2>Generierte Anträge</h2>
         <p class="error">Fehler beim Laden der Antragsliste</p>
@@ -20,8 +20,7 @@
             }
         </div>
         }
-        <span class="chartToggle" (click)="changeChartTimeframe()">{{chartTimeframe}}</span>
-        <div #chart_div></div>
+        <app-antragsanzahltimeframe></app-antragsanzahltimeframe>
         }
         <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
         }
