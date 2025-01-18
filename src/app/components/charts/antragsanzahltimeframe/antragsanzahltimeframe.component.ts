@@ -10,8 +10,6 @@ import { GooglechartsService } from 'src/app/services/googlecharts.service';
 })
 export class AntragsanzahltimeframeComponent {
   private resizeObserver: ResizeObserver | undefined;
-  chartDates: { date: string, count: number }[] = [];
-  chartRows: (string | number)[][] = [];
   chartTimeframe: 'Woche' | 'Monat' = 'Monat';
   readonly contentDiv = viewChild.required<ElementRef>('content');
   readonly chartDiv = viewChild<ElementRef>('chart_div');
@@ -27,9 +25,9 @@ export class AntragsanzahltimeframeComponent {
 
   constructor() {
     effect(async () => {
-      const timeframe = this.chartTimeframe === 'Woche' ? 'week' : 'month';
       if (!this.chartDiv()) return;
-      await this.gCharts.loadAntragsanzahlTimeframeChart(this.renderer, this.document, this.chartDiv()?.nativeElement, timeframe);
+
+      await this.drawChart(true);
 
       const entriesSeen = new Set();
       this.resizeObserver = new ResizeObserver(async (entries) => {
@@ -38,7 +36,7 @@ export class AntragsanzahltimeframeComponent {
             // mache nichts bei Initialisierung
             entriesSeen.add(entry.target);
           } else {
-            await this.gCharts.loadAntragsanzahlTimeframeChart(this.renderer, this.document, this.chartDiv()?.nativeElement, timeframe);
+            await this.drawChart();
           }
         }
       });
@@ -49,9 +47,12 @@ export class AntragsanzahltimeframeComponent {
 
   async changeChartTimeframe() {
     this.chartTimeframe = this.chartTimeframe === 'Woche' ? 'Monat' : 'Woche';
-    const timeframe = this.chartTimeframe === 'Monat' ? 'month' : 'week';
-    this.gCharts.chartRows = await this.gCharts.getAntragTimeframeChartRows(timeframe);
+    await this.drawChart(true);
+  }
 
+  async drawChart(refreshData: boolean = false) {
+    const timeframe = this.chartTimeframe === 'Monat' ? 'month' : 'week';
+    if (refreshData) this.gCharts.chartRows = await this.gCharts.getAntragTimeframeChartRows(timeframe);
     await this.gCharts.loadAntragsanzahlTimeframeChart(this.renderer, this.document, this.chartDiv()?.nativeElement, timeframe);
   }
 }
