@@ -6,13 +6,12 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 
 @Component({
-    selector: 'app-logger-tile',
-    imports: [DashboardTileComponent, FaIconComponent, ProgressSpinnerComponent],
-    templateUrl: './logger-tile.component.html',
-    styleUrl: './logger-tile.component.scss'
+  selector: 'app-logger-tile',
+  imports: [DashboardTileComponent, FaIconComponent, ProgressSpinnerComponent],
+  templateUrl: './logger-tile.component.html',
+  styleUrl: './logger-tile.component.scss'
 })
 export class LoggerTileComponent implements OnInit {
-  // Injections
   loggerS = inject(LoggerService);
 
   logs: { timestamp: string, message: string }[] | null | undefined = undefined;
@@ -26,6 +25,6 @@ export class LoggerTileComponent implements OnInit {
 
   async deleteLogFile() {
     await this.loggerS.deleteLogFile();
-    this.logs = null;
+    this.logs = await this.loggerS.getLogFile();
   }
 }

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { authenticateUser, verifyToken } from '../services/authService';
+import { login, verifyToken } from '../services/authService';
 import logger from 'server/config/logger';
 
-export const login = async (req: Request, res: Response): Promise<any> => {
+export const handleLogin = async (req: Request, res: Response): Promise<any> => {
     const { username, password } = req.body;
 
     try {
@@ -12,7 +12,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
         }
 
         // Authentifizierung durch den Service
-        const token = await authenticateUser(username, password);
+        const token = await login(username, password);
 
         return res.json({ token });
     } catch (error: any) {

@@ -13,6 +13,8 @@ import { SERVER_DIST_FOLDER } from 'server/config/config';
 import { handleMigrateFromJSONFilesToDatabase, handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
 import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
 import { initializeDatabase as initDatabase } from 'server/services/databaseService';
+import { Feature, PermissionAction, UserPermission } from 'server/interfaces/userPermission';
+import { verifyRole } from 'server/middleware/verifyUserRoleMiddleware';
 
 
 export async function app(): Promise<express.Express> {
@@ -27,16 +29,16 @@ export async function app(): Promise<express.Express> {
   server.use(fileUpload());
   server.use(express.json());
 
-  server.post('/api/login', authController.login);
+  server.post('/api/login', authController.handleLogin);
   server.get('/api/checkAuth', authController.checkToken);
   server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
-  server.delete('/api/deleteLogFile', authMiddleware, deleteLogFile);
-  server.get('/api/getLogFile', authMiddleware, getLogFile);
-  server.get('/api/getStatistic', authMiddleware, handleGetStatistic);
-  server.post('/api/migration/fromAntragToUploadinfo', authMiddleware, handleMigrationFromAntragToUploadinfo);
-  server.post('/api/migration/fromJSONToDatabase', authMiddleware, handleMigrateFromJSONFilesToDatabase);
-  server.get('/api/settings', authMiddleware, handleGetSettings);
-  server.put('/api/settings', authMiddleware, handleSaveSettings);
+  server.delete('/api/deleteLogFile', authMiddleware, verifyRole(new UserPermission(Feature.Logger, [PermissionAction.Delete])), deleteLogFile);
+  server.get('/api/getLogFile', authMiddleware, verifyRole(new UserPermission(Feature.Logger, [PermissionAction.Read])), getLogFile);
+  server.get('/api/getStatistic', authMiddleware, verifyRole(new UserPermission(Feature.Statistic, [PermissionAction.Read])), handleGetStatistic);
+  server.post('/api/migration/fromAntragToUploadinfo', authMiddleware, verifyRole(new UserPermission(Feature.Migration, [PermissionAction.Create, PermissionAction.Read, PermissionAction.Update, PermissionAction.Delete])), handleMigrationFromAntragToUploadinfo);
+  server.post('/api/migration/fromJSONToDatabase', authMiddleware, verifyRole(new UserPermission(Feature.Migration, [PermissionAction.Create, PermissionAction.Read, PermissionAction.Update, PermissionAction.Delete])), handleMigrateFromJSONFilesToDatabase);
+  server.get('/api/settings', authMiddleware, verifyRole(new UserPermission(Feature.Settings, [PermissionAction.Read])), handleGetSettings);
+  server.put('/api/settings', authMiddleware, verifyRole(new UserPermission(Feature.Settings, [PermissionAction.Update])), handleSaveSettings);
   server.get('/api/settings/getPrimaryColor', handleGetPrimaryColor);
 
   // ausgelagerte Routen

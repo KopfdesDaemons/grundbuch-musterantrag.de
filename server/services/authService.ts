@@ -1,22 +1,30 @@
 import * as jwt from 'jsonwebtoken';
+import { getUser } from './userService';
+
 
 const DASHBOARD_PASSWORD = 'DASHBOARD_LOGIN_PASSWORD';
 
-export const authenticateUser = (username: string, password: string): string => {
-    const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
 
+
+export const login = async (username: string, password: string): Promise<string> => {
+    const secretKey: string | undefined = process.env[DASHBOARD_PASSWORD];
     if (!secretKey) {
         throw new Error(DASHBOARD_PASSWORD + ' ist nicht definiert');
     }
 
-    if (username !== 'Rico' || password !== secretKey) {
-        throw new Error('Ungültige Anmeldedaten');
-    }
+    const testUser = getUser(username);
 
-    // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
-    const token = jwt.sign({ username }, secretKey, { expiresIn: '21d' });
-    return token;
-};
+    await testUser.setPasswordHashFromDB(secretKey);
+
+    const passwordIsCorrect = await testUser.comparePassword(password);
+    if (!passwordIsCorrect) {
+        throw new Error('Ungültige Anmeldedaten');
+    } else {
+        // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
+        const token = jwt.sign({ username }, secretKey, { expiresIn: '21d' });
+        return token;
+    }
+}
 
 /** 
 *   Prüft, ob das Token gültig ist
@@ -40,3 +48,5 @@ export const verifyToken = async (token: string): Promise<any> => {
         });
     });
 };
+
+

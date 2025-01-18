@@ -3,8 +3,7 @@
         @if(error){
         <h2>Generierte Anträge</h2>
         <p class="error">Fehler beim Laden der Antragsliste</p>
-        }
-        @else {
+        } @else {
         @if(totalFiles === undefined || latestFile === undefined) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
         }@else {
@@ -20,9 +19,9 @@
             }
         </div>
         }
+        }
+        }
         <app-antragsanzahltimeframe></app-antragsanzahltimeframe>
-        }
         <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
-        }
     </div>
 </app-dashboard-tile>
