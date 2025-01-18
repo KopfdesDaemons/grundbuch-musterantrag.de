@@ -1,0 +1,10 @@
+// {
+//     "plugins": [
+//         "@typescript-eslint"
+//     ],
+//     "rules": {
+//         "no-unused-expressions": "error",
+//         "require-await": "error",
+//         "@typescript-eslint/no-explicit-any": "off"
+//     }
+// }

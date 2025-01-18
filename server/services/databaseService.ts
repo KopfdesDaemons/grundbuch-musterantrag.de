@@ -20,37 +20,62 @@ export const query = <T>(sql: string, params: (string | boolean | Date | number)
 
 export const initializeDatabase = async () => {
     try {
-        // Erstelle Tabellen in der Datenbank
-        const createUploadTableSQL = `
-        CREATE TABLE IF NOT EXISTS uploads (
-            uploadID VARCHAR(255) NOT NULL PRIMARY KEY,
-            docxFile BOOLEAN NOT NULL DEFAULT FALSE,
-            pdfFile BOOLEAN NOT NULL DEFAULT FALSE,
-            filesDeleted BOOLEAN NOT NULL DEFAULT FALSE,
-            uploadDate DATETIME NOT NULL,
-            antragsart VARCHAR(255) NOT NULL,
-            grundbuchamt VARCHAR(255) NOT NULL
-        )`;
-        await query(createUploadTableSQL, []);
+        // Tabellen und Spalten definieren
+        const tables = [
+            {
+                name: 'uploads',
+                columns: [
+                    { name: 'uploadID', type: 'VARCHAR(255) NOT NULL PRIMARY KEY' },
+                    { name: 'docxFile', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
+                    { name: 'pdfFile', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
+                    { name: 'filesDeleted', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
+                    { name: 'uploadDate', type: 'DATETIME NOT NULL' },
+                    { name: 'antragsart', type: 'VARCHAR(255)' },
+                    { name: 'grundbuchamt', type: 'VARCHAR(255)' },
+                ]
+            },
+            {
+                name: 'settings',
+                columns: [
+                    { name: 'name', type: 'VARCHAR(255) NOT NULL PRIMARY KEY' },
+                    { name: 'value', type: 'VARCHAR(255)' }
+                ]
+            },
+            {
+                name: 'statistic',
+                columns: [
+                    { name: 'antragsart', type: 'VARCHAR(255) PRIMARY KEY' },
+                    { name: 'anzahl', type: 'INT DEFAULT 0' }
+                ]
+            }
+        ];
 
+        for (const table of tables) {
+            // Tabelle erstellen, falls sie nicht existiert
+            const createTableSQL = `CREATE TABLE IF NOT EXISTS ${table.name} (
+                ${table.columns.map(col => `${col.name} ${col.type}`).join(', ')}
+            )`;
+            await query(createTableSQL, []);
+            logger.info(`Tabelle "${table.name}" wurde erstellt bzw. überprüft.`);
 
-        const createSettingsTableSQL = `
-        CREATE TABLE IF NOT EXISTS settings (
-            name VARCHAR(255) NOT NULL PRIMARY KEY,
-            value VARCHAR(255) NOT NULL
-        )`;
-        await query(createSettingsTableSQL, []);
+            // Spalten überprüfen und bei Bedarf hinzufügen
+            for (const column of table.columns) {
+                const columnExistsSQL = `SELECT * 
+                                        FROM INFORMATION_SCHEMA.COLUMNS 
+                                        WHERE TABLE_NAME = '${table.name}' 
+                                        AND COLUMN_NAME = '${column.name}'`;
 
+                const columnExists: any = await query(columnExistsSQL, []);
 
-        const createStatisticTableSQL = `
-        CREATE TABLE IF NOT EXISTS statistic (
-            antragsart VARCHAR(255) PRIMARY KEY,
-            anzahl INT NOT NULL
-        )`;
-        await query(createStatisticTableSQL, []);
+                if (columnExists.length === 0) {
+                    const addColumnSQL = `ALTER TABLE ${table.name} ADD ${column.name} ${column.type}`;
+                    await query(addColumnSQL, []);
+                    logger.info(`Spalte "${column.name}" in Tabelle "${table.name}" wurde hinzugefügt.`);
+                }
+            }
+        }
 
-
-        logger.info("Datenbank und Tabellen wurden erfolgreich initialisiert.");
+        logger.info("Datenbank und Tabellen wurden erfolgreich initialisiert bzw. überprüft.");
     } catch (error) {
         logger.error("Fehler bei der Initialisierung der Datenbank:", error);
     }

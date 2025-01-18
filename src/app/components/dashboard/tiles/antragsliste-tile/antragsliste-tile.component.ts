@@ -31,7 +31,7 @@ export class AntragslisteTileComponent implements OnInit, AfterViewInit {
   error: boolean = false;
   chartDates: { date: string, count: number }[] = [];
   chartRows: (string | number)[][] = [];
-  chartTimeframe: 'Woche' | 'Monat' = 'Woche';
+  chartTimeframe: 'Woche' | 'Monat' = 'Monat';
   readonly contentDiv = viewChild.required<ElementRef>('content');
 
   // FontAwesome Icons

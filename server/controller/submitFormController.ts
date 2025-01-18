@@ -83,18 +83,18 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     res.contentType('application/pdf').sendFile(filePathPdf, cleanupFiles);
 
 
-    async function cleanupFiles() {
+    async function cleanupFiles(): Promise<void> {
       // Lösche Uploaddateien, wenn die Einstellung aktiviert ist
-      if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
-
       try {
-        deleteGeneratedFiles(uploadID);
+        if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
+        await deleteGeneratedFiles(uploadID);
+
       } catch (error) {
         logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
       }
     }
 
-    async function saveUploadinfo() {
+    async function saveUploadinfo(): Promise<void> {
       try {
         await updateUploadData(newUpload);
       } catch (error) {
