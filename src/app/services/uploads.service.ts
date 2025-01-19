@@ -46,8 +46,6 @@ export class UploadsService {
         throw new Error('Seite größer als die gesamte Anzahl der Seiten');
       };
 
-      console.log('Lade Daten der Seite:', page);
-
       // Lade neue Seite
       this.uploadsData = await lastValueFrom(
         this.http.get('/api/uploads', {

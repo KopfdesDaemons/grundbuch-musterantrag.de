@@ -90,7 +90,15 @@ export class GooglechartsService {
         },
         backgroundColor: {
           fill: 'transparent',
-        }
+        },
+        series: {
+          0: {
+            type: 'line',
+            color: primaryColor,
+            lineWidth: 5,
+          }
+        },
+
       };
 
       const chart = new google.visualization.LineChart(chartDiv);
@@ -98,6 +106,7 @@ export class GooglechartsService {
       chart.draw(data, options);
     }
 
+    if (!google || !google.charts) return;
     google.charts.load('current', { packages: ['corechart', 'line'] });
 
     if (this.isLoaded) drawBasic();

@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { getUser } from './userService';
+import logger from 'server/config/logger';
 
 
 const DASHBOARD_PASSWORD = 'DASHBOARD_LOGIN_PASSWORD';
@@ -21,7 +22,7 @@ export const login = async (username: string, password: string): Promise<string>
         throw new Error('Ungültige Anmeldedaten');
     } else {
         // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
-        const token = jwt.sign({ username }, secretKey, { expiresIn: '21d' });
+        const token = jwt.sign({ username: username, userID: testUser.userID }, secretKey, { expiresIn: '21d' });
         return token;
     }
 }
@@ -43,7 +44,7 @@ export const verifyToken = async (token: string): Promise<any> => {
             if (err) {
                 return reject(new Error('Token ungültig'));
             }
-
+            logger.info(user);
             resolve(user);
         });
     });
