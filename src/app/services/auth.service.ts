@@ -10,7 +10,6 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
   providedIn: 'root'
 })
 export class AuthService {
-  // Injections
   router = inject(Router);
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
@@ -34,7 +33,7 @@ export class AuthService {
 
   async anmelden(username: string, password: string): Promise<{ success: boolean, message: string }> {
     try {
-      const response: any = await firstValueFrom(this.http.post('/api/login', {
+      const response: any = await firstValueFrom(this.http.post('/api/auth/login', {
         username: username,
         password: password
       }));
@@ -44,7 +43,7 @@ export class AuthService {
       this.username = username;
       this.authToken = response.token;
       console.log("Login erfolgreich");
-      this.router.navigate(['/dashboard']);
+      await this.router.navigate(['/dashboard']);
 
       // Erfolgsmeldung zurückgeben
       return { success: true, message: "Login erfolgreich" };
@@ -69,13 +68,13 @@ export class AuthService {
     }
   }
 
-  abmelden() {
+  async abmelden() {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.removeItem('auth_token');
     localStorage.removeItem('username');
     this.username = "";
     this.authToken = null;
-    this.router.navigate(['/login']);
+    await this.router.navigate(['/login']);
     console.log('Abmeldung erfolgt');
   }
 
@@ -90,7 +89,7 @@ export class AuthService {
   async ckeckAuth(): Promise<boolean> {
     try {
       if (!isPlatformBrowser(this.platformId)) return false;
-      await lastValueFrom(this.http.get('/api/checkAuth', {
+      await lastValueFrom(this.http.get('/api/auth/checkAuth', {
         headers: new HttpHeaders({
           'Authorization': `Bearer ${this.getToken()}`,
         }),

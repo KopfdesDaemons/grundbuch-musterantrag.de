@@ -1,26 +1,21 @@
 import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
 import { resolve } from 'node:path';
-import authMiddleware from './server/middleware/authMiddleware';
-import * as authController from './server/controller/authController';
-import submitForm from './server/controller/submitFormController';
-import uploads from './server/routes/uploadsRoutes';
+import { submitFormRoutes } from './server/routes/submitFormController';
+import { uploadsRoutes } from './server/routes/uploadsRoutes';
 import fileUpload from 'express-fileupload';
 import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
-import { deleteLogFile, getLogFile } from './server/controller/loggerController';
-import { handleGetStatistic } from 'server/controller/statisticController';
 import { SERVER_DIST_FOLDER } from 'server/config/config';
-import { handleMigrateFromJSONFilesToDatabase, handleMigrationFromAntragToUploadinfo } from 'server/controller/migrationController';
-import { handleGetPrimaryColor, handleGetSettings, handleSaveSettings } from 'server/controller/settingsController';
-import { initializeDatabase as initDatabase } from 'server/services/databaseService';
-import { Feature, PermissionAction, UserPermission } from 'server/interfaces/userPermission';
-import { verifyRole } from 'server/middleware/verifyUserRoleMiddleware';
-
+import { initDatabase } from 'server/services/databaseService';
+import { settingsRoutes } from 'server/routes/settingsRoutes';
+import { migrationRoutes } from 'server/routes/migrationRoutes';
+import { loggerRoutes } from 'server/routes/loggerRoutes';
+import { authRoutes } from 'server/routes/authRoutes';
+import { statisticRoutes } from 'server/routes/statisticRoutes';
 
 export async function app(): Promise<express.Express> {
   const server = express();
   const browserDistFolder = resolve(SERVER_DIST_FOLDER, '../browser');
-
   const angularNodeAppEngine = new AngularNodeAppEngine();
 
   await initDatabase();
@@ -29,21 +24,16 @@ export async function app(): Promise<express.Express> {
   server.use(fileUpload());
   server.use(express.json());
 
-  server.post('/api/login', authController.handleLogin);
-  server.get('/api/checkAuth', authController.checkToken);
   server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
-  server.delete('/api/deleteLogFile', authMiddleware, verifyRole(new UserPermission(Feature.Logger, [PermissionAction.Delete])), deleteLogFile);
-  server.get('/api/getLogFile', authMiddleware, verifyRole(new UserPermission(Feature.Logger, [PermissionAction.Read])), getLogFile);
-  server.get('/api/getStatistic', authMiddleware, verifyRole(new UserPermission(Feature.Statistic, [PermissionAction.Read])), handleGetStatistic);
-  server.post('/api/migration/fromAntragToUploadinfo', authMiddleware, verifyRole(new UserPermission(Feature.Migration, [PermissionAction.Create, PermissionAction.Read, PermissionAction.Update, PermissionAction.Delete])), handleMigrationFromAntragToUploadinfo);
-  server.post('/api/migration/fromJSONToDatabase', authMiddleware, verifyRole(new UserPermission(Feature.Migration, [PermissionAction.Create, PermissionAction.Read, PermissionAction.Update, PermissionAction.Delete])), handleMigrateFromJSONFilesToDatabase);
-  server.get('/api/settings', authMiddleware, verifyRole(new UserPermission(Feature.Settings, [PermissionAction.Read])), handleGetSettings);
-  server.put('/api/settings', authMiddleware, verifyRole(new UserPermission(Feature.Settings, [PermissionAction.Update])), handleSaveSettings);
-  server.get('/api/settings/getPrimaryColor', handleGetPrimaryColor);
 
   // ausgelagerte Routen
-  server.use('/', submitForm);
-  server.use('/', uploads);
+  server.use('/api/auth', authRoutes);
+  server.use('/api/submitForm', submitFormRoutes);
+  server.use('/api/uploads', uploadsRoutes);
+  server.use('/api/settings', settingsRoutes);
+  server.use('/api/migration', migrationRoutes);
+  server.use('/api/logger', loggerRoutes);
+  server.use('/api/statistic', statisticRoutes);
 
   // Routen, welche die Angular Engine ansprechen
   server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));

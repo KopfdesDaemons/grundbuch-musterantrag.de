@@ -37,7 +37,7 @@ export const handleDeleteUpload = async (req: Request, res: Response) => {
     // Aktualisiere die Statistik
     try {
         const antrag: Upload = await readUpload(uploadID);
-        updateStatistic(antrag.antragsart, -1);
+        await updateStatistic(antrag.antragsart, -1);
     } catch (error) {
         logger.error('Fehler beim Aktualisieren der Statistik:', error);
     }

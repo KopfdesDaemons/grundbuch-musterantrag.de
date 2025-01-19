@@ -4,10 +4,10 @@ import { Feature, PermissionAction, UserPermission } from 'server/interfaces/use
 import authMiddleware from 'server/middleware/authMiddleware';
 import { verifyRole } from 'server/middleware/verifyUserRoleMiddleware';
 
-const router = express.Router();
+export const uploadsRoutes = express.Router();
 
-router.get(
-    '/api/uploads',
+uploadsRoutes.get(
+    '/',
     authMiddleware,
     verifyRole(
         new UserPermission(Feature.UploadManagement, [PermissionAction.Read])
@@ -15,8 +15,8 @@ router.get(
     getUploads
 );
 
-router.delete(
-    '/api/uploads',
+uploadsRoutes.delete(
+    '/',
     authMiddleware,
     verifyRole(
         new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
@@ -24,8 +24,8 @@ router.delete(
     handleDeleteAllUploads
 );
 
-router.delete(
-    '/api/uploads/deleteUpload',
+uploadsRoutes.delete(
+    '/deleteUpload',
     authMiddleware,
     verifyRole(
         new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
@@ -33,8 +33,8 @@ router.delete(
     handleDeleteUpload
 );
 
-router.delete(
-    '/api/uploads/deleteGeneratedFiles',
+uploadsRoutes.delete(
+    '/deleteGeneratedFiles',
     authMiddleware,
     verifyRole(
         new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
@@ -42,8 +42,8 @@ router.delete(
     handeleDeleteGeneratedFiles
 );
 
-router.delete(
-    '/api/uploads/deleteAllGeneratedFiles',
+uploadsRoutes.delete(
+    '/deleteAllGeneratedFiles',
     authMiddleware,
     verifyRole(
         new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
@@ -51,8 +51,8 @@ router.delete(
     handeleDeleteAllGeneratedFiles
 );
 
-router.get(
-    '/api/uploads/getFile',
+uploadsRoutes.get(
+    '/getFile',
     authMiddleware,
     verifyRole(
         new UserPermission(Feature.UploadManagement, [PermissionAction.Read])
@@ -60,18 +60,16 @@ router.get(
     getUpload
 );
 
-router.get(
-    '/api/uploads/getUploadDates',
+uploadsRoutes.get(
+    '/getUploadDates',
     authMiddleware,
     verifyRole(new UserPermission(Feature.Statistic, [PermissionAction.Read])),
     handleGetUploadDates
 );
 
-router.get(
-    '/api/uploads/getUploadCountPerDays',
+uploadsRoutes.get(
+    '/getUploadCountPerDays',
     authMiddleware,
     verifyRole(new UserPermission(Feature.Statistic, [PermissionAction.Read])),
     handleGetUploadCountPerDays
 );
-
-export default router;

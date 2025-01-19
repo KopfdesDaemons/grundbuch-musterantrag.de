@@ -6,22 +6,25 @@ import { Injectable } from '@angular/core';
 export class FarbconverterService {
 
   HexToHSL(hex: string) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
-    var r = parseInt(result![1], 16);
-    var g = parseInt(result![2], 16);
-    var b = parseInt(result![3], 16);
+    let r = parseInt(result![1], 16);
+    let g = parseInt(result![2], 16);
+    let b = parseInt(result![3], 16);
 
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h: number = (max + min) / 2;
-    var s: number = (max + min) / 2;
-    var l: number = (max + min) / 2;
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h: number = (max + min) / 2;
+    let s: number = (max + min) / 2;
+    let l: number = (max + min) / 2;
 
     if (max == min) {
       h = s = 0; // achromatic
     } else {
-      var d = max - min;
+      const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
       switch (max) {
         case r: h = (g - b) / d + (g < b ? 6 : 0); break;
@@ -29,7 +32,7 @@ export class FarbconverterService {
         case b: h = (r - g) / d + 4; break;
       }
 
-      h! /= 6;
+      h /= 6;
     }
 
     s = s * 100;
@@ -48,12 +51,10 @@ export class FarbconverterService {
     b /= 255;
 
     // Find greatest and smallest channel values
-    let cmin = Math.min(r, g, b),
+    const cmin = Math.min(r, g, b),
       cmax = Math.max(r, g, b),
-      delta = cmax - cmin,
-      h = 0,
-      s = 0,
-      l = 0;
+      delta = cmax - cmin;
+    let h = 0, s = 0, l = 0;
 
     if (delta == 0)
       h = 0;
@@ -88,12 +89,10 @@ export class FarbconverterService {
     s /= 100;
     l /= 100;
 
-    let c = (1 - Math.abs(2 * l - 1)) * s,
+    const c = (1 - Math.abs(2 * l - 1)) * s,
       x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-      m = l - c / 2,
-      r = 0,
-      g = 0,
-      b = 0;
+      m = l - c / 2;
+    let r = 0, g = 0, b = 0;
 
     if (0 <= h && h < 60) {
       r = c; g = x; b = 0;
@@ -109,9 +108,9 @@ export class FarbconverterService {
       r = c; g = 0; b = x;
     }
     // Having obtained RGB, convert channels to hex
-    var rstr = Math.round((r + m) * 255).toString(16);
-    var gstr = Math.round((g + m) * 255).toString(16);
-    var bstr = Math.round((b + m) * 255).toString(16);
+    let rstr = Math.round((r + m) * 255).toString(16);
+    let gstr = Math.round((g + m) * 255).toString(16);
+    let bstr = Math.round((b + m) * 255).toString(16);
 
     // Prepend 0s, if necessary
     if (rstr.length == 1)
@@ -128,7 +127,7 @@ export class FarbconverterService {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 
     function componentToHex(c: number) {
-      var hex = c.toString(16);
+      const hex = c.toString(16);
       return hex.length == 1 ? "0" + hex : hex;
     }
   }

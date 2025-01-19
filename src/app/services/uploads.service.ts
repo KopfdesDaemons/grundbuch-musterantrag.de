@@ -19,7 +19,7 @@ export class UploadsService {
   async getTotalPages(): Promise<number> {
     if (!isPlatformBrowser(this.platformId)) return 0;
     this.uploadsData = await this.getUploadsData();
-    return this.uploadsData['totalPages'];
+    return this.uploadsData['totalPages'] as number;
   }
 
   private async getUploadsData(): Promise<any> {
@@ -60,7 +60,7 @@ export class UploadsService {
 
     } catch (err: any) {
       console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
-      if (err.status === 403) this.authS.abmelden();
+      if (err.status === 403) await this.authS.abmelden();
       throw err;
     }
   }
@@ -69,7 +69,7 @@ export class UploadsService {
     fileName = fileName + `.${fileType}`;
 
     try {
-      const response: any = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }), {
+      const response: any = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }).toString(), {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${this.authS.getToken()}` }
       });
@@ -106,14 +106,14 @@ export class UploadsService {
   async getTotalFiles(): Promise<number> {
     if (!isPlatformBrowser(this.platformId)) return 0;
     this.uploadsData = await this.getUploadsData();
-    return this.uploadsData['totalFiles'];
+    return this.uploadsData['totalFiles'] as number;
   }
 
   async getStatistic(): Promise<any> {
     if (!isPlatformBrowser(this.platformId)) return;
     try {
       const data = await lastValueFrom(
-        this.http.get('/api/getStatistic', {
+        this.http.get('/api/statistic', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
         })
       );

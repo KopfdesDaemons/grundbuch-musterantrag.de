@@ -23,7 +23,7 @@ export class SettingsTileComponent implements AfterViewInit {
       this.error = false
 
       this.settings = await this.settingsS.getSettings();
-    } catch (error) {
+    } catch {
       this.error = true;
     }
   }
@@ -32,7 +32,7 @@ export class SettingsTileComponent implements AfterViewInit {
     const settings = await this.settingsS.getSettings();
     if (!settings) return;
     (settings as any)[settingName] = value;
-    this.settingsS.saveSettings(settings);
+    await this.settingsS.saveSettings(settings);
   }
 
   async deleteAllGeneratedFiles(): Promise<void> {

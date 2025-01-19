@@ -1,5 +1,8 @@
 <app-dashboard-tile tileTitle="Server Logs">
     <div class="content">
+        @if(error) {
+        <p class="error">Fehler beim Laden der Logs</p>
+        } @else {
         @if(logs) {
         <div class="controlls">
             <a class="btntext" (click)="loggerS.openLogFileInNewTab()">öffne Logfile</a>
@@ -33,6 +36,7 @@
                 </tbody>
             </table>
         </div>
+        }
         }
     </div>
 </app-dashboard-tile>

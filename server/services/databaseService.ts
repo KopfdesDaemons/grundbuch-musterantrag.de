@@ -18,7 +18,7 @@ export const query = <T>(sql: string, params: (string | boolean | Date | number)
     });
 };
 
-export const initializeDatabase = async () => {
+export const initDatabase = async () => {
     try {
         // Tabellen und Spalten definieren
         const tables = [

@@ -10,9 +10,9 @@ import { deleteGeneratedFiles, updateUploadData } from 'server/services/uploadsS
 import { SettingsService } from 'server/services/settingsService';
 import { randomUUID } from 'crypto';
 
-const router = express.Router();
+export const submitFormRoutes = express.Router();
 
-router.post('/api/submitForm', async (req: Request, res: Response) => {
+submitFormRoutes.post('/', async (req: Request, res: Response) => {
   try {
     const uploadID = randomUUID();
 
@@ -108,5 +108,3 @@ router.post('/api/submitForm', async (req: Request, res: Response) => {
     return res.status(500).send('Interner Serverfehler.');
   }
 });
-
-export default router;

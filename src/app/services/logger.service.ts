@@ -9,7 +9,6 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class LoggerService {
-  // Injections
   http = inject(HttpClient);
   authS = inject(AuthService);
   timeS = inject(TimeService);
@@ -19,10 +18,10 @@ export class LoggerService {
     if (!isPlatformBrowser(this.platformID)) return null;
     try {
       const response: any = await lastValueFrom(
-        this.http.get('/api/getLogFile', {
+        this.http.get('/api/logger', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
           observe: 'response',
-          responseType: 'json' as 'json'
+          responseType: 'json' as const
         })
       );
 
@@ -65,7 +64,7 @@ export class LoggerService {
 
   async deleteLogFile() {
     try {
-      await lastValueFrom(this.http.delete('/api/deleteLogFile/', {
+      await lastValueFrom(this.http.delete('/api/logger', {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
         responseType: 'text'
       }));

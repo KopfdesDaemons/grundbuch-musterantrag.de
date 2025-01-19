@@ -13,18 +13,26 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 })
 export class LoggerTileComponent implements OnInit {
   loggerS = inject(LoggerService);
-
   logs: { timestamp: string, message: string }[] | null | undefined = undefined;
-
-  // Fontawesome Icons
+  error: boolean = false;
   faTrashCan = faTrashCan;
 
+
   async ngOnInit(): Promise<void> {
-    this.logs = await this.loggerS.getLogFile();
+    await this.loadLogFile();
   }
 
   async deleteLogFile() {
     await this.loggerS.deleteLogFile();
-    this.logs = await this.loggerS.getLogFile();
+    await this.loadLogFile();
+  }
+
+  async loadLogFile() {
+    try {
+      this.error = false;
+      this.logs = await this.loggerS.getLogFile();
+    } catch {
+      this.error = true;
+    }
   }
 }
