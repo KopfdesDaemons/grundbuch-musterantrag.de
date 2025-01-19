@@ -1,5 +1,6 @@
 import logger from "server/config/logger";
 import mysql from 'mysql2';
+import { createRootUser } from "./userService";
 
 
 const db = mysql.createPool({
@@ -9,7 +10,7 @@ const db = mysql.createPool({
     database: 'grundbuch-musterantrag'
 });
 
-export const query = <T>(sql: string, params: (string | boolean | Date | number)[]): Promise<T> => {
+export const query = <T>(sql: string, params: (string | boolean | Date | number)[] = []): Promise<T> => {
     return new Promise((resolve, reject) => {
         db.query(sql, params, (err, results) => {
             if (err) return reject(err);
@@ -47,6 +48,15 @@ export const initDatabase = async () => {
                     { name: 'antragsart', type: 'VARCHAR(255) PRIMARY KEY' },
                     { name: 'anzahl', type: 'INT DEFAULT 0' }
                 ]
+            },
+            {
+                name: 'users',
+                columns: [
+                    { name: 'userID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'username', type: 'VARCHAR(255) NOT NULL UNIQUE' },
+                    { name: 'passwordHash', type: 'VARCHAR(255) NOT NULL' },
+                    { name: 'userRole', type: 'VARCHAR(255) NOT NULL' },
+                ]
             }
         ];
 
@@ -55,7 +65,7 @@ export const initDatabase = async () => {
             const createTableSQL = `CREATE TABLE IF NOT EXISTS ${table.name} (
                 ${table.columns.map(col => `${col.name} ${col.type}`).join(', ')}
             )`;
-            await query(createTableSQL, []);
+            await query(createTableSQL);
             logger.info(`Tabelle "${table.name}" wurde erstellt bzw. überprüft.`);
 
             // Spalten überprüfen und bei Bedarf hinzufügen
@@ -65,16 +75,16 @@ export const initDatabase = async () => {
                                         WHERE TABLE_NAME = '${table.name}' 
                                         AND COLUMN_NAME = '${column.name}'`;
 
-                const columnExists: any = await query(columnExistsSQL, []);
+                const columnExists: any = await query(columnExistsSQL);
 
                 if (columnExists.length === 0) {
                     const addColumnSQL = `ALTER TABLE ${table.name} ADD ${column.name} ${column.type}`;
-                    await query(addColumnSQL, []);
+                    await query(addColumnSQL);
                     logger.info(`Spalte "${column.name}" in Tabelle "${table.name}" wurde hinzugefügt.`);
                 }
             }
         }
-
+        await createRootUser();
         logger.info("Datenbank und Tabellen wurden erfolgreich initialisiert bzw. überprüft.");
     } catch (error) {
         logger.error("Fehler bei der Initialisierung der Datenbank:", error);

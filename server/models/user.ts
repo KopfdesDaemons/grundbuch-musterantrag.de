@@ -6,31 +6,30 @@ import { UserPermission } from "server/interfaces/userPermission";
 const scryptAsync = promisify(scrypt);
 
 export class User {
-    userID: number;
+    userID?: number;
     username: string;
-    private passwordHashFromDB?: string;
+    passwordHash?: string;
     userRole: UserRole;
 
-    constructor(userID: number, username: string, userRole: UserRole) {
-        this.userID = userID;
+    constructor(username: string, userRole: UserRole) {
         this.username = username;
         this.userRole = userRole;
     }
 
-    setPasswordHashFromDB = async (password: string): Promise<void> => {
+    setPasswordHash = async (password: string): Promise<void> => {
         const salt = randomBytes(16).toString("hex");
         const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-        this.passwordHashFromDB = `${buf.toString("hex")}.${salt}`;
+        this.passwordHash = `${buf.toString("hex")}.${salt}`;
     }
 
     comparePassword = async (userPassword: string): Promise<boolean> => {
-        if (!this.passwordHashFromDB) {
+        if (!this.passwordHash) {
             throw new Error("No Password Hash from DB");
         }
         if (!userPassword) {
             throw new Error("No Password Hash from User");
         }
-        const [hashedPassword, salt] = this.passwordHashFromDB.split(".");
+        const [hashedPassword, salt] = this.passwordHash.split(".");
         const hashedPasswordBuf = Buffer.from(hashedPassword, "hex");
         const suppliedPasswordBuf = (await scryptAsync(userPassword, salt, 64)) as Buffer;
         return timingSafeEqual(hashedPasswordBuf, suppliedPasswordBuf);

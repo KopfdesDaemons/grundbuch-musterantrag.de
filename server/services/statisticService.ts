@@ -5,7 +5,7 @@ export const getStatistic = async (): Promise<Statistic> => {
     const statistic: Statistic = {};
 
     const readQuery = 'SELECT antragsart, anzahl FROM statistic';
-    const result: { antragsart: string; anzahl: number }[] = await query<{ antragsart: string; anzahl: number }[]>(readQuery, []);
+    const result: { antragsart: string; anzahl: number }[] = await query<{ antragsart: string; anzahl: number }[]>(readQuery);
 
     result.forEach(row => {
         statistic[row.antragsart] = row.anzahl;
@@ -35,5 +35,5 @@ export const updateStatistic = async (antragsart: string, numberOfDifferences: n
 };
 
 export const clearStatistic = async (): Promise<void> => {
-    await query('DELETE FROM statistic', []);
+    await query('DELETE FROM statistic');
 };

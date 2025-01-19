@@ -11,6 +11,12 @@ export class Admin implements UserRole {
             PermissionAction.Update,
             PermissionAction.Delete,
         ]),
+        new UserPermission(Feature.UserManagement, [
+            PermissionAction.Create,
+            PermissionAction.Read,
+            PermissionAction.Update,
+            PermissionAction.Delete,
+        ]),
         new UserPermission(Feature.Statistic, [
             PermissionAction.Create,
             PermissionAction.Read,
@@ -43,6 +49,7 @@ export class Guest implements UserRole {
     description: string = 'Gast nur mit Lesenrechten';
     userPermissions: UserPermission[] = [
         new UserPermission(Feature.UploadManagement, [PermissionAction.Read]),
+        new UserPermission(Feature.UserManagement, [PermissionAction.Read]),
         new UserPermission(Feature.Statistic, [PermissionAction.Read]),
         new UserPermission(Feature.Settings, [PermissionAction.Read]),
         new UserPermission(Feature.Logger, [PermissionAction.Read]),

@@ -22,7 +22,7 @@ export class SettingsService {
       const response = await lastValueFrom(
         this.http.get('/api/settings', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          responseType: 'json' as 'json'
+          responseType: 'json' as const
         })
       );
       return response as Settings;
@@ -47,7 +47,7 @@ export class SettingsService {
       await lastValueFrom(
         this.http.put('/api/settings', { settings: settings }, {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          responseType: 'json' as 'json'
+          responseType: 'json' as const
         })
       );
     } catch (error) {
@@ -58,9 +58,9 @@ export class SettingsService {
   async getPrimaryColorFromSetings(): Promise<string | null> {
     try {
       const primaryColor = await lastValueFrom(
-        this.http.get('/api/settings/getPrimaryColor', { responseType: 'text' as 'text' })
+        this.http.get('/api/settings/getPrimaryColor', { responseType: 'text' as const })
       );
-      return primaryColor as string;
+      return primaryColor;
     } catch (error) {
       console.error('Error beim Laden der primären Farbe:', error);
       return null;

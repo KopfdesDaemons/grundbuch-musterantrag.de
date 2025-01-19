@@ -9,6 +9,7 @@ export enum PermissionAction {
 
 export enum Feature {
     UploadManagement = 'uploadManagement',
+    UserManagement = 'userManagement',
     Statistic = 'statistic',
     Logger = 'logger',
     Migration = 'migration',

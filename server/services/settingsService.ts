@@ -18,7 +18,7 @@ export class SettingsService {
 
     static getSettings = async (): Promise<Settings> => {
         const selectQuery = `SELECT name, value FROM settings`;
-        const result = await query<{ name: string; value: string }[]>(selectQuery, []);
+        const result = await query<{ name: string; value: string }[]>(selectQuery);
 
         const settings = new Settings();
         result.forEach(row => {

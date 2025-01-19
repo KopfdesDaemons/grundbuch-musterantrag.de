@@ -12,6 +12,7 @@ import { migrationRoutes } from 'server/routes/migrationRoutes';
 import { loggerRoutes } from 'server/routes/loggerRoutes';
 import { authRoutes } from 'server/routes/authRoutes';
 import { statisticRoutes } from 'server/routes/statisticRoutes';
+import { userRoutes } from 'server/routes/userRoutes';
 
 export async function app(): Promise<express.Express> {
   const server = express();
@@ -34,6 +35,7 @@ export async function app(): Promise<express.Express> {
   server.use('/api/migration', migrationRoutes);
   server.use('/api/logger', loggerRoutes);
   server.use('/api/statistic', statisticRoutes);
+  server.use('/api/user', userRoutes);
 
   // Routen, welche die Angular Engine ansprechen
   server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));

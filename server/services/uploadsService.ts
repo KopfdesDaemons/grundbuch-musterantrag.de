@@ -35,7 +35,7 @@ export const getUploadsData = async (page: number): Promise<any> => {
 
     // Gesamtanzahl der Dateien berechnen
     const countQuery = `SELECT COUNT(*) AS totalFiles FROM uploads`;
-    const countResult: any = await query(countQuery, []);
+    const countResult: any = await query(countQuery);
     const totalFiles = countResult[0].totalFiles;
     const totalPages = Math.ceil(totalFiles / pageSize);
 
@@ -89,7 +89,7 @@ export const deleteUpload = async (uploadID: string): Promise<void> => {
 
 export const deleteAllUploads = async (): Promise<void> => {
     const deleteQuery = `DELETE FROM uploads`;
-    await query(deleteQuery, []);
+    await query(deleteQuery);
     await fs.promises.rm(UPLOADS_FOLDER_PATH, { recursive: true, force: true });
 }
 
@@ -103,7 +103,7 @@ export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
 
 export const deleteAllGeneratedFiles = async (): Promise<void> => {
     const selectQuery = `SELECT uploadID FROM uploads WHERE filesDeleted = 0`;
-    const result: { uploadID: string }[] = await query<{ uploadID: string }[]>(selectQuery, []);
+    const result: { uploadID: string }[] = await query<{ uploadID: string }[]>(selectQuery);
 
     for (const id of result) {
         await deleteGeneratedFiles(id.uploadID);
@@ -121,7 +121,7 @@ export const getUploadDates = async (timeframe: 'week' | 'month'): Promise<Date[
         WHERE ${timeCondition}
     `;
 
-    const results = await query<{ uploadDate: Date }[]>(sql, []);
+    const results = await query<{ uploadDate: Date }[]>(sql);
     const dates = results.map(row => row.uploadDate);
     return dates;
 };
