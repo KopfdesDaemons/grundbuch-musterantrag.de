@@ -24,7 +24,6 @@ export const getUser = async (key: 'username' | 'userID', value: string | number
     }
 };
 
-
 export const getUserByUsername = async (username: string): Promise<User | null> => {
     return getUser('username', username);
 };
@@ -65,4 +64,10 @@ export const createRootUser = async (): Promise<void> => {
         await addNewUser(rootUser);
         logger.info('Root-User erstellt');
     }
+}
+
+export const getAllUsers = async (): Promise<User[]> => {
+    const queryStr = `SELECT userID, username, userRole FROM users`;
+    const result = await query<{ userID: number, username: string, userRole: string }[]>(queryStr);
+    return result.map(user => new User(user.username, user.userRole === 'admin' ? new Admin() : new Guest()));
 }

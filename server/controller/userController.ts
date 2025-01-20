@@ -2,7 +2,7 @@ import logger from "server/config/logger";
 import { UserRole } from "server/interfaces/userRole";
 import { User } from "server/models/user";
 import { Admin, Guest } from "server/models/userRoles";
-import { addNewUser, deleteUser, getUserByUserID, getUserByUsername } from "server/services/userService";
+import { addNewUser, deleteUser, getAllUsers, getUserByUserID, getUserByUsername } from "server/services/userService";
 import { Request, Response } from 'express';
 
 
@@ -47,5 +47,15 @@ export const handleDeleteUser = async (req: Request, res: Response) => {
     } catch (error) {
         logger.error('Fehler beim Löschen des Users ' + userID, error);
         return res.status(500).json({ error: 'Fehler beim Löschen des Users ' + userID });
+    }
+}
+
+export const handleGetAllUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await getAllUsers();
+        return res.status(200).json(users);
+    } catch (error) {
+        logger.error('Fehler beim Abrufen aller Users', error);
+        return res.status(500).json({ error: 'Fehler beim Abrufen aller Users' });
     }
 }
