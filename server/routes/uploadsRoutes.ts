@@ -1,8 +1,9 @@
 import express from 'express';
 import { handleDeleteUpload, handleDeleteAllUploads, getUpload, getUploads, handeleDeleteAllGeneratedFiles, handeleDeleteGeneratedFiles, handleGetUploadDates, handleGetUploadCountPerDay as handleGetUploadCountPerDays } from 'server/controller/uploadsController';
-import { Feature, PermissionAction, UserPermission } from 'server/interfaces/userPermission';
+import { StatisticAction, UploadManagementAction } from 'server/interfaces/userPermission';
 import authMiddleware from 'server/middleware/authMiddleware';
 import { verifyRole } from 'server/middleware/verifyUserRoleMiddleware';
+import { statisticPermission, uploadManagementPermission } from 'server/models/userPermissons';
 
 export const uploadsRoutes = express.Router();
 
@@ -10,7 +11,7 @@ uploadsRoutes.get(
     '/',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UploadManagement, [PermissionAction.Read])
+        new uploadManagementPermission([UploadManagementAction.ReadUploadData])
     ),
     getUploads
 );
@@ -19,7 +20,7 @@ uploadsRoutes.delete(
     '/',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
+        new uploadManagementPermission([UploadManagementAction.DeleteAllUploads])
     ),
     handleDeleteAllUploads
 );
@@ -28,7 +29,7 @@ uploadsRoutes.delete(
     '/deleteUpload',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
+        new uploadManagementPermission([UploadManagementAction.DeleteUpload])
     ),
     handleDeleteUpload
 );
@@ -37,7 +38,7 @@ uploadsRoutes.delete(
     '/deleteGeneratedFiles',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
+        new uploadManagementPermission([UploadManagementAction.DeleteGeneratedFiles])
     ),
     handeleDeleteGeneratedFiles
 );
@@ -46,7 +47,7 @@ uploadsRoutes.delete(
     '/deleteAllGeneratedFiles',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UploadManagement, [PermissionAction.Delete])
+        new uploadManagementPermission([UploadManagementAction.DeleteAllGeneratedFiles])
     ),
     handeleDeleteAllGeneratedFiles
 );
@@ -55,7 +56,7 @@ uploadsRoutes.get(
     '/getFile',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UploadManagement, [PermissionAction.Read])
+        new uploadManagementPermission([UploadManagementAction.GetFiles])
     ),
     getUpload
 );
@@ -63,13 +64,17 @@ uploadsRoutes.get(
 uploadsRoutes.get(
     '/getUploadDates',
     authMiddleware,
-    verifyRole(new UserPermission(Feature.Statistic, [PermissionAction.Read])),
+    verifyRole(
+        new statisticPermission([StatisticAction.ReadStatistic])
+    ),
     handleGetUploadDates
 );
 
 uploadsRoutes.get(
     '/getUploadCountPerDays',
     authMiddleware,
-    verifyRole(new UserPermission(Feature.Statistic, [PermissionAction.Read])),
+    verifyRole(
+        new statisticPermission([StatisticAction.ReadStatistic])
+    ),
     handleGetUploadCountPerDays
 );

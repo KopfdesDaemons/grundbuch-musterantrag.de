@@ -1,31 +1,29 @@
 import { handleCreateUser, handleDeleteUser, handleGetAllUsers } from "server/controller/userController";
 import express from 'express';
-import { UserPermission, Feature, PermissionAction } from "server/interfaces/userPermission";
+import { UserManagementAction } from "server/interfaces/userPermission";
 import authMiddleware from "server/middleware/authMiddleware";
 import { verifyRole } from "server/middleware/verifyUserRoleMiddleware";
+import { userManagementPermission } from "server/models/userPermissons";
 
 export const userRoutes = express.Router();
 
 userRoutes.get('/',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UserManagement, [PermissionAction.Read])
-    ),
+        new userManagementPermission([UserManagementAction.ReadUser])),
     handleGetAllUsers
 );
 
 userRoutes.put('/',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UserManagement, [PermissionAction.Create])
-    ),
+        new userManagementPermission([UserManagementAction.CreateUser])),
     handleCreateUser
 );
 
 userRoutes.delete('/',
     authMiddleware,
     verifyRole(
-        new UserPermission(Feature.UserManagement, [PermissionAction.Delete])
-    ),
+        new userManagementPermission([UserManagementAction.DeleteUser])),
     handleDeleteUser
 );

@@ -36,19 +36,26 @@ export class User {
     }
 
     checkPermission = (permissionToCheck: UserPermission): boolean => {
-        if (!this.userRole?.userPermissions || !Array.isArray(this.userRole.userPermissions)) {
+        if (!permissionToCheck?.allowedActions?.length) {
             return false;
         }
 
-        const permission = this.userRole.userPermissions.find(permission => permission.feature === permissionToCheck.feature);
-        if (!permission || !Array.isArray(permission.allowedActions)) {
+        if (!this.userRole?.userPermissions?.length) {
             return false;
         }
 
-        // Überprüft, ob alle allowedActions im permission enthalten sind
+        const permission: UserPermission | undefined = this.userRole.userPermissions.find(
+            (perm) => perm.feature === permissionToCheck.feature
+        );
+
+        if (!permission?.allowedActions?.length) {
+            return false;
+        }
+
+        // Prüft, ob alle geforderten Aktionen in den vorhandenen Aktionen enthalten sind
         return permissionToCheck.allowedActions.every(action =>
             permission.allowedActions.includes(action)
         );
-    }
+    };
 
 }

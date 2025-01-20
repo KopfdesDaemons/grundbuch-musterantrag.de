@@ -1,12 +1,5 @@
 /* eslint-disable no-unused-vars */
 
-export enum PermissionAction {
-    Create = 'create',
-    Read = 'read',
-    Update = 'update',
-    Delete = 'delete'
-}
-
 export enum Feature {
     UploadManagement = 'uploadManagement',
     UserManagement = 'userManagement',
@@ -16,12 +9,41 @@ export enum Feature {
     Settings = 'settings'
 }
 
-export class UserPermission {
+export interface UserPermission {
     feature: Feature;
-    allowedActions: PermissionAction[];
+    allowedActions: (UploadManagementAction | UserManagementAction | StatisticAction | LoggerAction | MigrationAction | SettingsAction)[];
+}
 
-    constructor(feature: Feature, actions: PermissionAction[]) {
-        this.feature = feature;
-        this.allowedActions = actions;
-    }
+export enum UploadManagementAction {
+    ReadUploadData = 'ReadUploadData',
+    DeleteUpload = 'DeleteUpload',
+    DeleteAllUploads = 'DeleteAllUploads',
+    DeleteGeneratedFiles = 'DeleteGeneratedFiles',
+    DeleteAllGeneratedFiles = 'DeleteAllGeneratedFiles',
+    GetFiles = 'GetFiles'
+}
+
+export enum UserManagementAction {
+    CreateUser = 'CreateUser',
+    ReadUser = 'ReadUser',
+    DeleteUser = 'DeleteUser'
+}
+
+export enum StatisticAction {
+    ReadStatistic = 'ReadStatistic',
+}
+
+export enum LoggerAction {
+    ReadLogFile = 'ReadLogFile',
+    ClearLogFile = 'ClearLogFile'
+}
+
+export enum MigrationAction {
+    JSONToDatabaseMigration = 'JSONToDatabaseMigration',
+    AntragToUploadinfoMigration = 'AntragToUploadinfoMigration'
+}
+
+export enum SettingsAction {
+    ReadSettings = 'ReadSettings',
+    UpdateSettings = 'UpdateSettings'
 }

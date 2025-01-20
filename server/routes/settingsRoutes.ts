@@ -1,22 +1,27 @@
 import express from 'express';
 import { handleGetSettings, handleSaveSettings, handleGetPrimaryColor } from 'server/controller/settingsController';
-import { UserPermission, Feature, PermissionAction } from 'server/interfaces/userPermission';
+import { SettingsAction } from 'server/interfaces/userPermission';
 import authMiddleware from 'server/middleware/authMiddleware';
 import { verifyRole } from 'server/middleware/verifyUserRoleMiddleware';
+import { settingsPermission } from 'server/models/userPermissons';
 
 export const settingsRoutes = express.Router();
 
 settingsRoutes.get(
     '/',
     authMiddleware,
-    verifyRole(new UserPermission(Feature.Settings, [PermissionAction.Read])),
+    verifyRole(
+        new settingsPermission([SettingsAction.ReadSettings])
+    ),
     handleGetSettings
 );
 
 settingsRoutes.put(
     '/',
     authMiddleware,
-    verifyRole(new UserPermission(Feature.Settings, [PermissionAction.Update])),
+    verifyRole(
+        new settingsPermission([SettingsAction.UpdateSettings])
+    ),
     handleSaveSettings
 );
 
