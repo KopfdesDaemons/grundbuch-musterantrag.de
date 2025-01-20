@@ -1,6 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { HeaderComponent } from "../../../components/header/header.component";
-import { FooterComponent } from "../../../components/footer/footer.component";
 import { CookiesTileComponent } from "../../../components/dashboard/tiles/cookies-tile/cookies-tile.component";
 import { LoggerTileComponent } from "../../../components/dashboard/tiles/logger-tile/logger-tile.component";
 import { AntragslisteTileComponent } from 'src/app/components/dashboard/tiles/antragsliste-tile/antragsliste-tile.component';
@@ -14,13 +12,12 @@ import { MigrationTileComponent } from "../../../components/dashboard/tiles/migr
 import { SettingsTileComponent } from "../../../components/dashboard/tiles/settings-tile/settings-tile.component";
 
 @Component({
-    selector: 'app-dashboard-home',
-    imports: [HeaderComponent, FooterComponent, CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent, SettingsTileComponent],
-    templateUrl: './dashboard-home.component.html',
-    styleUrl: './dashboard-home.component.scss'
+  selector: 'app-dashboard-home',
+  imports: [CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent, SettingsTileComponent],
+  templateUrl: './dashboard-home.component.html',
+  styleUrl: './dashboard-home.component.scss'
 })
 export class DashboardHomeComponent {
-  // Injections
   authS = inject(AuthService);
   title = inject(Title);
   timeS = inject(TimeService);

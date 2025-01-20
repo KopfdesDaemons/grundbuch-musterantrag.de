@@ -18,7 +18,7 @@ export class AccordionComponent {
     const selectedElement = this.accordionhead().nativeElement;
 
     selectedElement.classList.toggle('FrageHeadAngeglickt');
-    var Antwort = selectedElement.nextElementSibling;
+    const Antwort = selectedElement.nextElementSibling;
     if (Antwort.style.maxHeight) Antwort.style.maxHeight = null;
     else Antwort.style.maxHeight = Antwort.scrollHeight + 'px';
   }

@@ -7,8 +7,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UploadsService } from 'src/app/services/uploads.service';
 import { LoggerService } from 'src/app/services/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { HeaderComponent } from '../../../components/header/header.component';
-import { FooterComponent } from "../../../components/footer/footer.component";
 import { Upload } from 'server/models/upload';
 import { DatePipe } from '@angular/common';
 
@@ -16,11 +14,10 @@ import { DatePipe } from '@angular/common';
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],
-  imports: [HeaderComponent, FaIconComponent, FooterComponent, DatePipe]
+  imports: [FaIconComponent, DatePipe]
 })
 
 export class DashboardAntragslisteComponent implements OnInit {
-  // Injections
   private elem = inject(ElementRef);
   http = inject(HttpClient);
   cs = inject(CookiesService);
@@ -45,12 +42,12 @@ export class DashboardAntragslisteComponent implements OnInit {
 
   async ngOnInit() {
     this.titleService.setTitle('Dashboard');
-    this.reloadFiles();
+    await this.reloadFiles();
   }
 
-  scroll(element: any) {
+  async scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
-      if (!this.isLoadingNextPage) this.loadPage(this.loadedPages + 1);
+      if (!this.isLoadingNextPage) await this.loadPage(this.loadedPages + 1);
     }
   }
 
@@ -62,7 +59,7 @@ export class DashboardAntragslisteComponent implements OnInit {
       this.loadedPages = page;
       this.files = this.files.concat(files);
       this.isLoadingNextPage = false;
-    } catch (err: any) {
+    } catch {
       this.isLoadingNextPage = false;
     }
   }
@@ -72,23 +69,23 @@ export class DashboardAntragslisteComponent implements OnInit {
     this.totalPages = await this.uploadsdS.getTotalPages();
     this.totalFiles = await this.uploadsdS.getTotalFiles();
     this.files = [];
-    this.loadPage();
+    await this.loadPage();
   }
 
   async deleteUpload(name: string) {
     await this.uploadsdS.deleteUpload(name);
-    this.reloadFiles();
+    await this.reloadFiles();
   }
 
   async deleteGeneratedFiles(uploadID: string) {
     await this.uploadsdS.deleteGeneratedFiles(uploadID);
-    this.reloadFiles();
+    await this.reloadFiles();
   }
 
   async deleteFolder() {
     if (!confirm('Soll wirklich alle Antragsdaten gelöscht werden?')) return;
     await this.uploadsdS.deleteFolder();
-    this.reloadFiles();
+    await this.reloadFiles();
   }
 
   /* 

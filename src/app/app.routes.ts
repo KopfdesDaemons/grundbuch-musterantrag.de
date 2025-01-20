@@ -31,7 +31,8 @@ export const routes: Routes = [
     { path: 'impressum', loadComponent: () => import('./routes/impressum/impressum.component').then(m => m.ImpressumComponent) },
     { path: 'datenschutz', loadComponent: () => import('./routes/datenschutz/datenschutz.component').then(m => m.DatenschutzComponent) },
     {
-        path: 'dashboard'
+        path: 'dashboard',
+        loadComponent: () => import('./routes/dashboard/dashboard/dashboard.component').then(m => m.DashboardComponent)
         , children: [
             { path: '', loadComponent: () => import('./routes/dashboard/dashboard-home/dashboard-home.component').then(m => m.DashboardHomeComponent), canActivate: [AuthGuard] },
             { path: 'antragsliste', loadComponent: () => import('./routes/dashboard/dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent), canActivate: [AuthGuard] },
