@@ -168,7 +168,6 @@ export class UploadsService {
     }
   }
 
-
   async getUploadDatesAndCounts(timeframe: 'week' | 'month'): Promise<{ date: string, count: number }[]> {
     try {
       const response = await lastValueFrom(this.http.get('/api/uploads/getUploadCountPerDays', {

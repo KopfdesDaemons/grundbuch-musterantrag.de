@@ -1,0 +1,24 @@
+table {
+    border-radius: 0;
+    background-color: var(--hintergrund-variant-darker);
+    animation: grow 500ms;
+
+    td,
+    th {
+        padding: 1em
+    }
+
+    tbody {
+        tr:nth-of-type(even) {
+            background-color: unset;
+        }
+
+        tr {
+            border-bottom: 1px solid gray;
+        }
+
+        tr:hover {
+            background-color: var(--hintergrund-variant);
+        }
+    }
+}

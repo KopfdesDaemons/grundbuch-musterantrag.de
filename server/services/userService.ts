@@ -69,5 +69,9 @@ export const createRootUser = async (): Promise<void> => {
 export const getAllUsers = async (): Promise<User[]> => {
     const queryStr = `SELECT userID, username, userRole FROM users`;
     const result = await query<{ userID: number, username: string, userRole: string }[]>(queryStr);
-    return result.map(user => new User(user.username, user.userRole === 'admin' ? new Admin() : new Guest()));
+    return result.map((user) => {
+        const readedUser = new User(user.username, user.userRole === 'admin' ? new Admin() : new Guest());
+        readedUser.userID = user.userID;
+        return readedUser;
+    });
 }

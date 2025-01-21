@@ -1,0 +1,26 @@
+<section>
+    <div class="sectiondiv">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Username</th>
+                    <th>User ID</th>
+                    <th>Benutzerrolle</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(user of users; track user.username) {
+                <tr>
+                    <td>
+                        <input type="checkbox">
+                    </td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.userID}}</td>
+                    <td>{{user.userRole.name}}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

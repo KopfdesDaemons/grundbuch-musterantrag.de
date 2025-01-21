@@ -34,7 +34,7 @@
               "src/robots.txt"
             ],
             "styles": [
-              "src/assets/ricosCSS/ricosframework.css",
+              "src/assets/ricosCSS/ricosframework.scss",
               "src/styles.scss"
             ],
             "scripts": [],
