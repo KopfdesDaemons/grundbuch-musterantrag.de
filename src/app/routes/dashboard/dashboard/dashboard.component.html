@@ -1,4 +1,9 @@
 <app-header></app-header>
+<header>
+    <button (click)="sidemenuS.toggleDashboardSidemenu()">
+        <fa-icon [icon]="faBars"></fa-icon>
+    </button>
+</header>
 <app-sidemenu></app-sidemenu>
 <div class="content">
     <router-outlet [class.menuIsOpen]="sidemenuS.DashboaardSidemenuIsOpen"></router-outlet>

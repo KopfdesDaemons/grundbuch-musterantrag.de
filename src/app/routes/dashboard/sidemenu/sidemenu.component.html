@@ -1,7 +1,7 @@
-<div class="closingDiv" [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}"
-    (click)="sidemenuS.toggleDashboardSidemenu()"></div>
 <aside #sidemenu [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}">
     <nav>
+        <div class="closingDiv" [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}"
+            (click)="sidemenuS.toggleDashboardSidemenu()"></div>
         <ul>
             <li><a routerLink="./">Übersicht</a></li>
             <li><a routerLink="./antragsliste">Uploads</a></li>

@@ -5,13 +5,12 @@ import { NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-    selector: 'app-artikelsidebar',
-    templateUrl: './artikelsidebar.component.html',
-    styleUrls: ['./artikelsidebar.component.scss'],
-    imports: [FaIconComponent, NgClass, RouterLink]
+  selector: 'app-artikelsidebar',
+  templateUrl: './artikelsidebar.component.html',
+  styleUrls: ['./artikelsidebar.component.scss'],
+  imports: [FaIconComponent, NgClass, RouterLink]
 })
 export class ArtikelsidebarComponent {
-  // Injections
   router = inject(Router);
 
   readonly sidebar = viewChild.required<ElementRef>('sidebar');
@@ -87,7 +86,7 @@ export class ArtikelsidebarComponent {
   ];
 
   dropdown(event: Event): void {
-    var element = event.target as Element;
+    const element = event.target as Element;
     element.closest(".thema")!.classList.toggle("themaangeklickt");
   }
 

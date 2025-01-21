@@ -162,7 +162,7 @@ header {
   border-top: 2px solid var(--primary-color);
 
   .mobileheadercontent {
-    height: 3em;
+    height: var(--header-height);
     display: flex;
     justify-content: space-between;
     align-items: center;

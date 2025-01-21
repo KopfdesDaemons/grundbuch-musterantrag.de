@@ -53,6 +53,7 @@
 :root {
     --gradient: linear-gradient(90deg, var(--hintergrund-variant) 0%, var(--body-variant) 56%);
     --dashboard-sidemenu-width: 16em;
+    --header-height: 3em;
 
     body {
         background: var(--gradient);
