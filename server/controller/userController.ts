@@ -30,23 +30,26 @@ export const handleCreateUser = async (req: Request, res: Response) => {
 }
 
 export const handleDeleteUser = async (req: Request, res: Response) => {
-    const userID = req.query['userID'] as string;
+    const { userIDs } = req.body
     try {
-        if (!userID) {
+        if (!userIDs) {
             return res.status(400).json({ error: 'Keine UserID in der Anfrage' });
         }
-        if (isNaN(+userID)) {
-            return res.status(400).json({ error: 'UserID muss eine Zahl sein' });
+        for (const userID of userIDs) {
+            if (isNaN(+userID)) {
+                return res.status(400).json({ error: 'UserID muss eine Zahl sein' });
+            }
+            const userFromDB = await getUserByUserID(+userID);
+            if (!userFromDB) {
+                return res.status(400).json({ error: 'UserID ' + userID + ' existiert nicht' });
+            }
         }
-        const userFromDB = await getUserByUserID(+userID);
-        if (!userFromDB) {
-            return res.status(400).json({ error: 'UserID ' + userID + ' existiert nicht' });
-        }
-        await deleteUser(+userID);
-        return res.status(200).json({ message: 'User ' + userID + ' erfolgreich gelöscht' });
+
+        await deleteUser(userIDs);
+        return res.status(200).json({ message: 'User ' + userIDs.toString() + ' erfolgreich gelöscht' });
     } catch (error) {
-        logger.error('Fehler beim Löschen des Users ' + userID, error);
-        return res.status(500).json({ error: 'Fehler beim Löschen des Users ' + userID });
+        logger.error('Fehler beim Löschen der User ' + userIDs.toString(), error);
+        return res.status(500).json({ error: 'Fehler beim Löschen des Users ' + userIDs.toString() });
     }
 }
 

@@ -24,4 +24,18 @@ export class UserService {
       throw err;
     }
   }
+
+  async deleteUsers(userIDs: number[]): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.delete('/api/user', {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+          body: { userIDs: userIDs }
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
 }

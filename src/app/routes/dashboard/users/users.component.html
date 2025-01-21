@@ -1,5 +1,9 @@
 <section>
     <div class="sectiondiv">
+        <div class="controlls">
+            <button (click)="loadUsers()"><fa-icon [icon]="faRotateRight"></fa-icon></button>
+            <button (click)="deleteUsers()"><fa-icon [icon]="faTrash"></fa-icon></button>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -10,14 +14,14 @@
                 </tr>
             </thead>
             <tbody>
-                @for(user of users; track user.username) {
+                @for(row of rows; track row.user.userID) {
                 <tr>
                     <td>
-                        <input type="checkbox">
+                        <input type="checkbox" [(ngModel)]="row.isChecked">
                     </td>
-                    <td>{{user.username}}</td>
-                    <td>{{user.userID}}</td>
-                    <td>{{user.userRole.name}}</td>
+                    <td>{{row.user.username}}</td>
+                    <td>{{row.user.userID}}</td>
+                    <td>{{row.user.userRole.name}}</td>
                 </tr>
                 }
             </tbody>

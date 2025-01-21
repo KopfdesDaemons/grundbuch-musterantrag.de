@@ -1,29 +1,45 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { User } from 'server/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { faTrash, faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-users',
-  imports: [],
+  imports: [FaIconComponent, FormsModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
 export class UsersComponent implements AfterViewInit {
   userS = inject(UserService);
-  users: User[] = [];
   error: boolean = false;
+  rows: { isChecked: boolean, user: User }[] = [];
+
+  faTrash = faTrash;
+  faRotateRight = faRotateRight;
 
   async ngAfterViewInit(): Promise<void> {
     await this.loadUsers()
-    console.log(this.users);
   }
 
   async loadUsers(): Promise<void> {
     try {
       this.error = false;
-      this.users = await this.userS.getAllUsersJSON();
+      const users = await this.userS.getAllUsersJSON();
+      this.rows = users.map(user => ({ isChecked: false, user: user }));
     } catch {
       this.error = true;
     }
+  }
+
+  async deleteUsers(): Promise<void> {
+    const userIDs = this.rows
+      .filter(row => row.isChecked)
+      .map(row => row.user.userID)
+      .filter((userID): userID is number => userID !== undefined);
+    if (userIDs.length === 0) return;
+    await this.userS.deleteUsers(userIDs);
+    await this.loadUsers();
   }
 }

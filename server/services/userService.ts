@@ -50,9 +50,10 @@ export const addNewUser = async (user: User): Promise<number> => {
     }
 };
 
-export const deleteUser = async (userID: number): Promise<void> => {
-    const deleteQuery = `DELETE FROM users WHERE userID = ?`;
-    await query(deleteQuery, [userID]);
+export const deleteUser = async (userIDs: number[]): Promise<void> => {
+    const placeholders = userIDs.map(() => '?').join(', ');
+    const deleteQuery = `DELETE FROM users WHERE userID IN (${placeholders})`;
+    await query(deleteQuery, userIDs);
 };
 
 export const createRootUser = async (): Promise<void> => {
