@@ -1,0 +1,19 @@
+<form [formGroup]="form" (ngSubmit)="form.valid && createUser()" #ngForm="ngForm">
+    <div>
+        <select formControlName="userRole" type="text" id="userRoleinput" name="userRole">
+            <option value="admin">Admin</option>
+            <option value="guest">Gast</option>
+        </select>
+    </div>
+    <div class="inputfeld" id="username">
+        <input formControlName="username" type="text" id="usernameinput" name="username" required spellcheck="false"
+            placeholder="&nbsp;">
+        <label class="placeholder" for="usernameinput">Username</label>
+    </div>
+    <div class="inputfeld" id="userPassword">
+        <input formControlName="userPassword" type="password" id="userPasswordinput" name="userPassword" required
+            spellcheck="false" placeholder="&nbsp;">
+        <label class="placeholder" for="userPasswordinput">Passwort</label>
+    </div>
+    <button>Erstellen</button>
+</form>

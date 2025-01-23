@@ -1,6 +1,6 @@
 import { isPlatformBrowser, NgClass } from '@angular/common';
 import { Component, ElementRef, inject, PLATFORM_ID, viewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SidemenuService } from 'src/app/services/sidemenu.service';
 
 @Component({
@@ -12,8 +12,21 @@ import { SidemenuService } from 'src/app/services/sidemenu.service';
 export class SidemenuComponent {
   sidemenuS = inject(SidemenuService);
   private platformId = inject(PLATFORM_ID);
+  router = inject(Router);
 
   component = viewChild.required<ElementRef>('sidemenu');
+
+  pages = [
+    { name: 'Übersicht', route: '/dashboard' },
+    { name: 'Uploads', route: '/dashboard/antragsliste' },
+    { name: 'Users', route: '/dashboard/users' },
+  ];
+
+  isActive(route: string): boolean {
+    if (!(route === '/dashboard')) {
+      return this.router.url.startsWith(route);
+    } else return this.router.url === route;
+  }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {

@@ -36,7 +36,14 @@ export const routes: Routes = [
         , children: [
             { path: '', loadComponent: () => import('./routes/dashboard/dashboard-home/dashboard-home.component').then(m => m.DashboardHomeComponent), canActivate: [AuthGuard] },
             { path: 'antragsliste', loadComponent: () => import('./routes/dashboard/dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent), canActivate: [AuthGuard] },
-            { path: 'users', loadComponent: () => import('./routes/dashboard/users/users.component').then(m => m.UsersComponent), canActivate: [AuthGuard] },
+            {
+                path: 'users',
+                loadComponent: () => import('./routes/dashboard/users/rooter/rooter.component').then(m => m.RooterComponent),
+                children: [
+                    { path: '', loadComponent: () => import('./routes/dashboard/users/user-list/user-list.component').then(m => m.UserListComponent), canActivate: [AuthGuard] },
+                    { path: 'create-user', loadComponent: () => import('./routes/dashboard/users/create-user/create-user.component').then(m => m.CreateUserComponent), canActivate: [AuthGuard] },
+                ]
+            }
         ]
     },
     { path: 'login', loadComponent: () => import('./routes/login/login.component').then(m => m.LoginComponent) },

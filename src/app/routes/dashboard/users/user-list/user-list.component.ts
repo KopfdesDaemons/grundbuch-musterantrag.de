@@ -8,10 +8,10 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-users',
   imports: [FaIconComponent, FormsModule],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.scss'
 })
-export class UsersComponent implements AfterViewInit {
+export class UserListComponent implements AfterViewInit {
   userS = inject(UserService);
   error: boolean = false;
   rows: { isChecked: boolean, user: User }[] = [];

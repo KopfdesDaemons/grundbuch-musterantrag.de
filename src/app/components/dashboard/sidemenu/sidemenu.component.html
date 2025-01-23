@@ -3,9 +3,11 @@
         <div class="closingDiv" [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}"
             (click)="sidemenuS.toggleDashboardSidemenu()"></div>
         <ul>
-            <li><a routerLink="./">Übersicht</a></li>
-            <li><a routerLink="./antragsliste">Uploads</a></li>
-            <li><a routerLink="./users">Users</a></li>
+            @for(page of pages; track page.route) {
+            <li [ngClass]="{'active': isActive(page.route)}">
+                <a [routerLink]="page.route">{{ page.name }}</a>
+            </li>
+            }
         </ul>
     </nav>
 </aside>

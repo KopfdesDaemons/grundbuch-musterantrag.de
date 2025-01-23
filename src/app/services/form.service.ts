@@ -11,7 +11,6 @@ import { TimeService } from './time.service';
 })
 
 export class FormService {
-  // Injections
   http = inject(HttpClient);
   scroll = inject(ViewportScroller);
   timeS = inject(TimeService);
@@ -103,12 +102,13 @@ export class FormService {
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {
-    let url = "https://api.zippopotam.us/de/" + plz;
-
+    const url = "https://api.zippopotam.us/de/" + plz;
     try {
-      const json = await lastValueFrom(this.http.get<any>(url));
+      const response = await lastValueFrom(this.http.get(url));
+      const json = response as { places: { 'place name': string }[] };
       if (json.places && json.places.length > 0) {
-        return json.places[0]['place name'];
+        const ort = json.places[0]['place name'];
+        return ort
       } else {
         return null;
       }
@@ -121,7 +121,7 @@ export class FormService {
   async sucheGrundbuchamt(plz: string) {
     if (plz.length === 5) {
       try {
-        let jsonAmtsgerichtDaten: any = await this.AmtsgerichtAusPLZ(plz);
+        const jsonAmtsgerichtDaten: any = await this.AmtsgerichtAusPLZ(plz);
         const grundbuchamtForm = (this.form.get('grundbuchamt') as FormGroup);
 
         grundbuchamtForm.setValue({
@@ -131,29 +131,22 @@ export class FormService {
           ort: jsonAmtsgerichtDaten['ort']
         })
         console.log(grundbuchamtForm.get('name')?.value + ' wurde ermittelt.')
-      } catch (err) {
+      } catch {
         console.error('Das Amtsgericht konnte nicht ermittelt werden.');
       }
     }
   }
 
-  AmtsgerichtAusPLZ(plz: string) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const url = '/api/amtsgerichtausplz';
-        const res = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('plz', plz) }));
-        resolve(res);
-      } catch (err) {
-        reject(err);
-      }
-    });
+  async AmtsgerichtAusPLZ(plz: string) {
+    const url = '/api/amtsgerichtausplz';
+    return await lastValueFrom(this.http.get(url, { params: new HttpParams().set('plz', plz) }));
   }
 
   private getRequiredComponents(form: FormGroup): string[] {
     const components: string[] = [];
 
     for (const control of this.constrolsAndComponents) {
-      if (form.controls.hasOwnProperty(control.control)) {
+      if (Object.prototype.hasOwnProperty.call(form.controls, control.control)) {
         components.push(control.component);
       }
     }

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { AuthService } from './auth.service';
 export class UserService {
   http = inject(HttpClient);
   authS = inject(AuthService);
+  formBuilder = new FormBuilder();
 
 
   async getAllUsersJSON(): Promise<[]> {
@@ -37,5 +39,30 @@ export class UserService {
       console.error(err);
       throw err;
     }
+  }
+
+  async createUser(username: string, userRole: string, password: string): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.put('/api/user', {
+          username: username,
+          userRole: userRole,
+          password: password
+        }, {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+  getFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      username: ['', Validators.required],
+      userRole: ['guest', Validators.required],
+      userPassword: ['', Validators.required]
+    });
   }
 }

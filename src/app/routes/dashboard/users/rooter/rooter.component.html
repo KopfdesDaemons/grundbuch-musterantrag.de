@@ -1,0 +1,10 @@
+<nav>
+    <ul>
+        @for(tab of tabs; track tab.route) {
+        <li [ngClass]="{'active': router.url == tab.route}">
+            <a [routerLink]="tab.route">{{ tab.name }}</a>
+        </li>
+        }
+    </ul>
+</nav>
+<router-outlet></router-outlet>

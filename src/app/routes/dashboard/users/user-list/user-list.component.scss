@@ -22,3 +22,7 @@ table {
         }
     }
 }
+
+section:first-of-type .sectiondiv {
+    margin-top: 0;
+}

@@ -5,10 +5,10 @@ import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-    selector: 'app-antragsteller',
-    templateUrl: './antragsteller.component.html',
-    styleUrls: ['./antragsteller.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule, FaIconComponent]
+  selector: 'app-antragsteller',
+  templateUrl: './antragsteller.component.html',
+  styleUrls: ['./antragsteller.component.scss'],
+  imports: [FormsModule, ReactiveFormsModule, FaIconComponent]
 })
 export class AntragstellerComponent {
 
@@ -21,7 +21,7 @@ export class AntragstellerComponent {
 
     this.form.get('plz')?.valueChanges.subscribe(async plz => {
       if ((plz as string).length === 5) {
-        let ort = await this.fs.ortAusPLZ(plz)
+        const ort = await this.fs.ortAusPLZ(plz)
         this.form.controls['ort'].setValue(ort);
       }
     })
