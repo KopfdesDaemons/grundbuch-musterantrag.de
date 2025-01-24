@@ -20,9 +20,18 @@ table {
         tr:hover {
             background-color: var(--hintergrund-variant);
         }
+
+        .admin {
+            color: red;
+        }
     }
 }
 
 section:first-of-type .sectiondiv {
     margin-top: 0;
+}
+
+.editForm {
+    display: flex;
+    align-items: center;
 }

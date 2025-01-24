@@ -58,11 +58,69 @@ export class UserService {
     }
   }
 
-  getFormGroup(): FormGroup {
+  async updateUsername(userID: number, newUsername: string): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.patch('/api/user/username', {
+          userID: userID,
+          newUsername: newUsername
+        }, {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+  async updateUserpassword(userID: number, newPassword: string): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.patch('/api/user/userpassword', {
+          userID: userID,
+          newPassword: newPassword
+        }, {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+
+  async updateUserRole(userID: number, newUserRole: 'admin' | 'guest'): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.patch('/api/user/userrole', {
+          userID: userID,
+          newUserRole: newUserRole
+        }, {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+  getNewUserFormGroup(): FormGroup {
     return this.formBuilder.group({
       username: ['', Validators.required],
       userRole: ['guest', Validators.required],
       userPassword: ['', Validators.required]
+    });
+  }
+
+
+  getEditUserFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      username: [''],
+      userRole: ['guest'],
+      userPassword: ['']
     });
   }
 }

@@ -26,7 +26,10 @@ export enum UploadManagementAction {
 export enum UserManagementAction {
     CreateUser = 'CreateUser',
     ReadUser = 'ReadUser',
-    DeleteUser = 'DeleteUser'
+    DeleteUser = 'DeleteUser',
+    UpdateUsername = 'UpdateUsername',
+    UpdateUserPassword = 'UpdateUserPassword',
+    updateUserRole = 'updateUserRole'
 }
 
 export enum StatisticAction {

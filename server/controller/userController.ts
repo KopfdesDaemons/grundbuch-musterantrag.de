@@ -2,7 +2,7 @@ import logger from "server/config/logger";
 import { UserRole } from "server/interfaces/userRole";
 import { User } from "server/models/user";
 import { Admin, Guest } from "server/models/userRoles";
-import { addNewUser, deleteUser, getAllUsers, getUserByUserID, getUserByUsername } from "server/services/userService";
+import { addNewUser, deleteUser, getAllUsers, getUserByUserID, getUserByUsername, updatePassword, updateUsername, updateUserRole } from "server/services/userService";
 import { Request, Response } from 'express';
 
 
@@ -60,5 +60,76 @@ export const handleGetAllUsers = async (req: Request, res: Response) => {
     } catch (error) {
         logger.error('Fehler beim Abrufen aller Users', error);
         return res.status(500).json({ error: 'Fehler beim Abrufen aller Users' });
+    }
+}
+
+export const handleUpdateUsername = async (req: Request, res: Response) => {
+    const { userID, newUsername } = req.body
+    try {
+        if (!userID || !newUsername) {
+            return res.status(400).json({ error: 'Unvollständige Anfrage' });
+        }
+        if (isNaN(+userID)) {
+            return res.status(400).json({ error: 'UserID muss eine Zahl sein' });
+        }
+        const userFromDB = await getUserByUserID(+userID);
+        if (!userFromDB) {
+            return res.status(400).json({ error: 'UserID ' + userID + ' existiert nicht' });
+        }
+        await updateUsername(+userID, newUsername);
+        return res.status(200).json({ message: 'Username erfolgreich aktualisiert' });
+
+    } catch (error) {
+        logger.error('Fehler beim Aktualisieren des Usernamens', error);
+        return res.status(500).json({ error: 'Fehler beim Aktualisieren des Usernamens' });
+    }
+}
+
+export const handleUpdatePassword = async (req: Request, res: Response) => {
+    const { userID, newPassword } = req.body
+    try {
+        if (!userID || !newPassword) {
+            return res.status(400).json({ error: 'Unvollständige Anfrage' });
+        }
+        if (isNaN(+userID)) {
+            return res.status(400).json({ error: 'UserID muss eine Zahl sein' });
+        }
+        const userFromDB = await getUserByUserID(+userID);
+        if (!userFromDB) {
+            return res.status(400).json({ error: 'UserID ' + userID + ' existiert nicht' });
+        }
+        await userFromDB.setPasswordHash(newPassword);
+        if (userFromDB.passwordHash) {
+            await updatePassword(userID, userFromDB.passwordHash);
+            return res.status(200).json({ message: 'Userpasswort erfolgreich aktualisiert' });
+        }
+        throw new Error('Fehler beim Aktualisieren des Userpassworts');
+    } catch (error) {
+        logger.error('Fehler beim Aktualisieren des Userpassworts', error);
+        return res.status(500).json({ error: 'Fehler beim Aktualisieren des Userpassworts' });
+    }
+}
+
+export const handleUpdateUserRole = async (req: Request, res: Response) => {
+    const { userID, newUserRole } = req.body
+    try {
+        if (!userID || !newUserRole) {
+            return res.status(400).json({ error: 'Unvollständige Anfrage' });
+        }
+        if (isNaN(+userID)) {
+            return res.status(400).json({ error: 'UserID muss eine Zahl sein' });
+        }
+        if (newUserRole !== 'admin' && newUserRole !== 'guest') {
+            return res.status(400).json({ error: 'Userrolle nicht vorhanden' });
+        }
+        const userFromDB = await getUserByUserID(+userID);
+        if (!userFromDB) {
+            return res.status(400).json({ error: 'UserID ' + userID + ' existiert nicht' });
+        }
+        await updateUserRole(userID, newUserRole);
+        return res.status(200).json({ message: 'Userrolle erfolgreich aktualisiert' });
+    } catch (error) {
+        logger.error('Fehler beim Aktualisieren der Userrolle', error);
+        return res.status(500).json({ error: 'Fehler beim Aktualisieren der Userrolle' });
     }
 }

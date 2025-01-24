@@ -17,7 +17,10 @@ export class Admin implements UserRole {
         new userManagementPermission([
             UserManagementAction.CreateUser,
             UserManagementAction.ReadUser,
-            UserManagementAction.DeleteUser
+            UserManagementAction.DeleteUser,
+            UserManagementAction.UpdateUsername,
+            UserManagementAction.UpdateUserPassword,
+            UserManagementAction.updateUserRole
         ]),
         new statisticPermission([
             StatisticAction.ReadStatistic

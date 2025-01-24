@@ -9,8 +9,9 @@
                 <tr>
                     <th></th>
                     <th>Username</th>
-                    <th>User ID</th>
+                    <th>User&nbsp;ID</th>
                     <th>Benutzerrolle</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,8 +22,41 @@
                     </td>
                     <td>{{row.user.username}}</td>
                     <td>{{row.user.userID}}</td>
-                    <td>{{row.user.userRole.name}}</td>
+                    <td [ngClass]="{'admin': row.user.userRole.name === 'admin'}">{{row.user.userRole.name}}</td>
+                    <td>
+                        <span class="btnicon" (click)="toggleEditMode(row)">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </span>
+                    </td>
                 </tr>
+                @if(row.editMode) {
+                <tr class="editRow">
+                    <td colspan="5">
+                        @if(row.editForm) {
+                        <form class="editForm" [formGroup]="row.editForm"
+                            (ngSubmit)="row.editForm.valid && saveUser(row)">
+                            <div>
+                                <select formControlName="userRole" type="text" id="userRoleinput" name="userRole">
+                                    <option value="admin">Admin</option>
+                                    <option value="guest">Gast</option>
+                                </select>
+                            </div>
+                            <div class="inputfeld" id="username">
+                                <input formControlName="username" type="text" id="usernameinput" name="username"
+                                    spellcheck="false" placeholder="&nbsp;">
+                                <label class="placeholder" for="usernameinput">Username</label>
+                            </div>
+                            <div class="inputfeld" id="userPassword">
+                                <input formControlName="userPassword" type="password" id="userPasswordinput"
+                                    name="userPassword" spellcheck="false" placeholder="&nbsp;">
+                                <label class="placeholder" for="userPasswordinput">Passwort</label>
+                            </div>
+                            <button>Speichern</button>
+                        </form>
+                        }
+                    </td>
+                </tr>
+                }
                 }
             </tbody>
         </table>

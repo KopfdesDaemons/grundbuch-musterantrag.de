@@ -76,3 +76,18 @@ export const getAllUsers = async (): Promise<User[]> => {
         return readedUser;
     });
 }
+
+export const updateUsername = async (userID: number, newUsername: string): Promise<void> => {
+    const updateQuery = `UPDATE users SET username = ? WHERE userID = ?`;
+    await query(updateQuery, [newUsername, userID]);
+}
+
+export const updatePassword = async (userID: number, newPasswordHash: string): Promise<void> => {
+    const updateQuery = `UPDATE users SET passwordHash = ? WHERE userID = ?`;
+    await query(updateQuery, [newPasswordHash, userID]);
+}
+
+export const updateUserRole = async (userID: number, userRole: 'admin' | 'guest'): Promise<void> => {
+    const updateQuery = `UPDATE users SET userRole = ? WHERE userID = ?`;
+    await query(updateQuery, [userRole, userID]);
+}

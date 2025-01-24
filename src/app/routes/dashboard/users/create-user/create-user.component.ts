@@ -10,12 +10,12 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CreateUserComponent {
   userS = inject(UserService);
-  form = this.userS.getFormGroup();
+  form = this.userS.getNewUserFormGroup();
   ngForm = viewChild.required<FormGroupDirective>('ngForm');
 
   async createUser(): Promise<void> {
     const formdata = this.form.value;
     await this.userS.createUser(formdata.username, formdata.userRole, formdata.userPassword);
-    this.ngForm().resetForm(this.userS.getFormGroup().value);
+    this.ngForm().resetForm(this.userS.getNewUserFormGroup().value);
   }
 }
