@@ -6,8 +6,8 @@ import logger from "server/config/logger";
 
 export const getUser = async (key: 'username' | 'userID', value: string | number): Promise<User | null> => {
     try {
-        const queryStr = `SELECT userID, username, passwordHash, userRole FROM users WHERE ${key} = ?`;
-        const [userData] = await query<{ userID: number, username: string, passwordHash: string, userRole: string }[]>(queryStr, [value]);
+        const queryStr = `SELECT userID, username, passwordHash, userRole, isInitialPassword FROM users WHERE ${key} = ?`;
+        const [userData] = await query<{ userID: number, username: string, passwordHash: string, userRole: string, isInitialPassword: boolean }[]>(queryStr, [value]);
 
         if (!userData) return null;
 
@@ -16,6 +16,7 @@ export const getUser = async (key: 'username' | 'userID', value: string | number
 
         user.userID = userData.userID;
         user.passwordHash = userData.passwordHash;
+        user.isInitialPassword = userData.isInitialPassword;
 
         return user;
     } catch (error) {
@@ -68,11 +69,12 @@ export const createRootUser = async (): Promise<void> => {
 }
 
 export const getAllUsers = async (): Promise<User[]> => {
-    const queryStr = `SELECT userID, username, userRole FROM users`;
-    const result = await query<{ userID: number, username: string, userRole: string }[]>(queryStr);
+    const queryStr = `SELECT userID, username, userRole, isInitialPassword FROM users`;
+    const result = await query<{ userID: number, username: string, userRole: string, isInitialPassword: boolean }[]>(queryStr);
     return result.map((user) => {
         const readedUser = new User(user.username, user.userRole === 'admin' ? new Admin() : new Guest());
         readedUser.userID = user.userID;
+        readedUser.isInitialPassword = user.isInitialPassword;
         return readedUser;
     });
 }
@@ -82,8 +84,13 @@ export const updateUsername = async (userID: number, newUsername: string): Promi
     await query(updateQuery, [newUsername, userID]);
 }
 
+export const setNewInitalPassword = async (userID: number, newPasswordHash: string): Promise<void> => {
+    const updateQuery = `UPDATE users SET passwordHash = ?, isInitialPassword = 1 WHERE userID = ?`;
+    await query(updateQuery, [newPasswordHash, userID]);
+}
+
 export const updatePassword = async (userID: number, newPasswordHash: string): Promise<void> => {
-    const updateQuery = `UPDATE users SET passwordHash = ? WHERE userID = ?`;
+    const updateQuery = `UPDATE users SET passwordHash = ?, isInitialPassword = 0 WHERE userID = ?`;
     await query(updateQuery, [newPasswordHash, userID]);
 }
 

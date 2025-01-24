@@ -56,6 +56,7 @@ export const initDatabase = async () => {
                     { name: 'username', type: 'VARCHAR(255) NOT NULL UNIQUE' },
                     { name: 'passwordHash', type: 'VARCHAR(255) NOT NULL' },
                     { name: 'userRole', type: 'VARCHAR(255) NOT NULL' },
+                    { name: 'isInitialPassword', type: 'BOOLEAN NOT NULL DEFAULT TRUE' }
                 ]
             }
         ];

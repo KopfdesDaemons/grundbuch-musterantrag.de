@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
-import { User } from 'server/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { faTrash, faRotateRight, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-users',
@@ -58,7 +58,7 @@ export class UserListComponent implements AfterViewInit {
       const newPassword = row.editForm?.get('userPassword')?.value;
       const userRole = row.editForm?.get('userRole')?.value;
       if (newUsername) await this.userS.updateUsername(row.user.userID, newUsername);
-      if (newPassword) await this.userS.updateUserpassword(row.user.userID, newPassword);
+      if (newPassword) await this.userS.setinitialpassword(row.user.userID, newPassword);
       if (userRole != row.user.userRole.name) await this.userS.updateUserRole(row.user.userID, userRole);
       await this.loadUsers();
     } catch (err) {

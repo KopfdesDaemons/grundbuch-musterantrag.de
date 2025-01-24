@@ -47,5 +47,6 @@ export const routes: Routes = [
         ]
     },
     { path: 'login', loadComponent: () => import('./routes/login/login.component').then(m => m.LoginComponent) },
+    { path: 'new-password', loadComponent: () => import('./routes/new-password/new-password.component').then(m => m.NewPasswordComponent) },
     { path: '**', loadComponent: () => import('./routes/file-not-found/file-not-found.component').then(m => m.FileNotFoundComponent) }
 ];

@@ -11,6 +11,7 @@
                     <th>Username</th>
                     <th>User&nbsp;ID</th>
                     <th>Benutzerrolle</th>
+                    <th>Passwort</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,6 +24,7 @@
                     <td>{{row.user.username}}</td>
                     <td>{{row.user.userID}}</td>
                     <td [ngClass]="{'admin': row.user.userRole.name === 'admin'}">{{row.user.userRole.name}}</td>
+                    <td>{{row.user.isInitialPassword ? 'Initialpasswort' : 'vergeben'}}</td>
                     <td>
                         <span class="btnicon" (click)="toggleEditMode(row)">
                             <fa-icon [icon]="faEdit"></fa-icon>
@@ -49,7 +51,7 @@
                             <div class="inputfeld" id="userPassword">
                                 <input formControlName="userPassword" type="password" id="userPasswordinput"
                                     name="userPassword" spellcheck="false" placeholder="&nbsp;">
-                                <label class="placeholder" for="userPasswordinput">Passwort</label>
+                                <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
                             </div>
                             <button>Speichern</button>
                         </form>

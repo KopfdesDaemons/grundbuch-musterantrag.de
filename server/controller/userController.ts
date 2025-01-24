@@ -2,7 +2,7 @@ import logger from "server/config/logger";
 import { UserRole } from "server/interfaces/userRole";
 import { User } from "server/models/user";
 import { Admin, Guest } from "server/models/userRoles";
-import { addNewUser, deleteUser, getAllUsers, getUserByUserID, getUserByUsername, updatePassword, updateUsername, updateUserRole } from "server/services/userService";
+import { addNewUser, deleteUser, getAllUsers, getUserByUserID, getUserByUsername, setNewInitalPassword, updatePassword, updateUsername, updateUserRole } from "server/services/userService";
 import { Request, Response } from 'express';
 
 
@@ -85,7 +85,7 @@ export const handleUpdateUsername = async (req: Request, res: Response) => {
     }
 }
 
-export const handleUpdatePassword = async (req: Request, res: Response) => {
+export const handleSetInitialPassword = async (req: Request, res: Response) => {
     const { userID, newPassword } = req.body
     try {
         if (!userID || !newPassword) {
@@ -96,17 +96,46 @@ export const handleUpdatePassword = async (req: Request, res: Response) => {
         }
         const userFromDB = await getUserByUserID(+userID);
         if (!userFromDB) {
-            return res.status(400).json({ error: 'UserID ' + userID + ' existiert nicht' });
+            return res.status(400).json({ error: 'Fehlerhafte Anfrage' });
         }
         await userFromDB.setPasswordHash(newPassword);
         if (userFromDB.passwordHash) {
-            await updatePassword(userID, userFromDB.passwordHash);
-            return res.status(200).json({ message: 'Userpasswort erfolgreich aktualisiert' });
+            await setNewInitalPassword(userID, userFromDB.passwordHash);
+            return res.status(200).json({ message: 'Initialpasswort erfolgreich aktualisiert' });
         }
-        throw new Error('Fehler beim Aktualisieren des Userpassworts');
+        throw new Error('Fehler beim Setzen des Initialpasswords');
     } catch (error) {
-        logger.error('Fehler beim Aktualisieren des Userpassworts', error);
-        return res.status(500).json({ error: 'Fehler beim Aktualisieren des Userpassworts' });
+        logger.error('Fehler beim Setzen des Initialpasswords', error);
+        return res.status(500).json({ error: 'Fehler beim Setzen des Initialpasswords' });
+    }
+}
+
+
+export const handleSetPassword = async (req: Request, res: Response) => {
+    const { username, oldPassword, newPassword } = req.body
+    try {
+        if (!username || !newPassword || !oldPassword) {
+            return res.status(400).json({ error: 'Unvollständige Anfrage' });
+        }
+        const userFromDB = await getUserByUsername(username);
+        if (!userFromDB) {
+            return res.status(400).json({ error: 'Fehlerhafte Anfrage' });
+        }
+        const isCorrectPassword = await userFromDB.comparePassword(oldPassword);
+        if (!isCorrectPassword) {
+            return res.status(400).json({ error: 'Falsches Passwort' });
+        }
+        await userFromDB.setPasswordHash(newPassword);
+        if (userFromDB.passwordHash) {
+            if (userFromDB.userID) {
+                await updatePassword(userFromDB.userID, userFromDB.passwordHash);
+                return res.status(200).json({ message: 'Userpasswort erfolgreich aktualisiert' });
+            }
+        }
+        throw new Error('Fehler beim Setzen des Passworts');
+    } catch (error) {
+        logger.error('Fehler beim Setzen des Passworts', error);
+        return res.status(500).json({ error: 'Fehler beim Setzen des Passworts' });
     }
 }
 

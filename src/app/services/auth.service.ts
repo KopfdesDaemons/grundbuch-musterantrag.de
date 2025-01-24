@@ -33,13 +33,13 @@ export class AuthService {
 
   async anmelden(username: string, password: string): Promise<{ success: boolean, message: string }> {
     try {
+      localStorage.setItem('username', username);
       const response: any = await firstValueFrom(this.http.post('/api/auth/login', {
         username: username,
         password: password
       }));
 
       localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('username', username);
       this.username = username;
       this.authToken = response.token;
       console.log("Login erfolgreich");
@@ -55,6 +55,10 @@ export class AuthService {
           errorMessage = 'Login verweigert';
           break;
         case 401:
+          if (error.error.message === 'Passwortänderung erforderlich') {
+            errorMessage = 'Passwortänderung erforderlich';
+            break;
+          }
           errorMessage = 'Logindaten unvollständig';
           break;
         default:
@@ -83,6 +87,15 @@ export class AuthService {
     return formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
+    });
+  }
+
+  getNewPasswordGroup(): FormGroup {
+    const formBuilder = new FormBuilder();
+    return formBuilder.group({
+      oldPassword: ['', Validators.required],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
     });
   }
 

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { login, verifyToken } from '../services/authService';
 import logger from 'server/config/logger';
+import { getUserByUsername } from 'server/services/userService';
+import { User } from 'server/models/user';
 
 export const handleLogin = async (req: Request, res: Response): Promise<any> => {
     const { username, password } = req.body;
@@ -11,8 +13,17 @@ export const handleLogin = async (req: Request, res: Response): Promise<any> => 
             return res.status(401).json({ message: 'Anmeldedaten unvollständig' });
         }
 
+        const user: User | null = await getUserByUsername(username);
+        if (!user) {
+            throw new Error('Ungültige Anmeldedaten');
+        }
+
         // Authentifizierung durch den Service
-        const token = await login(username, password);
+        const token = await login(user, password);
+
+        if (user.isInitialPassword) {
+            return res.status(401).json({ message: 'Passwortänderung erforderlich' });
+        }
 
         return res.json({ token });
     } catch (error: any) {

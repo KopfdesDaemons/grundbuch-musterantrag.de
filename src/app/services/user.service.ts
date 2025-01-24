@@ -74,11 +74,28 @@ export class UserService {
     }
   }
 
-  async updateUserpassword(userID: number, newPassword: string): Promise<void> {
+  async setinitialpassword(userID: number, newPassword: string): Promise<void> {
     try {
       await lastValueFrom(
-        this.http.patch('/api/user/userpassword', {
+        this.http.patch('/api/user/setinitialpassword', {
           userID: userID,
+          newPassword: newPassword
+        }, {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+  async updatePassword(username: string, oldPassword: string, newPassword: string): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.patch('/api/user/updatepassword', {
+          username: username,
+          oldPassword: oldPassword,
           newPassword: newPassword
         }, {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })

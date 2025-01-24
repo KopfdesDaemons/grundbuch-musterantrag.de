@@ -28,6 +28,7 @@ export enum UserManagementAction {
     ReadUser = 'ReadUser',
     DeleteUser = 'DeleteUser',
     UpdateUsername = 'UpdateUsername',
+    SetInitialPassword = 'SetInitialPassword',
     UpdateUserPassword = 'UpdateUserPassword',
     updateUserRole = 'updateUserRole'
 }

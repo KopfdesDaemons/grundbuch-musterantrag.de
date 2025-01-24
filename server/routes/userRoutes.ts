@@ -1,4 +1,4 @@
-import { handleCreateUser, handleDeleteUser, handleGetAllUsers, handleUpdatePassword, handleUpdateUsername, handleUpdateUserRole } from "server/controller/userController";
+import { handleCreateUser, handleDeleteUser, handleGetAllUsers, handleSetInitialPassword, handleSetPassword, handleUpdateUsername, handleUpdateUserRole } from "server/controller/userController";
 import express from 'express';
 import { UserManagementAction } from "server/interfaces/userPermission";
 import authMiddleware from "server/middleware/authMiddleware";
@@ -35,11 +35,15 @@ userRoutes.patch('/username',
     handleUpdateUsername
 );
 
-userRoutes.patch('/userpassword',
+userRoutes.patch('/setinitialpassword',
     authMiddleware,
     verifyRole(
-        new userManagementPermission([UserManagementAction.UpdateUserPassword])),
-    handleUpdatePassword
+        new userManagementPermission([UserManagementAction.SetInitialPassword])),
+    handleSetInitialPassword
+);
+
+userRoutes.patch('/updatepassword',
+    handleSetPassword
 );
 
 userRoutes.patch('/userrole',

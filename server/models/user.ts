@@ -9,6 +9,7 @@ export class User {
     userID?: number;
     username: string;
     passwordHash?: string;
+    isInitialPassword: boolean = true;
     userRole: UserRole;
 
     constructor(username: string, userRole: UserRole) {

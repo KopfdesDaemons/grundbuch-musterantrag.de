@@ -20,7 +20,8 @@ export class Admin implements UserRole {
             UserManagementAction.DeleteUser,
             UserManagementAction.UpdateUsername,
             UserManagementAction.UpdateUserPassword,
-            UserManagementAction.updateUserRole
+            UserManagementAction.updateUserRole,
+            UserManagementAction.SetInitialPassword
         ]),
         new statisticPermission([
             StatisticAction.ReadStatistic
