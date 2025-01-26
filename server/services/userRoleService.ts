@@ -5,7 +5,7 @@ import { Feature, UserPermission } from "server/interfaces/userPermission";
 import { Guest } from "server/models/userRoles";
 import logger from "server/config/logger";
 
-const tableMapping = {
+export const tableMapping = {
     [Feature.UploadManagement]: 'upload_management_actions',
     [Feature.UserManagement]: 'user_management_actions',
     [Feature.Statistic]: 'statistic_actions',

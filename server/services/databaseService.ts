@@ -1,7 +1,7 @@
 import logger from "server/config/logger";
 import mysql from 'mysql2';
 import { createRootUser } from "./userService";
-import { createGuestRole } from "./userRoleService";
+import { createGuestRole, tableMapping } from "./userRoleService";
 
 
 const db = mysql.createPool({
@@ -22,7 +22,6 @@ export const query = <T>(sql: string, params: (string | boolean | Date | number)
 
 export const initDatabase = async () => {
     try {
-        // Tabellen und Spalten definieren
         const tables = [
             {
                 name: 'uploads',
@@ -80,84 +79,22 @@ export const initDatabase = async () => {
                     { columnName: 'userRoleID', tableName: 'user_roles', foreignKey: 'userRoleID' }
                 ]
             },
-            {
-                name: 'upload_management_actions',
-                columns: [
-                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
-                    { name: 'userPermissionID', type: 'INT' },
-                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
-                ],
-                links: [
-                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
-                ]
-            },
-            {
-                name: 'user_management_actions',
-                columns: [
-                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
-                    { name: 'userPermissionID', type: 'INT' },
-                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
-                ],
-                links: [
-                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
-                ]
-            },
-            {
-                name: 'statistic_actions',
-                columns: [
-                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
-                    { name: 'userPermissionID', type: 'INT' },
-                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
-                ],
-                links: [
-                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
-                ]
-            },
-            {
-                name: 'settings_actions',
-                columns: [
-                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
-                    { name: 'userPermissionID', type: 'INT' },
-                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
-                ],
-                links: [
-                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
-                ]
-            },
-            {
-                name: 'logger_actions',
-                columns: [
-                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
-                    { name: 'userPermissionID', type: 'INT' },
-                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
-                ],
-                links: [
-                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
-                ]
-            },
-            {
-                name: 'migration_actions',
-                columns: [
-                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
-                    { name: 'userPermissionID', type: 'INT' },
-                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
-                ],
-                links: [
-                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
-                ]
-            },
-            {
-                name: 'user_role_management_actions',
-                columns: [
-                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
-                    { name: 'userPermissionID', type: 'INT' },
-                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
-                ],
-                links: [
-                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
-                ]
-            },
         ];
+
+        for (const featureActionTable of Object.values(tableMapping)) {
+            const table = {
+                name: featureActionTable,
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            };
+            tables.push(table);
+        }
 
         for (const table of tables) {
             // Tabelle erstellen, falls sie nicht existiert
