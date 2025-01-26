@@ -1,9 +1,14 @@
-<form [formGroup]="form" (ngSubmit)="form.valid && createUser()" #ngForm="ngForm">
+<form [formGroup]="form" (ngSubmit)="createUser()" #ngForm="ngForm">
     <div>
-        <select formControlName="userRole" type="text" id="userRoleinput" name="userRole">
-            <option value="admin">Admin</option>
-            <option value="guest">Gast</option>
+        <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole"
+            (change)="getSelectedRoleDescription()">
+            @for(userRole of userRoles; track userRole.userRoleID) {
+            <option value="{{userRole.userRoleID}}" [selected]="userRole.name === 'guest'">{{userRole.name}}</option>
+            }
         </select>
+        @if(selectedUserRole) {
+        <p>{{selectedUserRole.description}}</p>
+        }
     </div>
     <div class="inputfeld" id="username">
         <input formControlName="username" type="text" id="usernameinput" name="username" required spellcheck="false"

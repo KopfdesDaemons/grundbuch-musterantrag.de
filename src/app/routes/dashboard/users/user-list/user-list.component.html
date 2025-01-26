@@ -39,9 +39,12 @@
                             <form class="editForm" [formGroup]="row.editForm"
                                 (ngSubmit)="row.editForm.valid && saveUser(row)">
                                 <div>
-                                    <select formControlName="userRole" type="text" id="userRoleinput" name="userRole">
-                                        <option value="admin">Admin</option>
-                                        <option value="guest">Gast</option>
+                                    <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole">
+                                        @for(userRole of userRoles; track userRole.userRoleID) {
+                                        <option value="{{userRole.userRoleID}}"
+                                            [selected]="userRole.userRoleID === row.user.userRoleID">{{userRole.name}}
+                                        </option>
+                                        }
                                     </select>
                                 </div>
                                 <div class="inputfeld" id="username">

@@ -5,6 +5,9 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { User } from 'src/app/models/user';
+import { UserRole } from 'server/interfaces/userRole';
+import { UserroleService } from 'src/app/services/userrole.service';
+
 
 @Component({
   selector: 'app-users',
@@ -14,15 +17,18 @@ import { User } from 'src/app/models/user';
 })
 export class UserListComponent implements AfterViewInit {
   userS = inject(UserService);
+  userRoleS = inject(UserroleService);
   error: boolean = false;
   rows: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }[] = [];
+  userRoles: UserRole[] = [];
 
   faTrash = faTrash;
   faRotateRight = faRotateRight;
   faEdit = faEdit;
 
   async ngAfterViewInit(): Promise<void> {
-    await this.loadUsers()
+    await this.loadUsers();
+    this.userRoles = await this.userRoleS.getAllUserRoles();
   }
 
   async loadUsers(): Promise<void> {
@@ -47,7 +53,7 @@ export class UserListComponent implements AfterViewInit {
 
   toggleEditMode(row: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }): void {
     row.editMode = !row.editMode;
-    row.editForm = this.userS.getEditUserFormGroup();
+    row.editForm = this.userS.getEditUserFormGroup(row.user);
     row.editForm.get('userRole')?.setValue(row.user.userRole.name);
   }
 
@@ -56,10 +62,10 @@ export class UserListComponent implements AfterViewInit {
       if (!row.user.userID) return;
       const newUsername = row.editForm?.get('username')?.value;
       const newPassword = row.editForm?.get('userPassword')?.value;
-      const userRole = row.editForm?.get('userRole')?.value;
+      const userRoleID = row.editForm?.get('userRoleID')?.value;
       if (newUsername) await this.userS.updateUsername(row.user.userID, newUsername);
       if (newPassword) await this.userS.setinitialpassword(row.user.userID, newPassword);
-      if (userRole != row.user.userRole.name) await this.userS.updateUserRole(row.user.userID, userRole);
+      if (userRoleID != row.user.userRole.userRoleID) await this.userS.updateUserRole(row.user.userID, userRoleID);
       await this.loadUsers();
     } catch (err) {
       console.error(err);

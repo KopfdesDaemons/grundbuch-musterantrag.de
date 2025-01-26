@@ -1,6 +1,7 @@
 import logger from "server/config/logger";
 import mysql from 'mysql2';
 import { createRootUser } from "./userService";
+import { createGuestRole } from "./userRoleService";
 
 
 const db = mysql.createPool({
@@ -55,16 +56,116 @@ export const initDatabase = async () => {
                     { name: 'userID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
                     { name: 'username', type: 'VARCHAR(255) NOT NULL UNIQUE' },
                     { name: 'passwordHash', type: 'VARCHAR(255) NOT NULL' },
-                    { name: 'userRole', type: 'VARCHAR(255) NOT NULL' },
+                    { name: 'userRole', type: 'VARCHAR(255)' },
+                    { name: 'userRoleID', type: 'INT NOT NULL' },
                     { name: 'isInitialPassword', type: 'BOOLEAN NOT NULL DEFAULT TRUE' }
                 ]
-            }
+            },
+            {
+                name: 'user_roles',
+                columns: [
+                    { name: 'userRoleID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'name', type: 'VARCHAR(255) NOT NULL' },
+                    { name: 'description', type: 'VARCHAR(255)' },
+                ]
+            },
+            {
+                name: 'user_permissions',
+                columns: [
+                    { name: 'userPermissionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userRoleID', type: 'INT' },
+                    { name: 'feature', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userRoleID', tableName: 'user_roles', foreignKey: 'userRoleID' }
+                ]
+            },
+            {
+                name: 'upload_management_actions',
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            },
+            {
+                name: 'user_management_actions',
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            },
+            {
+                name: 'statistic_actions',
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            },
+            {
+                name: 'settings_actions',
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            },
+            {
+                name: 'logger_actions',
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            },
+            {
+                name: 'migration_actions',
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            },
+            {
+                name: 'user_role_management_actions',
+                columns: [
+                    { name: 'actionID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+                    { name: 'userPermissionID', type: 'INT' },
+                    { name: 'action_name', type: 'VARCHAR(255) NOT NULL' },
+                ],
+                links: [
+                    { columnName: 'userPermissionID', tableName: 'user_permissions', foreignKey: 'userPermissionID' }
+                ]
+            },
         ];
 
         for (const table of tables) {
             // Tabelle erstellen, falls sie nicht existiert
             const createTableSQL = `CREATE TABLE IF NOT EXISTS ${table.name} (
                 ${table.columns.map(col => `${col.name} ${col.type}`).join(', ')}
+                ${table.links ? ', ' + table.links.map(link =>
+                `FOREIGN KEY (${link.columnName}) REFERENCES ${link.tableName}(${link.foreignKey}) ON DELETE CASCADE`
+            ).join(', ') : ''}
             )`;
             await query(createTableSQL);
             logger.info(`Tabelle "${table.name}" wurde erstellt bzw. überprüft.`);
@@ -86,6 +187,7 @@ export const initDatabase = async () => {
             }
         }
         await createRootUser();
+        await createGuestRole();
         logger.info("Datenbank und Tabellen wurden erfolgreich initialisiert bzw. überprüft.");
     } catch (error) {
         logger.error("Fehler bei der Initialisierung der Datenbank:", error);

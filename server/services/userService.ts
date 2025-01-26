@@ -1,18 +1,21 @@
 import { User } from "server/models/user";
 import { query } from "./databaseService";
-import { Admin, Guest } from "server/models/userRoles";
+import { Admin } from "server/models/userRoles";
 import { DASHBOARD_ROOT_PASSWORD, DASHBOARD_ROOT_USER } from "server/config/config";
 import logger from "server/config/logger";
+import { getUserRole, addUserRole } from "./userRoleService";
 
 export const getUser = async (key: 'username' | 'userID', value: string | number): Promise<User | null> => {
     try {
-        const queryStr = `SELECT userID, username, passwordHash, userRole, isInitialPassword FROM users WHERE ${key} = ?`;
-        const [userData] = await query<{ userID: number, username: string, passwordHash: string, userRole: string, isInitialPassword: boolean }[]>(queryStr, [value]);
+        const queryStr = `SELECT userID, username, passwordHash, userRole, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;
+        const [userData] = await query<User[]>(queryStr, [value]);
 
         if (!userData) return null;
 
-        const userRole = userData.userRole === 'admin' ? new Admin() : new Guest();
-        const user = new User(userData.username, userRole);
+        const userRole = await getUserRole(userData.userRoleID);
+        if (!userRole) throw new Error('Userrolle nicht gefunden');
+        if (!userRole.userRoleID) throw new Error('Userrolle ID nicht gefunden');
+        const user = new User(userData.username, userRole, userRole.userRoleID)
 
         user.userID = userData.userID;
         user.passwordHash = userData.passwordHash;
@@ -37,8 +40,8 @@ export const addNewUser = async (user: User): Promise<number> => {
     if (!user.passwordHash) {
         throw new Error('No Password Hash');
     }
-    const insertQuery = `INSERT INTO users (username, passwordHash, userRole) VALUES (?, ?, ?)`;
-    await query(insertQuery, [user.username, user.passwordHash, user.userRole.name]);
+    const insertQuery = `INSERT INTO users (username, passwordHash, userRoleID) VALUES (?, ?, ?)`;
+    await query(insertQuery, [user.username, user.passwordHash, user.userRoleID]);
 
     // Abrufen der letzten eingefügten ID
     const result = await query<{ 'LAST_INSERT_ID()': number }[]>('SELECT LAST_INSERT_ID()');
@@ -58,25 +61,26 @@ export const deleteUser = async (userIDs: number[]): Promise<void> => {
 };
 
 export const createRootUser = async (): Promise<void> => {
-    try {
-        await getUserByUsername(DASHBOARD_ROOT_USER);
-    } catch {
-        const rootUser = new User(DASHBOARD_ROOT_USER, new Admin());
+    const rootUserFromDB = await getUserByUsername(DASHBOARD_ROOT_USER);
+    if (!rootUserFromDB) {
+        const userRole = new Admin();
+        const userRoleID = await addUserRole(userRole);
+        const rootUser = new User(DASHBOARD_ROOT_USER, userRole, userRoleID);
         await rootUser.setPasswordHash(DASHBOARD_ROOT_PASSWORD);
         await addNewUser(rootUser);
-        logger.info('Root-User erstellt');
+        logger.info('Root User erfolgreich erstellt');
     }
 }
 
 export const getAllUsers = async (): Promise<User[]> => {
-    const queryStr = `SELECT userID, username, userRole, isInitialPassword FROM users`;
-    const result = await query<{ userID: number, username: string, userRole: string, isInitialPassword: boolean }[]>(queryStr);
-    return result.map((user) => {
-        const readedUser = new User(user.username, user.userRole === 'admin' ? new Admin() : new Guest());
-        readedUser.userID = user.userID;
-        readedUser.isInitialPassword = user.isInitialPassword;
-        return readedUser;
-    });
+    const queryStr = `SELECT userID, username, userRoleID, isInitialPassword FROM users`;
+    const result = await query<User[]>(queryStr);
+    return Promise.all(result.map(async (user) => {
+        const userRole = await getUserRole(user.userRoleID);
+        if (!userRole) throw new Error('Userrolle nicht gefunden');
+        user.userRole = userRole;
+        return user;
+    }));
 }
 
 export const updateUsername = async (userID: number, newUsername: string): Promise<void> => {
@@ -94,7 +98,7 @@ export const updatePassword = async (userID: number, newPasswordHash: string): P
     await query(updateQuery, [newPasswordHash, userID]);
 }
 
-export const updateUserRole = async (userID: number, userRole: 'admin' | 'guest'): Promise<void> => {
-    const updateQuery = `UPDATE users SET userRole = ? WHERE userID = ?`;
+export const updateUserRole = async (userID: number, userRole: number): Promise<void> => {
+    const updateQuery = `UPDATE users SET userRoleID = ? WHERE userID = ?`;
     await query(updateQuery, [userRole, userID]);
 }

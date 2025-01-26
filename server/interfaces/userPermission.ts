@@ -6,12 +6,13 @@ export enum Feature {
     Statistic = 'statistic',
     Logger = 'logger',
     Migration = 'migration',
-    Settings = 'settings'
+    Settings = 'settings',
+    UserRoleManagement = 'userRoleManagement'
 }
 
 export interface UserPermission {
     feature: Feature;
-    allowedActions: (UploadManagementAction | UserManagementAction | StatisticAction | LoggerAction | MigrationAction | SettingsAction)[];
+    allowedActions: (UploadManagementAction | UserManagementAction | StatisticAction | LoggerAction | MigrationAction | SettingsAction | UserRoleManagementAction)[];
 }
 
 export enum UploadManagementAction {
@@ -30,7 +31,7 @@ export enum UserManagementAction {
     UpdateUsername = 'UpdateUsername',
     SetInitialPassword = 'SetInitialPassword',
     UpdateUserPassword = 'UpdateUserPassword',
-    updateUserRole = 'updateUserRole'
+    UpdateUserRole = 'updateUserRole',
 }
 
 export enum StatisticAction {
@@ -50,4 +51,9 @@ export enum MigrationAction {
 export enum SettingsAction {
     ReadSettings = 'ReadSettings',
     UpdateSettings = 'UpdateSettings'
+}
+
+export enum UserRoleManagementAction {
+    CreateUserRole = 'CreateUserRole',
+    DeleteUserRole = 'DeleteUserRole'
 }

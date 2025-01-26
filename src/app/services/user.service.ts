@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -41,13 +42,14 @@ export class UserService {
     }
   }
 
-  async createUser(username: string, userRole: string, password: string): Promise<void> {
+  async createUser(username: string, userRole: string, password: string, userRoleID: number): Promise<void> {
     try {
       await lastValueFrom(
         this.http.put('/api/user', {
           username: username,
           userRole: userRole,
-          password: password
+          password: password,
+          userRoleID: userRoleID
         }, {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
         })
@@ -108,12 +110,12 @@ export class UserService {
   }
 
 
-  async updateUserRole(userID: number, newUserRole: 'admin' | 'guest'): Promise<void> {
+  async updateUserRole(userID: number, userRoleID: number): Promise<void> {
     try {
       await lastValueFrom(
         this.http.patch('/api/user/userrole', {
           userID: userID,
-          newUserRole: newUserRole
+          userRoleID: userRoleID
         }, {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
         })
@@ -124,19 +126,19 @@ export class UserService {
     }
   }
 
-  getNewUserFormGroup(): FormGroup {
+  getNewUserFormGroup(defaultUserRoleID: number | undefined = undefined): FormGroup {
     return this.formBuilder.group({
       username: ['', Validators.required],
-      userRole: ['guest', Validators.required],
+      userRoleID: [defaultUserRoleID, Validators.required],
       userPassword: ['', Validators.required]
     });
   }
 
 
-  getEditUserFormGroup(): FormGroup {
+  getEditUserFormGroup(user: User): FormGroup {
     return this.formBuilder.group({
       username: [''],
-      userRole: ['guest'],
+      userRoleID: [user.userRoleID],
       userPassword: ['']
     });
   }

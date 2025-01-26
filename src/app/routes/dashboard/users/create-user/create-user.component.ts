@@ -1,6 +1,8 @@
 import { Component, inject, viewChild } from '@angular/core';
-import { FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserRole } from 'server/interfaces/userRole';
 import { UserService } from 'src/app/services/user.service';
+import { UserroleService } from 'src/app/services/userrole.service';
 
 @Component({
   selector: 'app-create-user',
@@ -10,12 +12,31 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CreateUserComponent {
   userS = inject(UserService);
-  form = this.userS.getNewUserFormGroup();
+  userroleS = inject(UserroleService);
+  form: FormGroup = this.userS.getNewUserFormGroup();
+  guestRoleID: number | undefined;
   ngForm = viewChild.required<FormGroupDirective>('ngForm');
+  userRoles: UserRole[] = [];
+  selectedUserRole: UserRole | undefined;
+
+  async ngOnInit() {
+    this.userRoles = await this.userroleS.getAllUserRoles();
+    this.guestRoleID = this.userRoles.find(role => role.name === 'guest')?.userRoleID;
+    this.form = this.userS.getNewUserFormGroup(this.guestRoleID);
+    this.getSelectedRoleDescription();
+  }
 
   async createUser(): Promise<void> {
+    if (this.form.invalid) return;
     const formdata = this.form.value;
-    await this.userS.createUser(formdata.username, formdata.userRole, formdata.userPassword);
-    this.ngForm().resetForm(this.userS.getNewUserFormGroup().value);
+    console.log(formdata);
+
+    await this.userS.createUser(formdata.username, formdata.userRole, formdata.userPassword, +formdata.userRoleID);
+    this.ngForm().resetForm(this.userS.getNewUserFormGroup(this.guestRoleID).value);
+  }
+
+  getSelectedRoleDescription() {
+    const selectedRoleID = this.form.get('userRoleID')?.value;
+    this.selectedUserRole = this.userRoles.find(role => role.userRoleID === +selectedRoleID);
   }
 }

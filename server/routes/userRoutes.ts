@@ -49,6 +49,6 @@ userRoutes.patch('/updatepassword',
 userRoutes.patch('/userrole',
     authMiddleware,
     verifyRole(
-        new userManagementPermission([UserManagementAction.updateUserRole])),
+        new userManagementPermission([UserManagementAction.UpdateUserRole])),
     handleUpdateUserRole
 );

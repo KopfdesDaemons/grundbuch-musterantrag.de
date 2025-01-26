@@ -1,4 +1,4 @@
-import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission } from "server/interfaces/userPermission";
+import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission, UserRoleManagementAction } from "server/interfaces/userPermission";
 
 export class uploadManagementPermission implements UserPermission {
     feature: Feature = Feature.UploadManagement;
@@ -50,6 +50,15 @@ export class settingsPermission implements UserPermission {
     allowedActions: SettingsAction[];
 
     constructor(allowedActions: SettingsAction[]) {
+        this.allowedActions = allowedActions;
+    }
+}
+
+export class userRoleManagementPermission implements UserPermission {
+    feature: Feature = Feature.UserRoleManagement;
+    allowedActions: UserRoleManagementAction[];
+
+    constructor(allowedActions: UserRoleManagementAction[]) {
         this.allowedActions = allowedActions;
     }
 }

@@ -1,6 +1,6 @@
-import { LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission } from 'server/interfaces/userPermission';
+import { LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission, UserRoleManagementAction } from 'server/interfaces/userPermission';
 import { UserRole } from 'server/interfaces/userRole';
-import { loggerPermission, migrationPermission, settingsPermission, statisticPermission, uploadManagementPermission, userManagementPermission } from './userPermissons';
+import { loggerPermission, migrationPermission, settingsPermission, statisticPermission, uploadManagementPermission, userManagementPermission, userRoleManagementPermission } from './userPermissons';
 
 export class Admin implements UserRole {
     name: string = 'admin';
@@ -20,7 +20,7 @@ export class Admin implements UserRole {
             UserManagementAction.DeleteUser,
             UserManagementAction.UpdateUsername,
             UserManagementAction.UpdateUserPassword,
-            UserManagementAction.updateUserRole,
+            UserManagementAction.UpdateUserRole,
             UserManagementAction.SetInitialPassword
         ]),
         new statisticPermission([
@@ -37,6 +37,10 @@ export class Admin implements UserRole {
         new migrationPermission([
             MigrationAction.JSONToDatabaseMigration,
             MigrationAction.AntragToUploadinfoMigration
+        ]),
+        new userRoleManagementPermission([
+            UserRoleManagementAction.CreateUserRole,
+            UserRoleManagementAction.DeleteUserRole
         ])
     ];
 }

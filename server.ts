@@ -13,6 +13,7 @@ import { loggerRoutes } from 'server/routes/loggerRoutes';
 import { authRoutes } from 'server/routes/authRoutes';
 import { statisticRoutes } from 'server/routes/statisticRoutes';
 import { userRoutes } from 'server/routes/userRoutes';
+import { userRoleRoutes } from 'server/routes/userRoleRoutes';
 
 export async function app(): Promise<express.Express> {
   const server = express();
@@ -36,6 +37,7 @@ export async function app(): Promise<express.Express> {
   server.use('/api/logger', loggerRoutes);
   server.use('/api/statistic', statisticRoutes);
   server.use('/api/user', userRoutes);
+  server.use('/api/userrole', userRoleRoutes);
 
   // Routen, welche die Angular Engine ansprechen
   server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));
