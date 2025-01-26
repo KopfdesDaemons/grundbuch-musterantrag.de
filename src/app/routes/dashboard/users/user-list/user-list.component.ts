@@ -5,8 +5,8 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { User } from 'src/app/models/user';
-import { UserRole } from 'server/interfaces/userRole';
 import { UserroleService } from 'src/app/services/userrole.service';
+import { UserRoleOption } from 'src/app/models/userRoleOption';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class UserListComponent implements AfterViewInit {
   userRoleS = inject(UserroleService);
   error: boolean = false;
   rows: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }[] = [];
-  userRoles: UserRole[] = [];
+  userRoles: UserRoleOption[] = [];
 
   faTrash = faTrash;
   faRotateRight = faRotateRight;

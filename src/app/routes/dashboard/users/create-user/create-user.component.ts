@@ -1,6 +1,6 @@
 import { Component, inject, viewChild } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserRole } from 'server/interfaces/userRole';
+import { UserRoleOption } from 'src/app/models/userRoleOption';
 import { UserService } from 'src/app/services/user.service';
 import { UserroleService } from 'src/app/services/userrole.service';
 
@@ -13,11 +13,12 @@ import { UserroleService } from 'src/app/services/userrole.service';
 export class CreateUserComponent {
   userS = inject(UserService);
   userroleS = inject(UserroleService);
+
   form: FormGroup = this.userS.getNewUserFormGroup();
   guestRoleID: number | undefined;
   ngForm = viewChild.required<FormGroupDirective>('ngForm');
-  userRoles: UserRole[] = [];
-  selectedUserRole: UserRole | undefined;
+  userRoles: UserRoleOption[] = [];
+  selectedUserRole: UserRoleOption | undefined;
 
   async ngOnInit() {
     this.userRoles = await this.userroleS.getAllUserRoles();
@@ -29,8 +30,6 @@ export class CreateUserComponent {
   async createUser(): Promise<void> {
     if (this.form.invalid) return;
     const formdata = this.form.value;
-    console.log(formdata);
-
     await this.userS.createUser(formdata.username, formdata.userRole, formdata.userPassword, +formdata.userRoleID);
     this.ngForm().resetForm(this.userS.getNewUserFormGroup(this.guestRoleID).value);
   }

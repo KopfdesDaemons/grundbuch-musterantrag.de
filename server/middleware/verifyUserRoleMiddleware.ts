@@ -10,7 +10,7 @@ export const verifyRole = (userPermission: UserPermission) => {
             const userID = req.body.user.userID;
             const user: User | null = await getUserByUserID(userID);
             if (!user) {
-                return res.status(401).json({ message: 'UserID ' + userID + ' nicht gefunden' });
+                return res.status(401).json({ message: 'Fehler bei der Prüfung der Benutzerrolle: UserID ' + userID + ' nicht gefunden' });
             }
             const userHasPermission = user.checkPermission(userPermission);
 

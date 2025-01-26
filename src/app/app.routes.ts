@@ -42,6 +42,7 @@ export const routes: Routes = [
                 children: [
                     { path: '', loadComponent: () => import('./routes/dashboard/users/user-list/user-list.component').then(m => m.UserListComponent), canActivate: [AuthGuard] },
                     { path: 'create-user', loadComponent: () => import('./routes/dashboard/users/create-user/create-user.component').then(m => m.CreateUserComponent), canActivate: [AuthGuard] },
+                    { path: 'user-roles', loadComponent: () => import('./routes/dashboard/users/user-roles/user-roles.component').then(m => m.UserRolesComponent), canActivate: [AuthGuard] },
                 ]
             }
         ]

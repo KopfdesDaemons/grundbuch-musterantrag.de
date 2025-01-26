@@ -54,6 +54,7 @@ export enum SettingsAction {
 }
 
 export enum UserRoleManagementAction {
+    ReadUserRoles = 'ReadUserRoles',
     CreateUserRole = 'CreateUserRole',
     DeleteUserRole = 'DeleteUserRole'
 }

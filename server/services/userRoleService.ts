@@ -5,7 +5,7 @@ import { Feature, UserPermission } from "server/interfaces/userPermission";
 import { Guest } from "server/models/userRoles";
 import logger from "server/config/logger";
 
-export const tableMapping = {
+export const actionsTableMapping = {
     [Feature.UploadManagement]: 'upload_management_actions',
     [Feature.UserManagement]: 'user_management_actions',
     [Feature.Statistic]: 'statistic_actions',
@@ -31,7 +31,7 @@ export const addUserRole = async (userRole: UserRole): Promise<number> => {
             const insertPermissionQuery = `INSERT INTO user_permissions (userRoleID, feature) VALUES (?, ?)`;
             const { insertId: permissionId } = await query<InsertResult>(insertPermissionQuery, [userRoleID, permission.feature]);
 
-            const tableName = tableMapping[permission.feature];
+            const tableName = actionsTableMapping[permission.feature];
             if (!tableName) throw new Error(`Unknown feature: ${permission.feature}`);
 
             for (const action of permission.actions) {
@@ -57,7 +57,7 @@ export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
     const permissions = await query<{ userPermissionID: number; feature: Feature }[]>(permissionsQuery, [roleId]);
 
     const userPermissions = await Promise.all(permissions.map(async (perm) => {
-        const tableName = tableMapping[perm.feature];
+        const tableName = actionsTableMapping[perm.feature];
         if (!tableName) throw new Error(`Unknown feature: ${perm.feature}`);
 
         const actionsQuery = `SELECT action_name FROM ${tableName} WHERE userPermissionID = ?`;
@@ -72,17 +72,17 @@ export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
     return { name: role.name, description: role.description, userPermissions, userRoleID: role.userRoleID };
 };
 
-export const getAllUserRoles = async (): Promise<UserRole[]> => {
+export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: string; description: string }> => {
     const selectQuery = `SELECT userRoleID, name, description FROM user_roles`;
-    const result = await query<UserRole[]>(selectQuery);
+    const result = await query<{ userRoleID: number; name: string; description: string }>(selectQuery);
     return result;
 };
 
 export const createGuestRole = async (): Promise<void> => {
     // Check if guest role already exists
     try {
-        const userRoleQuery = `SELECT userRoleID FROM user_roles WHERE name = guest`;
-        await query<{ userRoleID: number }[]>(userRoleQuery);
+        const userRoleQuery = `SELECT userRoleID FROM user_roles WHERE name = ?`;
+        await query<{ userRoleID: number }[]>(userRoleQuery, ['guest']);
     } catch {
         // Create guest role
         const userRole = new Guest();

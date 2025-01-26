@@ -1,8 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { UserRole } from 'server/interfaces/userRole';
+import { UserRoleOption } from '../models/userRoleOption';
+import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission, UserRoleManagementAction } from 'server/interfaces/userPermission';
+import { uploadManagementPermission, userManagementPermission, statisticPermission, loggerPermission, migrationPermission, settingsPermission, userRoleManagementPermission } from 'server/models/userPermissons';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +14,81 @@ export class UserroleService {
   authS = inject(AuthService);
   http = inject(HttpClient);
 
-  async getAllUserRoles(): Promise<UserRole[]> {
+  allPermissions: UserPermission[] = [
+    new uploadManagementPermission(Object.values(UploadManagementAction)),
+    new userManagementPermission(Object.values(UserManagementAction)),
+    new statisticPermission(Object.values(StatisticAction)),
+    new loggerPermission(Object.values(LoggerAction)),
+    new migrationPermission(Object.values(MigrationAction)),
+    new settingsPermission(Object.values(SettingsAction)),
+    new userRoleManagementPermission(Object.values(UserRoleManagementAction))
+  ];
+
+  featuresNameMapping = {
+    [Feature.UploadManagement]: 'Upload Management',
+    [Feature.UserManagement]: 'User Management',
+    [Feature.Statistic]: 'Statistic',
+    [Feature.Logger]: 'Logger',
+    [Feature.Migration]: 'Migration',
+    [Feature.Settings]: 'Settings',
+    [Feature.UserRoleManagement]: 'User Role Management'
+  }
+
+  actionsNameMapping = {
+    [UploadManagementAction.ReadUploadData]: 'Lesen der Upload-Daten',
+    [UploadManagementAction.GetFiles]: 'Herunterladen der Upload-Dateien',
+    [UploadManagementAction.DeleteUpload]: 'Löschen einzelner Uploads',
+    [UploadManagementAction.DeleteAllUploads]: 'Löschen aller Uploads',
+    [UploadManagementAction.DeleteGeneratedFiles]: 'Löschen der generierten Dateien',
+    [UploadManagementAction.DeleteAllGeneratedFiles]: 'Löschen aller generierten Dateien',
+
+    [UserManagementAction.CreateUser]: 'Benutzer erstellen',
+    [UserManagementAction.ReadUser]: 'Benutzer lesen',
+    [UserManagementAction.DeleteUser]: 'Benutzer löschen',
+    [UserManagementAction.UpdateUsername]: 'Benutzername aktualisieren',
+    [UserManagementAction.UpdateUserPassword]: 'Benutzerpasswort aktualisieren',
+    [UserManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren',
+    [UserManagementAction.SetInitialPassword]: 'Initialpasswort setzen',
+
+    [StatisticAction.ReadStatistic]: 'Statistik lesen',
+
+    [LoggerAction.ReadLogFile]: 'Logfile lesen',
+    [LoggerAction.ClearLogFile]: 'Logfile leeren',
+
+    [MigrationAction.JSONToDatabaseMigration]: 'JSON zu Datenbankmigration',
+    [MigrationAction.AntragToUploadinfoMigration]: 'Antrag zu Uploadinfo',
+
+    [SettingsAction.ReadSettings]: 'Einstellungen lesen',
+    [SettingsAction.UpdateSettings]: 'Einstellungen aktualisieren',
+
+    [UserRoleManagementAction.CreateUserRole]: 'Benutzerrolle erstellen',
+    [UserRoleManagementAction.ReadUserRoles]: 'Benutzerrolle lesen',
+    [UserRoleManagementAction.DeleteUserRole]: 'Benutzerrolle löschen'
+  }
+
+  async getAllUserRoles(): Promise<UserRoleOption[]> {
     try {
       const data = await lastValueFrom(
         this.http.get('/api/userrole/get-all-user-roles', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
         })
       );
-      return data as UserRole[];
+      return data as UserRoleOption[];
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
+  async getUserRole(userRoleID: number): Promise<UserRole> {
+    try {
+      const data = await lastValueFrom(
+        this.http.get('/api/userrole/', {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+          params: new HttpParams().set('userRoleID', userRoleID)
+        })
+      );
+      return data as UserRole;
     } catch (err) {
       console.error(err);
       throw err;

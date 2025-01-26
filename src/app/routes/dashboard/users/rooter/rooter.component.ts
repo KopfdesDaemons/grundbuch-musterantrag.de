@@ -19,6 +19,10 @@ export class RooterComponent {
     {
       name: 'User erstellen',
       route: '/dashboard/users/create-user'
+    },
+    {
+      name: 'Userrollen',
+      route: '/dashboard/users/user-roles'
     }
   ]
 }

@@ -6,7 +6,7 @@
             <option value="{{userRole.userRoleID}}" [selected]="userRole.name === 'guest'">{{userRole.name}}</option>
             }
         </select>
-        @if(selectedUserRole) {
+        @if(selectedUserRole ) {
         <p>{{selectedUserRole.description}}</p>
         }
     </div>

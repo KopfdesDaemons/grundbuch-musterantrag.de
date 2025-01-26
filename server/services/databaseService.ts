@@ -1,7 +1,7 @@
 import logger from "server/config/logger";
 import mysql from 'mysql2';
 import { createRootUser } from "./userService";
-import { createGuestRole, tableMapping } from "./userRoleService";
+import { createGuestRole, actionsTableMapping } from "./userRoleService";
 
 
 const db = mysql.createPool({
@@ -81,7 +81,7 @@ export const initDatabase = async () => {
             },
         ];
 
-        for (const featureActionTable of Object.values(tableMapping)) {
+        for (const featureActionTable of Object.values(actionsTableMapping)) {
             const table = {
                 name: featureActionTable,
                 columns: [
