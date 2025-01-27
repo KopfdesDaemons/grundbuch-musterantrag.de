@@ -1,13 +1,17 @@
 <section>
     <div class="sectiondiv">
-        <select [(ngModel)]="selectedUserRoleOption" (change)="loadUserRole(selectedUserRoleOption?.userRoleID)">
-            @for(userRole of userRolesOptions; track userRole.userRoleID) {
-            <option [ngValue]="userRole">{{userRole.name}}</option>
-            }
-        </select>
+        <div class="controls">
+            <select [(ngModel)]="selectedUserRoleOption" (change)="loadUserRole(selectedUserRoleOption?.userRoleID)">
+                @for(userRole of userRolesOptions; track userRole.userRoleID) {
+                <option [ngValue]="userRole">{{userRole.name}}</option>
+                }
+            </select>
+            <button class="btnicon" title="Neue Userrolle erstellen"><fa-icon [icon]="faPlus"></fa-icon></button>
+            <button>Speichern</button>
+        </div>
         <div>{{selectedUserRoleOption?.description}}</div>
         <form>
-            <ul>
+            <ul class="feature-list">
                 @for(permission of permissions; track permission) {
                 <li>
                     <h2>

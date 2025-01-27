@@ -34,7 +34,6 @@ export const handleCreateUserRole = async (req: Request, res: Response) => {
     const { userRole } = req.body;
     try {
         const newUserRole = userRole as UserRole;
-        logger.info(userRole);
 
         await addUserRole(newUserRole);
         return res.status(200).json({ message: "Userrolle erfolgreich erstellt" });

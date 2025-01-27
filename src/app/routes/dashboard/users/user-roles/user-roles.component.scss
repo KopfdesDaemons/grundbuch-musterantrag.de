@@ -13,12 +13,16 @@ section:first-of-type .sectiondiv {
 }
 
 form {
-    display: flex;
-    flex-direction: flex-start;
     width: 100%;
 
     ul {
         list-style: none;
         padding: 0;
+    }
+
+    .feature-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 0.5em;
     }
 }

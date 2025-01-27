@@ -25,8 +25,8 @@ export enum UploadManagementAction {
 }
 
 export enum UserManagementAction {
-    CreateUser = 'CreateUser',
     ReadUser = 'ReadUser',
+    CreateUser = 'CreateUser',
     DeleteUser = 'DeleteUser',
     UpdateUsername = 'UpdateUsername',
     SetInitialPassword = 'SetInitialPassword',

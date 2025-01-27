@@ -51,19 +51,22 @@ export class Guest implements UserRole {
     description: string = 'Gast nur mit Lesenrechten';
     userPermissions: UserPermission[] = [
         new uploadManagementPermission([
-            UploadManagementAction.ReadUploadData,
+            UploadManagementAction.ReadUploadData
         ]),
         new userManagementPermission([
-            UserManagementAction.ReadUser,
+            UserManagementAction.ReadUser
         ]),
         new statisticPermission([
             StatisticAction.ReadStatistic
         ]),
         new settingsPermission([
-            SettingsAction.ReadSettings,
+            SettingsAction.ReadSettings
         ]),
         new loggerPermission([
-            LoggerAction.ReadLogFile,
+            LoggerAction.ReadLogFile
+        ]),
+        new userRoleManagementPermission([
+            UserRoleManagementAction.ReadUserRoles
         ])
     ];
 }

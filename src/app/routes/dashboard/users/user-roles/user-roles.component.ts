@@ -4,10 +4,12 @@ import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction
 import { UserRole } from 'server/interfaces/userRole';
 import { UserRoleOption } from 'src/app/models/userRoleOption';
 import { UserroleService } from 'src/app/services/userrole.service';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-user-roles',
-  imports: [FormsModule],
+  imports: [FormsModule, FontAwesomeModule],
   templateUrl: './user-roles.component.html',
   styleUrl: './user-roles.component.scss'
 })
@@ -17,8 +19,9 @@ export class UserRolesComponent implements AfterViewInit {
   userRolesOptions: UserRoleOption[] = [];
   selectedUserRoleOption: UserRoleOption | undefined;
   userRole: UserRole | undefined;
-
   permissions = this.userRoleS.allPermissions;
+
+  faPlus = faPlus;
 
   async ngAfterViewInit(): Promise<void> {
     this.userRolesOptions = await this.userRoleS.getAllUserRoles();
