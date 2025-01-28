@@ -1,23 +1,18 @@
 import logger from "server/config/logger";
-import mysql from 'mysql2';
+import mysql, { RowDataPacket } from 'mysql2/promise';
 import { createRootUser } from "./userService";
 import { createGuestRole, actionsTableMapping } from "./userRoleService";
 
-
-const db = mysql.createPool({
+export const db = mysql.createPool({
     host: 'db',
     user: process.env["MYSQL_USER"],
     password: process.env["MYSQL_PASSWORD"],
     database: 'grundbuch-musterantrag'
 });
 
-export const query = <T>(sql: string, params: (string | boolean | Date | number)[] = []): Promise<T> => {
-    return new Promise((resolve, reject) => {
-        db.query(sql, params, (err, results) => {
-            if (err) return reject(err);
-            resolve(results as T);
-        });
-    });
+export const query = async <T>(sql: string, params: (string | boolean | Date | number)[] = []): Promise<T> => {
+    const [results] = await db.execute<RowDataPacket[]>(sql, params);
+    return results as unknown as T;
 };
 
 export const initDatabase = async () => {

@@ -1,9 +1,9 @@
 <section>
     <div class="sectiondiv">
         <div class="controls">
-            <div class="inputfeld" id="userRoleID">
-                <input disabled type="number" value="{{selectedUserRoleOption?.userRoleID}}" id="userRoleIDinput"
-                    name="userRoleID" placeholder="&nbsp;">
+            <div [formGroup]="form" class="inputfeld" id="userRoleID">
+                <input formControlName="userRoleID" type="number" id="userRoleIDinput" name="userRoleID"
+                    placeholder="&nbsp;">
                 <label class="placeholder" for="userRoleIDinput">ID</label>
             </div>
             <select [(ngModel)]="selectedUserRoleOption" (change)="loadUserRole(selectedUserRoleOption?.userRoleID)">

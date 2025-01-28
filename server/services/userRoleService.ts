@@ -1,5 +1,5 @@
 import { UserRole } from "server/interfaces/userRole";
-import { query } from "./databaseService";
+import { db, query } from "./databaseService";
 import { InsertResult } from "server/interfaces/insertResult";
 import { Feature, UserPermission } from "server/interfaces/userPermission";
 import { Guest } from "server/models/userRoles";
@@ -22,7 +22,8 @@ export const addUserRole = async (userRole: UserRole): Promise<number> => {
         actions: permission.allowedActions,
     }));
 
-    await query("START TRANSACTION");
+    const connection = await db.getConnection();
+    await connection.beginTransaction();
     try {
         const insertRoleQuery = `INSERT INTO user_roles (name, description) VALUES (?, ?)`;
         const { insertId: userRoleID } = await query<InsertResult>(insertRoleQuery, [userRole.name, userRole.description]);
@@ -39,10 +40,39 @@ export const addUserRole = async (userRole: UserRole): Promise<number> => {
             }
         }
 
-        await query("COMMIT");
+        await connection.commit();
         return userRoleID;
     } catch (error) {
-        await query("ROLLBACK");
+        await connection.rollback();
+        throw error;
+    }
+};
+
+export const updateUserRole = async (userRole: UserRole): Promise<void> => {
+
+    const connection = await db.getConnection();
+    await connection.beginTransaction();
+    try {
+        if (!userRole.userRoleID) throw new Error('userRoleID ist nicht gesetzt');
+
+        const userRoleFromDB = await getUserRole(userRole.userRoleID);
+
+        // Namen und Beschreibung aktualisieren
+        if (userRole.name !== userRoleFromDB?.name || userRole.description !== userRoleFromDB?.description) {
+            const updateRoleQuery = `UPDATE user_roles SET name = ?, description = ? WHERE userRoleID = ?`;
+            await query(updateRoleQuery, [userRole.name, userRole.description, userRole.userRoleID]);
+        }
+
+
+
+        // todo: Permissions aktualisieren
+
+
+
+        await connection.commit();
+    } catch (error) {
+        await connection.rollback();
+        logger.error(error);
         throw error;
     }
 };
@@ -79,8 +109,8 @@ export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: str
 };
 
 export const createGuestRole = async (): Promise<void> => {
-    // Check if guest role already exists
     try {
+        // Check if guest role already exists
         const userRoleQuery = `SELECT userRoleID FROM user_roles WHERE name = ?`;
         await query<{ userRoleID: number }[]>(userRoleQuery, ['guest']);
     } catch {

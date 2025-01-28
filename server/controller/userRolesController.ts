@@ -1,6 +1,6 @@
 import logger from "server/config/logger";
 import { UserRole } from "server/interfaces/userRole";
-import { addUserRole, deleteUserRole, getAllUserRoles, getUserRole } from "server/services/userRoleService";
+import { addUserRole, deleteUserRole, getAllUserRoles, getUserRole, updateUserRole } from "server/services/userRoleService";
 import { Request, Response } from 'express';
 
 export const handleGetAllUserRoles = async (req: Request, res: Response) => {
@@ -27,6 +27,24 @@ export const handleGetUserRole = async (req: Request, res: Response) => {
     } catch (error) {
         logger.error("Fehler beim Abrufen aller Userrollen:", error);
         return res.status(500).json({ error: "Fehler beim Abrufen aller Userrollen" });
+    }
+};
+
+export const handleUpdateUserRole = async (req: Request, res: Response) => {
+    const { userRole } = req.body;
+    try {
+        if (isNaN(+userRole.userRoleID)) {
+            return res.status(400).json({ error: "userRoleID muss eine Zahl sein" });
+        }
+        const userRoleFromDB: UserRole | null = await getUserRole(+userRole.userRoleID);
+        if (!userRoleFromDB) {
+            return res.status(404).json({ error: "Userrolle nicht gefunden" });
+        }
+        await updateUserRole(userRole);
+        return res.status(200).json({ message: "Userrolle erfolgreich aktualisiert" });
+    } catch (error) {
+        logger.error("Fehler beim Aktualisieren der Userrolle:", error);
+        return res.status(500).json({ error: "Fehler beim Aktualisieren der Userrollen" });
     }
 };
 

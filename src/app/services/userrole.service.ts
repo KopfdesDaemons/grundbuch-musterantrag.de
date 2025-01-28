@@ -67,7 +67,8 @@ export class UserroleService {
 
     [UserRoleManagementAction.CreateUserRole]: 'Benutzerrolle erstellen',
     [UserRoleManagementAction.ReadUserRoles]: 'Benutzerrolle lesen',
-    [UserRoleManagementAction.DeleteUserRole]: 'Benutzerrolle löschen'
+    [UserRoleManagementAction.DeleteUserRole]: 'Benutzerrolle löschen',
+    [UserRoleManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren'
   }
 
   async getAllUserRoles(): Promise<UserRoleOption[]> {
@@ -112,6 +113,19 @@ export class UserroleService {
     }
   }
 
+  async updateUserRole(userRole: UserRole): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.patch('/api/userrole/', { userRole: userRole }, {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
   getFormGroup(userRole: UserRole = { name: '', description: '', userPermissions: [] }): FormGroup {
     const featureGroups: { [key: string]: FormGroup } = {};
 
@@ -133,6 +147,7 @@ export class UserroleService {
     }
 
     return this.formBuilder.group({
+      userRoleID: [{ value: userRole.userRoleID, disabled: true }],
       name: [userRole.name],
       description: [userRole.description],
       features: this.formBuilder.group(featureGroups)
@@ -141,6 +156,7 @@ export class UserroleService {
 
   getUserRoleFromFormGroup(form: FormGroup): UserRole {
     const userRole: UserRole = {
+      userRoleID: form.get('userRoleID')?.value,
       name: form.get('name')?.value,
       description: form.get('description')?.value,
       userPermissions: []

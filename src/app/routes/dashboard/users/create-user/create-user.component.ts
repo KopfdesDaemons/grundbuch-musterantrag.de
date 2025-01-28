@@ -22,7 +22,7 @@ export class CreateUserComponent {
 
   async ngOnInit() {
     this.userRoles = await this.userroleS.getAllUserRoles();
-    this.guestRoleID = this.userRoles.find(role => role.name === 'guest')?.userRoleID;
+    this.guestRoleID = this.userRoles[0]?.userRoleID;
     this.form = this.userS.getNewUserFormGroup(this.guestRoleID);
     this.getSelectedRoleDescription();
   }

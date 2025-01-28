@@ -58,10 +58,10 @@ export class UserRolesComponent implements AfterViewInit {
     if (!this.userRole) return;
     if (this.isNewUserRole) {
       await this.userRoleS.createUserRole(this.userRole);
-      await this.loadFirstUserRole();
     } else {
-      // todo: update userrole
+      await this.userRoleS.updateUserRole(this.userRole);
     }
+    await this.loadFirstUserRole();
   }
 
   async deleteUserRole(): Promise<void> {
