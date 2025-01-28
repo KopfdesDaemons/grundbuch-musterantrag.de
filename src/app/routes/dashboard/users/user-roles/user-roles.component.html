@@ -10,17 +10,26 @@
             <button>Speichern</button>
         </div>
         <div>{{selectedUserRoleOption?.description}}</div>
-        <form>
-            <ul class="feature-list">
-                @for(permission of permissions; track permission) {
-                <li>
+        <form [formGroup]="form">
+            <div class="inputfeld" id="userroleName">
+                <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required
+                    spellcheck="false" placeholder="&nbsp;">
+                <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
+            </div>
+            <div class="descriptiondiv">
+                <label for="description">Beschreibung:</label>
+                <textarea formControlName="description" name="description" id="description"></textarea>
+            </div>
+            <ul class="feature-list" formGroupName="features">
+                @for(permission of userRoleS.allPermissions; track permission) {
+                <li formGroupName="{{permission.feature}}">
                     <h2>
                         {{userRoleS.featuresNameMapping[permission.feature]}}
                     </h2>
                     <ul>
                         @for(action of permission.allowedActions; track action) {
                         <li>
-                            <input type="checkbox" [checked]="getBooleanPermission(permission.feature, action)">
+                            <input type="checkbox" formControlName="{{action}}">
                             <span>{{userRoleS.actionsNameMapping[action]}}</span>
                         </li>
                         }

@@ -6,6 +6,7 @@ import { UserRole } from 'server/interfaces/userRole';
 import { UserRoleOption } from '../models/userRoleOption';
 import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission, UserRoleManagementAction } from 'server/interfaces/userPermission';
 import { uploadManagementPermission, userManagementPermission, statisticPermission, loggerPermission, migrationPermission, settingsPermission, userRoleManagementPermission } from 'server/models/userPermissons';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ import { uploadManagementPermission, userManagementPermission, statisticPermissi
 export class UserroleService {
   authS = inject(AuthService);
   http = inject(HttpClient);
+
+  formBuilder = new FormBuilder();
+
 
   allPermissions: UserPermission[] = [
     new uploadManagementPermission(Object.values(UploadManagementAction)),
@@ -106,5 +110,32 @@ export class UserroleService {
       console.error(err);
       throw err;
     }
+  }
+
+  getFormGroup(userRole: UserRole = { name: '', description: '', userPermissions: [] }): FormGroup {
+    const featureGroups: { [key: string]: FormGroup } = {};
+
+    for (const permission of this.allPermissions) {
+      const feature = permission.feature;
+      const actions = permission.allowedActions;
+
+      const actionControls: { [key: string]: boolean } = {};
+
+      const userFeature = userRole.userPermissions.find(p => p.feature === feature);
+
+      for (const action of actions) {
+        actionControls[action] = userFeature
+          ? userFeature.allowedActions.includes(action)
+          : false;
+      }
+
+      featureGroups[feature] = this.formBuilder.group(actionControls);
+    }
+
+    return this.formBuilder.group({
+      name: [userRole.name],
+      description: [userRole.description],
+      features: this.formBuilder.group(featureGroups)
+    });
   }
 }
