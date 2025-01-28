@@ -3,7 +3,7 @@ import { UserRole } from 'server/interfaces/userRole';
 import { loggerPermission, migrationPermission, settingsPermission, statisticPermission, uploadManagementPermission, userManagementPermission, userRoleManagementPermission } from './userPermissons';
 
 export class Admin implements UserRole {
-    name: string = 'admin';
+    name: string = 'Admin';
     description: string = 'Administrator mit unlimitierten Rechten';
     userPermissions: UserPermission[] = [
         new uploadManagementPermission([
@@ -47,7 +47,7 @@ export class Admin implements UserRole {
 }
 
 export class Guest implements UserRole {
-    name: string = 'guest';
+    name: string = 'Gast';
     description: string = 'Gast nur mit Lesenrechten';
     userPermissions: UserPermission[] = [
         new uploadManagementPermission([

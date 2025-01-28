@@ -101,7 +101,7 @@ export const deleteUserRole = async (userRoleIDs: number[]): Promise<void> => {
     const result = await query<{ userID: number }[]>(selectQuery, userRoleIDs);
 
     if (result.length > 0) {
-        throw new Error('Es gibt noch Benutzer mit einer dieser Rollen');
+        throw new Error('Es gibt noch Benutzer mit der Userrolle ' + result[0].userID);
     }
 
     const deleteQuery = `DELETE FROM user_roles WHERE userRoleID IN (${placeholders})`;

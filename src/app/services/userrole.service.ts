@@ -138,4 +138,42 @@ export class UserroleService {
       features: this.formBuilder.group(featureGroups)
     });
   }
+
+  getUserRoleFromFormGroup(form: FormGroup): UserRole {
+    const userRole: UserRole = {
+      name: form.get('name')?.value,
+      description: form.get('description')?.value,
+      userPermissions: []
+    };
+
+    const featureFormGroups = form.get('features')?.value;
+    if (featureFormGroups) {
+      for (const feature in featureFormGroups) {
+        const actionControls = featureFormGroups[feature];
+        const allowedActions = Object.keys(actionControls).filter(action => actionControls[action]);
+
+        if (allowedActions.length > 0) {
+          userRole.userPermissions.push({
+            feature: feature as Feature,
+            allowedActions: allowedActions as (UploadManagementAction | UserManagementAction | StatisticAction | LoggerAction | MigrationAction | SettingsAction | UserRoleManagementAction)[]
+          });
+        }
+      }
+    }
+    return userRole;
+  }
+
+  async deleteUserRole(userRoleIDs: number[]): Promise<void> {
+    try {
+      await lastValueFrom(
+        this.http.delete('/api/userrole/', {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+          body: { userRoleIDs: userRoleIDs }
+        })
+      );
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
 }

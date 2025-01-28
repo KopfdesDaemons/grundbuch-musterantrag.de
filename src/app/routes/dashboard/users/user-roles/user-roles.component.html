@@ -1,13 +1,23 @@
 <section>
     <div class="sectiondiv">
         <div class="controls">
+            <div class="inputfeld" id="userRoleID">
+                <input disabled type="number" value="{{selectedUserRoleOption?.userRoleID}}" id="userRoleIDinput"
+                    name="userRoleID" placeholder="&nbsp;">
+                <label class="placeholder" for="userRoleIDinput">ID</label>
+            </div>
             <select [(ngModel)]="selectedUserRoleOption" (change)="loadUserRole(selectedUserRoleOption?.userRoleID)">
                 @for(userRole of userRolesOptions; track userRole.userRoleID) {
                 <option [ngValue]="userRole">{{userRole.name}}</option>
                 }
             </select>
-            <button class="btnicon" title="Neue Userrolle erstellen"><fa-icon [icon]="faPlus"></fa-icon></button>
-            <button>Speichern</button>
+            <button class="btnicon" title="Neue Userrolle erstellen" (click)="createNewUserRole()">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+            <button (click)="saveUserRole()">Speichern</button>
+            <button class="btnicon" title="Userrolle löschen" (click)="deleteUserRole()">
+                <fa-icon [icon]="faTrashCan"></fa-icon>
+            </button>
         </div>
         <div>{{selectedUserRoleOption?.description}}</div>
         <form [formGroup]="form">
