@@ -35,7 +35,7 @@ export const addUserRole = async (userRole: UserRole): Promise<number> => {
             const permissionId = result.insertId as number;
 
             const tableName = actionsTableMapping[permission.feature];
-            if (!tableName) throw new Error(`Unknown feature: ${permission.feature}`);
+            if (!tableName) throw new Error(`Unbekanntes Feature: ${permission.feature}`);
 
             for (const action of permission.actions) {
                 await db.execute(`INSERT INTO ${tableName} (userPermissionID, action_name) VALUES (?, ?)`, [permissionId, action]);
@@ -59,23 +59,85 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
 
         const userRoleFromDB = await getUserRole(userRole.userRoleID);
 
-        // Namen und Beschreibung aktualisieren
+        // Update name and description
         if (userRole.name !== userRoleFromDB?.name || userRole.description !== userRoleFromDB?.description) {
             const updateRoleQuery = `UPDATE user_roles SET name = ?, description = ? WHERE userRoleID = ?`;
-            await db.execute(updateRoleQuery, [userRole.name, userRole.description, userRole.userRoleID]);
+            await connection.execute(updateRoleQuery, [userRole.name, userRole.description, userRole.userRoleID]);
         }
 
+        const permissions = userRole.userPermissions;
+        const permissionsDB = userRoleFromDB?.userPermissions
 
+        const newPermissions = permissions.filter(permission => !permissionsDB?.some(p => p.feature === permission.feature));
+        const deletedPermissions = permissionsDB?.filter(permission => !permissions.some(p => p.feature === permission.feature));
+        const existingPermissions = permissions.filter(permission => permissionsDB?.some(p => p.feature === permission.feature));
+        const existingPermissionsDB = permissionsDB?.filter(permission => permissions.some(p => p.feature === permission.feature));
 
-        // todo: Permissions aktualisieren
+        // Add new Permissions
+        for (const permission of newPermissions) {
+            const insertPermissionQuery = `INSERT INTO user_permissions (userRoleID, feature) VALUES (?, ?)`;
+            const [result]: any = await connection.execute<RowDataPacket[]>(insertPermissionQuery, [userRole.userRoleID, permission.feature]);
+            const permissionId = result.insertId as number;
 
+            const tableName = actionsTableMapping[permission.feature];
+            if (!tableName) throw new Error(`Unbekanntes Feature: ${permission.feature}`);
 
+            for (const action of permission.allowedActions) {
+                await connection.execute(`INSERT INTO ${tableName} (userPermissionID, action_name) VALUES (?, ?)`, [permissionId, action]);
+            }
+        }
+
+        // delete Permissions
+        if (deletedPermissions) {
+            for (const permission of deletedPermissions) {
+                logger.info(`Permission ${permission.feature} geloescht`);
+                const deletePermissionQuery = `DELETE FROM user_permissions WHERE userRoleID = ? AND feature = ?`;
+                await connection.execute(deletePermissionQuery, [userRole.userRoleID, permission.feature]);
+            }
+        }
+
+        // update Permissions
+        if (existingPermissionsDB) {
+            for (const permission of existingPermissions) {
+                const actions = permission.allowedActions;
+                const actionsDB = existingPermissionsDB.find(p => p.feature === permission.feature)?.allowedActions;
+                const newActions = actions.filter(action => !existingPermissionsDB.some(p => p.allowedActions.includes(action)));
+                const deletedActions = actionsDB?.filter(action => !actions.includes(action));
+
+                // get permissionID
+                const permissionQuery = `SELECT userPermissionID FROM user_permissions WHERE userRoleID = ? AND feature = ?`;
+                const [result]: any = await connection.execute<RowDataPacket[]>(permissionQuery, [userRole.userRoleID, permission.feature]);
+                const permissionId = result[0]["userPermissionID"] as number;
+
+                // add new actions
+                if (newActions.length > 0) {
+                    const tableName = actionsTableMapping[permission.feature];
+                    if (!tableName) throw new Error(`Unbekanntes Feature: ${permission.feature}`);
+
+                    const placeholders = newActions.map(() => "(?, ?)").join(", ");
+                    const values = newActions.flatMap(action => [permissionId, action]);
+                    await connection.execute(`INSERT INTO ${tableName} (userPermissionID, action_name) VALUES ${placeholders}`, values);
+                }
+
+                // remove deleted actions
+                if (deletedActions) {
+                    const tableName = actionsTableMapping[permission.feature];
+                    if (!tableName) throw new Error(`Unbekanntes Feature: ${permission.feature}`);
+
+                    for (const action of deletedActions) {
+                        await connection.execute(`DELETE FROM ${tableName} WHERE userPermissionID = ? AND action_name = ?`, [permissionId, action]);
+                    }
+                }
+            }
+        }
 
         await connection.commit();
     } catch (error) {
         await connection.rollback();
         logger.error(error);
         throw error;
+    } finally {
+        connection.release();
     }
 };
 
@@ -90,7 +152,7 @@ export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
 
     const userPermissions = await Promise.all(permissions.map(async (perm) => {
         const tableName = actionsTableMapping[perm["feature"] as keyof typeof actionsTableMapping];
-        if (!tableName) throw new Error(`Unknown feature: ${perm["feature"]}`);
+        if (!tableName) throw new Error(`Unbekanntes Feature: ${perm["feature"]}`);
 
         const actionsQuery = `SELECT action_name FROM ${tableName} WHERE userPermissionID = ?`;
         const [actions] = await db.execute<RowDataPacket[]>(actionsQuery, [perm["userPermissionID"]]);
