@@ -50,7 +50,6 @@ export class UserroleService {
     [UserManagementAction.ReadUser]: 'Benutzer lesen',
     [UserManagementAction.DeleteUser]: 'Benutzer löschen',
     [UserManagementAction.UpdateUsername]: 'Benutzername aktualisieren',
-    [UserManagementAction.UpdateUserPassword]: 'Benutzerpasswort aktualisieren',
     [UserManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren',
     [UserManagementAction.SetInitialPassword]: 'Initialpasswort setzen',
 

@@ -48,7 +48,8 @@ export const initDatabase = async () => {
                     { name: 'userRole', type: 'VARCHAR(255)' },
                     { name: 'userRoleID', type: 'INT NOT NULL' },
                     { name: 'isInitialPassword', type: 'BOOLEAN NOT NULL DEFAULT TRUE' }
-                ]
+                ],
+                deletedColums: ['userRole']
             },
             {
                 name: 'user_roles',
@@ -110,6 +111,23 @@ export const initDatabase = async () => {
                     const addColumnSQL = `ALTER TABLE ${table.name} ADD ${column.name} ${column.type}`;
                     await db.execute(addColumnSQL);
                     logger.info(`Spalte "${column.name}" in Tabelle "${table.name}" wurde hinzugefügt.`);
+                }
+            }
+
+            if (table.deletedColums) {
+                for (const deletedColumn of table.deletedColums) {
+                    const columnExistsSQL = `SELECT * 
+                                            FROM INFORMATION_SCHEMA.COLUMNS 
+                                            WHERE TABLE_NAME = '${table.name}' 
+                                            AND COLUMN_NAME = '${deletedColumn}'`;
+
+                    const [columnExists] = await db.execute<RowDataPacket[]>(columnExistsSQL);
+
+                    if (columnExists.length !== 0) {
+                        const dropColumnSQL = `ALTER TABLE ${table.name} DROP COLUMN ${deletedColumn}`;
+                        await db.execute(dropColumnSQL);
+                        logger.info(`Spalte "${deletedColumn}" in Tabelle "${table.name}" wurde entfernt.`);
+                    }
                 }
             }
         }

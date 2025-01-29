@@ -30,7 +30,6 @@ export enum UserManagementAction {
     DeleteUser = 'DeleteUser',
     UpdateUsername = 'UpdateUsername',
     SetInitialPassword = 'SetInitialPassword',
-    UpdateUserPassword = 'UpdateUserPassword',
     UpdateUserRole = 'updateUserRole',
 }
 

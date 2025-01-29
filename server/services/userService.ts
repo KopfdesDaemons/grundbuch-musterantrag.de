@@ -8,7 +8,7 @@ import { RowDataPacket } from "mysql2/promise";
 
 export const getUser = async (key: 'username' | 'userID', value: string | number): Promise<User | null> => {
     try {
-        const queryStr = `SELECT userID, username, passwordHash, userRole, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;
+        const queryStr = `SELECT userID, username, passwordHash, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;
         const [[userData]] = await db.execute<RowDataPacket[]>(queryStr, [value]);
 
         if (!userData) return null;

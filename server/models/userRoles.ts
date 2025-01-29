@@ -19,7 +19,6 @@ export class Admin implements UserRole {
             UserManagementAction.ReadUser,
             UserManagementAction.DeleteUser,
             UserManagementAction.UpdateUsername,
-            UserManagementAction.UpdateUserPassword,
             UserManagementAction.UpdateUserRole,
             UserManagementAction.SetInitialPassword
         ]),
