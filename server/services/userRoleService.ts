@@ -1,9 +1,9 @@
 import { UserRole } from "server/interfaces/userRole";
-import { db, query } from "./databaseService";
-import { InsertResult } from "server/interfaces/insertResult";
+import { db } from "./databaseService";
 import { Feature, UserPermission } from "server/interfaces/userPermission";
 import { Guest } from "server/models/userRoles";
 import logger from "server/config/logger";
+import { RowDataPacket } from "mysql2/promise";
 
 export const actionsTableMapping = {
     [Feature.UploadManagement]: 'upload_management_actions',
@@ -26,17 +26,19 @@ export const addUserRole = async (userRole: UserRole): Promise<number> => {
     await connection.beginTransaction();
     try {
         const insertRoleQuery = `INSERT INTO user_roles (name, description) VALUES (?, ?)`;
-        const { insertId: userRoleID } = await query<InsertResult>(insertRoleQuery, [userRole.name, userRole.description]);
+        const [result]: any = await db.execute<RowDataPacket[]>(insertRoleQuery, [userRole.name, userRole.description]);
+        const userRoleID = result.insertId as number;
 
         for (const permission of permissionsData) {
             const insertPermissionQuery = `INSERT INTO user_permissions (userRoleID, feature) VALUES (?, ?)`;
-            const { insertId: permissionId } = await query<InsertResult>(insertPermissionQuery, [userRoleID, permission.feature]);
+            const [result]: any = await db.execute<RowDataPacket[]>(insertPermissionQuery, [userRoleID, permission.feature]);
+            const permissionId = result.insertId as number;
 
             const tableName = actionsTableMapping[permission.feature];
             if (!tableName) throw new Error(`Unknown feature: ${permission.feature}`);
 
             for (const action of permission.actions) {
-                await query(`INSERT INTO ${tableName} (userPermissionID, action_name) VALUES (?, ?)`, [permissionId, action]);
+                await db.execute(`INSERT INTO ${tableName} (userPermissionID, action_name) VALUES (?, ?)`, [permissionId, action]);
             }
         }
 
@@ -60,7 +62,7 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
         // Namen und Beschreibung aktualisieren
         if (userRole.name !== userRoleFromDB?.name || userRole.description !== userRoleFromDB?.description) {
             const updateRoleQuery = `UPDATE user_roles SET name = ?, description = ? WHERE userRoleID = ?`;
-            await query(updateRoleQuery, [userRole.name, userRole.description, userRole.userRoleID]);
+            await db.execute(updateRoleQuery, [userRole.name, userRole.description, userRole.userRoleID]);
         }
 
 
@@ -79,40 +81,40 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
 
 export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
     const roleQuery = `SELECT userRoleID, name, description FROM user_roles WHERE userRoleID = ?`;
-    const [role] = await query<UserRole[]>(roleQuery, [roleId]);
+    const [[role]] = await db.execute<RowDataPacket[]>(roleQuery, [roleId]);
 
     if (!role) return null;
 
     const permissionsQuery = `SELECT userPermissionID, feature FROM user_permissions WHERE userRoleID = ?`;
-    const permissions = await query<{ userPermissionID: number; feature: Feature }[]>(permissionsQuery, [roleId]);
+    const [permissions] = await db.execute<RowDataPacket[]>(permissionsQuery, [roleId]);
 
     const userPermissions = await Promise.all(permissions.map(async (perm) => {
-        const tableName = actionsTableMapping[perm.feature];
-        if (!tableName) throw new Error(`Unknown feature: ${perm.feature}`);
+        const tableName = actionsTableMapping[perm["feature"] as keyof typeof actionsTableMapping];
+        if (!tableName) throw new Error(`Unknown feature: ${perm["feature"]}`);
 
         const actionsQuery = `SELECT action_name FROM ${tableName} WHERE userPermissionID = ?`;
-        const actions = await query<{ action_name: string }[]>(actionsQuery, [perm.userPermissionID]);
+        const [actions] = await db.execute<RowDataPacket[]>(actionsQuery, [perm["userPermissionID"]]);
 
         return {
-            feature: perm.feature,
-            allowedActions: actions.map(action => action.action_name as UserPermission['allowedActions'][number]),
+            feature: perm["feature"],
+            allowedActions: actions.map(action => action["action_name"] as UserPermission['allowedActions'][number]),
         };
     }));
 
-    return { name: role.name, description: role.description, userPermissions, userRoleID: role.userRoleID };
+    return { name: role["name"], description: role["description"], userPermissions, userRoleID: role["userRoleID"] };
 };
 
 export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: string; description: string }> => {
     const selectQuery = `SELECT userRoleID, name, description FROM user_roles`;
-    const result = await query<{ userRoleID: number; name: string; description: string }>(selectQuery);
-    return result;
+    const [result]: any = await db.execute(selectQuery);
+    return result as { userRoleID: number; name: string; description: string };
 };
 
 export const createGuestRole = async (): Promise<void> => {
     try {
         // Check if guest role already exists
         const userRoleQuery = `SELECT userRoleID FROM user_roles WHERE name = ?`;
-        await query<{ userRoleID: number }[]>(userRoleQuery, ['guest']);
+        await db.execute(userRoleQuery, ['guest']);
     } catch {
         // Create guest role
         const userRole = new Guest();
@@ -128,12 +130,12 @@ export const deleteUserRole = async (userRoleIDs: number[]): Promise<void> => {
 
     const placeholders = userRoleIDs.map(() => '?').join(', ');
     const selectQuery = `SELECT userID FROM users WHERE userRoleID IN (${placeholders})`;
-    const result = await query<{ userID: number }[]>(selectQuery, userRoleIDs);
+    const [result] = await db.execute<RowDataPacket[]>(selectQuery, userRoleIDs);
 
     if (result.length > 0) {
-        throw new Error('Es gibt noch Benutzer mit der Userrolle ' + result[0].userID);
+        throw new Error('Es gibt noch Benutzer mit der Userrolle ' + result[0]["userID"]);
     }
 
     const deleteQuery = `DELETE FROM user_roles WHERE userRoleID IN (${placeholders})`;
-    await query(deleteQuery, userRoleIDs);
+    await db.execute(deleteQuery, userRoleIDs);
 }

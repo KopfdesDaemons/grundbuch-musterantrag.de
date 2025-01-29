@@ -10,11 +10,6 @@ export const db = mysql.createPool({
     database: 'grundbuch-musterantrag'
 });
 
-export const query = async <T>(sql: string, params: (string | boolean | Date | number)[] = []): Promise<T> => {
-    const [results] = await db.execute<RowDataPacket[]>(sql, params);
-    return results as unknown as T;
-};
-
 export const initDatabase = async () => {
     try {
         const tables = [
@@ -99,7 +94,7 @@ export const initDatabase = async () => {
                 `FOREIGN KEY (${link.columnName}) REFERENCES ${link.tableName}(${link.foreignKey}) ON DELETE CASCADE`
             ).join(', ') : ''}
             )`;
-            await query(createTableSQL);
+            await db.execute(createTableSQL);
             logger.info(`Tabelle "${table.name}" wurde erstellt bzw. überprüft.`);
 
             // Spalten überprüfen und bei Bedarf hinzufügen
@@ -109,11 +104,11 @@ export const initDatabase = async () => {
                                         WHERE TABLE_NAME = '${table.name}' 
                                         AND COLUMN_NAME = '${column.name}'`;
 
-                const columnExists: any = await query(columnExistsSQL);
+                const [columnExists] = await db.execute<RowDataPacket[]>(columnExistsSQL);
 
                 if (columnExists.length === 0) {
                     const addColumnSQL = `ALTER TABLE ${table.name} ADD ${column.name} ${column.type}`;
-                    await query(addColumnSQL);
+                    await db.execute(addColumnSQL);
                     logger.info(`Spalte "${column.name}" in Tabelle "${table.name}" wurde hinzugefügt.`);
                 }
             }
