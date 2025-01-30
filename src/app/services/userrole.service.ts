@@ -99,13 +99,15 @@ export class UserroleService {
     }
   }
 
-  async createUserRole(userRole: UserRole): Promise<void> {
+  async createUserRole(userRole: UserRole): Promise<number> {
     try {
-      await lastValueFrom(
+      const data = await lastValueFrom(
         this.http.put('/api/userrole/', { userRole: userRole }, {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
         })
       );
+      const { userRoleID } = data as { userRoleID: number };
+      return userRoleID;
     } catch (err) {
       console.error(err);
       throw err;

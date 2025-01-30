@@ -166,10 +166,12 @@ export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
     return { name: role["name"], description: role["description"], userPermissions, userRoleID: role["userRoleID"] };
 };
 
-export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: string; description: string }> => {
+export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: string; description: string }[]> => {
     const selectQuery = `SELECT userRoleID, name, description FROM user_roles`;
     const [result]: any = await db.execute(selectQuery);
-    return result as { userRoleID: number; name: string; description: string };
+    const userRoles = result as { userRoleID: number; name: string; description: string }[];
+    const sortedUserRoles = userRoles.sort((a, b) => a.name.localeCompare(b.name));
+    return sortedUserRoles;
 };
 
 export const createGuestRole = async (): Promise<void> => {

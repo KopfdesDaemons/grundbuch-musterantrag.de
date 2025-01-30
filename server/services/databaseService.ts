@@ -49,7 +49,7 @@ export const initDatabase = async () => {
                     { name: 'userRoleID', type: 'INT NOT NULL' },
                     { name: 'isInitialPassword', type: 'BOOLEAN NOT NULL DEFAULT TRUE' }
                 ],
-                deletedColums: ['userRole']
+                deletedColumns: ['userRole']
             },
             {
                 name: 'user_roles',
@@ -114,8 +114,8 @@ export const initDatabase = async () => {
                 }
             }
 
-            if (table.deletedColums) {
-                for (const deletedColumn of table.deletedColums) {
+            if (table.deletedColumns) {
+                for (const deletedColumn of table.deletedColumns) {
                     const columnExistsSQL = `SELECT * 
                                             FROM INFORMATION_SCHEMA.COLUMNS 
                                             WHERE TABLE_NAME = '${table.name}' 

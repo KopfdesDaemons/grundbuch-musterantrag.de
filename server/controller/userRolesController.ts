@@ -57,8 +57,8 @@ export const handleCreateUserRole = async (req: Request, res: Response) => {
             return res.status(400).json({ error: "Der Name darf nicht leer sein" });
         }
 
-        await addUserRole(newUserRole);
-        return res.status(200).json({ message: "Userrolle erfolgreich erstellt" });
+        const userRoleID = await addUserRole(newUserRole);
+        return res.status(200).json({ message: "Userrolle erfolgreich erstellt", userRoleID });
     } catch (error) {
         logger.error("Fehler beim Erstellen einer neuen Userrolle:", error);
         return res.status(500).json({ error: "Fehler beim Erstellen einer neuen Userrolle" });

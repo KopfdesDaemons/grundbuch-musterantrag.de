@@ -39,8 +39,8 @@
                     <ul>
                         @for(action of permission.allowedActions; track action) {
                         <li>
-                            <input type="checkbox" formControlName="{{action}}">
-                            <span>{{userRoleS.actionsNameMapping[action]}}</span>
+                            <input id="{{action}}" type="checkbox" formControlName="{{action}}">
+                            <label for="{{action}}">{{userRoleS.actionsNameMapping[action]}}</label>
                         </li>
                         }
                     </ul>

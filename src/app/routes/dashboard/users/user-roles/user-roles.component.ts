@@ -16,15 +16,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class UserRolesComponent implements AfterViewInit {
   userRoleS = inject(UserroleService);
   userRolesOptions: UserRoleOption[] = [];
-  selectedUserRoleOption: UserRoleOption | undefined;
-  userRole: UserRole | undefined;
+  selectedUserRoleOption?: UserRoleOption;
+  userRole?: UserRole;
   form: FormGroup = this.userRoleS.getFormGroup();
-  isNewUserRole: boolean = false;
-  newUserRole: UserRole = {
-    name: '',
-    description: '',
-    userPermissions: []
-  }
+  isNewUserRole = false;
+
   faPlus = faPlus;
   faTrashCan = faTrashCan;
 
@@ -32,16 +28,18 @@ export class UserRolesComponent implements AfterViewInit {
     await this.loadFirstUserRole();
   }
 
-  async loadFirstUserRole(): Promise<void> {
+  private async loadFirstUserRole(): Promise<void> {
     this.userRolesOptions = await this.userRoleS.getAllUserRoles();
     this.isNewUserRole = false;
-    this.selectedUserRoleOption = this.userRolesOptions[0];
-    await this.loadUserRole(this.selectedUserRoleOption?.userRoleID);
+    if (this.userRolesOptions.length > 0) {
+      this.selectedUserRoleOption = this.userRolesOptions[0];
+      await this.loadUserRole(this.selectedUserRoleOption.userRoleID);
+    }
   }
 
-  async loadUserRole(userRoleID: number | undefined): Promise<void> {
-    this.isNewUserRole = false;
+  async loadUserRole(userRoleID?: number): Promise<void> {
     if (!userRoleID) return;
+    this.isNewUserRole = false;
     this.userRole = await this.userRoleS.getUserRole(userRoleID);
     this.form = this.userRoleS.getFormGroup(this.userRole);
   }
@@ -49,25 +47,39 @@ export class UserRolesComponent implements AfterViewInit {
   createNewUserRole(): void {
     this.isNewUserRole = true;
     this.selectedUserRoleOption = undefined;
-    this.userRole = this.newUserRole;
+    this.userRole = {
+      name: '',
+      description: '',
+      userPermissions: []
+    };
     this.form = this.userRoleS.getFormGroup();
   }
 
   async saveUserRole(): Promise<void> {
-    this.userRole = this.userRoleS.getUserRoleFromFormGroup(this.form);
-    if (!this.userRole) return;
+    const userRoleInForm = this.userRoleS.getUserRoleFromFormGroup(this.form);
+    if (!userRoleInForm) return;
+    let userRoleID;
     if (this.isNewUserRole) {
-      await this.userRoleS.createUserRole(this.userRole);
+      // Create new user role
+      userRoleID = await this.userRoleS.createUserRole(userRoleInForm);
     } else {
-      await this.userRoleS.updateUserRole(this.userRole);
+      // Update existing user role
+      await this.userRoleS.updateUserRole(userRoleInForm);
     }
-    await this.loadFirstUserRole();
+    await this.refreshUserRoleOptions(userRoleID ?? this.selectedUserRoleOption?.userRoleID);
   }
 
   async deleteUserRole(): Promise<void> {
-    const useRoleID = this.userRole?.userRoleID;
-    if (!useRoleID) return;
-    await this.userRoleS.deleteUserRole([useRoleID]);
+    const userRoleID = this.userRole?.userRoleID;
+    if (!userRoleID) return;
+
+    await this.userRoleS.deleteUserRole([userRoleID]);
     await this.loadFirstUserRole();
+  }
+
+  private async refreshUserRoleOptions(userRoleID?: number): Promise<void> {
+    this.userRolesOptions = await this.userRoleS.getAllUserRoles();
+    this.selectedUserRoleOption = this.userRolesOptions.find(option => option.userRoleID === userRoleID);
+    if (userRoleID) await this.loadUserRole(userRoleID);
   }
 }
