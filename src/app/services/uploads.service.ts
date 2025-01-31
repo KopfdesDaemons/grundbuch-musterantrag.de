@@ -14,16 +14,20 @@ export class UploadsService {
   authS = inject(AuthService);
   private platformId = inject(PLATFORM_ID);
 
-  uploadsData: any;
+  uploadsData: {
+    page: number;
+    totalPages: number;
+    totalFiles: number;
+    files: Upload[];
+  } = { page: 0, totalPages: 0, totalFiles: 0, files: [] };
 
   async getTotalPages(): Promise<number> {
     if (!isPlatformBrowser(this.platformId)) return 0;
     this.uploadsData = await this.getUploadsData();
-    return this.uploadsData['totalPages'] as number;
+    return this.uploadsData.totalPages;
   }
 
-  private async getUploadsData(): Promise<any> {
-    if (!isPlatformBrowser(this.platformId)) return null;
+  private async getUploadsData(): Promise<{ page: number, totalPages: number, totalFiles: number, files: Upload[] }> {
     try {
       const data = await lastValueFrom(
         this.http.get('/api/uploads', {
@@ -31,9 +35,9 @@ export class UploadsService {
           params: new HttpParams().set('page', 0)
         })
       );
-      return data;
+      return data as { page: number, totalPages: number, totalFiles: number, files: Upload[] };
     } catch (err) {
-      console.error(err);
+      console.error('Fehler beim Laden der Uploads');
       throw err;
     }
   }
@@ -47,18 +51,18 @@ export class UploadsService {
       };
 
       // Lade neue Seite
-      this.uploadsData = await lastValueFrom(
+      const result = await lastValueFrom(
         this.http.get('/api/uploads', {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
           params: new HttpParams().set('page', page)
         })
       );
 
+      this.uploadsData = result as { page: number, totalPages: number, totalFiles: number, files: Upload[] };
       return ({ page: this.uploadsData['page'], files: this.uploadsData['files'] });
 
     } catch (err: any) {
       console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
-      if (err.status === 403) await this.authS.abmelden();
       throw err;
     }
   }
@@ -98,13 +102,14 @@ export class UploadsService {
 
     } catch (error) {
       console.error('Error beim Abrufen der Datei:', error);
+      throw error;
     }
   }
 
   async getTotalFiles(): Promise<number> {
     if (!isPlatformBrowser(this.platformId)) return 0;
     this.uploadsData = await this.getUploadsData();
-    return this.uploadsData['totalFiles'] as number;
+    return this.uploadsData.totalFiles
   }
 
   async getStatistic(): Promise<any> {
@@ -131,6 +136,7 @@ export class UploadsService {
       }));
     } catch (error: any) {
       console.error('Error beim Löschen der Datei:', error);
+      throw error;
     }
   }
 
@@ -142,6 +148,7 @@ export class UploadsService {
       }));
     } catch (error: any) {
       console.error('Error beim Löschen des Ordners:', error);
+      throw error;
     }
   }
 
@@ -154,6 +161,7 @@ export class UploadsService {
       }));
     } catch (error: any) {
       console.error('Error beim Löschen der generierten Dateien:', error);
+      throw error;
     }
   }
 
@@ -165,6 +173,7 @@ export class UploadsService {
       }));
     } catch (error: any) {
       console.error('Error beim Löschen aller generierten Dateien:', error);
+      throw error;
     }
   }
 
@@ -179,7 +188,7 @@ export class UploadsService {
 
     } catch (error: any) {
       console.log('Fehler beim Laden der Anzahl der Anträge pro Tag', error);
-      return [];
+      throw error;
     }
   }
 }

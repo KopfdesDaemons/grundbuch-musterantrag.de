@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
 import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/cookies.service';
@@ -9,12 +9,13 @@ import { LoggerService } from 'src/app/services/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Upload } from 'server/models/upload';
 import { DatePipe } from '@angular/common';
+import { ErrorDisplayComponent } from "../../../components/error-display/error-display.component";
 
 @Component({
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],
-  imports: [FaIconComponent, DatePipe]
+  imports: [FaIconComponent, DatePipe, ErrorDisplayComponent]
 })
 
 export class DashboardAntragslisteComponent implements OnInit {
@@ -39,6 +40,7 @@ export class DashboardAntragslisteComponent implements OnInit {
   totalPages: number = 0;
   totalFiles: number = 0;
   isLoadingNextPage: boolean = false;
+  error: HttpErrorResponse | null = null;
 
   async ngOnInit() {
     this.titleService.setTitle('Dashboard');
@@ -54,38 +56,70 @@ export class DashboardAntragslisteComponent implements OnInit {
   async loadPage(pageNumber: number = 1) {
     if (pageNumber > this.totalPages) return;
     try {
+      this.error = null;
       this.isLoadingNextPage = true;
       const { page, files } = await this.uploadsdS.getFiles(pageNumber);
       this.loadedPages = page;
       this.files = this.files.concat(files);
       this.isLoadingNextPage = false;
-    } catch {
-      this.isLoadingNextPage = false;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
     }
+    this.isLoadingNextPage = false;
   }
 
   async reloadFiles() {
-    this.loadedPages = 0;
-    this.totalPages = await this.uploadsdS.getTotalPages();
-    this.totalFiles = await this.uploadsdS.getTotalFiles();
-    this.files = [];
-    await this.loadPage();
+    try {
+      this.error = null;
+      this.loadedPages = 0;
+      this.totalPages = await this.uploadsdS.getTotalPages();
+      this.totalFiles = await this.uploadsdS.getTotalFiles();
+      this.files = [];
+      await this.loadPage();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
   }
 
   async deleteUpload(name: string) {
-    await this.uploadsdS.deleteUpload(name);
-    await this.reloadFiles();
+    try {
+      this.error = null;
+      await this.uploadsdS.deleteUpload(name);
+      await this.reloadFiles();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
   }
 
   async deleteGeneratedFiles(uploadID: string) {
-    await this.uploadsdS.deleteGeneratedFiles(uploadID);
-    await this.reloadFiles();
+    try {
+      this.error = null;
+      await this.uploadsdS.deleteGeneratedFiles(uploadID);
+      await this.reloadFiles();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
   }
 
   async deleteFolder() {
-    if (!confirm('Soll wirklich alle Antragsdaten gelöscht werden?')) return;
-    await this.uploadsdS.deleteFolder();
-    await this.reloadFiles();
+    try {
+      this.error = null;
+      if (!confirm('Soll wirklich alle Antragsdaten gelöscht werden?')) return;
+      await this.uploadsdS.deleteFolder();
+      await this.reloadFiles();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
   }
 
   /* 

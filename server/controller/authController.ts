@@ -31,7 +31,7 @@ export const handleLogin = async (req: Request, res: Response): Promise<any> => 
         if (error.message === 'Ungültige Anmeldedaten') {
             return res.status(403).json({ message: 'Ungültige Anmeldedaten' });
         }
-        return res.status(500).send('Serverfehler bei der Anmeldung');
+        return res.status(500).send({ message: 'Interner Serverfehler' });
     }
 };
 
@@ -41,16 +41,16 @@ export const checkToken = async (req: Request, res: Response) => {
         const token = authHeader && authHeader.split(' ')[1];
 
         // Unauthorized
-        if (token == null) return res.sendStatus(401);
+        if (token == null) return res.sendStatus(401).send({ message: 'Unauthorized' });
 
 
         await verifyToken(token);
-        return res.status(200).send('Token gültig');
+        return res.status(200).send({ message: 'Authorized' });
     } catch (error: any) {
         if (error.message === 'Token ungültig') {
             return res.sendStatus(403);
         }
         logger.error('Fehler bei der Prüfung des Tokens: ', error);
-        return res.status(500).send('Interner Serverfehler');
+        return res.status(500).send({ message: 'Interner Serverfehler' });
     }
 }

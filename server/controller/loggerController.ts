@@ -8,7 +8,7 @@ export const deleteLogFile = async (req: Request, res: Response) => {
         res.status(200).send('LogFile.log gelöscht.');
     } catch (error: any) {
         logger.error('Fehler beim Löschen der LogFile.log', error);
-        res.status(500).send('Fehler beim Löschen der LogFile.log: ' + error.message);
+        res.status(500).send({ message: 'Fehler beim Löschen der LogFile.log' });
     }
 };
 
@@ -23,6 +23,6 @@ export const getLogFile = async (req: Request, res: Response) => {
         return res.status(200).json(logs);
     } catch (error: any) {
         logger.error('Fehler beim Lesen der LogFile.log', error);
-        return res.status(500).send('Fehler beim Lesen der LogFile.log: ' + error.message);
+        return res.status(500).send({ message: 'Fehler beim Lesen der LogFile.log' });
     }
 };

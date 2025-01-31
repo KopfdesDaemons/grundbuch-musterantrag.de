@@ -14,7 +14,7 @@ export const getUploads = async (req: Request, res: Response) => {
         return res.json(files);
     } catch (error) {
         logger.error('Fehler beim Abrufen der Uploadsdaten:', error);
-        return res.status(500).send('Fehler beim Abrufen der Dateiliste');
+        return res.status(500).send({ message: 'Fehler beim Abrufen der Uploadsdaten' });
     }
 }
 
@@ -26,13 +26,13 @@ export const handleDeleteAllUploads = async (req: Request, res: Response) => {
         return res.send('Alle Uploads gelöscht');
     } catch (error) {
         logger.error('Fehler beim Löschen aller Uploads:', error);
-        return res.status(500).send('Fehler beim Löschen aller Uploads');
+        return res.status(500).send({ message: 'Fehler beim Löschen aller Uploads' });
     }
 }
 
 export const handleDeleteUpload = async (req: Request, res: Response) => {
     const uploadID = req.query['uploadID'] as string;
-    if (!uploadID) return res.status(400).send('Fehlende UploadID');
+    if (!uploadID) return res.status(400).send({ message: 'Fehlende UploadID' });
 
     // Aktualisiere die Statistik
     try {
@@ -44,20 +44,20 @@ export const handleDeleteUpload = async (req: Request, res: Response) => {
 
     try {
         await deleteUpload(uploadID);
-        return res.status(200).send('Upload gelöscht');
+        return res.status(200).send({ message: 'Upload gelöscht' });
     } catch (error) {
         logger.error('Fehler beim Löschen des Uploads:', error);
-        return res.status(500).send('Fehler beim Löschen des Uploads');
+        return res.status(500).send({ message: 'Fehler beim Löschen des Uploads' });
     }
 }
 
 export const getUpload = async (req: Request, res: Response) => {
     const fileNameWithExtension: string = req.query['fileName'] as string;
-    if (!fileNameWithExtension) return res.status(400).send('Fehlender Dateiname');
+    if (!fileNameWithExtension) return res.status(400).send({ message: 'Fehlender Dateiname' });
 
     if (!fileNameWithExtension) {
         logger.error('Fehlender Dateiname beim Abrufen der Datei');
-        return res.status(400).send('Fehlender Dateiname');
+        return res.status(400).send({ message: 'Fehlender Dateiname' });
     }
 
     const fileWithoutExtension: string = fileNameWithExtension.split('.')[0];
@@ -68,29 +68,29 @@ export const getUpload = async (req: Request, res: Response) => {
         return res.send(file);
     } catch (error) {
         logger.error('Fehler beim Abrufen der Datei:', error);
-        return res.status(500).send('Fehler beim Abrufen der Datei');
+        return res.status(500).send({ message: 'Fehler beim Abrufen der Datei' });
     }
 }
 
 export const handeleDeleteGeneratedFiles = async (req: Request, res: Response) => {
     const uploadID = req.query['uploadID'] as string;
-    if (!uploadID) return res.status(400).send('Fehlende UploadID');
+    if (!uploadID) return res.status(400).send({ message: 'Fehlende UploadID' });
     try {
         await deleteGeneratedFiles(uploadID);
-        return res.status(200).send('Generierte Dateien gelöscht');
+        return res.status(200).send({ message: 'Generierte Dateien gelöscht' });
     } catch (error) {
         logger.error('Fehler beim Löschen der generierten Dateien:', error);
-        return res.status(500).send('Fehler beim Löschen der generierten Dateien');
+        return res.status(500).send({ message: 'Fehler beim Löschen der generierten Dateien' });
     }
 }
 
 export const handeleDeleteAllGeneratedFiles = async (req: Request, res: Response) => {
     try {
         await deleteAllGeneratedFiles();
-        return res.status(200).send('Alle generierte Dateien gelöscht');
+        return res.status(200).send({ message: 'Alle generierten Dateien gelöscht' });
     } catch (error) {
         logger.error('Fehler beim Löschen aller generierten Dateien:', error);
-        return res.status(500).send('Fehler beim Löschen aller generierten Dateien');
+        return res.status(500).send({ message: 'Fehler beim Löschen aller generierten Dateien' });
     }
 }
 
@@ -99,14 +99,14 @@ export const handleGetUploadDates = async (req: Request, res: Response) => {
     const timeframe = req.query['timeframe'] as string;
 
     if (!validTimespans.includes(timeframe)) {
-        return res.status(400).send('Ungültige Zeitspanne');
+        return res.status(400).send({ message: 'Ungültiger Zeitspanne' });
     }
     try {
         const dates = await getUploadDates(timeframe as 'week' | 'month');
         return res.status(200).json(dates);
     } catch (error) {
         logger.error('Fehler beim Abrufen der Upload-Datumsliste:', error);
-        return res.status(500).send('Fehler beim Abrufen der Upload-Datumsliste');
+        return res.status(500).send({ message: 'Fehler beim Abrufen der Upload-Datumsliste' });
     }
 }
 
@@ -115,7 +115,7 @@ export const handleGetUploadCountPerDay = async (req: Request, res: Response) =>
     const timeframe = req.query['timeframe'] as string;
 
     if (!validTimespans.includes(timeframe)) {
-        return res.status(400).send('Ungültige Zeitspanne');
+        return res.status(400).send({ message: 'Ungültiger Zeitspanne' });
     }
 
     try {
@@ -123,6 +123,6 @@ export const handleGetUploadCountPerDay = async (req: Request, res: Response) =>
         return res.status(200).json(countPerDay);
     } catch (error) {
         logger.error('Fehler beim Abrufen der Upload-Zahl pro Tag:', error);
-        return res.status(500).send('Fehler beim Abrufen der Upload-Zahl pro Tag');
+        return res.status(500).send({ message: 'Fehler beim Abrufen der Upload-Zahl pro Tag' });
     }
 }

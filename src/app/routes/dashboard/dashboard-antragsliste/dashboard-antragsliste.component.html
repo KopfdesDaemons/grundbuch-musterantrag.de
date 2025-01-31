@@ -10,6 +10,9 @@
       <button class="btntext" (click)="deleteFolder()">alle löschen</button>
     </div>
 
+    @if(error) {
+    <app-error-display [error]="error"></app-error-display>
+    } @else {
     <div class="tableScrollContainer" (scroll)="scroll($event.target)">
       <table>
         <thead>
@@ -68,5 +71,6 @@
         </tbody>
       </table>
     </div>
+    }
   </div>
 </section>

@@ -38,6 +38,7 @@ export async function app(): Promise<express.Express> {
   server.use('/api/statistic', statisticRoutes);
   server.use('/api/user', userRoutes);
   server.use('/api/userrole', userRoleRoutes);
+  server.all('/api/*', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));
 
   // Routen, welche die Angular Engine ansprechen
   server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));
