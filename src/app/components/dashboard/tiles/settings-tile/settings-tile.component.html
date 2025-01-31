@@ -1,6 +1,6 @@
 <app-dashboard-tile tileTitle="Settings">
     <div class="content">
-        @if(error){ <p class="error">Fehler beim Laden der Settings</p>}
+        @if(error){ <app-error-display [error]="error"></app-error-display> }
         @else {
         <ul>
             <li>

@@ -4,10 +4,12 @@ import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.comp
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorDisplayComponent } from "../../../error-display/error-display.component";
 
 @Component({
   selector: 'app-antragsarten-tile',
-  imports: [DashboardTileComponent, ProgressSpinnerComponent, FontAwesomeModule],
+  imports: [DashboardTileComponent, ProgressSpinnerComponent, FontAwesomeModule, ErrorDisplayComponent],
   templateUrl: './antragsarten-tile.component.html',
   styleUrl: './antragsarten-tile.component.scss'
 })
@@ -17,14 +19,16 @@ export class AntragsartenTileComponent implements AfterViewInit {
   statistic: { antragsart: string; anzahl: number }[] | undefined = undefined;
 
   faRotateRight = faRotateRight;
-  error: boolean = false;
+  error: HttpErrorResponse | null = null;
 
   async ngAfterViewInit(): Promise<void> {
     try {
-      this.error = false;
+      this.error = null;
       await this.loadStatistic();
-    } catch {
-      this.error = true;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
     }
   }
 

@@ -42,7 +42,6 @@ export class AuthService {
       localStorage.setItem('auth_token', response.token);
       this.username = username;
       this.authToken = response.token;
-      console.log("Login erfolgreich");
       await this.router.navigate(['/dashboard']);
 
       // Erfolgsmeldung zurückgeben
@@ -105,8 +104,7 @@ export class AuthService {
       await lastValueFrom(this.http.get('/api/auth/checkAuth', {
         headers: new HttpHeaders({
           'Authorization': `Bearer ${this.getToken()}`,
-        }),
-        responseType: 'text'
+        })
       }))
       return true;
     } catch (error: any) {

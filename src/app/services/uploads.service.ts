@@ -131,8 +131,7 @@ export class UploadsService {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/deleteUpload', {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        params: new HttpParams().set('uploadID', name),
-        responseType: 'text'
+        params: new HttpParams().set('uploadID', name)
       }));
     } catch (error: any) {
       console.error('Error beim Löschen der Datei:', error);
@@ -143,8 +142,7 @@ export class UploadsService {
   async deleteFolder() {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        responseType: 'text'
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
       }));
     } catch (error: any) {
       console.error('Error beim Löschen des Ordners:', error);
@@ -156,8 +154,7 @@ export class UploadsService {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/deleteGeneratedFiles', {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        params: new HttpParams().set('uploadID', uploadID),
-        responseType: 'text'
+        params: new HttpParams().set('uploadID', uploadID)
       }));
     } catch (error: any) {
       console.error('Error beim Löschen der generierten Dateien:', error);
@@ -168,8 +165,7 @@ export class UploadsService {
   async deleteAllGeneratedFiles() {
     try {
       await lastValueFrom(this.http.delete('/api/uploads/deleteAllGeneratedFiles', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        responseType: 'text'
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
       }));
     } catch (error: any) {
       console.error('Error beim Löschen aller generierten Dateien:', error);

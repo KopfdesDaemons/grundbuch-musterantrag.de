@@ -33,9 +33,9 @@ export const handleGetSettings = async (req: Request, res: Response) => {
 
 export const handleGetPrimaryColor = async (req: Request, res: Response) => {
     try {
-        const setting = await SettingsService.getSetting('primaryColor');
-        if (!setting) logger.info('Setting primaryColor nicht gefunden');
-        return res.status(200).send(setting);
+        const primaryColor = await SettingsService.getSetting('primaryColor');
+        if (!primaryColor) logger.info('Setting primaryColor nicht gefunden');
+        return res.status(200).json({ primaryColor });
     } catch (error) {
         logger.error('Fehler beim Laden der Primärfarbe:', error);
         return res.status(500).send({ message: 'Interner Serverfehler' });

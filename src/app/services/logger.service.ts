@@ -65,11 +65,11 @@ export class LoggerService {
   async deleteLogFile() {
     try {
       await lastValueFrom(this.http.delete('/api/logger', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        responseType: 'text'
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
       }));
     } catch (error) {
       console.error('Error beim Löschen des Ordners:', error);
+      throw error;
     }
   }
 }

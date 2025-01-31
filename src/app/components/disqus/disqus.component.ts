@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer2, ViewChild, OnChanges, PLATFORM_ID, inject, input } from '@angular/core';
+import { Component, ElementRef, Renderer2, OnChanges, PLATFORM_ID, inject, input } from '@angular/core';
 import { DisqusService } from 'src/app/services/disqus.service';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
 import { isPlatformBrowser } from '@angular/common';
@@ -15,7 +15,7 @@ export class DisqusComponent implements OnChanges {
   disqusS = inject(DisqusService);
   renderer = inject(Renderer2);
   private elementRef = inject(ElementRef);
-  private platformId = inject<Object>(PLATFORM_ID);
+  private platformId = inject<object>(PLATFORM_ID);
 
   identifier = input<string | undefined>();
   private observer: IntersectionObserver | undefined;
@@ -27,8 +27,8 @@ export class DisqusComponent implements OnChanges {
     if (!this.identifier()) return;
     if (!this.disqusS.consent) return;
     this.observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) this.isVisible();
+      entries.forEach(async entry => {
+        if (entry.isIntersecting) await this.isVisible();
       });
     });
     this.observer.observe(this.elementRef.nativeElement);
@@ -38,17 +38,17 @@ export class DisqusComponent implements OnChanges {
     this.observer?.disconnect();
   }
 
-  isVisible() {
+  async isVisible() {
     if (this.disqusS.consent() && this.identifier) {
-      this.disqusS.loadDisqus(this.renderer, this.identifier()!);
+      await this.disqusS.loadDisqus(this.renderer, this.identifier()!);
       this.observer?.disconnect();
     }
   }
 
-  giveConsent() {
+  async giveConsent() {
     if (!this.identifier()) return;
     this.disqusS.giveConsent();
     this.observer?.disconnect();
-    this.disqusS.loadDisqus(this.renderer, this.identifier()!);
+    await this.disqusS.loadDisqus(this.renderer, this.identifier()!);
   }
 }

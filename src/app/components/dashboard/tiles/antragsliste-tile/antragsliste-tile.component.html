@@ -2,11 +2,11 @@
     <div class="content">
         @if(error){
         <h2>Generierte Anträge</h2>
-        <p class="error">Fehler beim Laden der Antragsliste</p>
+        <app-error-display [error]="error"></app-error-display>
         } @else {
-        @if(totalFiles === undefined || latestFile === undefined) {
+        @if(isLoading) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
-        }@else {
+        } @else {
         <h2>Generierte Anträge: {{totalFiles}}</h2>
         @if(latestFile) {
         <b>Neuster Antrag vom {{latestFile.uploadDate | date: 'dd.MM.yyyy HH:mm'}} Uhr:</b>

@@ -4,6 +4,7 @@ import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spi
 import { MigrationService } from 'src/app/services/migration.service';
 import { Migration } from 'src/app/models/migration';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-migration-tile',
@@ -23,12 +24,13 @@ export class MigrationTileComponent {
     if (!confirm('Migration ' + this.selectedMigration.name + ' wirklich durchführen?')) return;
     try {
       this.isLoading = true;
-      this.responseText = await this.selectedMigration.migrate();
-      this.isLoading = false;
-    } catch (error: any) {
-      this.isLoading = false;
-      console.error('Error beim Migration:', error);
-      this.responseText = 'Fehler bei der Migration. Siehe Logs für Details.';
+      const { message } = await this.selectedMigration.migrate();
+      this.responseText = message;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.responseText = error.error.message;
+      }
     }
+    this.isLoading = false;
   }
 }

@@ -9,7 +9,6 @@ export class DisqusService {
   scriptS = inject(ScriptService);
   consentS = inject(ConsentService);
 
-
   consent = signal<boolean>(false);
   disqus: any;
   shortname: string = 'grundbuch-musterantrag';
@@ -23,14 +22,14 @@ export class DisqusService {
     this.consent.set(true);
   }
 
-  loadDisqus(renderer: Renderer2, title: string): void {
+  async loadDisqus(renderer: Renderer2, title: string): Promise<void> {
     this.consent.set(this.consentS.checkConsent('Disqus'));
     this.disqus = (window as any)['DISQUS'];
     if (!this.disqus) {
       (window as any).disqus_config = function () {
         this.page.identifier = title;
       };
-      this.scriptS.addJsScript(renderer, 'https://' + this.shortname + '.disqus.com/embed.js');
+      await this.scriptS.addJsScript(renderer, 'https://' + this.shortname + '.disqus.com/embed.js');
     } else {
       (window as any)['DISQUS'].reset({
         reload: true,
