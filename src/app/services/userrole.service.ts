@@ -6,7 +6,7 @@ import { UserRole } from 'server/interfaces/userRole';
 import { UserRoleOption } from '../models/userRoleOption';
 import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission, UserRoleManagementAction } from 'server/interfaces/userPermission';
 import { uploadManagementPermission, userManagementPermission, statisticPermission, loggerPermission, migrationPermission, settingsPermission, userRoleManagementPermission } from 'server/models/userPermissons';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -149,7 +149,7 @@ export class UserroleService {
 
     return this.formBuilder.group({
       userRoleID: [{ value: userRole.userRoleID, disabled: true }],
-      name: [userRole.name],
+      name: [userRole.name, Validators.required],
       description: [userRole.description],
       features: this.formBuilder.group(featureGroups)
     });

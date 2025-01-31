@@ -21,4 +21,7 @@
         <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
     </div>
     <button>Erstellen</button>
+    @if(error) {
+    <app-error-display [error]="error"></app-error-display>
+    }
 </form>

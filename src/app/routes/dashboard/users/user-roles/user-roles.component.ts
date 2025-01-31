@@ -5,11 +5,15 @@ import { UserRoleOption } from 'src/app/models/userRoleOption';
 import { UserroleService } from 'src/app/services/userrole.service';
 import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ProgressSpinnerComponent } from "../../../../components/progress-spinner/progress-spinner.component";
+import { ErrorDisplayComponent } from "../../../../components/error-display/error-display.component";
+import { faFloppyDisk } from '@fortawesome/free-regular-svg-icons';
 
 
 @Component({
   selector: 'app-user-roles',
-  imports: [FormsModule, FontAwesomeModule, ReactiveFormsModule],
+  imports: [FormsModule, FontAwesomeModule, ReactiveFormsModule, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './user-roles.component.html',
   styleUrl: './user-roles.component.scss'
 })
@@ -20,12 +24,22 @@ export class UserRolesComponent implements AfterViewInit {
   userRole?: UserRole;
   form: FormGroup = this.userRoleS.getFormGroup();
   isNewUserRole = false;
+  error: HttpErrorResponse | null = null;
+  isLoading = false;
 
   faPlus = faPlus;
   faTrashCan = faTrashCan;
+  faFloppyDisk = faFloppyDisk
 
   async ngAfterViewInit(): Promise<void> {
-    await this.loadFirstUserRole();
+    try {
+      this.error = null;
+      await this.loadFirstUserRole();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
   }
 
   private async loadFirstUserRole(): Promise<void> {
@@ -38,13 +52,23 @@ export class UserRolesComponent implements AfterViewInit {
   }
 
   async loadUserRole(userRoleID?: number): Promise<void> {
-    if (!userRoleID) return;
-    this.isNewUserRole = false;
-    this.userRole = await this.userRoleS.getUserRole(userRoleID);
-    this.form = this.userRoleS.getFormGroup(this.userRole);
+    try {
+      this.isLoading = true;
+      this.error = null;
+      if (!userRoleID) return;
+      this.isNewUserRole = false;
+      this.userRole = await this.userRoleS.getUserRole(userRoleID);
+      this.form = this.userRoleS.getFormGroup(this.userRole);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
+    this.isLoading = false;
   }
 
   createNewUserRole(): void {
+    this.error = null;
     this.isNewUserRole = true;
     this.selectedUserRoleOption = undefined;
     this.userRole = {
@@ -56,25 +80,42 @@ export class UserRolesComponent implements AfterViewInit {
   }
 
   async saveUserRole(): Promise<void> {
-    const userRoleInForm = this.userRoleS.getUserRoleFromFormGroup(this.form);
-    if (!userRoleInForm) return;
-    let userRoleID;
-    if (this.isNewUserRole) {
-      // Create new user role
-      userRoleID = await this.userRoleS.createUserRole(userRoleInForm);
-    } else {
-      // Update existing user role
-      await this.userRoleS.updateUserRole(userRoleInForm);
+    try {
+      if (this.form.invalid) return;
+      this.isLoading = true;
+      const userRoleInForm = this.userRoleS.getUserRoleFromFormGroup(this.form);
+      if (!userRoleInForm) return;
+      let userRoleID;
+      if (this.isNewUserRole) {
+        // Create new user role
+        userRoleID = await this.userRoleS.createUserRole(userRoleInForm);
+      } else {
+        // Update existing user role
+        await this.userRoleS.updateUserRole(userRoleInForm);
+      }
+      await this.refreshUserRoleOptions(userRoleID ?? this.selectedUserRoleOption?.userRoleID);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
     }
-    await this.refreshUserRoleOptions(userRoleID ?? this.selectedUserRoleOption?.userRoleID);
+    this.isLoading = false;
   }
 
   async deleteUserRole(): Promise<void> {
-    const userRoleID = this.userRole?.userRoleID;
-    if (!userRoleID) return;
-
-    await this.userRoleS.deleteUserRole([userRoleID]);
-    await this.loadFirstUserRole();
+    try {
+      const userRoleID = this.userRole?.userRoleID;
+      if (!userRoleID) return;
+      this.error = null;
+      this.isLoading = true;
+      await this.userRoleS.deleteUserRole([userRoleID]);
+      await this.loadFirstUserRole();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
+    this.isLoading = false;
   }
 
   private async refreshUserRoleOptions(userRoleID?: number): Promise<void> {

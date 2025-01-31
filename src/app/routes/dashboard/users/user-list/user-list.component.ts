@@ -1,43 +1,54 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { faTrash, faRotateRight, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faRotateRight, faEdit, faLock } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { User } from 'src/app/models/user';
 import { UserroleService } from 'src/app/services/userrole.service';
 import { UserRoleOption } from 'src/app/models/userRoleOption';
+import { ProgressSpinnerComponent } from "../../../../components/progress-spinner/progress-spinner.component";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorDisplayComponent } from "../../../../components/error-display/error-display.component";
 
 
 @Component({
   selector: 'app-users',
-  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass],
+  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
-export class UserListComponent implements AfterViewInit {
+export class UserListComponent implements OnInit {
   userS = inject(UserService);
   userRoleS = inject(UserroleService);
-  error: boolean = false;
+  error: HttpErrorResponse | null = null;
+  errorMessage: string = 'Fehler beim Laden der Benutzer';
+  isLoading = false;
   rows: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }[] = [];
   userRoles: UserRoleOption[] = [];
 
   faTrash = faTrash;
   faRotateRight = faRotateRight;
   faEdit = faEdit;
+  faLock = faLock
 
-  async ngAfterViewInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     await this.loadUsers();
     this.userRoles = await this.userRoleS.getAllUserRoles();
   }
 
   async loadUsers(): Promise<void> {
     try {
-      this.error = false;
+      this.error = null;
+      this.isLoading = true;
       const users = await this.userS.getAllUsersJSON();
       this.rows = users.map(user => ({ isChecked: false, user: user, editMode: false, editForm: undefined }));
-    } catch {
-      this.error = true;
+      this.isLoading = false;
+    } catch (error) {
+      this.isLoading = false;
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
     }
   }
 

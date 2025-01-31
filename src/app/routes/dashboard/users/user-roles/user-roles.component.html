@@ -14,17 +14,25 @@
             <button class="btnicon" title="Neue Userrolle erstellen" (click)="createNewUserRole()">
                 <fa-icon [icon]="faPlus"></fa-icon>
             </button>
-            <button (click)="saveUserRole()">Speichern</button>
             <button class="btnicon" title="Userrolle löschen" (click)="deleteUserRole()">
                 <fa-icon [icon]="faTrashCan"></fa-icon>
             </button>
         </div>
         <div>{{selectedUserRoleOption?.description}}</div>
-        <form [formGroup]="form">
-            <div class="inputfeld" id="userroleName">
-                <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required
-                    spellcheck="false" placeholder="&nbsp;">
-                <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
+        @if(isLoading) {
+        <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else if (error) {
+
+        <app-error-display [error]="error"></app-error-display>
+        } @else {
+        <form [formGroup]="form" (ngSubmit)="saveUserRole()">
+            <div class="formRow1">
+                <div class="inputfeld" id="userroleName">
+                    <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required
+                        spellcheck="false" placeholder="&nbsp;">
+                    <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
+                </div>
+                <button [disabled]="isLoading" type="submit"><fa-icon [icon]="faFloppyDisk"></fa-icon></button>
             </div>
             <div class="descriptiondiv">
                 <label for="description">Beschreibung:</label>
@@ -48,5 +56,6 @@
                 }
             </ul>
         </form>
+        }
     </div>
 </section>
