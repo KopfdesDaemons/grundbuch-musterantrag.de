@@ -6,7 +6,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--body);
+    background-color: var(--hintergrund-variant-darker);
     border-radius: 8px 8px 0 0;
     width: clamp(300px, 95%, 1000px);
     padding-left: 0.5em;
@@ -32,48 +32,26 @@ section {
     overflow: auto;
     position: relative;
     resize: vertical;
-    background-color: var(--body);
-
 
     table {
-        width: 100%;
-        font-size: clamp(12px, 2vw, 16px);
+        margin-top: 0;
+        font-size: clamp(12px, 2vw, 14px);
     }
 
-    th {
-        text-align: left;
+    .uploadID {
+        white-space: nowrap;
+        max-width: 8em;
+        overflow: hidden;
     }
 
-    td {
-        padding: 8px;
-        hyphens: auto;
-    }
-
-    .iconTableCell {
-        text-align: center;
-    }
-
-    td:last-child {
-        padding: 0;
-    }
-
-    tr:hover {
-        background-color: var(--hintergrund-variant);
+    .antragsart {
+        max-width: 25em;
     }
 
     thead {
         position: sticky;
         top: 0;
-        background-color: var(--hintergrund);
         z-index: 1;
-    }
-
-    table {
-        margin-top: 0;
-    }
-
-    .antragsart {
-        max-width: 25em;
     }
 }
 

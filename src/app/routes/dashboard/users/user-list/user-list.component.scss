@@ -1,31 +1,3 @@
-table {
-    border-radius: 0;
-    background-color: var(--hintergrund-variant-darker);
-
-    td,
-    th {
-        padding: 1em
-    }
-
-    tbody {
-        tr:nth-of-type(even) {
-            background-color: unset;
-        }
-
-        tr {
-            border-bottom: 1px solid gray;
-        }
-
-        tr:hover {
-            background-color: var(--hintergrund-variant);
-        }
-
-        .admin {
-            color: red;
-        }
-    }
-}
-
 section:first-of-type .sectiondiv {
     margin-top: 0;
     animation: grow 500ms;
