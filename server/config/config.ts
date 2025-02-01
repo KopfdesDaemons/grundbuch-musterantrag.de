@@ -1,15 +1,26 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+import logger from './logger';
 
 // environment variables
 export const JWT_SECRET: string = process.env['JWT_SECRET'] || '';
-if (!JWT_SECRET) throw new Error('JWT_SECRET ist nicht definiert');
+if (!JWT_SECRET) {
+    console.warn('⚠️ JWT_SECRET ist nicht definiert');
+    logger.warn('JWT_SECRET ist nicht definiert');
+}
 
 export const DASHBOARD_ROOT_PASSWORD: string = process.env['DASHBOARD_ROOT_PASSWORD'] || '';
-if (!DASHBOARD_ROOT_PASSWORD) throw new Error('DASHBOARD_ROOT_PASSWORD ist nicht definiert');
+if (!DASHBOARD_ROOT_PASSWORD) {
+    console.warn('⚠️ DASHBOARD_ROOT_PASSWORD ist nicht definiert');
+    logger.warn('DASHBOARD_ROOT_PASSWORD ist nicht definiert');
+}
 
 export const DASHBOARD_ROOT_USER: string = process.env['DASHBOARD_ROOT_USER'] || '';
-if (!DASHBOARD_ROOT_USER) throw new Error('DASHBOARD_ROOT_USER ist nicht definiert');
+if (!DASHBOARD_ROOT_USER) {
+    console.warn('⚠️ DASHBOARD_ROOT_USER ist nicht definiert');
+    logger.warn('DASHBOARD_ROOT_USER ist nicht definiert');
+}
+
 
 // folder paths
 export const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
