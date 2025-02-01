@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class FarbconverterService {
+export class ColorService {
 
   HexToHSL(hex: string) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -124,5 +124,10 @@ export class FarbconverterService {
       const hex = c.toString(16);
       return hex.length == 1 ? "0" + hex : hex;
     }
+  }
+
+  isValidHexColor(color: string): boolean {
+    const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    return hexColorRegex.test(color);
   }
 }

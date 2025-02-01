@@ -1,7 +1,7 @@
 import { formatDate, isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, LOCALE_ID, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { ScriptService } from './script.service';
-import { FarbconverterService } from './farbconverter.service';
+import { ColorService } from './color.service';
 import { DesignloaderService } from './designloader.service';
 import { UploadsService } from './uploads.service';
 
@@ -12,7 +12,7 @@ export class GooglechartsService {
   isLoaded: boolean = false;
   platformId = inject(PLATFORM_ID);
   scriptS = inject(ScriptService);
-  farbS = inject(FarbconverterService);
+  farbS = inject(ColorService);
   designS = inject(DesignloaderService);
   uploadsS = inject(UploadsService);
   local = inject(LOCALE_ID);

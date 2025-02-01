@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/cookies.service';
-import { FarbconverterService } from 'src/app/services/farbconverter.service';
+import { ColorService } from 'src/app/services/color.service';
 import { cookie } from '../../models/cookie';
 import { DesignloaderService } from 'src/app/services/designloader.service';
 import { RouterLink } from '@angular/router';
@@ -16,7 +16,7 @@ import { NgClass } from '@angular/common';
 })
 export class HeaderComponent implements AfterViewInit {
   cs = inject(CookiesService);
-  farbConv = inject(FarbconverterService);
+  farbConv = inject(ColorService);
   dl = inject(DesignloaderService);
 
   faMoon = faMoon;

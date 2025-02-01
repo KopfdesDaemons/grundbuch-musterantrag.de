@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FarbconverterService } from './farbconverter.service';
+import { ColorService } from './color.service';
 
 describe('FarbconverterService', () => {
-  let service: FarbconverterService;
+  let service: ColorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FarbconverterService);
+    service = TestBed.inject(ColorService);
   });
 
   it('should be created', () => {

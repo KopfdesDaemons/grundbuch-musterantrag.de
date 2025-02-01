@@ -2,7 +2,7 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { cookie } from '../models/cookie';
 import { CookiesService } from './cookies.service';
-import { FarbconverterService } from './farbconverter.service';
+import { ColorService } from './color.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { SettingsService } from './settings.service';
 
@@ -12,7 +12,7 @@ import { SettingsService } from './settings.service';
 export class DesignloaderService {
   cs = inject(CookiesService);
   settingsS = inject(SettingsService);
-  farbConv = inject(FarbconverterService);
+  colorS = inject(ColorService);
   private platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT).documentElement;
 
@@ -39,9 +39,9 @@ export class DesignloaderService {
     // init primary color from settings
     const primaryColorFromSettings = await this.settingsS.getPrimaryColorFromSetings();
     if (!primaryColorFromSettings) return;
-    if (!this.isValidHexColor(primaryColorFromSettings)) return;
+    if (!this.colorS.isValidHexColor(primaryColorFromSettings)) return;
     this.primaryColor = primaryColorFromSettings;
-    const hsl = this.farbConv.HexToHSL(primaryColorFromSettings);
+    const hsl = this.colorS.HexToHSL(primaryColorFromSettings);
     this.changeColor(hsl["h"], hsl["s"], hsl["l"], true);
   }
 
@@ -84,15 +84,10 @@ export class DesignloaderService {
   changeColor(h: number, s: number, l: number = 50, withoutCookieConsent: boolean = false) {
     const hsl = h + ", " + s + "%";
     this.document?.style.setProperty("--hsl-color", hsl);
-    this.primaryColor = this.farbConv.HSLToHex(h, s, l);
+    this.primaryColor = this.colorS.HSLToHex(h, s, l);
 
     if (withoutCookieConsent) return;
     const c: cookie = new cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");
     this.cs.setCookieWithRequest(c);
-  }
-
-  private isValidHexColor(color: string): boolean {
-    const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-    return hexColorRegex.test(color);
   }
 }
