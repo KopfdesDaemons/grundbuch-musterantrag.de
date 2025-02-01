@@ -3,8 +3,6 @@ import { CookiesTileComponent } from "../../../components/dashboard/tiles/cookie
 import { LoggerTileComponent } from "../../../components/dashboard/tiles/logger-tile/logger-tile.component";
 import { AntragslisteTileComponent } from 'src/app/components/dashboard/tiles/antragsliste-tile/antragsliste-tile.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Title } from '@angular/platform-browser';
 import { TimeHelper } from 'src/app/helpers/time.helper';
 import { AntragsartenTileComponent } from "../../../components/dashboard/tiles/antragsarten-tile/antragsarten-tile.component";
@@ -13,7 +11,7 @@ import { SettingsTileComponent } from "../../../components/dashboard/tiles/setti
 
 @Component({
   selector: 'app-dashboard-home',
-  imports: [CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, FontAwesomeModule, AntragsartenTileComponent, MigrationTileComponent, SettingsTileComponent],
+  imports: [CookiesTileComponent, LoggerTileComponent, AntragslisteTileComponent, AntragsartenTileComponent, MigrationTileComponent, SettingsTileComponent],
   templateUrl: './dashboard-home.component.html',
   styleUrl: './dashboard-home.component.scss'
 })
@@ -22,8 +20,6 @@ export class DashboardHomeComponent {
   title = inject(Title);
 
   greeting: string = "";
-
-  faArrowRightFromBracket = faArrowRightFromBracket;
 
   constructor() {
     this.title.setTitle('Dashboard');

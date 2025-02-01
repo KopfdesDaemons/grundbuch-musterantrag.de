@@ -1,20 +1,25 @@
-import { isPlatformBrowser, NgClass } from '@angular/common';
-import { Component, ElementRef, inject, PLATFORM_ID, viewChild } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/services/auth.service';
 import { SidemenuService } from 'src/app/services/sidemenu.service';
 
 @Component({
   selector: 'app-sidemenu',
-  imports: [RouterLink, NgClass],
+  imports: [RouterLink, NgClass, FontAwesomeModule],
   templateUrl: './sidemenu.component.html',
   styleUrl: './sidemenu.component.scss'
 })
 export class SidemenuComponent {
   sidemenuS = inject(SidemenuService);
-  private platformId = inject(PLATFORM_ID);
+  authS = inject(AuthService);
   router = inject(Router);
 
   component = viewChild.required<ElementRef>('sidemenu');
+
+  faArrowRightFromBracket = faArrowRightFromBracket;
 
   pages = [
     { name: 'Übersicht', route: '/dashboard' },
@@ -27,17 +32,5 @@ export class SidemenuComponent {
     if (!(route === '/dashboard')) {
       return this.router.url.startsWith(route);
     } else return this.router.url === route;
-  }
-
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const links = this.component().nativeElement.querySelectorAll('a');
-
-      for (const link of links) {
-        link.addEventListener('click', () => {
-          if (this.sidemenuS.DashboaardSidemenuIsOpen) this.sidemenuS.toggleDashboardSidemenu();
-        });
-      }
-    }
   }
 }

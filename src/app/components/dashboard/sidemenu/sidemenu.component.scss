@@ -24,6 +24,21 @@ aside {
     transition: transform 100ms ease-in-out;
     box-sizing: border-box;
     display: flex;
+    flex-direction: column;
+
+    .content {
+        margin-top: 5em;
+        padding: 0 1em;
+        z-index: 4;
+    }
+
+    .user {
+        display: flex;
+        justify-content: center;
+        padding: 0.5em;
+        font-size: 1.2em;
+        gap: 1em;
+    }
 
     &.sidemenuOpen {
         transform: translateX(calc(-1 * var(--dashboard-sidemenu-width)));
@@ -38,15 +53,12 @@ aside {
     }
 
     nav {
-        margin-top: 5em;
-        padding: 0 1em;
         display: flex;
         flex-direction: column;
         overflow-y: auto;
         width: 100%;
 
         ul {
-            z-index: 4;
             padding: 0;
             margin: 0;
             display: flex;

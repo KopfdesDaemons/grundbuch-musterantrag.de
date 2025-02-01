@@ -41,7 +41,7 @@ export class AntragsanzahltimeframeComponent {
         }
       });
       // timeout zur Vermeidung der Auslösung aufgrund der Animation
-      setTimeout(() => this.resizeObserver?.observe(this.contentDiv()?.nativeElement), 2500);
+      setTimeout(() => this.resizeObserver?.observe(this.contentDiv()?.nativeElement), 2000);
     })
   }
 

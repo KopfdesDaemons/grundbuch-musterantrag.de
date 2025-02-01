@@ -1,13 +1,19 @@
 <aside #sidemenu [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}">
-    <nav>
-        <div class="closingDiv" [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}"
-            (click)="sidemenuS.toggleDashboardSidemenu()"></div>
-        <ul>
-            @for(page of pages; track page.route) {
-            <li [ngClass]="{'active': isActive(page.route)}">
-                <a [routerLink]="page.route">{{ page.name }}</a>
-            </li>
-            }
-        </ul>
-    </nav>
+    <div class="content">
+        <div class="user">
+            <span>{{authS.getUsername()}}</span>
+            <fa-icon class="btnicon" [icon]="faArrowRightFromBracket" (click)="authS.logout()"></fa-icon>
+        </div>
+        <nav>
+            <ul>
+                @for(page of pages; track page.route) {
+                <li [ngClass]="{'active': isActive(page.route)}">
+                    <a [routerLink]="page.route">{{ page.name }}</a>
+                </li>
+                }
+            </ul>
+        </nav>
+    </div>
+    <div class="closingDiv" [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}"
+        (click)="sidemenuS.toggleDashboardSidemenu()"></div>
 </aside>
