@@ -25,8 +25,15 @@ export class LoggerTileComponent implements OnInit {
   }
 
   async deleteLogFile() {
-    await this.loggerS.deleteLogFile();
-    await this.loadLogFile();
+    try {
+      this.error = null;
+      await this.loggerS.deleteLogFile();
+      await this.loadLogFile();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
   }
 
   async loadLogFile() {

@@ -32,6 +32,9 @@ export class AuthService {
   }
 
   async login(username: string, password: string): Promise<void> {
+    // required for new-passoword page
+    localStorage.setItem('username', username);
+
     const response = await firstValueFrom(this.http.post('/api/auth/login', {
       username: username,
       password: password

@@ -5,7 +5,7 @@ import logger from 'server/config/logger';
 export const deleteLogFile = async (req: Request, res: Response) => {
     try {
         await clearLogFile();
-        res.status(200).send('LogFile.log gelöscht.');
+        res.status(200).send({ message: 'LogFile.log gelöscht' });
     } catch (error: any) {
         logger.error('Fehler beim Löschen der LogFile.log', error);
         res.status(500).send({ message: 'Fehler beim Löschen der LogFile.log' });
