@@ -76,8 +76,6 @@ jobs:
           script: |
             cd /home/${{ secrets.SSH_USER }}/app/grundbuch-musterantrag.de/
             docker compose down
-
-            # Setzen der Variablen
             JWT_SECRET=${{ secrets.JWT_SECRET }} \
             MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
             MYSQL_USER=${{ secrets.MYSQL_USER }} \
