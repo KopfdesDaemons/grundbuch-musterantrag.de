@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-new-password',
@@ -43,11 +44,13 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
       };
       if (!this.username) return;
       await this.userS.updatePassword(this.username, oldPassword, newPassword);
-      await this.authS.anmelden(this.username, newPassword);
+      await this.authS.login(this.username, newPassword);
       await this.router.navigate(['/dashboard']);
-    } catch (err: any) {
-      if (err.error.error === 'Falsches Passwort') {
-        this.form.get('oldPassword')?.setErrors({ 'wrongPassword': true });
+    } catch (err) {
+      if (err instanceof HttpErrorResponse) {
+        if (err.error.message === 'Falsches Passwort') {
+          this.form.get('oldPassword')?.setErrors({ 'wrongPassword': true });
+        }
       }
     }
   }

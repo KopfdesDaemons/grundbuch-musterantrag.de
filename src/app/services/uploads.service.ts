@@ -58,36 +58,31 @@ export class UploadsService {
   }
 
   async getFile(fileName: string, fileType: 'pdf' | 'docx') {
-    fileName = fileName + `.${fileType}`;
+    fileName = `${fileName}.${fileType}`;
 
-    const response: any = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }).toString(), {
-      method: 'GET',
-      headers: { 'Authorization': `Bearer ${this.authS.getToken()}` }
-    });
+    const response = await lastValueFrom(
+      this.http.get('/api/uploads/getFile', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        params: new HttpParams().set('fileName', fileName),
+        responseType: 'blob'
+      })
+    );
 
-    if (!response.ok) throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
+    const contentType = fileType === 'pdf'
+      ? 'application/pdf'
+      : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-    const contentType = fileType === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    const blob = new Blob([response], { type: contentType });
+    const blobUrl = URL.createObjectURL(blob);
 
-    // body auslesen
-    const reader = response.body.getReader();
-    const chunks: Uint8Array[] = [];
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(value);
-    }
-
-    const file = new window.Blob(chunks, { type: contentType });
-
-    // PDF in neuen Tab öffnen
+    // open pdf in new tab
     if (fileType === 'pdf') {
-      window.open(URL.createObjectURL(file), '_blank');
+      window.open(blobUrl, '_blank');
       return;
     }
 
-    // DOCX als Datei speichern
-    FileSaver.saveAs(file, fileName);
+    // docx download
+    FileSaver.saveAs(blob, fileName);
   }
 
   async getTotalFiles(): Promise<number> {

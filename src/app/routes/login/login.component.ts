@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -24,18 +25,30 @@ export class LoginComponent implements AfterViewInit {
   }
 
   async tryLogin() {
-    if (this.loginForm.invalid) return;
+    try {
+      if (this.loginForm.invalid) return;
+      this.errorMessage = '';
+      const username = this.loginForm.value.username.trim();
+      const password = this.loginForm.value.password;
 
-    const username = this.loginForm.value.username.trim();
-    const password = this.loginForm.value.password;
-
-    const result = await this.authS.anmelden(username, password);
-
-    if (!result.success) {
-      if (result.message === "Passwortänderung erforderlich") {
-        await this.router.navigate(['/new-password']);
+      await this.authS.login(username, password);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        switch (error.status) {
+          case 403:
+            this.errorMessage = 'Login verweigert';
+            break;
+          case 401:
+            if (error.error.message === "Passwortänderung erforderlich") {
+              await this.router.navigate(['/new-password']);
+            } else {
+              this.errorMessage = 'Logindaten unvollständig';
+            }
+            break;
+          default:
+            this.errorMessage = `Login nicht erfolgreich: ${error.message || error.status}`;
+        }
       }
-      this.errorMessage = result.message;
     }
   }
 }

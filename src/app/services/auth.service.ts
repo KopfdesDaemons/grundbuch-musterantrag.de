@@ -31,47 +31,20 @@ export class AuthService {
     return this.username;
   }
 
-  async anmelden(username: string, password: string): Promise<{ success: boolean, message: string }> {
-    try {
-      localStorage.setItem('username', username);
-      const response: any = await firstValueFrom(this.http.post('/api/auth/login', {
-        username: username,
-        password: password
-      }));
+  async login(username: string, password: string): Promise<void> {
+    localStorage.setItem('username', username);
+    const response: any = await firstValueFrom(this.http.post('/api/auth/login', {
+      username: username,
+      password: password
+    }));
 
-      localStorage.setItem('auth_token', response.token);
-      this.username = username;
-      this.authToken = response.token;
-      await this.router.navigate(['/dashboard']);
-
-      // Erfolgsmeldung zurückgeben
-      return { success: true, message: "Login erfolgreich" };
-    } catch (error: any) {
-      let errorMessage = "Login nicht erfolgreich";
-
-      switch (error.status) {
-        case 403:
-          errorMessage = 'Login verweigert';
-          break;
-        case 401:
-          if (error.error.message === 'Passwortänderung erforderlich') {
-            errorMessage = 'Passwortänderung erforderlich';
-            break;
-          }
-          errorMessage = 'Logindaten unvollständig';
-          break;
-        default:
-          errorMessage = `Login nicht erfolgreich: ${error.message || error.status}`;
-      }
-
-      console.log(errorMessage);
-
-      // Fehlernachricht zurückgeben
-      return { success: false, message: errorMessage };
-    }
+    localStorage.setItem('auth_token', response.token);
+    this.username = username;
+    this.authToken = response.token;
+    await this.router.navigate(['/dashboard']);
   }
 
-  async abmelden() {
+  async logout() {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.removeItem('auth_token');
     localStorage.removeItem('username');
@@ -99,19 +72,11 @@ export class AuthService {
   }
 
   async ckeckAuth(): Promise<boolean> {
-    try {
-      if (!isPlatformBrowser(this.platformId)) return false;
-      await lastValueFrom(this.http.get('/api/auth/checkAuth', {
-        headers: new HttpHeaders({
-          'Authorization': `Bearer ${this.getToken()}`,
-        })
-      }))
-      return true;
-    } catch (error: any) {
-      if (error.status == 401 || error.status == 403) {
-        return false;
-      }
-      throw error;
-    }
+    await lastValueFrom(this.http.get('/api/auth/checkAuth', {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.getToken()}`,
+      })
+    }))
+    return true;
   }
 }
