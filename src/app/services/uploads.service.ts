@@ -40,12 +40,12 @@ export class UploadsService {
   async getFiles(page: number = 1): Promise<{ page: number, files: Upload[] }> {
     if (!isPlatformBrowser(this.platformId)) return { page: 1, files: [] };
 
-    // Nicht laden, wenn über totalPages
+    // no load if page is greater than total pages
     if (this.uploadsData && page > this.uploadsData['totalPages']) {
       throw new Error('Seite größer als die gesamte Anzahl der Seiten');
     };
 
-    // Lade neue Seite
+    // reload uploadsData
     const result = await lastValueFrom(
       this.http.get('/api/uploads', {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),

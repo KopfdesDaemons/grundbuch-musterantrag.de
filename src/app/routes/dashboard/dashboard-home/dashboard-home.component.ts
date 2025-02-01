@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Title } from '@angular/platform-browser';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeHelper } from 'src/app/helpers/time.helper';
 import { AntragsartenTileComponent } from "../../../components/dashboard/tiles/antragsarten-tile/antragsarten-tile.component";
 import { MigrationTileComponent } from "../../../components/dashboard/tiles/migration-tile/migration-tile.component";
 import { SettingsTileComponent } from "../../../components/dashboard/tiles/settings-tile/settings-tile.component";
@@ -20,15 +20,13 @@ import { SettingsTileComponent } from "../../../components/dashboard/tiles/setti
 export class DashboardHomeComponent {
   authS = inject(AuthService);
   title = inject(Title);
-  timeS = inject(TimeService);
 
   greeting: string = "";
 
-  // FontAwesome Icons
   faArrowRightFromBracket = faArrowRightFromBracket;
 
   constructor() {
     this.title.setTitle('Dashboard');
-    this.greeting = 'Guten ' + this.timeS.getTimeOfDay() + ', ' + this.authS.getUsername() + '!';
+    this.greeting = 'Guten ' + TimeHelper.getTimeOfDay() + ', ' + this.authS.getUsername() + '!';
   }
 }

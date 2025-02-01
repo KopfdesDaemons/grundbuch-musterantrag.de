@@ -1,9 +1,9 @@
 import { formatDate, isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, LOCALE_ID, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { ScriptService } from './script.service';
-import { ColorService } from './color.service';
 import { DesignloaderService } from './designloader.service';
 import { UploadsService } from './uploads.service';
+import { ColorHelper } from '../helpers/color.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,6 @@ export class GooglechartsService {
   isLoaded: boolean = false;
   platformId = inject(PLATFORM_ID);
   scriptS = inject(ScriptService);
-  farbS = inject(ColorService);
   designS = inject(DesignloaderService);
   uploadsS = inject(UploadsService);
   local = inject(LOCALE_ID);
@@ -37,7 +36,7 @@ export class GooglechartsService {
     const schriftColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--schrift').trim();
     const rgbNumbers = schriftColorRGB.match(/\d+/g);
     const rgbArray = rgbNumbers!.map(Number);
-    const schriftHEX = this.farbS.rgbToHex(rgbArray[0], rgbArray[1], rgbArray[2]);
+    const schriftHEX = ColorHelper.rgbToHex(rgbArray[0], rgbArray[1], rgbArray[2]);
     const primaryColor = this.designS.primaryColor;
 
     const drawBasic = () => {

@@ -1,11 +1,6 @@
-import { Injectable } from '@angular/core';
+export abstract class ColorHelper {
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ColorService {
-
-  HexToHSL(hex: string) {
+  static HexToHSL(hex: string) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
     let r = parseInt(result![1], 16);
@@ -44,7 +39,7 @@ export class ColorService {
     return { h, s, l };
   }
 
-  RGBToHSL(r: number, g: number, b: number) {
+  static RGBToHSL(r: number, g: number, b: number) {
     r /= 255;
     g /= 255;
     b /= 255;
@@ -80,7 +75,7 @@ export class ColorService {
     return { h, s, l };
   }
 
-  HSLToHex(h: number, s: number, l: number) {
+  static HSLToHex(h: number, s: number, l: number) {
     s /= 100;
     l /= 100;
 
@@ -117,7 +112,7 @@ export class ColorService {
     return "#" + rstr + gstr + bstr;
   }
 
-  rgbToHex(r: number, g: number, b: number) {
+  static rgbToHex(r: number, g: number, b: number) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 
     function componentToHex(c: number) {
@@ -126,7 +121,7 @@ export class ColorService {
     }
   }
 
-  isValidHexColor(color: string): boolean {
+  static isValidHexColor(color: string): boolean {
     const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
     return hexColorRegex.test(color);
   }

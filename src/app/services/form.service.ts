@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { Antrag } from '../interfaces/antrag';
-import { TimeService } from './time.service';
+import { TimeHelper } from '../helpers/time.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,6 @@ import { TimeService } from './time.service';
 export class FormService {
   http = inject(HttpClient);
   scroll = inject(ViewportScroller);
-  timeS = inject(TimeService);
 
   antrag: Antrag | null = null;
   form!: FormGroup;
@@ -98,7 +97,7 @@ export class FormService {
     if (!this.antrag) return;
     this.progress = 100;
     this.antrag.loadFormValue(this.form.value);
-    this.antrag.datum = this.timeS.formatDate(new Date());
+    this.antrag.datum = TimeHelper.formatDate(new Date());
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {

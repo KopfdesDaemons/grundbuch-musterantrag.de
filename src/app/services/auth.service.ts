@@ -32,24 +32,30 @@ export class AuthService {
   }
 
   async login(username: string, password: string): Promise<void> {
-    localStorage.setItem('username', username);
-    const response: any = await firstValueFrom(this.http.post('/api/auth/login', {
+    const response = await firstValueFrom(this.http.post('/api/auth/login', {
       username: username,
       password: password
     }));
 
-    localStorage.setItem('auth_token', response.token);
-    this.username = username;
-    this.authToken = response.token;
+    const data = response as { token: string, username: string };
+
+    localStorage.setItem('auth_token', data.token);
+    localStorage.setItem('username', data.username);
+
+    this.username = data.username;
+    this.authToken = data.token;
+
     await this.router.navigate(['/dashboard']);
   }
 
   async logout() {
     if (!isPlatformBrowser(this.platformId)) return;
+
     localStorage.removeItem('auth_token');
     localStorage.removeItem('username');
     this.username = "";
     this.authToken = null;
+
     await this.router.navigate(['/login']);
     console.log('Abmeldung erfolgt');
   }

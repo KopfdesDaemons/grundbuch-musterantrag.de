@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
-import { TimeService } from './time.service';
 import { isPlatformBrowser } from '@angular/common';
+import { TimeHelper } from '../helpers/time.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,6 @@ import { isPlatformBrowser } from '@angular/common';
 export class LoggerService {
   http = inject(HttpClient);
   authS = inject(AuthService);
-  timeS = inject(TimeService);
   platformID = inject(PLATFORM_ID);
 
   async getLogFile(): Promise<{ timestamp: string, message: string }[] | null> {
@@ -25,17 +24,17 @@ export class LoggerService {
     );
 
     if (response.status === 204) {
-      // Keine Logs vorhanden
+      // no content
       return null;
     } else {
-      // Logs vorhanden
+      // content
       const logs = response.body as { timestamp: string, message: string }[];
 
-      // Zeitstempel formatieren
+      // format the logs
       const formattedLogs = logs.map(log => {
         const date = new Date(log.timestamp);
-        const formattedDate = this.timeS.formatDate(date);
-        const formattedTime = this.timeS.formatTime(date);
+        const formattedDate = TimeHelper.formatDate(date);
+        const formattedTime = TimeHelper.formatTime(date);
         const formattedTimestamp = `${formattedDate} ${formattedTime}`;
 
         return { ...log, timestamp: formattedTimestamp };

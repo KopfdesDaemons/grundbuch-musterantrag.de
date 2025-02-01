@@ -15,7 +15,7 @@ export class SettingsService {
 
   /**
    * Lade die Einstellungen von der API
-   * @returns Settings
+   * @returns Settings | null
    */
   async loadSettings(): Promise<Settings | null> {
     const response = await lastValueFrom(
@@ -29,7 +29,7 @@ export class SettingsService {
 
   /**
    * Lade die Einstellungen aus dem Service ohne API-Aufruf, wenn sie bereits geladen wurden
-   * @returns Settings
+   * @returns Settings | null
    */
   async getSettings(): Promise<Settings | null> {
     if (!this.settings) this.settings = await this.loadSettings();

@@ -25,7 +25,7 @@ export const handleLogin = async (req: Request, res: Response): Promise<any> => 
             return res.status(401).json({ message: 'Passwortänderung erforderlich' });
         }
 
-        return res.json({ token });
+        return res.json({ token: token, username: user.username });
     } catch (error: any) {
         logger.error(`Fehler bei der Anmeldung unter dem Usernamen ${username}:`, error);
         if (error.message === 'Ungültige Anmeldedaten') {

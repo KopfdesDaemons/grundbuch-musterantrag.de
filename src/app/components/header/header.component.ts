@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/cookies.service';
-import { ColorService } from 'src/app/services/color.service';
 import { cookie } from '../../models/cookie';
 import { DesignloaderService } from 'src/app/services/designloader.service';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgClass } from '@angular/common';
+import { ColorHelper } from 'src/app/helpers/color.helper';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +16,6 @@ import { NgClass } from '@angular/common';
 })
 export class HeaderComponent implements AfterViewInit {
   cs = inject(CookiesService);
-  farbConv = inject(ColorService);
   dl = inject(DesignloaderService);
 
   faMoon = faMoon;
@@ -42,7 +41,7 @@ export class HeaderComponent implements AfterViewInit {
   readonly background = input<string>('var(--gradient)');
 
   ngAfterViewInit(): void {
-    this.cs.cookieRequestList.subscribe((c: cookie[]) => { this.showCookieBanner(); });
+    this.cs.cookieRequestList.subscribe(() => { this.showCookieBanner(); });
   }
 
   setColorFromPresets(btn: any) {
@@ -50,12 +49,12 @@ export class HeaderComponent implements AfterViewInit {
     const sep = farbe.indexOf(",") > -1 ? "," : " ";
     const rgb = farbe.substring(4).split(")")[0].split(sep);
     const r = (+rgb[0]), g = (+rgb[1]), b = (+rgb[2]);
-    const hslfromrgb = this.farbConv.RGBToHSL(r, g, b);
+    const hslfromrgb = ColorHelper.RGBToHSL(r, g, b);
     this.dl.changeColor(hslfromrgb["h"], hslfromrgb["s"], hslfromrgb["l"]);
   }
 
   CustomColor(color: any) {
-    const hslfromhex = this.farbConv.HexToHSL(color.value);
+    const hslfromhex = ColorHelper.HexToHSL(color.value);
     this.dl.changeColor(hslfromhex["h"], hslfromhex["s"], hslfromhex["l"]);
   }
 
@@ -80,12 +79,12 @@ export class HeaderComponent implements AfterViewInit {
 
   async akzeptieren() {
     this.cs.setcookie(this.cs.cookieRequestList.value[0]);
-    this.nextBanner();
+    await this.nextBanner();
   }
 
   async nextBanner() {
     this.cookiebanner().nativeElement.classList.add("ausgeblendet");
-    var c: cookie = this.cs.cookieRequestList.value[0];
+    const c: cookie = this.cs.cookieRequestList.value[0];
     this.cs.cookieRequested(c);
     await this.delay(1000);
     this.cookieBannerIsDisplayed = false;
