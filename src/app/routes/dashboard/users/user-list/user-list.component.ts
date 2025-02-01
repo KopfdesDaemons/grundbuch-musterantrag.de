@@ -53,13 +53,20 @@ export class UserListComponent implements OnInit {
   }
 
   async deleteUsers(): Promise<void> {
-    const userIDs = this.rows
-      .filter(row => row.isChecked)
-      .map(row => row.user.userID)
-      .filter((userID): userID is number => userID !== undefined);
-    if (userIDs.length === 0) return;
-    await this.userS.deleteUsers(userIDs);
-    await this.loadUsers();
+    try {
+      this.error = null;
+      const userIDs = this.rows
+        .filter(row => row.isChecked)
+        .map(row => row.user.userID)
+        .filter((userID): userID is number => userID !== undefined);
+      if (userIDs.length === 0) return;
+      await this.userS.deleteUsers(userIDs);
+      await this.loadUsers();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
   }
 
   toggleEditMode(row: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }): void {
@@ -70,6 +77,7 @@ export class UserListComponent implements OnInit {
 
   async saveUser(row: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }): Promise<void> {
     try {
+      this.error = null;
       if (!row.user.userID) return;
       const newUsername = row.editForm?.get('username')?.value;
       const newPassword = row.editForm?.get('userPassword')?.value;
@@ -78,8 +86,10 @@ export class UserListComponent implements OnInit {
       if (newPassword) await this.userS.setinitialpassword(row.user.userID, newPassword);
       if (userRoleID != row.user.userRole.userRoleID) await this.userS.updateUserRole(row.user.userID, userRoleID);
       await this.loadUsers();
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
     }
   }
 }
