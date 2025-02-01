@@ -1,6 +1,12 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
 .content {
     display: flex;
     flex-direction: column;
+    // height: 100%;
 }
 
 .chartToggle {
@@ -12,4 +18,8 @@
 #chart_div {
     width: 100%;
     margin-bottom: 0.5em;
+}
+
+.chart {
+    height: 100%;
 }

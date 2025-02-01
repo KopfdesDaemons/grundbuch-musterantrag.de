@@ -19,7 +19,8 @@ export class SidemenuComponent {
   pages = [
     { name: 'Übersicht', route: '/dashboard' },
     { name: 'Uploads', route: '/dashboard/antragsliste' },
-    { name: 'Users', route: '/dashboard/users' },
+    { name: 'Statistik', route: '/dashboard/statistic' },
+    { name: 'Users', route: '/dashboard/users' }
   ];
 
   isActive(route: string): boolean {

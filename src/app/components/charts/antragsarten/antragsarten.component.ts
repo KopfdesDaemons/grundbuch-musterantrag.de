@@ -3,14 +3,13 @@ import { Component, effect, ElementRef, inject, Renderer2, viewChild } from '@an
 import { GooglechartsService } from 'src/app/services/googlecharts.service';
 
 @Component({
-  selector: 'app-antragsanzahltimeframe',
+  selector: 'app-antragsarten',
   imports: [],
-  templateUrl: './antragsanzahltimeframe.component.html',
-  styleUrl: './antragsanzahltimeframe.component.scss'
+  templateUrl: './antragsarten.component.html',
+  styleUrl: './antragsarten.component.scss'
 })
-export class AntragsanzahltimeframeComponent {
+export class AntragsartenComponent {
   private resizeObserver: ResizeObserver | undefined;
-  chartTimeframe: 'Woche' | 'Monat' = 'Monat';
   readonly contentDiv = viewChild.required<ElementRef>('content');
   readonly chartDiv = viewChild<ElementRef>('chart_div');
   gCharts = inject(GooglechartsService);
@@ -45,14 +44,8 @@ export class AntragsanzahltimeframeComponent {
     })
   }
 
-  async changeChartTimeframe() {
-    this.chartTimeframe = this.chartTimeframe === 'Woche' ? 'Monat' : 'Woche';
-    await this.drawChart(true);
-  }
-
   async drawChart(refreshData: boolean = false) {
-    const timeframe = this.chartTimeframe === 'Monat' ? 'month' : 'week';
-    if (refreshData) this.gCharts.chartRowsAntragsanzahlTimeframe = await this.gCharts.getAntragTimeframeChartRows(timeframe);
-    await this.gCharts.loadAntragsanzahlTimeframeChart(this.renderer, this.document, this.chartDiv()?.nativeElement, timeframe);
+    if (refreshData) this.gCharts.chartRowsAntragsarten = await this.gCharts.getAntragsartenChartRows();
+    await this.gCharts.loadAntragsartenChart(this.renderer, this.document, this.chartDiv()?.nativeElement);
   }
 }

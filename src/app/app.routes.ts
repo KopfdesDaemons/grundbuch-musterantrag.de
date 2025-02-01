@@ -44,7 +44,8 @@ export const routes: Routes = [
                     { path: 'create-user', loadComponent: () => import('./routes/dashboard/users/create-user/create-user.component').then(m => m.CreateUserComponent), canActivate: [AuthGuard] },
                     { path: 'user-roles', loadComponent: () => import('./routes/dashboard/users/user-roles/user-roles.component').then(m => m.UserRolesComponent), canActivate: [AuthGuard] },
                 ]
-            }
+            },
+            { path: 'statistic', loadComponent: () => import('./routes/dashboard/statistic/statistic.component').then(m => m.StatisticComponent), canActivate: [AuthGuard] },
         ]
     },
     { path: 'login', loadComponent: () => import('./routes/login/login.component').then(m => m.LoginComponent) },

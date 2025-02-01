@@ -1,0 +1,15 @@
+.grid {
+    display: grid;
+    flex: 1;
+    gap: 1em;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+
+    @media only screen and (max-width: 700px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chartContainer {
+    height: 18em;
+}

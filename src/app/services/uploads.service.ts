@@ -91,14 +91,14 @@ export class UploadsService {
     return this.uploadsData.totalFiles
   }
 
-  async getStatistic(): Promise<any> {
-    if (!isPlatformBrowser(this.platformId)) return;
+  async getStatistic(): Promise<{ [key: string]: number }> {
+    if (!isPlatformBrowser(this.platformId)) return {};
     const data = await lastValueFrom(
       this.http.get('/api/statistic', {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
       })
     );
-    return data;
+    return data as { [key: string]: number };
   }
 
   async deleteUpload(name: string) {

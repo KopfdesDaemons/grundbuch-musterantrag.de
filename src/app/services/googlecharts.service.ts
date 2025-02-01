@@ -15,7 +15,8 @@ export class GooglechartsService {
   designS = inject(DesignloaderService);
   uploadsS = inject(UploadsService);
   local = inject(LOCALE_ID);
-  chartRows: (string | number)[][] = [];
+  chartRowsAntragsanzahlTimeframe: (string | number)[][] = [];
+  chartRowsAntragsarten: (string | number)[][] = [];
 
   async getAntragTimeframeChartRows(timeframe: 'week' | 'month'): Promise<(string | number)[][]> {
     const chartDates = await this.uploadsS.getUploadDatesAndCounts(timeframe);
@@ -28,10 +29,20 @@ export class GooglechartsService {
     return chartRows;
   }
 
+  async getAntragsartenChartRows(): Promise<(string | number)[][]> {
+    const statistic = await this.uploadsS.getStatistic();
+    const chartRows: (string | number)[][] = [];
+    for (const [antragsart, anzahl] of Object.entries(statistic)) {
+      const row = [antragsart, anzahl];
+      chartRows.push(row);
+    }
+    return chartRows;
+  }
+
   async loadAntragsanzahlTimeframeChart(renderer: Renderer2, document: Document, chartDiv: HTMLElement, chartTimeframe: 'week' | 'month'): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) return;
     await this.scriptS.addJsScript(renderer, 'https://www.gstatic.com/charts/loader.js');
-    if (this.chartRows.length === 0) this.chartRows = await this.getAntragTimeframeChartRows(chartTimeframe);
+    if (this.chartRowsAntragsanzahlTimeframe.length === 0) this.chartRowsAntragsanzahlTimeframe = await this.getAntragTimeframeChartRows(chartTimeframe);
     const google = (window as any)['google'];
     const schriftColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--schrift').trim();
     const rgbNumbers = schriftColorRGB.match(/\d+/g);
@@ -44,7 +55,7 @@ export class GooglechartsService {
       const data = new google.visualization.DataTable();
       data.addColumn('string', 'X');
       data.addColumn('number', 'Anträge');
-      data.addRows(this.chartRows);
+      data.addRows(this.chartRowsAntragsanzahlTimeframe);
 
       const options = {
         legend: 'none',
@@ -101,6 +112,58 @@ export class GooglechartsService {
       };
 
       const chart = new google.visualization.LineChart(chartDiv);
+
+      chart.draw(data, options);
+    }
+
+    if (!google || !google.charts) return;
+    google.charts.load('current', { packages: ['corechart', 'line'] });
+
+    if (this.isLoaded) drawBasic();
+    else google.charts.setOnLoadCallback(drawBasic);
+  }
+
+  async loadAntragsartenChart(renderer: Renderer2, document: Document, chartDiv: HTMLElement): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) return;
+    await this.scriptS.addJsScript(renderer, 'https://www.gstatic.com/charts/loader.js');
+    if (this.chartRowsAntragsarten.length === 0) this.chartRowsAntragsarten = await this.getAntragsartenChartRows();
+    const google = (window as any)['google'];
+    const schriftColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--schrift').trim();
+    const schriftHEX = ColorHelper.rgbToHexFromString(schriftColorRGB);
+    const primaryColor = this.designS.primaryColor;
+    const variantColor2 = ColorHelper.darkenHexColor(primaryColor!, 20);
+    const variantColor3 = ColorHelper.darkenHexColor(primaryColor!, 30);
+    const variantColor4 = ColorHelper.darkenHexColor(primaryColor!, 40);
+    const variantColor5 = ColorHelper.darkenHexColor(primaryColor!, 50);
+    const variantColor6 = ColorHelper.darkenHexColor(primaryColor!, 60);
+
+    const drawBasic = () => {
+      this.isLoaded = true;
+      const data = new google.visualization.DataTable();
+      data.addColumn('string', 'X');
+      data.addColumn('number', 'Anträge');
+      data.addRows(this.chartRowsAntragsarten);
+
+      const options = {
+        legend: { textStyle: { color: schriftHEX } },
+        responsive: true,
+        colors: [primaryColor, variantColor2, variantColor3, variantColor4, variantColor5, variantColor6],
+        textStyle: {
+          color: schriftHEX,
+        },
+        chartArea: {
+          left: 20,
+          top: 20,
+          right: 20,
+          width: '90%',
+          height: '90%'
+        },
+        backgroundColor: {
+          fill: 'transparent',
+        },
+      };
+
+      const chart = new google.visualization.PieChart(chartDiv);
 
       chart.draw(data, options);
     }

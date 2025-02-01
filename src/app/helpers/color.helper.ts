@@ -121,6 +121,36 @@ export abstract class ColorHelper {
     }
   }
 
+  static rgbToHexFromString(rgbString: string) {
+    const rgbNumbers = rgbString.match(/\d+/g);
+    const rgbArray = rgbNumbers!.map(Number);
+    return ColorHelper.rgbToHex(rgbArray[0], rgbArray[1], rgbArray[2]);
+  }
+
+  static darkenHexColor(hex: string, percent: number): string {
+    hex = hex.replace(/^#/, '');
+
+    if (hex.length === 3) {
+      hex = hex.split('').map(c => c + c).join('');
+    }
+
+    if (hex.length !== 6) {
+      throw new Error('Ungültige Hex-Farbe');
+    }
+
+    let [r, g, b] = [0, 2, 4].map(start =>
+      parseInt(hex.substring(start, start + 2), 16)
+    );
+
+    const darken = (color: number) => Math.max(0, Math.min(255, Math.round(color * (1 - percent / 100))));
+
+    r = darken(r);
+    g = darken(g);
+    b = darken(b);
+
+    return `#${[r, g, b].map(c => c.toString(16).padStart(2, '0')).join('')}`;
+  }
+
   static isValidHexColor(color: string): boolean {
     const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
     return hexColorRegex.test(color);
