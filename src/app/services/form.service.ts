@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
@@ -16,7 +16,7 @@ export class FormService {
 
   antrag: Antrag | null = null;
   form!: FormGroup;
-  progress: number = 0;
+  progress = signal(0);
   private Step = new BehaviorSubject<number>(1);
   constrolsAndComponents: { control: string, component: string }[] = [
     { control: 'antragsteller', component: 'antragsteller' },
@@ -69,7 +69,7 @@ export class FormService {
   private setProgress() {
     const step: number = this.requiredComponents.indexOf(this.currentComponent);
     const progress: number = step / this.requiredComponents.length * 100;
-    this.progress = progress;
+    this.progress.set(progress);
   }
 
   private checkGrundbuchamtSkip(nextComponent: string): boolean {
@@ -95,7 +95,7 @@ export class FormService {
 
   antragAbschließen() {
     if (!this.antrag) return;
-    this.progress = 100;
+    this.progress.set(100);
     this.antrag.loadFormValue(this.form.value);
     this.antrag.datum = TimeHelper.formatDate(new Date());
   }

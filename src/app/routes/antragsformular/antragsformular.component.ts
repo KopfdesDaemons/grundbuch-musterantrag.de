@@ -31,13 +31,12 @@ import { NgClass } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
-    selector: 'app-antragsformular',
-    templateUrl: './antragsformular.component.html',
-    styleUrls: ['./antragsformular.component.scss'],
-    imports: [HeaderComponent, NgClass, AntragstellerComponent, ErblasserComponent, GrundstueckComponent, RechtAbteilung2Component, ErbnachweisComponent, TeilungserklaerungComponent, FarbeComponent, BewilligungComponent, WeitererGrundbesitzComponent, FormDesAusdrucksComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, HinweisComponent, AntragsgenerierungComponent, FooterComponent, FileNotFoundComponent]
+  selector: 'app-antragsformular',
+  templateUrl: './antragsformular.component.html',
+  styleUrls: ['./antragsformular.component.scss'],
+  imports: [HeaderComponent, NgClass, AntragstellerComponent, ErblasserComponent, GrundstueckComponent, RechtAbteilung2Component, ErbnachweisComponent, TeilungserklaerungComponent, FarbeComponent, BewilligungComponent, WeitererGrundbesitzComponent, FormDesAusdrucksComponent, BerechtigtesInteresseComponent, GrundbuchamtComponent, HinweisComponent, AntragsgenerierungComponent, FooterComponent, FileNotFoundComponent]
 })
 export class AntragsformularComponent implements OnInit {
-  // Injections
   private titleService = inject(Title);
   private route = inject(ActivatedRoute);
   fs = inject(FormService);
@@ -45,40 +44,25 @@ export class AntragsformularComponent implements OnInit {
 
   private routeParamsSubscription: Subscription | undefined;
 
+  antragMapping: Record<string, new () => Antrag> = {
+    'grundbuchausdruck': AntragGrundbuchausdruck,
+    'namensberichtigung': AntragNamensberichtigung,
+    'grundbuchberichtigung-sterbefall': AntragGrundbuchberichtigungSterbefall,
+    'loeschung-abteilung2': AntragLoesschungAbt2,
+    'abschrift-bewilligung': AntragAbschriftBewilligung,
+    'teilungserklaerung': AntragTeilungserklaerung
+  };
+
   ngOnInit(): void {
-    this.routeParamsSubscription = this.route.params.subscribe(async (params) => {
+    this.routeParamsSubscription = this.route.params.subscribe((params) => {
 
       const antragArt: string = params['antragsart'];
       this.titleService.setTitle('Musterantrag ' + this.capitalizeFirstLetter(antragArt));
 
-      let antrag: Antrag | null = null;
-      switch (antragArt) {
-        case 'grundbuchausdruck': {
-          antrag = new AntragGrundbuchausdruck();
-          break;
-        }
-        case 'namensberichtigung': {
-          antrag = new AntragNamensberichtigung();
-          break;
-        }
-        case 'grundbuchberichtigung-sterbefall': {
-          antrag = new AntragGrundbuchberichtigungSterbefall();
-          break;
-        }
-        case 'loeschung-abteilung2': {
-          antrag = new AntragLoesschungAbt2();
-          break;
-        }
-        case 'abschrift-bewilligung': {
-          antrag = new AntragAbschriftBewilligung();
-          break;
-        }
-        case 'teilungserklaerung': {
-          antrag = new AntragTeilungserklaerung();
-          break;
-        }
+      const AntragClass = this.antragMapping[antragArt];
+      if (AntragClass) {
+        this.fs.init(new AntragClass());
       }
-      if (antrag) this.fs.init(antrag);
     })
   }
 
