@@ -175,15 +175,19 @@ export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: str
 };
 
 export const createGuestRole = async (): Promise<void> => {
+    const userRole = new Guest();
     try {
         // Check if guest role already exists
         const userRoleQuery = `SELECT userRoleID FROM user_roles WHERE name = ?`;
-        await db.execute(userRoleQuery, ['guest']);
+        const [result] = await db.execute<RowDataPacket[]>(userRoleQuery, [userRole.name]);
+
+        if (result.length === 0) {
+            // Create guest role
+            await addUserRole(userRole);
+            logger.info('Gast-Userrolle erfolgreich erstellt');
+        }
     } catch {
-        // Create guest role
-        const userRole = new Guest();
-        await addUserRole(userRole);
-        logger.info('Gast-Userrolle erfolgreich erstellt');
+        logger.error('Fehler beim Erstellen der Gast-Userrolle');
     }
 }
 
