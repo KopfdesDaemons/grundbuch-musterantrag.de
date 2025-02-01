@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Antrag } from "../interfaces/antrag";
 import { Antragsteller } from "./antragsteller";
 import { Grundbuchamt } from "./grundbuchamt";
@@ -32,7 +32,7 @@ export class AntragGrundbuchberichtigungSterbefall implements Antrag {
 
     getFormGroup(): FormGroup {
         const formBuilder = new FormBuilder();
-        return formBuilder.group({
+        const formGroup = formBuilder.group({
             antragsteller: this.antragsteller.getFormGroup(),
             erblasser: this.erblasser.getFormGroup(),
             grundstueck: this.grundstueck.getFormGroup(),
@@ -41,7 +41,24 @@ export class AntragGrundbuchberichtigungSterbefall implements Antrag {
             aktenzeichenNachlassgericht: [this.aktenzeichenNachlassgericht, NachlassAktenzeichenValidator()],
             weitererGrundbesitz: [this.weitererGrundbesitz],
             grundbuchamt: this.grundbuchamt.getFormGroup(),
+        }, { updateOn: 'submit' });
+
+        /* 
+            Prüft ob "Erbnachweis ist vom gleichen Amtsgericht" angehakt ist,
+            wenn ja, ist die Angabe des Nachlassaktenzeichens erforderlich
+        */
+        formGroup.get('erbnachweisGerichtbekannt')?.valueChanges.subscribe((value) => {
+            const aktenzeichenControl = formGroup.get('aktenzeichenNachlassgericht');
+            if (value) {
+                aktenzeichenControl?.setValidators([Validators.required, NachlassAktenzeichenValidator()]);
+            } else {
+                formGroup.get('aktenzeichenNachlassgericht')?.setValue('');
+                aktenzeichenControl?.setValidators([NachlassAktenzeichenValidator()]);
+            }
+            aktenzeichenControl?.updateValueAndValidity();
         });
+
+        return formGroup;
     }
 
     loadFormValue(formValue: object): void {
