@@ -20,10 +20,6 @@ export class DesignloaderService {
   private initialized = false;
   primaryColor: string | null = "#20afdf";
 
-  constructor() {
-    this.initDesign();
-  }
-
   async initDesign() {
     // init darkmode from cookie or preference
     this.darkmode.next(this.getSchemeFromCookie() ?? this.preferenceSchemeIsDarkmode());

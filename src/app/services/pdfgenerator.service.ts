@@ -6,7 +6,6 @@ import { Antrag } from '../interfaces/antrag';
   providedIn: 'root'
 })
 export class PdfgeneratorService {
-  // Injections
   http = inject(HttpClient);
 
   prozentPdfUpload = 0;

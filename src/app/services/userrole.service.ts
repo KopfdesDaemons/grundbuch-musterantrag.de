@@ -14,9 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class UserroleService {
   authS = inject(AuthService);
   http = inject(HttpClient);
-
   formBuilder = new FormBuilder();
-
 
   allPermissions: UserPermission[] = [
     new uploadManagementPermission(Object.values(UploadManagementAction)),
@@ -71,60 +69,40 @@ export class UserroleService {
   }
 
   async getAllUserRoles(): Promise<UserRoleOption[]> {
-    try {
-      const data = await lastValueFrom(
-        this.http.get('/api/userrole/get-all-user-roles', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-      return data as UserRoleOption[];
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    const data = await lastValueFrom(
+      this.http.get('/api/userrole/get-all-user-roles', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
+    return data as UserRoleOption[];
   }
 
   async getUserRole(userRoleID: number): Promise<UserRole> {
-    try {
-      const data = await lastValueFrom(
-        this.http.get('/api/userrole/', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          params: new HttpParams().set('userRoleID', userRoleID)
-        })
-      );
-      return data as UserRole;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    const data = await lastValueFrom(
+      this.http.get('/api/userrole/', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        params: new HttpParams().set('userRoleID', userRoleID)
+      })
+    );
+    return data as UserRole;
   }
 
   async createUserRole(userRole: UserRole): Promise<number> {
-    try {
-      const data = await lastValueFrom(
-        this.http.put('/api/userrole/', { userRole: userRole }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-      const { userRoleID } = data as { userRoleID: number };
-      return userRoleID;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    const data = await lastValueFrom(
+      this.http.put('/api/userrole/', { userRole: userRole }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
+    const { userRoleID } = data as { userRoleID: number };
+    return userRoleID;
   }
 
   async updateUserRole(userRole: UserRole): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.patch('/api/userrole/', { userRole: userRole }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.patch('/api/userrole/', { userRole: userRole }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
   }
 
   getFormGroup(userRole: UserRole = { name: '', description: '', userPermissions: [] }): FormGroup {
@@ -181,16 +159,11 @@ export class UserroleService {
   }
 
   async deleteUserRole(userRoleIDs: number[]): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.delete('/api/userrole/', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          body: { userRoleIDs: userRoleIDs }
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.delete('/api/userrole/', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        body: { userRoleIDs: userRoleIDs }
+      })
+    );
   }
 }

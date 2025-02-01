@@ -22,7 +22,7 @@ export class FarbconverterService {
     let l: number = (max + min) / 2;
 
     if (max == min) {
-      h = s = 0; // achromatic
+      h = s = 0;
     } else {
       const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -45,12 +45,10 @@ export class FarbconverterService {
   }
 
   RGBToHSL(r: number, g: number, b: number) {
-    // Make r, g, and b fractions of 1
     r /= 255;
     g /= 255;
     b /= 255;
 
-    // Find greatest and smallest channel values
     const cmin = Math.min(r, g, b),
       cmax = Math.max(r, g, b),
       delta = cmax - cmin;
@@ -70,15 +68,12 @@ export class FarbconverterService {
 
     h = Math.round(h * 60);
 
-    // Make negative hues positive behind 360°
     if (h < 0)
       h += 360;
     l = (cmax + cmin) / 2;
 
-    // Calculate saturation
     s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
 
-    // Multiply l and s by 100
     s = +(s * 100).toFixed(1);
     l = +(l * 100).toFixed(1);
 
@@ -107,12 +102,11 @@ export class FarbconverterService {
     } else if (300 <= h && h < 360) {
       r = c; g = 0; b = x;
     }
-    // Having obtained RGB, convert channels to hex
+
     let rstr = Math.round((r + m) * 255).toString(16);
     let gstr = Math.round((g + m) * 255).toString(16);
     let bstr = Math.round((b + m) * 255).toString(16);
 
-    // Prepend 0s, if necessary
     if (rstr.length == 1)
       rstr = "0" + rstr;
     if (gstr.length == 1)

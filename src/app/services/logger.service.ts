@@ -16,37 +16,32 @@ export class LoggerService {
 
   async getLogFile(): Promise<{ timestamp: string, message: string }[] | null> {
     if (!isPlatformBrowser(this.platformID)) return null;
-    try {
-      const response: any = await lastValueFrom(
-        this.http.get('/api/logger', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          observe: 'response',
-          responseType: 'json' as const
-        })
-      );
+    const response: any = await lastValueFrom(
+      this.http.get('/api/logger', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        observe: 'response',
+        responseType: 'json' as const
+      })
+    );
 
-      if (response.status === 204) {
-        // Keine Logs vorhanden
-        return null;
-      } else {
-        // Logs vorhanden
-        const logs = response.body as { timestamp: string, message: string }[];
+    if (response.status === 204) {
+      // Keine Logs vorhanden
+      return null;
+    } else {
+      // Logs vorhanden
+      const logs = response.body as { timestamp: string, message: string }[];
 
-        // Zeitstempel formatieren
-        const formattedLogs = logs.map(log => {
-          const date = new Date(log.timestamp);
-          const formattedDate = this.timeS.formatDate(date);
-          const formattedTime = this.timeS.formatTime(date);
-          const formattedTimestamp = `${formattedDate} ${formattedTime}`;
+      // Zeitstempel formatieren
+      const formattedLogs = logs.map(log => {
+        const date = new Date(log.timestamp);
+        const formattedDate = this.timeS.formatDate(date);
+        const formattedTime = this.timeS.formatTime(date);
+        const formattedTimestamp = `${formattedDate} ${formattedTime}`;
 
-          return { ...log, timestamp: formattedTimestamp };
-        });
+        return { ...log, timestamp: formattedTimestamp };
+      });
 
-        return formattedLogs;
-      }
-    } catch (error) {
-      console.error('Fehler beim Abrufen der Logs:', error);
-      throw error;
+      return formattedLogs;
     }
   }
 
@@ -63,13 +58,8 @@ export class LoggerService {
   }
 
   async deleteLogFile() {
-    try {
-      await lastValueFrom(this.http.delete('/api/logger', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-      }));
-    } catch (error) {
-      console.error('Error beim Löschen des Ordners:', error);
-      throw error;
-    }
+    await lastValueFrom(this.http.delete('/api/logger', {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+    }));
   }
 }

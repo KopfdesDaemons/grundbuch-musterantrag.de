@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ConsentService {
-  private platformId = inject<Object>(PLATFORM_ID);
+  private platformId = inject<object>(PLATFORM_ID);
 
 
   consentMangerIsVisible: BehaviorSubject<boolean> = new BehaviorSubject(false);

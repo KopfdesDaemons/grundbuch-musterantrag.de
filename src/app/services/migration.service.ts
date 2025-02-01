@@ -28,7 +28,6 @@ export class MigrationService {
     ]
   }
 
-
   migrateFromAntragToUploadinfo = async (): Promise<any> => {
     if (!isPlatformBrowser(this.platformId)) return;
     const data = await lastValueFrom(

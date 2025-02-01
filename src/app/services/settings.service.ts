@@ -18,18 +18,13 @@ export class SettingsService {
    * @returns Settings
    */
   async loadSettings(): Promise<Settings | null> {
-    try {
-      const response = await lastValueFrom(
-        this.http.get('/api/settings', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          responseType: 'json' as const
-        })
-      );
-      return response as Settings;
-    } catch (error) {
-      console.error('Error beim Laden der Einstellungen:', error);
-      throw error;
-    }
+    const response = await lastValueFrom(
+      this.http.get('/api/settings', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        responseType: 'json' as const
+      })
+    );
+    return response as Settings;
   }
 
   /**
@@ -42,18 +37,13 @@ export class SettingsService {
   }
 
   async saveSettings(settings: Settings): Promise<void> {
-    try {
-      this.settings = settings;
-      await lastValueFrom(
-        this.http.put('/api/settings', { settings: settings }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          responseType: 'json' as const
-        })
-      );
-    } catch (error) {
-      console.error('Error beim Speichern der Einstellungen:', error);
-      throw error;
-    }
+    this.settings = settings;
+    await lastValueFrom(
+      this.http.put('/api/settings', { settings: settings }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        responseType: 'json' as const
+      })
+    );
   }
 
   async getPrimaryColorFromSetings(): Promise<string | null> {

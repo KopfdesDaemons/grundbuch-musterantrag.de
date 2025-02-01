@@ -28,82 +28,66 @@ export class UploadsService {
   }
 
   private async getUploadsData(): Promise<{ page: number, totalPages: number, totalFiles: number, files: Upload[] }> {
-    try {
-      const data = await lastValueFrom(
-        this.http.get('/api/uploads', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          params: new HttpParams().set('page', 0)
-        })
-      );
-      return data as { page: number, totalPages: number, totalFiles: number, files: Upload[] };
-    } catch (err) {
-      console.error('Fehler beim Laden der Uploads');
-      throw err;
-    }
+    const data = await lastValueFrom(
+      this.http.get('/api/uploads', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        params: new HttpParams().set('page', 0)
+      })
+    );
+    return data as { page: number, totalPages: number, totalFiles: number, files: Upload[] };
   }
 
   async getFiles(page: number = 1): Promise<{ page: number, files: Upload[] }> {
     if (!isPlatformBrowser(this.platformId)) return { page: 1, files: [] };
-    try {
-      // Nicht laden, wenn über totalPages
-      if (this.uploadsData && page > this.uploadsData['totalPages']) {
-        throw new Error('Seite größer als die gesamte Anzahl der Seiten');
-      };
 
-      // Lade neue Seite
-      const result = await lastValueFrom(
-        this.http.get('/api/uploads', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          params: new HttpParams().set('page', page)
-        })
-      );
+    // Nicht laden, wenn über totalPages
+    if (this.uploadsData && page > this.uploadsData['totalPages']) {
+      throw new Error('Seite größer als die gesamte Anzahl der Seiten');
+    };
 
-      this.uploadsData = result as { page: number, totalPages: number, totalFiles: number, files: Upload[] };
-      return ({ page: this.uploadsData['page'], files: this.uploadsData['files'] });
+    // Lade neue Seite
+    const result = await lastValueFrom(
+      this.http.get('/api/uploads', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        params: new HttpParams().set('page', page)
+      })
+    );
 
-    } catch (err: any) {
-      console.error('Die Dateien konnten nicht geladen werden.' + err.error, err);
-      throw err;
-    }
+    this.uploadsData = result as { page: number, totalPages: number, totalFiles: number, files: Upload[] };
+    return ({ page: this.uploadsData['page'], files: this.uploadsData['files'] });
   }
 
   async getFile(fileName: string, fileType: 'pdf' | 'docx') {
     fileName = fileName + `.${fileType}`;
 
-    try {
-      const response: any = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }).toString(), {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${this.authS.getToken()}` }
-      });
+    const response: any = await fetch('/api/uploads/getFile?' + new URLSearchParams({ fileName }).toString(), {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${this.authS.getToken()}` }
+    });
 
-      if (!response.ok) throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
+    if (!response.ok) throw new Error(`Netzwerkantwort war nicht ok: ${response.statusText}`);
 
-      const contentType = fileType === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    const contentType = fileType === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-      // body auslesen
-      const reader = response.body.getReader();
-      const chunks: Uint8Array[] = [];
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-      }
-
-      const file = new window.Blob(chunks, { type: contentType });
-
-      // PDF in neuen Tab öffnen
-      if (fileType === 'pdf') {
-        window.open(URL.createObjectURL(file), '_blank');
-        return;
-      }
-
-      // DOCX als Datei speichern
-      FileSaver.saveAs(file, fileName);
-
-    } catch (error) {
-      console.error('Error beim Abrufen der Datei:', error);
-      throw error;
+    // body auslesen
+    const reader = response.body.getReader();
+    const chunks: Uint8Array[] = [];
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
     }
+
+    const file = new window.Blob(chunks, { type: contentType });
+
+    // PDF in neuen Tab öffnen
+    if (fileType === 'pdf') {
+      window.open(URL.createObjectURL(file), '_blank');
+      return;
+    }
+
+    // DOCX als Datei speichern
+    FileSaver.saveAs(file, fileName);
   }
 
   async getTotalFiles(): Promise<number> {
@@ -114,77 +98,45 @@ export class UploadsService {
 
   async getStatistic(): Promise<any> {
     if (!isPlatformBrowser(this.platformId)) return;
-    try {
-      const data = await lastValueFrom(
-        this.http.get('/api/statistic', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-      return data;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    const data = await lastValueFrom(
+      this.http.get('/api/statistic', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
+    return data;
   }
 
   async deleteUpload(name: string) {
-    try {
-      await lastValueFrom(this.http.delete('/api/uploads/deleteUpload', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        params: new HttpParams().set('uploadID', name)
-      }));
-    } catch (error: any) {
-      console.error('Error beim Löschen der Datei:', error);
-      throw error;
-    }
+    await lastValueFrom(this.http.delete('/api/uploads/deleteUpload', {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+      params: new HttpParams().set('uploadID', name)
+    }));
   }
 
   async deleteFolder() {
-    try {
-      await lastValueFrom(this.http.delete('/api/uploads/', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-      }));
-    } catch (error: any) {
-      console.error('Error beim Löschen des Ordners:', error);
-      throw error;
-    }
+    await lastValueFrom(this.http.delete('/api/uploads/', {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+    }));
   }
 
   async deleteGeneratedFiles(uploadID: string) {
-    try {
-      await lastValueFrom(this.http.delete('/api/uploads/deleteGeneratedFiles', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        params: new HttpParams().set('uploadID', uploadID)
-      }));
-    } catch (error: any) {
-      console.error('Error beim Löschen der generierten Dateien:', error);
-      throw error;
-    }
+    await lastValueFrom(this.http.delete('/api/uploads/deleteGeneratedFiles', {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+      params: new HttpParams().set('uploadID', uploadID)
+    }));
   }
 
   async deleteAllGeneratedFiles() {
-    try {
-      await lastValueFrom(this.http.delete('/api/uploads/deleteAllGeneratedFiles', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-      }));
-    } catch (error: any) {
-      console.error('Error beim Löschen aller generierten Dateien:', error);
-      throw error;
-    }
+    await lastValueFrom(this.http.delete('/api/uploads/deleteAllGeneratedFiles', {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+    }));
   }
 
   async getUploadDatesAndCounts(timeframe: 'week' | 'month'): Promise<{ date: string, count: number }[]> {
-    try {
-      const response = await lastValueFrom(this.http.get('/api/uploads/getUploadCountPerDays', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-        params: new HttpParams().set('timeframe', timeframe)
-      }))
-
-      return response as { date: string, count: number }[];
-
-    } catch (error: any) {
-      console.log('Fehler beim Laden der Anzahl der Anträge pro Tag', error);
-      throw error;
-    }
+    const response = await lastValueFrom(this.http.get('/api/uploads/getUploadCountPerDays', {
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+      params: new HttpParams().set('timeframe', timeframe)
+    }))
+    return response as { date: string, count: number }[];
   }
 }

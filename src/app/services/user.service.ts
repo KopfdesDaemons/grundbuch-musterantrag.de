@@ -15,115 +15,79 @@ export class UserService {
 
 
   async getAllUsersJSON(): Promise<[]> {
-    try {
-      const data = await lastValueFrom(
-        this.http.get('/api/user', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-      return data as [];
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    const data = await lastValueFrom(
+      this.http.get('/api/user', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
+    return data as [];
   }
 
   async deleteUsers(userIDs: number[]): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.delete('/api/user', {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
-          body: { userIDs: userIDs }
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.delete('/api/user', {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        body: { userIDs: userIDs }
+      })
+    );
   }
 
   async createUser(username: string, userRole: string, password: string, userRoleID: number): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.put('/api/user', {
-          username: username,
-          userRole: userRole,
-          password: password,
-          userRoleID: userRoleID
-        }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.put('/api/user', {
+        username: username,
+        userRole: userRole,
+        password: password,
+        userRoleID: userRoleID
+      }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
   }
 
   async updateUsername(userID: number, newUsername: string): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.patch('/api/user/username', {
-          userID: userID,
-          newUsername: newUsername
-        }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.patch('/api/user/username', {
+        userID: userID,
+        newUsername: newUsername
+      }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
   }
 
   async setinitialpassword(userID: number, newPassword: string): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.patch('/api/user/setinitialpassword', {
-          userID: userID,
-          newPassword: newPassword
-        }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.patch('/api/user/setinitialpassword', {
+        userID: userID,
+        newPassword: newPassword
+      }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
   }
 
   async updatePassword(username: string, oldPassword: string, newPassword: string): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.patch('/api/user/updatepassword', {
-          username: username,
-          oldPassword: oldPassword,
-          newPassword: newPassword
-        }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.patch('/api/user/updatepassword', {
+        username: username,
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
   }
 
-
   async updateUserRole(userID: number, userRoleID: number): Promise<void> {
-    try {
-      await lastValueFrom(
-        this.http.patch('/api/user/userrole', {
-          userID: userID,
-          userRoleID: userRoleID
-        }, {
-          headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
-        })
-      );
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+    await lastValueFrom(
+      this.http.patch('/api/user/userrole', {
+        userID: userID,
+        userRoleID: userRoleID
+      }, {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      })
+    );
   }
 
   getNewUserFormGroup(defaultUserRoleID: number | undefined = undefined): FormGroup {
@@ -133,7 +97,6 @@ export class UserService {
       userPassword: ['', Validators.required]
     });
   }
-
 
   getEditUserFormGroup(user: User): FormGroup {
     return this.formBuilder.group({
