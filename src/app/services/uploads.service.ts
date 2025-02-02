@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -30,7 +30,7 @@ export class UploadsService {
   private async getUploadsData(): Promise<{ page: number, totalPages: number, totalFiles: number, files: Upload[] }> {
     const data = await lastValueFrom(
       this.http.get('/api/uploads', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('page', 0)
       })
     );
@@ -48,7 +48,7 @@ export class UploadsService {
     // reload uploadsData
     const result = await lastValueFrom(
       this.http.get('/api/uploads', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('page', page)
       })
     );
@@ -62,7 +62,7 @@ export class UploadsService {
 
     const response = await lastValueFrom(
       this.http.get('/api/uploads/getFile', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('fileName', fileName),
         responseType: 'blob'
       })
@@ -95,7 +95,7 @@ export class UploadsService {
     if (!isPlatformBrowser(this.platformId)) return {};
     const data = await lastValueFrom(
       this.http.get('/api/statistic', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
     return data as { [key: string]: number };
@@ -103,33 +103,33 @@ export class UploadsService {
 
   async deleteUpload(name: string) {
     await lastValueFrom(this.http.delete('/api/uploads/deleteUpload', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+      headers: this.authS.getAuthHeader(),
       params: new HttpParams().set('uploadID', name)
     }));
   }
 
   async deleteFolder() {
     await lastValueFrom(this.http.delete('/api/uploads/', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+      headers: this.authS.getAuthHeader()
     }));
   }
 
   async deleteGeneratedFiles(uploadID: string) {
     await lastValueFrom(this.http.delete('/api/uploads/deleteGeneratedFiles', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+      headers: this.authS.getAuthHeader(),
       params: new HttpParams().set('uploadID', uploadID)
     }));
   }
 
   async deleteAllGeneratedFiles() {
     await lastValueFrom(this.http.delete('/api/uploads/deleteAllGeneratedFiles', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+      headers: this.authS.getAuthHeader()
     }));
   }
 
   async getUploadDatesAndCounts(timeframe: 'week' | 'month'): Promise<{ date: string, count: number }[]> {
     const response = await lastValueFrom(this.http.get('/api/uploads/getUploadCountPerDays', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+      headers: this.authS.getAuthHeader(),
       params: new HttpParams().set('timeframe', timeframe)
     }))
     return response as { date: string, count: number }[];

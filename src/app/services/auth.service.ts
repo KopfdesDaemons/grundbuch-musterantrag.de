@@ -71,6 +71,10 @@ export class AuthService {
     console.log('Abmeldung erfolgt');
   }
 
+  getAuthHeader(): HttpHeaders {
+    return new HttpHeaders({ 'Authorization': `Bearer ${this.authToken}` });
+  }
+
   getLoginFormGroup(): FormGroup {
     const formBuilder = new FormBuilder();
     return formBuilder.group({

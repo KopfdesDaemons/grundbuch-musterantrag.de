@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -71,7 +71,7 @@ export class UserroleService {
   async getAllUserRoles(): Promise<UserRoleOption[]> {
     const data = await lastValueFrom(
       this.http.get('/api/userrole/get-all-user-roles', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
     return data as UserRoleOption[];
@@ -80,7 +80,7 @@ export class UserroleService {
   async getUserRole(userRoleID: number): Promise<UserRole> {
     const data = await lastValueFrom(
       this.http.get('/api/userrole/', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('userRoleID', userRoleID)
       })
     );
@@ -90,7 +90,7 @@ export class UserroleService {
   async createUserRole(userRole: UserRole): Promise<number> {
     const data = await lastValueFrom(
       this.http.put('/api/userrole/', { userRole: userRole }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
     const { userRoleID } = data as { userRoleID: number };
@@ -100,7 +100,7 @@ export class UserroleService {
   async updateUserRole(userRole: UserRole): Promise<void> {
     await lastValueFrom(
       this.http.patch('/api/userrole/', { userRole: userRole }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
   }
@@ -161,7 +161,7 @@ export class UserroleService {
   async deleteUserRole(userRoleIDs: number[]): Promise<void> {
     await lastValueFrom(
       this.http.delete('/api/userrole/', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         body: { userRoleIDs: userRoleIDs }
       })
     );

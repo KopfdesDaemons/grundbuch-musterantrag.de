@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Settings } from 'server/models/settings';
@@ -20,7 +20,7 @@ export class SettingsService {
   async loadSettings(): Promise<Settings | null> {
     const response = await lastValueFrom(
       this.http.get('/api/settings', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         responseType: 'json' as const
       })
     );
@@ -40,7 +40,7 @@ export class SettingsService {
     this.settings = settings;
     await lastValueFrom(
       this.http.put('/api/settings', { settings: settings }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         responseType: 'json' as const
       })
     );

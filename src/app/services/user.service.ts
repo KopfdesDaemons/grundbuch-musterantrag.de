@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -17,7 +17,7 @@ export class UserService {
   async getAllUsersJSON(): Promise<[]> {
     const data = await lastValueFrom(
       this.http.get('/api/user', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
     return data as [];
@@ -26,7 +26,7 @@ export class UserService {
   async deleteUsers(userIDs: number[]): Promise<void> {
     await lastValueFrom(
       this.http.delete('/api/user', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
+        headers: this.authS.getAuthHeader(),
         body: { userIDs: userIDs }
       })
     );
@@ -40,7 +40,7 @@ export class UserService {
         password: password,
         userRoleID: userRoleID
       }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
   }
@@ -51,7 +51,7 @@ export class UserService {
         userID: userID,
         newUsername: newUsername
       }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
   }
@@ -62,7 +62,7 @@ export class UserService {
         userID: userID,
         newPassword: newPassword
       }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
   }
@@ -74,7 +74,7 @@ export class UserService {
         oldPassword: oldPassword,
         newPassword: newPassword
       }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
   }
@@ -85,7 +85,7 @@ export class UserService {
         userID: userID,
         userRoleID: userRoleID
       }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
   }

@@ -32,7 +32,7 @@ export class MigrationService {
     if (!isPlatformBrowser(this.platformId)) return;
     const data = await lastValueFrom(
       this.http.post('/api/migration/fromAntragToUploadinfo', {}, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
     return data;
@@ -42,7 +42,7 @@ export class MigrationService {
     if (!isPlatformBrowser(this.platformId)) return;
     const data = await lastValueFrom(
       this.http.post('/api/migration/fromJSONToDatabase', {}, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
+        headers: this.authS.getAuthHeader()
       })
     );
     return data;

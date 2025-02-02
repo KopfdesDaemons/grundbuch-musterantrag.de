@@ -24,19 +24,10 @@ header {
 @media only screen and (min-width:1100px) {
     .content {
         padding-left: var(--dashboard-sidemenu-width);
-
-        &.menuIsOpen {
-            padding-left: 0;
-        }
     }
 
     // Kein Header, wenn viel Platz
     header {
         display: none;
-
-        // Header anzeigen, nach Resizing von klein nach groß bei geöffnetem Menu
-        &.menuIsOpen {
-            display: flex;
-        }
     }
 }
