@@ -34,10 +34,17 @@ aside {
 
     .user {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         padding: 0.5em;
-        font-size: 1.2em;
-        gap: 1em;
+
+        .row1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+            font-size: 1.2em;
+        }
     }
 
     &.sidemenuOpen {

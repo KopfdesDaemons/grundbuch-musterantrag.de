@@ -17,7 +17,7 @@ export class LoggerService {
     if (!isPlatformBrowser(this.platformID)) return null;
     const response: any = await lastValueFrom(
       this.http.get('/api/logger', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
         observe: 'response',
         responseType: 'json' as const
       })
@@ -58,7 +58,7 @@ export class LoggerService {
 
   async deleteLogFile() {
     await lastValueFrom(this.http.delete('/api/logger', {
-      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` })
+      headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` })
     }));
   }
 }

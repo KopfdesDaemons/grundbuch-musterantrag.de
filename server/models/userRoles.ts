@@ -40,7 +40,8 @@ export class Admin implements UserRole {
         new userRoleManagementPermission([
             UserRoleManagementAction.CreateUserRole,
             UserRoleManagementAction.DeleteUserRole,
-            UserRoleManagementAction.ReadUserRoles
+            UserRoleManagementAction.ReadUserRoles,
+            UserRoleManagementAction.UpdateUserRole
         ])
     ];
 }

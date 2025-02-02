@@ -5,6 +5,8 @@
 }
 
 nav {
+    font-size: clamp(12px, 1.8vw, 1rem);
+
     ul {
         list-style: none;
         display: flex;

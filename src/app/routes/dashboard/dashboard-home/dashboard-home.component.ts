@@ -23,6 +23,6 @@ export class DashboardHomeComponent {
 
   constructor() {
     this.title.setTitle('Dashboard');
-    this.greeting = 'Guten ' + TimeHelper.getTimeOfDay() + ', ' + this.authS.getUsername() + '!';
+    this.greeting = 'Guten ' + TimeHelper.getTimeOfDay() + ', ' + this.authS.username + '!';
   }
 }

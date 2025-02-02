@@ -14,21 +14,27 @@ export class AuthService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
 
-  private authToken: string | null = null;
-  private username: string = "";
+  private _authToken: string | null = null;
+  private _username: string = "";
+  private _userRoleName: string = "";
 
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.authToken = localStorage.getItem('auth_token');
-    this.username = localStorage.getItem('username') || "";
+    this._authToken = localStorage.getItem('auth_token');
+    this._username = localStorage.getItem('username') || "";
+    this._userRoleName = localStorage.getItem('userRoleName') || "";
   }
 
-  getToken() {
-    return this.authToken;
+  get authToken(): string | null {
+    return this._authToken;
   }
 
-  getUsername() {
-    return this.username;
+  get username(): string {
+    return this._username;
+  }
+
+  get userRoleName(): string {
+    return this._userRoleName;
   }
 
   async login(username: string, password: string): Promise<void> {
@@ -40,13 +46,15 @@ export class AuthService {
       password: password
     }));
 
-    const data = response as { token: string, username: string };
+    const data = response as { token: string, username: string, userRoleName: string };
 
     localStorage.setItem('auth_token', data.token);
     localStorage.setItem('username', data.username);
+    localStorage.setItem('userRoleName', data.userRoleName);
 
-    this.username = data.username;
-    this.authToken = data.token;
+    this._username = data.username;
+    this._authToken = data.token;
+    this._userRoleName = data.userRoleName;
 
     await this.router.navigate(['/dashboard']);
   }
@@ -56,8 +64,8 @@ export class AuthService {
 
     localStorage.removeItem('auth_token');
     localStorage.removeItem('username');
-    this.username = "";
-    this.authToken = null;
+    this._username = "";
+    this._authToken = null;
 
     await this.router.navigate(['/login']);
     console.log('Abmeldung erfolgt');
@@ -83,7 +91,7 @@ export class AuthService {
   async ckeckAuth(): Promise<boolean> {
     await lastValueFrom(this.http.get('/api/auth/checkAuth', {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.getToken()}`,
+        'Authorization': `Bearer ${this.authToken}`,
       })
     }))
     return true;

@@ -20,7 +20,7 @@ export class SettingsService {
   async loadSettings(): Promise<Settings | null> {
     const response = await lastValueFrom(
       this.http.get('/api/settings', {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
         responseType: 'json' as const
       })
     );
@@ -40,7 +40,7 @@ export class SettingsService {
     this.settings = settings;
     await lastValueFrom(
       this.http.put('/api/settings', { settings: settings }, {
-        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.getToken()}` }),
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${this.authS.authToken}` }),
         responseType: 'json' as const
       })
     );

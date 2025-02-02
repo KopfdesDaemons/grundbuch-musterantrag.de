@@ -1,12 +1,12 @@
 <footer>
   <div class="anmeldediv">
 
-    @if (!authS.getToken()) {
+    @if (!authS.authToken) {
     <a routerLink="/login" class="btnicon" aria-label="Login">
       <fa-icon [icon]="faRightToBracket" area-hidden="true"></fa-icon>
     </a>
     }
-    @if (authS.getToken()) {
+    @if (authS.authToken) {
     <div class="adminDiv">
       <ul>
         <li>
