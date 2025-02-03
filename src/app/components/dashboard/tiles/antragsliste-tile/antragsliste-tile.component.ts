@@ -29,7 +29,7 @@ export class AntragslisteTileComponent implements OnInit {
   lineChartOptions = this.gChartS.getLineChartOptions('month');
   chartData: (string | number)[][] = [];
   chartTimeframe = signal<'week' | 'month'>('month');
-  toggleTextMapping = { week: 'Monat', month: 'Woche' };
+  toggleTextMapping = { week: 'Woche', month: 'Monat' };
 
   // FontAwesome Icons
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;

@@ -4,8 +4,18 @@
     gap: 1em;
     width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+
+    @media only screen and (max-width: 500px) {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
 }
 
 .chartContainer {
     height: 18em;
+    width: 100%;
+    display: flex;
+}
+
+app-google-chart {
+    width: 100%;
 }

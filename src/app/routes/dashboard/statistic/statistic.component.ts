@@ -14,11 +14,11 @@ export class StatisticComponent implements OnInit {
   chartData: (string | number)[][] = [];
   chartData2: (string | number)[][] = [];
   pieChartOptions = this.gChartsS.getPieChartOptions();
-  lineChartOptions = this.gChartsS.getLineChartOptions('week');
+  lineChartOptions = this.gChartsS.getLineChartOptions('month');
 
 
   async ngOnInit(): Promise<void> {
     this.chartData = await this.gChartsS.getAntragsartenChartRows();
-    this.chartData2 = await this.gChartsS.getAntragTimeframeChartRows('week');
+    this.chartData2 = await this.gChartsS.getAntragTimeframeChartRows('month');
   }
 }
