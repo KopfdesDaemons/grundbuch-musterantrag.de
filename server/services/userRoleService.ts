@@ -90,7 +90,6 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
         // delete Permissions
         if (deletedPermissions) {
             for (const permission of deletedPermissions) {
-                logger.info(`Permission ${permission.feature} geloescht`);
                 const deletePermissionQuery = `DELETE FROM user_permissions WHERE userRoleID = ? AND feature = ?`;
                 await connection.execute(deletePermissionQuery, [userRole.userRoleID, permission.feature]);
             }

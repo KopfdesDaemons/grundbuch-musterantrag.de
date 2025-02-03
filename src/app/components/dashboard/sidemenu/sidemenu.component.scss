@@ -44,6 +44,14 @@ aside {
             align-items: center;
             gap: 1em;
             font-size: 1.2em;
+
+            .username {
+                color: var(--primary-color);
+            }
+        }
+
+        .row2 {
+            font-style: italic;
         }
     }
 

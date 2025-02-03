@@ -21,7 +21,9 @@
         }
         }
         }
-        <app-antragsanzahltimeframe></app-antragsanzahltimeframe>
+        <span class="chartToggle" (click)="toggleChartTimeframe()">{{toggleTextMapping[chartTimeframe()]}}</span>
+        <app-google-chart [chartData]="chartData" [chartOptions]="lineChartOptions"
+            chartType="LineChart"></app-google-chart>
         <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
     </div>
 </app-dashboard-tile>

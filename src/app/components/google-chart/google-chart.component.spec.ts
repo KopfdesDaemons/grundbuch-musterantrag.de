@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AntragsartenComponent } from './antragsarten.component';
+import { GoogleChartComponent } from './google-chart.component';
 
-describe('AntragsartenComponent', () => {
-  let component: AntragsartenComponent;
-  let fixture: ComponentFixture<AntragsartenComponent>;
+describe('GoogleChartComponent', () => {
+  let component: GoogleChartComponent;
+  let fixture: ComponentFixture<GoogleChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AntragsartenComponent]
+      imports: [GoogleChartComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AntragsartenComponent);
+    fixture = TestBed.createComponent(GoogleChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

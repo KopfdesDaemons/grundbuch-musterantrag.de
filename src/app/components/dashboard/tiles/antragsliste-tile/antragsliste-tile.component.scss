@@ -41,3 +41,10 @@ h2 {
 app-antragsanzahltimeframe {
     flex: 1;
 }
+
+.chartToggle {
+    text-align: right;
+    margin-right: 0.5em;
+    cursor: pointer;
+    color: var(--primary-variant-darker);
+}

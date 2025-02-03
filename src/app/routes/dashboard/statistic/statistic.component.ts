@@ -1,13 +1,24 @@
-import { Component } from '@angular/core';
-import { AntragsanzahltimeframeComponent } from "../../../components/charts/antragsanzahltimeframe/antragsanzahltimeframe.component";
-import { AntragsartenComponent } from "../../../components/charts/antragsarten/antragsarten.component";
+import { Component, inject, OnInit } from '@angular/core';
+import { GoogleChartComponent } from "../../../components/google-chart/google-chart.component";
+import { GooglechartsService } from 'src/app/services/googlecharts.service';
 
 @Component({
   selector: 'app-statistic',
-  imports: [AntragsanzahltimeframeComponent, AntragsartenComponent],
+  imports: [GoogleChartComponent],
   templateUrl: './statistic.component.html',
   styleUrl: './statistic.component.scss'
 })
-export class StatisticComponent {
+export class StatisticComponent implements OnInit {
+  gChartsS = inject(GooglechartsService)
 
+  chartData: (string | number)[][] = [];
+  chartData2: (string | number)[][] = [];
+  pieChartOptions = this.gChartsS.getPieChartOptions();
+  lineChartOptions = this.gChartsS.getLineChartOptions('week');
+
+
+  async ngOnInit(): Promise<void> {
+    this.chartData = await this.gChartsS.getAntragsartenChartRows();
+    this.chartData2 = await this.gChartsS.getAntragTimeframeChartRows('week');
+  }
 }

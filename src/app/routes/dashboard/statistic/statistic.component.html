@@ -2,12 +2,12 @@
     <div class="sectiondiv">
         <div class="grid">
             <div class="chartContainer">
-                <h2>Anzahl der Anträge</h2>
-                <app-antragsanzahltimeframe></app-antragsanzahltimeframe>
+                <app-google-chart chartType="PieChart" [chartData]="chartData" [chartOptions]="pieChartOptions">
+                </app-google-chart>
             </div>
             <div class="chartContainer">
-                <h2>Antragsarten</h2>
-                <app-antragsarten></app-antragsarten>
+                <app-google-chart chartType="LineChart" [chartData]="chartData2" [chartOptions]="lineChartOptions">
+                </app-google-chart>
             </div>
         </div>
     </div>

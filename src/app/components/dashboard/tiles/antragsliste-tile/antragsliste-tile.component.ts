@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/uploads.service';
@@ -7,13 +7,14 @@ import { Upload } from 'server/models/upload';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe, isPlatformBrowser } from '@angular/common';
-import { AntragsanzahltimeframeComponent } from "../../../charts/antragsanzahltimeframe/antragsanzahltimeframe.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from "../../../error-display/error-display.component";
+import { GooglechartsService } from 'src/app/services/googlecharts.service';
+import { GoogleChartComponent } from "../../../google-chart/google-chart.component";
 
 @Component({
   selector: 'app-antragsliste-tile',
-  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule, DatePipe, AntragsanzahltimeframeComponent, ErrorDisplayComponent],
+  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule, DatePipe, ErrorDisplayComponent, GoogleChartComponent],
   templateUrl: './antragsliste-tile.component.html',
   styleUrl: './antragsliste-tile.component.scss'
 })
@@ -24,6 +25,11 @@ export class AntragslisteTileComponent implements OnInit {
   platformId = inject(PLATFORM_ID);
   error: HttpErrorResponse | null = null;
   isLoading: boolean = false;
+  gChartS = inject(GooglechartsService);
+  lineChartOptions = this.gChartS.getLineChartOptions('month');
+  chartData: (string | number)[][] = [];
+  chartTimeframe = signal<'week' | 'month'>('month');
+  toggleTextMapping = { week: 'Monat', month: 'Woche' };
 
   // FontAwesome Icons
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
@@ -32,6 +38,7 @@ export class AntragslisteTileComponent implements OnInit {
     try {
       this.totalFiles = await this.uploadsS.getTotalFiles();
       this.latestFile = await this.getLatestFile();
+      this.chartData = await this.gChartS.getAntragTimeframeChartRows('month');
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
         this.error = error;
@@ -56,6 +63,16 @@ export class AntragslisteTileComponent implements OnInit {
       }
       this.isLoading = false;
       throw error;
+    }
+  }
+
+  async toggleChartTimeframe() {
+    if (this.chartTimeframe() === 'month') {
+      this.chartData = await this.gChartS.getAntragTimeframeChartRows('week');
+      this.chartTimeframe.set('week');
+    } else {
+      this.chartData = await this.gChartS.getAntragTimeframeChartRows('month');
+      this.chartTimeframe.set('month');
     }
   }
 }
