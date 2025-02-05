@@ -21,7 +21,8 @@ export class GoogleChartComponent implements OnChanges {
 
   async ngOnChanges(): Promise<void> {
     if (this.chartData().length === 0) return
-    await this.gCharts.loadGoogleCharts(this.renderer, this.drawChart.bind(this));
+    await this.gCharts.loadGoogleCharts(this.renderer);
+    this.drawChart();
     this.observeResize();
   }
 

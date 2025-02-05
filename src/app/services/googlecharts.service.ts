@@ -17,7 +17,7 @@ export class GooglechartsService {
   private document = inject(DOCUMENT);
 
 
-  async loadGoogleCharts(renderer: Renderer2, drawFunction: () => void): Promise<void> {
+  async loadGoogleCharts(renderer: Renderer2): Promise<void> {
     if (!this.loadPromise) {
       this.loadPromise = (async () => {
         await this.scriptS.addJsScript(renderer, 'https://www.gstatic.com/charts/loader.js');
@@ -30,9 +30,7 @@ export class GooglechartsService {
         });
       })();
     }
-
     await this.loadPromise;
-    drawFunction();
   }
 
   async getAntragTimeframeChartRows(timeframe: 'week' | 'month'): Promise<(string | number)[][]> {
@@ -63,6 +61,7 @@ export class GooglechartsService {
     const colors = [primaryColor, ...[20, 30, 40, 50, 60].map(v => ColorHelper.darkenHexColor(primaryColor, v))];
     return {
       legend: { textStyle: { color: schriftHEX } },
+      enableInteractivity: false,
       responsive: true,
       colors,
       textStyle: {
@@ -93,6 +92,7 @@ export class GooglechartsService {
         duration: 400,
         startup: true
       },
+      enableInteractivity: false,
       colors: [primaryColor],
       textStyle: axisTextStyle,
       chartArea: {
