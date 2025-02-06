@@ -11,14 +11,18 @@ import { GooglechartsService } from 'src/app/services/googlecharts.service';
 export class StatisticComponent implements OnInit {
   gChartsS = inject(GooglechartsService)
 
-  chartData: (string | number)[][] = [];
-  chartData2: (string | number)[][] = [];
+  chartDataAntragsArten: (string | number)[][] = [];
+  chartDataTimeFrameMonth: (string | number)[][] = [];
+  chartDataTimeFrameWeek: (string | number)[][] = [];
   pieChartOptions = this.gChartsS.getPieChartOptions();
-  lineChartOptions = this.gChartsS.getLineChartOptions('month');
+  barChartOptions = this.gChartsS.getBarChartOptions();
+  lineChartOptionsMonth = this.gChartsS.getLineChartOptions('month');
+  lineChartOptionsWeek = this.gChartsS.getLineChartOptions('week');
 
 
   async ngOnInit(): Promise<void> {
-    this.chartData = await this.gChartsS.getAntragsartenChartRows();
-    this.chartData2 = await this.gChartsS.getAntragTimeframeChartRows('month');
+    this.chartDataAntragsArten = await this.gChartsS.getAntragsartenChartRows();
+    this.chartDataTimeFrameMonth = await this.gChartsS.getAntragTimeframeChartRows('month');
+    this.chartDataTimeFrameWeek = await this.gChartsS.getAntragTimeframeChartRows('week');
   }
 }

@@ -12,9 +12,10 @@ export class GoogleChartComponent implements OnChanges {
   gCharts = inject(GooglechartsService);
   chartContainer = viewChild.required<ElementRef>('chartContainer');
 
-  chartType = input.required<'LineChart' | 'PieChart' | 'BarChart'>();
+  chartType = input.required<'LineChart' | 'PieChart' | 'BarChart' | 'ColumnChart'>();
   chartData = input.required<(string | number)[][]>();
   chartOptions = input.required<any>({});
+  chart: any = undefined
 
   private resizeObserver!: ResizeObserver;
   private resizeTimeout!: number;
@@ -30,6 +31,7 @@ export class GoogleChartComponent implements OnChanges {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
+    if (this.chart) this.chart.clearChart();
   }
 
   private drawChart() {
@@ -41,8 +43,8 @@ export class GoogleChartComponent implements OnChanges {
     data.addRows(this.chartData());
 
     const container = this.chartContainer()?.nativeElement;
-    const chart = new google.visualization[this.chartType()](container);
-    chart.draw(data, this.chartOptions());
+    this.chart = new google.visualization[this.chartType()](container);
+    this.chart.draw(data, this.chartOptions());
   };
 
   private observeResize() {
