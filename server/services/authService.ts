@@ -15,7 +15,7 @@ export const login = async (user: User, password: string): Promise<string> => {
         throw new Error('Ungültige Anmeldedaten');
     } else {
         // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
-        return jwt.sign({ username: user.username, userID: user.userID }, JWT_SECRET, { expiresIn: '21d' });
+        return jwt.sign({ userID: user.userID }, JWT_SECRET, { expiresIn: '21d' });
     }
 }
 

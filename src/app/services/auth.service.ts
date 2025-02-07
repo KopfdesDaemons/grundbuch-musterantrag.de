@@ -21,19 +21,23 @@ export class AuthService {
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
     this._authToken = localStorage.getItem('auth_token');
-    this._username = localStorage.getItem('username') || "";
-    this._userRoleName = localStorage.getItem('userRoleName') || "";
   }
 
   get authToken(): string | null {
     return this._authToken;
   }
 
-  get username(): string {
+  async getUsername(): Promise<string> {
+    if (!this._username) {
+      this._username = await this.loadUsername();
+    }
     return this._username;
   }
 
-  get userRoleName(): string {
+  async getUserRoleName(): Promise<string> {
+    if (!this._userRoleName) {
+      this._userRoleName = await this.loadUserRoleName();
+    }
     return this._userRoleName;
   }
 
@@ -46,17 +50,32 @@ export class AuthService {
       password: password
     }));
 
-    const data = response as { token: string, username: string, userRoleName: string };
+    const data = response as { token: string };
 
     localStorage.setItem('auth_token', data.token);
-    localStorage.setItem('username', data.username);
-    localStorage.setItem('userRoleName', data.userRoleName);
-
-    this._username = data.username;
     this._authToken = data.token;
-    this._userRoleName = data.userRoleName;
 
     await this.router.navigate(['/dashboard']);
+  }
+
+  async loadUsername(): Promise<string> {
+    console.log('loadUsername');
+
+    const response = await lastValueFrom(this.http.get('/api/user/own-username', {
+      headers: this.getAuthHeader()
+    }));
+    const data = response as { username: string };
+    return data.username;
+  }
+
+  async loadUserRoleName(): Promise<string> {
+    console.log('loadUserRoleName');
+
+    const response = await lastValueFrom(this.http.get('/api/userrole/own-userrole', {
+      headers: this.getAuthHeader()
+    }));
+    const data = response as { userRoleName: string };
+    return data.userRoleName;
   }
 
   async logout() {

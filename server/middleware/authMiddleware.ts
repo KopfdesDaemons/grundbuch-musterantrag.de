@@ -12,8 +12,8 @@ export default async function authMiddleware(req: Request, res: Response, next: 
 
         // Verifiziere das Token über den Service
         try {
-            const user = await verifyToken(token);
-            req.body.user = user;
+            const jwtPayload = await verifyToken(token);
+            req.body.jwtPayload = jwtPayload;
             return next();
         } catch {
             // Forbidden
@@ -21,6 +21,6 @@ export default async function authMiddleware(req: Request, res: Response, next: 
         }
     } catch (error) {
         logger.error('Fehler bei der Authentifizierung:', error);
-        res.status(500).send('Interner Serverfehler');
+        res.status(500).send({ message: 'Interner Serverfehler' });
     }
 };

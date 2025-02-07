@@ -2,6 +2,7 @@ import logger from "server/config/logger";
 import { UserRole } from "server/interfaces/userRole";
 import { addUserRole, deleteUserRole, getAllUserRoles, getUserRole, updateUserRole } from "server/services/userRoleService";
 import { Request, Response } from 'express';
+import { getUserByUserID } from "server/services/userService";
 
 export const handleGetAllUserRoles = async (req: Request, res: Response) => {
     try {
@@ -86,3 +87,22 @@ export const handleDeleteUserRole = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Fehler beim Löschen einer oder mehrerer Userrollen" });
     }
 };
+
+export const handleGetOwnUserRoleName = async (req: Request, res: Response) => {
+    try {
+        const { jwtPayload } = req.body
+        if (!jwtPayload) {
+            return res.status(400).json({ message: "Kein JWT in der Anfrage" });
+        }
+        const userID = jwtPayload.userID;
+        const user = await getUserByUserID(userID);
+        if (!user) {
+            return res.status(400).json({ message: "Kein Benutzer gefunden" });
+        }
+        const userRoleName = user.userRole.name;
+        return res.status(200).json({ message: "Userrolle erfolgreich geladen", userRoleName });
+    } catch (error) {
+        logger.error("Fehler beim Abrufen der eigenen Userrolle:", error);
+        return res.status(500).json({ message: "Fehler beim Abrufen der eigenen Userrolle" });
+    }
+}

@@ -103,3 +103,9 @@ export const updateUserRole = async (userID: number, userRole: number): Promise<
     const updateQuery = `UPDATE users SET userRoleID = ? WHERE userID = ?`;
     await db.execute(updateQuery, [userRole, userID]);
 }
+
+export const getUsername = async (userID: number): Promise<string> => {
+    const queryStr = `SELECT username FROM users WHERE userID = ?`;
+    const [result] = await db.execute<RowDataPacket[]>(queryStr, [userID]);
+    return result[0]["username"] as string;
+}

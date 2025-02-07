@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CookiesTileComponent } from "../../../components/dashboard/tiles/cookies-tile/cookies-tile.component";
 import { LoggerTileComponent } from "../../../components/dashboard/tiles/logger-tile/logger-tile.component";
 import { AntragslisteTileComponent } from 'src/app/components/dashboard/tiles/antragsliste-tile/antragsliste-tile.component';
@@ -15,14 +15,15 @@ import { SettingsTileComponent } from "../../../components/dashboard/tiles/setti
   templateUrl: './dashboard-home.component.html',
   styleUrl: './dashboard-home.component.scss'
 })
-export class DashboardHomeComponent {
+export class DashboardHomeComponent implements OnInit {
   authS = inject(AuthService);
   title = inject(Title);
-
   greeting: string = "";
 
-  constructor() {
+
+  async ngOnInit(): Promise<void> {
     this.title.setTitle('Dashboard');
-    this.greeting = 'Guten ' + TimeHelper.getTimeOfDay() + ', ' + this.authS.username + '!';
+    const username = await this.authS.getUsername();
+    this.greeting = 'Guten ' + TimeHelper.getTimeOfDay() + ', ' + username + '!';
   }
 }

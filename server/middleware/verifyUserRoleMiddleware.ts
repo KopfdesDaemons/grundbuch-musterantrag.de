@@ -7,8 +7,13 @@ import logger from 'server/config/logger';
 export const verifyRole = (userPermission: UserPermission) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const userID = req.body.user.userID;
+            const { jwtPayload } = req.body;
+            if (!jwtPayload) {
+                return res.status(400).json({ message: 'Kein JWT in der Anfrage' });
+            }
+            const { userID } = jwtPayload;
             const user: User | null = await getUserByUserID(userID);
+            req.body.user = user;
             if (!user) {
                 return res.status(401).json({ message: 'Fehler bei der Prüfung der Benutzerrolle: UserID ' + userID + ' nicht gefunden' });
             }
@@ -20,7 +25,7 @@ export const verifyRole = (userPermission: UserPermission) => {
             return next();
         } catch (error) {
             logger.error('Fehler beim Auslesen der Benutzerrolle:', error);
-            res.status(500).send('Interner Serverfehler');
+            res.status(500).send({ message: 'Interner Serverfehler' });
         }
     };
 };

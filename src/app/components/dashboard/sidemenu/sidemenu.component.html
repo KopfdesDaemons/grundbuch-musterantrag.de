@@ -2,11 +2,22 @@
     <div class="content">
         <div class="user">
             <div class="row1">
-                <span class="username">{{authS.username}}</span>
+                @if(isLoading) {
+                <app-progress-spinner [endless]="true"></app-progress-spinner>
+                } @else if (!error) {
+                <span class="username">{{username}}</span>
+                } @else {
+                <span class="error">Benutzername konnen nicht geladen werden</span>}
                 <fa-icon class="btnicon" [icon]="faArrowRightFromBracket" (click)="authS.logout()"></fa-icon>
             </div>
             <div class="row2">
-                <span>({{authS.userRoleName}})</span>
+                @if(isLoading) {
+                <app-progress-spinner [endless]="true"></app-progress-spinner>
+                } @else if (!error) {
+                <span class="userrole">{{userRoleName}}</span>
+                } @else {
+                <span class="error">Nutzerrolle konnen nicht geladen werden</span>
+                }
             </div>
         </div>
         <nav>

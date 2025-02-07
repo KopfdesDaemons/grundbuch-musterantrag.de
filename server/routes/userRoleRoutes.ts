@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleCreateUserRole, handleDeleteUserRole, handleGetAllUserRoles, handleGetUserRole, handleUpdateUserRole } from "server/controller/userRolesController";
+import { handleCreateUserRole, handleDeleteUserRole, handleGetAllUserRoles, handleGetOwnUserRoleName, handleGetUserRole, handleUpdateUserRole } from "server/controller/userRolesController";
 import { UserRoleManagementAction } from 'server/interfaces/userPermission';
 import authMiddleware from 'server/middleware/authMiddleware';
 import { verifyRole } from 'server/middleware/verifyUserRoleMiddleware';
@@ -35,6 +35,11 @@ userRoleRoutes.get('/',
         new userRoleManagementPermission([UserRoleManagementAction.ReadUserRoles])
     ),
     handleGetUserRole
+);
+
+userRoleRoutes.get('/own-userrole',
+    authMiddleware,
+    handleGetOwnUserRoleName
 );
 
 userRoleRoutes.delete('/',

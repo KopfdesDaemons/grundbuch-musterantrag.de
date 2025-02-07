@@ -1,6 +1,6 @@
 import logger from "server/config/logger";
 import { User } from "server/models/user";
-import { addNewUser, deleteUser, getAllUsers, getUserByUserID, getUserByUsername, setNewInitalPassword, updatePassword, updateUsername, updateUserRole } from "server/services/userService";
+import { addNewUser, deleteUser, getAllUsers, getUserByUserID, getUserByUsername, getUsername, setNewInitalPassword, updatePassword, updateUsername, updateUserRole } from "server/services/userService";
 import { Request, Response } from 'express';
 import { getUserRole } from "server/services/userRoleService";
 
@@ -80,6 +80,10 @@ export const handleUpdateUsername = async (req: Request, res: Response) => {
         if (!userFromDB) {
             return res.status(400).json({ message: 'UserID ' + userID + ' existiert nicht' });
         }
+        const userFromDBwithNewUsername = await getUserByUsername(newUsername);
+        if (userFromDBwithNewUsername) {
+            return res.status(400).json({ message: 'Username ' + newUsername + ' existiert bereits' });
+        }
         await updateUsername(+userID, newUsername);
         return res.status(200).json({ message: 'Username erfolgreich aktualisiert' });
 
@@ -113,7 +117,6 @@ export const handleSetInitialPassword = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Fehler beim Setzen des Initialpasswords' });
     }
 }
-
 
 export const handleSetPassword = async (req: Request, res: Response) => {
     const { username, oldPassword, newPassword } = req.body
@@ -164,5 +167,23 @@ export const handleUpdateUserRole = async (req: Request, res: Response) => {
     } catch (error) {
         logger.error('Fehler beim Aktualisieren der Userrolle', error);
         return res.status(500).json({ message: 'Fehler beim Aktualisieren der Userrolle' });
+    }
+}
+
+export const handleGetOwnUsername = async (req: Request, res: Response) => {
+    try {
+        const { jwtPayload } = req.body
+        if (!jwtPayload) {
+            return res.status(400).json({ message: "Kein JWT in der Anfrage" });
+        }
+        const userID = jwtPayload.userID;
+        const username = await getUsername(userID);
+        if (!username) {
+            return res.status(400).json({ message: "Kein Benutzer gefunden" });
+        }
+        return res.status(200).json({ message: "Username erfolgreich geladen", username });
+    } catch (error) {
+        logger.error("Fehler beim Abrufen des eigenen Usernamens:", error);
+        return res.status(500).json({ message: "Fehler beim Abrufen des eigenen Usernamens" });
     }
 }
