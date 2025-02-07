@@ -6,16 +6,17 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from "../../../error-display/error-display.component";
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-logger-tile',
-  imports: [DashboardTileComponent, FaIconComponent, ProgressSpinnerComponent, ErrorDisplayComponent],
+  imports: [DashboardTileComponent, FaIconComponent, ProgressSpinnerComponent, ErrorDisplayComponent, NgClass],
   templateUrl: './logger-tile.component.html',
   styleUrl: './logger-tile.component.scss'
 })
 export class LoggerTileComponent implements OnInit {
   loggerS = inject(LoggerService);
-  logs: { timestamp: string, message: string }[] | null | undefined = undefined;
+  logs: { level: string, timestamp: string, message: string }[] | null | undefined = undefined;
   error: HttpErrorResponse | null = null;
   faTrashCan = faTrashCan;
 

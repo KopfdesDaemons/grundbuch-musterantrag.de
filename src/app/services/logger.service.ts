@@ -13,7 +13,7 @@ export class LoggerService {
   authS = inject(AuthService);
   platformID = inject(PLATFORM_ID);
 
-  async getLogFile(): Promise<{ timestamp: string, message: string }[] | null> {
+  async getLogFile(): Promise<{ level: string, timestamp: string, message: string }[] | null> {
     if (!isPlatformBrowser(this.platformID)) return null;
     const response: any = await lastValueFrom(
       this.http.get('/api/logger', {
@@ -28,7 +28,7 @@ export class LoggerService {
       return null;
     } else {
       // content
-      const logs = response.body as { timestamp: string, message: string }[];
+      const logs = response.body as { level: string, timestamp: string, message: string }[];
 
       // format the logs
       const formattedLogs = logs.map(log => {

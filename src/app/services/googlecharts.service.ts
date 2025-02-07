@@ -4,6 +4,7 @@ import { ScriptService } from './script.service';
 import { DesignloaderService } from './designloader.service';
 import { UploadsService } from './uploads.service';
 import { ColorHelper } from '../helpers/color.helper';
+import { count } from 'node:console';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class GooglechartsService {
       this.loadPromise = (async () => {
         await this.scriptS.addJsScript(renderer, 'https://www.gstatic.com/charts/loader.js');
         const google = (window as any)['google'];
-        google.charts.load('current', { packages: ['corechart', 'line'] });
+        google.charts.load('current', { packages: ['corechart'] });
 
         // Waiting for Google Charts to load
         await new Promise<void>((resolve) => {
@@ -137,6 +138,7 @@ export class GooglechartsService {
         },
       },
       vAxis: {
+        gridlines: { color: 'gray' },
         title: 'Anträge',
         textStyle: axisTextStyle,
         titleTextStyle: axisTitleStyle,

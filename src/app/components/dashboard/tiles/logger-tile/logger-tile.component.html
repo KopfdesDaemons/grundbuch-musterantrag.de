@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
                     @for (log of logs; track log) {
-                    <tr>
+                    <tr [ngClass]="{error: log.level === 'error'}">
                         <td>{{log.timestamp}}</td>
                         <td>{{log.message}}</td>
                     </tr>

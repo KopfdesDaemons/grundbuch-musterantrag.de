@@ -27,10 +27,11 @@ export const handleLogin = async (req: Request, res: Response): Promise<any> => 
 
         return res.json({ token: token, username: user.username, userRoleName: user.userRole.name });
     } catch (error: any) {
-        logger.error(`Fehler bei der Anmeldung unter dem Usernamen ${username}:`, error);
         if (error.message === 'Ungültige Anmeldedaten') {
+            logger.info(`Ungültiger Anmeldeversuch unter dem Usernamen ${username}`);
             return res.status(403).json({ message: 'Ungültige Anmeldedaten' });
         }
+        logger.error(`Fehler bei der Anmeldung unter dem Usernamen ${username}:`, error);
         return res.status(500).send({ message: 'Interner Serverfehler' });
     }
 };
