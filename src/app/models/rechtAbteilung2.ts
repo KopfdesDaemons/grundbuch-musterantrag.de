@@ -1,4 +1,6 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { BezeichnungRechtAbteilung2Validator } from "../validators/bezeichnungRechtAbteilung2.validator";
+import { RechtIstLoeschbarValidator } from "../validators/rechtIstLoeschbar.validator";
 
 export class RechtAbteilung2 {
     bezeichnung: string = '';
@@ -8,10 +10,10 @@ export class RechtAbteilung2 {
     getFormGroup(): FormGroup {
         const formBuilder = new FormBuilder();
         return formBuilder.group({
-            bezeichnung: [this.bezeichnung],
+            bezeichnung: [this.bezeichnung, [BezeichnungRechtAbteilung2Validator(), RechtIstLoeschbarValidator()]],
             laufendeNummer: [this.laufendeNummer],
             datumDerBewilligung: [this.datumDerBewilligung]
-        });
+        }, { updateOn: 'submit' });
     }
 
     get datumDerBewilligung(): string {

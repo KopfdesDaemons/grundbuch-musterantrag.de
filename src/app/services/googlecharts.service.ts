@@ -4,7 +4,6 @@ import { ScriptService } from './script.service';
 import { DesignloaderService } from './designloader.service';
 import { UploadsService } from './uploads.service';
 import { ColorHelper } from '../helpers/color.helper';
-import { count } from 'node:console';
 
 @Injectable({
   providedIn: 'root'

@@ -11,6 +11,9 @@
                     spellcheck="false" placeholder="&nbsp;">
                 <label class="placeholder" for="bezeichnunginput">Bezeichnung des Rechts</label>
             </div>
+            @if(form.controls['bezeichnung'].hasError('nichtAbteilung2')) {
+            <span class="error">{{ form.controls['bezeichnung'].getError('nichtAbteilung2').message }}</span>
+            }
         </div>
         <div>
             <label class="placeholder" for="laufendeNummerinput">Laufende Nummer: </label>
