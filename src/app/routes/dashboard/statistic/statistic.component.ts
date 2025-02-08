@@ -1,10 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { GoogleChartComponent } from "../../../components/google-chart/google-chart.component";
 import { GooglechartsService } from 'src/app/services/googlecharts.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorDisplayComponent } from "../../../components/error-display/error-display.component";
+import { ProgressSpinnerComponent } from "../../../components/progress-spinner/progress-spinner.component";
 
 @Component({
   selector: 'app-statistic',
-  imports: [GoogleChartComponent],
+  imports: [GoogleChartComponent, ErrorDisplayComponent, ProgressSpinnerComponent],
   templateUrl: './statistic.component.html',
   styleUrl: './statistic.component.scss'
 })
@@ -19,10 +22,21 @@ export class StatisticComponent implements OnInit {
   lineChartOptionsMonth = this.gChartsS.getLineChartOptions('month');
   lineChartOptionsWeek = this.gChartsS.getLineChartOptions('week');
 
+  error: HttpErrorResponse | null = null;
+  isLoading = true;
+
 
   async ngOnInit(): Promise<void> {
-    this.chartDataAntragsArten = await this.gChartsS.getAntragsartenChartRows();
-    this.chartDataTimeFrameMonth = await this.gChartsS.getAntragTimeframeChartRows('month');
-    this.chartDataTimeFrameWeek = await this.gChartsS.getAntragTimeframeChartRows('week');
+    try {
+      this.error = null;
+      this.chartDataAntragsArten = await this.gChartsS.getAntragsartenChartRows();
+      this.chartDataTimeFrameMonth = await this.gChartsS.getAntragTimeframeChartRows('month');
+      this.chartDataTimeFrameWeek = await this.gChartsS.getAntragTimeframeChartRows('week');
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error;
+      }
+    }
+    this.isLoading = false;
   }
 }

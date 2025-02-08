@@ -48,3 +48,8 @@ app-antragsanzahltimeframe {
     cursor: pointer;
     color: var(--primary-variant-darker);
 }
+
+app-google-chart {
+    flex: 1;
+    min-height: 15em;
+}

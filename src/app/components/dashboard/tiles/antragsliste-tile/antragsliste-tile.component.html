@@ -1,10 +1,10 @@
 <app-dashboard-tile>
     <div class="content">
-        @if(error){
+        @if(errorLatestFile){
         <h2>Generierte Anträge</h2>
-        <app-error-display [error]="error"></app-error-display>
+        <app-error-display [error]="errorLatestFile"></app-error-display>
         } @else {
-        @if(isLoading) {
+        @if(isLoadinglatestFile) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else {
         <h2>Generierte Anträge: {{totalFiles}}</h2>
@@ -21,9 +21,17 @@
         }
         }
         }
+        @if(errorChart) {
+        <app-error-display [error]="errorChart"></app-error-display>
+        } @else {
+        @if(isLoadingChart) {
+        <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else {
         <span class="chartToggle" (click)="toggleChartTimeframe()">{{toggleTextMapping[chartTimeframe()]}}</span>
         <app-google-chart [chartData]="chartData" [chartOptions]="lineChartOptions"
             chartType="LineChart"></app-google-chart>
         <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
+        }
+        }
     </div>
 </app-dashboard-tile>

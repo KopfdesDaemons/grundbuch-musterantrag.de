@@ -23,8 +23,10 @@ export class AntragslisteTileComponent implements OnInit {
   totalFiles: number | undefined;
   latestFile: Upload | null | undefined;
   platformId = inject(PLATFORM_ID);
-  error: HttpErrorResponse | null = null;
-  isLoading: boolean = false;
+  errorLatestFile: HttpErrorResponse | null = null;
+  isLoadinglatestFile: boolean = false;
+  errorChart: HttpErrorResponse | null = null;
+  isLoadingChart: boolean = false;
   gChartS = inject(GooglechartsService);
   lineChartOptions = this.gChartS.getLineChartOptions('month');
   chartData: (string | number)[][] = [];
@@ -35,33 +37,50 @@ export class AntragslisteTileComponent implements OnInit {
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
 
   async ngOnInit(): Promise<void> {
+    await this.loadLatestFile();
+    await this.loadChart();
+  }
+
+  async loadLatestFile(): Promise<void> {
     try {
       this.totalFiles = await this.uploadsS.getTotalFiles();
       this.latestFile = await this.getLatestFile();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.errorLatestFile = error;
+      }
+    }
+    this.isLoadinglatestFile = false;
+  }
+
+  async loadChart(): Promise<void> {
+    try {
+      this.errorChart = null;
+      this.isLoadingChart = true;
       this.chartData = await this.gChartS.getAntragTimeframeChartRows('month');
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.errorChart = error;
       }
     }
-    this.isLoading = false;
+    this.isLoadingChart = false;
   }
 
   async getLatestFile(): Promise<Upload | null> {
     try {
-      this.error = null;
-      this.isLoading = true;
+      this.errorLatestFile = null;
+      this.isLoadinglatestFile = true;
       if (!isPlatformBrowser(this.platformId)) return null;
       if (this.uploadsS.uploadsData['totalFiles'] === 0) return null;
       const { files } = await this.uploadsS.getFiles();
       const latestFile: Upload = files[0];
-      this.isLoading = false;
+      this.isLoadinglatestFile = false;
       return latestFile;
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.errorLatestFile = error;
       }
-      this.isLoading = false;
+      this.isLoadinglatestFile = false;
       throw error;
     }
   }

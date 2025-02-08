@@ -59,8 +59,6 @@ export class AuthService {
   }
 
   async loadUsername(): Promise<string> {
-    console.log('loadUsername');
-
     const response = await lastValueFrom(this.http.get('/api/user/own-username', {
       headers: this.getAuthHeader()
     }));
@@ -69,8 +67,6 @@ export class AuthService {
   }
 
   async loadUserRoleName(): Promise<string> {
-    console.log('loadUserRoleName');
-
     const response = await lastValueFrom(this.http.get('/api/userrole/own-userrole', {
       headers: this.getAuthHeader()
     }));
