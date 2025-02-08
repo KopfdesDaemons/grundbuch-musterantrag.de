@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, resource } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -11,26 +11,13 @@ export class UserSettingsService {
   authS = inject(AuthService);
   http = inject(HttpClient);
 
-  private username = signal<string>(''); // Initialize as null to indicate loading state
-  private userRole = signal<{ userRoleName: string, userRoleDescription: string }>({ userRoleName: '', userRoleDescription: '' });
+  username = resource({
+    loader: async () => await this.loadUsername(),
+  });
 
-  constructor() {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.loadData();
-  }
-
-  private async loadData() {
-    this.username.set(await this.loadUsername());
-    this.userRole.set((await this.loadUserRole()));
-  }
-
-  getUsername() {
-    return this.username.asReadonly();
-  }
-
-  getUserRole() {
-    return this.userRole.asReadonly();
-  }
+  userRole = resource({
+    loader: async () => await this.loadUserRole()
+  })
 
   private async loadUsername(): Promise<string> {
     const response = await lastValueFrom(this.http.get('/api/user-settings/username', {

@@ -59,6 +59,11 @@ hr {
     padding: 0.5em;
     border-radius: 12px;
 
+    .userInfosContent {
+        display: flex;
+        flex-direction: column;
+    }
+
     p {
         margin: 0.5em 0;
     }

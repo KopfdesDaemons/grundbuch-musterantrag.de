@@ -4,21 +4,22 @@
             <div class="row1">
                 <fa-icon class="btnicon" [icon]="faGear" routerLink="./user-settings"
                     (click)="sidemenuS.toggleDashboardSidemenu()"></fa-icon>
-                @if(isLoading) {
+                @if(userSettingsS.username.isLoading()) {
                 <app-progress-spinner [endless]="true"></app-progress-spinner>
-                } @else if (!error) {
-                <span class="username">{{userSettingsS.getUsername()()}}</span>
+                } @else if (userSettingsS.username.error()) {
+                <span class="error">Benutzername konnen nicht geladen werden</span>
                 } @else {
-                <span class="error">Benutzername konnen nicht geladen werden</span>}
+                <span class="username">{{userSettingsS.username.value()}}</span>
+                }
                 <fa-icon class="btnicon" [icon]="faArrowRightFromBracket" (click)="authS.logout()"></fa-icon>
             </div>
             <div class="row2">
-                @if(isLoading) {
+                @if(userSettingsS.userRole.isLoading()) {
                 <app-progress-spinner [endless]="true"></app-progress-spinner>
-                } @else if (!error) {
-                <span class="userrole">{{userSettingsS.getUserRole()().userRoleName}}</span>
+                } @else if (userSettingsS.userRole.error()) {
+                <span class="error">Userrolle konnen nicht geladen werden</span>
                 } @else {
-                <span class="error">Nutzerrolle konnen nicht geladen werden</span>
+                <span class="userrole">{{userSettingsS.userRole.value()?.userRoleName}}</span>
                 }
             </div>
         </div>

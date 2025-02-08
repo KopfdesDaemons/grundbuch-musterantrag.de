@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
@@ -15,15 +14,11 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './sidemenu.component.html',
   styleUrl: './sidemenu.component.scss'
 })
-export class SidemenuComponent implements OnInit {
+export class SidemenuComponent {
   sidemenuS = inject(SidemenuService);
   authS = inject(AuthService);
   userSettingsS = inject(UserSettingsService);
   router = inject(Router);
-
-  error: HttpErrorResponse | null = null;
-  isLoading: boolean = false;
-
   component = viewChild.required<ElementRef>('sidemenu');
 
   faArrowRightFromBracket = faArrowRightFromBracket;
@@ -40,16 +35,5 @@ export class SidemenuComponent implements OnInit {
     if (!(route === '/dashboard')) {
       return this.router.url.startsWith(route);
     } else return this.router.url === route;
-  }
-
-  ngOnInit() {
-    try {
-      this.isLoading = true;
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.error = error;
-      }
-    }
-    this.isLoading = false;
   }
 }

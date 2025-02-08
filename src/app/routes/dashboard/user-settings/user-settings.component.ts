@@ -5,10 +5,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserSettingsService } from 'src/app/services/user-settings.service';
+import { ProgressSpinnerComponent } from "../../../components/progress-spinner/progress-spinner.component";
 
 @Component({
   selector: 'app-user-settings',
-  imports: [FormsModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [FormsModule, ReactiveFormsModule, FontAwesomeModule, ProgressSpinnerComponent],
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.scss'
 })

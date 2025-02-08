@@ -3,10 +3,22 @@
         <div class="content">
             <div class="userInfos">
                 <fa-icon [icon]="faUser"></fa-icon>
-                <div>
-                    <h1>{{userSettingsS.getUsername()()}}</h1>
-                    <span class="italic">Userrolle: {{userSettingsS.getUserRole()().userRoleName}}</span>
-                    <p class="textBox">{{userSettingsS.getUserRole()().userRoleDescription}}</p>
+                <div class="userInfosContent">
+                    @if(userSettingsS.username.isLoading()) {
+                    <app-progress-spinner [endless]="true"></app-progress-spinner>
+                    } @else if(userSettingsS.username.error()) {
+                    <span class="error">Benutzername konnen nicht geladen werden</span>
+                    } @else {
+                    <h1>{{userSettingsS.username.value()}}</h1>
+                    }
+                    @if(userSettingsS.userRole.isLoading()) {
+                    <app-progress-spinner [endless]="true"></app-progress-spinner>
+                    } @else if(userSettingsS.userRole.error()) {
+                    <span class="error">Nutzerrolle konnen nicht geladen werden</span>
+                    } @else {
+                    <span class="italic">Userrolle: {{userSettingsS.userRole.value()?.userRoleName}}</span>
+                    <p class="textBox">{{userSettingsS.userRole.value()?.userRoleDescription}}</p>
+                    }
                 </div>
             </div>
             <div class="tile">
