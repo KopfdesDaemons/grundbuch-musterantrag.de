@@ -2,44 +2,43 @@
 <section>
     <div class="sectiondiv">
         <app-antragsinfos-hero [antragsart]="antrag">
-            <p>{{antrag.description}}</p>
+            <p>{{ antrag.description }}</p>
         </app-antragsinfos-hero>
     </div>
 </section>
 <section>
     <div class="sectiondiv">
         <h2>Was sind Bewilligungen?</h2>
-        <blockquote cite="https://www.gesetze-im-internet.de/gbo/__19.html">Eine Eintragung erfolgt, wenn derjenige sie
-            bewilligt, dessen Recht von ihr betroffen wird. <a href="https://www.gesetze-im-internet.de/gbo/__19.html"
-                target="_blank">§ 19 GBO</a></blockquote>
-        <p>Zu jeder Eintragung im Grundbuch gibt es eine Eintragungsgrundlage. Einer Eigentumsumschreibung liegt meist
-            ein Kaufvertrag zugrunde, einer Grundschuld eine Grundschuldbestellungsurkunde und auch den Lasten und
-            Beschränkungen liegen
-            ebenfalls Bewilligungen zugrunde.</p>
-        <p>Da eine Eintragung aufgrund einer Eintragungsbewilligung vorgenommen wird, enthält diese alle Details zu
-            dem
-            eingetragenen Recht. Das Datum der Bewilligung wird im Grundbuch eingetragen.</p>
-        <p>Die Bewilligungen befinden sich in der Grundakte, welche beim Grundbuchamt zu jedem Grundbuch geführt wird.
-            Grundakten sind "dauernd" aufzubewahren, also auch Bewilligungen zu gelöschten Rechten befinden sich
-            in der Grundakte. Den Löschungen von Eintragungen liegen Löschungsbewilligungen zugrunde.</p>
+        <blockquote cite="https://www.gesetze-im-internet.de/gbo/__19.html">
+            Eine Eintragung erfolgt, wenn derjenige sie bewilligt, dessen Recht von ihr betroffen wird. <a href="https://www.gesetze-im-internet.de/gbo/__19.html" target="_blank">§ 19 GBO</a>
+        </blockquote>
+        <p>
+            Zu jeder Eintragung im Grundbuch gibt es eine Eintragungsgrundlage. Einer Eigentumsumschreibung liegt meist ein Kaufvertrag zugrunde, einer Grundschuld eine Grundschuldbestellungsurkunde
+            und auch den Lasten und Beschränkungen liegen ebenfalls Bewilligungen zugrunde.
+        </p>
+        <p>
+            Da eine Eintragung aufgrund einer Eintragungsbewilligung vorgenommen wird, enthält diese alle Details zu dem eingetragenen Recht. Das Datum der Bewilligung wird im Grundbuch eingetragen.
+        </p>
+        <p>
+            Die Bewilligungen befinden sich in der Grundakte, welche beim Grundbuchamt zu jedem Grundbuch geführt wird. Grundakten sind "dauernd" aufzubewahren, also auch Bewilligungen zu gelöschten
+            Rechten befinden sich in der Grundakte. Den Löschungen von Eintragungen liegen Löschungsbewilligungen zugrunde.
+        </p>
     </div>
 </section>
 <section>
     <div class="sectiondiv">
         <h2>Wie beantrage ich Abschriften einer Bewilligung?</h2>
-        <p>Es genügt ein formloser Antrag. Der Antrag sollte genügend Angaben enthalten, damit das betroffene Recht
-            identifiziert werden kann. Ein Antrag könnte wie folgt formuliert werden:</p>
-        <blockquote class="beispiel">"Ich beantrage eine Abschrift der Bewilligung vom 18.02.2005 des Wegerechts
-            Abteilung II laufende
-            Nummer 4."</blockquote>
+        <p>Es genügt ein formloser Antrag. Der Antrag sollte genügend Angaben enthalten, damit das betroffene Recht identifiziert werden kann. Ein Antrag könnte wie folgt formuliert werden:</p>
+        <blockquote class="beispiel">"Ich beantrage eine Abschrift der Bewilligung vom 18.02.2005 des Wegerechts Abteilung II laufende Nummer 4."</blockquote>
         <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
     </div>
 </section>
 <section>
     <div class="sectiondiv">
         <h2>Wie viel kosten Abschriften von Bewilligungen?</h2>
-        <p>Die Gebühr richtet sich nach der Anzahl der kopierten Seiten. Grundlage ist die KV-Nr. 31000 aus der <a
-                href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank">Anlage 1 des GNotGK</a>.
+        <p>
+            Die Gebühr richtet sich nach der Anzahl der kopierten Seiten. Grundlage ist die KV-Nr. 31000 aus der
+            <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank">Anlage 1 des GNotGK</a>.
         </p>
         <table>
             <thead>
@@ -67,17 +66,17 @@
                 </tr>
             </tbody>
         </table>
-        <p>In der Landeshaushaltsordnung des jeweiligen Bundeslandes ist definiert, wann ein Betrag als Kleinbetrag gilt
-            und die Erhebung der Kosten unterbleiben <b>kann</b>. Zum Beispiel gelten in Hessen, Bayern und NRW Beträge
-            unter 10,00 € als Kleinbetrag, in Saarland und Thüringen Beträge unter 5,00 €. Dies ist keine verbindliche
-            Aussage. Bei Interesse prüfen Sie die jeweilige Landeshaushaltsordnung des Bundeslandes. Der jeweilige
-            Sachbearbeiter kann die Kosten auch trotz Kleinbetrag anfordern.</p>
+        <p>
+            In der Landeshaushaltsordnung des jeweiligen Bundeslandes ist definiert, wann ein Betrag als Kleinbetrag gilt und die Erhebung der Kosten unterbleiben <b>kann</b>. Zum Beispiel gelten in
+            Hessen, Bayern und NRW Beträge unter 10,00 € als Kleinbetrag, in Saarland und Thüringen Beträge unter 5,00 €. Dies ist keine verbindliche Aussage. Bei Interesse prüfen Sie die jeweilige
+            Landeshaushaltsordnung des Bundeslandes. Der jeweilige Sachbearbeiter kann die Kosten auch trotz Kleinbetrag anfordern.
+        </p>
     </div>
 </section>
 <section>
     <div class="sectiondiv">
         <h2>Wo können Abschriften der Bewilligungen beantragt werden?</h2>
-        <br>
+        <br />
         <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
     </div>
 </section>
@@ -88,25 +87,19 @@
             <li>
                 <app-accordion frage="Wie bezahle ich?">
                     <p>
-                        Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine
-                        Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen
-                        Zahlungsmöglichkeiten online bezahlen. Genaueres dazu finden Sie auf
-                        der Kostenrechnung.
+                        Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen Zahlungsmöglichkeiten online
+                        bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
                     </p>
                 </app-accordion>
             </li>
             <li>
                 <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
-                    <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle
-                        gestellt werden.</p>
+                    <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle gestellt werden.</p>
                 </app-accordion>
             </li>
             <li>
                 <app-accordion frage="In welcher Form kann ich die Bewilligungen erhalten?">
-                    <p>
-                        Die Bewilligungen erhalten Sie in Papierform. Per E-Mail ist der
-                        Versand nicht zulässig.
-                    </p>
+                    <p>Die Bewilligungen erhalten Sie in Papierform. Per E-Mail ist der Versand nicht zulässig.</p>
                 </app-accordion>
             </li>
         </ul>

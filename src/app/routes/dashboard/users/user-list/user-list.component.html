@@ -4,86 +4,89 @@
             <button (click)="loadUsers()">
                 <fa-icon [icon]="faRotateRight"></fa-icon>
             </button>
-            @if(!isLoading && !error) {
-            <button (click)="deleteUsers()">
-                <fa-icon [icon]="faTrash"></fa-icon>
-            </button>
+            @if (!isLoading && !error) {
+                <button (click)="deleteUsers()">
+                    <fa-icon [icon]="faTrash"></fa-icon>
+                </button>
             }
         </div>
-        @if(isLoading) {
-        <app-progress-spinner [endless]="true"></app-progress-spinner>
+        @if (isLoading) {
+            <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else if (error) {
-
-        <app-error-display [error]="error"></app-error-display>
+            <app-error-display [error]="error"></app-error-display>
         } @else {
-        <div class="tableScrollContainer">
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Username</th>
-                        <th>User&nbsp;ID</th>
-                        <th>Benutzerrolle</th>
-                        <th>Passwort</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for(row of rows; track row.user.userID) {
-                    <tr>
-                        <td>
-                            <input type="checkbox" [(ngModel)]="row.isChecked" />
-                        </td>
-                        <td>{{ row.user.username }}</td>
-                        <td>{{ row.user.userID }}</td>
-                        <td [ngClass]="{ admin: row.user.userRole.name === 'admin' }">
-                            {{ row.user.userRole.name }}
-                        </td>
-                        <td>
-                            {{ row.user.isInitialPassword ? "Initialpasswort" : "vergeben" }}
-                        </td>
-                        <td>
-                            <span class="btnicon" (click)="toggleEditMode(row)">
-                                <fa-icon [icon]="faEdit"></fa-icon>
-                            </span>
-                        </td>
-                    </tr>
-                    @if(row.editMode) {
-                    <tr class="editRow">
-                        <td colspan="6">
-                            @if(row.editForm) {
-                            <form class="editForm" [formGroup]="row.editForm"
-                                (ngSubmit)="row.editForm.valid && saveUser(row)">
-                                <div>
-                                    <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole">
-                                        @for(userRole of userRoles; track userRole.userRoleID) {
-                                        <option value="{{ userRole.userRoleID }}"
-                                            [selected]="userRole.userRoleID === row.user.userRoleID">
-                                            {{ userRole.name }}
-                                        </option>
+            <div class="tableScrollContainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Username</th>
+                            <th>User&nbsp;ID</th>
+                            <th>Benutzerrolle</th>
+                            <th>Passwort</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (row of rows; track row.user.userID) {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="row.isChecked" />
+                                </td>
+                                <td>{{ row.user.username }}</td>
+                                <td>{{ row.user.userID }}</td>
+                                <td [ngClass]="{ admin: row.user.userRole.name === 'admin' }">
+                                    {{ row.user.userRole.name }}
+                                </td>
+                                <td>
+                                    {{ row.user.isInitialPassword ? "Initialpasswort" : "vergeben" }}
+                                </td>
+                                <td>
+                                    <span class="btnicon" (click)="toggleEditMode(row)">
+                                        <fa-icon [icon]="faEdit"></fa-icon>
+                                    </span>
+                                </td>
+                            </tr>
+                            @if (row.editMode) {
+                                <tr class="editRow">
+                                    <td colspan="6">
+                                        @if (row.editForm) {
+                                            <form class="editForm" [formGroup]="row.editForm" (ngSubmit)="row.editForm.valid && saveUser(row)">
+                                                <div>
+                                                    <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole">
+                                                        @for (userRole of userRoles; track userRole.userRoleID) {
+                                                            <option value="{{ userRole.userRoleID }}" [selected]="userRole.userRoleID === row.user.userRoleID">
+                                                                {{ userRole.name }}
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="inputfeld" id="username">
+                                                    <input formControlName="username" type="text" id="usernameinput" name="username" spellcheck="false" placeholder="&nbsp;" />
+                                                    <label class="placeholder" for="usernameinput">Username</label>
+                                                </div>
+                                                <div class="inputfeld" id="userPassword">
+                                                    <input
+                                                        formControlName="userPassword"
+                                                        autocomplete="new-password"
+                                                        type="password"
+                                                        id="userPasswordinput"
+                                                        name="userPassword"
+                                                        spellcheck="false"
+                                                        placeholder="&nbsp;"
+                                                    />
+                                                    <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
+                                                </div>
+                                                <button>Speichern</button>
+                                            </form>
                                         }
-                                    </select>
-                                </div>
-                                <div class="inputfeld" id="username">
-                                    <input formControlName="username" type="text" id="usernameinput" name="username"
-                                        spellcheck="false" placeholder="&nbsp;" />
-                                    <label class="placeholder" for="usernameinput">Username</label>
-                                </div>
-                                <div class="inputfeld" id="userPassword">
-                                    <input formControlName="userPassword" autocomplete="new-password" type="password"
-                                        id="userPasswordinput" name="userPassword" spellcheck="false"
-                                        placeholder="&nbsp;" />
-                                    <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
-                                </div>
-                                <button>Speichern</button>
-                            </form>
+                                    </td>
+                                </tr>
                             }
-                        </td>
-                    </tr>
-                    } }
-                </tbody>
-            </table>
-        </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
     </div>
 </section>

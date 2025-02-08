@@ -3,25 +3,22 @@
     <p>Die Daten des verstorbenen Eigentümers.</p>
     <div class="formularcontent">
         <div class="inputfeld" id="vorname">
-            <input formControlName="vorname" type="text" id="vornameinput" name="vorname" required spellcheck="false"
-                placeholder="&nbsp;">
+            <input formControlName="vorname" type="text" id="vornameinput" name="vorname" required spellcheck="false" placeholder="&nbsp;" />
             <label class="placeholder" for="vornameinput">Vorname</label>
         </div>
         <div class="inputfeld" id="nachname">
-            <input formControlName="nachname" type="text" id="nachnameinput" name="nachname" required spellcheck="false"
-                placeholder="&nbsp;">
+            <input formControlName="nachname" type="text" id="nachnameinput" name="nachname" required spellcheck="false" placeholder="&nbsp;" />
             <label class="placeholder" for="nachnameinput">Nachname</label>
         </div>
         <div>
             <div class="inputfeld" id="geburtsdatum">
-                <input formControlName="geburtsdatum" type="date" id="geburtsdatuminput" name="geburtsdatum"
-                    spellcheck="false" placeholder="&nbsp;">
+                <input formControlName="geburtsdatum" type="date" id="geburtsdatuminput" name="geburtsdatum" spellcheck="false" placeholder="&nbsp;" />
                 <label class="placeholder" for="geburtsdatuminput">Geburtsdatum</label>
             </div>
         </div>
         <div class="formNavBtn">
             @if (fs.getCurrentStep() > 1) {
-            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+                <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
             }
             <button class="btnoutlined">Weiter</button>
         </div>

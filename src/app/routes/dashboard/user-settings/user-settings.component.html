@@ -4,31 +4,34 @@
             <div class="userInfos">
                 <fa-icon [icon]="faUser"></fa-icon>
                 <div class="userInfosContent">
-                    @if(userSettingsS.username.isLoading()) {
-                    <app-progress-spinner [endless]="true"></app-progress-spinner>
-                    } @else if(userSettingsS.username.error()) {
-                    <span class="error">Benutzername konnen nicht geladen werden</span>
+                    @if (userSettingsS.username.isLoading()) {
+                        <app-progress-spinner [endless]="true"></app-progress-spinner>
+                    } @else if (userSettingsS.username.error()) {
+                        <span class="error">Benutzername konnen nicht geladen werden</span>
                     } @else {
-                    <h1>{{userSettingsS.username.value()}}</h1>
+                        <h1>{{ userSettingsS.username.value() }}</h1>
                     }
-                    @if(userSettingsS.userRole.isLoading()) {
-                    <app-progress-spinner [endless]="true"></app-progress-spinner>
-                    } @else if(userSettingsS.userRole.error()) {
-                    <span class="error">Nutzerrolle konnen nicht geladen werden</span>
+
+                    @if (userSettingsS.userRole.isLoading()) {
+                        <app-progress-spinner [endless]="true"></app-progress-spinner>
+                    } @else if (userSettingsS.userRole.error()) {
+                        <span class="error">Nutzerrolle konnen nicht geladen werden</span>
                     } @else {
-                    <span class="italic">Userrolle: {{userSettingsS.userRole.value()?.userRoleName}}</span>
-                    <p class="textBox">{{userSettingsS.userRole.value()?.userRoleDescription}}</p>
+                        <span class="italic">Userrolle: {{ userSettingsS.userRole.value()?.userRoleName }}</span>
+                        <p class="textBox">
+                            {{ userSettingsS.userRole.value()?.userRoleDescription }}
+                        </p>
                     }
                 </div>
             </div>
             <div class="tile">
                 <form [formGroup]="newUsernameForm" #ngFormNewUsername="ngForm" (ngSubmit)="changeUsername()">
                     <div class="inputfeld">
-                        <input formControlName="newUsername" type="text" name="username" placeholder="&nbsp;">
+                        <input formControlName="newUsername" type="text" name="username" placeholder="&nbsp;" />
                         <label class="placeholder" for="username">Neuer Username</label>
                     </div>
-                    @if(newUsernameForm.get('newUsername')?.errors?.['error']){
-                    <small class="error">{{newUsernameForm.controls['newUsername'].getError('error').message}}</small>
+                    @if (newUsernameForm.get("newUsername")?.errors?.["error"]) {
+                        <small class="error">{{ newUsernameForm.controls["newUsername"].getError("error").message }}</small>
                     }
                     <button class="btntext" type="submit">Username aktualisieren</button>
                 </form>
@@ -37,23 +40,22 @@
                 <p>Passwort ändern:</p>
                 <form [formGroup]="newPasswordForm" #ngFormNewPassword="ngForm" (ngSubmit)="changePassword()">
                     <div class="inputfeld">
-                        <input formControlName="oldPassword" type="password" name="oldPassword" placeholder="&nbsp;">
+                        <input formControlName="oldPassword" type="password" name="oldPassword" placeholder="&nbsp;" />
                         <label class="placeholder" for="oldPassword">Altes Passwort</label>
                     </div>
-                    @if(newPasswordForm.get('oldPassword')?.errors?.['wrongPassword']){
-                    <small class="error">Falsches Passwort</small>
+                    @if (newPasswordForm.get("oldPassword")?.errors?.["wrongPassword"]) {
+                        <small class="error">Falsches Passwort</small>
                     }
                     <div class="inputfeld">
-                        <input formControlName="password" type="password" name="password" placeholder="&nbsp;">
+                        <input formControlName="password" type="password" name="password" placeholder="&nbsp;" />
                         <label class="placeholder" for="password">Neues Passwort</label>
                     </div>
                     <div class="inputfeld">
-                        <input formControlName="confirmPassword" type="password" name="confirmPassword"
-                            placeholder="&nbsp;">
+                        <input formControlName="confirmPassword" type="password" name="confirmPassword" placeholder="&nbsp;" />
                         <label class="placeholder" for="confirmPassword">Neues Passwort wiederholen</label>
                     </div>
-                    @if(newPasswordForm.get('confirmPassword')?.errors?.['passwordsDontMatch']){
-                    <small class="error">Passwörter stimmen nicht überein</small>
+                    @if (newPasswordForm.get("confirmPassword")?.errors?.["passwordsDontMatch"]) {
+                        <small class="error">Passwörter stimmen nicht überein</small>
                     }
                     <button class="btntext" type="submit">Passwort aktualisieren</button>
                 </form>

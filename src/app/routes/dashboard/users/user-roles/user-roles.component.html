@@ -2,13 +2,12 @@
     <div class="sectiondiv">
         <div class="controls">
             <div [formGroup]="form" class="inputfeld" id="userRoleID">
-                <input formControlName="userRoleID" type="number" id="userRoleIDinput" name="userRoleID"
-                    placeholder="&nbsp;">
+                <input formControlName="userRoleID" type="number" id="userRoleIDinput" name="userRoleID" placeholder="&nbsp;" />
                 <label class="placeholder" for="userRoleIDinput">ID</label>
             </div>
             <select [(ngModel)]="selectedUserRoleOption" (change)="loadUserRole(selectedUserRoleOption?.userRoleID)">
-                @for(userRole of userRolesOptions; track userRole.userRoleID) {
-                <option [ngValue]="userRole">{{userRole.name}}</option>
+                @for (userRole of userRolesOptions; track userRole.userRoleID) {
+                    <option [ngValue]="userRole">{{ userRole.name }}</option>
                 }
             </select>
             <button class="btnicon" title="Neue Userrolle erstellen" (click)="createNewUserRole()">
@@ -18,44 +17,42 @@
                 <fa-icon [icon]="faTrashCan"></fa-icon>
             </button>
         </div>
-        <div>{{selectedUserRoleOption?.description}}</div>
-        @if(isLoading) {
-        <app-progress-spinner [endless]="true"></app-progress-spinner>
+        <div>{{ selectedUserRoleOption?.description }}</div>
+        @if (isLoading) {
+            <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else if (error) {
-
-        <app-error-display [error]="error"></app-error-display>
+            <app-error-display [error]="error"></app-error-display>
         } @else {
-        <form [formGroup]="form" (ngSubmit)="saveUserRole()">
-            <div class="formRow1">
-                <div class="inputfeld" id="userroleName">
-                    <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required
-                        spellcheck="false" placeholder="&nbsp;">
-                    <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
+            <form [formGroup]="form" (ngSubmit)="saveUserRole()">
+                <div class="formRow1">
+                    <div class="inputfeld" id="userroleName">
+                        <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required spellcheck="false" placeholder="&nbsp;" />
+                        <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
+                    </div>
+                    <button [disabled]="isLoading" type="submit"><fa-icon [icon]="faFloppyDisk"></fa-icon></button>
                 </div>
-                <button [disabled]="isLoading" type="submit"><fa-icon [icon]="faFloppyDisk"></fa-icon></button>
-            </div>
-            <div class="descriptiondiv">
-                <label for="description">Beschreibung:</label>
-                <textarea formControlName="description" name="description" id="description"></textarea>
-            </div>
-            <ul class="feature-list" formGroupName="features">
-                @for(permission of userRoleS.allPermissions; track permission) {
-                <li formGroupName="{{permission.feature}}">
-                    <h2>
-                        {{userRoleS.featuresNameMapping[permission.feature]}}
-                    </h2>
-                    <ul>
-                        @for(action of permission.allowedActions; track action) {
-                        <li>
-                            <input id="{{action}}" type="checkbox" formControlName="{{action}}">
-                            <label for="{{action}}">{{userRoleS.actionsNameMapping[action]}}</label>
+                <div class="descriptiondiv">
+                    <label for="description">Beschreibung:</label>
+                    <textarea formControlName="description" name="description" id="description"></textarea>
+                </div>
+                <ul class="feature-list" formGroupName="features">
+                    @for (permission of userRoleS.allPermissions; track permission) {
+                        <li formGroupName="{{ permission.feature }}">
+                            <h2>
+                                {{ userRoleS.featuresNameMapping[permission.feature] }}
+                            </h2>
+                            <ul>
+                                @for (action of permission.allowedActions; track action) {
+                                    <li>
+                                        <input id="{{ action }}" type="checkbox" formControlName="{{ action }}" />
+                                        <label for="{{ action }}">{{ userRoleS.actionsNameMapping[action] }}</label>
+                                    </li>
+                                }
+                            </ul>
                         </li>
-                        }
-                    </ul>
-                </li>
-                }
-            </ul>
-        </form>
+                    }
+                </ul>
+            </form>
         }
     </div>
 </section>

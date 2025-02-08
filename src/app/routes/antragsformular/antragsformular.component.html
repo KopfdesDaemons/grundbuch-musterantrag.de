@@ -1,57 +1,58 @@
-@if(fs.antrag){
-<app-header></app-header>
-<section [ngClass]="{'darkmode': dl.darkmode.value}">
-  <header>
-    <progress class="progressbar" value="{{fs.progress()}}" max="100"></progress>
-    <h1>{{fs.antrag.title}}</h1>
-  </header>
-  <div class="formulardiv sectiondiv">
-    @switch (fs.currentComponent) {
-    @case ('antragsteller') {
-    <app-antragsteller></app-antragsteller>
-    }
-    @case ('erblasser') {
-    <app-erblasser></app-erblasser>
-    }
-    @case ('grundstueck') {
-    <app-grundstueck></app-grundstueck>
-    }
-    @case ('rechtAbteilung2') {
-    <app-recht-abteilung2></app-recht-abteilung2>
-    }
-    @case ('erbnachweis') {
-    <app-erbnachweis></app-erbnachweis>
-    }
-    @case ('teilungserklaerung') {
-    <app-teilungserklaerung></app-teilungserklaerung>
-    }
-    @case ('farbe') {
-    <app-farbe></app-farbe>
-    }
-    @case ('bewilligung') {
-    <app-bewilligung></app-bewilligung>
-    }
-    @case ('weitererGrundbesitz') {
-    <app-weiterer-grundbesitz></app-weiterer-grundbesitz>
-    }
-    @case ('form-des-ausdrucks') {
-    <app-form-des-ausdrucks></app-form-des-ausdrucks>
-    }
-    @case ('berechtigtes-interesse') {
-    <app-berechtigtes-interesse></app-berechtigtes-interesse>
-    }
-    @case ('grundbuchamt') {
-    <app-grundbuchamt>"</app-grundbuchamt>
-    }
-    @case ('hinweis') {
-    <app-hinweis></app-hinweis>
-    }
-    @case ('antragsgenerierung') {
-    <app-antragsgenerierung></app-antragsgenerierung>
-    }}
-  </div>
-</section>
-<app-footer></app-footer>
+@if (fs.antrag) {
+    <app-header></app-header>
+    <section [ngClass]="{ darkmode: dl.darkmode.value }">
+        <header>
+            <progress class="progressbar" value="{{ fs.progress() }}" max="100"></progress>
+            <h1>{{ fs.antrag.title }}</h1>
+        </header>
+        <div class="formulardiv sectiondiv">
+            @switch (fs.currentComponent) {
+                @case ("antragsteller") {
+                    <app-antragsteller></app-antragsteller>
+                }
+                @case ("erblasser") {
+                    <app-erblasser></app-erblasser>
+                }
+                @case ("grundstueck") {
+                    <app-grundstueck></app-grundstueck>
+                }
+                @case ("rechtAbteilung2") {
+                    <app-recht-abteilung2></app-recht-abteilung2>
+                }
+                @case ("erbnachweis") {
+                    <app-erbnachweis></app-erbnachweis>
+                }
+                @case ("teilungserklaerung") {
+                    <app-teilungserklaerung></app-teilungserklaerung>
+                }
+                @case ("farbe") {
+                    <app-farbe></app-farbe>
+                }
+                @case ("bewilligung") {
+                    <app-bewilligung></app-bewilligung>
+                }
+                @case ("weitererGrundbesitz") {
+                    <app-weiterer-grundbesitz></app-weiterer-grundbesitz>
+                }
+                @case ("form-des-ausdrucks") {
+                    <app-form-des-ausdrucks></app-form-des-ausdrucks>
+                }
+                @case ("berechtigtes-interesse") {
+                    <app-berechtigtes-interesse></app-berechtigtes-interesse>
+                }
+                @case ("grundbuchamt") {
+                    <app-grundbuchamt>"</app-grundbuchamt>
+                }
+                @case ("hinweis") {
+                    <app-hinweis></app-hinweis>
+                }
+                @case ("antragsgenerierung") {
+                    <app-antragsgenerierung></app-antragsgenerierung>
+                }
+            }
+        </div>
+    </section>
+    <app-footer></app-footer>
 } @else {
-<app-file-not-found></app-file-not-found>
+    <app-file-not-found></app-file-not-found>
 }

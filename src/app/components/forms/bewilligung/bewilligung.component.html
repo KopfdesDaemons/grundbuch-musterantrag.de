@@ -4,8 +4,7 @@
     <div class="formularcontent">
         <div id="bezeichnungContainer">
             <div class="inputfeld" id="bezeichnung">
-                <input formControlName="bezeichnung" type="text" id="bezeichnunginput" name="bezeichnung" required
-                    spellcheck="false" placeholder="&nbsp;">
+                <input formControlName="bezeichnung" type="text" id="bezeichnunginput" name="bezeichnung" required spellcheck="false" placeholder="&nbsp;" />
                 <label class="placeholder" for="bezeichnunginput">Bezeichnung der Eintragung</label>
             </div>
         </div>
@@ -20,20 +19,18 @@
         <div>
             <label class="placeholder" for="laufendeNummerinput">Laufende Nummer: </label>
             <div class="inputfeld" id="laufendeNummer">
-                <input formControlName="laufendeNummer" type="number" id="laufendeNummerinput" name="laufendeNummer"
-                    spellcheck="false" placeholder="&nbsp;">
+                <input formControlName="laufendeNummer" type="number" id="laufendeNummerinput" name="laufendeNummer" spellcheck="false" placeholder="&nbsp;" />
             </div>
         </div>
         <div>
             <label class="placeholder" for="datuminput">Datum der Bewilligung: </label>
             <div class="inputfeld" id="datum">
-                <input formControlName="datum" type="date" id="datuminput" name="datum" spellcheck="false"
-                    placeholder="&nbsp;">
+                <input formControlName="datum" type="date" id="datuminput" name="datum" spellcheck="false" placeholder="&nbsp;" />
             </div>
         </div>
         <div class="formNavBtn">
             @if (fs.getCurrentStep() > 1) {
-            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+                <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
             }
             <button class="btnoutlined">Weiter</button>
         </div>

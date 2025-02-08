@@ -1,54 +1,46 @@
 <form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
-  <h2>Grundstücksangaben</h2>
-  <div class="inputfelder">
-    <div class="formularerklärung">Welche Angaben zum Grundstück können Sie machen? Geben Sie an, was
-      Sie wissen. Es muss nicht alles ausgefüllt werden. (Nur die Anschrift ist z.B. auch ausreichend)
+    <h2>Grundstücksangaben</h2>
+    <div class="inputfelder">
+        <div class="formularerklärung">
+            Welche Angaben zum Grundstück können Sie machen? Geben Sie an, was Sie wissen. Es muss nicht alles ausgefüllt werden. (Nur die Anschrift ist z.B. auch ausreichend)
+        </div>
+        <div class="inputfeld" id="gemarkung">
+            <input formControlName="gemarkung" type="text" id="gemarkunginput" name="gemarkung" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="gemarkunginput">Gemarkung (Ortsteil)</label>
+        </div>
+        <div class="inputfeld" id="blattnummer">
+            <input formControlName="blattnummer" type="number" id="blattnummerinput" name="blattnummer" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="blattnummerinput">Grundbuchblattnummer</label>
+        </div>
+        <div class="hrdiv">
+            <hr />
+        </div>
+        <button class="btntext" id="anschriftübernehmen" (click)="anschriftuebernehmen()" type="button">Anschrift vom Antragsteller übernehmen</button>
+        <div class="inputfeld" id="straßegrundstück">
+            <input formControlName="straße" type="text" id="straßegrundstückinput" name="straßegrundstück" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="straßegrundstückinput">Straße + Hausnummer</label>
+        </div>
+        <div class="inputfeld" id="postleitzahlgrundstück">
+            <input formControlName="plz" id="postleitzahlgrundstückinput" name="postleitzahlgrundstück" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="postleitzahlgrundstückinput">PLZ</label>
+        </div>
+        <div class="inputfeld" id="ortgrundstück">
+            <input formControlName="ort" type="text" id="ortgrundstückinput" name="ortgrundstück" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="ortgrundstückinput">Ort</label>
+        </div>
+        <div class="inputfeld" id="flur">
+            <input formControlName="flur" type="number" id="flurinput" name="flur" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="flurinput">Flur</label>
+        </div>
+        <div class="inputfeld" id="flurstück">
+            <input formControlName="flurstück" type="text" id="flurstückinput" name="flurstück" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="flurstückinput">Flurstück</label>
+        </div>
     </div>
-    <div class="inputfeld" id="gemarkung">
-      <input formControlName="gemarkung" type="text" id="gemarkunginput" name="gemarkung" spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="gemarkunginput">Gemarkung (Ortsteil)</label>
+    <div class="formNavBtn">
+        @if (fs.getCurrentStep() > 1) {
+            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+        }
+        <button class="btnoutlined">Weiter</button>
     </div>
-    <div class="inputfeld" id="blattnummer">
-      <input formControlName="blattnummer" type="number" id="blattnummerinput" name="blattnummer" spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="blattnummerinput">Grundbuchblattnummer</label>
-    </div>
-    <div class="hrdiv">
-      <hr>
-    </div>
-    <button class="btntext" id="anschriftübernehmen" (click)="anschriftuebernehmen()" type="button">
-      Anschrift vom Antragsteller übernehmen
-    </button>
-    <div class="inputfeld" id="straßegrundstück">
-      <input formControlName="straße" type="text" id="straßegrundstückinput" name="straßegrundstück" spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="straßegrundstückinput">Straße + Hausnummer</label>
-    </div>
-    <div class="inputfeld" id="postleitzahlgrundstück">
-      <input formControlName="plz" id="postleitzahlgrundstückinput" name="postleitzahlgrundstück" spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="postleitzahlgrundstückinput">PLZ</label>
-    </div>
-    <div class="inputfeld" id="ortgrundstück">
-      <input formControlName="ort" type="text" id="ortgrundstückinput" name="ortgrundstück" spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="ortgrundstückinput">Ort</label>
-    </div>
-    <div class="inputfeld" id="flur">
-      <input formControlName="flur" type="number" id="flurinput" name="flur" spellcheck="false" placeholder="&nbsp;">
-      <label class="placeholder" for="flurinput">Flur</label>
-    </div>
-    <div class="inputfeld" id="flurstück">
-      <input formControlName="flurstück" type="text" id="flurstückinput" name="flurstück" spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="flurstückinput">Flurstück</label>
-    </div>
-  </div>
-  <div class="formNavBtn">
-    @if (fs.getCurrentStep() > 1) {
-    <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-    }
-    <button class="btnoutlined">Weiter</button>
-  </div>
 </form>

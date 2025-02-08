@@ -1,8 +1,7 @@
-@if(error().status === 403) {
-<fa-icon [icon]="faLock"></fa-icon>
-<p class="error">Keine Berechtigung</p>
-}
-@else{
-<fa-icon [icon]="faCircleExclamation"></fa-icon>
-<p class="error">{{error().error.message}}</p>
+@if (error().status === 403) {
+    <fa-icon [icon]="faLock"></fa-icon>
+    <p class="error">Keine Berechtigung</p>
+} @else {
+    <fa-icon [icon]="faCircleExclamation"></fa-icon>
+    <p class="error">{{ error().error.message }}</p>
 }

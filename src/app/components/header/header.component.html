@@ -1,74 +1,69 @@
-<header [ngClass]="{'darkmode': dl.darkmode.value}">
-
-  <div class="desktopheader" [style.background]="background()">
-    <div class="farbauswahlbuttondiv">
-      <div class="btnDesign farbauswahlbutton"></div>
-      <div class="farbauswahl">
-        @for (color of colors; track color) {
-        <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
-        }
-        <div class="anderefarbediv">
-          <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
-          <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="CustomColor($event.target)"
-            id="colorPickerDesktop" />
-        </div>
-      </div>
-    </div>
-    <div class="btnDesign darkmodebtn" (click)="switchMode()">
-      <fa-icon [icon]="faMoon"></fa-icon>
-    </div>
-    <nav>
-      <ul>
-        <li>
-          <a routerLink="/">Musteranträge</a>
-        </li>
-        <li>
-          <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-
-
-  <div class="mobileheader">
-    <div class="mobileheadercontent">
-      <nav>
-        <ul>
-          <li>
-            <a routerLink="/"><span>Musteranträge</span></a>
-          </li>
-          <li>
-            <a routerLink="/grundbuchrecht/einleitung"><span>Grundbuchrecht</span></a>
-          </li>
-        </ul>
-      </nav>
-      <div class="designButtonsDiv">
+<header [ngClass]="{ darkmode: dl.darkmode.value }">
+    <div class="desktopheader" [style.background]="background()">
         <div class="farbauswahlbuttondiv">
-          <div class="btnDesign farbauswahlbutton"></div>
-          <div class="farbauswahl">
-            @for (color of colors; track color) {
-            <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
-            }
-            <div class="anderefarbediv">
-              <label for="colorPickerMobile">Eigene Farbe auswählen</label>
-              <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe"
-                (change)="CustomColor($event.target)" id="colorPickerMobile" />
+            <div class="btnDesign farbauswahlbutton"></div>
+            <div class="farbauswahl">
+                @for (color of colors; track color) {
+                    <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
+                }
+                <div class="anderefarbediv">
+                    <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
+                    <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="CustomColor($event.target)" id="colorPickerDesktop" />
+                </div>
             </div>
-          </div>
         </div>
         <div class="btnDesign darkmodebtn" (click)="switchMode()">
-          <fa-icon [icon]="faMoon"></fa-icon>
+            <fa-icon [icon]="faMoon"></fa-icon>
         </div>
-      </div>
+        <nav>
+            <ul>
+                <li>
+                    <a routerLink="/">Musteranträge</a>
+                </li>
+                <li>
+                    <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
+                </li>
+            </ul>
+        </nav>
     </div>
-  </div>
 
-  <div #cookiebanner class="cookiebanner ausgeblendet">
-    <div>
-      <span [innerText]="consent"></span>
-      <button (click)="akzeptieren()" id="cookiejabtn" class="btntext">Ja</button>
-      <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
+    <div class="mobileheader">
+        <div class="mobileheadercontent">
+            <nav>
+                <ul>
+                    <li>
+                        <a routerLink="/"><span>Musteranträge</span></a>
+                    </li>
+                    <li>
+                        <a routerLink="/grundbuchrecht/einleitung"><span>Grundbuchrecht</span></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="designButtonsDiv">
+                <div class="farbauswahlbuttondiv">
+                    <div class="btnDesign farbauswahlbutton"></div>
+                    <div class="farbauswahl">
+                        @for (color of colors; track color) {
+                            <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
+                        }
+                        <div class="anderefarbediv">
+                            <label for="colorPickerMobile">Eigene Farbe auswählen</label>
+                            <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="CustomColor($event.target)" id="colorPickerMobile" />
+                        </div>
+                    </div>
+                </div>
+                <div class="btnDesign darkmodebtn" (click)="switchMode()">
+                    <fa-icon [icon]="faMoon"></fa-icon>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
+    <div #cookiebanner class="cookiebanner ausgeblendet">
+        <div>
+            <span [innerText]="consent"></span>
+            <button (click)="akzeptieren()" id="cookiejabtn" class="btntext">Ja</button>
+            <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
+        </div>
+    </div>
 </header>

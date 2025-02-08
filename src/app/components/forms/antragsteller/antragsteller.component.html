@@ -1,67 +1,60 @@
 <form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
-  <h2>Antragsteller</h2>
-  <div class="formularcontent">
-    <div class="inputfelder">
-      <div class="zeileAnrede">
-        <div class="anredediv radiobuttontogglediv">
-          <div class="radiobuttonchip">
-            <input type="radio" id="herr" name="geschlecht" value="Herr" formControlName="geschlecht">
-            <label for="herr">Herr</label>
-          </div>
-          <div class="radiobuttonchip">
-            <input type="radio" id="frau" name="geschlecht" value="Frau" formControlName="geschlecht">
-            <label for="frau">Frau</label>
-          </div>
+    <h2>Antragsteller</h2>
+    <div class="formularcontent">
+        <div class="inputfelder">
+            <div class="zeileAnrede">
+                <div class="anredediv radiobuttontogglediv">
+                    <div class="radiobuttonchip">
+                        <input type="radio" id="herr" name="geschlecht" value="Herr" formControlName="geschlecht" />
+                        <label for="herr">Herr</label>
+                    </div>
+                    <div class="radiobuttonchip">
+                        <input type="radio" id="frau" name="geschlecht" value="Frau" formControlName="geschlecht" />
+                        <label for="frau">Frau</label>
+                    </div>
+                </div>
+            </div>
+            <div class="inputfeld" id="vorname">
+                <input formControlName="vorname" type="text" id="vornameinput" name="vorname" required spellcheck="false" placeholder="&nbsp;" />
+                <label class="placeholder" for="vornameinput">Vorname</label>
+            </div>
+            <div class="inputfeld" id="nachname">
+                <input formControlName="nachname" type="text" id="nachnameinput" name="nachname" required spellcheck="false" placeholder="&nbsp;" />
+                <label class="placeholder" for="nachnameinput">Nachname</label>
+            </div>
+            <div class="inputfeld" id="straße">
+                <input formControlName="straße" type="text" id="straßeinput" name="straße" required spellcheck="false" placeholder="&nbsp;" />
+                <label class="placeholder" for="straßeinput">Straße + Hausnummer</label>
+            </div>
+            <div class="inputfeld" id="postleitzahl">
+                <input formControlName="plz" type="text" inputmode="numeric" id="postleitzahlinput" name="postleitzahl" required spellcheck="false" placeholder="&nbsp;" />
+                <label class="placeholder" for="postleitzahlinput">PLZ</label>
+            </div>
+            <div class="inputfeld" id="ort">
+                <input formControlName="ort" type="text" id="ortinput" name="ort" required spellcheck="false" placeholder="&nbsp;" />
+                <label class="placeholder" for="ortinput">Ort</label>
+            </div>
+            <div class="hrdiv">
+                <hr />
+            </div>
+            <div class="formularerklärung">Optionale Angaben für mögliche Rückfragen des Grundbuchamts:</div>
+            <div class="inputfeld" id="telefonnummer">
+                <input formControlName="telefonnummer" type="tel" id="telefonnummerinput" name="telefonnummer" spellcheck="false" placeholder="&nbsp;" />
+                <label class="placeholder" for="telefonnummerinput">Telefonnummer</label>
+            </div>
+            <div class="inputfeld" id="email">
+                <input formControlName="email" type="email" id="emailinput" name="email" autocomplete="email" spellcheck="false" placeholder="&nbsp;" />
+                <label class="placeholder" for="emailinput">E-Mail</label>
+            </div>
         </div>
-      </div>
-      <div class="inputfeld" id="vorname">
-        <input formControlName="vorname" type="text" id="vornameinput" name="vorname" required spellcheck="false"
-          placeholder="&nbsp;">
-        <label class="placeholder" for="vornameinput">Vorname</label>
-      </div>
-      <div class="inputfeld" id="nachname">
-        <input formControlName="nachname" type="text" id="nachnameinput" name="nachname" required spellcheck="false"
-          placeholder="&nbsp;">
-        <label class="placeholder" for="nachnameinput">Nachname</label>
-      </div>
-      <div class="inputfeld" id="straße">
-        <input formControlName="straße" type="text" id="straßeinput" name="straße" required spellcheck="false"
-          placeholder="&nbsp;">
-        <label class="placeholder" for="straßeinput">Straße + Hausnummer</label>
-      </div>
-      <div class="inputfeld" id="postleitzahl">
-        <input formControlName="plz" type="text" inputmode="numeric" id="postleitzahlinput" name="postleitzahl" required
-          spellcheck="false" placeholder="&nbsp;">
-        <label class="placeholder" for="postleitzahlinput">PLZ</label>
-      </div>
-      <div class="inputfeld" id="ort">
-        <input formControlName="ort" type="text" id="ortinput" name="ort" required spellcheck="false"
-          placeholder="&nbsp;">
-        <label class="placeholder" for="ortinput">Ort</label>
-      </div>
-      <div class="hrdiv">
-        <hr>
-      </div>
-      <div class="formularerklärung">Optionale Angaben für mögliche Rückfragen des Grundbuchamts:</div>
-      <div class="inputfeld" id="telefonnummer">
-        <input formControlName="telefonnummer" type="tel" id="telefonnummerinput" name="telefonnummer"
-          spellcheck="false" placeholder="&nbsp;">
-        <label class="placeholder" for="telefonnummerinput">Telefonnummer</label>
-      </div>
-      <div class="inputfeld" id="email">
-        <input formControlName="email" type="email" id="emailinput" name="email" autocomplete="email" spellcheck="false"
-          placeholder="&nbsp;">
-        <label class="placeholder" for="emailinput">E-Mail</label>
-      </div>
+        <div class="profilicon">
+            <fa-icon [icon]="faCircleUser"></fa-icon>
+        </div>
     </div>
-    <div class="profilicon">
-      <fa-icon [icon]="faCircleUser"></fa-icon>
+    <div class="formNavBtn">
+        @if (fs.getCurrentStep() > 1) {
+            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+        }
+        <button class="btnoutlined">Weiter</button>
     </div>
-  </div>
-  <div class="formNavBtn">
-    @if (fs.getCurrentStep() > 1) {
-    <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-    }
-    <button class="btnoutlined">Weiter</button>
-  </div>
 </form>

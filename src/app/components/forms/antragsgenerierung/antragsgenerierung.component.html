@@ -4,34 +4,36 @@
         <span>Sie sind fast fertig.</span>
         <span>Vergessen Sie nicht den Antrag zu unterschreiben</span>
         @if (!docx) {
-        <div class="status" [class.fehlerstatus]="docxS.fehler() === true">
-            <div>{{docxS.statusmeldung()}}</div>
-            @if (docxS.fehler()) {
-            <button class="btntext" (click)="generate()">erneut versuchen</button>
-            }
-        </div>
+            <div class="status" [class.fehlerstatus]="docxS.fehler() === true">
+                <div>{{ docxS.statusmeldung() }}</div>
+                @if (docxS.fehler()) {
+                    <button class="btntext" (click)="generate()">erneut versuchen</button>
+                }
+            </div>
         } @else {
-        <div class="status" [class.fehlerstatus]="pdfS.fehler === true">
-            <div>{{pdfS.statusmeldung}}</div>
-            @if (pdfS.fehler) {
-            <button class="btntext" (click)="generate()">erneut versuchen</button>
-            }
-        </div>}
+            <div class="status" [class.fehlerstatus]="pdfS.fehler === true">
+                <div>{{ pdfS.statusmeldung }}</div>
+                @if (pdfS.fehler) {
+                    <button class="btntext" (click)="generate()">erneut versuchen</button>
+                }
+            </div>
+        }
         <div class="kachelcontainer">
             <button class="btnoutlined kachel" [disabled]="docx == null" (click)="downloadDocx()">
                 <fa-icon [icon]="faFileWord"></fa-icon>
                 <span>.docx (Word)</span>
                 @if (docxS.progress != 100) {
-                <app-progress-spinner [prozent]="docxS.progress"></app-progress-spinner>
+                    <app-progress-spinner [prozent]="docxS.progress"></app-progress-spinner>
                 }
             </button>
             <button class="btnoutlined kachel" [disabled]="pdf == null" (click)="openPdf()">
                 <fa-icon [icon]="faFilePdf"></fa-icon>
                 <span>.pdf</span>
                 @if (!pdf) {
-                <app-progress-spinner
-                    [prozent]="pdfS.prozentPdfUpload != 100 ? pdfS.prozentPdfUpload : pdfS.prozentPdfDownload"
-                    [endless]="docxS.progress == 100 && pdfS.prozentPdfUpload == 100 && pdfS.prozentPdfDownload == 0"></app-progress-spinner>
+                    <app-progress-spinner
+                        [prozent]="pdfS.prozentPdfUpload != 100 ? pdfS.prozentPdfUpload : pdfS.prozentPdfDownload"
+                        [endless]="docxS.progress == 100 && pdfS.prozentPdfUpload == 100 && pdfS.prozentPdfDownload == 0"
+                    ></app-progress-spinner>
                 }
             </button>
         </div>

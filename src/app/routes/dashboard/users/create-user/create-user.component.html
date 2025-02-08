@@ -1,27 +1,24 @@
 <form [formGroup]="form" (ngSubmit)="createUser()" #ngForm="ngForm">
     <div>
-        <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole"
-            (change)="getSelectedRoleDescription()">
-            @for(userRole of userRoles; track userRole.userRoleID) {
-            <option value="{{userRole.userRoleID}}" [selected]="userRole.name === 'guest'">{{userRole.name}}</option>
+        <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole" (change)="getSelectedRoleDescription()">
+            @for (userRole of userRoles; track userRole.userRoleID) {
+                <option value="{{ userRole.userRoleID }}" [selected]="userRole.name === 'guest'">{{ userRole.name }}</option>
             }
         </select>
-        @if(selectedUserRole ) {
-        <p>{{selectedUserRole.description}}</p>
+        @if (selectedUserRole) {
+            <p>{{ selectedUserRole.description }}</p>
         }
     </div>
     <div class="inputfeld" id="username">
-        <input formControlName="username" type="text" id="usernameinput" name="username" required spellcheck="false"
-            placeholder="&nbsp;">
+        <input formControlName="username" type="text" id="usernameinput" name="username" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="usernameinput">Username</label>
     </div>
     <div class="inputfeld" id="userPassword">
-        <input formControlName="userPassword" autocomplete="new-password" type="password" id="userPasswordinput"
-            name="userPassword" required spellcheck="false" placeholder="&nbsp;">
+        <input formControlName="userPassword" autocomplete="new-password" type="password" id="userPasswordinput" name="userPassword" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
     </div>
     <button>Erstellen</button>
-    @if(error) {
-    <app-error-display [error]="error"></app-error-display>
+    @if (error) {
+        <app-error-display [error]="error"></app-error-display>
     }
 </form>

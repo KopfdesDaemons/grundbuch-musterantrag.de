@@ -1,39 +1,33 @@
 <form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
-  <h2>Zuständiges Grundbuchamt</h2>
-  <div class="inputfelder">
-    <div class="formularerklärung">Zuletzt werden die Daten des zuständigen Grundbuchamtes (Amtsgericht) benötigt</div>
-    <button class="btntext" (click)="onlineSuchen()" type="button">
-      Zuständiges Grundbuchamt im Justizportal suchen
-    </button>
-    <span id="#labelagermittelt" style="color: green; display:none">Folgende Daten konnten automatisch
-      ermittelt werden:</span>
-    <div class="hrdiv">
-      <hr>
+    <h2>Zuständiges Grundbuchamt</h2>
+    <div class="inputfelder">
+        <div class="formularerklärung">Zuletzt werden die Daten des zuständigen Grundbuchamtes (Amtsgericht) benötigt</div>
+        <button class="btntext" (click)="onlineSuchen()" type="button">Zuständiges Grundbuchamt im Justizportal suchen</button>
+        <span id="#labelagermittelt" style="color: green; display: none">Folgende Daten konnten automatisch ermittelt werden:</span>
+        <div class="hrdiv">
+            <hr />
+        </div>
+        <div class="inputfeld" id="nameamtsgericht">
+            <input formControlName="name" id="nameamtsgerichtinput" type="text" name="nameag" required spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="nameamtsgerichtinput">Name des Amtsgerichts</label>
+        </div>
+        <div class="inputfeld" id="straßeamtsgericht">
+            <input formControlName="straße" id="straßeamtsgerichtinput" type="text" name="straßeag" required spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="straßeamtsgerichtinput">Straße + Hausnummer</label>
+        </div>
+        <div class="inputfeld" id="postleitzahlamtsgericht">
+            <input formControlName="plz" id="postleitzahlamtsgerichtinput" placeholder="&nbsp;" />
+            <label class="placeholder" for="postleitzahlamtsgerichtinput">PLZ</label>
+        </div>
+        <div class="inputfeld" id="ortamtsgericht">
+            <input formControlName="ort" type="text" required name="ortag" id="ortamtsgerichtinput" spellcheck="false" placeholder="&nbsp;" />
+            <label class="placeholder" for="ortamtsgerichtinput">Ort</label>
+        </div>
     </div>
-    <div class="inputfeld" id="nameamtsgericht">
-      <input formControlName="name" id="nameamtsgerichtinput" type="text" name="nameag" required spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="nameamtsgerichtinput">Name des Amtsgerichts</label>
+    <div class="formNavBtn">
+        @if (fs.getCurrentStep() > 1) {
+            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+        }
+        <button class="btnoutlined">Weiter</button>
     </div>
-    <div class="inputfeld" id="straßeamtsgericht">
-      <input formControlName="straße" id="straßeamtsgerichtinput" type="text" name="straßeag" required
-        spellcheck="false" placeholder="&nbsp;">
-      <label class="placeholder" for="straßeamtsgerichtinput">Straße + Hausnummer</label>
-    </div>
-    <div class="inputfeld" id="postleitzahlamtsgericht">
-      <input formControlName="plz" id="postleitzahlamtsgerichtinput" placeholder="&nbsp;">
-      <label class="placeholder" for="postleitzahlamtsgerichtinput">PLZ</label>
-    </div>
-    <div class="inputfeld" id="ortamtsgericht">
-      <input formControlName="ort" type="text" required name="ortag" id="ortamtsgerichtinput" spellcheck="false"
-        placeholder="&nbsp;">
-      <label class="placeholder" for="ortamtsgerichtinput">Ort</label>
-    </div>
-  </div>
-  <div class="formNavBtn">
-    @if (fs.getCurrentStep() > 1) {
-    <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-    }
-    <button class="btnoutlined">Weiter</button>
-  </div>
 </form>

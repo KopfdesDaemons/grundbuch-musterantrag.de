@@ -3,30 +3,32 @@
         <h2>Farbe der Kopien</h2>
         <div class="formularcontent">
             <div class="auswahlcard">
-                <input formControlName="farbe" id="schwarz/weiß" type="radio" name="farbe" value="schwarz/weiß">
-                <label for="schwarz/weiß"><strong>schwarz/weiß Kopien</strong>
+                <input formControlName="farbe" id="schwarz/weiß" type="radio" name="farbe" value="schwarz/weiß" />
+                <label for="schwarz/weiß"
+                    ><strong>schwarz/weiß Kopien</strong>
                     <span class="gebühr">Gerichtsgebühr <b>0,50&nbsp;€ je Seite</b></span>
                     <p>Ab der 51.&nbsp;Seite beträgt die Gebühr 0,15&nbsp;€ je Seite.</p>
                 </label>
             </div>
             <div class="auswahlcard">
-                <input formControlName="farbe" id="farbig" type="radio" name="farbe" value="farbig">
-                <label for="farbig"><strong>farbige Kopien</strong>
+                <input formControlName="farbe" id="farbig" type="radio" name="farbe" value="farbig" />
+                <label for="farbig"
+                    ><strong>farbige Kopien</strong>
                     <span class="gebühr">Gerichtsgebühr <b>1,00&nbsp;€ je Seite</b></span>
                     <p>Ab der 51.&nbsp;Seite beträgt die Gebühr 0,30&nbsp;€ je Seite.</p>
                     <p>Möglicherweise kann Ihr Grundbuchamt keine farbigen Kopien zur Verfügung stellen.</p>
                 </label>
             </div>
         </div>
-        <p>In der Landeshaushaltsordnung des jeweiligen Bundeslandes ist definiert, wann ein Betrag als Kleinbetrag gilt
-            und die Erhebung der Kosten unterbleiben <b>kann</b>. Zum Beispiel gelten in Hessen, Bayern und NRW Beträge
-            unter 10,00&nbsp;€ als Kleinbetrag, in Saarland und Thüringen Beträge unter 5,00&nbsp;€. Dies ist keine
-            verbindliche
-            Aussage. Bei Interesse prüfen Sie die jeweilige Landeshaushaltsordnung des Bundeslandes.</p>
+        <p>
+            In der Landeshaushaltsordnung des jeweiligen Bundeslandes ist definiert, wann ein Betrag als Kleinbetrag gilt und die Erhebung der Kosten unterbleiben <b>kann</b>. Zum Beispiel gelten in
+            Hessen, Bayern und NRW Beträge unter 10,00&nbsp;€ als Kleinbetrag, in Saarland und Thüringen Beträge unter 5,00&nbsp;€. Dies ist keine verbindliche Aussage. Bei Interesse prüfen Sie die
+            jeweilige Landeshaushaltsordnung des Bundeslandes.
+        </p>
     </div>
     <div class="formNavBtn">
         @if (fs.getCurrentStep() > 1) {
-        <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
         }
         <button class="btnoutlined">Weiter</button>
     </div>

@@ -1,35 +1,38 @@
 <app-dashboard-tile tileTitle="Settings">
     <div class="content">
-        @if(error){ <app-error-display [error]="error"></app-error-display> }
-        @else {
-        <ul>
-            <li>
-                @if(settings){
-                <input type="checkbox" id="deleteGeneratedFilesAfterResponse" #deleteGeneratedFilesAfterResponse
-                    [checked]="settings.deleteGeneratedFilesAfterResponse"
-                    (change)="changeSetting('deleteGeneratedFilesAfterResponse', deleteGeneratedFilesAfterResponse.checked)">
-                <label for="deleteGeneratedFilesAfterResponse">Lösche Dateien sofort nach dem Response</label>
-                <p class="description">Wenn deaktiviert, können die Dateien im Dashboard heruntergeladen werden</p>
-                } @else {
-                <app-progress-spinner [endless]="true"></app-progress-spinner>
-                }
-            </li>
-            <li>
-                <button (click)="deleteAllGeneratedFiles()">Alle generierten Dateien löschen</button>
-                <p>Löscht nur die Dateien, ohne die Uploadsinfos zu löschen</p>
-            </li>
-            <li>
-                @if(settings){
-                <input type="color" id="primaryColor" name="primaryColor" #primaryColor [value]="settings.primaryColor"
-                    (change)="changeSetting('primaryColor', primaryColor.value)">
-                <label for="primaryColor"> Standard Primärfarbe</label>
-                <p class="description">Die Standardfarbe, die verwendet wird, wenn der Nutzer keine Farbe ausgewählt
-                    hat.</p>
-                } @else {
-                <app-progress-spinner [endless]="true"></app-progress-spinner>
-                }
-            </li>
-        </ul>
+        @if (error) {
+            <app-error-display [error]="error"></app-error-display>
+        } @else {
+            <ul>
+                <li>
+                    @if (settings) {
+                        <input
+                            type="checkbox"
+                            id="deleteGeneratedFilesAfterResponse"
+                            #deleteGeneratedFilesAfterResponse
+                            [checked]="settings.deleteGeneratedFilesAfterResponse"
+                            (change)="changeSetting('deleteGeneratedFilesAfterResponse', deleteGeneratedFilesAfterResponse.checked)"
+                        />
+                        <label for="deleteGeneratedFilesAfterResponse">Lösche Dateien sofort nach dem Response</label>
+                        <p class="description">Wenn deaktiviert, können die Dateien im Dashboard heruntergeladen werden</p>
+                    } @else {
+                        <app-progress-spinner [endless]="true"></app-progress-spinner>
+                    }
+                </li>
+                <li>
+                    <button (click)="deleteAllGeneratedFiles()">Alle generierten Dateien löschen</button>
+                    <p>Löscht nur die Dateien, ohne die Uploadsinfos zu löschen</p>
+                </li>
+                <li>
+                    @if (settings) {
+                        <input type="color" id="primaryColor" name="primaryColor" #primaryColor [value]="settings.primaryColor" (change)="changeSetting('primaryColor', primaryColor.value)" />
+                        <label for="primaryColor"> Standard Primärfarbe</label>
+                        <p class="description">Die Standardfarbe, die verwendet wird, wenn der Nutzer keine Farbe ausgewählt hat.</p>
+                    } @else {
+                        <app-progress-spinner [endless]="true"></app-progress-spinner>
+                    }
+                </li>
+            </ul>
         }
     </div>
 </app-dashboard-tile>

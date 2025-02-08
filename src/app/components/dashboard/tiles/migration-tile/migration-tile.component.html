@@ -1,15 +1,17 @@
 <app-dashboard-tile tileTitle="Migration">
     <div class="content">
-        @if(responseText){ <p class="responseText">{{responseText}}</p>}
-        @if(isLoading) {
-        <app-progress-spinner [endless]="true"></app-progress-spinner>
+        @if (responseText) {
+            <p class="responseText">{{ responseText }}</p>
+        }
+        @if (isLoading) {
+            <app-progress-spinner [endless]="true"></app-progress-spinner>
         }
         <select #migrationDropdown [(ngModel)]="selectedMigration">
-            @for(migration of migrationS.migrations; track migration.name){
-            <option [ngValue]="migration">{{migration.name}}</option>
+            @for (migration of migrationS.migrations; track migration.name) {
+                <option [ngValue]="migration">{{ migration.name }}</option>
             }
         </select>
-        <p>{{selectedMigration.description}}</p>
+        <p>{{ selectedMigration.description }}</p>
         <button (click)="migrate()">Migration durchführen</button>
     </div>
 </app-dashboard-tile>

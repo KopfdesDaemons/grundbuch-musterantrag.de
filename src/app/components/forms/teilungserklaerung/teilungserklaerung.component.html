@@ -2,27 +2,24 @@
     <h2>Welche Unterlagen brauchen Sie?</h2>
     <ul>
         <li>
-            <input type="checkbox" formControlName="teilungserklaerung" name="teilungserklaerung"
-                id="teilungserklaerungInput" value="false">
+            <input type="checkbox" formControlName="teilungserklaerung" name="teilungserklaerung" id="teilungserklaerungInput" value="false" />
             <label for="teilungserklaerungInput">Teilungserklärung</label>
-            <p>Die Urkunde aufgrund der das Wohnungseigentum gebildet wurde. Enthält eine Auflistung der
-                Miteigentumsteile und die Gemeinschaftsordnung.</p>
+            <p>Die Urkunde aufgrund der das Wohnungseigentum gebildet wurde. Enthält eine Auflistung der Miteigentumsteile und die Gemeinschaftsordnung.</p>
         </li>
-        <li> <input type="checkbox" formControlName="abgeschlossenheitsbescheinigung"
-                name="abgeschlossenheitsbescheinigung" id="abgeschlossenheitsbescheinigungInput" value="false">
+        <li>
+            <input type="checkbox" formControlName="abgeschlossenheitsbescheinigung" name="abgeschlossenheitsbescheinigung" id="abgeschlossenheitsbescheinigungInput" value="false" />
             <label for="abgeschlossenheitsbescheinigungInput">Abgeschlossenheitsbescheinigung</label>
             <p>Bescheinigt, dass die Wohnungen in sich abgeschlossen sind.</p>
         </li>
         <li>
-            <input type="checkbox" formControlName="aufteilungsplan" name="aufteilungsplan" id="aufteilungsplanInput"
-                value="false">
+            <input type="checkbox" formControlName="aufteilungsplan" name="aufteilungsplan" id="aufteilungsplanInput" value="false" />
             <label for="aufteilungsplanInput">Aufteilungsplan</label>
             <p>Plan des Gebäudes mit allen Wohnungen.</p>
         </li>
     </ul>
     <div class="formNavBtn">
         @if (fs.getCurrentStep() > 1) {
-        <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
         }
         <button class="btnoutlined">Weiter</button>
     </div>

@@ -1,42 +1,42 @@
 <app-dashboard-tile tileTitle="Server Logs">
     <div class="content">
-        @if(error) {
-        <app-error-display [error]="error"></app-error-display>
+        @if (error) {
+            <app-error-display [error]="error"></app-error-display>
         } @else {
-        @if(logs) {
-        <div class="controlls">
-            <a class="btntext" (click)="loggerS.openLogFileInNewTab()">öffne Logfile</a>
-            <button (click)="deleteLogFile()" class="btnicon" title="Logfile leeren">
-                <fa-icon [icon]="faTrashCan"></fa-icon>
-            </button>
-        </div>
-        }
-        @if(logs === undefined) {
-        <app-progress-spinner [endless]="true"></app-progress-spinner>
-        }
-        @if (logs === null) {
-        <p>Keine Logs vorhanden</p>
-        }
-        @if(logs) {
-        <div class="tableContainer">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Zeit</th>
-                        <th>Log</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (log of logs; track log) {
-                    <tr [ngClass]="{error: log.level === 'error'}">
-                        <td>{{log.timestamp}}</td>
-                        <td>{{log.message}}</td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        }
+            @if (logs) {
+                <div class="controlls">
+                    <a class="btntext" (click)="loggerS.openLogFileInNewTab()">öffne Logfile</a>
+                    <button (click)="deleteLogFile()" class="btnicon" title="Logfile leeren">
+                        <fa-icon [icon]="faTrashCan"></fa-icon>
+                    </button>
+                </div>
+            }
+            @if (logs === undefined) {
+                <app-progress-spinner [endless]="true"></app-progress-spinner>
+            }
+            @if (logs === null) {
+                <p>Keine Logs vorhanden</p>
+            }
+            @if (logs) {
+                <div class="tableContainer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Zeit</th>
+                                <th>Log</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (log of logs; track log) {
+                                <tr [ngClass]="{ error: log.level === 'error' }">
+                                    <td>{{ log.timestamp }}</td>
+                                    <td>{{ log.message }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         }
     </div>
 </app-dashboard-tile>

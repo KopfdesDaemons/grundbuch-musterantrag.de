@@ -1,38 +1,36 @@
-<aside #sidemenu [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}">
+<aside #sidemenu [ngClass]="{ sidemenuOpen: sidemenuS.DashboaardSidemenuIsOpen }">
     <div class="content">
         <div class="user">
             <div class="row1">
-                <fa-icon class="btnicon" [icon]="faGear" routerLink="./user-settings"
-                    (click)="sidemenuS.toggleDashboardSidemenu()"></fa-icon>
-                @if(userSettingsS.username.isLoading()) {
-                <app-progress-spinner [endless]="true"></app-progress-spinner>
+                <fa-icon class="btnicon" [icon]="faGear" routerLink="./user-settings" (click)="sidemenuS.toggleDashboardSidemenu()"></fa-icon>
+                @if (userSettingsS.username.isLoading()) {
+                    <app-progress-spinner [endless]="true"></app-progress-spinner>
                 } @else if (userSettingsS.username.error()) {
-                <span class="error">Benutzername konnen nicht geladen werden</span>
+                    <span class="error">Benutzername konnen nicht geladen werden</span>
                 } @else {
-                <span class="username">{{userSettingsS.username.value()}}</span>
+                    <span class="username">{{ userSettingsS.username.value() }}</span>
                 }
                 <fa-icon class="btnicon" [icon]="faArrowRightFromBracket" (click)="authS.logout()"></fa-icon>
             </div>
             <div class="row2">
-                @if(userSettingsS.userRole.isLoading()) {
-                <app-progress-spinner [endless]="true"></app-progress-spinner>
+                @if (userSettingsS.userRole.isLoading()) {
+                    <app-progress-spinner [endless]="true"></app-progress-spinner>
                 } @else if (userSettingsS.userRole.error()) {
-                <span class="error">Userrolle konnen nicht geladen werden</span>
+                    <span class="error">Userrolle konnen nicht geladen werden</span>
                 } @else {
-                <span class="userrole">{{userSettingsS.userRole.value()?.userRoleName}}</span>
+                    <span class="userrole">{{ userSettingsS.userRole.value()?.userRoleName }}</span>
                 }
             </div>
         </div>
         <nav>
             <ul>
-                @for(page of pages; track page.route) {
-                <li [ngClass]="{'active': isActive(page.route)}">
-                    <a [routerLink]="page.route" (click)="sidemenuS.toggleDashboardSidemenu()">{{ page.name }}</a>
-                </li>
+                @for (page of pages; track page.route) {
+                    <li [ngClass]="{ active: isActive(page.route) }">
+                        <a [routerLink]="page.route" (click)="sidemenuS.toggleDashboardSidemenu()">{{ page.name }}</a>
+                    </li>
                 }
             </ul>
         </nav>
     </div>
-    <div class="closingDiv" [ngClass]="{'sidemenuOpen': sidemenuS.DashboaardSidemenuIsOpen}"
-        (click)="sidemenuS.toggleDashboardSidemenu()"></div>
+    <div class="closingDiv" [ngClass]="{ sidemenuOpen: sidemenuS.DashboaardSidemenuIsOpen }" (click)="sidemenuS.toggleDashboardSidemenu()"></div>
 </aside>
