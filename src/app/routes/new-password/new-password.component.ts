@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserSettingsService } from 'src/app/services/user-settings.service';
 
 @Component({
   selector: 'app-new-password',
@@ -16,7 +17,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class NewPasswordComponent implements OnInit, AfterViewInit {
   authS = inject(AuthService);
   userS = inject(UserService);
-  form = this.authS.getNewPasswordGroup();
+  userSetingsS = inject(UserSettingsService);
+  form = this.userSetingsS.getNewPasswordGroup();
   platformId = inject(PLATFORM_ID);
   router = inject(Router);
   username: string = '';

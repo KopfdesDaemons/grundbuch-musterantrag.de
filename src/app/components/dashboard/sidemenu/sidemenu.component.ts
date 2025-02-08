@@ -3,10 +3,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from 'src/app/services/auth.service';
+import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
 import { SidemenuService } from 'src/app/services/sidemenu.service';
 import { ProgressSpinnerComponent } from "../../progress-spinner/progress-spinner.component";
+import { UserSettingsService } from 'src/app/services/user-settings.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sidemenu',
@@ -17,16 +18,16 @@ import { ProgressSpinnerComponent } from "../../progress-spinner/progress-spinne
 export class SidemenuComponent implements OnInit {
   sidemenuS = inject(SidemenuService);
   authS = inject(AuthService);
+  userSettingsS = inject(UserSettingsService);
   router = inject(Router);
 
-  username: string = '';
-  userRoleName: string = '';
   error: HttpErrorResponse | null = null;
   isLoading: boolean = false;
 
   component = viewChild.required<ElementRef>('sidemenu');
 
   faArrowRightFromBracket = faArrowRightFromBracket;
+  faGear = faGear;
 
   pages = [
     { name: 'Übersicht', route: '/dashboard' },
@@ -41,11 +42,9 @@ export class SidemenuComponent implements OnInit {
     } else return this.router.url === route;
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
     try {
       this.isLoading = true;
-      this.username = await this.authS.getUsername();
-      this.userRoleName = await this.authS.getUserRoleName();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
         this.error = error;

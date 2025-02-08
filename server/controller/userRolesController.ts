@@ -100,7 +100,8 @@ export const handleGetOwnUserRoleName = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Kein Benutzer gefunden" });
         }
         const userRoleName = user.userRole.name;
-        return res.status(200).json({ message: "Userrolle erfolgreich geladen", userRoleName });
+        const userRoleDescription = user.userRole.description;
+        return res.status(200).json({ message: "Userrolle erfolgreich geladen", userRoleName, userRoleDescription });
     } catch (error) {
         logger.error("Fehler beim Abrufen der eigenen Userrolle:", error);
         return res.status(500).json({ message: "Fehler beim Abrufen der eigenen Userrolle" });

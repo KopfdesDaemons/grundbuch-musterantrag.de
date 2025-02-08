@@ -42,6 +42,7 @@ export class CreateUserComponent {
       if (error instanceof HttpErrorResponse) {
         this.error = error;
       }
+      throw error;
     }
   }
 

@@ -1,57 +1,53 @@
-import { handleCreateUser, handleDeleteUser, handleGetAllUsers, handleGetOwnUsername, handleSetInitialPassword, handleSetPassword, handleUpdateUsername, handleUpdateUserRole } from "server/controller/userController";
+import { handleCreateUser, handleDeleteUser, handleGetAllUsers, handleSetInitialPassword, handleUpdateUsername, handleUpdateUserRole } from "server/controller/userManagementController";
 import express from 'express';
 import { UserManagementAction } from "server/interfaces/userPermission";
 import authMiddleware from "server/middleware/authMiddleware";
 import { verifyRole } from "server/middleware/verifyUserRoleMiddleware";
 import { userManagementPermission } from "server/models/userPermissons";
+import { handleSetPassword } from "server/controller/userSettingsController";
 
-export const userRoutes = express.Router();
+export const userManagementRoutes = express.Router();
 
-userRoutes.get('/',
+userManagementRoutes.get('/',
     authMiddleware,
     verifyRole(
         new userManagementPermission([UserManagementAction.ReadUser])),
     handleGetAllUsers
 );
 
-userRoutes.get('/own-username',
-    authMiddleware,
-    handleGetOwnUsername
-);
-
-userRoutes.put('/',
+userManagementRoutes.put('/',
     authMiddleware,
     verifyRole(
         new userManagementPermission([UserManagementAction.CreateUser])),
     handleCreateUser
 );
 
-userRoutes.delete('/',
+userManagementRoutes.delete('/',
     authMiddleware,
     verifyRole(
         new userManagementPermission([UserManagementAction.DeleteUser])),
     handleDeleteUser
 );
 
-userRoutes.patch('/username',
+userManagementRoutes.patch('/username',
     authMiddleware,
     verifyRole(
         new userManagementPermission([UserManagementAction.UpdateUsername])),
     handleUpdateUsername
 );
 
-userRoutes.patch('/setinitialpassword',
+userManagementRoutes.patch('/setinitialpassword',
     authMiddleware,
     verifyRole(
         new userManagementPermission([UserManagementAction.SetInitialPassword])),
     handleSetInitialPassword
 );
 
-userRoutes.patch('/updatepassword',
+userManagementRoutes.patch('/updatepassword',
     handleSetPassword
 );
 
-userRoutes.patch('/userrole',
+userManagementRoutes.patch('/userrole',
     authMiddleware,
     verifyRole(
         new userManagementPermission([UserManagementAction.UpdateUserRole])),

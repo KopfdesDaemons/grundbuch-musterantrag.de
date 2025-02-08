@@ -12,8 +12,9 @@ import { migrationRoutes } from 'server/routes/migrationRoutes';
 import { loggerRoutes } from 'server/routes/loggerRoutes';
 import { authRoutes } from 'server/routes/authRoutes';
 import { statisticRoutes } from 'server/routes/statisticRoutes';
-import { userRoutes } from 'server/routes/userRoutes';
+import { userManagementRoutes } from 'server/routes/userManagementRoutes';
 import { userRoleRoutes } from 'server/routes/userRoleRoutes';
+import { userSettingsRoutes } from 'server/routes/userSettingsRoutes';
 
 export async function app(): Promise<express.Express> {
   const server = express();
@@ -36,7 +37,8 @@ export async function app(): Promise<express.Express> {
   server.use('/api/migration', migrationRoutes);
   server.use('/api/logger', loggerRoutes);
   server.use('/api/statistic', statisticRoutes);
-  server.use('/api/user', userRoutes);
+  server.use('/api/user-management', userManagementRoutes);
+  server.use('/api/user-settings', userSettingsRoutes);
   server.use('/api/userrole', userRoleRoutes);
   server.all('/api/*', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));
 

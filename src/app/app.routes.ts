@@ -35,6 +35,7 @@ export const routes: Routes = [
         loadComponent: () => import('./routes/dashboard/dashboard/dashboard.component').then(m => m.DashboardComponent)
         , children: [
             { path: '', loadComponent: () => import('./routes/dashboard/dashboard-home/dashboard-home.component').then(m => m.DashboardHomeComponent), canActivate: [AuthGuard] },
+            { path: 'user-settings', loadComponent: () => import('./routes/dashboard/user-settings/user-settings.component').then(m => m.UserSettingsComponent), canActivate: [AuthGuard] },
             { path: 'antragsliste', loadComponent: () => import('./routes/dashboard/dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent), canActivate: [AuthGuard] },
             {
                 path: 'users',

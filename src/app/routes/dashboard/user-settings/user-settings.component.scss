@@ -1,0 +1,71 @@
+section:first-of-type .sectiondiv {
+    margin-top: 0;
+
+    @media only screen and (max-width: 700px) {
+        margin-top: 3em;
+    }
+}
+
+h1 {
+    text-align: left;
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1em;
+    width: 100%;
+    align-items: flex-start;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.tile {
+    min-width: 16em;
+    background-color: var(--hintergrund-variant);
+    border: 1px solid var(--hintergrund-variant-darker);
+    padding: 1em;
+    border-radius: 12px;
+}
+
+.error {
+    color: red;
+}
+
+.textBox {
+    background-color: var(--hintergrund-variant);
+    padding: 0.5em;
+    border-radius: 12px;
+}
+
+hr {
+    width: 90%;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.userInfos {
+    display: flex;
+    gap: 1.5em;
+    align-items: center;
+    background-color: var(--hintergrund-variant-darker);
+    padding: 0.5em;
+    border-radius: 12px;
+
+    p {
+        margin: 0.5em 0;
+    }
+
+    fa-icon {
+        font-size: 3em;
+        border: 1px solid var(--primary-color);
+        padding: 0.5em;
+    }
+}
