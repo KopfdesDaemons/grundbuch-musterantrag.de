@@ -1,20 +1,20 @@
 import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
 import { resolve } from 'node:path';
-import { submitFormRoutes } from './server/routes/submitFormController';
-import { uploadsRoutes } from './server/routes/uploadsRoutes';
+import { submitFormRoutes } from './server/routes/submit-form.routes';
+import { uploadsRoutes } from './server/routes/uploads.routes';
 import fileUpload from 'express-fileupload';
-import { getAmtsgerichtAusPLZ } from './server/controller/scrapingController';
-import { SERVER_DIST_FOLDER } from 'server/config/config';
-import { initDatabase } from 'server/services/databaseService';
-import { settingsRoutes } from 'server/routes/settingsRoutes';
-import { migrationRoutes } from 'server/routes/migrationRoutes';
-import { loggerRoutes } from 'server/routes/loggerRoutes';
-import { authRoutes } from 'server/routes/authRoutes';
-import { statisticRoutes } from 'server/routes/statisticRoutes';
-import { userManagementRoutes } from 'server/routes/userManagementRoutes';
-import { userRoleRoutes } from 'server/routes/userRoleRoutes';
-import { userSettingsRoutes } from 'server/routes/userSettingsRoutes';
+import { getAmtsgerichtAusPLZ } from './server/controller/scraping.controller';
+import { SERVER_DIST_FOLDER } from 'server/config/path.config';
+import { initDatabase } from 'server/services/database.service';
+import { settingsRoutes } from 'server/routes/settings.routes';
+import { migrationRoutes } from 'server/routes/migration.routes';
+import { loggerRoutes } from 'server/routes/logger.routes';
+import { authRoutes } from 'server/routes/auth.routes';
+import { statisticRoutes } from 'server/routes/statistic.routes';
+import { userManagementRoutes } from 'server/routes/user-management.routes';
+import { userRoleRoutes } from 'server/routes/user-role.routes';
+import { userSettingsRoutes } from 'server/routes/user-settings.routes';
 
 export async function app(): Promise<express.Express> {
   const server = express();

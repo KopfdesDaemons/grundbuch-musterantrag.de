@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { AuthService } from '../user/auth.service';
 import FileSaver from 'file-saver';
 import { isPlatformBrowser } from '@angular/common';
-import { Upload } from 'server/models/upload';
+import { Upload } from 'server/models/upload.model';
 
 @Injectable({
   providedIn: 'root'

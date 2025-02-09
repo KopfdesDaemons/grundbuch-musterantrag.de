@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { SettingsService } from 'src/app/services/server/settings.service';
-import { Settings } from 'server/models/settings';
+import { Settings } from 'server/models/settings.model';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { HttpErrorResponse } from '@angular/common/http';

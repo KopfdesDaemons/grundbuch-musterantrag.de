@@ -1,4 +1,4 @@
-import { UserRole } from "server/interfaces/userRole";
+import { UserRole } from "server/interfaces/user-role.interface";
 
 export class User {
     userID?: number;

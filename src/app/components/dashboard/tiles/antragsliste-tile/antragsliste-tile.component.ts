@@ -3,7 +3,7 @@ import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.comp
 import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
-import { Upload } from 'server/models/upload';
+import { Upload } from 'server/models/upload.model';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe, isPlatformBrowser } from '@angular/common';

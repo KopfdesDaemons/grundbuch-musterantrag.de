@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Settings } from 'server/models/settings';
+import { Settings } from 'server/models/settings.model';
 import { AuthService } from '../user/auth.service';
 
 @Injectable({

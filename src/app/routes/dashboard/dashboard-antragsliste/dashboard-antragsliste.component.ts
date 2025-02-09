@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/user/auth.service';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { LoggerService } from 'src/app/services/server/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Upload } from 'server/models/upload';
+import { Upload } from 'server/models/upload.model';
 import { DatePipe } from '@angular/common';
 import { ErrorDisplayComponent } from "../../../components/error-display/error-display.component";
 
