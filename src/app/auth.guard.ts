@@ -1,9 +1,9 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CookiesService } from './services/cookies.service';
+import { CookiesService } from './services/utils/cookies.service';
 import { isPlatformBrowser } from '@angular/common';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/user/auth.service';
 
 @Injectable({
   providedIn: 'root'

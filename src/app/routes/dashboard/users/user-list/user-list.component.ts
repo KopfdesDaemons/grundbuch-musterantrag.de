@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { faTrash, faRotateRight, faEdit, faLock } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { User } from 'src/app/models/user';
-import { UserroleService } from 'src/app/services/userrole.service';
+import { UserroleService } from 'src/app/services/user/userrole.service';
 import { UserRoleOption } from 'src/app/models/userRoleOption';
 import { ProgressSpinnerComponent } from "../../../../components/progress-spinner/progress-spinner.component";
 import { HttpErrorResponse } from '@angular/common/http';

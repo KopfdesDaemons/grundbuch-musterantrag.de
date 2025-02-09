@@ -1,6 +1,6 @@
 import { inject, Injectable, PLATFORM_ID, REQUEST } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { cookie } from '../models/cookie';
+import { cookie } from '../../models/cookie';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class CookiesService {
   private request = inject(REQUEST);
   private platfomId = inject(PLATFORM_ID);
 
-  cookieRequestList: BehaviorSubject<cookie[]> = new BehaviorSubject(new Array());
+  cookieRequestList: BehaviorSubject<cookie[]> = new BehaviorSubject<cookie[]>([]);
 
   getCookieString(): string {
     return isPlatformBrowser(this.platfomId) ? this.document.cookie : this.request?.headers.get('cookie') ?? '';

@@ -7,7 +7,7 @@ import { TimeHelper } from 'src/app/helpers/time.helper';
 import { AntragsartenTileComponent } from "../../../components/dashboard/tiles/antragsarten-tile/antragsarten-tile.component";
 import { MigrationTileComponent } from "../../../components/dashboard/tiles/migration-tile/migration-tile.component";
 import { SettingsTileComponent } from "../../../components/dashboard/tiles/settings-tile/settings-tile.component";
-import { UserSettingsService } from 'src/app/services/user-settings.service';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 
 @Component({
   selector: 'app-dashboard-home',

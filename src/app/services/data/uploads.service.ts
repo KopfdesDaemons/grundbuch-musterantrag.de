@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../user/auth.service';
 import FileSaver from 'file-saver';
 import { isPlatformBrowser } from '@angular/common';
 import { Upload } from 'server/models/upload';

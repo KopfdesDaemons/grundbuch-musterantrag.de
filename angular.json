@@ -28,10 +28,22 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/sitemap.txt",
-              "src/robots.txt"
+              "src/assets/assets",
+              {
+                "glob": "robots.txt",
+                "input": "src/assets/",
+                "output": "./"
+              },
+              {
+                "glob": "sitemap.txt",
+                "input": "src/assets/",
+                "output": "./"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src/assets/",
+                "output": "./"
+              }
             ],
             "styles": [
               "src/assets/ricosCSS/ricosframework.scss",

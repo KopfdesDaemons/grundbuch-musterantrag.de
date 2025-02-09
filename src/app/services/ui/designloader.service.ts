@@ -1,10 +1,10 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { cookie } from '../models/cookie';
-import { CookiesService } from './cookies.service';
+import { cookie } from '../../models/cookie';
+import { CookiesService } from '../utils/cookies.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { SettingsService } from './settings.service';
-import { ColorHelper } from '../helpers/color.helper';
+import { SettingsService } from '../server/settings.service';
+import { ColorHelper } from '../../helpers/color.helper';
 
 @Injectable({
   providedIn: 'root'

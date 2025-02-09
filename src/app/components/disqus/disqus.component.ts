@@ -1,5 +1,5 @@
 import { Component, ElementRef, Renderer2, OnChanges, PLATFORM_ID, inject, input } from '@angular/core';
-import { DisqusService } from 'src/app/services/disqus.service';
+import { DisqusService } from 'src/app/services/integration/disqus.service';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
 import { isPlatformBrowser } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';

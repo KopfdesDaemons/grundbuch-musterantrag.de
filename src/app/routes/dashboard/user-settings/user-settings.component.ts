@@ -3,8 +3,8 @@ import { Component, inject, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserSettingsService } from 'src/app/services/user-settings.service';
+import { AuthService } from 'src/app/services/user/auth.service';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 import { ProgressSpinnerComponent } from "../../../components/progress-spinner/progress-spinner.component";
 
 @Component({

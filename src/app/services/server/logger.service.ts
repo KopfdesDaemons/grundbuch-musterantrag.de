@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../user/auth.service';
 import { isPlatformBrowser } from '@angular/common';
-import { TimeHelper } from '../helpers/time.helper';
+import { TimeHelper } from '../../helpers/time.helper';
 
 @Injectable({
   providedIn: 'root'

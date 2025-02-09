@@ -3,7 +3,7 @@ import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/user/auth.service';
 
 @Component({
   selector: 'app-footer',

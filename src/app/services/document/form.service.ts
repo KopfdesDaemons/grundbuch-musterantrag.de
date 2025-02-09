@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
-import { Antrag } from '../interfaces/antrag';
-import { TimeHelper } from '../helpers/time.helper';
+import { Antrag } from '../../interfaces/antrag';
+import { TimeHelper } from '../../helpers/time.helper';
 
 @Injectable({
   providedIn: 'root'

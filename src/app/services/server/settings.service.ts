@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Settings } from 'server/models/settings';
-import { AuthService } from './auth.service';
+import { AuthService } from '../user/auth.service';
 
 @Injectable({
   providedIn: 'root'

@@ -3,10 +3,10 @@ import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
-import { SidemenuService } from 'src/app/services/sidemenu.service';
+import { SidemenuService } from 'src/app/services/ui/sidemenu.service';
 import { ProgressSpinnerComponent } from "../../progress-spinner/progress-spinner.component";
-import { UserSettingsService } from 'src/app/services/user-settings.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { AuthService } from 'src/app/services/user/auth.service';
 
 @Component({
   selector: 'app-sidemenu',

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
-import { UploadsService } from 'src/app/services/uploads.service';
+import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';

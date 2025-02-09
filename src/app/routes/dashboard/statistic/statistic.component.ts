@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { GoogleChartComponent } from "../../../components/google-chart/google-chart.component";
-import { GooglechartsService } from 'src/app/services/googlecharts.service';
+import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from "../../../components/error-display/error-display.component";
 import { ProgressSpinnerComponent } from "../../../components/progress-spinner/progress-spinner.component";

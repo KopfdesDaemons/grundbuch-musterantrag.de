@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ElementRef, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
 import { HeaderComponent } from "../../components/header/header.component";
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/user/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserSettingsService } from 'src/app/services/user-settings.service';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 
 @Component({
   selector: 'app-new-password',

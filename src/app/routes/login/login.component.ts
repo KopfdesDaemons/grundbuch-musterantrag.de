@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, inject, viewChild } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/user/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { Router } from '@angular/router';

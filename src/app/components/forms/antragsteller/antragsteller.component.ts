@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormService } from 'src/app/services/form.service';
+import { FormService } from 'src/app/services/document/form.service';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 

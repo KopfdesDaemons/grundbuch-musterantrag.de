@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { DesignloaderService } from 'src/app/services/designloader.service';
-import { FormService } from 'src/app/services/form.service';
+import { DesignloaderService } from 'src/app/services/ui/designloader.service';
+import { FormService } from 'src/app/services/document/form.service';
 import { Title } from '@angular/platform-browser';
 import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
 import { Subscription } from 'rxjs';

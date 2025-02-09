@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DesignloaderService } from './services/designloader.service';
+import { DesignloaderService } from './services/ui/designloader.service';
 
 @Component({
   selector: 'app-root',

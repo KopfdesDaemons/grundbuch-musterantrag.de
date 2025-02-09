@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { RouterLink } from '@angular/router';
-import { UploadsService } from 'src/app/services/uploads.service';
+import { UploadsService } from 'src/app/services/data/uploads.service';
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 import { Upload } from 'server/models/upload';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe, isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from "../../../error-display/error-display.component";
-import { GooglechartsService } from 'src/app/services/googlecharts.service';
+import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { GoogleChartComponent } from "../../../google-chart/google-chart.component";
 
 @Component({

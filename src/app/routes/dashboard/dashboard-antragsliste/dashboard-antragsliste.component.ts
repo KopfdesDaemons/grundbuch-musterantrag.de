@@ -1,11 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
 import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { CookiesService } from 'src/app/services/cookies.service';
+import { CookiesService } from 'src/app/services/utils/cookies.service';
 import { Title } from '@angular/platform-browser';
-import { AuthService } from 'src/app/services/auth.service';
-import { UploadsService } from 'src/app/services/uploads.service';
-import { LoggerService } from 'src/app/services/logger.service';
+import { AuthService } from 'src/app/services/user/auth.service';
+import { UploadsService } from 'src/app/services/data/uploads.service';
+import { LoggerService } from 'src/app/services/server/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Upload } from 'server/models/upload';
 import { DatePipe } from '@angular/common';

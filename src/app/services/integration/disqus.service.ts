@@ -1,6 +1,6 @@
 import { Injectable, Renderer2, inject, signal } from '@angular/core';
-import { ConsentService } from './consent.service';
-import { ScriptService } from './script.service';
+import { ConsentService } from '../utils/consent.service';
+import { ScriptService } from '../utils/script.service';
 
 @Injectable({
   providedIn: 'root'

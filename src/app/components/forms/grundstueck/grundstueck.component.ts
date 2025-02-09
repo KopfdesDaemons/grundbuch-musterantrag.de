@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Antrag } from 'src/app/interfaces/antrag';
-import { FormService } from 'src/app/services/form.service';
+import { FormService } from 'src/app/services/document/form.service';
 
 @Component({
-    selector: 'app-grundstueck',
-    templateUrl: './grundstueck.component.html',
-    styleUrls: ['./grundstueck.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule]
+  selector: 'app-grundstueck',
+  templateUrl: './grundstueck.component.html',
+  styleUrls: ['./grundstueck.component.scss'],
+  imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundstueckComponent {
   form: FormGroup;

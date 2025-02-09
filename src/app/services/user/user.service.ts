@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from '../models/user';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'

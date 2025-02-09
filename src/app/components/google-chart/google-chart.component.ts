@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, input, OnChanges, Renderer2, viewChild } from '@angular/core';
-import { GooglechartsService } from 'src/app/services/googlecharts.service';
+import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
 
 @Component({

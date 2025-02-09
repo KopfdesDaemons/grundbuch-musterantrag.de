@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { CookiesService } from 'src/app/services/cookies.service';
+import { CookiesService } from 'src/app/services/utils/cookies.service';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { CookiesTileComponent } from "../../components/dashboard/tiles/cookies-tile/cookies-tile.component";
-import { ConsentService } from 'src/app/services/consent.service';
-import { DisqusService } from 'src/app/services/disqus.service';
+import { ConsentService } from 'src/app/services/utils/consent.service';
+import { DisqusService } from 'src/app/services/integration/disqus.service';
 
 @Component({
   selector: 'app-datenschutz',

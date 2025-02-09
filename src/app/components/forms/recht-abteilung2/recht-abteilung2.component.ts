@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormService } from 'src/app/services/form.service';
+import { FormService } from 'src/app/services/document/form.service';
 
 @Component({
   selector: 'app-recht-abteilung2',

@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormService } from 'src/app/services/form.service';
+import { FormService } from 'src/app/services/document/form.service';
 
 @Component({
-    selector: 'app-grundbuchamt',
-    templateUrl: './grundbuchamt.component.html',
-    styleUrls: ['./grundbuchamt.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule]
+  selector: 'app-grundbuchamt',
+  templateUrl: './grundbuchamt.component.html',
+  styleUrls: ['./grundbuchamt.component.scss'],
+  imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundbuchamtComponent {
   form: FormGroup;

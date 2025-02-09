@@ -2,7 +2,7 @@ import { AfterViewInit, Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserRole } from 'server/interfaces/userRole';
 import { UserRoleOption } from 'src/app/models/userRoleOption';
-import { UserroleService } from 'src/app/services/userrole.service';
+import { UserroleService } from 'src/app/services/user/userrole.service';
 import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpErrorResponse } from '@angular/common/http';

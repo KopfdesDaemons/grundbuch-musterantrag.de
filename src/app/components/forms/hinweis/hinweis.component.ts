@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { FormService } from 'src/app/services/form.service';
+import { FormService } from 'src/app/services/document/form.service';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-    selector: 'app-hinweis',
-    templateUrl: './hinweis.component.html',
-    styleUrl: './hinweis.component.scss',
-    imports: [FaIconComponent]
+  selector: 'app-hinweis',
+  templateUrl: './hinweis.component.html',
+  styleUrl: './hinweis.component.scss',
+  imports: [FaIconComponent]
 })
 export class HinweisComponent {
   fs = inject(FormService);
