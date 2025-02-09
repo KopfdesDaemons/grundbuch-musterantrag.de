@@ -9,7 +9,7 @@ import { Image } from "./image";
 export class AntragTeilungserklaerung implements Antrag {
     title: string = 'Teilungserklärung, Abgeschlossenheitsbescheinigung, Aufteilungsplan';
     description: string = 'Diese Unterlagen gibt es nur bei Wohnungseigentum.';
-    image?: Image | undefined = new Image('/assets/images/aufteilungsplan-bunt.avif', 'Aufteilungsplan einer Wohnung', 800, 800);
+    image?: Image | undefined = new Image('/images/aufteilungsplan-bunt.avif', 'Aufteilungsplan einer Wohnung', 800, 800);
     antragsRoute: string = '/antrag/teilungserklaerung';
     mehrInfosRoute?: string | undefined = '/antragsinfos/teilungserklaerung';
     templateFileName: string = "teilungserklaerung";

@@ -10,7 +10,7 @@ export class AntragNamensberichtigung implements Antrag {
     title: string = 'Namensberichtigung einer natürlichen Person';
     antragsRoute = "/antrag/namensberichtigung";
     description = "Berichtigung des Namens, z.B. nach Eheschließung. Die Eheurkunde wird als Nachweis benötigt.";
-    image?: Image | undefined = new Image('/assets/images/eheurkunde.avif', 'Leere Eheurkunde', 400, 614);
+    image?: Image | undefined = new Image('/images/eheurkunde.avif', 'Leere Eheurkunde', 400, 614);
     erforderlicheUnterlagen = ['beglaubigte Kopie der Eheurkunde oder des Adoptionsbeschlusses'];
     gebuehr: string = 'gebührenfrei';
 

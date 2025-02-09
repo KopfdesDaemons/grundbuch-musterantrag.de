@@ -28,26 +28,15 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/assets",
               {
-                "glob": "robots.txt",
-                "input": "src/assets/",
-                "output": "./"
-              },
-              {
-                "glob": "sitemap.txt",
-                "input": "src/assets/",
-                "output": "./"
-              },
-              {
-                "glob": "favicon.ico",
-                "input": "src/assets/",
+                "glob": "**/*",
+                "input": "public",
                 "output": "./"
               }
             ],
             "styles": [
-              "src/assets/ricosCSS/ricosframework.scss",
-              "src/styles.scss"
+              "src/styles/ricos-css/ricosframework.scss",
+              "src/styles/styles.scss"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -138,9 +127,6 @@
     }
   },
   "cli": {
-    "analytics": "ee93a8bb-2e5d-4fd8-9377-206b5c1c73b0",
-    "cache": {
-      "enabled": false
-    }
+    "analytics": "ee93a8bb-2e5d-4fd8-9377-206b5c1c73b0"
   }
 }

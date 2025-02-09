@@ -32,7 +32,7 @@ export class DocxgeneratorService {
     this.progress = 10;
     this.statusmeldung.set('Die Templatedatei wird heruntergeladen.');
     const content = await new Promise<string>((resolve, reject) => {
-      PizZipUtils.getBinaryContent('assets/templates/' + antrag.templateFileName + '.docx',
+      PizZipUtils.getBinaryContent('templates/' + antrag.templateFileName + '.docx',
         (error: Error | null, content: string) => {
           if (error) {
             this.fehler.set(true);

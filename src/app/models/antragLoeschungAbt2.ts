@@ -9,7 +9,7 @@ import { Image } from "./image";
 export class AntragLoesschungAbt2 implements Antrag {
     title: string = 'Löschung von Lasten und Beschränkungen';
     description: string = 'z.B. die Löschung eines Wohnungsrechts. Nutzen Sie diesen Antrag nicht für Grundschulden.';
-    image?: Image | undefined = new Image('/assets/images/sterbeurkunde.avif', 'Sterbeurkunde', 571, 841);
+    image?: Image | undefined = new Image('/images/sterbeurkunde.avif', 'Sterbeurkunde', 571, 841);
     antragsRoute: string = '/antrag/loeschung-abteilung2';
     mehrInfosRoute?: string | undefined = '/antragsinfos/loeschung-abteilung2';
     templateFileName: string = 'loeschungAbt2';

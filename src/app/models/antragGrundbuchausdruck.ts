@@ -11,7 +11,7 @@ export class AntragGrundbuchausdruck implements Antrag {
     antragsRoute = "/antrag/grundbuchausdruck";
     mehrInfosRoute = "/antragsinfos/grundbuchausdruck";
     description = "Ihnen wird ein Ausdruck des kompletten Grundbuchs zugeschickt. Ein einfacher Grundbuchausdruck kostet 10,00 €.";
-    image?: Image | undefined = new Image('/assets/images/bestandsverzeichnis.avif', 'Bestandsverzeichnis', 729, 545);
+    image?: Image | undefined = new Image('/images/bestandsverzeichnis.avif', 'Bestandsverzeichnis', 729, 545);
     gebuehr = "mindestens 10,00 €";
     erforderlicheUnterlagen = ['Vollmacht, sofern Antragsteller nicht berechtigt ist'];
 

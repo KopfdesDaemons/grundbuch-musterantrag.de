@@ -10,7 +10,7 @@ import { Image } from "./image";
 export class AntragAbschriftBewilligung implements Antrag {
     title: string = 'Erteilung von Abschriften einer Bewilligung';
     description: string = 'Kopien der Eintragungen im Grundbuch zugrundeliegenden Urkunden.';
-    image?: Image | undefined = new Image('/assets/images/kaufvertrag.avif', 'Musterkaufvertrag', 564, 802);
+    image?: Image | undefined = new Image('/images/kaufvertrag.avif', 'Musterkaufvertrag', 564, 802);
     antragsRoute: string = '/antrag/abschrift-bewilligung';
     mehrInfosRoute?: string | undefined = '/antragsinfos/bewilligungen';
     templateFileName: string = 'abschriftBewilligung';
