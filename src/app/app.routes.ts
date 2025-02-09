@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     { path: "", loadComponent: () => import('./routes/antragsliste/antragsliste.component').then(m => m.AntragslisteComponent) },

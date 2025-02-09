@@ -13,7 +13,7 @@ export class PdfgeneratorService {
   fehler = false;
   statusmeldung = '';
 
-  async generate(docx: any, antrag: Antrag) {
+  async generate(docx: any, antrag: Antrag): Promise<Blob> {
     this.reset();
     this.statusmeldung = 'Die .docx Datei wird zur Konvertierung an den Server gesendet.';
 
@@ -49,7 +49,7 @@ export class PdfgeneratorService {
             // Antwort vom Server
             if (res.type === HttpEventType.Response) {
               this.statusmeldung = 'Es wurden alle Dateien erfolgreich erstellt.';
-              resolve(res.body);
+              resolve(res.body as Blob);
             }
           },
           error: (err) => {

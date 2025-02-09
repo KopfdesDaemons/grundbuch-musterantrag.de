@@ -1,22 +1,17 @@
-import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, signal } from '@angular/core';
 import { Antrag } from '../../interfaces/antrag';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocxgeneratorService {
-  private platformId = inject(PLATFORM_ID);
-
   progress = 0;
   fehler = signal(false);
   statusmeldung = signal('');
   docx: any;
 
-  async generate(antrag: Antrag) {
+  async generate(antrag: Antrag): Promise<Blob> {
     this.reset();
-    if (!isPlatformBrowser(this.platformId)) return;
-
 
     // importiere die notwendigen Skripte
     let Docxtemplater: any, expressionParser: any, PizZip: any, PizZipUtils: any;
@@ -37,7 +32,7 @@ export class DocxgeneratorService {
     this.progress = 10;
     this.statusmeldung.set('Die Templatedatei wird heruntergeladen.');
     const content = await new Promise<string>((resolve, reject) => {
-      PizZipUtils.getBinaryContent('assets/antrag-templates/' + antrag.templateFileName + '.docx',
+      PizZipUtils.getBinaryContent('assets/templates/' + antrag.templateFileName + '.docx',
         (error: Error | null, content: string) => {
           if (error) {
             this.fehler.set(true);
@@ -80,7 +75,7 @@ export class DocxgeneratorService {
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       });
       this.progress = 100;
-      return blobDocx;
+      return blobDocx as Blob;
     } catch (error) {
       this.fehler.set(true);
       this.statusmeldung.set('Fehler beim Zippen der docx Datei.');

@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, inject, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { faFilePdf, faFileWord } from '@fortawesome/free-regular-svg-icons';
 import { DocxgeneratorService } from 'src/app/services/document/docxgenerator.service';
 import { FormService } from 'src/app/services/document/form.service';
@@ -30,15 +30,15 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     this.pdfS.reset();
   }
 
-  ngOnInit(): void {
-    this.generate();
+  async ngOnInit(): Promise<void> {
+    await this.generate();
   }
 
-  async downloadDocx() {
+  downloadDocx() {
     window.open(URL.createObjectURL(this.docx));
   }
 
-  async openPdf() {
+  openPdf() {
     window.open(URL.createObjectURL(this.pdf));
   }
 
