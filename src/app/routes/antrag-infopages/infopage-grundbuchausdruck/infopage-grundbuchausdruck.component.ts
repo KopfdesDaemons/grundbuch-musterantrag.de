@@ -10,7 +10,7 @@ import {
   faMapMarkedAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { Antrag } from 'src/app/interfaces/antrag';
-import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
+import { AntragGrundbuchausdruck } from 'src/app/models/antrag/grundbuchausdruck.antrag.model';
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { AccordionComponent } from '../../../components/accordion/accordion.component';
 import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';

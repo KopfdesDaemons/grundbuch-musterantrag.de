@@ -1,10 +1,10 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { Antrag } from "../interfaces/antrag";
-import { Antragsteller } from "./antragsteller";
-import { Grundbuchamt } from "./grundbuchamt";
-import { Grundstueck } from "./grundstueck";
-import { RechtAbteilung2 } from "./rechtAbteilung2";
-import { Image } from "./image";
+import { Antrag } from "../../interfaces/antrag";
+import { Antragsteller } from "../antragsteller.model";
+import { Grundbuchamt } from "../grundbuchamt.model";
+import { Grundstueck } from "../grundstueck.model";
+import { RechtAbteilung2 } from "../recht-abteilung-2.model";
+import { Image } from "../image.model";
 
 export class AntragLoesschungAbt2 implements Antrag {
     title: string = 'Löschung von Lasten und Beschränkungen';

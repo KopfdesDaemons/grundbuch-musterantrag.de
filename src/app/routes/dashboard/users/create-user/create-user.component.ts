@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, viewChild } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserRoleOption } from 'src/app/models/userRoleOption';
+import { UserRoleOption } from 'src/app/models/user-role-option.model';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { ErrorDisplayComponent } from "../../../../components/error-display/error-display.component";

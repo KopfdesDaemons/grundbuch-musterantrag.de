@@ -1,11 +1,11 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { Antrag } from "../interfaces/antrag";
-import { Antragsteller } from "./antragsteller";
-import { Grundbuchamt } from "./grundbuchamt";
-import { Grundstueck } from "./grundstueck";
-import { BerechtigtesInteresse } from "./berechtigtesInteresse";
-import { Bewilligung } from "./bewilligung";
-import { Image } from "./image";
+import { Antrag } from "../../interfaces/antrag";
+import { Antragsteller } from "../antragsteller.model";
+import { Grundbuchamt } from "../grundbuchamt.model";
+import { Grundstueck } from "../grundstueck.model";
+import { BerechtigtesInteresse } from "../berechtigtes-interesse.model";
+import { Bewilligung } from "../bewilligung.model";
+import { Image } from "../image.model";
 
 export class AntragAbschriftBewilligung implements Antrag {
     title: string = 'Erteilung von Abschriften einer Bewilligung';

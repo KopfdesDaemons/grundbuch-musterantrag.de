@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/utils/cookies.service';
-import { cookie } from '../../models/cookie';
+import { cookie } from '../../models/cookie.model';
 import { DesignloaderService } from 'src/app/services/ui/designloader.service';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';

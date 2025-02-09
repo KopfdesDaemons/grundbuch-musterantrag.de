@@ -4,9 +4,9 @@ import { faTrash, faRotateRight, faEdit, faLock } from '@fortawesome/free-solid-
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
-import { User } from 'src/app/models/user';
+import { User } from 'src/app/models/user.model';
 import { UserroleService } from 'src/app/services/user/userrole.service';
-import { UserRoleOption } from 'src/app/models/userRoleOption';
+import { UserRoleOption } from 'src/app/models/user-role-option.model';
 import { ProgressSpinnerComponent } from "../../../../components/progress-spinner/progress-spinner.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from "../../../../components/error-display/error-display.component";

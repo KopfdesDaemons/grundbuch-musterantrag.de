@@ -1,7 +1,7 @@
 import { FormGroup } from "@angular/forms";
-import { Antragsteller } from "../models/antragsteller";
-import { Grundbuchamt } from "../models/grundbuchamt";
-import { Image } from "../models/image";
+import { Antragsteller } from "../models/antragsteller.model";
+import { Grundbuchamt } from "../models/grundbuchamt.model";
+import { Image } from "../models/image.model";
 
 export interface Antrag {
     title: string

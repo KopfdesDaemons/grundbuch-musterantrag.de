@@ -1,10 +1,10 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { Antrag } from "../interfaces/antrag";
-import { Antragsteller } from "./antragsteller";
-import { Grundbuchamt } from "./grundbuchamt";
-import { Grundstueck } from "./grundstueck";
-import { BerechtigtesInteresse } from "./berechtigtesInteresse";
-import { Image } from "./image";
+import { Antrag } from "../../interfaces/antrag";
+import { Antragsteller } from "../antragsteller.model";
+import { Grundbuchamt } from "../grundbuchamt.model";
+import { Grundstueck } from "../grundstueck.model";
+import { BerechtigtesInteresse } from "../berechtigtes-interesse.model";
+import { Image } from "../image.model";
 
 export class AntragTeilungserklaerung implements Antrag {
     title: string = 'Teilungserklärung, Abgeschlossenheitsbescheinigung, Aufteilungsplan';

@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { UserRole } from 'server/interfaces/user-role.interface';
-import { UserRoleOption } from '../../models/userRoleOption';
+import { UserRoleOption } from '../../models/user-role-option.model';
 import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission, UserRoleManagementAction } from 'server/interfaces/user-permission.interface';
 import { uploadManagementPermission, userManagementPermission, statisticPermission, loggerPermission, migrationPermission, settingsPermission, userRoleManagementPermission } from 'server/models/user-permissons.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

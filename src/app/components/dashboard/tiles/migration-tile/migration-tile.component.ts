@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
 import { MigrationService } from 'src/app/services/data/migration.service';
-import { Migration } from 'src/app/models/migration';
+import { Migration } from 'src/app/models/migration.model';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 

@@ -1,6 +1,6 @@
 import { inject, Injectable, PLATFORM_ID, REQUEST } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { cookie } from '../../models/cookie';
+import { cookie } from '../../models/cookie.model';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable({

@@ -1,10 +1,10 @@
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { Antrag } from "../interfaces/antrag";
-import { Antragsteller } from "./antragsteller";
-import { BerechtigtesInteresse } from "./berechtigtesInteresse";
-import { Grundbuchamt } from "./grundbuchamt";
-import { Grundstueck } from "./grundstueck";
-import { Image } from "./image";
+import { Antrag } from "../../interfaces/antrag";
+import { Antragsteller } from "../antragsteller.model";
+import { BerechtigtesInteresse } from "../berechtigtes-interesse.model";
+import { Grundbuchamt } from "../grundbuchamt.model";
+import { Grundstueck } from "../grundstueck.model";
+import { Image } from "../image.model";
 
 export class AntragGrundbuchausdruck implements Antrag {
     title: string = 'Erteilung eines Grundbuchausdrucks';

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
-import { AntragTeilungserklaerung } from 'src/app/models/antragTeilungserklaerung';
+import { AntragTeilungserklaerung } from 'src/app/models/antrag/teilungserklaerung.antrag.model';
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { AccordionComponent } from '../../../components/accordion/accordion.component';
 import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';

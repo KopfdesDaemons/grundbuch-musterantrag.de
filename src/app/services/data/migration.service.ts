@@ -1,9 +1,9 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { AuthService } from '../user/auth.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { lastValueFrom } from 'rxjs';
-import { Migration } from '../../models/migration';
+import { Migration } from '../../models/migration.model';
 
 @Injectable({
   providedIn: 'root'

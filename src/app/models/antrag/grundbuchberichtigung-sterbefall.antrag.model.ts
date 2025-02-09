@@ -1,11 +1,11 @@
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Antrag } from "../interfaces/antrag";
-import { Antragsteller } from "./antragsteller";
-import { Grundbuchamt } from "./grundbuchamt";
-import { Grundstueck } from "./grundstueck";
-import { Erblasser } from "./erblasser";
-import { Image } from "./image";
-import { NachlassAktenzeichenValidator } from "../validators/nachlassAktenzeichen.validator";
+import { Antrag } from "../../interfaces/antrag";
+import { Antragsteller } from "../antragsteller.model";
+import { Grundbuchamt } from "../grundbuchamt.model";
+import { Grundstueck } from "../grundstueck.model";
+import { Erblasser } from "../erblasser.model";
+import { Image } from "../image.model";
+import { NachlassAktenzeichenValidator } from "../../validators/nachlassAktenzeichen.validator";
 
 export class AntragGrundbuchberichtigungSterbefall implements Antrag {
     title: string = 'Grundbuchberichtigung aufgrund eines Sterbefalls'

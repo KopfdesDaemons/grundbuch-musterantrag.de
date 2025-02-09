@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
-import { AntragAbschriftBewilligung } from 'src/app/models/antragAbschriftBewilligung';
-import { AntragGrundbuchausdruck } from 'src/app/models/antragGrundbuchausdruck';
-import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antragGrundbuchberichtigungSterbefall';
-import { AntragLoesschungAbt2 } from 'src/app/models/antragLoeschungAbt2';
-import { AntragNamensberichtigung } from 'src/app/models/antragNamensberichtigung';
-import { AntragTeilungserklaerung } from 'src/app/models/antragTeilungserklaerung';
+import { AntragAbschriftBewilligung } from 'src/app/models/antrag/abschrift-bewilligung.antrag.model';
+import { AntragGrundbuchausdruck } from 'src/app/models/antrag/grundbuchausdruck.antrag.model';
+import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antrag/grundbuchberichtigung-sterbefall.antrag.model';
+import { AntragLoesschungAbt2 } from 'src/app/models/antrag/loeschung-abteilung-2.antrag.model';
+import { AntragNamensberichtigung } from 'src/app/models/antrag/namensberichtigung.antrag.model';
+import { AntragTeilungserklaerung } from 'src/app/models/antrag/teilungserklaerung.antrag.model';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { AccordionComponent } from '../../components/accordion/accordion.component';
 import { AntragsartCardComponent } from '../../components/antragsart-card/antragsart-card.component';

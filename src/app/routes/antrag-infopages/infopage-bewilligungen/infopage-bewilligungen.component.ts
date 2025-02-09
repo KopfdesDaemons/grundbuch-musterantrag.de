@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
-import { AntragAbschriftBewilligung } from 'src/app/models/antragAbschriftBewilligung';
+import { AntragAbschriftBewilligung } from 'src/app/models/antrag/abschrift-bewilligung.antrag.model';
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { AccordionComponent } from '../../../components/accordion/accordion.component';
 import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
