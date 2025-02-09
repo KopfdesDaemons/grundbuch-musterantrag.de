@@ -3,10 +3,8 @@
   flex-direction: column;
 }
 
-section:first-of-type .sectiondiv {
-  blockquote {
-    margin-top: 0;
-  }
+h2+blockquote {
+  margin-top: 0;
 }
 
 #aufbau {

@@ -1,15 +1,16 @@
-:host{
+:host {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
-  
+
 .sectiondiv {
     max-width: 24em;
     padding-top: 0;
+    margin-top: 3em;
 }
 
-section{
+section {
     display: flex;
     flex-flow: column;
 }

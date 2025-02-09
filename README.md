@@ -31,8 +31,8 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 ### Dashboard
 
-![Dashboard](/src/assets/images/readme/dashboard-home.png)
-![Dashboard](/src/assets/images/readme/dashboard-antragsliste.png)
+![Dashboard](/public/images/readme/dashboard-home.png)
+![Dashboard](/public/images/readme/dashboard-antragsliste.png)
 
 # Wichtige Befehle
 
