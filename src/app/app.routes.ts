@@ -19,6 +19,7 @@ export const routes: Routes = [
 
     {
         path: 'grundbuchrecht',
+        loadComponent: () => import('./routes/grundbuchrecht/root/root.component').then(m => m.RootComponent),
         children: [
             { path: 'einleitung', loadComponent: () => import('./routes/grundbuchrecht/einleitung/einleitung.component').then(m => m.EinleitungComponent) },
             { path: 'bestandsverzeichnis', loadComponent: () => import('./routes/grundbuchrecht/bestandsverzeichnis/bestandsverzeichnis.component').then(m => m.BestandsverzeichnisComponent) },
