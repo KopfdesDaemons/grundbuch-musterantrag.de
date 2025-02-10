@@ -7,10 +7,6 @@
     }
 }
 
-.editRow td {
-    background-color: var(--hintergrund-variant);
-}
-
 .tableScrollContainer {
     max-height: 800px;
     width: clamp(300px, 90%, 1000px);
