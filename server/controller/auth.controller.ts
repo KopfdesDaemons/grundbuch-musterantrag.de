@@ -22,7 +22,7 @@ export const handleLogin = async (req: Request, res: Response): Promise<any> => 
         const token = await login(user, password);
 
         if (user.isInitialPassword) {
-            return res.status(401).json({ message: 'Passwortänderung erforderlich' });
+            return res.status(401).json({ message: 'Passwortänderung erforderlich', userName: user.username });
         }
 
         return res.json({ token: token, username: user.username, userRoleName: user.userRole.name });

@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LoginCardComponent } from "../../components/login-card/login-card.component";
 
 @Component({
   selector: 'app-login',
-  imports: [HeaderComponent, FormsModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [HeaderComponent, FormsModule, ReactiveFormsModule, FontAwesomeModule, LoginCardComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -44,6 +45,8 @@ export class LoginComponent implements AfterViewInit {
             break;
           case 401:
             if (error.error.message === "Passwortänderung erforderlich") {
+              // get username case sensitive
+              localStorage.setItem('username', error.error.userName);
               await this.router.navigate(['/new-password']);
             } else {
               this.errorMessage = 'Logindaten unvollständig';

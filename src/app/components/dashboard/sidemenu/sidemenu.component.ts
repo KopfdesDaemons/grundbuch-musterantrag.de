@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/services/user/auth.service';
   templateUrl: './sidemenu.component.html',
   styleUrl: './sidemenu.component.scss'
 })
-export class SidemenuComponent {
+export class SidemenuComponent implements OnInit {
   sidemenuS = inject(SidemenuService);
   authS = inject(AuthService);
   userSettingsS = inject(UserSettingsService);
@@ -23,6 +23,15 @@ export class SidemenuComponent {
 
   faArrowRightFromBracket = faArrowRightFromBracket;
   faGear = faGear;
+
+  ngOnInit(): void {
+    if (!this.userSettingsS.username.isLoading()) {
+      this.userSettingsS.username.reload();
+    }
+    if (!this.userSettingsS.userRole.isLoading()) {
+      this.userSettingsS.userRole.reload();
+    }
+  }
 
   pages = [
     { name: 'Übersicht', route: '/dashboard' },

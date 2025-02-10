@@ -1,31 +1,19 @@
 <app-header></app-header>
 <section>
     <div class="sectiondiv">
-        <div class="container">
-            <div class="row1">
-                <span>www.grundbuch-musterantrag.de</span>
-            </div>
-            <div class="row2">
-                <img src="/images/liegenschaftskarte.avif" />
-                <fa-icon [icon]="faLock"></fa-icon>
-            </div>
-            <div class="row3">
-                <form [formGroup]="loginForm" (ngSubmit)="tryLogin()">
-                    <span class="error">{{ errorMessage }}</span>
-                    <div class="inputfeld">
-                        <input formControlName="username" type="text" id="username" name="username" placeholder="&nbsp;" autocomplete="username" #username />
-                        <label class="placeholder" for="username">Benutzername</label>
-                    </div>
-                    <div class="inputfeld">
-                        <input formControlName="password" type="password" id="password" name="password" autocomplete="current-password" spellcheck="false" placeholder="&nbsp;" />
-                        <label class="placeholder" for="password">Passwort</label>
-                    </div>
-                    <button class="btnoutlined" type="submit">Anmelden</button>
-                </form>
-            </div>
-            <div class="title-box">
-                <h1>Admin Login</h1>
-            </div>
-        </div>
+        <app-login-card [faIcon]="faLock" title="Admin Login" imagePath="/images/liegenschaftskarte.avif">
+            <form [formGroup]="loginForm" (ngSubmit)="tryLogin()">
+                <span class="error">{{ errorMessage }}</span>
+                <div class="inputfeld">
+                    <input formControlName="username" type="text" id="username" name="username" placeholder="&nbsp;" autocomplete="username" #username />
+                    <label class="placeholder" for="username">Benutzername</label>
+                </div>
+                <div class="inputfeld">
+                    <input formControlName="password" type="password" id="password" name="password" autocomplete="current-password" spellcheck="false" placeholder="&nbsp;" />
+                    <label class="placeholder" for="password">Passwort</label>
+                </div>
+                <button class="btnoutlined" type="submit">Anmelden</button>
+            </form>
+        </app-login-card>
     </div>
 </section>
