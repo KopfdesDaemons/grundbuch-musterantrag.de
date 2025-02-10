@@ -7,26 +7,21 @@ import { RowDataPacket } from "mysql2/promise";
 import { DASHBOARD_ROOT_USER, DASHBOARD_ROOT_PASSWORD } from "server/config/env.config";
 
 export const getUser = async (key: 'username' | 'userID', value: string | number): Promise<User | null> => {
-    try {
-        const queryStr = `SELECT userID, username, passwordHash, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;
-        const [[userData]] = await db.execute<RowDataPacket[]>(queryStr, [value]);
+    const queryStr = `SELECT userID, username, passwordHash, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;
+    const [[userData]] = await db.execute<RowDataPacket[]>(queryStr, [value]);
 
-        if (!userData) return null;
+    if (!userData) return null;
 
-        const userRole = await getUserRole(userData["userRoleID"]);
-        if (!userRole) throw new Error('Userrolle nicht gefunden');
-        if (!userRole.userRoleID) throw new Error('Userrolle ID nicht gefunden');
-        const user = new User(userData["username"], userRole, userRole.userRoleID)
+    const userRole = await getUserRole(userData["userRoleID"]);
+    if (!userRole) throw new Error('Userrolle nicht gefunden');
+    if (!userRole.userRoleID) throw new Error('Userrolle ID nicht gefunden');
+    const user = new User(userData["username"], userRole, userRole.userRoleID)
 
-        user.userID = userData["userID"];
-        user.passwordHash = userData["passwordHash"];
-        user.isInitialPassword = userData["isInitialPassword"];
+    user.userID = userData["userID"];
+    user.passwordHash = userData["passwordHash"];
+    user.isInitialPassword = userData["isInitialPassword"];
 
-        return user;
-    } catch (error) {
-        console.error('Fehler beim Abrufen des Benutzers:', error);
-        return null;
-    }
+    return user;
 };
 
 export const getUserByUsername = async (username: string): Promise<User | null> => {

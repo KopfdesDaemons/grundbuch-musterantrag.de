@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/utils/cookies.service';
-import { cookie } from '../../models/cookie.model';
+import { Cookie } from '../../models/cookie.model';
 import { DesignloaderService } from 'src/app/services/ui/designloader.service';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -84,7 +84,7 @@ export class HeaderComponent implements AfterViewInit {
 
   async nextBanner() {
     this.cookiebanner().nativeElement.classList.add("ausgeblendet");
-    const c: cookie = this.cs.cookieRequestList.value[0];
+    const c: Cookie = this.cs.cookieRequestList.value[0];
     this.cs.cookieRequested(c);
     await this.delay(1000);
     this.cookieBannerIsDisplayed = false;

@@ -1,6 +1,6 @@
 import { inject, Injectable, PLATFORM_ID, REQUEST } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { cookie } from '../../models/cookie.model';
+import { Cookie } from '../../models/cookie.model';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class CookiesService {
   private request = inject(REQUEST);
   private platfomId = inject(PLATFORM_ID);
 
-  cookieRequestList: BehaviorSubject<cookie[]> = new BehaviorSubject<cookie[]>([]);
+  cookieRequestList: BehaviorSubject<Cookie[]> = new BehaviorSubject<Cookie[]>([]);
 
   getCookieString(): string {
     return isPlatformBrowser(this.platfomId) ? this.document.cookie : this.request?.headers.get('cookie') ?? '';
@@ -21,7 +21,7 @@ export class CookiesService {
    * Setzt ein Cookie mit Namen, Wert und Tagen bis zum Ablauf.
    * @param cookie Das Cookie-Objekt, das gesetzt werden soll.
    */
-  setcookie(cookie: cookie) {
+  setcookie(cookie: Cookie) {
     if (!isPlatformBrowser(this.platfomId)) return;
     const d = new Date();
     d.setTime(d.getTime() + cookie.days * 24 * 60 * 60 * 1000);
@@ -56,7 +56,7 @@ export class CookiesService {
    * Erst wenn der Nutzer den Cookie bestätigt hat, wird der Cookie gesetzt.
    * @param cookie Das Cookie-Objekt, das hinzugefügt werden soll.
    */
-  addCookieToRequestList(cookie: cookie) {
+  addCookieToRequestList(cookie: Cookie) {
     for (const c of this.cookieRequestList.value) if (c.name == cookie.name) return;
     this.cookieRequestList.next(this.cookieRequestList.value.concat(cookie));
   }
@@ -66,7 +66,7 @@ export class CookiesService {
    * Falls nein, wird er zur Liste der Cookies hinzugefügt, welche vom Nuter erst bestätigt werden müssen.
    * @param cookie Das Cookie-Objekt, das überprüft werden soll.
    */
-  setCookieWithRequest(cookie: cookie) {
+  setCookieWithRequest(cookie: Cookie) {
     if (this.getCookie(cookie.name) != "") {
       this.setcookie(cookie);
       return;
@@ -78,7 +78,7 @@ export class CookiesService {
    * Entfernt ein Cookie-Objekt aus der Liste der angefragten Cookies, die bestätigt werden.
    * @param c Das Cookie-Objekt, das entfernt werden soll.
    */
-  cookieRequested(c: cookie) {
+  cookieRequested(c: Cookie) {
     this.cookieRequestList.next(this.cookieRequestList.getValue().filter(cookie => cookie.name !== c.name));
   }
 
@@ -105,17 +105,17 @@ export class CookiesService {
 
   /**
    * Liest alle Cookies aus dem Cookie-String
-   * @returns {cookie[]} Array mit allen Cookies
+   * @returns {Cookie[]} Array mit allen Cookies
   */
-  getAllCookies(): cookie[] {
-    const cookies: cookie[] = [];
+  getAllCookies(): Cookie[] {
+    const cookies: Cookie[] = [];
     const cookieString = this.getCookieString();
     if (!cookieString) return [];
 
     const cookieStrings = cookieString.split(";");
 
     for (const c of cookieStrings) {
-      const cookie: cookie = {
+      const cookie: Cookie = {
         name: c.split("=")[0],
         value: c.split("=")[1],
         days: 0,

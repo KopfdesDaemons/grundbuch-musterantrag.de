@@ -1,6 +1,6 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { cookie } from '../../models/cookie.model';
+import { Cookie } from '../../models/cookie.model';
 import { CookiesService } from '../utils/cookies.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { SettingsService } from '../server/settings.service';
@@ -56,14 +56,14 @@ export class DesignloaderService {
 
   private activateDarkmode(withoutCookieConsent: boolean = false) {
     this.document?.classList.add("darkmode");
-    const c = new cookie("Darkmode", String(true), 90, "Darf das Designschema gespeichert werden?");
+    const c = new Cookie("Darkmode", String(true), 90, "Darf das Designschema gespeichert werden?");
     if (withoutCookieConsent) this.cs.setcookie(c);
     else this.cs.setCookieWithRequest(c);
   }
 
   private deactivateDarkmode() {
     this.document?.classList.remove("darkmode");
-    const c = new cookie("Darkmode", String(false), 90, "Darf das Designschema gespeichert werden?");
+    const c = new Cookie("Darkmode", String(false), 90, "Darf das Designschema gespeichert werden?");
     this.cs.setCookieWithRequest(c);
   }
 
@@ -86,7 +86,7 @@ export class DesignloaderService {
     this.primaryColor = ColorHelper.HSLToHex(h, s, l);
 
     if (withoutCookieConsent) return;
-    const c: cookie = new cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");
+    const c: Cookie = new Cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");
     this.cs.setCookieWithRequest(c);
   }
 }

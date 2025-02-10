@@ -4,18 +4,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-login',
-  imports: [HeaderComponent, FormsModule, ReactiveFormsModule],
+  imports: [HeaderComponent, FormsModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 
 export class LoginComponent implements AfterViewInit {
   authS: AuthService = inject(AuthService);
-  errorMessage: string = '';
+  errorMessage: string = ' ';
   router = inject(Router);
+
+  faLock = faLock
 
   loginForm = this.authS.getLoginFormGroup();
   readonly usernameInput = viewChild.required<ElementRef>('username');

@@ -1,4 +1,4 @@
-export class cookie {
+export class Cookie {
   name: string;
   value: string;
   days: number;
