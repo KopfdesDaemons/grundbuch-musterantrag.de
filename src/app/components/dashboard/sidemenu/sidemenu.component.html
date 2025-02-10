@@ -18,7 +18,7 @@
                 } @else if (userSettingsS.userRole.error()) {
                     <span class="error">Userrolle konnen nicht geladen werden</span>
                 } @else {
-                    <span class="userrole">{{ userSettingsS.userRole.value()?.userRoleName }}</span>
+                    <span class="userrole" [ngClass]="{ admin: userSettingsS.userRole.value()?.userRoleName === 'Admin' }">{{ userSettingsS.userRole.value()?.userRoleName }}</span>
                 }
             </div>
         </div>

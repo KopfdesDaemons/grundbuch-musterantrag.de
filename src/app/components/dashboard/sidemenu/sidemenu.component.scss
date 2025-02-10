@@ -52,6 +52,48 @@ aside {
 
         .row2 {
             font-style: italic;
+            display: flex;
+
+            .admin {
+                font-style: normal;
+                font-weight: bolder;
+                background-image: linear-gradient(to right, #dfc532, #ffe058, #ffaa00);
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                animation: gradientAnimation 2s linear infinite;
+                position: relative;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: -1;
+                    border-radius: 5em;
+                    animation: leftToRight 800ms linear infinite alternate;
+                    box-shadow: 0 20px 40px 10px yellow;
+                }
+
+                @keyframes leftToRight {
+                    from {
+                        left: 20%;
+                    }
+
+                    to {
+                        left: 80%;
+                    }
+                }
+
+                @keyframes gradientAnimation {
+                    from {
+                        background-position: 0% 50%;
+                    }
+
+                    to {
+                        background-position: 100% 50%;
+                    }
+                }
+            }
         }
     }
 
