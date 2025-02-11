@@ -1,4 +1,6 @@
-<app-header></app-header>
+@defer (hydrate on interaction) {
+    <app-header></app-header>
+}
 <section>
     <div class="sectiondiv">
         <h1>Impressum</h1>
@@ -11,4 +13,6 @@
         <p>Dies ist eine private Webseite, welche keine staatliche Behörde repräsentiert.</p>
     </div>
 </section>
-<app-footer></app-footer>
+@defer (hydrate on viewport) {
+    <app-footer></app-footer>
+}

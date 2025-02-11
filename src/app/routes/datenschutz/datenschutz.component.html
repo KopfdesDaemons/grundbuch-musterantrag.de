@@ -1,4 +1,6 @@
-<app-header></app-header>
+@defer (hydrate on interaction) {
+    <app-header></app-header>
+}
 <section>
     <div class="sectiondiv">
         <h1>Datenschutzerklärung</h1>
@@ -60,7 +62,11 @@
             essentiellle Cookies gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) f) DSGVO</a> gelten. Deshalb wird die Einwilligung eingeholt gemäß
             <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/"> Art. 6 (1) a) DSGVO</a>. Die Dauer der Speicherung beträgt für beide Cookies 90 Tage.
         </p>
-        <app-cookies-tile></app-cookies-tile>
+        @defer (on viewport) {
+            <app-cookies-tile></app-cookies-tile>
+        } @placeholder {
+            <span>Lade Cookies</span>
+        }
     </div>
 </section>
 <section>
@@ -114,4 +120,6 @@
         </p>
     </div>
 </section>
-<app-footer></app-footer>
+@defer (hydrate on viewport) {
+    <app-footer></app-footer>
+}

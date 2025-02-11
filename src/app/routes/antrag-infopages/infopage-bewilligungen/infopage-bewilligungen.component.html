@@ -1,11 +1,15 @@
-<app-header></app-header>
-<section>
-    <div class="sectiondiv">
-        <app-antragsinfos-hero [antragsart]="antrag">
-            <p>{{ antrag.description }}</p>
-        </app-antragsinfos-hero>
-    </div>
-</section>
+@defer (hydrate on interaction) {
+    <app-header></app-header>
+}
+@defer (hydrate never) {
+    <section>
+        <div class="sectiondiv">
+            <app-antragsinfos-hero [antragsart]="antrag">
+                <p>{{ antrag.description }}</p>
+            </app-antragsinfos-hero>
+        </div>
+    </section>
+}
 <section>
     <div class="sectiondiv">
         <h2>Was sind Bewilligungen?</h2>
@@ -73,41 +77,47 @@
         </p>
     </div>
 </section>
-<section>
-    <div class="sectiondiv">
-        <h2>Wo können Abschriften der Bewilligungen beantragt werden?</h2>
-        <br />
-        <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
-    </div>
-</section>
-<section id="FAQ">
-    <div class="sectiondiv">
-        <h2>Fragen und Antworten</h2>
-        <ul>
-            <li>
-                <app-accordion frage="Wie bezahle ich?">
-                    <p>
-                        Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen Zahlungsmöglichkeiten online
-                        bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
-                    </p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
-                    <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle gestellt werden.</p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="In welcher Form kann ich die Bewilligungen erhalten?">
-                    <p>Die Bewilligungen erhalten Sie in Papierform. Per E-Mail ist der Versand nicht zulässig.</p>
-                </app-accordion>
-            </li>
-        </ul>
-    </div>
-</section>
+@defer (hydrate never) {
+    <section>
+        <div class="sectiondiv">
+            <h2>Wo können Abschriften der Bewilligungen beantragt werden?</h2>
+            <br />
+            <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+        </div>
+    </section>
+}
+@defer (hydrate on interaction) {
+    <section id="FAQ">
+        <div class="sectiondiv">
+            <h2>Fragen und Antworten</h2>
+            <ul>
+                <li>
+                    <app-accordion frage="Wie bezahle ich?">
+                        <p>
+                            Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen Zahlungsmöglichkeiten online
+                            bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
+                        </p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
+                        <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle gestellt werden.</p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="In welcher Form kann ich die Bewilligungen erhalten?">
+                        <p>Die Bewilligungen erhalten Sie in Papierform. Per E-Mail ist der Versand nicht zulässig.</p>
+                    </app-accordion>
+                </li>
+            </ul>
+        </div>
+    </section>
+}
 <section>
     <div class="sectiondiv">
         <app-disqus [identifier]="antrag.title"></app-disqus>
     </div>
 </section>
-<app-footer></app-footer>
+@defer (hydrate on viewport) {
+    <app-footer></app-footer>
+}

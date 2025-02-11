@@ -1,4 +1,6 @@
-<app-header></app-header>
+@defer (hydrate on interaction) {
+    <app-header></app-header>
+}
 <section>
     <div class="sectiondiv">
         <app-antragsinfos-hero [antragsart]="antrag">
@@ -75,36 +77,42 @@
         </p>
     </div>
 </section>
-<section id="Wo">
-    <div class="sectiondiv">
-        <h2>Wo muss die Namensberichtigung beantragt werden?</h2>
-        <br />
-        <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
-    </div>
-</section>
-<section id="FAQ">
-    <div class="sectiondiv">
-        <h2>Fragen und Antworten</h2>
-        <ul>
-            <li>
-                <app-accordion frage="Welche Kosten entstehen für die Namensberichtigung im Grundbuch?">
-                    <p>Die Namensberichtigung im Grundbuch ist gebührenfrei, da der Eigentümer angehalten werden soll, das Grundbuch richtig zu stellen.</p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="Bin ich verpflichtet meinen Namen im Grundbuch berichtigen zu lassen?">
-                    <p>
-                        Nein, jedoch wird die Namensänderung auffallen, wenn Sie die nächste Eintragung in das Grundbuch beantragen. Spätestens dann muss ein Nachweis über die Namensänderung
-                        vorliegen.
-                    </p>
-                </app-accordion>
-            </li>
-        </ul>
-    </div>
-</section>
+@defer (hydrate never) {
+    <section id="Wo">
+        <div class="sectiondiv">
+            <h2>Wo muss die Namensberichtigung beantragt werden?</h2>
+            <br />
+            <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+        </div>
+    </section>
+}
+@defer (hydrate on interaction) {
+    <section id="FAQ">
+        <div class="sectiondiv">
+            <h2>Fragen und Antworten</h2>
+            <ul>
+                <li>
+                    <app-accordion frage="Welche Kosten entstehen für die Namensberichtigung im Grundbuch?">
+                        <p>Die Namensberichtigung im Grundbuch ist gebührenfrei, da der Eigentümer angehalten werden soll, das Grundbuch richtig zu stellen.</p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="Bin ich verpflichtet meinen Namen im Grundbuch berichtigen zu lassen?">
+                        <p>
+                            Nein, jedoch wird die Namensänderung auffallen, wenn Sie die nächste Eintragung in das Grundbuch beantragen. Spätestens dann muss ein Nachweis über die Namensänderung
+                            vorliegen.
+                        </p>
+                    </app-accordion>
+                </li>
+            </ul>
+        </div>
+    </section>
+}
 <section>
     <div class="sectiondiv">
         <app-disqus [identifier]="antrag.title"></app-disqus>
     </div>
 </section>
-<app-footer></app-footer>
+@defer (hydrate on viewport) {
+    <app-footer></app-footer>
+}

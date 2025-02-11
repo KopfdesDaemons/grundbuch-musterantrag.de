@@ -1,4 +1,10 @@
-<app-header></app-header>
-<app-artikelsidebar></app-artikelsidebar>
+@defer (hydrate on interaction) {
+    <app-header></app-header>
+}
+@defer (hydrate on interaction) {
+    <app-artikelsidebar></app-artikelsidebar>
+}
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+@defer (hydrate on viewport) {
+    <app-footer></app-footer>
+}

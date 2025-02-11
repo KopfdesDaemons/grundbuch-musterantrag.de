@@ -1,15 +1,19 @@
-<app-header></app-header>
-<section>
-    <div class="sectiondiv">
-        <app-antragsinfos-hero [antragsart]="antrag">
-            <p>
-                Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10,00&nbsp;€ Gerichtsgebühren. Internetanbieter verlangen oft über 25,00&nbsp;€ und verstecken die
-                <b style="color: red">zusätzlichen</b>
-                10,00&nbsp;€ Gerichtsgebühren im Kleingedruckten.
-            </p>
-        </app-antragsinfos-hero>
-    </div>
-</section>
+@defer (hydrate on interaction) {
+    <app-header></app-header>
+}
+@defer (hydrate never) {
+    <section>
+        <div class="sectiondiv">
+            <app-antragsinfos-hero [antragsart]="antrag">
+                <p>
+                    Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10,00&nbsp;€ Gerichtsgebühren. Internetanbieter verlangen oft über 25,00&nbsp;€ und verstecken die
+                    <b style="color: red">zusätzlichen</b>
+                    10,00&nbsp;€ Gerichtsgebühren im Kleingedruckten.
+                </p>
+            </app-antragsinfos-hero>
+        </div>
+    </section>
+}
 
 <!--Wie  ############################################################################################################ -->
 
@@ -65,13 +69,15 @@
 
 <!--Wo  ############################################################################################################ -->
 
-<section id="Wo">
-    <div class="sectiondiv">
-        <h2>Wo beantrage ich einen Grundbuchausdruck?</h2>
-        <br />
-        <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
-    </div>
-</section>
+@defer (hydrate never) {
+    <section id="Wo">
+        <div class="sectiondiv">
+            <h2>Wo beantrage ich einen Grundbuchausdruck?</h2>
+            <br />
+            <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+        </div>
+    </section>
+}
 
 <!--Wer  ############################################################################################################ -->
 
@@ -235,68 +241,71 @@
 </section>
 
 <!--FAQ  ############################################################################################################ -->
-
-<section id="FAQ">
-    <div class="sectiondiv">
-        <h2>Fragen und Antworten</h2>
-        <ul>
-            <li>
-                <app-accordion frage="Welche Kosten entstehen?">
-                    <p>
-                        Ein einfacher Grundbuchausdruck kostet je Ausdruck 10,00 €.<br />
-                        Ein beglaubigter Grundbuchausdruck kostet je Ausdruck 20,00 €.
-                    </p>
-                    <p>Mehrfache Ausdrucke des gleichen Grundbuchs verursachen erneut die Gebühr.</p>
-                    <p>Die persönliche Einsicht beim Grundbuchamt ist gebührenfrei.</p>
-                    <p>
-                        Die Gebühren richteten sich nach dem GNotKG. Sie können den
-                        <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank"> Gesetzestext</a>
-                        nachlesen. (ab der KV.&nbsp;Nr.&nbsp;17000)
-                    </p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="Wie bezahle ich?">
-                    <p>
-                        Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen Zahlungsmöglichkeiten online
-                        bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
-                    </p>
-                    <p>
-                        Sie wollen unbedingt bar bezahlen? Dann beantragen Sie den Grundbuchausdruck am besten persönlich bei Gericht. Wenn Sie eine bereits erhaltene Kostenrechnung bar bezahlen
-                        möchten, können Sie dies an einem Kassenautomaten beim Amtsgericht oder bei dessen Gerichtszahlstelle erledigen.
-                    </p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="Wie bekomme ich einen Grundbuchausdruck am schnellsten?">
-                    <p>Am schnellsten erhalten Sie einen Grundbuchausdruck bei persönlichem Erscheinen beim Grundbuchamt (Amtsgericht).</p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="Brauche ich einen beglaubigten Grundbuchausdruck?">
-                    <p>
-                        Das muss derjenige entscheiden, der den Ausdruck erhält. Normalerweise reicht ein einfacher Ausdruck. Sparen Sie sich das Geld für den beglaubigten Ausdruck, wenn dieser nicht
-                        explizit verlangt wird.
-                    </p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="In welcher Form kann ich einen Grundbuchausdruck erhalten?">
-                    <p>Grundbuchausdrucke erhalten Sie in Papierform. Per E-Mail ist der Versand nicht zulässig.</p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="Wie lange dauert es, bis ich einen Grundbuchausdruck erhalte?">
-                    <p>Nach Eingang Ihres schriftlichen Antrags bei Gericht, wird Ihr Antrag bereits spätestens in den nächsten Tagen bearbeitet. Hinzu kommt der Postweg.</p>
-                    <p>Je nach Auslastung des Grundbuchamts, kann es auch länger dauern. Sofort erhalten Sie den Grundbuchausdruck, wenn Sie ihn persönlich beantragen.</p>
-                </app-accordion>
-            </li>
-        </ul>
-    </div>
-</section>
+@defer (hydrate on interaction) {
+    <section id="FAQ">
+        <div class="sectiondiv">
+            <h2>Fragen und Antworten</h2>
+            <ul>
+                <li>
+                    <app-accordion frage="Welche Kosten entstehen?">
+                        <p>
+                            Ein einfacher Grundbuchausdruck kostet je Ausdruck 10,00 €.<br />
+                            Ein beglaubigter Grundbuchausdruck kostet je Ausdruck 20,00 €.
+                        </p>
+                        <p>Mehrfache Ausdrucke des gleichen Grundbuchs verursachen erneut die Gebühr.</p>
+                        <p>Die persönliche Einsicht beim Grundbuchamt ist gebührenfrei.</p>
+                        <p>
+                            Die Gebühren richteten sich nach dem GNotKG. Sie können den
+                            <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank"> Gesetzestext</a>
+                            nachlesen. (ab der KV.&nbsp;Nr.&nbsp;17000)
+                        </p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="Wie bezahle ich?">
+                        <p>
+                            Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen Zahlungsmöglichkeiten online
+                            bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
+                        </p>
+                        <p>
+                            Sie wollen unbedingt bar bezahlen? Dann beantragen Sie den Grundbuchausdruck am besten persönlich bei Gericht. Wenn Sie eine bereits erhaltene Kostenrechnung bar bezahlen
+                            möchten, können Sie dies an einem Kassenautomaten beim Amtsgericht oder bei dessen Gerichtszahlstelle erledigen.
+                        </p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="Wie bekomme ich einen Grundbuchausdruck am schnellsten?">
+                        <p>Am schnellsten erhalten Sie einen Grundbuchausdruck bei persönlichem Erscheinen beim Grundbuchamt (Amtsgericht).</p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="Brauche ich einen beglaubigten Grundbuchausdruck?">
+                        <p>
+                            Das muss derjenige entscheiden, der den Ausdruck erhält. Normalerweise reicht ein einfacher Ausdruck. Sparen Sie sich das Geld für den beglaubigten Ausdruck, wenn dieser
+                            nicht explizit verlangt wird.
+                        </p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="In welcher Form kann ich einen Grundbuchausdruck erhalten?">
+                        <p>Grundbuchausdrucke erhalten Sie in Papierform. Per E-Mail ist der Versand nicht zulässig.</p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="Wie lange dauert es, bis ich einen Grundbuchausdruck erhalte?">
+                        <p>Nach Eingang Ihres schriftlichen Antrags bei Gericht, wird Ihr Antrag bereits spätestens in den nächsten Tagen bearbeitet. Hinzu kommt der Postweg.</p>
+                        <p>Je nach Auslastung des Grundbuchamts, kann es auch länger dauern. Sofort erhalten Sie den Grundbuchausdruck, wenn Sie ihn persönlich beantragen.</p>
+                    </app-accordion>
+                </li>
+            </ul>
+        </div>
+    </section>
+}
 <section>
     <div class="sectiondiv">
         <app-disqus [identifier]="antrag.title"></app-disqus>
     </div>
 </section>
-<app-footer></app-footer>
+@defer (hydrate on viewport) {
+    <app-footer></app-footer>
+}

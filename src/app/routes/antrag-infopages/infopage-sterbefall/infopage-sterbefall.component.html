@@ -1,11 +1,15 @@
-<app-header></app-header>
-<section>
-    <div class="sectiondiv">
-        <app-antragsinfos-hero [antragsart]="antrag">
-            <p>{{ antrag.description }}</p>
-        </app-antragsinfos-hero>
-    </div>
-</section>
+@defer (hydrate on interaction) {
+    <app-header></app-header>
+}
+@defer (hydrate never) {
+    <section>
+        <div class="sectiondiv">
+            <app-antragsinfos-hero [antragsart]="antrag">
+                <p>{{ antrag.description }}</p>
+            </app-antragsinfos-hero>
+        </div>
+    </section>
+}
 <section>
     <div class="sectiondiv">
         <h2>Wie beantrage ich die Grundbuchberichtigung aufgrund Sterbefalls?</h2>
@@ -68,13 +72,15 @@
         <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
     </div>
 </section>
-<section>
-    <div class="sectiondiv">
-        <h2>Wo muss die Grundbuchberichtigung beantragt werden?</h2>
-        <br />
-        <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
-    </div>
-</section>
+@defer (hydrate never) {
+    <section>
+        <div class="sectiondiv">
+            <h2>Wo muss die Grundbuchberichtigung beantragt werden?</h2>
+            <br />
+            <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+        </div>
+    </section>
+}
 <section>
     <div class="sectiondiv">
         <h2>Was kostet die Grundbuchberichtigung aufgrund eines Sterbefalls?</h2>
@@ -143,26 +149,30 @@
         </div>
     </div>
 </section>
-<section id="FAQ">
-    <div class="sectiondiv">
-        <h2>Fragen und Antworten</h2>
-        <ul>
-            <li>
-                <app-accordion frage="Ist es Pflicht das Grundbuch zu berichtigen?">
-                    <p>Ja, das Grundbuch muss berichtigt werden. Sollten sich die Erben weigern, ergeht ein Zwangsgeld.</p>
-                </app-accordion>
-            </li>
-            <li>
-                <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
-                    <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle gestellt werden.</p>
-                </app-accordion>
-            </li>
-        </ul>
-    </div>
-</section>
+@defer (hydrate on interaction) {
+    <section id="FAQ">
+        <div class="sectiondiv">
+            <h2>Fragen und Antworten</h2>
+            <ul>
+                <li>
+                    <app-accordion frage="Ist es Pflicht das Grundbuch zu berichtigen?">
+                        <p>Ja, das Grundbuch muss berichtigt werden. Sollten sich die Erben weigern, ergeht ein Zwangsgeld.</p>
+                    </app-accordion>
+                </li>
+                <li>
+                    <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
+                        <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle gestellt werden.</p>
+                    </app-accordion>
+                </li>
+            </ul>
+        </div>
+    </section>
+}
 <section>
     <div class="sectiondiv">
         <app-disqus [identifier]="antrag.title"></app-disqus>
     </div>
 </section>
-<app-footer></app-footer>
+@defer (hydrate on viewport) {
+    <app-footer></app-footer>
+}

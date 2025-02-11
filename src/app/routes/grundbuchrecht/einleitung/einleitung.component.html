@@ -43,13 +43,15 @@
             </ul>
         </Div>
     </section>
-    <section id="zuständigkeiten">
-        <hr />
-        <div class="sectiondiv">
-            <h2>Zuständigkeiten</h2>
-            <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
-        </div>
-    </section>
+    @defer (hydrate never) {
+        <section id="zuständigkeiten">
+            <hr />
+            <div class="sectiondiv">
+                <h2>Zuständigkeiten</h2>
+                <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+            </div>
+        </section>
+    }
     <section id="öffentlicherglaube">
         <hr />
         <div class="sectiondiv">
