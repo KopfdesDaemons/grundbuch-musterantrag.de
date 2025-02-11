@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormService } from 'src/app/services/document/form.service';
@@ -10,21 +9,19 @@ import { FormService } from 'src/app/services/document/form.service';
   imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundbuchamtComponent {
-  form: FormGroup;
-
   fs = inject(FormService);
-  http = inject(HttpClient);
+  form: FormGroup;
 
   constructor() {
     this.form = this.fs.form.get("grundbuchamt") as FormGroup;
+  }
 
-    this.form.get('plz')?.valueChanges.subscribe(async plz => {
-
-      if ((plz as string).length === 5) {
-        let ort = await this.fs.ortAusPLZ(plz)
-        this.form.controls['ort'].setValue(ort);
-      }
-    });
+  async suchePlz(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    if (value.length === 5) {
+      const ort: string = await this.fs.ortAusPLZ(value) || '';
+      this.form.controls['ort'].setValue(ort);
+    }
   }
 
   onlineSuchen() {

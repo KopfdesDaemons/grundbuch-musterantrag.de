@@ -10,22 +10,23 @@ import { FormService } from 'src/app/services/document/form.service';
   imports: [FormsModule, ReactiveFormsModule]
 })
 export class GrundstueckComponent {
-  form: FormGroup;
   fs = inject(FormService);
+  form: FormGroup;
 
   constructor() {
     this.form = this.fs.form.get("grundstueck") as FormGroup;
+  }
 
-    this.form.get('plz')?.valueChanges.subscribe(async plz => {
-      if ((plz as string).length === 5) {
-        let ort = await this.fs.ortAusPLZ(plz)
-        this.form.controls['ort'].setValue(ort);
-      }
-    })
+  async suchePlz(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    if (value.length === 5) {
+      const ort: string = await this.fs.ortAusPLZ(value) || '';
+      this.form.controls['ort'].setValue(ort);
+    }
   }
 
   anschriftuebernehmen() {
-    let antragsteller = (this.fs.form.value as Antrag).antragsteller;
+    const antragsteller = (this.fs.form.value as Antrag).antragsteller;
     this.form.controls['plz'].setValue(antragsteller.plz);
     this.form.controls['straße'].setValue(antragsteller.straße);
     this.form.controls['ort'].setValue(antragsteller.ort);

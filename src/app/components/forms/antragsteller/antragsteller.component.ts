@@ -11,19 +11,20 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
   imports: [FormsModule, ReactiveFormsModule, FaIconComponent]
 })
 export class AntragstellerComponent {
-
-  form: FormGroup
-  faCircleUser = faCircleUser;
   fs = inject(FormService);
+  form: FormGroup
+
+  faCircleUser = faCircleUser;
 
   constructor() {
     this.form = this.fs.form.get('antragsteller') as FormGroup;
+  }
 
-    this.form.get('plz')?.valueChanges.subscribe(async plz => {
-      if ((plz as string).length === 5) {
-        const ort = await this.fs.ortAusPLZ(plz)
-        this.form.controls['ort'].setValue(ort);
-      }
-    })
+  async suchePlz(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    if (value.length === 5) {
+      const ort: string = await this.fs.ortAusPLZ(value) || '';
+      this.form.controls['ort'].setValue(ort);
+    }
   }
 }

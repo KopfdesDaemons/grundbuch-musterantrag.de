@@ -26,7 +26,7 @@
                 <input formControlName="straße" type="text" id="straßeinput" name="straße" required spellcheck="false" placeholder="&nbsp;" />
                 <label class="placeholder" for="straßeinput">Straße + Hausnummer</label>
             </div>
-            <div class="inputfeld" id="postleitzahl">
+            <div class="inputfeld" id="postleitzahl" (keyup)="suchePlz($event)">
                 <input formControlName="plz" type="text" inputmode="numeric" id="postleitzahlinput" name="postleitzahl" required spellcheck="false" placeholder="&nbsp;" />
                 <label class="placeholder" for="postleitzahlinput">PLZ</label>
             </div>
