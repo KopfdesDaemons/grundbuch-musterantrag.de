@@ -1,26 +1,31 @@
-<a routerLink="{{ antragsRoute() }}">
-    <h2>{{ title() }}</h2>
+<a class="image-container" routerLink="{{ antragsRoute() }}">
+    <img loading="lazy" src="{{ imagePath() }}" alt="" />
 </a>
-<p>
-    {{ description() }}
-</p>
-<div class="gebuehrDiv">
-    <span>Gebühr des Grundbuchamts:</span>
-    <span [ngClass]="gebuehr() === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{ gebuehr() }}</span>
-</div>
-@if (erforderlicheUnterlagen().length > 0) {
-    <div class="erforderlicheUnterlagenDiv">
-        <h3>Erforderliche Unterlagen:</h3>
-        <ul>
-            @for (unterlage of erforderlicheUnterlagen(); track unterlage) {
-                <li>{{ unterlage }}</li>
-            }
-        </ul>
+<div class="content">
+    <a routerLink="{{ antragsRoute() }}">
+        <h2>{{ title() }}</h2>
+    </a>
+    <p>
+        {{ description() }}
+    </p>
+    <div class="gebuehr-container">
+        <span>Gebühr des Grundbuchamts:</span>
+        <span [ngClass]="gebuehr() === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{ gebuehr() }}</span>
     </div>
-}
-<div class="buttonsRow">
-    @if (mehrInfosRoute()) {
-        <a routerLink="{{ mehrInfosRoute() }}" class="btntext">mehr Infos</a>
+    @if (erforderlicheUnterlagen().length > 0) {
+        <div class="erforderlicheUnterlagenDiv">
+            <h3>Erforderliche Unterlagen:</h3>
+            <ul>
+                @for (unterlage of erforderlicheUnterlagen(); track unterlage) {
+                    <li>{{ unterlage }}</li>
+                }
+            </ul>
+        </div>
     }
-    <a routerLink="{{ antragsRoute() }}" class="btnoutlined">Antrag ausfüllen</a>
+    <div class="buttons">
+        @if (mehrInfosRoute()) {
+            <a routerLink="{{ mehrInfosRoute() }}" class="btntext">mehr Infos</a>
+        }
+        <a routerLink="{{ antragsRoute() }}" class="btnoutlined">Antrag ausfüllen</a>
+    </div>
 </div>

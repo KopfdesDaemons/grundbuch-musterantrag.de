@@ -3,10 +3,10 @@ import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-antragsart-card',
-    templateUrl: './antragsart-card.component.html',
-    styleUrl: './antragsart-card.component.scss',
-    imports: [RouterLink, NgClass]
+  selector: 'app-antragsart-card',
+  templateUrl: './antragsart-card.component.html',
+  styleUrl: './antragsart-card.component.scss',
+  imports: [RouterLink, NgClass]
 })
 export class AntragsartCardComponent {
 
@@ -16,4 +16,5 @@ export class AntragsartCardComponent {
   readonly mehrInfosRoute = input<string>('');
   readonly gebuehr = input<string>('');
   readonly erforderlicheUnterlagen = input<string[]>([]);
+  readonly imagePath = input<string>('/images/kaufvertrag.avif');
 }

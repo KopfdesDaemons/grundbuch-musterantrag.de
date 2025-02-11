@@ -4,14 +4,15 @@
     flex-direction: column;
 }
 
-.sectiondiv:first-of-type {
-    margin-top: 4em;
+.sectiondiv {
+    margin-top: 2em;
 }
 
-.beschreibung {
+.description {
     text-wrap: balance;
     text-align: center;
     hyphens: auto;
+    margin: 0;
 }
 
 .antragsliste {
@@ -24,11 +25,15 @@
     padding: 0;
     max-width: 80em;
 
-    app-antragsart-card {
-        height: 100%;
+    li {
+        display: flex;
+
+        app-antragsart-card {
+            flex: 1;
+        }
     }
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 500px) {
         grid-template-columns: auto;
     }
 }

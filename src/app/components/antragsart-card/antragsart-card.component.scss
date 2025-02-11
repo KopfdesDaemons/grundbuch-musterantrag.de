@@ -1,20 +1,49 @@
 :host {
     display: flex;
-    // background-color: var(--hintergrund);
     flex-direction: column;
-    padding: 1.5em;
     border-radius: 12px;
-    box-sizing: border-box;
     animation: grow 500ms;
     font-size: 0.9em;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--hintergrund-variant);
 
     &:hover {
-        // background-color: var(--body);
         outline: 1px solid;
     }
 }
 
-h2,
+.image-container {
+    display: flex;
+
+    img {
+        height: 18em;
+        object-fit: cover;
+        object-position: top;
+        width: 100%;
+        filter: brightness(0.95);
+    }
+}
+
+h2 {
+    background-color: var(--primary-variant-much-brighter);
+    word-wrap: break-word;
+    padding: 0.5em;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    bottom: 95%;
+    left: 4em;
+}
+
+.content {
+    position: relative;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
 h3 {
     margin: 0;
     hyphens: auto;
@@ -22,17 +51,11 @@ h3 {
     color: var(--schrift);
 }
 
-a:has(h2) {
-    font-size: clamp(1em, 3vw, 1.2em);
-    text-decoration: none;
-
-}
-
 p {
     line-height: 1.4em;
 }
 
-.gebuehrDiv {
+.gebuehr-container {
     margin-bottom: 0.5em;
     margin-top: auto;
     display: flex;
@@ -58,10 +81,11 @@ p {
     }
 }
 
-.buttonsRow {
+.buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
+    margin-top: auto;
 
     a {
         flex: 1;
