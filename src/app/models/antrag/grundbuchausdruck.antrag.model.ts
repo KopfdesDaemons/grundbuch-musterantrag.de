@@ -27,6 +27,17 @@ export class AntragGrundbuchausdruck implements Antrag {
     betreff: string = '';
     templateFileName: string = 'grundbuchausdruck';
 
+    getFormGroup(): FormGroup {
+        const formBuilder = new FormBuilder();
+        return formBuilder.group({
+            antragsteller: this.antragsteller.getFormGroup(),
+            grundstueck: this.grundstueck.getFormGroup(),
+            formDesAusdrucks: [this.formDesAusdrucks],
+            berechtigtesInteresse: this.berechtigtesInteresse.getFormGroup(),
+            grundbuchamt: this.grundbuchamt.getFormGroup(),
+        });
+    }
+
     loadFormValue(formValue: object): void {
         if (formValue) Object.assign(this, formValue);
         const antrag = formValue as AntragGrundbuchausdruck;
@@ -37,17 +48,6 @@ export class AntragGrundbuchausdruck implements Antrag {
             if (!antrag.grundstueck.blattnummer) antrag.grundstueck.blattnummer = '';
             this.betreff = `${antrag.grundstueck.gemarkung} ${antrag.grundstueck.blattnummer}`;
         }
-    }
-
-    getFormGroup(): FormGroup {
-        const formBuilder = new FormBuilder();
-        return formBuilder.group({
-            antragsteller: this.antragsteller.getFormGroup(),
-            grundstueck: this.grundstueck.getFormGroup(),
-            formDesAusdrucks: [this.formDesAusdrucks],
-            berechtigtesInteresse: this.berechtigtesInteresse.getFormGroup(),
-            grundbuchamt: this.grundbuchamt.getFormGroup(),
-        });
     }
 
     set formDesAusdrucks(value: 'beglaubigt' | 'einfach') {

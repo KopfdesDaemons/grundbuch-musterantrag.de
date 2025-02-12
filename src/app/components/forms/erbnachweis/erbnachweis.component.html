@@ -1,4 +1,4 @@
-<form [formGroup]="fs.form" (ngSubmit)="fs.form.valid && fs.nextStep()">
+<form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
     <div>
         <h2>Erbnachweis</h2>
         <p>Welcher Erbnachweis liegt vor?</p>
@@ -33,7 +33,7 @@
                         <input formControlName="aktenzeichenNachlassgericht" id="aktenzeichenNachlassgerichtInput" name="aktenzeichenNachlassgericht" spellcheck="false" placeholder="&nbsp;" />
                         <label class="placeholder" for="aktenzeichenNachlassgerichtInput">Nachlassaktenzeichen</label>
                     </div>
-                    @if (fs.form.controls["aktenzeichenNachlassgericht"].hasError("IVorVI")) {
+                    @if (form.controls["aktenzeichenNachlassgericht"].hasError("IVorVI")) {
                         <p class="rot">Das Nachlassaktenzeichen muss IV oder VI enthalten.</p>
                     }
                 }

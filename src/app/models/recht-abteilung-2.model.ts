@@ -9,11 +9,13 @@ export class RechtAbteilung2 {
 
     getFormGroup(): FormGroup {
         const formBuilder = new FormBuilder();
-        return formBuilder.group({
+        const formGroup = formBuilder.group({
             bezeichnung: [this.bezeichnung, [BezeichnungRechtAbteilung2Validator(), RechtIstLoeschbarValidator()]],
             laufendeNummer: [this.laufendeNummer],
             datumDerBewilligung: [this.datumDerBewilligung]
-        }, { updateOn: 'submit' });
+        });
+
+        return formGroup;
     }
 
     get datumDerBewilligung(): string {

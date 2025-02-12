@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormService } from 'src/app/services/document/form.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-erbnachweis',
@@ -11,4 +11,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export class ErbnachweisComponent {
   fs = inject(FormService);
+  form: FormGroup;
+
+  constructor() {
+    this.form = this.fs.form.get("erbnachweis") as FormGroup;
+  }
 }
