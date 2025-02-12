@@ -7,7 +7,7 @@ import { BerechtigtesInteresse } from "../berechtigtes-interesse.model";
 import { Image } from "../image.model";
 
 export class AntragTeilungserklaerung implements Antrag {
-    title: string = 'Teilungserklärung, Abgeschlossenheitsbescheinigung, Aufteilungsplan';
+    title: string = `Teilungserklärung, Abgeschlossenheits\u00ADbescheinigung, Aufteilungsplan`;
     description: string = 'Diese Unterlagen gibt es nur bei Wohnungseigentum.';
     image?: Image | undefined = new Image('/images/aufteilungsplan-bunt.avif', 'Aufteilungsplan einer Wohnung', 800, 800);
     antragsRoute: string = '/antrag/teilungserklaerung';

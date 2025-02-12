@@ -1,7 +1,7 @@
 import { inject, Injectable, signal, Type } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { Antrag } from '../../interfaces/antrag';
 import { TimeHelper } from '../../helpers/time.helper';
@@ -25,14 +25,14 @@ import { GrundbuchamtComponent } from 'src/app/components/forms/grundbuchamt/gru
 })
 
 export class FormService {
-  http = inject(HttpClient);
-  scroll = inject(ViewportScroller);
+  private http = inject(HttpClient);
+  private scroll = inject(ViewportScroller);
 
   antrag: Antrag | null = null;
-  form!: FormGroup;
+  form: FormGroup = new FormGroup({});
   progress = signal(0);
-  private Step = new BehaviorSubject<number>(1);
-  constrolsAndComponents: { control: string, component: Type<any> }[] = [
+  private step = signal<number>(1);
+  componentsMapping: { control: string, component: Type<any> }[] = [
     { control: 'antragsteller', component: AntragstellerComponent },
     { control: 'erblasser', component: ErblasserComponent },
     { control: 'grundstueck', component: GrundstueckComponent },
@@ -46,42 +46,35 @@ export class FormService {
     { control: 'berechtigtesInteresse', component: BerechtigtesInteresseComponent },
     { control: 'grundbuchamt', component: GrundbuchamtComponent }
   ]
-  requiredComponents: Type<any>[] = []
-  currentComponent: Type<any> = AntragstellerComponent
+  requiredComponents: Type<any>[] = [];
+  currentComponent: Type<any> = AntragstellerComponent;
 
   init(antrag: Antrag) {
     this.antrag = antrag;
     this.form = antrag.getFormGroup();
-    this.requiredComponents = this.getRequiredComponents(this.form);
+    this.requiredComponents = this.getRequiredComponents();
     (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz));
     this.nextStep(1);
   }
 
-  private getRequiredComponents(form: FormGroup): Type<any>[] {
-    const components: Type<any>[] = [];
-
-    for (const control of this.constrolsAndComponents) {
-      if (Object.prototype.hasOwnProperty.call(form.controls, control.control)) {
-        components.push(control.component);
-      }
-    }
-    if (this.antrag?.hinweise) components.push(HinweisComponent)
+  private getRequiredComponents(): Type<any>[] {
+    const components = this.componentsMapping.filter(c => Object.prototype.hasOwnProperty.call(this.form.controls, c.control)).map(c => c.component);
+    if (this.antrag?.hinweise) components.push(HinweisComponent);
     return components;
   }
 
-  nextStep(step: number = this.Step.value + 1): void {
-    // Wenn step möglich ist
+  nextStep(step: number = this.step() + 1): void {
     if (step <= this.requiredComponents.length) {
       const nextComponent = this.requiredComponents[step - 1];
       if (this.checkGrundbuchamtSkip(nextComponent)) {
         return this.nextStep(step + 1);
       }
       this.currentComponent = nextComponent;
-      this.Step.next(step);
+      this.step.set(step);
       this.scroll.scrollToPosition([0, 0]);
     }
 
-    // Wenn Ende erreicht
+    // after last step start generating files
     if (step === this.requiredComponents.length + 1) {
       this.currentComponent = AntragsgenerierungComponent;
     }
@@ -103,14 +96,14 @@ export class FormService {
   }
 
   getCurrentStep() {
-    return this.Step.value;
+    return this.step();
   }
 
-  stepback(step: number = this.Step.value - 1): void {
+  stepback(step: number = this.step() - 1): void {
     if (step >= 0) {
       const previousComponent = this.requiredComponents[step - 1];
       this.currentComponent = previousComponent;
-      this.Step.next(step);
+      this.step.set(step);
       this.scroll.scrollToPosition([0, 0]);
       this.setProgress();
     }
@@ -120,7 +113,7 @@ export class FormService {
     if (!this.antrag) return;
     this.progress.set(100);
     this.antrag.loadFormValue(this.form.value);
-    this.antrag.datum = TimeHelper.formatDate(new Date());
+    this.antrag.datum = TimeHelper.formatDate();
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {
