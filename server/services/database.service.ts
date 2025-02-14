@@ -130,8 +130,10 @@ export const initDatabase = async () => {
                 }
             }
         }
-        await createRootUser();
-        await createGuestRole();
+        await Promise.all([
+            createRootUser(),
+            createGuestRole()
+        ]);
         logger.info("Datenbank und Tabellen wurden erfolgreich initialisiert bzw. überprüft.");
     } catch (error) {
         logger.error("Fehler bei der Initialisierung der Datenbank:", error);

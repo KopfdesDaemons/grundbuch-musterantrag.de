@@ -33,8 +33,10 @@ export class UserListComponent implements OnInit {
   faLock = faLock
 
   async ngOnInit(): Promise<void> {
-    await this.loadUsers();
-    this.userRoles = await this.userRoleS.getAllUserRoles();
+    await Promise.all([
+      this.loadUsers(),
+      this.userRoleS.getAllUserRoles().then(userRoles => this.userRoles = userRoles)
+    ]);
   }
 
   async loadUsers(): Promise<void> {

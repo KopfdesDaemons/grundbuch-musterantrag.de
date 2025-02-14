@@ -13,17 +13,20 @@ export class DocxgeneratorService {
   async generate(antrag: Antrag): Promise<Blob> {
     this.reset();
 
-    // importiere die notwendigen Skripte
+    // Importiere die notwendigen Skripte
     let Docxtemplater: any, expressionParser: any, PizZip: any, PizZipUtils: any;
     this.statusmeldung.set('Die benötigten Libraries werden heruntergeladen.');
     try {
-      Docxtemplater = (await import('docxtemplater')).default;
-      expressionParser = (await import('docxtemplater/expressions.js')).default;
-      PizZip = (await import('pizzip')).default;
-      PizZipUtils = (await import('pizzip/utils/index.js')).default;
+      // Lade alle Module parallel
+      [Docxtemplater, expressionParser, PizZip, PizZipUtils] = await Promise.all([
+        import('docxtemplater').then(m => m.default),
+        import('docxtemplater/expressions.js').then(m => m.default),
+        import('pizzip').then(m => m.default),
+        import('pizzip/utils/index.js').then(m => m.default)
+      ]);
     } catch (error: any) {
       this.statusmeldung.set('Fehler beim Laden der benötigten Libraries.');
-      this.fehler.set(true)
+      this.fehler.set(true);
       throw error;
     }
 

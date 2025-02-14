@@ -95,8 +95,10 @@ export const deleteUpload = async (uploadID: string): Promise<void> => {
 
 export const deleteAllUploads = async (): Promise<void> => {
     const deleteQuery = `DELETE FROM uploads`;
-    await db.execute(deleteQuery);
-    await fs.promises.rm(UPLOADS_FOLDER_PATH, { recursive: true, force: true });
+    await Promise.all([
+        db.execute(deleteQuery),
+        fs.promises.rm(UPLOADS_FOLDER_PATH, { recursive: true, force: true })
+    ]);
 }
 
 export const deleteGeneratedFiles = async (uploadID: string): Promise<void> => {
