@@ -9,6 +9,7 @@
     margin: 0.2em 0;
     width: 20em;
     user-select: none;
+    display: flex;
 }
 
 .auswahlcard label {
@@ -17,6 +18,7 @@
     min-height: 17em;
     padding: 1em;
     display: flex;
+    flex: 1;
     flex-direction: column;
 }
 

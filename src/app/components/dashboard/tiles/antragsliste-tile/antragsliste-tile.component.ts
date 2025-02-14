@@ -24,7 +24,7 @@ export class AntragslisteTileComponent implements OnInit {
   latestFile: Upload | null | undefined;
   platformId = inject(PLATFORM_ID);
   errorLatestFile: HttpErrorResponse | null = null;
-  isLoadinglatestFile: boolean = false;
+  isLoadinglatestFile: boolean = true;
   errorChart: HttpErrorResponse | null = null;
   isLoadingChart: boolean = false;
   gChartS = inject(GooglechartsService);
@@ -37,8 +37,10 @@ export class AntragslisteTileComponent implements OnInit {
   faArrowUpRightFromSquare = faArrowUpRightFromSquare;
 
   async ngOnInit(): Promise<void> {
-    await this.loadLatestFile();
-    await this.loadChart();
+    await Promise.all([
+      this.loadLatestFile(),
+      this.loadChart()
+    ])
   }
 
   async loadLatestFile(): Promise<void> {

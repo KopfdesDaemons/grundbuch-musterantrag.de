@@ -1,15 +1,11 @@
 :host {
-    height: 100%;
     display: flex;
     animation: grow 500ms;
-}
-
-.container {
+    flex: 1;
     padding: 1em;
     border-radius: 4px;
-    flex: 1;
+    flex-direction: column;
     max-width: 100%;
-    box-sizing: border-box;
 
     h2 {
         margin-top: 0;

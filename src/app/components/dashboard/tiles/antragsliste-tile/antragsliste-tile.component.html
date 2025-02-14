@@ -1,36 +1,32 @@
-<app-dashboard-tile>
-    <div class="content">
-        @if (errorLatestFile) {
-            <h2>Generierte Anträge</h2>
-            <app-error-display [error]="errorLatestFile"></app-error-display>
+<app-dashboard-tile [tileTitle]="'Generierte Anträge' + (totalFiles ? ': ' + totalFiles : '')">
+    @if (errorLatestFile) {
+        <app-error-display [error]="errorLatestFile"></app-error-display>
+    } @else {
+        @if (isLoadinglatestFile) {
+            <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else {
-            @if (isLoadinglatestFile) {
-                <app-progress-spinner [endless]="true"></app-progress-spinner>
-            } @else {
-                <h2>Generierte Anträge: {{ totalFiles }}</h2>
-                @if (latestFile) {
-                    <b>Neuster Antrag vom {{ latestFile.uploadDate | date: "dd.MM.yyyy HH:mm" }} Uhr:</b>
-                    <div class="latestfile">
-                        <span>{{ latestFile.antragsart }} </span>
-                        @if (!latestFile.filesDeleted) {
-                            <a (click)="uploadsS.getFile(latestFile.uploadID, 'pdf')" class="btnicon" title="Pdf öffnen">
-                                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
-                            </a>
-                        }
-                    </div>
-                }
+            @if (latestFile) {
+                <b>Neuster Antrag vom {{ latestFile.uploadDate | date: "dd.MM.yyyy HH:mm" }} Uhr:</b>
+                <div class="latestfile">
+                    <span>{{ latestFile.antragsart }} </span>
+                    @if (!latestFile.filesDeleted) {
+                        <a (click)="uploadsS.getFile(latestFile.uploadID, 'pdf')" class="btnicon" title="Pdf öffnen">
+                            <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+                        </a>
+                    }
+                </div>
             }
         }
-        @if (errorChart) {
-            <app-error-display [error]="errorChart"></app-error-display>
+    }
+    @if (errorChart) {
+        <app-error-display [error]="errorChart"></app-error-display>
+    } @else {
+        @if (isLoadingChart) {
+            <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else {
-            @if (isLoadingChart) {
-                <app-progress-spinner [endless]="true"></app-progress-spinner>
-            } @else {
-                <span class="chartToggle" (click)="toggleChartTimeframe()">{{ toggleTextMapping[chartTimeframe()] }}</span>
-                <app-google-chart [chartData]="chartData" [chartOptions]="lineChartOptions" chartType="LineChart"></app-google-chart>
-                <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
-            }
+            <span class="chartToggle" (click)="toggleChartTimeframe()">{{ toggleTextMapping[chartTimeframe()] }}</span>
+            <app-google-chart [chartData]="chartData" [chartOptions]="lineChartOptions" chartType="LineChart"></app-google-chart>
+            <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
         }
-    </div>
+    }
 </app-dashboard-tile>

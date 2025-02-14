@@ -1,11 +1,12 @@
-.content {
+:host {
     display: flex;
-    flex-direction: column;
-    max-width: 100%;
 }
 
-h2 {
-    margin-top: 0;
+.content {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex: 1;
 }
 
 .scrollContainer {

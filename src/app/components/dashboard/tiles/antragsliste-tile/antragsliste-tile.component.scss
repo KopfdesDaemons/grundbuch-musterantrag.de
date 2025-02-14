@@ -1,4 +1,5 @@
 :host {
+    display: flex;
     grid-column: span 2;
 
     @media screen and (max-width: 900px) {

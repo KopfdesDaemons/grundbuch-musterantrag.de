@@ -47,4 +47,11 @@ export class LoggerTileComponent implements OnInit {
       }
     }
   }
+
+  addLineBreak(timestamp: string): string {
+    const dateAndTime = timestamp.split(" ");
+    const date = dateAndTime[0];
+    const time = dateAndTime[1];
+    return `${date} ${time}\u00A0Uhr`;
+  }
 }
