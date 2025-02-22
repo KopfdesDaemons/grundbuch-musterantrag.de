@@ -121,7 +121,7 @@ export class FormService {
     try {
       const response = await lastValueFrom(this.http.get(url));
       const json = response as { places: { 'place name': string }[] };
-      if (json.places && json.places.length > 0) {
+      if (json.places && json.places.length === 1) {
         const ort = json.places[0]['place name'];
         return ort
       } else {
