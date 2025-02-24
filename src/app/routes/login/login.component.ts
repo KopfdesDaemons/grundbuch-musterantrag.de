@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from 'src/app/components/header/header.component';
@@ -15,7 +15,7 @@ import { LoginCardComponent } from "../../components/login-card/login-card.compo
   styleUrl: './login.component.scss'
 })
 
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements OnInit {
   authS: AuthService = inject(AuthService);
   errorMessage: string = ' ';
   router = inject(Router);
@@ -25,7 +25,7 @@ export class LoginComponent implements AfterViewInit {
   loginForm = this.authS.getLoginFormGroup();
   readonly usernameInput = viewChild.required<ElementRef>('username');
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.usernameInput().nativeElement.focus();
   }
 

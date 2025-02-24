@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
@@ -13,7 +13,7 @@ import { ErrorDisplayComponent } from "../../../error-display/error-display.comp
   templateUrl: './antragsarten-tile.component.html',
   styleUrl: './antragsarten-tile.component.scss'
 })
-export class AntragsartenTileComponent implements AfterViewInit {
+export class AntragsartenTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
 
   statistic: { antragsart: string; anzahl: number }[] | undefined = undefined;
@@ -21,7 +21,7 @@ export class AntragsartenTileComponent implements AfterViewInit {
   faRotateRight = faRotateRight;
   error: HttpErrorResponse | null = null;
 
-  async ngAfterViewInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     try {
       this.error = null;
       await this.loadStatistic();

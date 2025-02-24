@@ -127,6 +127,12 @@ export abstract class ColorHelper {
     return ColorHelper.rgbToHex(rgbArray[0], rgbArray[1], rgbArray[2]);
   }
 
+  static rgbToHslFromString(rgbString: string) {
+    const rgbNumbers = rgbString.match(/\d+/g);
+    const rgbArray = rgbNumbers!.map(Number);
+    return ColorHelper.RGBToHSL(rgbArray[0], rgbArray[1], rgbArray[2]);
+  }
+
   static darkenHexColor(hex: string, percent: number): string {
     hex = hex.replace(/^#/, '');
 

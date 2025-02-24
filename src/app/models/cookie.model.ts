@@ -2,12 +2,12 @@ export class Cookie {
   name: string;
   value: string;
   days: number;
-  consent: string;
+  consentQuestion: string;
 
-  constructor(name: string, value: string, days: number, consent: string) {
+  constructor(name: string, value: string, days: number, consentQuestion: string) {
     this.name = name;
     this.value = value;
     this.days = days;
-    this.consent = consent
+    this.consentQuestion = consentQuestion
   }
 }

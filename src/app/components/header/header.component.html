@@ -3,16 +3,16 @@
         <div class="farbauswahlbuttondiv">
             <div class="btnDesign farbauswahlbutton"></div>
             <div class="farbauswahl">
-                @for (color of colors; track color) {
+                @for (color of colorOptions; track color) {
                     <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
                 }
                 <div class="anderefarbediv">
                     <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
-                    <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="CustomColor($event.target)" id="colorPickerDesktop" />
+                    <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerDesktop" />
                 </div>
             </div>
         </div>
-        <div class="btnDesign darkmodebtn" (click)="switchMode()">
+        <div class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()">
             <fa-icon [icon]="faMoon"></fa-icon>
         </div>
         <nav>
@@ -43,26 +43,26 @@
                 <div class="farbauswahlbuttondiv">
                     <div class="btnDesign farbauswahlbutton"></div>
                     <div class="farbauswahl">
-                        @for (color of colors; track color) {
+                        @for (color of colorOptions; track color) {
                             <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
                         }
                         <div class="anderefarbediv">
                             <label for="colorPickerMobile">Eigene Farbe auswählen</label>
-                            <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="CustomColor($event.target)" id="colorPickerMobile" />
+                            <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerMobile" />
                         </div>
                     </div>
                 </div>
-                <div class="btnDesign darkmodebtn" (click)="switchMode()">
+                <div class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()">
                     <fa-icon [icon]="faMoon"></fa-icon>
                 </div>
             </div>
         </div>
     </div>
 
-    <div #cookiebanner class="cookiebanner ausgeblendet">
+    <div #cookiebanner class="cookiebanner hidden">
         <div>
-            <span [innerText]="consent"></span>
-            <button (click)="akzeptieren()" id="cookiejabtn" class="btntext">Ja</button>
+            <span>{{requestetCookie()?.consentQuestion}}</span>
+            <button (click)="confirmCookie()" id="cookiejabtn" class="btntext">Ja</button>
             <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
         </div>
     </div>

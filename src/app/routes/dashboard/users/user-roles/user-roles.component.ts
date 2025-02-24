@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserRole } from 'server/interfaces/user-role.interface';
 import { UserRoleOption } from 'src/app/models/user-role-option.model';
@@ -17,7 +17,7 @@ import { faFloppyDisk } from '@fortawesome/free-regular-svg-icons';
   templateUrl: './user-roles.component.html',
   styleUrl: './user-roles.component.scss'
 })
-export class UserRolesComponent implements AfterViewInit {
+export class UserRolesComponent implements OnInit {
   userRoleS = inject(UserroleService);
   userRolesOptions: UserRoleOption[] = [];
   selectedUserRoleOption?: UserRoleOption;
@@ -31,7 +31,7 @@ export class UserRolesComponent implements AfterViewInit {
   faTrashCan = faTrashCan;
   faFloppyDisk = faFloppyDisk
 
-  async ngAfterViewInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     try {
       this.error = null;
       await this.loadFirstUserRole();

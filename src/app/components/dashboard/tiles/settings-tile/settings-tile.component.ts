@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
 import { SettingsService } from 'src/app/services/server/settings.service';
 import { Settings } from 'server/models/settings.model';
@@ -13,14 +13,14 @@ import { ErrorDisplayComponent } from "../../../error-display/error-display.comp
   templateUrl: './settings-tile.component.html',
   styleUrl: './settings-tile.component.scss'
 })
-export class SettingsTileComponent implements AfterViewInit {
+export class SettingsTileComponent implements OnInit {
   private settingsS = inject(SettingsService);
   private uploadS = inject(UploadsService);
 
   settings: Settings | null = null;
   error: HttpErrorResponse | null = null;
 
-  async ngAfterViewInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     try {
       this.error = null
       this.settings = await this.settingsS.getSettings();

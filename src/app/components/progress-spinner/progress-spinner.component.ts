@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnChanges, SimpleChanges, input, viewChild } from '@angular/core';
+import {  Component, ElementRef, OnChanges, OnInit, input, viewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -7,39 +7,27 @@ import { NgClass } from '@angular/common';
     styleUrls: ['./progress-spinner.component.scss'],
     imports: [NgClass]
 })
-export class ProgressSpinnerComponent implements OnChanges, AfterViewInit {
-
+export class ProgressSpinnerComponent implements OnChanges, OnInit {
   readonly circle = viewChild.required<ElementRef>('circle');
   readonly prozent = input<number>(100);
   readonly endless = input<boolean>(false);
-  radius!: number;
-  circumference!: number;
+  radius: number = 17;
+  circumference: number = this.radius * 2 * Math.PI;
 
-  ngAfterViewInit(): void {
-    this.radius = this.circle()!.nativeElement.getAttribute('r');
-    this.circumference = this.radius * 2 * Math.PI;
 
-    const circle = this.circle();
-    circle.nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
-    circle.nativeElement.style.strokeDashoffset = `${this.circumference}`;
-    this.setProgress(this.prozent());
-    if (this.endless()) {
-      this.setProgress(40);
-    }
+  ngOnInit(): void {
+    this.circle().nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+    this.circle().nativeElement.style.strokeDashoffset = `${this.circumference}`;
+    this.setProgress();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const circle = this.circle();
-    if (changes['prozent'] && circle) {
-      const percent = parseInt(changes['prozent'].currentValue);
-      this.setProgress(percent);
-    }
-    if (changes['endless'] && circle) {
-      this.setProgress(40);
-    }
+  ngOnChanges() {
+    this.setProgress();
   }
 
-  setProgress(percent: number) {
+  setProgress() {
+    let percent = this.prozent();
+    if(this.endless()) percent = 40;
     const offset = this.circumference - percent / 100 * this.circumference;
     this.circle().nativeElement.style.strokeDashoffset = offset;
   }

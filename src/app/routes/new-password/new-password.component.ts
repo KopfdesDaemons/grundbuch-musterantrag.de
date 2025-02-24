@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
 import { HeaderComponent } from "../../components/header/header.component";
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -16,7 +16,7 @@ import { faLockOpen } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './new-password.component.html',
   styleUrl: './new-password.component.scss'
 })
-export class NewPasswordComponent implements OnInit, AfterViewInit {
+export class NewPasswordComponent implements OnInit, OnInit {
   authS = inject(AuthService);
   userS = inject(UserService);
   userSetingsS = inject(UserSettingsService);
@@ -32,12 +32,9 @@ export class NewPasswordComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+    this.oldPasswordInput().nativeElement.focus();
     this.username = localStorage.getItem('username') || '';
     this.description = 'Hallo ' + this.username + '!\nBitte vergib ein neues Passwort';
-  }
-
-  ngAfterViewInit(): void {
-    this.oldPasswordInput().nativeElement.focus();
   }
 
   async changePassword() {

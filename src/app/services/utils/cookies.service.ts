@@ -119,7 +119,7 @@ export class CookiesService {
         name: c.split("=")[0],
         value: c.split("=")[1],
         days: 0,
-        consent: ''
+        consentQuestion: ''
       }
       cookies.push(cookie);
     }

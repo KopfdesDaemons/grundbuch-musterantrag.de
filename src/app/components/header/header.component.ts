@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, signal, viewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/utils/cookies.service';
 import { Cookie } from '../../models/cookie.model';
@@ -14,13 +14,20 @@ import { ColorHelper } from 'src/app/helpers/color.helper';
   styleUrls: ['./header.component.scss'],
   imports: [NgClass, FaIconComponent, RouterLink]
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements OnInit {
   cs = inject(CookiesService);
   dl = inject(DesignloaderService);
+  readonly closingdiv = viewChild.required<ElementRef>('closingdiv');
+  readonly cookiebanner = viewChild.required<ElementRef>('cookiebanner');
+  readonly colorPicker = viewChild.required<ElementRef>('colorPicker');
+  readonly background = input<string>('var(--gradient)');
+  cookieBannerIsDisplayed: boolean = false;
+  requestetCookie = signal<Cookie | null>(null);
+
 
   faMoon = faMoon;
 
-  colors = [
+  colorOptions = [
     'hsl(195, 75%, 50%)',
     'hsl(0, 60%, 50%)',
     'hsl(323, 82%, 50%)',
@@ -35,58 +42,43 @@ export class HeaderComponent implements AfterViewInit {
     'hsl(110, 69%, 50%)'
   ];
 
-  readonly closingdiv = viewChild.required<ElementRef>('closingdiv');
-  readonly cookiebanner = viewChild.required<ElementRef>('cookiebanner');
-  readonly colorPicker = viewChild.required<ElementRef>('colorPicker');
-  readonly background = input<string>('var(--gradient)');
-
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.cs.cookieRequestList.subscribe(() => { this.showCookieBanner(); });
   }
 
   setColorFromPresets(btn: any) {
-    const farbe = (btn as HTMLElement).style.backgroundColor;
-    const sep = farbe.indexOf(",") > -1 ? "," : " ";
-    const rgb = farbe.substring(4).split(")")[0].split(sep);
-    const r = (+rgb[0]), g = (+rgb[1]), b = (+rgb[2]);
-    const hslfromrgb = ColorHelper.RGBToHSL(r, g, b);
-    this.dl.changeColor(hslfromrgb["h"], hslfromrgb["s"], hslfromrgb["l"]);
+    const rgbString = (btn as HTMLElement).style.backgroundColor;
+    const hsl = ColorHelper.rgbToHslFromString(rgbString);
+    this.dl.changeColor(hsl.h, hsl.s);
   }
 
-  CustomColor(color: any) {
+  setCustomColor(color: any) {
     const hslfromhex = ColorHelper.HexToHSL(color.value);
-    this.dl.changeColor(hslfromhex["h"], hslfromhex["s"], hslfromhex["l"]);
+    this.dl.changeColor(hslfromhex.h, hslfromhex.s, hslfromhex.l);
   }
 
-  switchMode() {
-    this.dl.togledesignScheme();
-  }
-
-  cookieBannerIsDisplayed: boolean = false;
-  consent: string | undefined;
-
-  delay(ms: number) {
+  private delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  showCookieBanner() {
+  private showCookieBanner() {
     if (this.cookieBannerIsDisplayed) return;
     if (this.cs.cookieRequestList.value.length == 0) return;
-    this.consent = this.cs.cookieRequestList.value[0].consent;
-    this.cookiebanner().nativeElement.classList.remove("ausgeblendet");
+    this.requestetCookie.set(this.cs.cookieRequestList.value[0]);
+    this.cookiebanner().nativeElement.classList.remove("hidden");
     this.cookieBannerIsDisplayed = true;
   }
 
-  async akzeptieren() {
+  async confirmCookie() {
     this.cs.setcookie(this.cs.cookieRequestList.value[0]);
     await this.nextBanner();
   }
 
   async nextBanner() {
-    this.cookiebanner().nativeElement.classList.add("ausgeblendet");
+    this.cookiebanner().nativeElement.classList.add("hidden");
     const c: Cookie = this.cs.cookieRequestList.value[0];
     this.cs.cookieRequested(c);
-    await this.delay(1000);
+    await this.delay(800);
     this.cookieBannerIsDisplayed = false;
     this.showCookieBanner();
   }
