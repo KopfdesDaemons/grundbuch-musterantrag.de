@@ -1,31 +1,41 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
-    animation: grow 500ms;
-    font-size: 0.9em;
-    border-radius: 6px;
-    overflow: hidden;
-    background-color: var(--hintergrund-variant);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  animation: grow 500ms;
+  font-size: 0.9em;
+  border-radius: 6px;
+  //   overflow: hidden;
+  background-color: var(--hintergrund-variant);
 
-    &:hover {
-        outline: 1px solid;
-    }
+  &:hover {
+    outline: 1px solid;
+  }
 }
 
 .image-container {
-    display: flex;
+  display: flex;
 
-    img {
-        height: 18em;
-        object-fit: cover;
-        object-position: top;
-        width: 100%;
-        filter: brightness(0.95);
-    }
+  img {
+    height: 18em;
+    object-fit: cover;
+    object-position: top;
+    width: 100%;
+    filter: brightness(0.95);
+  }
+
+  &:focus-visible {
+    outline: 5px solid var(--primary-color);
+  }
 }
 
-h2 {
+.title {
+  &:focus-visible h2 {
+    outline: 1px solid;
+    color: var(--schrift);
+  }
+
+  h2 {
     background-color: var(--primary-variant-much-brighter);
     word-wrap: break-word;
     padding: 0.5em;
@@ -35,62 +45,63 @@ h2 {
     bottom: 95%;
     left: 3em;
     text-wrap: balance;
+  }
 }
 
 .content {
-    position: relative;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+  position: relative;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 h3 {
-    margin: 0;
-    hyphens: auto;
-    text-wrap: balance;
-    color: var(--schrift);
+  margin: 0;
+  hyphens: auto;
+  text-wrap: balance;
+  color: var(--schrift);
 }
 
 p {
-    line-height: 1.4em;
+  line-height: 1.4em;
 }
 
 .gebuehr-container {
-    margin-bottom: 0.5em;
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
+  margin-bottom: 0.5em;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
 
-    .gebuehrenfrei {
-        color: green;
-    }
+  .gebuehrenfrei {
+    color: green;
+  }
 
-    .gebuehrenpflichtig {
-        color: red;
-    }
+  .gebuehrenpflichtig {
+    color: red;
+  }
 }
 
 .erforderlicheUnterlagenDiv {
-    background-color: var(--hintergrund-variant-darker);
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-    border-radius: 12px;
+  background-color: var(--hintergrund-variant-darker);
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 12px;
 
-    ul {
-        margin: 1em 0;
-    }
+  ul {
+    margin: 1em 0;
+  }
 }
 
 .buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: auto;
 
-    a {
-        flex: 1;
-        font-size: 1.2em;
-        white-space: nowrap;
-    }
+  a {
+    flex: 1;
+    font-size: 1.2em;
+    white-space: nowrap;
+  }
 }

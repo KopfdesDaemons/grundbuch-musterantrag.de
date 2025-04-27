@@ -167,7 +167,7 @@ export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
 
 export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: string; description: string }[]> => {
     const selectQuery = `SELECT userRoleID, name, description FROM user_roles`;
-    const [result]: any = await db.execute(selectQuery);
+    const [result] = await db.execute(selectQuery);
     const userRoles = result as { userRoleID: number; name: string; description: string }[];
     const sortedUserRoles = userRoles.sort((a, b) => a.name.localeCompare(b.name));
     return sortedUserRoles;

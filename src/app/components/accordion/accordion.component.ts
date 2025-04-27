@@ -6,20 +6,20 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
   selector: 'app-accordion',
   templateUrl: './accordion.component.html',
   styleUrls: ['./accordion.component.scss'],
-  imports: [FaIconComponent]
+  imports: [FaIconComponent],
 })
 export class AccordionComponent {
   faAngleDown = faAngleDown;
 
   readonly frage = input<string>('');
-  readonly accordionhead = viewChild.required<ElementRef>('accordionhead');
+  readonly toggle = viewChild.required<ElementRef>('toggle');
 
   click() {
-    const selectedElement = this.accordionhead().nativeElement;
+    const toggleElement = this.toggle().nativeElement;
 
-    selectedElement.classList.toggle('FrageHeadAngeglickt');
-    const Antwort = selectedElement.nextElementSibling;
-    if (Antwort.style.maxHeight) Antwort.style.maxHeight = null;
-    else Antwort.style.maxHeight = Antwort.scrollHeight + 'px';
+    toggleElement.classList.toggle('open');
+    const container = toggleElement.nextElementSibling;
+    if (container.style.maxHeight) container.style.maxHeight = null;
+    else container.style.maxHeight = container.scrollHeight + 'px';
   }
 }

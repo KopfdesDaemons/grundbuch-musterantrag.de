@@ -1,5 +1,12 @@
-.FrageHead {
+:host {
   display: flex;
+  flex-direction: column;
+}
+
+.toggle {
+  all: unset;
+  display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   padding: 0.5em 1em;
@@ -10,14 +17,18 @@
   &:hover {
     background-color: var(--hintergrund-variant);
   }
+
+  &:focus-visible {
+    outline: 1px solid;
+  }
 }
 
-.FrageHead fa-icon {
+.toggle fa-icon {
   font-size: 20px;
   margin: 5px;
 }
 
-.Antwort {
+.container {
   max-height: 0;
   transition: max-height 0.2s ease-out;
   overflow: hidden;
@@ -25,26 +36,26 @@
   border-radius: 12px;
 }
 
-.Antwortpanel {
+.content {
   padding: 0 1em;
 }
 
-.FrageHeadAngeglickt,
-.FrageHeadAngeglickt:hover {
+.open,
+.open:hover {
   outline: 0.2em solid var(--primary-variant-darker);
   background-color: var(--primary-variant-much-brighter);
   font-weight: 700;
 
-  +.Antwort {
+  + .container {
     margin-top: 0.6em;
   }
 }
 
-.FrageHeadAngeglickt Span {
+.open span {
   font-weight: 700;
 }
 
-.FrageHeadAngeglickt fa-icon {
+.open fa-icon {
   color: var(--primary-variant-darker);
   transform: rotate(180deg);
   transition: all 0.2s;
