@@ -7,10 +7,10 @@ header {
 .cookiebanner {
   width: 100%;
   max-height: 5em;
-  transition: max-height 0.2s linear;
   overflow: hidden;
   display: flex;
   z-index: 1;
+  animation: slideIn 0.2s linear;
 
   div {
     background-color: var(--hintergrund-variant-darker);
@@ -23,12 +23,36 @@ header {
       font-size: clamp(0.7rem, 1.5vw, 1rem);
     }
   }
-}
 
-.hidden {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s linear;
+  &.hidden {
+    max-height: 0;
+    display: none;
+    animation: slideOut 0.2s linear;
+  }
+
+  @keyframes slideIn {
+    from {
+      display: none;
+      max-height: 0;
+    }
+
+    to {
+      display: flex;
+      max-height: 5em;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      display: flex;
+      max-height: 5em;
+    }
+
+    to {
+      display: none;
+      max-height: 0;
+    }
+  }
 }
 
 .desktopheader {

@@ -3,22 +3,24 @@
         <h2>Erbnachweis</h2>
         <p>Welcher Erbnachweis liegt vor?</p>
         <div class="formularcontent">
-            <div class="auswahlcard">
-                <input formControlName="erbnachweis" type="radio" id="erbschein" name="erbnachweis" value="Erbschein" />
-                <label for="erbschein"
-                    ><strong>Ausfertigung eines Erbscheins</strong>
-                    <p>Die Ausfertigung des Erbescheins wird vom Nachlassgericht erteilt.</p>
-                    <p>Eine einfache Kopie des Erbscheins ist nicht ausreichend.</p>
-                </label>
-            </div>
-            <div class="auswahlcard">
-                <input formControlName="erbnachweis" type="radio" id="testament" name="erbnachweis" value="notarielles Testament" />
-                <label for="testament"
-                    ><strong>Beglaubigte Abschrift eines notariellen Testaments oder Erbvertrags</strong>
-                    <p>Die Grundbuchberichtigung mit einem handschriftlichem Testament ist nicht möglich.</p>
-                    <p>Das notarielle Testament oder der Erbvertrag muss als <b>beglaubigte Abschrift</b> vorliegen. Eine einfache Kopie ist nicht ausreichend.</p>
-                </label>
-            </div>
+            <ul>
+                <li class="auswahlcard">
+                    <input formControlName="erbnachweis" type="radio" id="erbschein" name="erbnachweis" value="Erbschein" />
+                    <label for="erbschein"
+                        ><strong>Ausfertigung eines Erbscheins</strong>
+                        <p>Die Ausfertigung des Erbescheins wird vom Nachlassgericht erteilt.</p>
+                        <p>Eine einfache Kopie des Erbscheins ist nicht ausreichend.</p>
+                    </label>
+                </li>
+                <li class="auswahlcard">
+                    <input formControlName="erbnachweis" type="radio" id="testament" name="erbnachweis" value="notarielles Testament" />
+                    <label for="testament"
+                        ><strong>Beglaubigte Abschrift eines notariellen Testaments oder Erbvertrags</strong>
+                        <p>Die Grundbuchberichtigung mit einem handschriftlichem Testament ist nicht möglich.</p>
+                        <p>Das notarielle Testament oder der Erbvertrag muss als <b>beglaubigte Abschrift</b> vorliegen. Eine einfache Kopie ist nicht ausreichend.</p>
+                    </label>
+                </li>
+            </ul>
             <div class="nachlassgericht">
                 <p>
                     Wenn der Erbnachweis von dem Amtsgericht erteilt wurde, bei dem Sie die Grundbuchberichtigung beantragen, ist es wahrscheinlich, dass das Nachlassgericht dem Grundbuchamt bereits

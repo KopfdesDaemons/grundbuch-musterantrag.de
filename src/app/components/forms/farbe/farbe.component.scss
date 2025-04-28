@@ -1,52 +1,70 @@
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: space-evenly;
+
+  &:has(input:focus-visible) {
+    outline: 2px solid;
+  }
+}
+
 .formularcontent {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 1em 0;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1em 0;
+  flex-wrap: wrap;
 }
 
 .auswahlcard {
-    margin: 0.2em 0;
-    width: 20em;
-    user-select: none;
+  margin: 0.2em 0;
+  width: 20em;
+  user-select: none;
 }
 
 .auswahlcard label {
-    border: 5px solid #dadce0;
-    border-radius: 8px;
-    min-height: 17em;
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
+  border: 5px solid #dadce0;
+  border-radius: 8px;
+  min-height: 17em;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
 }
 
-.auswahlcard input[type="radio"]:checked+label {
-    border: 5px solid var(--primary-variant-much-brighter);
-    background-color: var(--hintergrund-inputfeld);
+.auswahlcard input[type="radio"]:checked + label {
+  border: 5px solid var(--primary-variant-much-brighter);
+  background-color: var(--hintergrund-inputfeld);
 
-    strong {
-        color: var(--primary-color);
-    }
+  strong {
+    color: var(--primary-color);
+  }
 }
 
 .auswahlcard input {
-    display: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 
-    &:not(:disabled)~label {
-        cursor: pointer;
-    }
+  &:not(:disabled) ~ label {
+    cursor: pointer;
+  }
 }
 
 .auswahlcard strong {
-    text-align: center;
-    margin: 1em 0;
+  text-align: center;
+  margin: 1em 0;
 }
 
 .auswahlcard span {
-    margin: 1em 0 0 0;
+  margin: 1em 0 0 0;
 }
 
 .formNavBtn {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
