@@ -92,9 +92,14 @@ header {
   }
 
   .farbauswahlbuttondiv:hover .farbauswahl,
-  .farbauswahl:hover {
+  .farbauswahl:hover,
+  .farbauswahl.open {
     top: 3em;
-    transition: top 80ms ease-in-out;
+    display: grid;
+
+    @starting-style {
+      top: -15em;
+    }
   }
 }
 
@@ -116,6 +121,8 @@ header {
   display: flex;
   justify-content: center;
   margin: auto 0.5em;
+  background-color: unset;
+  color: var(--schrift);
 
   fa-icon {
     display: flex;
@@ -137,7 +144,7 @@ header {
 
 .farbauswahl {
   z-index: 1;
-  display: grid;
+  display: none;
   grid-template-columns: auto auto auto auto;
   gap: 0.2rem;
   top: -15em;
@@ -149,6 +156,7 @@ header {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 10px 10px;
   border-top: none;
+  transition: all 80ms ease-in-out allow-discrete;
 }
 
 .anderefarbediv {
@@ -202,9 +210,15 @@ header {
   }
 
   .farbauswahlbuttondiv:hover .farbauswahl,
-  .farbauswahl:hover {
+  .farbauswahl:hover,
+  .farbauswahl.open {
     top: 3em;
-    transition: top 80ms ease-in-out;
+    display: grid;
+    transition: all 80ms ease-in-out allow-discrete;
+
+    @starting-style {
+      top: -15em;
+    }
   }
 
   nav {

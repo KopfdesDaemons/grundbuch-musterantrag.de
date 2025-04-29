@@ -1,4 +1,12 @@
-import { Component, ElementRef, inject, input, OnInit, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  input,
+  OnInit,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/utils/cookies.service';
 import { Cookie } from '../../models/cookie.model';
@@ -12,7 +20,7 @@ import { ColorHelper } from 'src/app/helpers/color.helper';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [NgClass, FaIconComponent, RouterLink]
+  imports: [NgClass, FaIconComponent, RouterLink],
 })
 export class HeaderComponent implements OnInit {
   cs = inject(CookiesService);
@@ -23,7 +31,7 @@ export class HeaderComponent implements OnInit {
   readonly background = input<string>('var(--gradient)');
   cookieBannerIsDisplayed: boolean = false;
   requestetCookie = signal<Cookie | null>(null);
-
+  colorPickerIsOpen = signal<boolean>(false);
 
   faMoon = faMoon;
 
@@ -39,11 +47,13 @@ export class HeaderComponent implements OnInit {
     'hsl(0, 0%, 50%)',
     'hsl(334, 100%, 50%)',
     'hsl(225, 6%, 50%)',
-    'hsl(110, 69%, 50%)'
+    'hsl(110, 69%, 50%)',
   ];
 
   ngOnInit(): void {
-    this.cs.cookieRequestList.subscribe(() => { this.showCookieBanner(); });
+    this.cs.cookieRequestList.subscribe(() => {
+      this.showCookieBanner();
+    });
   }
 
   setColorFromPresets(btn: any) {
@@ -58,14 +68,14 @@ export class HeaderComponent implements OnInit {
   }
 
   private delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   private showCookieBanner() {
     if (this.cookieBannerIsDisplayed) return;
     if (this.cs.cookieRequestList.value.length == 0) return;
     this.requestetCookie.set(this.cs.cookieRequestList.value[0]);
-    this.cookiebanner().nativeElement.classList.remove("hidden");
+    this.cookiebanner().nativeElement.classList.remove('hidden');
     this.cookieBannerIsDisplayed = true;
   }
 
@@ -75,11 +85,15 @@ export class HeaderComponent implements OnInit {
   }
 
   async nextBanner() {
-    this.cookiebanner().nativeElement.classList.add("hidden");
+    this.cookiebanner().nativeElement.classList.add('hidden');
     const c: Cookie = this.cs.cookieRequestList.value[0];
     this.cs.cookieRequested(c);
     await this.delay(800);
     this.cookieBannerIsDisplayed = false;
     this.showCookieBanner();
+  }
+
+  clickOnColorPicker() {
+    this.colorPickerIsOpen.update((value) => !value);
   }
 }

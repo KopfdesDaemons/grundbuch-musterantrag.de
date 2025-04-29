@@ -1,20 +1,20 @@
 <header [ngClass]="{ darkmode: dl.darkmode.value }">
     <div class="desktopheader" [style.background]="background()">
         <div class="farbauswahlbuttondiv">
-            <div class="btnDesign farbauswahlbutton"></div>
-            <div class="farbauswahl">
+            <button class="btnDesign farbauswahlbutton" (click)="clickOnColorPicker()" aria-label="Farbeinstellungen"></button>
+            <div class="farbauswahl" [ngClass]="{ open: colorPickerIsOpen() }">
                 @for (color of colorOptions; track color) {
-                    <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
+                    <button class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color" aria-label="Farbe auswählen"></button>
                 }
                 <div class="anderefarbediv">
                     <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
-                    <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerDesktop" />
+                    <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerDesktop" (blur)="clickOnColorPicker()" />
                 </div>
             </div>
         </div>
-        <div class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()">
+        <button class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()" aria-label="Darkmode umschalten">
             <fa-icon [icon]="faMoon"></fa-icon>
-        </div>
+        </button>
         <nav>
             <ul>
                 <li>
@@ -41,27 +41,27 @@
             </nav>
             <div class="designButtonsDiv">
                 <div class="farbauswahlbuttondiv">
-                    <div class="btnDesign farbauswahlbutton"></div>
-                    <div class="farbauswahl">
+                    <button class="btnDesign farbauswahlbutton" (click)="clickOnColorPicker()" aria-label="Farbeinstellungen"></button>
+                    <div class="farbauswahl" [ngClass]="{ open: colorPickerIsOpen() }">
                         @for (color of colorOptions; track color) {
-                            <div class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color"></div>
+                            <button class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color" aria-label="Farbe auswählen"></button>
                         }
                         <div class="anderefarbediv">
                             <label for="colorPickerMobile">Eigene Farbe auswählen</label>
-                            <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerMobile" />
+                            <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerMobile" (blur)="clickOnColorPicker()" />
                         </div>
                     </div>
                 </div>
-                <div class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()">
+                <button class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()" aria-label="Darkmode umschalten">
                     <fa-icon [icon]="faMoon"></fa-icon>
-                </div>
+                </button>
             </div>
         </div>
     </div>
 
     <div #cookiebanner class="cookiebanner hidden">
         <div>
-            <span>{{requestetCookie()?.consentQuestion}}</span>
+            <span>{{ requestetCookie()?.consentQuestion }}</span>
             <button (click)="confirmCookie()" id="cookiejabtn" class="btntext">Ja</button>
             <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
         </div>
