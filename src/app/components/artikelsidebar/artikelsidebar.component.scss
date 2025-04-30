@@ -57,13 +57,19 @@
       overflow: hidden;
       margin: 0;
       transition: 0.2s;
+      display: none;
     }
   }
 
   .themaangeklickt {
     ul {
       max-height: 1000px;
-      transition: 0.5s;
+      display: block;
+      transition: all 0.5s allow-discrete;
+
+      @starting-style {
+        max-height: 0;
+      }
     }
 
     div a {
@@ -144,7 +150,6 @@
 
 .sidebaroffen {
   left: 0em;
-
 }
 
 .closingDiv {
