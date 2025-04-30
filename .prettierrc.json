@@ -1,12 +1,18 @@
 {
-    "overrides": [
-        {
-            "files": "*.html",
-            "options": {
-                "parser": "angular",
-                "tabWidth": 4,
-                "printWidth": 200
-            }
-        }
-    ]
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular",
+        "tabWidth": 4,
+        "printWidth": 200
+      }
+    },
+    {
+      "files": "*.scss",
+      "options": {
+        "printWidth": 200
+      }
+    }
+  ]
 }

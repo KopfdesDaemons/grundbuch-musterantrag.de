@@ -1,48 +1,39 @@
 :host {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .sectiondiv {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
 .description {
-    text-wrap: balance;
-    text-align: center;
-    hyphens: auto;
-    margin: 0;
+  text-wrap: balance;
+  text-align: center;
+  hyphens: auto;
+  margin: 0;
 }
 
 .antragsliste {
-    list-style: none;
-    display: grid;
-    justify-content: center;
-    width: 100%;
-    grid-template-columns: repeat(auto-fit, 25em);
-    gap: 1em;
-    padding: 0;
-    max-width: 80em;
+  list-style: none;
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, 25em);
+  gap: 1em;
+  padding: 0;
+  max-width: 80em;
 
-    li {
-        display: flex;
-
-        app-antragsart-card {
-            flex: 1;
-        }
-    }
-
-    @media only screen and (max-width: 500px) {
-        grid-template-columns: auto;
-    }
-}
-
-.faq {
-    list-style: none;
-    padding: 0;
+  li {
     display: flex;
-    flex-direction: column;
-    gap: 1em;
-    margin-bottom: 4em;
+
+    app-antragsart-card {
+      flex: 1;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    grid-template-columns: auto;
+  }
 }
