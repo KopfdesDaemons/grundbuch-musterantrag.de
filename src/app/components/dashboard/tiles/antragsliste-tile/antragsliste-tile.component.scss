@@ -1,56 +1,64 @@
 :host {
-    display: flex;
-    grid-column: span 2;
+  display: flex;
+  grid-column: span 2;
 
-    @media screen and (max-width: 900px) {
-        grid-column: auto;
-    }
+  @media screen and (max-width: 900px) {
+    grid-column: auto;
+  }
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 app-progress-spinner {
-    margin: 0 auto;
-    display: block;
+  margin: 0 auto;
+  display: block;
 }
 
 h2 {
-    margin-top: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+  margin-top: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
 }
 
 .btntext {
-    margin-top: auto;
+  margin-top: auto;
 }
 
 .latestfile {
-    margin: 1em 0;
-    background-color: var(--hintergrund-variant);
-    padding: 0.5em;
-    border-radius: 16px;
+  margin: 1em 0;
+  background-color: var(--hintergrund-variant);
+  padding: 0.5em;
+  border-radius: 16px;
 }
 
 .error {
-    color: red;
+  color: red;
 }
 
 app-antragsanzahltimeframe {
-    flex: 1;
+  flex: 1;
 }
 
 .chartToggle {
-    text-align: right;
-    margin-right: 0.5em;
-    cursor: pointer;
-    color: var(--primary-variant-darker);
+  text-align: right;
+  margin-right: 0.5em;
+  cursor: pointer;
+  color: var(--primary-variant-darker);
 }
 
 app-google-chart {
-    flex: 1;
-    min-height: 15em;
+  flex: 1;
+  min-height: 15em;
+}
+
+.reloadBtn {
+  padding: 0;
+  margin: 0 0.5em;
+  height: 25px;
+  width: 25px;
+  text-align: center;
 }
