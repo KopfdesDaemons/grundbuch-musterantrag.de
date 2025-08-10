@@ -1,7 +1,7 @@
-import { inject, Injectable, PLATFORM_ID, REQUEST } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, REQUEST, DOCUMENT } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Cookie } from '../../models/cookie.model';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'

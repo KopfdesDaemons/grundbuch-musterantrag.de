@@ -1,5 +1,5 @@
-import { DOCUMENT, formatDate } from '@angular/common';
-import { inject, Injectable, LOCALE_ID, Renderer2 } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT } from '@angular/core';
 import { ScriptService } from '../utils/script.service';
 import { DesignloaderService } from '../ui/designloader.service';
 import { UploadsService } from '../data/uploads.service';

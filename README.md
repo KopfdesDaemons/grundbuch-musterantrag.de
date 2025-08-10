@@ -38,11 +38,11 @@ Es ist eine private Webseite, welche keine Behörde repräsentiert.
 
 ## Development
 
-- `docker-compose -f docker-compose.dev.yml up`
+- `docker compose -f docker-compose.dev.yml up`
 
 ## Test build before deployment
 
-- `docker-compose up --build`
+- `docker compose up --build`
 
 ## Deployment
 

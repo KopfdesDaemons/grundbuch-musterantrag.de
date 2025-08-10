@@ -1,8 +1,8 @@
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, DOCUMENT } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Cookie } from '../../models/cookie.model';
 import { CookiesService } from '../utils/cookies.service';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { SettingsService } from '../server/settings.service';
 import { ColorHelper } from '../../helpers/color.helper';
 
