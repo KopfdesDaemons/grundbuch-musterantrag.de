@@ -1,49 +1,34 @@
 # www.grundbuch-musterantrag.de
 
-Eine Webseite über Grundbuchrecht, mit der Möglichkeit kostenfreie Musteranträge zu generieren.
-Es gibt ein bunutzerfreundliches Formular. Der User wird Schritt für Schritt durch das Formular geleitet. Am Ende wird eine .docx und eine .pdf Datei erstellt.
+A website about German land registry law, with the option to generate free applications.
+There is a user-friendly form. The user is guided through the form step by step. At the end, a .docx and a .pdf file are generated.
 
-Zudem bietet die Webseite einen kompakten Einstieg ins Grundbuchrecht für Laien.
+The website also offers a concise introduction to land registry law for laypeople.
 
-> Die Webseite ist live unter [www.grundbuch-musterantrag.de](https://www.grundbuch-musterantrag.de).
+> The website is live at [www.grundbuch-musterantrag.de](https://www.grundbuch-musterantrag.de).
 
-Es ist eine private Webseite, welche keine Behörde repräsentiert.
+It is a private website that does not represent any authority.
 
-## Verfügbare Musteranträge
+## Frameworks/Libraries/Tools/Dependencies
 
-- Antrag auf Erteilung eines Grundbuchsausdrucks
-- Antrag auf Namensberichtigung einer natürlichen Person
-- Antrag auf Grundbuchberichtigung aufgrund eines Sterbefalls
-- Antrag auf Löschung von Lasten und Beschränkungen
-- Antrag auf Erteilung von Abschriften einer Bewilligung
-- Antrag auf Erteilung von Abschriften der Teilungserklärung, Abgeschlossenheitsbescheinigung und des Aufteilungsplans
-
-## Frameworks
-
-- **Javascript**: Angular
-- **CSS**: keins bzw. eigenes Framework/Library
-
-## Backend
-
-- Apache
-- Node.js
+- Angular
 - Express
+- MySQL
+- Google Charts
+- Docxtemplater
+- LibreOffice
 
-### Dashboard
+## Dashboard
 
-![Dashboard](/public/images/readme/dashboard-home.png)
-![Dashboard](/public/images/readme/dashboard-antragsliste.png)
-
-# Wichtige Befehle
+![Dashboard](/public/images/readme/dashboard.jpg)
+![Dashboard Uploads](/public/images/readme/uploads.jpg)
+![Dashboard Statistic](/public/images/readme/statistic.jpg)
+![Dashboard userroles](/public/images/readme/userroles.jpg)
 
 ## Development
 
-- `docker compose -f docker-compose.dev.yml up`
-
-## Test build before deployment
-
-- `docker compose up --build`
+`docker compose -f docker-compose.dev.yml up --build`
 
 ## Deployment
 
-- github action "Deploy to Server"
+github action "Deploy to Server"
