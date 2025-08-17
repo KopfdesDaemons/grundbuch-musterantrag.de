@@ -9,7 +9,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './rooter.component.scss'
 })
 export class RooterComponent {
-  router = inject(Router)
+  router = inject(Router);
 
   tabs = [
     {
@@ -24,5 +24,5 @@ export class RooterComponent {
       name: 'Userrollen',
       route: '/dashboard/users/user-roles'
     }
-  ]
+  ];
 }

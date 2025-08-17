@@ -8,9 +8,8 @@ describe('WeitererGrundbesitzComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [WeitererGrundbesitzComponent]
-})
-    .compileComponents();
+      imports: [WeitererGrundbesitzComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(WeitererGrundbesitzComponent);
     component = fixture.componentInstance;

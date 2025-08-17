@@ -1,19 +1,19 @@
 :host {
-    display: flex;
-    animation: grow 500ms;
-    flex: 1;
-    padding: 1em;
-    border-radius: 4px;
-    flex-direction: column;
-    max-width: 100%;
+  display: flex;
+  animation: grow 500ms;
+  flex: 1;
+  padding: 1em;
+  border-radius: 4px;
+  flex-direction: column;
+  max-width: 100%;
 
-    h2 {
-        margin-top: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: normal;
-    }
+  h2 {
+    margin-top: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+  }
 
-    &:hover {
-        outline: 1px solid var(--primary-color);
-    }
+  &:hover {
+    outline: 1px solid var(--primary-color);
+  }
 }

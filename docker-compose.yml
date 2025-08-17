@@ -2,7 +2,6 @@ include:
   - docker-compose.base.yml
 
 services:
-
   angular:
     container_name: angular_container
     build:
@@ -12,8 +11,8 @@ services:
       - "4000:4000"
     volumes:
       - type: bind
-        source: ${HOME}/storage  # Home-Verzeichnis des Benutzers
-        target: /app/storage  
+        source: ${HOME}/storage # Home-Verzeichnis des Benutzers
+        target: /app/storage
     image: kopfdesdaemons/grundbuch-musterantrag-angular:latest
     depends_on:
       db:

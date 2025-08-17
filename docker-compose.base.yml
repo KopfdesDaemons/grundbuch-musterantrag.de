@@ -1,5 +1,4 @@
 services:
-
   db:
     image: mysql:8.0
     container_name: db
@@ -16,10 +15,14 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} -e 'SELECT 1'"]
+      test:
+        [
+          "CMD-SHELL",
+          "mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} -e 'SELECT 1'",
+        ]
       interval: 5s
       timeout: 5s
-      retries: 100 
+      retries: 100
 
 volumes:
   db_data:

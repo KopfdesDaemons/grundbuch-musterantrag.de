@@ -29,17 +29,16 @@ export class AntragsformularComponent implements OnInit {
   private routeParamsSubscription: Subscription | undefined;
 
   private antragMapping: Record<string, new () => Antrag> = {
-    'grundbuchausdruck': AntragGrundbuchausdruck,
-    'namensberichtigung': AntragNamensberichtigung,
+    grundbuchausdruck: AntragGrundbuchausdruck,
+    namensberichtigung: AntragNamensberichtigung,
     'grundbuchberichtigung-sterbefall': AntragGrundbuchberichtigungSterbefall,
     'loeschung-abteilung2': AntragLoesschungAbt2,
     'abschrift-bewilligung': AntragAbschriftBewilligung,
-    'teilungserklaerung': AntragTeilungserklaerung
+    teilungserklaerung: AntragTeilungserklaerung
   };
 
   ngOnInit(): void {
-    this.routeParamsSubscription = this.route.params.subscribe((params) => {
-
+    this.routeParamsSubscription = this.route.params.subscribe(params => {
       const antragArt: string = params['antragsart'];
 
       const AntragClass = this.antragMapping[antragArt];
@@ -47,7 +46,7 @@ export class AntragsformularComponent implements OnInit {
         this.fs.init(new AntragClass());
       }
       this.titleService.setTitle('Musterantrag ' + this.fs.antrag?.title);
-    })
+    });
   }
 
   ngOnDestroy(): void {

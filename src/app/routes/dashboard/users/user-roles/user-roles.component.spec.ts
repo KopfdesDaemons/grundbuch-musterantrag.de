@@ -9,8 +9,7 @@ describe('UserRolesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UserRolesComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserRolesComponent);
     component = fixture.componentInstance;

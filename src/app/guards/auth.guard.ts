@@ -14,7 +14,6 @@ export class AuthGuard {
   private platformId = inject<object>(PLATFORM_ID);
   private authS = inject(AuthService);
 
-
   async canActivate(): Promise<Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree> {
     if (!isPlatformBrowser(this.platformId)) return false;
     try {

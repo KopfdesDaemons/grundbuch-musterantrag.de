@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from "../../../components/footer/footer.component";
-import { ArtikelsidebarComponent } from "../../../components/artikelsidebar/artikelsidebar.component";
-import { HeaderComponent } from "../../../components/header/header.component";
+import { FooterComponent } from '../../../components/footer/footer.component';
+import { ArtikelsidebarComponent } from '../../../components/artikelsidebar/artikelsidebar.component';
+import { HeaderComponent } from '../../../components/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,4 @@ import { HeaderComponent } from "../../../components/header/header.component";
   templateUrl: './root.component.html',
   styleUrl: './root.component.scss'
 })
-export class RootComponent {
-
-}
+export class RootComponent {}

@@ -16,7 +16,6 @@ export class AuthService {
 
   private _authToken: string | null = null;
 
-
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
     this._authToken = localStorage.getItem('auth_token');
@@ -30,10 +29,12 @@ export class AuthService {
     // required for new-passoword page
     localStorage.setItem('username', username);
 
-    const response = await firstValueFrom(this.http.post('/api/auth/login', {
-      username: username,
-      password: password
-    }));
+    const response = await firstValueFrom(
+      this.http.post('/api/auth/login', {
+        username: username,
+        password: password
+      })
+    );
 
     const data = response as { token: string };
 
@@ -55,23 +56,25 @@ export class AuthService {
   }
 
   getAuthHeader(): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': `Bearer ${this.authToken}` });
+    return new HttpHeaders({ Authorization: `Bearer ${this.authToken}` });
   }
 
   getLoginFormGroup(): FormGroup {
     const formBuilder = new FormBuilder();
     return formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
   async ckeckAuth(): Promise<boolean> {
-    await lastValueFrom(this.http.get('/api/auth/checkAuth', {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.authToken}`,
+    await lastValueFrom(
+      this.http.get('/api/auth/checkAuth', {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${this.authToken}`
+        })
       })
-    }))
+    );
     return true;
   }
 }

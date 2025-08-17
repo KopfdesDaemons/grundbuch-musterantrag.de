@@ -1,30 +1,30 @@
 <section>
-    <div class="sectiondiv">
-        @if (isLoading) {
-            <app-progress-spinner [endless]="true"></app-progress-spinner>
-        } @else {
-            @if (error) {
-                <app-error-display [error]="error"></app-error-display>
-            } @else {
-                <div class="grid">
-                    <div class="chartContainer">
-                        <h2>Antragsarten</h2>
-                        <app-google-chart chartType="PieChart" [chartData]="chartDataAntragsArten" [chartOptions]="pieChartOptions"> </app-google-chart>
-                    </div>
-                    <div class="chartContainer">
-                        <h2>Antragsarten</h2>
-                        <app-google-chart chartType="ColumnChart" [chartData]="chartDataAntragsArten" [chartOptions]="barChartOptions"> </app-google-chart>
-                    </div>
-                    <div class="chartContainer">
-                        <h2>Anzahl der Anträge (Monat)</h2>
-                        <app-google-chart chartType="LineChart" [chartData]="chartDataTimeFrameMonth" [chartOptions]="lineChartOptionsMonth"> </app-google-chart>
-                    </div>
-                    <div class="chartContainer">
-                        <h2>Anzahl der Anträge (Woche)</h2>
-                        <app-google-chart chartType="LineChart" [chartData]="chartDataTimeFrameWeek" [chartOptions]="lineChartOptionsWeek"> </app-google-chart>
-                    </div>
-                </div>
-            }
-        }
-    </div>
+  <div class="sectiondiv">
+    @if (isLoading) {
+      <app-progress-spinner [endless]="true"></app-progress-spinner>
+    } @else {
+      @if (error) {
+        <app-error-display [error]="error"></app-error-display>
+      } @else {
+        <div class="grid">
+          <div class="chartContainer">
+            <h2>Antragsarten</h2>
+            <app-google-chart chartType="PieChart" [chartData]="chartDataAntragsArten" [chartOptions]="pieChartOptions"> </app-google-chart>
+          </div>
+          <div class="chartContainer">
+            <h2>Antragsarten</h2>
+            <app-google-chart chartType="ColumnChart" [chartData]="chartDataAntragsArten" [chartOptions]="barChartOptions"> </app-google-chart>
+          </div>
+          <div class="chartContainer">
+            <h2>Anzahl der Anträge (Monat)</h2>
+            <app-google-chart chartType="LineChart" [chartData]="chartDataTimeFrameMonth" [chartOptions]="lineChartOptionsMonth"> </app-google-chart>
+          </div>
+          <div class="chartContainer">
+            <h2>Anzahl der Anträge (Woche)</h2>
+            <app-google-chart chartType="LineChart" [chartData]="chartDataTimeFrameWeek" [chartOptions]="lineChartOptionsWeek"> </app-google-chart>
+          </div>
+        </div>
+      }
+    }
+  </div>
 </section>

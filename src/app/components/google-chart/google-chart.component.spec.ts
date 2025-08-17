@@ -9,8 +9,7 @@ describe('GoogleChartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [GoogleChartComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GoogleChartComponent);
     component = fixture.componentInstance;

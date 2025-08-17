@@ -11,7 +11,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
   selector: 'app-antragsgenerierung',
   templateUrl: './antragsgenerierung.component.html',
   styleUrl: './antragsgenerierung.component.scss',
-  imports: [FaIconComponent, ProgressSpinnerComponent],
+  imports: [FaIconComponent, ProgressSpinnerComponent]
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   private fs = inject(FormService);

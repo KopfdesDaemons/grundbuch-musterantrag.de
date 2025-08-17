@@ -4,21 +4,23 @@
       "files": "*.html",
       "options": {
         "parser": "angular",
-        "tabWidth": 4,
-        "printWidth": 200
+        "tabWidth": 2,
+        "printWidth": 150
       }
     },
     {
       "files": "*.scss",
       "options": {
-        "printWidth": 200
+        "printWidth": 150
       }
     },
     {
       "files": "*.ts",
       "options": {
         "tabWidth": 2,
-        "printWidth": 200
+        "printWidth": 150,
+        "trailingComma": "none",
+        "arrowParens": "avoid"
       }
     }
   ]

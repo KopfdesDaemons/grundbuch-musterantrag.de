@@ -9,8 +9,7 @@ describe('FileNotFoundComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FileNotFoundComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FileNotFoundComponent);
     component = fixture.componentInstance;

@@ -8,12 +8,11 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './erbnachweis.component.scss',
   imports: [FormsModule, ReactiveFormsModule]
 })
-
 export class ErbnachweisComponent {
   fs = inject(FormService);
   form: FormGroup;
 
   constructor() {
-    this.form = this.fs.form.get("erbnachweis") as FormGroup;
+    this.form = this.fs.form.get('erbnachweis') as FormGroup;
   }
 }

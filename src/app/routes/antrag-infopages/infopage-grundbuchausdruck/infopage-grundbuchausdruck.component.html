@@ -1,311 +1,326 @@
 @defer (hydrate on interaction) {
-    <app-header></app-header>
+  <app-header></app-header>
 }
 @defer (hydrate never) {
-    <section>
-        <div class="sectiondiv">
-            <app-antragsinfos-hero [antragsart]="antrag">
-                <p>
-                    Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10,00&nbsp;€ Gerichtsgebühren. Internetanbieter verlangen oft über 25,00&nbsp;€ und verstecken die
-                    <b style="color: red">zusätzlichen</b>
-                    10,00&nbsp;€ Gerichtsgebühren im Kleingedruckten.
-                </p>
-            </app-antragsinfos-hero>
-        </div>
-    </section>
+  <section>
+    <div class="sectiondiv">
+      <app-antragsinfos-hero [antragsart]="antrag">
+        <p>
+          Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10,00&nbsp;€ Gerichtsgebühren. Internetanbieter verlangen oft über 25,00&nbsp;€ und
+          verstecken die
+          <b style="color: red">zusätzlichen</b>
+          10,00&nbsp;€ Gerichtsgebühren im Kleingedruckten.
+        </p>
+      </app-antragsinfos-hero>
+    </div>
+  </section>
 }
 
 <!--Wie  ############################################################################################################ -->
 
 <section id="info">
-    <div class="sectiondiv">
-        <h2>Wie beantrage ich einen Grundbuchausdruck?</h2>
-        <div class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">ausschließlich</b> beantragt werden...</div>
-        <div class="antragsartdiv">
-            <div class="antragsart">
-                <div class="icondiv">
-                    <fa-icon [icon]="faEnvelope"></fa-icon>
-                </div>
-                <div class="antragsarttext">per&nbsp;Post</div>
-            </div>
-            <div class="antragsart">
-                <div class="icondiv">
-                    <fa-icon [icon]="faFax"></fa-icon>
-                </div>
-                <div class="antragsarttext">per&nbsp;Fax</div>
-            </div>
-            <div class="antragsart">
-                <div class="icondiv">
-                    <fa-icon [icon]="faUser"></fa-icon>
-                </div>
-                <div class="antragsarttext">persönlich</div>
-            </div>
+  <div class="sectiondiv">
+    <h2>Wie beantrage ich einen Grundbuchausdruck?</h2>
+    <div class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">ausschließlich</b> beantragt werden...</div>
+    <div class="antragsartdiv">
+      <div class="antragsart">
+        <div class="icondiv">
+          <fa-icon [icon]="faEnvelope"></fa-icon>
         </div>
-        <a class="btnoutlined" routerLink="{{ antrag.antragsRoute }}">Kostenloser Musterantrag</a>
-        <span class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">NICHT</b> beantragt werden...</span>
-        <div class="antragsartdiv">
-            <div class="antragsart antragsartfalsch">
-                <div class="icondiv">
-                    <fa-icon [icon]="faPhone"></fa-icon>
-                </div>
-                <div class="antragsarttext">per&nbsp;Telefon</div>
-            </div>
-            <div class="antragsart antragsartfalsch">
-                <div class="icondiv">
-                    <fa-icon [icon]="faAt"></fa-icon>
-                </div>
-                <div class="antragsarttext">per&nbsp;E-Mail</div>
-            </div>
-            <div class="antragsart antragsartfalsch">
-                <div class="icondiv">
-                    <fa-icon [icon]="faGlobe"></fa-icon>
-                </div>
-                <div class="antragsarttext">online</div>
-            </div>
+        <div class="antragsarttext">per&nbsp;Post</div>
+      </div>
+      <div class="antragsart">
+        <div class="icondiv">
+          <fa-icon [icon]="faFax"></fa-icon>
         </div>
-        <p>Lassen Sie sich nicht von teuren Internetanbietern abzocken, welche für viel Geld nur den Antrag für Sie einreichen.</p>
+        <div class="antragsarttext">per&nbsp;Fax</div>
+      </div>
+      <div class="antragsart">
+        <div class="icondiv">
+          <fa-icon [icon]="faUser"></fa-icon>
+        </div>
+        <div class="antragsarttext">persönlich</div>
+      </div>
     </div>
+    <a class="btnoutlined" routerLink="{{ antrag.antragsRoute }}">Kostenloser Musterantrag</a>
+    <span class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">NICHT</b> beantragt werden...</span>
+    <div class="antragsartdiv">
+      <div class="antragsart antragsartfalsch">
+        <div class="icondiv">
+          <fa-icon [icon]="faPhone"></fa-icon>
+        </div>
+        <div class="antragsarttext">per&nbsp;Telefon</div>
+      </div>
+      <div class="antragsart antragsartfalsch">
+        <div class="icondiv">
+          <fa-icon [icon]="faAt"></fa-icon>
+        </div>
+        <div class="antragsarttext">per&nbsp;E-Mail</div>
+      </div>
+      <div class="antragsart antragsartfalsch">
+        <div class="icondiv">
+          <fa-icon [icon]="faGlobe"></fa-icon>
+        </div>
+        <div class="antragsarttext">online</div>
+      </div>
+    </div>
+    <p>Lassen Sie sich nicht von teuren Internetanbietern abzocken, welche für viel Geld nur den Antrag für Sie einreichen.</p>
+  </div>
 </section>
 
 <!--Wo  ############################################################################################################ -->
 
 @defer (hydrate never) {
-    <section id="Wo">
-        <div class="sectiondiv">
-            <h2>Wo beantrage ich einen Grundbuchausdruck?</h2>
-            <br />
-            <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
-        </div>
-    </section>
+  <section id="Wo">
+    <div class="sectiondiv">
+      <h2>Wo beantrage ich einen Grundbuchausdruck?</h2>
+      <br />
+      <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+    </div>
+  </section>
 }
 
 <!--Wer  ############################################################################################################ -->
 
 <section id="Berechtigtes-Interesse">
-    <div class="sectiondiv">
-        <h2>Wer darf einen Grundbuchausdruck beantragen?</h2>
-        <p>
-            Die Einsicht des Grundbuchs ist jedem gestattet, der ein <b>berechtigtes Interesse</b> darlegt (<a href="https://www.gesetze-im-internet.de/gbo/__12.html" target="_blank"
-                >§&nbsp;12 Abs.&nbsp;1 S.&nbsp;1&nbsp;GBO</a
-            >). Das <b>"berechtigte Interesse"</b> ist ein unbestimmter Rechtsbegriff, der somit gesetzlich nicht definiert ist. Es muss jeder Einzelfall geprüft werden. Grundsätzlich gilt folgendes:
-        </p>
-        <blockquote>
-            Das berechtigte Interesse liegt vor, wenn ein <b>rechtlicher</b> oder <b>wirtschaftlicher</b> Anspruch gegen den Eigentümer oder einen eingetragenen Berechtigen besteht.
-        </blockquote>
-        <table>
-            <thead>
-                <tr>
-                    <th style="color: green">Berechtigt</th>
-                    <th style="color: red">Nicht berechtigt</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Eigentümer</td>
-                    <td>Kaufinteressent <b class="primary-variant-darker">ohne</b> Nachweis der Vertrags&shy;verhandlungen oder Vollmacht</td>
-                </tr>
-                <tr>
-                    <td>Bevollmächtigter</td>
-                    <td>Neugieriger Nachbar</td>
-                </tr>
-                <tr>
-                    <td>Dinglicher Berechtigter (z.B. Wegerecht, Wohungsrecht, Nießbrauch)</td>
-                    <td>Möglicher Erbe <b class="primary-variant-darker">vor</b> dem Erbfall</td>
-                </tr>
-                <tr>
-                    <td>Gläubiger mit Vollstreckungstitel</td>
-                    <td>Makler <b class="primary-variant-darker">ohne</b> Vollmacht</td>
-                </tr>
-                <tr>
-                    <td>Inländische öffentliche Behörden</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Öffentlich bestellte Vermessungs&shy;ingenieure</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+  <div class="sectiondiv">
+    <h2>Wer darf einen Grundbuchausdruck beantragen?</h2>
+    <p>
+      Die Einsicht des Grundbuchs ist jedem gestattet, der ein <b>berechtigtes Interesse</b> darlegt (<a
+        href="https://www.gesetze-im-internet.de/gbo/__12.html"
+        target="_blank"
+        >§&nbsp;12 Abs.&nbsp;1 S.&nbsp;1&nbsp;GBO</a
+      >). Das <b>"berechtigte Interesse"</b> ist ein unbestimmter Rechtsbegriff, der somit gesetzlich nicht definiert ist. Es muss jeder Einzelfall
+      geprüft werden. Grundsätzlich gilt folgendes:
+    </p>
+    <blockquote>
+      Das berechtigte Interesse liegt vor, wenn ein <b>rechtlicher</b> oder <b>wirtschaftlicher</b> Anspruch gegen den Eigentümer oder einen
+      eingetragenen Berechtigen besteht.
+    </blockquote>
+    <table>
+      <thead>
+        <tr>
+          <th style="color: green">Berechtigt</th>
+          <th style="color: red">Nicht berechtigt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Eigentümer</td>
+          <td>Kaufinteressent <b class="primary-variant-darker">ohne</b> Nachweis der Vertrags&shy;verhandlungen oder Vollmacht</td>
+        </tr>
+        <tr>
+          <td>Bevollmächtigter</td>
+          <td>Neugieriger Nachbar</td>
+        </tr>
+        <tr>
+          <td>Dinglicher Berechtigter (z.B. Wegerecht, Wohungsrecht, Nießbrauch)</td>
+          <td>Möglicher Erbe <b class="primary-variant-darker">vor</b> dem Erbfall</td>
+        </tr>
+        <tr>
+          <td>Gläubiger mit Vollstreckungstitel</td>
+          <td>Makler <b class="primary-variant-darker">ohne</b> Vollmacht</td>
+        </tr>
+        <tr>
+          <td>Inländische öffentliche Behörden</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Öffentlich bestellte Vermessungs&shy;ingenieure</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <!--Was  ############################################################################################################ -->
 
 <section id="GB-Inhalt">
-    <div class="sectiondiv">
-        <h2>Was steht im Grundbuch?</h2>
-        <p class="Erklärung">
-            Für jede Gemarkung (Ort) gibt es für jedes Eigentumsverhältnis ein Grundbuch. Jedes Grundbuch hat einen festen Aufbau. Neben der Aufschrift und dem
-            <a routerLink="/grundbuchrecht/bestandsverzeichnis">Bestandsverzeichnis</a> gibt es die drei Abteilungen des Grundbuchs. Der Aufbau eines Grundbuchs und die entsprechenden Eintragungen
-            werden nachfolgend veranschaulicht. Ein Klick auf einen Abschnitt führt zur ausführlichen Erklärung.
-        </p>
-        <div class="grid">
-            <div class="GB-Abschnitt">
-                <h3>Aufschrift</h3>
-                <ul>
-                    <li>Gemarkung (Ort)</li>
-                    <li>Blattnummer</li>
-                    <li>Amtsgericht</li>
-                </ul>
-            </div>
-            <a routerLink="/grundbuchrecht/bestandsverzeichnis" class="GB-Abschnitt">
-                <h3>Bestandsverzeichnis</h3>
-                <span>Auflistung der Grundstücke</span>
-                <ul>
-                    <li>Flur und Flurstück</li>
-                    <li>Nutzungsart</li>
-                    <li>Lagebezeichnung</li>
-                    <li>Größe</li>
-                </ul>
-            </a>
-            <a routerLink="/grundbuchrecht/abteilung1" class="GB-Abschnitt">
-                <h3>Abteilung 1</h3>
-                <span>Eigentümer</span>
-                <ul>
-                    <li>Vor- und Nachname</li>
-                    <li>Geburtsdatum</li>
-                    <li>Grundlage der Eintragung</li>
-                </ul>
-            </a>
-            <a routerLink="/grundbuchrecht/abteilung2" class="GB-Abschnitt">
-                <h3>Abteilung 2</h3>
-                <span>Lasten und Beschränkungen</span>
-                <ul>
-                    <li><b>Beispiele:</b></li>
-                    <li>Wegerechte</li>
-                    <li>Wohnungsrechte</li>
-                    <li>Vorkaufsrecht</li>
-                    <li>Reallasten</li>
-                    <li>Nießbrauch</li>
-                    <li>Eigentumsübertragungs&shy;vormerkungen</li>
-                    <li>Rückauflassungsvormerkungen</li>
-                    <li>Zwangsversteigerungsvermerk</li>
-                    <li>Insolvenzvermerk</li>
-                    <li>Leitungsrechte</li>
-                    <li>Holzrechte</li>
-                    <li>Nacherbenvermerk</li>
-                </ul>
-            </a>
-            <a routerLink="/grundbuchrecht/abteilung3" class="GB-Abschnitt">
-                <h3>Abteilung 3</h3>
-                <span>Grundschulden, Hypotheken und Rentenschulden</span>
-                <ul>
-                    <li>Gläubiger (z.B. Banken)</li>
-                    <li>Geldbetrag</li>
-                </ul>
-            </a>
-        </div>
-        <h2>NICHT im Grundbuch zu finden sind...</h2>
-        <p>
-            Das Grundbuch selber enthält nicht die den Eintragungen zugrundeliegenden Urkunden. Diese befinden sich in der Grundakte. Abschriften aus der Grundakte können ebenfalls beantragt werden.
-        </p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Dokument</th>
-                    <th>zuständiges Amt</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Baulastenverzeichnis</td>
-                    <td>Bauamt</td>
-                </tr>
-                <tr>
-                    <td>Baujahr</td>
-                    <td>Bauamt</td>
-                </tr>
-                <tr>
-                    <td>Flurkarte/<wbr />Liegenschaftskarte</td>
-                    <td>Amt für Bodenmanagement</td>
-                </tr>
-                <tr>
-                    <td>Teilungserklärung</td>
-                    <td>Grundbuchamt (Amtsgericht)</td>
-                </tr>
-                <tr>
-                    <td>Aufteilungsplan</td>
-                    <td>Grundbuchamt (Amtsgericht)</td>
-                </tr>
-                <tr>
-                    <td><span>Abgeschlossenheits&shy;bescheinigung</span></td>
-                    <td>Grundbuchamt (Amtsgericht)</td>
-                </tr>
-                <tr>
-                    <td>Urkunden (z.B. Kaufverträge)</td>
-                    <td>Grundbuchamt (Amtsgericht)</td>
-                </tr>
-            </tbody>
-        </table>
+  <div class="sectiondiv">
+    <h2>Was steht im Grundbuch?</h2>
+    <p class="Erklärung">
+      Für jede Gemarkung (Ort) gibt es für jedes Eigentumsverhältnis ein Grundbuch. Jedes Grundbuch hat einen festen Aufbau. Neben der Aufschrift und
+      dem
+      <a routerLink="/grundbuchrecht/bestandsverzeichnis">Bestandsverzeichnis</a> gibt es die drei Abteilungen des Grundbuchs. Der Aufbau eines
+      Grundbuchs und die entsprechenden Eintragungen werden nachfolgend veranschaulicht. Ein Klick auf einen Abschnitt führt zur ausführlichen
+      Erklärung.
+    </p>
+    <div class="grid">
+      <div class="GB-Abschnitt">
+        <h3>Aufschrift</h3>
+        <ul>
+          <li>Gemarkung (Ort)</li>
+          <li>Blattnummer</li>
+          <li>Amtsgericht</li>
+        </ul>
+      </div>
+      <a routerLink="/grundbuchrecht/bestandsverzeichnis" class="GB-Abschnitt">
+        <h3>Bestandsverzeichnis</h3>
+        <span>Auflistung der Grundstücke</span>
+        <ul>
+          <li>Flur und Flurstück</li>
+          <li>Nutzungsart</li>
+          <li>Lagebezeichnung</li>
+          <li>Größe</li>
+        </ul>
+      </a>
+      <a routerLink="/grundbuchrecht/abteilung1" class="GB-Abschnitt">
+        <h3>Abteilung 1</h3>
+        <span>Eigentümer</span>
+        <ul>
+          <li>Vor- und Nachname</li>
+          <li>Geburtsdatum</li>
+          <li>Grundlage der Eintragung</li>
+        </ul>
+      </a>
+      <a routerLink="/grundbuchrecht/abteilung2" class="GB-Abschnitt">
+        <h3>Abteilung 2</h3>
+        <span>Lasten und Beschränkungen</span>
+        <ul>
+          <li><b>Beispiele:</b></li>
+          <li>Wegerechte</li>
+          <li>Wohnungsrechte</li>
+          <li>Vorkaufsrecht</li>
+          <li>Reallasten</li>
+          <li>Nießbrauch</li>
+          <li>Eigentumsübertragungs&shy;vormerkungen</li>
+          <li>Rückauflassungsvormerkungen</li>
+          <li>Zwangsversteigerungsvermerk</li>
+          <li>Insolvenzvermerk</li>
+          <li>Leitungsrechte</li>
+          <li>Holzrechte</li>
+          <li>Nacherbenvermerk</li>
+        </ul>
+      </a>
+      <a routerLink="/grundbuchrecht/abteilung3" class="GB-Abschnitt">
+        <h3>Abteilung 3</h3>
+        <span>Grundschulden, Hypotheken und Rentenschulden</span>
+        <ul>
+          <li>Gläubiger (z.B. Banken)</li>
+          <li>Geldbetrag</li>
+        </ul>
+      </a>
     </div>
+    <h2>NICHT im Grundbuch zu finden sind...</h2>
+    <p>
+      Das Grundbuch selber enthält nicht die den Eintragungen zugrundeliegenden Urkunden. Diese befinden sich in der Grundakte. Abschriften aus der
+      Grundakte können ebenfalls beantragt werden.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Dokument</th>
+          <th>zuständiges Amt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Baulastenverzeichnis</td>
+          <td>Bauamt</td>
+        </tr>
+        <tr>
+          <td>Baujahr</td>
+          <td>Bauamt</td>
+        </tr>
+        <tr>
+          <td>Flurkarte/<wbr />Liegenschaftskarte</td>
+          <td>Amt für Bodenmanagement</td>
+        </tr>
+        <tr>
+          <td>Teilungserklärung</td>
+          <td>Grundbuchamt (Amtsgericht)</td>
+        </tr>
+        <tr>
+          <td>Aufteilungsplan</td>
+          <td>Grundbuchamt (Amtsgericht)</td>
+        </tr>
+        <tr>
+          <td><span>Abgeschlossenheits&shy;bescheinigung</span></td>
+          <td>Grundbuchamt (Amtsgericht)</td>
+        </tr>
+        <tr>
+          <td>Urkunden (z.B. Kaufverträge)</td>
+          <td>Grundbuchamt (Amtsgericht)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <!--FAQ  ############################################################################################################ -->
 @defer (hydrate on interaction) {
-    <section id="FAQ">
-        <div class="sectiondiv">
-            <h2>Fragen und Antworten</h2>
-            <ul>
-                <li>
-                    <app-accordion frage="Welche Kosten entstehen?">
-                        <p>
-                            Ein einfacher Grundbuchausdruck kostet je Ausdruck 10,00 €.<br />
-                            Ein beglaubigter Grundbuchausdruck kostet je Ausdruck 20,00 €.
-                        </p>
-                        <p>Mehrfache Ausdrucke des gleichen Grundbuchs verursachen erneut die Gebühr.</p>
-                        <p>Die persönliche Einsicht beim Grundbuchamt ist gebührenfrei.</p>
-                        <p>
-                            Die Gebühren richteten sich nach dem GNotKG. Sie können den
-                            <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank"> Gesetzestext</a>
-                            nachlesen. (ab der KV.&nbsp;Nr.&nbsp;17000)
-                        </p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Wie bezahle ich?">
-                        <p>
-                            Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen Zahlungsmöglichkeiten online
-                            bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
-                        </p>
-                        <p>
-                            Sie wollen unbedingt bar bezahlen? Dann beantragen Sie den Grundbuchausdruck am besten persönlich bei Gericht. Wenn Sie eine bereits erhaltene Kostenrechnung bar bezahlen
-                            möchten, können Sie dies an einem Kassenautomaten beim Amtsgericht oder bei dessen Gerichtszahlstelle erledigen.
-                        </p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Wie bekomme ich einen Grundbuchausdruck am schnellsten?">
-                        <p>Am schnellsten erhalten Sie einen Grundbuchausdruck bei persönlichem Erscheinen beim Grundbuchamt (Amtsgericht).</p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Brauche ich einen beglaubigten Grundbuchausdruck?">
-                        <p>
-                            Das muss derjenige entscheiden, der den Ausdruck erhält. Normalerweise reicht ein einfacher Ausdruck. Sparen Sie sich das Geld für den beglaubigten Ausdruck, wenn dieser
-                            nicht explizit verlangt wird.
-                        </p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="In welcher Form kann ich einen Grundbuchausdruck erhalten?">
-                        <p>Grundbuchausdrucke erhalten Sie in Papierform. Per E-Mail ist der Versand nicht zulässig.</p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Wie lange dauert es, bis ich einen Grundbuchausdruck erhalte?">
-                        <p>Nach Eingang Ihres schriftlichen Antrags bei Gericht, wird Ihr Antrag bereits spätestens in den nächsten Tagen bearbeitet. Hinzu kommt der Postweg.</p>
-                        <p>Je nach Auslastung des Grundbuchamts, kann es auch länger dauern. Sofort erhalten Sie den Grundbuchausdruck, wenn Sie ihn persönlich beantragen.</p>
-                    </app-accordion>
-                </li>
-            </ul>
-        </div>
-    </section>
+  <section id="FAQ">
+    <div class="sectiondiv">
+      <h2>Fragen und Antworten</h2>
+      <ul>
+        <li>
+          <app-accordion frage="Welche Kosten entstehen?">
+            <p>
+              Ein einfacher Grundbuchausdruck kostet je Ausdruck 10,00 €.<br />
+              Ein beglaubigter Grundbuchausdruck kostet je Ausdruck 20,00 €.
+            </p>
+            <p>Mehrfache Ausdrucke des gleichen Grundbuchs verursachen erneut die Gebühr.</p>
+            <p>Die persönliche Einsicht beim Grundbuchamt ist gebührenfrei.</p>
+            <p>
+              Die Gebühren richteten sich nach dem GNotKG. Sie können den
+              <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html" target="_blank"> Gesetzestext</a>
+              nachlesen. (ab der KV.&nbsp;Nr.&nbsp;17000)
+            </p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Wie bezahle ich?">
+            <p>
+              Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit
+              gängigen Zahlungsmöglichkeiten online bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
+            </p>
+            <p>
+              Sie wollen unbedingt bar bezahlen? Dann beantragen Sie den Grundbuchausdruck am besten persönlich bei Gericht. Wenn Sie eine bereits
+              erhaltene Kostenrechnung bar bezahlen möchten, können Sie dies an einem Kassenautomaten beim Amtsgericht oder bei dessen
+              Gerichtszahlstelle erledigen.
+            </p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Wie bekomme ich einen Grundbuchausdruck am schnellsten?">
+            <p>Am schnellsten erhalten Sie einen Grundbuchausdruck bei persönlichem Erscheinen beim Grundbuchamt (Amtsgericht).</p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Brauche ich einen beglaubigten Grundbuchausdruck?">
+            <p>
+              Das muss derjenige entscheiden, der den Ausdruck erhält. Normalerweise reicht ein einfacher Ausdruck. Sparen Sie sich das Geld für den
+              beglaubigten Ausdruck, wenn dieser nicht explizit verlangt wird.
+            </p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="In welcher Form kann ich einen Grundbuchausdruck erhalten?">
+            <p>Grundbuchausdrucke erhalten Sie in Papierform. Per E-Mail ist der Versand nicht zulässig.</p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Wie lange dauert es, bis ich einen Grundbuchausdruck erhalte?">
+            <p>
+              Nach Eingang Ihres schriftlichen Antrags bei Gericht, wird Ihr Antrag bereits spätestens in den nächsten Tagen bearbeitet. Hinzu kommt
+              der Postweg.
+            </p>
+            <p>
+              Je nach Auslastung des Grundbuchamts, kann es auch länger dauern. Sofort erhalten Sie den Grundbuchausdruck, wenn Sie ihn persönlich
+              beantragen.
+            </p>
+          </app-accordion>
+        </li>
+      </ul>
+    </div>
+  </section>
 }
 <section>
-    <div class="sectiondiv">
-        <app-disqus [identifier]="antrag.title"></app-disqus>
-    </div>
+  <div class="sectiondiv">
+    <app-disqus [identifier]="antrag.title"></app-disqus>
+  </div>
 </section>
 @defer (hydrate on viewport) {
-    <app-footer></app-footer>
+  <app-footer></app-footer>
 }

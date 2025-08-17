@@ -8,9 +8,8 @@ describe('BestandsverzeichnisComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [BestandsverzeichnisComponent]
-})
-    .compileComponents();
+      imports: [BestandsverzeichnisComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BestandsverzeichnisComponent);
     component = fixture.componentInstance;

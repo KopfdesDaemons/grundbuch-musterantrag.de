@@ -1,32 +1,34 @@
 <app-dashboard-tile tileTitle="Cookies">
-    <div class="content">
-        @if (cookies.length !== 0) {
-            <div class="scrollContainer">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Wert</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+  <div class="content">
+    @if (cookies.length !== 0) {
+      <div class="scrollContainer">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Wert</th>
+              <th></th>
+            </tr>
+          </thead>
 
-                    <tbody>
-                        @for (cookie of cookies; track cookie) {
-                            <tr>
-                                <td>{{ cookie.name }}</td>
-                                <td>{{ cookie.value }}</td>
-                                <td>
-                                    <button (click)="deleteCookie(cookie)" class="btnicon"><fa-icon [icon]="faTrashCan" title="Cookie löschen"></fa-icon></button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <button class="btntext" (click)="deleteAllCookies()">Alle Cookies löschen</button>
-        } @else {
-            <p>Keine Cookies gespeichert</p>
-        }
-    </div>
+          <tbody>
+            @for (cookie of cookies; track cookie) {
+              <tr>
+                <td>{{ cookie.name }}</td>
+                <td>{{ cookie.value }}</td>
+                <td>
+                  <button (click)="deleteCookie(cookie)" class="btnicon">
+                    <fa-icon [icon]="faTrashCan" title="Cookie löschen"></fa-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <button class="btntext" (click)="deleteAllCookies()">Alle Cookies löschen</button>
+    } @else {
+      <p>Keine Cookies gespeichert</p>
+    }
+  </div>
 </app-dashboard-tile>

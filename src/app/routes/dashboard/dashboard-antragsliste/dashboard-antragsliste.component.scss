@@ -1,89 +1,89 @@
 section {
-    animation: slideInFromTop 500ms forwards;
-    margin-top: 4em;
+  animation: slideInFromTop 500ms forwards;
+  margin-top: 4em;
 }
 
 .tableHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px 8px 0 0;
-    width: clamp(300px, 95%, 1000px);
-    padding-left: 0.5em;
-    box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px 8px 0 0;
+  width: clamp(300px, 95%, 1000px);
+  padding-left: 0.5em;
+  box-sizing: border-box;
 
-    h2 {
-        margin: 0.5em;
-        font-size: 1em;
-    }
+  h2 {
+    margin: 0.5em;
+    font-size: 1em;
+  }
 
-    .reloadBtn {
-        padding: 0;
-        margin: 0;
-        height: 25px;
-        width: 25px;
-        text-align: center;
-    }
+  .reloadBtn {
+    padding: 0;
+    margin: 0;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+  }
 }
 
 .tableScrollContainer {
-    height: 500px;
-    width: clamp(300px, 95%, 1000px);
-    overflow: auto;
-    position: relative;
-    resize: vertical;
+  height: 500px;
+  width: clamp(300px, 95%, 1000px);
+  overflow: auto;
+  position: relative;
+  resize: vertical;
 
-    table {
-        margin-top: 0;
-        font-size: clamp(12px, 2vw, 14px);
-    }
+  table {
+    margin-top: 0;
+    font-size: clamp(12px, 2vw, 14px);
+  }
 
-    .uploadID {
-        white-space: nowrap;
-        max-width: 8em;
-        overflow: hidden;
-    }
+  .uploadID {
+    white-space: nowrap;
+    max-width: 8em;
+    overflow: hidden;
+  }
 
-    .antragsart {
-        max-width: 25em;
-    }
+  .antragsart {
+    max-width: 25em;
+  }
 
-    thead {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
 }
 
 .dropDown {
-    position: relative;
+  position: relative;
 
-    ul {
-        visibility: collapse;
-        padding: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        background-color: var(--hintergrund);
-        border-radius: 6px;
-        list-style: none;
-        z-index: 1;
+  ul {
+    visibility: collapse;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: var(--hintergrund);
+    border-radius: 6px;
+    list-style: none;
+    z-index: 1;
 
-        li {
-            padding: 10px;
-            cursor: pointer;
-            display: block;
+    li {
+      padding: 10px;
+      cursor: pointer;
+      display: block;
 
-            &:hover {
-                background-color: var(--hintergrund-variant-darker);
-            }
+      &:hover {
+        background-color: var(--hintergrund-variant-darker);
+      }
 
-            border: 1px solid var(--primary-variant-much-brighter);
-        }
+      border: 1px solid var(--primary-variant-much-brighter);
     }
+  }
 }
 
 .notFound {
-    background-color: #c17878;
-    cursor: unset;
+  background-color: #c17878;
+  cursor: unset;
 }

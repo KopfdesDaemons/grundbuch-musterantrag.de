@@ -1,15 +1,15 @@
 @if (fs.antrag) {
-    <app-header></app-header>
-    <section>
-        <header>
-            <progress class="progressbar" value="{{ fs.progress() }}" max="100"></progress>
-            <h1>{{ fs.antrag.title }}</h1>
-        </header>
-        <div class="formulardiv sectiondiv">
-            <ng-container *ngComponentOutlet="fs.currentComponent"></ng-container>
-        </div>
-    </section>
-    <app-footer></app-footer>
+  <app-header></app-header>
+  <section>
+    <header>
+      <progress class="progressbar" value="{{ fs.progress() }}" max="100"></progress>
+      <h1>{{ fs.antrag.title }}</h1>
+    </header>
+    <div class="formulardiv sectiondiv">
+      <ng-container *ngComponentOutlet="fs.currentComponent"></ng-container>
+    </div>
+  </section>
+  <app-footer></app-footer>
 } @else {
-    <app-file-not-found></app-file-not-found>
+  <app-file-not-found></app-file-not-found>
 }

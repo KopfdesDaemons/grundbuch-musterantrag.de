@@ -9,8 +9,7 @@ describe('AntragslisteTileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AntragslisteTileComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AntragslisteTileComponent);
     component = fixture.componentInstance;

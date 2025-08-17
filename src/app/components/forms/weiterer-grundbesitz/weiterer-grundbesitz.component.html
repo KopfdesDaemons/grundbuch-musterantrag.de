@@ -1,16 +1,26 @@
 <form [formGroup]="fs.form">
-    <div>
-        <div class="formularcontent">
-            <h2>Weiteren Grundbesitz berichtigen?</h2>
-            <input type="checkbox" formControlName="weitererGrundbesitz" id="weitererGrundbesitzInput" name="weitererGrundbesitz" spellcheck="false" placeholder="&nbsp;" />
-            <label class="placeholder" for="weitererGrundbesitzInput">Berichtigung für sämmtlichen Grundbesitz</label>
-            <p>Sie können die Berichtigung des sämmtlichen Grundbesitzes des Erblassers beantragen. Wählen Sie diese Option nicht, wenn Sie nur das angegebene Grundstück berichtigen lassen wollen.</p>
-        </div>
+  <div>
+    <div class="formularcontent">
+      <h2>Weiteren Grundbesitz berichtigen?</h2>
+      <input
+        type="checkbox"
+        formControlName="weitererGrundbesitz"
+        id="weitererGrundbesitzInput"
+        name="weitererGrundbesitz"
+        spellcheck="false"
+        placeholder="&nbsp;"
+      />
+      <label class="placeholder" for="weitererGrundbesitzInput">Berichtigung für sämmtlichen Grundbesitz</label>
+      <p>
+        Sie können die Berichtigung des sämmtlichen Grundbesitzes des Erblassers beantragen. Wählen Sie diese Option nicht, wenn Sie nur das
+        angegebene Grundstück berichtigen lassen wollen.
+      </p>
     </div>
-    <div class="formNavBtn">
-        @if (fs.getCurrentStep() > 1) {
-            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-        }
-        <button class="btnoutlined" type="button" (click)="fs.nextStep()">Weiter</button>
-    </div>
+  </div>
+  <div class="formNavBtn">
+    @if (fs.getCurrentStep() > 1) {
+      <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+    }
+    <button class="btnoutlined" type="button" (click)="fs.nextStep()">Weiter</button>
+  </div>
 </form>

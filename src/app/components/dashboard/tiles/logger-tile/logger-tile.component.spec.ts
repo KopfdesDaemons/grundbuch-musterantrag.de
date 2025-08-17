@@ -9,8 +9,7 @@ describe('LoggerTileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoggerTileComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LoggerTileComponent);
     component = fixture.componentInstance;

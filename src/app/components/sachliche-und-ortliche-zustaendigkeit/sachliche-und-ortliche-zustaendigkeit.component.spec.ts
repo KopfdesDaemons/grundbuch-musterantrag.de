@@ -8,9 +8,8 @@ describe('SachlicheUndOrtlicheZustaendigkeitComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [SachlicheUndOrtlicheZustaendigkeitComponent]
-})
-    .compileComponents();
+      imports: [SachlicheUndOrtlicheZustaendigkeitComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SachlicheUndOrtlicheZustaendigkeitComponent);
     component = fixture.componentInstance;

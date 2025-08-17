@@ -6,10 +6,9 @@ import { UserroleService } from 'src/app/services/user/userrole.service';
 import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ProgressSpinnerComponent } from "../../../../components/progress-spinner/progress-spinner.component";
-import { ErrorDisplayComponent } from "../../../../components/error-display/error-display.component";
+import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
+import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
 import { faFloppyDisk } from '@fortawesome/free-regular-svg-icons';
-
 
 @Component({
   selector: 'app-user-roles',
@@ -29,7 +28,7 @@ export class UserRolesComponent implements OnInit {
 
   faPlus = faPlus;
   faTrashCan = faTrashCan;
-  faFloppyDisk = faFloppyDisk
+  faFloppyDisk = faFloppyDisk;
 
   async ngOnInit(): Promise<void> {
     try {

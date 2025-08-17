@@ -1,102 +1,111 @@
 @defer (hydrate on interaction) {
-    <app-header></app-header>
+  <app-header></app-header>
 }
 @defer (hydrate never) {
-    <section>
-        <div class="sectiondiv">
-            <app-antragsinfos-hero [antragsart]="antrag">
-                <p>{{ antrag.description }}</p>
-            </app-antragsinfos-hero>
-        </div>
-    </section>
-}
-<section>
-    <div class="sectiondiv" id="wie">
-        <h2>Wie können Lasten und Beschränkungen gelöscht werden?</h2>
-        <p>
-            Der Berechtigte muss die Löschung bewilligen <a href="https://www.gesetze-im-internet.de/bgb/__875.html" target="_blank">§ 875 BGB</a>. Die Löschungsbewilligung muss gemäß
-            <a href="https://dejure.org/gesetze/GBO/29.html" target="_blank">§&nbsp;29&nbsp;GBO</a> in öffentlich oder öffentlich beglaubigter Form vorliegen. Das bedeutet, der Berechtigte muss einen
-            Notar aufsuchen. In Hessen kann die Unterschriftsbeglaubigung kostengünstiger beim Ortsgericht durchgeführt werden.
-        </p>
-        <div class="textAndImage">
-            <div>
-                <h3>Auf Lebenszeit beschränkte Rechte</h3>
-                <span>Rechte, die <span class="rot">nicht veräußerbar und nicht vererblich</span> sind, sind mit dem Tod des Berechtigen erloschen. Dazu zählen z.B.</span>
-                <ul>
-                    <li>Nießbrauch</li>
-                    <li>beschränkte persönliche Dienstbarkeiten (z.B. Wohnungsrecht)</li>
-                </ul>
-                <p>
-                    Bei Rechten, die auf Lebenszeit beschränkt sind, ist es relevant, ob eine Löschungsklausel vorhanden ist. Gibt es eine Löschungsklausel, enthält die Grundbucheintragung den Vermerk
-                    "löschbar bei Todesnachweis". Die Löschung erfolgt dann per formlosen Antrag und Vorlage einer beglaubigten Abschrift einer Sterbeurkunde.
-                </p>
-                <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
-                <p>
-                    Bei Rechten ohne Löschungsklausel kann die Löschung per Sterbeurkunde erst erfolgen, wenn keine Rückstände von Leistungen möglich sind (z.B. Schulden beim Pflegedienst). Sind
-                    Rückstände möglich und der Berechtigte ist noch kein Jahr verstorben, muss die Zustimmung aller Erben in öffentlich beglaubigter Form und der Nachweis der Erbfolge vorliegen.
-                </p>
-            </div>
-            <img src="/images/schaubild-loeschung-abteilung2.avif" alt="Schaubild zur Löschung in Abteilung II" width="715" height="758" />
-        </div>
-        <h3>Zeitlich beschränkte Rechte</h3>
-        <span>Es kann festgelegt werden, dass ein Recht nur gelten soll</span>
-        <ul>
-            <li>bis zum Ablauf eines bestimmten Zeitraums (z.b. 20 Jahre)</li>
-            <li>bis zum Eintreten eines bestimmten Ereignisses (z.B. Heirat des Berechtigen)</li>
-        </ul>
-        <p>Diese Rechte sind erloschen, wenn der festgelegte Zeitraum abgelaufen ist oder das Ereignis eintritt, zugleich wird das Grundbuch unrichtig.</p>
-        <p>
-            Zur Löschung bedarf es eine Antrag (<a href="https://www.gesetze-im-internet.de/gbo/__13.html" target="_blank">§ 13 GBO</a>) und gegebenenfalls den Nachweis der Unrichtigkeit
-            (z.B.Heiratsurkunde).
-        </p>
-    </div>
-</section>
-<section>
+  <section>
     <div class="sectiondiv">
-        <h2>Welche Kosten entstehen für eine Löschung in Abteilung II?</h2>
-        <p>
-            Grundlage der Gebühr ist die KV-Nr. 14143 der <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html">Anlage 1 des GNotKG</a>. Die Löschungen in Abteilung II des Grundbuchs
-            fallen unter den Punkt "Löschungen im Übrigen". Demnach entsteht eine feste Gebühr in Höhe von 25,00 €.
-        </p>
-        <p>Bei der Unterschriftsbeglaubigung einer Löschungsbewilligung fällt eine Gebühr beim Notar an.</p>
+      <app-antragsinfos-hero [antragsart]="antrag">
+        <p>{{ antrag.description }}</p>
+      </app-antragsinfos-hero>
     </div>
+  </section>
+}
+<section>
+  <div class="sectiondiv" id="wie">
+    <h2>Wie können Lasten und Beschränkungen gelöscht werden?</h2>
+    <p>
+      Der Berechtigte muss die Löschung bewilligen <a href="https://www.gesetze-im-internet.de/bgb/__875.html" target="_blank">§ 875 BGB</a>. Die
+      Löschungsbewilligung muss gemäß <a href="https://dejure.org/gesetze/GBO/29.html" target="_blank">§&nbsp;29&nbsp;GBO</a> in öffentlich oder
+      öffentlich beglaubigter Form vorliegen. Das bedeutet, der Berechtigte muss einen Notar aufsuchen. In Hessen kann die Unterschriftsbeglaubigung
+      kostengünstiger beim Ortsgericht durchgeführt werden.
+    </p>
+    <div class="textAndImage">
+      <div>
+        <h3>Auf Lebenszeit beschränkte Rechte</h3>
+        <span
+          >Rechte, die <span class="rot">nicht veräußerbar und nicht vererblich</span> sind, sind mit dem Tod des Berechtigen erloschen. Dazu zählen
+          z.B.</span
+        >
+        <ul>
+          <li>Nießbrauch</li>
+          <li>beschränkte persönliche Dienstbarkeiten (z.B. Wohnungsrecht)</li>
+        </ul>
+        <p>
+          Bei Rechten, die auf Lebenszeit beschränkt sind, ist es relevant, ob eine Löschungsklausel vorhanden ist. Gibt es eine Löschungsklausel,
+          enthält die Grundbucheintragung den Vermerk "löschbar bei Todesnachweis". Die Löschung erfolgt dann per formlosen Antrag und Vorlage einer
+          beglaubigten Abschrift einer Sterbeurkunde.
+        </p>
+        <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
+        <p>
+          Bei Rechten ohne Löschungsklausel kann die Löschung per Sterbeurkunde erst erfolgen, wenn keine Rückstände von Leistungen möglich sind (z.B.
+          Schulden beim Pflegedienst). Sind Rückstände möglich und der Berechtigte ist noch kein Jahr verstorben, muss die Zustimmung aller Erben in
+          öffentlich beglaubigter Form und der Nachweis der Erbfolge vorliegen.
+        </p>
+      </div>
+      <img src="/images/schaubild-loeschung-abteilung2.avif" alt="Schaubild zur Löschung in Abteilung II" width="715" height="758" />
+    </div>
+    <h3>Zeitlich beschränkte Rechte</h3>
+    <span>Es kann festgelegt werden, dass ein Recht nur gelten soll</span>
+    <ul>
+      <li>bis zum Ablauf eines bestimmten Zeitraums (z.b. 20 Jahre)</li>
+      <li>bis zum Eintreten eines bestimmten Ereignisses (z.B. Heirat des Berechtigen)</li>
+    </ul>
+    <p>
+      Diese Rechte sind erloschen, wenn der festgelegte Zeitraum abgelaufen ist oder das Ereignis eintritt, zugleich wird das Grundbuch unrichtig.
+    </p>
+    <p>
+      Zur Löschung bedarf es eine Antrag (<a href="https://www.gesetze-im-internet.de/gbo/__13.html" target="_blank">§ 13 GBO</a>) und gegebenenfalls
+      den Nachweis der Unrichtigkeit (z.B.Heiratsurkunde).
+    </p>
+  </div>
+</section>
+<section>
+  <div class="sectiondiv">
+    <h2>Welche Kosten entstehen für eine Löschung in Abteilung II?</h2>
+    <p>
+      Grundlage der Gebühr ist die KV-Nr. 14143 der <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html">Anlage 1 des GNotKG</a>. Die
+      Löschungen in Abteilung II des Grundbuchs fallen unter den Punkt "Löschungen im Übrigen". Demnach entsteht eine feste Gebühr in Höhe von 25,00
+      €.
+    </p>
+    <p>Bei der Unterschriftsbeglaubigung einer Löschungsbewilligung fällt eine Gebühr beim Notar an.</p>
+  </div>
 </section>
 @defer (hydrate never) {
-    <section id="Wo">
-        <div class="sectiondiv">
-            <h2>Wo muss die Löschung beantragt werden?</h2>
-            <br />
-            <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
-        </div>
-    </section>
+  <section id="Wo">
+    <div class="sectiondiv">
+      <h2>Wo muss die Löschung beantragt werden?</h2>
+      <br />
+      <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
+    </div>
+  </section>
 }
 @defer (hydrate on interaction) {
-    <section id="FAQ">
-        <div class="sectiondiv">
-            <h2>Fragen und Antworten</h2>
-            <ul>
-                <li>
-                    <app-accordion frage="Wie bezahle ich?">
-                        <p>
-                            Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit gängigen Zahlungsmöglichkeiten online
-                            bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
-                        </p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
-                        <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle gestellt werden.</p>
-                    </app-accordion>
-                </li>
-            </ul>
-        </div>
-    </section>
+  <section id="FAQ">
+    <div class="sectiondiv">
+      <h2>Fragen und Antworten</h2>
+      <ul>
+        <li>
+          <app-accordion frage="Wie bezahle ich?">
+            <p>
+              Wenn Sie einen schriftlichen Antrag gestellt haben, erhalten Sie eine Rechnung. In vielen Bundesländern können Sie die Rechnung mit
+              gängigen Zahlungsmöglichkeiten online bezahlen. Genaueres dazu finden Sie auf der Kostenrechnung.
+            </p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Kann der Antrag elektronisch eingereicht werden?">
+            <p>Der Antrag muss per Post, Telefax oder bei persönlichem Erscheinen auf der Geschäftsstelle gestellt werden.</p>
+          </app-accordion>
+        </li>
+      </ul>
+    </div>
+  </section>
 }
 <section>
-    <div class="sectiondiv">
-        <app-disqus [identifier]="antrag.title"></app-disqus>
-    </div>
+  <div class="sectiondiv">
+    <app-disqus [identifier]="antrag.title"></app-disqus>
+  </div>
 </section>
 @defer (hydrate on viewport) {
-    <app-footer></app-footer>
+  <app-footer></app-footer>
 }

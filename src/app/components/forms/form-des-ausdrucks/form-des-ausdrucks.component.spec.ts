@@ -9,8 +9,7 @@ describe('FormDesAusdrucksComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormDesAusdrucksComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FormDesAusdrucksComponent);
     component = fixture.componentInstance;

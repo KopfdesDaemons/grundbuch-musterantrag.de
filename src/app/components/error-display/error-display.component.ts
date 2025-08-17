@@ -12,5 +12,5 @@ import { faLock, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 export class ErrorDisplayComponent {
   error = input.required<HttpErrorResponse>();
   faLock = faLock;
-  faCircleExclamation = faCircleExclamation
+  faCircleExclamation = faCircleExclamation;
 }

@@ -4,15 +4,15 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
-    selector: 'app-impressum',
-    templateUrl: './impressum.component.html',
-    styleUrls: ['./impressum.component.scss'],
-    imports: [HeaderComponent, FooterComponent]
+  selector: 'app-impressum',
+  templateUrl: './impressum.component.html',
+  styleUrls: ['./impressum.component.scss'],
+  imports: [HeaderComponent, FooterComponent]
 })
 export class ImpressumComponent {
   titleService = inject(Title);
 
-  constructor(){
+  constructor() {
     this.titleService.setTitle('Impressum');
   }
 }

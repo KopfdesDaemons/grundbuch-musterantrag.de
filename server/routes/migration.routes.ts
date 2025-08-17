@@ -8,19 +8,15 @@ import { migrationPermission } from 'server/models/user-permissons.model';
 export const migrationRoutes = express.Router();
 
 migrationRoutes.post(
-    '/fromAntragToUploadinfo',
-    authMiddleware,
-    verifyRole(
-        new migrationPermission([MigrationAction.AntragToUploadinfoMigration])
-    ),
-    handleMigrationFromAntragToUploadinfo
+  '/fromAntragToUploadinfo',
+  authMiddleware,
+  verifyRole(new migrationPermission([MigrationAction.AntragToUploadinfoMigration])),
+  handleMigrationFromAntragToUploadinfo
 );
 
 migrationRoutes.post(
-    '/fromJSONToDatabase',
-    authMiddleware,
-    verifyRole(
-        new migrationPermission([MigrationAction.JSONToDatabaseMigration])
-    ),
-    handleMigrateFromJSONFilesToDatabase
+  '/fromJSONToDatabase',
+  authMiddleware,
+  verifyRole(new migrationPermission([MigrationAction.JSONToDatabaseMigration])),
+  handleMigrateFromJSONFilesToDatabase
 );

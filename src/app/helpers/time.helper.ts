@@ -1,10 +1,9 @@
 export abstract class TimeHelper {
-
-  /** 
-  *Gibt das Datum im Format DD.MM.YYYY zurück
-  *@param date - Datum, das formatiert werden soll. Standard: aktuelles Datum
-  *@returns {string} - DD.MM.YYYY
-  **/
+  /**
+   *Gibt das Datum im Format DD.MM.YYYY zurück
+   *@param date - Datum, das formatiert werden soll. Standard: aktuelles Datum
+   *@returns {string} - DD.MM.YYYY
+   **/
   static formatDate(date: Date = new Date()): string {
     // Tag, Monat und Jahr extrahieren
     const tag = String(date.getDate()).padStart(2, '0');
@@ -15,11 +14,11 @@ export abstract class TimeHelper {
     return `${tag}.${monat}.${jahr}`;
   }
 
-  /** 
-  *Gibt die Uhrzeit im Format HH.MM Uhr zurück
-  *@param date - Uhrzeit, die formatiert werden soll. Standard: aktuelle Uhrzeit
-  *@returns {string} - HH.MM Uhr
-  **/
+  /**
+   *Gibt die Uhrzeit im Format HH.MM Uhr zurück
+   *@param date - Uhrzeit, die formatiert werden soll. Standard: aktuelle Uhrzeit
+   *@returns {string} - HH.MM Uhr
+   **/
   static formatTime(date: Date = new Date()): string {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -35,11 +34,11 @@ export abstract class TimeHelper {
     const stunde = date.getHours();
 
     if (stunde >= 5 && stunde < 12) {
-      return "Morgen";
+      return 'Morgen';
     } else if (stunde >= 12 && stunde < 18) {
-      return "Tag";
+      return 'Tag';
     } else {
-      return "Abend";
+      return 'Abend';
     }
   }
 }

@@ -9,8 +9,7 @@ describe('AntragsartCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AntragsartCardComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AntragsartCardComponent);
     component = fixture.componentInstance;

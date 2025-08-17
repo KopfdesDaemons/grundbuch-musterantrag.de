@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
-import { ProgressSpinnerComponent } from "../../../components/progress-spinner/progress-spinner.component";
+import { ProgressSpinnerComponent } from '../../../components/progress-spinner/progress-spinner.component';
 
 @Component({
   selector: 'app-user-settings',
@@ -22,7 +22,7 @@ export class UserSettingsComponent {
   newUsernameForm: FormGroup;
   formBuilder = new FormBuilder();
 
-  faUser = faUser
+  faUser = faUser;
 
   constructor() {
     this.newUsernameForm = this.getNewUsernameFormGroup();
@@ -35,15 +35,15 @@ export class UserSettingsComponent {
       const oldPassword = this.newPasswordForm.get('oldPassword')?.value;
       const confirmPassword = this.newPasswordForm.get('confirmPassword')?.value;
       if (newPassword !== confirmPassword) {
-        this.newPasswordForm.get('confirmPassword')?.setErrors({ 'passwordsDontMatch': true });
+        this.newPasswordForm.get('confirmPassword')?.setErrors({ passwordsDontMatch: true });
         return;
-      };
+      }
       await this.userSettingsS.changePassword(oldPassword, newPassword);
       this.ngFormNewPassword().resetForm();
     } catch (err) {
       if (err instanceof HttpErrorResponse) {
         if (err.error.message === 'Falsches Passwort') {
-          this.newPasswordForm.get('oldPassword')?.setErrors({ 'wrongPassword': true });
+          this.newPasswordForm.get('oldPassword')?.setErrors({ wrongPassword: true });
         }
       }
       throw err;
@@ -58,7 +58,7 @@ export class UserSettingsComponent {
       this.ngFormNewUsername().resetForm();
     } catch (err) {
       if (err instanceof HttpErrorResponse) {
-        this.newUsernameForm.get('newUsername')?.setErrors({ 'error': { 'message': err.error.message } });
+        this.newUsernameForm.get('newUsername')?.setErrors({ error: { message: err.error.message } });
       }
     }
   }
@@ -66,6 +66,6 @@ export class UserSettingsComponent {
   getNewUsernameFormGroup(): FormGroup {
     return this.formBuilder.group({
       newUsername: ['', Validators.required]
-    })
+    });
   }
 }

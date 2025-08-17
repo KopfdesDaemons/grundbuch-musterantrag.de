@@ -4,8 +4,26 @@ import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { UserRole } from 'server/interfaces/user-role.interface';
 import { UserRoleOption } from '../../models/user-role-option.model';
-import { Feature, LoggerAction, MigrationAction, SettingsAction, StatisticAction, UploadManagementAction, UserManagementAction, UserPermission, UserRoleManagementAction } from 'server/interfaces/user-permission.interface';
-import { uploadManagementPermission, userManagementPermission, statisticPermission, loggerPermission, migrationPermission, settingsPermission, userRoleManagementPermission } from 'server/models/user-permissons.model';
+import {
+  Feature,
+  LoggerAction,
+  MigrationAction,
+  SettingsAction,
+  StatisticAction,
+  UploadManagementAction,
+  UserManagementAction,
+  UserPermission,
+  UserRoleManagementAction
+} from 'server/interfaces/user-permission.interface';
+import {
+  uploadManagementPermission,
+  userManagementPermission,
+  statisticPermission,
+  loggerPermission,
+  migrationPermission,
+  settingsPermission,
+  userRoleManagementPermission
+} from 'server/models/user-permissons.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
@@ -34,7 +52,7 @@ export class UserroleService {
     [Feature.Migration]: 'Migration',
     [Feature.Settings]: 'Settings',
     [Feature.UserRoleManagement]: 'User Role Management'
-  }
+  };
 
   actionsNameMapping = {
     [UploadManagementAction.ReadUploadData]: 'Lesen der Upload-Daten',
@@ -66,7 +84,7 @@ export class UserroleService {
     [UserRoleManagementAction.ReadUserRoles]: 'Benutzerrolle lesen',
     [UserRoleManagementAction.DeleteUserRole]: 'Benutzerrolle löschen',
     [UserRoleManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren'
-  }
+  };
 
   async getAllUserRoles(): Promise<UserRoleOption[]> {
     const data = await lastValueFrom(
@@ -89,9 +107,13 @@ export class UserroleService {
 
   async createUserRole(userRole: UserRole): Promise<number> {
     const data = await lastValueFrom(
-      this.http.put('/api/userrole/', { userRole: userRole }, {
-        headers: this.authS.getAuthHeader()
-      })
+      this.http.put(
+        '/api/userrole/',
+        { userRole: userRole },
+        {
+          headers: this.authS.getAuthHeader()
+        }
+      )
     );
     const { userRoleID } = data as { userRoleID: number };
     return userRoleID;
@@ -99,9 +121,13 @@ export class UserroleService {
 
   async updateUserRole(userRole: UserRole): Promise<void> {
     await lastValueFrom(
-      this.http.patch('/api/userrole/', { userRole: userRole }, {
-        headers: this.authS.getAuthHeader()
-      })
+      this.http.patch(
+        '/api/userrole/',
+        { userRole: userRole },
+        {
+          headers: this.authS.getAuthHeader()
+        }
+      )
     );
   }
 
@@ -117,9 +143,7 @@ export class UserroleService {
       const userFeature = userRole.userPermissions.find(p => p.feature === feature);
 
       for (const action of actions) {
-        actionControls[action] = userFeature
-          ? userFeature.allowedActions.includes(action)
-          : false;
+        actionControls[action] = userFeature ? userFeature.allowedActions.includes(action) : false;
       }
 
       featureGroups[feature] = this.formBuilder.group(actionControls);
@@ -150,7 +174,15 @@ export class UserroleService {
         if (allowedActions.length > 0) {
           userRole.userPermissions.push({
             feature: feature as Feature,
-            allowedActions: allowedActions as (UploadManagementAction | UserManagementAction | StatisticAction | LoggerAction | MigrationAction | SettingsAction | UserRoleManagementAction)[]
+            allowedActions: allowedActions as (
+              | UploadManagementAction
+              | UserManagementAction
+              | StatisticAction
+              | LoggerAction
+              | MigrationAction
+              | SettingsAction
+              | UserRoleManagementAction
+            )[]
           });
         }
       }

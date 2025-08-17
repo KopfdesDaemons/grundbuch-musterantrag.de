@@ -9,8 +9,7 @@ describe('AntragsartenTileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AntragsartenTileComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AntragsartenTileComponent);
     component = fixture.componentInstance;

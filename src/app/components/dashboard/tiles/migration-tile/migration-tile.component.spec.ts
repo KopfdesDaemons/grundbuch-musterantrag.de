@@ -9,8 +9,7 @@ describe('MigrationTileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MigrationTileComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MigrationTileComponent);
     component = fixture.componentInstance;

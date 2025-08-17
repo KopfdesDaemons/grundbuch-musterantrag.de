@@ -5,7 +5,7 @@ import { DesignloaderService } from './services/ui/designloader.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet]
 })
 export class AppComponent implements OnInit {
   designloaderS = inject(DesignloaderService);

@@ -1,24 +1,24 @@
 #disqus_thread {
-    padding: 0 0.5em;
+  padding: 0 0.5em;
 }
 
 .consentBanner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+
+  button {
     gap: 0.5em;
+  }
 
-    button {
-        gap: 0.5em;
-    }
-
-    .disclaimer {
-        font-size: 0.8em;
-        text-wrap: balance;
-        text-align: center;
-    }
+  .disclaimer {
+    font-size: 0.8em;
+    text-wrap: balance;
+    text-align: center;
+  }
 }
 
 :host {
-    width: 100%;
+  width: 100%;
 }

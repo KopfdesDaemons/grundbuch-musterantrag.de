@@ -1,59 +1,59 @@
 :host {
-    width: 100%;
-    margin-top: 4em;
-    display: grid;
-    justify-content: space-evenly;
-    grid-template-columns: 40% 60%;
+  width: 100%;
+  margin-top: 4em;
+  display: grid;
+  justify-content: space-evenly;
+  grid-template-columns: 40% 60%;
 
-    @media only screen and (max-width: 1000px) {
-        grid-template-columns: auto;
+  @media only screen and (max-width: 1000px) {
+    grid-template-columns: auto;
 
-        img {
-            order: -1;
-            max-height: 18em;
-        }
+    img {
+      order: -1;
+      max-height: 18em;
     }
+  }
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  overflow: hidden;
+
+  h1 {
+    margin: 0.5em 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 100%;
+    text-align: unset;
+    color: var(--schrift);
+    overflow-wrap: break-word;
+  }
+
+  .labels {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    font-size: clamp(12px, 1vw, 0.8rem);
     width: 100%;
-    overflow: hidden;
+    margin: 8px;
 
-    h1 {
-        margin: 0.5em 0;
-        font-size: clamp(1.5rem, 3vw, 2rem);
-        line-height: 100%;
-        text-align: unset;
-        color: var(--schrift);
-        overflow-wrap: break-word;
+    span {
+      margin: 0 1em;
     }
 
-    .labels {
-        display: flex;
-        align-items: center;
-        font-size: clamp(12px, 1vw, 0.8rem);
-        width: 100%;
-        margin: 8px;
-
-        span {
-            margin: 0 1em;
-        }
-
-        .icon {
-            font-size: clamp(1rem, 1vw, 1.5rem);
-            color: var(--schrift);
-        }
+    .icon {
+      font-size: clamp(1rem, 1vw, 1.5rem);
+      color: var(--schrift);
     }
+  }
 }
 
 img {
-    height: auto;
-    max-height: 33em;
-    object-fit: contain;
-    width: 100%;
-    animation: grow 500ms;
+  height: auto;
+  max-height: 33em;
+  object-fit: contain;
+  width: 100%;
+  animation: grow 500ms;
 }

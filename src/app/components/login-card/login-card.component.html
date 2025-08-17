@@ -1,16 +1,16 @@
 <div class="headline">
-    <span>www.grundbuch-musterantrag.de</span>
+  <span>www.grundbuch-musterantrag.de</span>
 </div>
 <div class="hero">
-    <img src="{{ imagePath() }}" />
-    <fa-icon [icon]="faIcon()"></fa-icon>
+  <img src="{{ imagePath() }}" />
+  <fa-icon [icon]="faIcon()"></fa-icon>
 </div>
 <div class="content">
-    @if (description()) {
-        <p class="description">{{ description() }}</p>
-    }
-    <ng-content></ng-content>
+  @if (description()) {
+    <p class="description">{{ description() }}</p>
+  }
+  <ng-content></ng-content>
 </div>
 <div class="title-box">
-    <h1>{{ title() }}</h1>
+  <h1>{{ title() }}</h1>
 </div>

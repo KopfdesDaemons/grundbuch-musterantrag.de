@@ -7,10 +7,9 @@ import { NgClass } from '@angular/common';
 import { User } from 'src/app/models/user.model';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { UserRoleOption } from 'src/app/models/user-role-option.model';
-import { ProgressSpinnerComponent } from "../../../../components/progress-spinner/progress-spinner.component";
+import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorDisplayComponent } from "../../../../components/error-display/error-display.component";
-
+import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
 
 @Component({
   selector: 'app-users',
@@ -24,19 +23,16 @@ export class UserListComponent implements OnInit {
   error: HttpErrorResponse | null = null;
   errorMessage: string = 'Fehler beim Laden der Benutzer';
   isLoading = false;
-  rows: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }[] = [];
+  rows: { isChecked: boolean; user: User; editMode: boolean; editForm: FormGroup | undefined }[] = [];
   userRoles: UserRoleOption[] = [];
 
   faTrash = faTrash;
   faRotateRight = faRotateRight;
   faEdit = faEdit;
-  faLock = faLock
+  faLock = faLock;
 
   async ngOnInit(): Promise<void> {
-    await Promise.all([
-      this.loadUsers(),
-      this.userRoleS.getAllUserRoles().then(userRoles => this.userRoles = userRoles)
-    ]);
+    await Promise.all([this.loadUsers(), this.userRoleS.getAllUserRoles().then(userRoles => (this.userRoles = userRoles))]);
   }
 
   async loadUsers(): Promise<void> {
@@ -71,13 +67,13 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  toggleEditMode(row: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }): void {
+  toggleEditMode(row: { isChecked: boolean; user: User; editMode: boolean; editForm: FormGroup | undefined }): void {
     row.editMode = !row.editMode;
     row.editForm = this.userS.getEditUserFormGroup(row.user);
     row.editForm.get('userRole')?.setValue(row.user.userRole.name);
   }
 
-  async saveUser(row: { isChecked: boolean, user: User, editMode: boolean, editForm: FormGroup | undefined }): Promise<void> {
+  async saveUser(row: { isChecked: boolean; user: User; editMode: boolean; editForm: FormGroup | undefined }): Promise<void> {
     try {
       this.error = null;
       if (!row.user.userID) return;

@@ -1,55 +1,57 @@
 <form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
-    <h2>Berechtigtes Interesse</h2>
-    <div class="formularcontent">
-        <div class="inputfelder">
-            <div class="formularerklärung">Nicht jeder ist berechtigt Einsicht in das Grundbuch zu nehmen. Bitte legen Sie Ihr berechtigtes Interesse dar.</div>
-            <ul>
-                <li class="radiochip">
-                    <input formControlName="interesse" id="b1" type="radio" value="Ich bin Eigentümer" />
-                    <label for="b1">Ich bin Eigentümer</label>
-                </li>
-                <li class="radiochip">
-                    <input formControlName="interesse" id="b2" type="radio" value="Ich habe eine schriftliche Vollmacht" />
-                    <label for="b2">
-                        <span>
-                            Ich habe eine schriftliche Vollmacht
-                            <span class="rot">&nbsp;(Vollmacht beifügen!)</span>
-                        </span>
-                    </label>
-                </li>
-                <li class="radiochip">
-                    <input formControlName="interesse" id="b3" type="radio" value="Ich bin Erbe" />
-                    <label for="b3"
-                        ><span> Ich bin Erbe und habe einen Erbnachweis<span class="rot">&nbsp;(Kopie beifügen!)</span> </span></label
-                    >
-                </li>
-                <li class="radiochip">
-                    <input formControlName="interesse" id="b4" type="radio" value="Ich habe ein eingetragenes Recht im Grundbuch" />
-                    <label for="b4">Ich habe ein eingetragenes Recht im Grundbuch</label>
-                </li>
-                <li class="radiochip">
-                    <input formControlName="interesse" id="b5" type="radio" value="Ich bin Gläubiger mit einem eingetragenen Grundpfandrecht" />
-                    <label for="b5">Ich bin Gläubiger mit einem eingetragenen Grundpfandrecht</label>
-                </li>
-                <li class="radiochip">
-                    <input formControlName="interesse" id="b6" type="radio" value="Ich habe einen Vollstreckungstitel" />
-                    <label for="b6"
-                        ><span> Ich habe einen Vollstreckungstitel <span class="rot">&nbsp;(Kopie beifügen!)</span> </span></label
-                    >
-                </li>
-                <li class="radiochip">
-                    <input formControlName="interesse" id="b7" type="radio" value="siehe Bemerkungen" />
-                    <label for="b7">Sonstiger Grund <span class="rot">&nbsp;(begründen!)</span></label>
-                </li>
-            </ul>
-            <div>Bemerkungen für das Grundbuchamt:</div>
-            <textarea formControlName="bemerkung" id="bemerkung" name="bemerkung" maxlength="300"></textarea>
-        </div>
+  <h2>Berechtigtes Interesse</h2>
+  <div class="formularcontent">
+    <div class="inputfelder">
+      <div class="formularerklärung">
+        Nicht jeder ist berechtigt Einsicht in das Grundbuch zu nehmen. Bitte legen Sie Ihr berechtigtes Interesse dar.
+      </div>
+      <ul>
+        <li class="radiochip">
+          <input formControlName="interesse" id="b1" type="radio" value="Ich bin Eigentümer" />
+          <label for="b1">Ich bin Eigentümer</label>
+        </li>
+        <li class="radiochip">
+          <input formControlName="interesse" id="b2" type="radio" value="Ich habe eine schriftliche Vollmacht" />
+          <label for="b2">
+            <span>
+              Ich habe eine schriftliche Vollmacht
+              <span class="rot">&nbsp;(Vollmacht beifügen!)</span>
+            </span>
+          </label>
+        </li>
+        <li class="radiochip">
+          <input formControlName="interesse" id="b3" type="radio" value="Ich bin Erbe" />
+          <label for="b3"
+            ><span> Ich bin Erbe und habe einen Erbnachweis<span class="rot">&nbsp;(Kopie beifügen!)</span> </span></label
+          >
+        </li>
+        <li class="radiochip">
+          <input formControlName="interesse" id="b4" type="radio" value="Ich habe ein eingetragenes Recht im Grundbuch" />
+          <label for="b4">Ich habe ein eingetragenes Recht im Grundbuch</label>
+        </li>
+        <li class="radiochip">
+          <input formControlName="interesse" id="b5" type="radio" value="Ich bin Gläubiger mit einem eingetragenen Grundpfandrecht" />
+          <label for="b5">Ich bin Gläubiger mit einem eingetragenen Grundpfandrecht</label>
+        </li>
+        <li class="radiochip">
+          <input formControlName="interesse" id="b6" type="radio" value="Ich habe einen Vollstreckungstitel" />
+          <label for="b6"
+            ><span> Ich habe einen Vollstreckungstitel <span class="rot">&nbsp;(Kopie beifügen!)</span> </span></label
+          >
+        </li>
+        <li class="radiochip">
+          <input formControlName="interesse" id="b7" type="radio" value="siehe Bemerkungen" />
+          <label for="b7">Sonstiger Grund <span class="rot">&nbsp;(begründen!)</span></label>
+        </li>
+      </ul>
+      <div>Bemerkungen für das Grundbuchamt:</div>
+      <textarea formControlName="bemerkung" id="bemerkung" name="bemerkung" maxlength="300"></textarea>
     </div>
-    <div class="formNavBtn">
-        @if (fs.getCurrentStep() > 1) {
-            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-        }
-        <button class="btnoutlined">Weiter</button>
-    </div>
+  </div>
+  <div class="formNavBtn">
+    @if (fs.getCurrentStep() > 1) {
+      <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+    }
+    <button class="btnoutlined">Weiter</button>
+  </div>
 </form>

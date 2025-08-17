@@ -1,33 +1,33 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 nav {
-    font-size: clamp(10px, 2.5vw, 1rem);
+  font-size: clamp(10px, 2.5vw, 1rem);
 
-    ul {
-        list-style: none;
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 1em;
+
+    li {
+      a {
+        font-size: 1.2em;
+        padding: 1em;
+        color: var(--schrift);
+        text-decoration: none;
         display: flex;
-        gap: 1em;
+      }
 
-        li {
-            a {
-                font-size: 1.2em;
-                padding: 1em;
-                color: var(--schrift);
-                text-decoration: none;
-                display: flex;
-            }
-
-            &.active {
-                border-bottom: 2px solid var(--primary-color);
-            }
-        }
+      &.active {
+        border-bottom: 2px solid var(--primary-color);
+      }
     }
+  }
 }
 
 .content {
-    width: 100%;
+  width: 100%;
 }

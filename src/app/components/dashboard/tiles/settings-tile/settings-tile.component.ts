@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
+import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { SettingsService } from 'src/app/services/server/settings.service';
 import { Settings } from 'server/models/settings.model';
-import { ProgressSpinnerComponent } from "../../../progress-spinner/progress-spinner.component";
+import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorDisplayComponent } from "../../../error-display/error-display.component";
+import { ErrorDisplayComponent } from '../../../error-display/error-display.component';
 
 @Component({
   selector: 'app-settings-tile',
@@ -22,7 +22,7 @@ export class SettingsTileComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.error = null
+      this.error = null;
       this.settings = await this.settingsS.getSettings();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
@@ -33,7 +33,7 @@ export class SettingsTileComponent implements OnInit {
 
   async changeSetting(settingName: string, value: boolean | string): Promise<void> {
     try {
-      this.error = null
+      this.error = null;
       const settings = await this.settingsS.getSettings();
       if (!settings) return;
       (settings as any)[settingName] = value;
@@ -47,7 +47,7 @@ export class SettingsTileComponent implements OnInit {
 
   async deleteAllGeneratedFiles(): Promise<void> {
     try {
-      this.error = null
+      this.error = null;
       if (!confirm('Soll wirklich alle generierten Dateien gelöscht werden?')) return;
       await this.uploadS.deleteAllGeneratedFiles();
     } catch (error) {

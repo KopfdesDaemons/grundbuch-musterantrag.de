@@ -9,8 +9,7 @@ describe('DashboardTileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DashboardTileComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardTileComponent);
     component = fixture.componentInstance;

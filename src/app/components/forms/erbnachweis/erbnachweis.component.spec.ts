@@ -9,8 +9,7 @@ describe('ErbnachweisComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ErbnachweisComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ErbnachweisComponent);
     component = fixture.componentInstance;

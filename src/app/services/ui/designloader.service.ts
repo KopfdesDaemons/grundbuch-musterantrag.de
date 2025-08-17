@@ -17,7 +17,7 @@ export class DesignloaderService {
 
   darkmode: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private initialized = false;
-  primaryColor: string | null = "#20afdf";
+  primaryColor: string | null = '#20afdf';
 
   async initDesign() {
     // init darkmode from cookie or preference
@@ -41,7 +41,7 @@ export class DesignloaderService {
     if (!ColorHelper.isValidHexColor(primaryColorFromSettings)) return;
     this.primaryColor = primaryColorFromSettings;
     const hsl = ColorHelper.HexToHSL(primaryColorFromSettings);
-    this.changeColor(hsl["h"], hsl["s"], hsl["l"], true);
+    this.changeColor(hsl['h'], hsl['s'], hsl['l'], true);
   }
 
   preferenceSchemeIsDarkmode(): boolean {
@@ -55,38 +55,38 @@ export class DesignloaderService {
   }
 
   private activateDarkmode(withoutCookieConsent: boolean = false) {
-    this.document?.classList.add("darkmode");
-    const c = new Cookie("Darkmode", String(true), 90, "Darf das Designschema gespeichert werden?");
+    this.document?.classList.add('darkmode');
+    const c = new Cookie('Darkmode', String(true), 90, 'Darf das Designschema gespeichert werden?');
     if (withoutCookieConsent) this.cs.setcookie(c);
     else this.cs.setCookieWithRequest(c);
   }
 
   private deactivateDarkmode() {
-    this.document?.classList.remove("darkmode");
-    const c = new Cookie("Darkmode", String(false), 90, "Darf das Designschema gespeichert werden?");
+    this.document?.classList.remove('darkmode');
+    const c = new Cookie('Darkmode', String(false), 90, 'Darf das Designschema gespeichert werden?');
     this.cs.setCookieWithRequest(c);
   }
 
   private getSchemeFromCookie(): boolean | undefined {
-    const cookie = this.cs.getCookie("Darkmode");
-    return cookie === "true" ? true : cookie === "" ? undefined : false;
+    const cookie = this.cs.getCookie('Darkmode');
+    return cookie === 'true' ? true : cookie === '' ? undefined : false;
   }
 
   setColorFromCookie(): boolean {
-    const FarbCookie = this.cs.getCookie("Farbe");
+    const FarbCookie = this.cs.getCookie('Farbe');
     if (!FarbCookie) return false;
-    const split = FarbCookie.split(",");
+    const split = FarbCookie.split(',');
     this.changeColor(Number(split[0]), Number(split[1]));
     return true;
   }
 
   changeColor(h: number, s: number, l: number = 50, withoutCookieConsent: boolean = false) {
-    const hsl = h + ", " + s + "%";
-    this.document?.style.setProperty("--hsl-color", hsl);
+    const hsl = h + ', ' + s + '%';
+    this.document?.style.setProperty('--hsl-color', hsl);
     this.primaryColor = ColorHelper.HSLToHex(h, s, l);
 
     if (withoutCookieConsent) return;
-    const c: Cookie = new Cookie("Farbe", h + "," + s, 90, "Darf die Farbe gespeichert werden?");
+    const c: Cookie = new Cookie('Farbe', h + ',' + s, 90, 'Darf die Farbe gespeichert werden?');
     this.cs.setCookieWithRequest(c);
   }
 }

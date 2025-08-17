@@ -8,6 +8,6 @@ export class Cookie {
     this.name = name;
     this.value = value;
     this.days = days;
-    this.consentQuestion = consentQuestion
+    this.consentQuestion = consentQuestion;
   }
 }

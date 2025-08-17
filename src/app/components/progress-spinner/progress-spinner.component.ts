@@ -1,11 +1,11 @@
-import {  Component, ElementRef, OnChanges, OnInit, input, viewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, input, viewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-progress-spinner',
-    templateUrl: './progress-spinner.component.html',
-    styleUrls: ['./progress-spinner.component.scss'],
-    imports: [NgClass]
+  selector: 'app-progress-spinner',
+  templateUrl: './progress-spinner.component.html',
+  styleUrls: ['./progress-spinner.component.scss'],
+  imports: [NgClass]
 })
 export class ProgressSpinnerComponent implements OnChanges, OnInit {
   readonly circle = viewChild.required<ElementRef>('circle');
@@ -13,7 +13,6 @@ export class ProgressSpinnerComponent implements OnChanges, OnInit {
   readonly endless = input<boolean>(false);
   radius: number = 17;
   circumference: number = this.radius * 2 * Math.PI;
-
 
   ngOnInit(): void {
     this.circle().nativeElement.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
@@ -27,8 +26,8 @@ export class ProgressSpinnerComponent implements OnChanges, OnInit {
 
   setProgress() {
     let percent = this.prozent();
-    if(this.endless()) percent = 40;
-    const offset = this.circumference - percent / 100 * this.circumference;
+    if (this.endless()) percent = 40;
+    const offset = this.circumference - (percent / 100) * this.circumference;
     this.circle().nativeElement.style.strokeDashoffset = offset;
   }
 }

@@ -4,7 +4,7 @@ import { FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from 
 import { UserRoleOption } from 'src/app/models/user-role-option.model';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserroleService } from 'src/app/services/user/userrole.service';
-import { ErrorDisplayComponent } from "../../../../components/error-display/error-display.component";
+import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
 
 @Component({
   selector: 'app-create-user',

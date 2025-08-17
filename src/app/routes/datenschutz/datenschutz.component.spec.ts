@@ -8,9 +8,8 @@ describe('DatenschutzComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [DatenschutzComponent]
-})
-    .compileComponents();
+      imports: [DatenschutzComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DatenschutzComponent);
     component = fixture.componentInstance;

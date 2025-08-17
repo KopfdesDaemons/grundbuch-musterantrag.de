@@ -1,37 +1,37 @@
 .formularcontent {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .inputfelder {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .formNavBtn {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .inputfelder .inputfeld {
-    width: 48%;
+  width: 48%;
 }
 
 hr {
-    margin: 0.5em 0;
-    width: 80%;
-    display: block;
+  margin: 0.5em 0;
+  width: 80%;
+  display: block;
 }
 
 .hrdiv {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 @media only screen and (max-width: 580px) {
-    .inputfelder .inputfeld {
-        width: 100%;
-    }
+  .inputfelder .inputfeld {
+    width: 100%;
+  }
 }

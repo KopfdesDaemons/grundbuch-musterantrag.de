@@ -4,19 +4,20 @@ import { RouterLink } from '@angular/router';
 import { ArtikelComponent } from '../../../components/artikel/artikel.component';
 
 @Component({
-    selector: 'app-bestandsverzeichnis',
-    templateUrl: './bestandsverzeichnis.component.html',
-    styleUrls: ['./bestandsverzeichnis.component.scss'],
-    imports: [ArtikelComponent, RouterLink]
+  selector: 'app-bestandsverzeichnis',
+  templateUrl: './bestandsverzeichnis.component.html',
+  styleUrls: ['./bestandsverzeichnis.component.scss'],
+  imports: [ArtikelComponent, RouterLink]
 })
 export class BestandsverzeichnisComponent {
   private meta = inject(Meta);
   private titleService = inject(Title);
 
   constructor() {
-    this.meta.addTag({ 
+    this.meta.addTag({
       name: 'description',
-      content: 'Eine kompakte Einleitung ins Grundbuchrecht. Kurze Erklärung des Bestandsverzeichnises des Grundbuchs.' });
+      content: 'Eine kompakte Einleitung ins Grundbuchrecht. Kurze Erklärung des Bestandsverzeichnises des Grundbuchs.'
+    });
     this.titleService.setTitle('Einleitung Grundbuchrecht: Bestandsverzeichnis');
   }
 }

@@ -1,9 +1,9 @@
 <button #toggle style="cursor: pointer" class="toggle" (click)="click()">
-    <span>{{ frage() }}</span>
-    <fa-icon [icon]="faAngleDown"></fa-icon>
+  <span>{{ frage() }}</span>
+  <fa-icon [icon]="faAngleDown"></fa-icon>
 </button>
 <div class="container">
-    <div class="content">
-        <ng-content></ng-content>
-    </div>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
 </div>

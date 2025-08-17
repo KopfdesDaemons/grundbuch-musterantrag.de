@@ -8,19 +8,27 @@ import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components
 import { RouterLink } from '@angular/router';
 import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
 import { HeaderComponent } from '../../../components/header/header.component';
-import { DisqusComponent } from "../../../components/disqus/disqus.component";
+import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
   selector: 'app-infopage-namensberichtigung',
   templateUrl: './infopage-namensberichtigung.component.html',
   styleUrl: './infopage-namensberichtigung.component.scss',
-  imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent, DisqusComponent]
+  imports: [
+    HeaderComponent,
+    AntragsinfosHeroComponent,
+    RouterLink,
+    SachlicheUndOrtlicheZustaendigkeitComponent,
+    AccordionComponent,
+    FooterComponent,
+    DisqusComponent
+  ]
 })
 export class InfopageNamensberichtigungComponent {
   private meta = inject(Meta);
   private titleService = inject(Title);
 
-  antrag: Antrag = new AntragNamensberichtigung()
+  antrag: Antrag = new AntragNamensberichtigung();
 
   constructor() {
     this.meta.updateTag({

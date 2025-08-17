@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SidemenuService {
-
   public DashboaardSidemenuIsOpen = false;
 
   public toggleDashboardSidemenu() {

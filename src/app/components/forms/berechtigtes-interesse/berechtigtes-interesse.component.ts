@@ -9,10 +9,10 @@ import { FormService } from 'src/app/services/document/form.service';
   imports: [FormsModule, ReactiveFormsModule]
 })
 export class BerechtigtesInteresseComponent {
-  form: FormGroup
+  form: FormGroup;
   fs = inject(FormService);
 
   constructor() {
-    this.form = this.fs.form.get("berechtigtesInteresse") as FormGroup;
+    this.form = this.fs.form.get('berechtigtesInteresse') as FormGroup;
   }
 }

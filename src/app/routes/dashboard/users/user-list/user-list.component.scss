@@ -1,48 +1,48 @@
 .sectiondiv {
-    animation: grow 500ms;
-    overflow: hidden;
+  animation: grow 500ms;
+  overflow: hidden;
 
-    @media only screen and (max-width: 700px) {
-        padding: 0;
-    }
+  @media only screen and (max-width: 700px) {
+    padding: 0;
+  }
 }
 
 .tableScrollContainer {
-    max-height: 800px;
-    width: clamp(300px, 90%, 1000px);
-    overflow: auto;
-    position: relative;
-    resize: vertical;
-    margin-top: 1em;
+  max-height: 800px;
+  width: clamp(300px, 90%, 1000px);
+  overflow: auto;
+  position: relative;
+  resize: vertical;
+  margin-top: 1em;
 
-    @media only screen and (max-width: 700px) {
-        width: 100%;
-    }
+  @media only screen and (max-width: 700px) {
+    width: 100%;
+  }
 
-    table {
-        width: 100%;
-        font-size: clamp(12px, 2vw, 16px);
-        margin-top: 0;
-    }
+  table {
+    width: 100%;
+    font-size: clamp(12px, 2vw, 16px);
+    margin-top: 0;
+  }
 
-    thead {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
 }
 
 .editForm {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
 
-    button {
-        margin-left: auto;
-    }
+  button {
+    margin-left: auto;
+  }
 }
 
 app-progress-spinner {
-    margin-top: 1em;
+  margin-top: 1em;
 }

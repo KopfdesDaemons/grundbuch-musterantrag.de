@@ -1,9 +1,7 @@
 include:
   - docker-compose.base.yml
 
-
 services:
-
   adminer:
     image: adminer
     container_name: adminer_container
@@ -23,8 +21,8 @@ services:
         source: .
         target: /app
       - type: bind
-        source: ./storage  # Home-Verzeichnis des Benutzers
-        target: /app/storage  
+        source: ./storage # Home-Verzeichnis des Benutzers
+        target: /app/storage
     stdin_open: true
     tty: true
     depends_on:

@@ -1,23 +1,23 @@
 section {
-    animation: slideInFromTop 700ms forwards;
-    margin-top: 4em;
+  animation: slideInFromTop 700ms forwards;
+  margin-top: 4em;
 }
 
 app-login-card {
-    @media only screen and (max-width: 500px) {
-        min-width: unset;
-        width: 100%;
-    }
+  @media only screen and (max-width: 500px) {
+    min-width: unset;
+    width: 100%;
+  }
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .error {
-    color: red;
-    min-height: 1em;
-    line-height: 1;
-    padding: 0.5em 0;
+  color: red;
+  min-height: 1em;
+  line-height: 1;
+  padding: 0.5em 0;
 }

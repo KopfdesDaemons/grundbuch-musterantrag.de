@@ -1,37 +1,51 @@
 <form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
-    <h2>Recht Abteilung II</h2>
-    <p>
-        Geben Sie Daten an, mit denen das Grundbuchamt das Recht eindeutig idenifizieren kann. Wenn das Grundbuchamt nicht erkennen kann, welches Recht gemeint ist, erhalten Sie eine Zwischenverfügung
-        mit der Bitte um genauere Angaben.
-    </p>
-    <div class="formularcontent">
-        <div id="bezeichnungContainer">
-            <span>Welches Recht ist betroffen? z.B. "Wohnungsrecht Max Mustermann"</span>
-            <div class="inputfeld" id="bezeichnung">
-                <input formControlName="bezeichnung" type="text" id="bezeichnunginput" name="bezeichnung" required spellcheck="false" placeholder="&nbsp;" />
-                <label class="placeholder" for="bezeichnunginput">Bezeichnung des Rechts</label>
-            </div>
-            @if (form.controls["bezeichnung"].hasError("nichtAbteilung2")) {
-                <span class="error">{{ form.controls["bezeichnung"].getError("nichtAbteilung2").message }}</span>
-            }
-        </div>
-        <div>
-            <label class="placeholder" for="laufendeNummerinput">Laufende Nummer: </label>
-            <div class="inputfeld" id="laufendeNummer">
-                <input formControlName="laufendeNummer" type="number" id="laufendeNummerinput" name="laufendeNummer" spellcheck="false" placeholder="&nbsp;" />
-            </div>
-        </div>
-        <div>
-            <label class="placeholder" for="datumDerBewilligunginput">Datum der Bewilligung: </label>
-            <div class="inputfeld" id="datumDerBewilligung">
-                <input formControlName="datumDerBewilligung" type="date" id="datumDerBewilligunginput" name="datumDerBewilligung" spellcheck="false" placeholder="&nbsp;" />
-            </div>
-        </div>
-        <div class="formNavBtn">
-            @if (fs.getCurrentStep() > 1) {
-                <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
-            }
-            <button class="btnoutlined">Weiter</button>
-        </div>
+  <h2>Recht Abteilung II</h2>
+  <p>
+    Geben Sie Daten an, mit denen das Grundbuchamt das Recht eindeutig idenifizieren kann. Wenn das Grundbuchamt nicht erkennen kann, welches Recht
+    gemeint ist, erhalten Sie eine Zwischenverfügung mit der Bitte um genauere Angaben.
+  </p>
+  <div class="formularcontent">
+    <div id="bezeichnungContainer">
+      <span>Welches Recht ist betroffen? z.B. "Wohnungsrecht Max Mustermann"</span>
+      <div class="inputfeld" id="bezeichnung">
+        <input formControlName="bezeichnung" type="text" id="bezeichnunginput" name="bezeichnung" required spellcheck="false" placeholder="&nbsp;" />
+        <label class="placeholder" for="bezeichnunginput">Bezeichnung des Rechts</label>
+      </div>
+      @if (form.controls["bezeichnung"].hasError("nichtAbteilung2")) {
+        <span class="error">{{ form.controls["bezeichnung"].getError("nichtAbteilung2").message }}</span>
+      }
     </div>
+    <div>
+      <label class="placeholder" for="laufendeNummerinput">Laufende Nummer: </label>
+      <div class="inputfeld" id="laufendeNummer">
+        <input
+          formControlName="laufendeNummer"
+          type="number"
+          id="laufendeNummerinput"
+          name="laufendeNummer"
+          spellcheck="false"
+          placeholder="&nbsp;"
+        />
+      </div>
+    </div>
+    <div>
+      <label class="placeholder" for="datumDerBewilligunginput">Datum der Bewilligung: </label>
+      <div class="inputfeld" id="datumDerBewilligung">
+        <input
+          formControlName="datumDerBewilligung"
+          type="date"
+          id="datumDerBewilligunginput"
+          name="datumDerBewilligung"
+          spellcheck="false"
+          placeholder="&nbsp;"
+        />
+      </div>
+    </div>
+    <div class="formNavBtn">
+      @if (fs.getCurrentStep() > 1) {
+        <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+      }
+      <button class="btnoutlined">Weiter</button>
+    </div>
+  </div>
 </form>

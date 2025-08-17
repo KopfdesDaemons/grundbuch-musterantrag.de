@@ -1,23 +1,23 @@
 <aside #sidebar class="navigationlinks">
-    <div #closingdiv (click)="close()" class="closingDiv"></div>
-    <div #sidebarbutton class="sidebarbutton" (click)="open()">
-        <fa-icon class="icon" [icon]="faBars"></fa-icon>
-    </div>
-    <ul class="themenliste">
-        @for (thema of themen; track thema) {
-            <li class="thema" [ngClass]="{ themaangeklickt: router.url.includes(thema.routerLink) }">
-                <div>
-                    <fa-icon (click)="dropdown($event)" class="icon" [icon]="faSortDown"></fa-icon>
-                    <a [routerLink]="thema.routerLink">{{ thema.name }}</a>
-                </div>
-                <ul>
-                    @for (unterthema of thema.unterthemen; track unterthema) {
-                        <li class="unterthema">
-                            <a [routerLink]="thema.routerLink" (click)="close()" [fragment]="unterthema.fragment">{{ unterthema.name }}</a>
-                        </li>
-                    }
-                </ul>
+  <div #closingdiv (click)="close()" class="closingDiv"></div>
+  <div #sidebarbutton class="sidebarbutton" (click)="open()">
+    <fa-icon class="icon" [icon]="faBars"></fa-icon>
+  </div>
+  <ul class="themenliste">
+    @for (thema of themen; track thema) {
+      <li class="thema" [ngClass]="{ themaangeklickt: router.url.includes(thema.routerLink) }">
+        <div>
+          <fa-icon (click)="dropdown($event)" class="icon" [icon]="faSortDown"></fa-icon>
+          <a [routerLink]="thema.routerLink">{{ thema.name }}</a>
+        </div>
+        <ul>
+          @for (unterthema of thema.unterthemen; track unterthema) {
+            <li class="unterthema">
+              <a [routerLink]="thema.routerLink" (click)="close()" [fragment]="unterthema.fragment">{{ unterthema.name }}</a>
             </li>
-        }
-    </ul>
+          }
+        </ul>
+      </li>
+    }
+  </ul>
 </aside>

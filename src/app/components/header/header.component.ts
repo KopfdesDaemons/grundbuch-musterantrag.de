@@ -1,12 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  input,
-  OnInit,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, inject, input, OnInit, signal, viewChild } from '@angular/core';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/utils/cookies.service';
 import { Cookie } from '../../models/cookie.model';
@@ -20,7 +12,7 @@ import { ColorHelper } from 'src/app/helpers/color.helper';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [NgClass, FaIconComponent, RouterLink],
+  imports: [NgClass, FaIconComponent, RouterLink]
 })
 export class HeaderComponent implements OnInit {
   cs = inject(CookiesService);
@@ -47,7 +39,7 @@ export class HeaderComponent implements OnInit {
     'hsl(0, 0%, 50%)',
     'hsl(334, 100%, 50%)',
     'hsl(225, 6%, 50%)',
-    'hsl(110, 69%, 50%)',
+    'hsl(110, 69%, 50%)'
   ];
 
   ngOnInit(): void {
@@ -68,7 +60,7 @@ export class HeaderComponent implements OnInit {
   }
 
   private delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   private showCookieBanner() {
@@ -94,6 +86,6 @@ export class HeaderComponent implements OnInit {
   }
 
   clickOnColorPicker() {
-    this.colorPickerIsOpen.update((value) => !value);
+    this.colorPickerIsOpen.update(value => !value);
   }
 }

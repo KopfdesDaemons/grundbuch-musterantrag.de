@@ -1,7 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-
 // folder paths
 export const SERVER_DIST_FOLDER = path.dirname(fileURLToPath(import.meta.url));
 export const STORAGE_FOLDER_PATH = path.join('/app/storage');

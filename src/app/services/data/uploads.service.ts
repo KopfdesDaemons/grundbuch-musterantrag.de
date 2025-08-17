@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Upload } from 'server/models/upload.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UploadsService {
   private http = inject(HttpClient);
@@ -31,8 +31,8 @@ export class UploadsService {
     const data = await lastValueFrom(
       this.http.get('/api/uploads', {
         headers: this.authS.getAuthHeader(),
-        params: new HttpParams().set('page', 0),
-      }),
+        params: new HttpParams().set('page', 0)
+      })
     );
     return data as { page: number; totalPages: number; totalFiles: number; files: Upload[] };
   }
@@ -49,8 +49,8 @@ export class UploadsService {
     const result = await lastValueFrom(
       this.http.get('/api/uploads', {
         headers: this.authS.getAuthHeader(),
-        params: new HttpParams().set('page', page),
-      }),
+        params: new HttpParams().set('page', page)
+      })
     );
 
     this.uploadsData = result as { page: number; totalPages: number; totalFiles: number; files: Upload[] };
@@ -64,8 +64,8 @@ export class UploadsService {
       this.http.get('/api/uploads/getFile', {
         headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('fileName', fileName),
-        responseType: 'blob',
-      }),
+        responseType: 'blob'
+      })
     );
 
     const contentType = fileType === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
@@ -99,8 +99,8 @@ export class UploadsService {
     if (!isPlatformBrowser(this.platformId)) return {};
     const data = await lastValueFrom(
       this.http.get('/api/statistic', {
-        headers: this.authS.getAuthHeader(),
-      }),
+        headers: this.authS.getAuthHeader()
+      })
     );
     return data as { [key: string]: number };
   }
@@ -109,16 +109,16 @@ export class UploadsService {
     await lastValueFrom(
       this.http.delete('/api/uploads/deleteUpload', {
         headers: this.authS.getAuthHeader(),
-        params: new HttpParams().set('uploadID', name),
-      }),
+        params: new HttpParams().set('uploadID', name)
+      })
     );
   }
 
   async deleteFolder() {
     await lastValueFrom(
       this.http.delete('/api/uploads/', {
-        headers: this.authS.getAuthHeader(),
-      }),
+        headers: this.authS.getAuthHeader()
+      })
     );
   }
 
@@ -126,16 +126,16 @@ export class UploadsService {
     await lastValueFrom(
       this.http.delete('/api/uploads/deleteGeneratedFiles', {
         headers: this.authS.getAuthHeader(),
-        params: new HttpParams().set('uploadID', uploadID),
-      }),
+        params: new HttpParams().set('uploadID', uploadID)
+      })
     );
   }
 
   async deleteAllGeneratedFiles() {
     await lastValueFrom(
       this.http.delete('/api/uploads/deleteAllGeneratedFiles', {
-        headers: this.authS.getAuthHeader(),
-      }),
+        headers: this.authS.getAuthHeader()
+      })
     );
   }
 
@@ -143,8 +143,8 @@ export class UploadsService {
     const response = await lastValueFrom(
       this.http.get('/api/uploads/getUploadCountPerDays', {
         headers: this.authS.getAuthHeader(),
-        params: new HttpParams().set('timeframe', timeframe),
-      }),
+        params: new HttpParams().set('timeframe', timeframe)
+      })
     );
     return response as { date: string; count: number }[];
   }

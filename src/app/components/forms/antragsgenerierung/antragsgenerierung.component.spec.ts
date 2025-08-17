@@ -9,8 +9,7 @@ describe('AntragsgenerierungComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AntragsgenerierungComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AntragsgenerierungComponent);
     component = fixture.componentInstance;

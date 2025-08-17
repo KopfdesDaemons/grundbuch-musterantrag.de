@@ -12,7 +12,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 })
 export class AntragstellerComponent {
   fs = inject(FormService);
-  form: FormGroup
+  form: FormGroup;
 
   faCircleUser = faCircleUser;
 
@@ -23,7 +23,7 @@ export class AntragstellerComponent {
   async suchePlz(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     if (value.length === 5) {
-      const ort: string = await this.fs.ortAusPLZ(value) || '';
+      const ort: string = (await this.fs.ortAusPLZ(value)) || '';
       this.form.controls['ort'].setValue(ort);
     }
   }

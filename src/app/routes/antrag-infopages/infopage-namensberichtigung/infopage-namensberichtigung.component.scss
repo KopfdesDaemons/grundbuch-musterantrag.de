@@ -1,25 +1,25 @@
 h2 {
-    margin: 0;
-    font-size: clamp(0.5rem, 6vw, 2rem);
-    text-align: center;
+  margin: 0;
+  font-size: clamp(0.5rem, 6vw, 2rem);
+  text-align: center;
 }
 
 blockquote[cite]::after {
-    content: " (Quelle: " attr(cite) ")";
-    font-style: italic;
+  content: " (Quelle: " attr(cite) ")";
+  font-style: italic;
 }
 
 .btnoutlined {
-    font-size: 1.3em;
+  font-size: 1.3em;
 }
 
 #FAQ {
-    ul {
-        margin-top: 1em;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
-        list-style: none;
-    }
+  ul {
+    margin-top: 1em;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    list-style: none;
+  }
 }

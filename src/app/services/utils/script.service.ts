@@ -1,4 +1,3 @@
-
 import { Injectable, Renderer2, inject, DOCUMENT } from '@angular/core';
 
 @Injectable({
@@ -6,7 +5,6 @@ import { Injectable, Renderer2, inject, DOCUMENT } from '@angular/core';
 })
 export class ScriptService {
   private document = inject<Document>(DOCUMENT);
-
 
   addJsScript(renderer: Renderer2, src: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -24,7 +22,6 @@ export class ScriptService {
       renderer.appendChild(this.document.body, script);
     });
   }
-
 
   async reloadJsScript(renderer: Renderer2, src: string) {
     this.removeJsScript(src);

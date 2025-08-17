@@ -1,11 +1,11 @@
 <app-header></app-header>
 <header [class.menuIsOpen]="sidemenuS.DashboaardSidemenuIsOpen">
-    <button (click)="sidemenuS.toggleDashboardSidemenu()">
-        <fa-icon [icon]="faBars"></fa-icon>
-    </button>
+  <button (click)="sidemenuS.toggleDashboardSidemenu()">
+    <fa-icon [icon]="faBars"></fa-icon>
+  </button>
 </header>
 <app-sidemenu></app-sidemenu>
 <div class="content" [class.menuIsOpen]="sidemenuS.DashboaardSidemenuIsOpen">
-    <router-outlet [class.menuIsOpen]="sidemenuS.DashboaardSidemenuIsOpen"></router-outlet>
+  <router-outlet [class.menuIsOpen]="sidemenuS.DashboaardSidemenuIsOpen"></router-outlet>
 </div>
 <app-footer></app-footer>

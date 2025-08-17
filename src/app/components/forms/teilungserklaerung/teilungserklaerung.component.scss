@@ -1,22 +1,22 @@
 .formNavBtn {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 ul {
-    padding: 0;
-    list-style: none;
+  padding: 0;
+  list-style: none;
 }
 
 input {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 label {
-    color: var(--primary-color);
-    cursor: pointer;
+  color: var(--primary-color);
+  cursor: pointer;
 
-    +p {
-        margin-left: 1.5em;
-    }
+  + p {
+    margin-left: 1.5em;
+  }
 }

@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, input } from '@angular/core';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
 import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { DisqusComponent } from "../disqus/disqus.component";
+import { DisqusComponent } from '../disqus/disqus.component';
 
 @Component({
   selector: 'app-artikel',

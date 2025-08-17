@@ -14,7 +14,7 @@ export class CookiesService {
   cookieRequestList: BehaviorSubject<Cookie[]> = new BehaviorSubject<Cookie[]>([]);
 
   getCookieString(): string {
-    return isPlatformBrowser(this.platfomId) ? this.document.cookie : this.request?.headers.get('cookie') ?? '';
+    return isPlatformBrowser(this.platfomId) ? this.document.cookie : (this.request?.headers.get('cookie') ?? '');
   }
 
   /**
@@ -25,8 +25,8 @@ export class CookiesService {
     if (!isPlatformBrowser(this.platfomId)) return;
     const d = new Date();
     d.setTime(d.getTime() + cookie.days * 24 * 60 * 60 * 1000);
-    const expires = "expires=" + d.toUTCString();
-    document.cookie = cookie.name + "=" + cookie.value + ";" + expires + "; path=/;";
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = cookie.name + '=' + cookie.value + ';' + expires + '; path=/;';
   }
 
   /**
@@ -37,18 +37,18 @@ export class CookiesService {
   getCookie(cname: string) {
     const cookieString = this.getCookieString();
 
-    const name = cname + "=";
-    const ca = cookieString.split(";");
+    const name = cname + '=';
+    const ca = cookieString.split(';');
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i];
-      while (c.charAt(0) == " ") {
+      while (c.charAt(0) == ' ') {
         c = c.substring(1);
       }
       if (c.indexOf(name) == 0) {
         return c.substring(name.length, c.length);
       }
     }
-    return "";
+    return '';
   }
 
   /**
@@ -67,7 +67,7 @@ export class CookiesService {
    * @param cookie Das Cookie-Objekt, das überprüft werden soll.
    */
   setCookieWithRequest(cookie: Cookie) {
-    if (this.getCookie(cookie.name) != "") {
+    if (this.getCookie(cookie.name) != '') {
       this.setcookie(cookie);
       return;
     }
@@ -91,13 +91,13 @@ export class CookiesService {
   }
 
   /**
-  * Löscht alle Cookies
-  */
+   * Löscht alle Cookies
+   */
   deleteAllCookies() {
-    const cookies = document.cookie.split(";");
+    const cookies = document.cookie.split(';');
 
     for (const cookie of cookies) {
-      const eqPos = cookie.indexOf("=");
+      const eqPos = cookie.indexOf('=');
       const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
       this.document.cookie = name + `=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
@@ -106,21 +106,21 @@ export class CookiesService {
   /**
    * Liest alle Cookies aus dem Cookie-String
    * @returns {Cookie[]} Array mit allen Cookies
-  */
+   */
   getAllCookies(): Cookie[] {
     const cookies: Cookie[] = [];
     const cookieString = this.getCookieString();
     if (!cookieString) return [];
 
-    const cookieStrings = cookieString.split(";");
+    const cookieStrings = cookieString.split(';');
 
     for (const c of cookieStrings) {
       const cookie: Cookie = {
-        name: c.split("=")[0],
-        value: c.split("=")[1],
+        name: c.split('=')[0],
+        value: c.split('=')[1],
         days: 0,
         consentQuestion: ''
-      }
+      };
       cookies.push(cookie);
     }
     return cookies;

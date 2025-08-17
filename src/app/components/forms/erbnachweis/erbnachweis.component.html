@@ -1,51 +1,67 @@
 <form [formGroup]="form" (ngSubmit)="form.valid && fs.nextStep()">
-    <div>
-        <h2>Erbnachweis</h2>
-        <p>Welcher Erbnachweis liegt vor?</p>
-        <div class="formularcontent">
-            <ul>
-                <li class="auswahlcard">
-                    <input formControlName="erbnachweis" type="radio" id="erbschein" name="erbnachweis" value="Erbschein" />
-                    <label for="erbschein"
-                        ><strong>Ausfertigung eines Erbscheins</strong>
-                        <p>Die Ausfertigung des Erbescheins wird vom Nachlassgericht erteilt.</p>
-                        <p>Eine einfache Kopie des Erbscheins ist nicht ausreichend.</p>
-                    </label>
-                </li>
-                <li class="auswahlcard">
-                    <input formControlName="erbnachweis" type="radio" id="testament" name="erbnachweis" value="notarielles Testament" />
-                    <label for="testament"
-                        ><strong>Beglaubigte Abschrift eines notariellen Testaments oder Erbvertrags</strong>
-                        <p>Die Grundbuchberichtigung mit einem handschriftlichem Testament ist nicht möglich.</p>
-                        <p>Das notarielle Testament oder der Erbvertrag muss als <b>beglaubigte Abschrift</b> vorliegen. Eine einfache Kopie ist nicht ausreichend.</p>
-                    </label>
-                </li>
-            </ul>
-            <div class="nachlassgericht">
-                <p>
-                    Wenn der Erbnachweis von dem Amtsgericht erteilt wurde, bei dem Sie die Grundbuchberichtigung beantragen, ist es wahrscheinlich, dass das Nachlassgericht dem Grundbuchamt bereits
-                    den Erbnachweis übersandt hat. Eine Übersendung von Ihnen ist somit nicht mehr erforderlich. Sollte das Grundbuchamt den Erbnachweis noch nicht erhalten haben, fordert dieses den
-                    Erbnachweis beim Nachlassgericht an oder Sie erhalten eine Zwischenverfügung mit der Bitte, den Erbnachweis einzureichen.
-                </p>
-                <input type="checkbox" #erbnachweisGerichtbekannt formControlName="erbnachweisGerichtbekannt" name="erbnachweisGerichtbekannt" id="erbnachweisGerichtbekanntInput" value="false" />
-                <label for="erbnachweisGerichtbekanntInput">Erbnachweis ist vom gleichen Amtsgericht</label>
-                @if (erbnachweisGerichtbekannt.checked) {
-                    <br />
-                    <div class="inputfeld" id="aktenzeichenNachlassgericht">
-                        <input formControlName="aktenzeichenNachlassgericht" id="aktenzeichenNachlassgerichtInput" name="aktenzeichenNachlassgericht" spellcheck="false" placeholder="&nbsp;" />
-                        <label class="placeholder" for="aktenzeichenNachlassgerichtInput">Nachlassaktenzeichen</label>
-                    </div>
-                    @if (form.controls["aktenzeichenNachlassgericht"].hasError("IVorVI")) {
-                        <p class="rot">Das Nachlassaktenzeichen muss IV oder VI enthalten.</p>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-    <div class="formNavBtn">
-        @if (fs.getCurrentStep() > 1) {
-            <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+  <div>
+    <h2>Erbnachweis</h2>
+    <p>Welcher Erbnachweis liegt vor?</p>
+    <div class="formularcontent">
+      <ul>
+        <li class="auswahlcard">
+          <input formControlName="erbnachweis" type="radio" id="erbschein" name="erbnachweis" value="Erbschein" />
+          <label for="erbschein"
+            ><strong>Ausfertigung eines Erbscheins</strong>
+            <p>Die Ausfertigung des Erbescheins wird vom Nachlassgericht erteilt.</p>
+            <p>Eine einfache Kopie des Erbscheins ist nicht ausreichend.</p>
+          </label>
+        </li>
+        <li class="auswahlcard">
+          <input formControlName="erbnachweis" type="radio" id="testament" name="erbnachweis" value="notarielles Testament" />
+          <label for="testament"
+            ><strong>Beglaubigte Abschrift eines notariellen Testaments oder Erbvertrags</strong>
+            <p>Die Grundbuchberichtigung mit einem handschriftlichem Testament ist nicht möglich.</p>
+            <p>
+              Das notarielle Testament oder der Erbvertrag muss als <b>beglaubigte Abschrift</b> vorliegen. Eine einfache Kopie ist nicht ausreichend.
+            </p>
+          </label>
+        </li>
+      </ul>
+      <div class="nachlassgericht">
+        <p>
+          Wenn der Erbnachweis von dem Amtsgericht erteilt wurde, bei dem Sie die Grundbuchberichtigung beantragen, ist es wahrscheinlich, dass das
+          Nachlassgericht dem Grundbuchamt bereits den Erbnachweis übersandt hat. Eine Übersendung von Ihnen ist somit nicht mehr erforderlich. Sollte
+          das Grundbuchamt den Erbnachweis noch nicht erhalten haben, fordert dieses den Erbnachweis beim Nachlassgericht an oder Sie erhalten eine
+          Zwischenverfügung mit der Bitte, den Erbnachweis einzureichen.
+        </p>
+        <input
+          type="checkbox"
+          #erbnachweisGerichtbekannt
+          formControlName="erbnachweisGerichtbekannt"
+          name="erbnachweisGerichtbekannt"
+          id="erbnachweisGerichtbekanntInput"
+          value="false"
+        />
+        <label for="erbnachweisGerichtbekanntInput">Erbnachweis ist vom gleichen Amtsgericht</label>
+        @if (erbnachweisGerichtbekannt.checked) {
+          <br />
+          <div class="inputfeld" id="aktenzeichenNachlassgericht">
+            <input
+              formControlName="aktenzeichenNachlassgericht"
+              id="aktenzeichenNachlassgerichtInput"
+              name="aktenzeichenNachlassgericht"
+              spellcheck="false"
+              placeholder="&nbsp;"
+            />
+            <label class="placeholder" for="aktenzeichenNachlassgerichtInput">Nachlassaktenzeichen</label>
+          </div>
+          @if (form.controls["aktenzeichenNachlassgericht"].hasError("IVorVI")) {
+            <p class="rot">Das Nachlassaktenzeichen muss IV oder VI enthalten.</p>
+          }
         }
-        <button class="btnoutlined">Weiter</button>
+      </div>
     </div>
+  </div>
+  <div class="formNavBtn">
+    @if (fs.getCurrentStep() > 1) {
+      <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+    }
+    <button class="btnoutlined">Weiter</button>
+  </div>
 </form>

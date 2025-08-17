@@ -39,18 +39,20 @@ export class SettingsService {
   async saveSettings(settings: Settings): Promise<void> {
     this.settings = settings;
     await lastValueFrom(
-      this.http.put('/api/settings', { settings: settings }, {
-        headers: this.authS.getAuthHeader(),
-        responseType: 'json' as const
-      })
+      this.http.put(
+        '/api/settings',
+        { settings: settings },
+        {
+          headers: this.authS.getAuthHeader(),
+          responseType: 'json' as const
+        }
+      )
     );
   }
 
   async getPrimaryColorFromSetings(): Promise<string | null> {
     try {
-      const result = await lastValueFrom(
-        this.http.get('/api/settings/getPrimaryColor')
-      );
+      const result = await lastValueFrom(this.http.get('/api/settings/getPrimaryColor'));
       if (!result) return null;
       const { primaryColor } = result as { primaryColor: string };
       return primaryColor;
@@ -59,5 +61,4 @@ export class SettingsService {
       return null;
     }
   }
-};
-
+}

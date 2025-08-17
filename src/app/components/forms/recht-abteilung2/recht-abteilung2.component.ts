@@ -13,6 +13,6 @@ export class RechtAbteilung2Component {
   fs = inject(FormService);
 
   constructor() {
-    this.form = this.fs.form.get("rechtAbteilung2") as FormGroup;
+    this.form = this.fs.form.get('rechtAbteilung2') as FormGroup;
   }
 }

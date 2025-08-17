@@ -23,7 +23,6 @@ import { GrundbuchamtComponent } from 'src/app/components/forms/grundbuchamt/gru
 @Injectable({
   providedIn: 'root'
 })
-
 export class FormService {
   private http = inject(HttpClient);
   private scroll = inject(ViewportScroller);
@@ -32,7 +31,7 @@ export class FormService {
   form: FormGroup = new FormGroup({});
   progress = signal(0);
   private step = signal<number>(1);
-  componentsMapping: { control: string, component: Type<any> }[] = [
+  componentsMapping: { control: string; component: Type<any> }[] = [
     { control: 'antragsteller', component: AntragstellerComponent },
     { control: 'erblasser', component: ErblasserComponent },
     { control: 'grundstueck', component: GrundstueckComponent },
@@ -45,7 +44,7 @@ export class FormService {
     { control: 'formDesAusdrucks', component: FormDesAusdrucksComponent },
     { control: 'berechtigtesInteresse', component: BerechtigtesInteresseComponent },
     { control: 'grundbuchamt', component: GrundbuchamtComponent }
-  ]
+  ];
   requiredComponents: Type<any>[] = [];
   currentComponent: Type<any> = AntragstellerComponent;
 
@@ -84,13 +83,13 @@ export class FormService {
 
   private setProgress() {
     const step: number = this.requiredComponents.indexOf(this.currentComponent);
-    const progress: number = step / this.requiredComponents.length * 100;
+    const progress: number = (step / this.requiredComponents.length) * 100;
     this.progress.set(progress);
   }
 
   private checkGrundbuchamtSkip(nextComponent: Type<any>): boolean {
     if (nextComponent === GrundbuchamtComponent) {
-      if ((this.form.get('grundbuchamt') as FormGroup).valid) return true
+      if ((this.form.get('grundbuchamt') as FormGroup).valid) return true;
     }
     return false;
   }
@@ -117,13 +116,13 @@ export class FormService {
   }
 
   async ortAusPLZ(plz: string): Promise<string | null> {
-    const url = "https://api.zippopotam.us/de/" + plz;
+    const url = 'https://api.zippopotam.us/de/' + plz;
     try {
       const response = await lastValueFrom(this.http.get(url));
       const json = response as { places: { 'place name': string }[] };
       if (json.places && json.places.length === 1) {
         const ort = json.places[0]['place name'];
-        return ort
+        return ort;
       } else {
         return null;
       }
@@ -139,15 +138,15 @@ export class FormService {
         const url = '/api/amtsgerichtausplz';
         const response = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('plz', plz) }));
         const jsonAmtsgerichtDaten = response as { amtsgericht: string; straße: string; plz: string; ort: string };
-        const grundbuchamtForm = (this.form.get('grundbuchamt') as FormGroup);
+        const grundbuchamtForm = this.form.get('grundbuchamt') as FormGroup;
 
         grundbuchamtForm.setValue({
           name: jsonAmtsgerichtDaten['amtsgericht'],
           straße: jsonAmtsgerichtDaten['straße'],
           plz: jsonAmtsgerichtDaten['plz'],
           ort: jsonAmtsgerichtDaten['ort']
-        })
-        console.log(grundbuchamtForm.get('name')?.value + ' wurde ermittelt.')
+        });
+        console.log(grundbuchamtForm.get('name')?.value + ' wurde ermittelt.');
       } catch {
         console.error('Das Amtsgericht konnte nicht ermittelt werden.');
       }

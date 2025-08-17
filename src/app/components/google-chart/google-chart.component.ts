@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, input, OnChanges, Renderer2, viewChild } from '@angular/core';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
-import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
+import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
 @Component({
   selector: 'app-google-chart',
@@ -16,13 +16,13 @@ export class GoogleChartComponent implements OnChanges {
   chartType = input.required<'LineChart' | 'PieChart' | 'BarChart' | 'ColumnChart'>();
   chartData = input.required<(string | number)[][]>();
   chartOptions = input.required<any>({});
-  chart: any = undefined
+  chart: any = undefined;
 
   private resizeObserver!: ResizeObserver;
   private resizeTimeout!: number;
 
   async ngOnChanges(): Promise<void> {
-    if (this.chartData().length === 0) return
+    if (this.chartData().length === 0) return;
     await this.gCharts.loadGoogleCharts(this.renderer);
     this.drawChart();
     this.observeResize();
@@ -46,13 +46,13 @@ export class GoogleChartComponent implements OnChanges {
     const container = this.chartContainer()?.nativeElement;
     this.chart = new google.visualization[this.chartType()](container);
     this.chart.draw(data, this.chartOptions());
-  };
+  }
 
   private observeResize() {
     if (this.resizeObserver) return;
     const entriesSeen = new Set<Element>();
 
-    this.resizeObserver = new ResizeObserver((entries) => {
+    this.resizeObserver = new ResizeObserver(entries => {
       let timeoutTriggered = false;
 
       for (const entry of entries) {

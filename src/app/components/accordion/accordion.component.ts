@@ -6,7 +6,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
   selector: 'app-accordion',
   templateUrl: './accordion.component.html',
   styleUrls: ['./accordion.component.scss'],
-  imports: [FaIconComponent],
+  imports: [FaIconComponent]
 })
 export class AccordionComponent {
   faAngleDown = faAngleDown;

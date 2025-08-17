@@ -1,3 +1,3 @@
 export interface Statistic {
-    [key: string]: number;
+  [key: string]: number;
 }

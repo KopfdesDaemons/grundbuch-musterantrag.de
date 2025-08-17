@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { CookiesService } from 'src/app/services/utils/cookies.service';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { HeaderComponent } from '../../components/header/header.component';
-import { CookiesTileComponent } from "../../components/dashboard/tiles/cookies-tile/cookies-tile.component";
+import { CookiesTileComponent } from '../../components/dashboard/tiles/cookies-tile/cookies-tile.component';
 import { ConsentService } from 'src/app/services/utils/consent.service';
 import { DisqusService } from 'src/app/services/integration/disqus.service';
 
@@ -17,7 +17,6 @@ export class DatenschutzComponent {
   private titleService = inject(Title);
   private disqusS = inject(DisqusService);
   cs = inject(CookiesService);
-
 
   constructor() {
     this.titleService.setTitle('Datenschutzerklärung');

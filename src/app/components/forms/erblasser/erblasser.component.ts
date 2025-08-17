@@ -13,6 +13,6 @@ export class ErblasserComponent {
   fs = inject(FormService);
 
   constructor() {
-    this.form = this.fs.form.get("erblasser") as FormGroup;
+    this.form = this.fs.form.get('erblasser') as FormGroup;
   }
 }

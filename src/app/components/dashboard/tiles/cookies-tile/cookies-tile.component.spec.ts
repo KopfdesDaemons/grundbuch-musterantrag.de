@@ -9,8 +9,7 @@ describe('CookiesTileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CookiesTileComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CookiesTileComponent);
     component = fixture.componentInstance;

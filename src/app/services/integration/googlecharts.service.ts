@@ -16,7 +16,6 @@ export class GooglechartsService {
   private local = inject(LOCALE_ID);
   private document = inject(DOCUMENT);
 
-
   async loadGoogleCharts(renderer: Renderer2): Promise<void> {
     if (!this.loadPromise) {
       this.loadPromise = (async () => {
@@ -25,7 +24,7 @@ export class GooglechartsService {
         google.charts.load('current', { packages: ['corechart'] });
 
         // Waiting for Google Charts to load
-        await new Promise<void>((resolve) => {
+        await new Promise<void>(resolve => {
           google.charts.setOnLoadCallback(resolve);
         });
       })();
@@ -64,7 +63,7 @@ export class GooglechartsService {
       responsive: true,
       colors,
       textStyle: {
-        color: schriftHEX,
+        color: schriftHEX
       },
       chartArea: {
         left: 20,
@@ -74,8 +73,8 @@ export class GooglechartsService {
         height: '90%'
       },
       backgroundColor: {
-        fill: 'transparent',
-      },
+        fill: 'transparent'
+      }
     };
   }
 
@@ -91,17 +90,17 @@ export class GooglechartsService {
       },
       colors: [primaryColor],
       textStyle: {
-        color: schriftHEX,
+        color: schriftHEX
       },
       backgroundColor: {
-        fill: 'transparent',
+        fill: 'transparent'
       },
       hAxis: {
         textStyle: { color: schriftHEX }
       },
       vAxis: {
         textStyle: { color: schriftHEX }
-      },
+      }
     };
   }
 
@@ -134,23 +133,23 @@ export class GooglechartsService {
         viewWindow: {
           min: new Date(2014, 11, 31, 18),
           max: new Date(2015, 0, 3, 1)
-        },
+        }
       },
       vAxis: {
         gridlines: { color: 'gray' },
         title: 'Anträge',
         textStyle: axisTextStyle,
-        titleTextStyle: axisTitleStyle,
+        titleTextStyle: axisTitleStyle
       },
       backgroundColor: {
-        fill: 'transparent',
+        fill: 'transparent'
       },
       series: {
         0: {
           type: 'line',
-          lineWidth: 5,
+          lineWidth: 5
         }
-      },
+      }
     };
   }
 }

@@ -9,8 +9,7 @@ describe('InfopageNamensberichtigungComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [InfopageNamensberichtigungComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(InfopageNamensberichtigungComponent);
     component = fixture.componentInstance;

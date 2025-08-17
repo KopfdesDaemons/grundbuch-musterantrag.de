@@ -9,8 +9,7 @@ describe('ErblasserComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ErblasserComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ErblasserComponent);
     component = fixture.componentInstance;

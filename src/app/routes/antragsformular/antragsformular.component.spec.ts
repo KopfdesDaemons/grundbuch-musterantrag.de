@@ -8,9 +8,8 @@ describe('GrundbuchausdruckBeantragenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [AntragsformularComponent]
-})
-      .compileComponents();
+      imports: [AntragsformularComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AntragsformularComponent);
     component = fixture.componentInstance;

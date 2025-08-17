@@ -1,16 +1,16 @@
 <div class="artikelcontent">
-    <ng-content></ng-content>
-    <section>
-        <div class="sectiondiv artikelButtonDiv">
-            <button onclick="print()" alt="Drucken">
-                <fa-icon [icon]="faPrint"></fa-icon>
-            </button>
-            <a class="btn" routerLink="{{ nextSite() }}">Nächste Seite</a>
-        </div>
-    </section>
-    <section>
-        <div class="sectiondiv">
-            <app-disqus [identifier]="title()"></app-disqus>
-        </div>
-    </section>
+  <ng-content></ng-content>
+  <section>
+    <div class="sectiondiv artikelButtonDiv">
+      <button onclick="print()" alt="Drucken">
+        <fa-icon [icon]="faPrint"></fa-icon>
+      </button>
+      <a class="btn" routerLink="{{ nextSite() }}">Nächste Seite</a>
+    </div>
+  </section>
+  <section>
+    <div class="sectiondiv">
+      <app-disqus [identifier]="title()"></app-disqus>
+    </div>
+  </section>
 </div>

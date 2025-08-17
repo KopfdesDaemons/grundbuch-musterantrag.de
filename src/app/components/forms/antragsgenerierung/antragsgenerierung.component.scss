@@ -1,40 +1,39 @@
 #ende {
+  display: flex;
+  flex-direction: column;
+
+  span {
+    margin-top: 0.5em;
+  }
+
+  .kachelcontainer {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    margin-top: 1em;
+    gap: 1em;
+  }
 
-    span {
-        margin-top: 0.5em;
+  .kachel {
+    fa-icon {
+      font-size: 64px;
+      margin: 1rem;
     }
 
-    .kachelcontainer {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 1em;
-        gap: 1em;
-    }
+    width: clamp(4em, 15em, 15em);
+    display: flex;
+    align-items: center;
+    height: unset;
+  }
 
-    .kachel {
-        fa-icon {
-            font-size: 64px;
-            margin: 1rem;
-            ;
-        }
+  .status {
+    margin-top: 1rem;
+    border-left: 2px solid var(--primary-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: var(--hintergrund-inputfeld);
+  }
 
-        width: clamp(4em, 15em, 15em);
-        display: flex;
-        align-items: center;
-        height: unset;
-    }
-
-    .status {
-        margin-top: 1rem;
-        border-left: 2px solid var(--primary-color);
-        border-radius: 4px;
-        padding: 0.5rem;
-        background-color: var(--hintergrund-inputfeld);
-    }
-
-    .fehlerstatus div {
-        color: red;
-    }
+  .fehlerstatus div {
+    color: red;
+  }
 }

@@ -5,22 +5,7 @@ import authMiddleware from 'server/middleware/auth.middleware';
 
 export const userSettingsRoutes = express.Router();
 
-userSettingsRoutes.patch('/username',
-    authMiddleware,
-    handleChangeOwnUsername
-);
-
-userSettingsRoutes.patch('/password',
-    authMiddleware,
-    handleChangeOwnPassword
-);
-
-userSettingsRoutes.get('/username',
-    authMiddleware,
-    handleGetOwnUsername
-);
-
-userSettingsRoutes.get('/userrole',
-    authMiddleware,
-    handleGetOwnUserRole
-);
+userSettingsRoutes.patch('/username', authMiddleware, handleChangeOwnUsername);
+userSettingsRoutes.patch('/password', authMiddleware, handleChangeOwnPassword);
+userSettingsRoutes.get('/username', authMiddleware, handleGetOwnUsername);
+userSettingsRoutes.get('/userrole', authMiddleware, handleGetOwnUserRole);

@@ -1,61 +1,64 @@
 @defer (hydrate on interaction) {
-    <app-header></app-header>
+  <app-header></app-header>
 }
 <section>
-    <div class="sectiondiv">
-        <h1>Grundbuch Musteranträge</h1>
-        <p class="description">
-            Hier können Sie kostenlose Musteranträge für das Grundbuchamt ausfüllen und herunterladen. Am Ende eines jeden Formulars kann eine .docx oder .pdf Datei heruntergeladen werden. Die Nutzung
-            dieser Webseite ist kostenlos, eine Gebühr wird gegebenenfalls nur vom Grundbuchamt erhoben.
-        </p>
-    </div>
-    <ul class="antragsliste">
-        @defer (hydrate never) {
-            @for (antrag of antraege; track antrag.title) {
-                <li>
-                    <app-antragsart-card
-                        [title]="antrag.title"
-                        [antragsRoute]="antrag.antragsRoute"
-                        [mehrInfosRoute]="antrag.mehrInfosRoute ?? ''"
-                        [description]="antrag.description"
-                        [gebuehr]="antrag.gebuehr"
-                        [erforderlicheUnterlagen]="antrag.erforderlicheUnterlagen"
-                        [imagePath]="antrag.image?.path ?? ''"
-                    >
-                    </app-antragsart-card>
-                </li>
-            }
-        }
-    </ul>
+  <div class="sectiondiv">
+    <h1>Grundbuch Musteranträge</h1>
+    <p class="description">
+      Hier können Sie kostenlose Musteranträge für das Grundbuchamt ausfüllen und herunterladen. Am Ende eines jeden Formulars kann eine .docx oder
+      .pdf Datei heruntergeladen werden. Die Nutzung dieser Webseite ist kostenlos, eine Gebühr wird gegebenenfalls nur vom Grundbuchamt erhoben.
+    </p>
+  </div>
+  <ul class="antragsliste">
+    @defer (hydrate never) {
+      @for (antrag of antraege; track antrag.title) {
+        <li>
+          <app-antragsart-card
+            [title]="antrag.title"
+            [antragsRoute]="antrag.antragsRoute"
+            [mehrInfosRoute]="antrag.mehrInfosRoute ?? ''"
+            [description]="antrag.description"
+            [gebuehr]="antrag.gebuehr"
+            [erforderlicheUnterlagen]="antrag.erforderlicheUnterlagen"
+            [imagePath]="antrag.image?.path ?? ''"
+          >
+          </app-antragsart-card>
+        </li>
+      }
+    }
+  </ul>
 </section>
 <section id="FAQ">
-    @defer (hydrate on interaction) {
-        <div class="sectiondiv">
-            <ul>
-                <li>
-                    <app-accordion frage="Welche Kosten entstehen für einen Antrag?">
-                        <p>Die Generierung der Anträge ist kostenlos. Beim Grundbuchamt können Gebühren entstehen. Sofern der Antrag eine Gebühr auslöst, wird dies im Antragsformular erwähnt.</p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Wie erhalte ich den Musterantrag?">
-                        <p>Am Ende des Formulars kann eine .pdf oder .docx Datei heruntergeladen werden.</p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Ist eine Registrierung erforderlich?">
-                        <p>Nein, die Musteranträge können ohne eine Registrierung ausgefüllt und heruntergeladen werden.</p>
-                    </app-accordion>
-                </li>
-                <li>
-                    <app-accordion frage="Kann ich einen Antrag elektronisch beim Grundbuchamt einreichen?">
-                        <p>Die Anträge müssen per Post, per Fax oder persönlich vor Ort gestellt werden.</p>
-                    </app-accordion>
-                </li>
-            </ul>
-        </div>
-    }
+  @defer (hydrate on interaction) {
+    <div class="sectiondiv">
+      <ul>
+        <li>
+          <app-accordion frage="Welche Kosten entstehen für einen Antrag?">
+            <p>
+              Die Generierung der Anträge ist kostenlos. Beim Grundbuchamt können Gebühren entstehen. Sofern der Antrag eine Gebühr auslöst, wird dies
+              im Antragsformular erwähnt.
+            </p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Wie erhalte ich den Musterantrag?">
+            <p>Am Ende des Formulars kann eine .pdf oder .docx Datei heruntergeladen werden.</p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Ist eine Registrierung erforderlich?">
+            <p>Nein, die Musteranträge können ohne eine Registrierung ausgefüllt und heruntergeladen werden.</p>
+          </app-accordion>
+        </li>
+        <li>
+          <app-accordion frage="Kann ich einen Antrag elektronisch beim Grundbuchamt einreichen?">
+            <p>Die Anträge müssen per Post, per Fax oder persönlich vor Ort gestellt werden.</p>
+          </app-accordion>
+        </li>
+      </ul>
+    </div>
+  }
 </section>
 @defer (hydrate on viewport) {
-    <app-footer></app-footer>
+  <app-footer></app-footer>
 }

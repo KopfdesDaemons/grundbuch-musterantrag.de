@@ -20,10 +20,8 @@ submitFormRoutes.post('/', async (req: Request, res: Response) => {
     const uploadFolderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
     await fs.promises.mkdir(uploadFolderPath, { recursive: true });
 
-
     const filePathDocx = path.join(uploadFolderPath, `${uploadID}.docx`);
     const filePathPdf = path.join(uploadFolderPath, `${uploadID}.pdf`);
-
 
     // Prüfe ob Daten in dem Wert "data" in der Formdata empfangen wurden
     const { uploadinfo } = req.body;
@@ -36,7 +34,6 @@ submitFormRoutes.post('/', async (req: Request, res: Response) => {
     Object.assign(newUpload, JSON.parse(uploadinfo));
     newUpload.uploadDate = new Date();
 
-
     // Prüfe ob Dateien in der Formdata empfangen wurden
     if (!req.files) {
       logger.error('Es wurde keine Datei in der Formdata empfangen.');
@@ -44,23 +41,19 @@ submitFormRoutes.post('/', async (req: Request, res: Response) => {
       return res.status(400).send('Es wurde keine Datei in der Formdata empfangen.');
     }
 
-
     // Prüfe ob die Datei in dem Wert "docx" in der Formdata empfangen wurde
     const { docx } = req.files as any;
     if (!docx) {
       logger.error('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
       await saveUploadinfo();
       return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
-    }
-    else newUpload.docxFile = true;
+    } else newUpload.docxFile = true;
     await saveUploadinfo();
-
 
     // Speichere die DOCX-Datei im Upload-Ordner
     await docx.mv(filePathDocx);
 
     await updateStatistic(newUpload.antragsart, 1);
-
 
     // Konvertiere DOCX in PDF
     try {
@@ -70,7 +63,6 @@ submitFormRoutes.post('/', async (req: Request, res: Response) => {
       return res.status(500).send('Fehler bei der Konvertierung der Datei.');
     }
 
-
     // Überprüfe ob die PDF-Datei erstellt wurde
     if (!fs.existsSync(filePathPdf)) {
       logger.error('Die PDF-Datei wurde nicht erstellt.');
@@ -78,17 +70,14 @@ submitFormRoutes.post('/', async (req: Request, res: Response) => {
     } else newUpload.pdfFile = true;
     await saveUploadinfo();
 
-
     // Sende PDF-Datei an den Client
     res.contentType('application/pdf').sendFile(filePathPdf, cleanupFiles);
-
 
     async function cleanupFiles(): Promise<void> {
       // Lösche Uploaddateien, wenn die Einstellung aktiviert ist
       try {
         if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
         await deleteGeneratedFiles(uploadID);
-
       } catch (error) {
         logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
       }

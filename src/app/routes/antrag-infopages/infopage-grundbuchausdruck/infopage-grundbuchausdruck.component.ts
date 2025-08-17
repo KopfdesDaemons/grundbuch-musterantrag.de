@@ -1,14 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons';
-import {
-  faFax,
-  faPhone,
-  faAt,
-  faGlobe,
-  faUniversity,
-  faMapMarkedAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faFax, faPhone, faAt, faGlobe, faUniversity, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragGrundbuchausdruck } from 'src/app/models/antrag/grundbuchausdruck.antrag.model';
 import { FooterComponent } from '../../../components/footer/footer.component';
@@ -18,17 +11,23 @@ import { RouterLink } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
 import { HeaderComponent } from '../../../components/header/header.component';
-import { DisqusComponent } from "../../../components/disqus/disqus.component";
-
-
+import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './infopage-grundbuchausdruck.component.html',
   styleUrls: ['./infopage-grundbuchausdruck.component.scss'],
-  imports: [HeaderComponent, AntragsinfosHeroComponent, FaIconComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent, DisqusComponent]
+  imports: [
+    HeaderComponent,
+    AntragsinfosHeroComponent,
+    FaIconComponent,
+    RouterLink,
+    SachlicheUndOrtlicheZustaendigkeitComponent,
+    AccordionComponent,
+    FooterComponent,
+    DisqusComponent
+  ]
 })
-
 export class InfopageGrundbuchausdruckComponent {
   private meta = inject(Meta);
   private titleService = inject(Title);

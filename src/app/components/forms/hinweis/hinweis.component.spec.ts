@@ -9,8 +9,7 @@ describe('HinweisComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HinweisComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HinweisComponent);
     component = fixture.componentInstance;

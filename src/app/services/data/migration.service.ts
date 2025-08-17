@@ -5,7 +5,7 @@ import { lastValueFrom } from 'rxjs';
 import { Migration } from '../../models/migration.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MigrationService {
   private http = inject(HttpClient);
@@ -18,13 +18,9 @@ export class MigrationService {
       new Migration(
         'Von Antrag zu Uploadinfo',
         'Migration der Struktur der gespeicherten Uploadinfos der Anträge. Es werden nicht mehr alle Daten aus dem Formular gespeichert, sondern nur die, die im Dashboard angezeigt werden.',
-        this.migrateFromAntragToUploadinfo,
+        this.migrateFromAntragToUploadinfo
       ),
-      new Migration(
-        'Von JSON zur Datenbank',
-        'Migration von der JSON Struktur zur Datenbank.',
-        this.migrateFromJSONToDatabase,
-      ),
+      new Migration('Von JSON zur Datenbank', 'Migration von der JSON Struktur zur Datenbank.', this.migrateFromJSONToDatabase)
     ];
   }
 
@@ -34,9 +30,9 @@ export class MigrationService {
         '/api/migration/fromAntragToUploadinfo',
         {},
         {
-          headers: this.authS.getAuthHeader(),
-        },
-      ),
+          headers: this.authS.getAuthHeader()
+        }
+      )
     );
     return data;
   };
@@ -47,9 +43,9 @@ export class MigrationService {
         '/api/migration/fromJSONToDatabase',
         {},
         {
-          headers: this.authS.getAuthHeader(),
-        },
-      ),
+          headers: this.authS.getAuthHeader()
+        }
+      )
     );
     return data;
   };

@@ -7,22 +7,6 @@ import { settingsPermission } from 'server/models/user-permissons.model';
 
 export const settingsRoutes = express.Router();
 
-settingsRoutes.get(
-    '/',
-    authMiddleware,
-    verifyRole(
-        new settingsPermission([SettingsAction.ReadSettings])
-    ),
-    handleGetSettings
-);
-
-settingsRoutes.put(
-    '/',
-    authMiddleware,
-    verifyRole(
-        new settingsPermission([SettingsAction.UpdateSettings])
-    ),
-    handleSaveSettings
-);
-
+settingsRoutes.get('/', authMiddleware, verifyRole(new settingsPermission([SettingsAction.ReadSettings])), handleGetSettings);
+settingsRoutes.put('/', authMiddleware, verifyRole(new settingsPermission([SettingsAction.UpdateSettings])), handleSaveSettings);
 settingsRoutes.get('/getPrimaryColor', handleGetPrimaryColor);

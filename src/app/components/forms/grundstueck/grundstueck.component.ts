@@ -14,13 +14,13 @@ export class GrundstueckComponent {
   form: FormGroup;
 
   constructor() {
-    this.form = this.fs.form.get("grundstueck") as FormGroup;
+    this.form = this.fs.form.get('grundstueck') as FormGroup;
   }
 
   async suchePlz(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     if (value.length === 5) {
-      const ort: string = await this.fs.ortAusPLZ(value) || '';
+      const ort: string = (await this.fs.ortAusPLZ(value)) || '';
       this.form.controls['ort'].setValue(ort);
     }
   }

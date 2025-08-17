@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { DashboardTileComponent } from "../../dashboard-tile/dashboard-tile.component";
+import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { CookiesService } from 'src/app/services/utils/cookies.service';
 import { Cookie } from 'src/app/models/cookie.model';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';

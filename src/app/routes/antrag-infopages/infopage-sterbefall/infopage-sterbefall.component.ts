@@ -8,13 +8,21 @@ import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components
 import { RouterLink } from '@angular/router';
 import { AntragsinfosHeroComponent } from '../../../components/antragsinfos-hero/antragsinfos-hero.component';
 import { HeaderComponent } from '../../../components/header/header.component';
-import { DisqusComponent } from "../../../components/disqus/disqus.component";
+import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
   selector: 'app-infopage-sterbefall',
   templateUrl: './infopage-sterbefall.component.html',
   styleUrl: './infopage-sterbefall.component.scss',
-  imports: [HeaderComponent, AntragsinfosHeroComponent, RouterLink, SachlicheUndOrtlicheZustaendigkeitComponent, AccordionComponent, FooterComponent, DisqusComponent]
+  imports: [
+    HeaderComponent,
+    AntragsinfosHeroComponent,
+    RouterLink,
+    SachlicheUndOrtlicheZustaendigkeitComponent,
+    AccordionComponent,
+    FooterComponent,
+    DisqusComponent
+  ]
 })
 export class InfopageSterbefallComponent {
   private meta = inject(Meta);

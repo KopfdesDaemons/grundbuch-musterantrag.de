@@ -7,16 +7,5 @@ import { loggerPermission } from 'server/models/user-permissons.model';
 
 export const loggerRoutes = express.Router();
 
-loggerRoutes.delete(
-    '/',
-    authMiddleware,
-    verifyRole(new loggerPermission([LoggerAction.ClearLogFile])),
-    deleteLogFile
-);
-
-loggerRoutes.get(
-    '/',
-    authMiddleware,
-    verifyRole(new loggerPermission([LoggerAction.ReadLogFile])),
-    getLogFile
-);
+loggerRoutes.delete('/', authMiddleware, verifyRole(new loggerPermission([LoggerAction.ClearLogFile])), deleteLogFile);
+loggerRoutes.get('/', authMiddleware, verifyRole(new loggerPermission([LoggerAction.ReadLogFile])), getLogFile);

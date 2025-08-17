@@ -1,74 +1,78 @@
 <section>
-    <div class="sectiondiv">
-        <!-- Tabellen ControllHeader -->
-        <div class="tableHeader">
-            <button class="reloadBtn">
-                <fa-icon [icon]="faRotateRight" (click)="reloadFiles()">Neuladen</fa-icon>
-            </button>
-            <span>Anträge: {{ totalFiles }} </span>
-            <button class="btntext" (click)="deleteFolder()">alle löschen</button>
-        </div>
-
-        @if (error) {
-            <app-error-display [error]="error"></app-error-display>
-        } @else {
-            <div class="tableScrollContainer" (scroll)="scroll($event.target)">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>uploadID</th>
-                            <th>Grundbuchamt</th>
-                            <th>Antragsart</th>
-                            <th>Datum</th>
-                            <th>docx</th>
-                            <th>pdf</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (file of files; track file) {
-                            <tr>
-                                <td class="uploadID" title="{{ file.uploadID }}">{{ file.uploadID }}</td>
-                                <td>{{ file.grundbuchamt }}</td>
-                                <td>
-                                    <div class="antragsart">{{ file.antragsart }}</div>
-                                </td>
-                                <td>{{ file.uploadDate | date: "dd.MM.yyyy HH:mm" }} Uhr</td>
-
-                                <td class="iconTableCell">
-                                    @if (file.docxFile && !file.filesDeleted) {
-                                        <a class="btnicon" (click)="getFile(file.uploadID, 'docx')"><fa-icon [icon]="faCircleDown" title="Download .docx Datei"></fa-icon></a>
-                                    } @else if (file.docxFile && file.filesDeleted) {
-                                        <fa-icon [icon]="faCheck" title="Datei wurde generiert und nach dem Response gelöscht"></fa-icon>
-                                    } @else {
-                                        <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
-                                    }
-                                </td>
-
-                                <td class="iconTableCell">
-                                    @if (file.pdfFile && !file.filesDeleted) {
-                                        <a class="btnicon" target="_blank" (click)="getFile(file.uploadID, 'pdf')"><fa-icon [icon]="faArrowUpRightFromSquare" title=".pdf Datei öffnen"></fa-icon></a>
-                                    } @else if (file.pdfFile && file.filesDeleted) {
-                                        <fa-icon [icon]="faCheck" title="Datei wurde generiert und nach dem Response gelöscht"></fa-icon>
-                                    } @else {
-                                        <fa-icon [icon]="faCircleExclamation" class="btnicon notFound" title="Fehler"></fa-icon>
-                                    }
-                                </td>
-
-                                <td (click)="clickOnDropdown($event.target)" class="dropDown">
-                                    <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
-                                    <ul class="dropDownMenu">
-                                        <li (click)="deleteUpload(file.uploadID)">Upload&nbsp;komplett&nbsp;löschen</li>
-                                        @if (!file.filesDeleted) {
-                                            <li (click)="deleteGeneratedFiles(file.uploadID)">Nur&nbsp;generierte&nbsp;Dateien&nbsp;löschen (Upload&nbsp;beibehalten)</li>
-                                        }
-                                    </ul>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
+  <div class="sectiondiv">
+    <!-- Tabellen ControllHeader -->
+    <div class="tableHeader">
+      <button class="reloadBtn">
+        <fa-icon [icon]="faRotateRight" (click)="reloadFiles()">Neuladen</fa-icon>
+      </button>
+      <span>Anträge: {{ totalFiles }} </span>
+      <button class="btntext" (click)="deleteFolder()">alle löschen</button>
     </div>
+
+    @if (error) {
+      <app-error-display [error]="error"></app-error-display>
+    } @else {
+      <div class="tableScrollContainer" (scroll)="scroll($event.target)">
+        <table>
+          <thead>
+            <tr>
+              <th>uploadID</th>
+              <th>Grundbuchamt</th>
+              <th>Antragsart</th>
+              <th>Datum</th>
+              <th>docx</th>
+              <th>pdf</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (file of files; track file) {
+              <tr>
+                <td class="uploadID" title="{{ file.uploadID }}">{{ file.uploadID }}</td>
+                <td>{{ file.grundbuchamt }}</td>
+                <td>
+                  <div class="antragsart">{{ file.antragsart }}</div>
+                </td>
+                <td>{{ file.uploadDate | date: "dd.MM.yyyy HH:mm" }} Uhr</td>
+
+                <td class="iconTableCell">
+                  @if (file.docxFile && !file.filesDeleted) {
+                    <a class="btnicon" (click)="getFile(file.uploadID, 'docx')"
+                      ><fa-icon [icon]="faCircleDown" title="Download .docx Datei"></fa-icon
+                    ></a>
+                  } @else if (file.docxFile && file.filesDeleted) {
+                    <fa-icon [icon]="faCheck" title="Datei wurde generiert und nach dem Response gelöscht"></fa-icon>
+                  } @else {
+                    <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>
+                  }
+                </td>
+
+                <td class="iconTableCell">
+                  @if (file.pdfFile && !file.filesDeleted) {
+                    <a class="btnicon" target="_blank" (click)="getFile(file.uploadID, 'pdf')"
+                      ><fa-icon [icon]="faArrowUpRightFromSquare" title=".pdf Datei öffnen"></fa-icon
+                    ></a>
+                  } @else if (file.pdfFile && file.filesDeleted) {
+                    <fa-icon [icon]="faCheck" title="Datei wurde generiert und nach dem Response gelöscht"></fa-icon>
+                  } @else {
+                    <fa-icon [icon]="faCircleExclamation" class="btnicon notFound" title="Fehler"></fa-icon>
+                  }
+                </td>
+
+                <td (click)="clickOnDropdown($event.target)" class="dropDown">
+                  <fa-icon [icon]="faEllipsisVertical" class="btnicon"></fa-icon>
+                  <ul class="dropDownMenu">
+                    <li (click)="deleteUpload(file.uploadID)">Upload&nbsp;komplett&nbsp;löschen</li>
+                    @if (!file.filesDeleted) {
+                      <li (click)="deleteGeneratedFiles(file.uploadID)">Nur&nbsp;generierte&nbsp;Dateien&nbsp;löschen (Upload&nbsp;beibehalten)</li>
+                    }
+                  </ul>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
 </section>

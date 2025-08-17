@@ -7,11 +7,4 @@ import { statisticPermission } from 'server/models/user-permissons.model';
 
 export const statisticRoutes = express.Router();
 
-statisticRoutes.get(
-    '/',
-    authMiddleware,
-    verifyRole(
-        new statisticPermission([StatisticAction.ReadStatistic])
-    ),
-    handleGetStatistic
-);
+statisticRoutes.get('/', authMiddleware, verifyRole(new statisticPermission([StatisticAction.ReadStatistic])), handleGetStatistic);

@@ -5,10 +5,10 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'app-antragsinfos-hero',
-    templateUrl: './antragsinfos-hero.component.html',
-    styleUrl: './antragsinfos-hero.component.scss',
-    imports: [RouterLink, FaIconComponent]
+  selector: 'app-antragsinfos-hero',
+  templateUrl: './antragsinfos-hero.component.html',
+  styleUrl: './antragsinfos-hero.component.scss',
+  imports: [RouterLink, FaIconComponent]
 })
 export class AntragsinfosHeroComponent {
   faFilePdf = faFilePdf;

@@ -4,10 +4,7 @@ import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
 import { Upload } from 'server/models/upload.model';
-import {
-  faArrowUpRightFromSquare,
-  faRotateRight,
-} from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpRightFromSquare, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe, isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -17,17 +14,9 @@ import { GoogleChartComponent } from '../../../google-chart/google-chart.compone
 
 @Component({
   selector: 'app-antragsliste-tile',
-  imports: [
-    DashboardTileComponent,
-    RouterLink,
-    ProgressSpinnerComponent,
-    FontAwesomeModule,
-    DatePipe,
-    ErrorDisplayComponent,
-    GoogleChartComponent,
-  ],
+  imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, FontAwesomeModule, DatePipe, ErrorDisplayComponent, GoogleChartComponent],
   templateUrl: './antragsliste-tile.component.html',
-  styleUrl: './antragsliste-tile.component.scss',
+  styleUrl: './antragsliste-tile.component.scss'
 })
 export class AntragslisteTileComponent implements OnInit {
   uploadsS = inject(UploadsService);

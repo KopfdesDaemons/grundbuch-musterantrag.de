@@ -19,14 +19,13 @@ import { HeaderComponent } from '../../components/header/header.component';
   imports: [HeaderComponent, AntragsartCardComponent, AccordionComponent, FooterComponent]
 })
 export class AntragslisteComponent {
-
   antraege: Antrag[] = [
     new AntragGrundbuchausdruck(),
     new AntragNamensberichtigung(),
     new AntragGrundbuchberichtigungSterbefall(),
     new AntragLoesschungAbt2(),
     new AntragAbschriftBewilligung(),
-    new AntragTeilungserklaerung
+    new AntragTeilungserklaerung()
   ];
 
   constructor() {

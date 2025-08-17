@@ -1,34 +1,34 @@
 h2 {
-    margin: 0;
-    font-size: clamp(0.5rem, 6vw, 2rem);
-    text-align: center;
+  margin: 0;
+  font-size: clamp(0.5rem, 6vw, 2rem);
+  text-align: center;
 }
 
 .btnoutlined {
-    font-size: 1.3em;
+  font-size: 1.3em;
 }
 
 .textAndImage {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-    margin-top: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-top: 1em;
 
-    div {
-        flex: 1 1 50%;
-    }
+  div {
+    flex: 1 1 50%;
+  }
 
-    img {
-        flex: 1 1 40%;
-        max-height: 28em;
-        object-fit: contain;
-    }
+  img {
+    flex: 1 1 40%;
+    max-height: 28em;
+    object-fit: contain;
+  }
 }
 
 #wie {
-    align-items: flex-start;
+  align-items: flex-start;
 
-    h2 {
-        width: 100%;
-    }
+  h2 {
+    width: 100%;
+  }
 }

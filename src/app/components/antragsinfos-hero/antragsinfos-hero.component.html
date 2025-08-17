@@ -1,22 +1,22 @@
 <div class="content">
-    <h1>{{ antragsart().title }}</h1>
-    <a routerLink="{{ antragsart().antragsRoute }}" class="btn"> Musterantrag ausfüllen </a>
-    <div class="labels">
-        <fa-icon class="icon" [icon]="faFilePdf"></fa-icon>
-        <span>.pdf Datei</span>
-        <fa-icon class="icon" [icon]="faDownload"></fa-icon>
-        <span>download</span>
-        <fa-icon class="icon" [icon]="faPrint"></fa-icon>
-        <span>direkt drucken</span>
-    </div>
-    <ng-content></ng-content>
+  <h1>{{ antragsart().title }}</h1>
+  <a routerLink="{{ antragsart().antragsRoute }}" class="btn"> Musterantrag ausfüllen </a>
+  <div class="labels">
+    <fa-icon class="icon" [icon]="faFilePdf"></fa-icon>
+    <span>.pdf Datei</span>
+    <fa-icon class="icon" [icon]="faDownload"></fa-icon>
+    <span>download</span>
+    <fa-icon class="icon" [icon]="faPrint"></fa-icon>
+    <span>direkt drucken</span>
+  </div>
+  <ng-content></ng-content>
 </div>
 @if (antragsart().image) {
-    <img
-        width="{{ antragsart().image?.widht }}"
-        height="{{ antragsart().image?.height }}"
-        src="{{ antragsart().image?.path }}"
-        alt="{{ antragsart().image?.altText }}"
-        title="{{ antragsart().image?.altText }}"
-    />
+  <img
+    width="{{ antragsart().image?.widht }}"
+    height="{{ antragsart().image?.height }}"
+    src="{{ antragsart().image?.path }}"
+    alt="{{ antragsart().image?.altText }}"
+    title="{{ antragsart().image?.altText }}"
+  />
 }

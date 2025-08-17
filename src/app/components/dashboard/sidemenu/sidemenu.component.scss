@@ -1,158 +1,158 @@
 .closingDiv {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    display: none;
-    left: 0;
-    top: var(--header-height);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: none;
+  left: 0;
+  top: var(--header-height);
 
-    @media only screen and (max-width:1100px) {
-        &.sidemenuOpen {
-            display: block;
-            backdrop-filter: blur(3px);
-        }
+  @media only screen and (max-width: 1100px) {
+    &.sidemenuOpen {
+      display: block;
+      backdrop-filter: blur(3px);
     }
+  }
 }
 
 aside {
-    position: fixed;
-    z-index: 2;
-    top: 0;
-    left: 0;
-    height: 100dvh;
-    width: var(--dashboard-sidemenu-width);
-    transition: transform 100ms ease-in-out;
-    box-sizing: border-box;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: var(--dashboard-sidemenu-width);
+  transition: transform 100ms ease-in-out;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  .content {
+    margin-top: 5em;
+    padding: 0 1em;
+    z-index: 4;
+  }
+
+  .user {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding: 0.5em;
 
-    .content {
-        margin-top: 5em;
-        padding: 0 1em;
-        z-index: 4;
+    .row1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
+      font-size: 1.2em;
+
+      .username {
+        color: var(--primary-color);
+      }
     }
 
-    .user {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0.5em;
+    .row2 {
+      font-style: italic;
+      display: flex;
 
-        .row1 {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1em;
-            font-size: 1.2em;
+      .admin {
+        font-style: normal;
+        font-weight: bolder;
+        background-image: linear-gradient(to right, #dfc532, #ffe058, #ffaa00);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientAnimation 2s linear infinite;
+        position: relative;
 
-            .username {
-                color: var(--primary-color);
-            }
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+          border-radius: 5em;
+          animation: leftToRight 800ms linear infinite alternate;
+          box-shadow: 0 20px 40px 10px yellow;
         }
 
-        .row2 {
-            font-style: italic;
-            display: flex;
+        @keyframes leftToRight {
+          from {
+            left: 20%;
+          }
 
-            .admin {
-                font-style: normal;
-                font-weight: bolder;
-                background-image: linear-gradient(to right, #dfc532, #ffe058, #ffaa00);
-                background-clip: text;
-                -webkit-text-fill-color: transparent;
-                animation: gradientAnimation 2s linear infinite;
-                position: relative;
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    z-index: -1;
-                    border-radius: 5em;
-                    animation: leftToRight 800ms linear infinite alternate;
-                    box-shadow: 0 20px 40px 10px yellow;
-                }
-
-                @keyframes leftToRight {
-                    from {
-                        left: 20%;
-                    }
-
-                    to {
-                        left: 80%;
-                    }
-                }
-
-                @keyframes gradientAnimation {
-                    from {
-                        background-position: 0% 50%;
-                    }
-
-                    to {
-                        background-position: 100% 50%;
-                    }
-                }
-            }
+          to {
+            left: 80%;
+          }
         }
+
+        @keyframes gradientAnimation {
+          from {
+            background-position: 0% 50%;
+          }
+
+          to {
+            background-position: 100% 50%;
+          }
+        }
+      }
     }
+  }
 
-    @media only screen and (max-width:1100px) {
-        transform: translateX(calc(-1 * var(--dashboard-sidemenu-width)));
+  @media only screen and (max-width: 1100px) {
+    transform: translateX(calc(-1 * var(--dashboard-sidemenu-width)));
 
-        &.sidemenuOpen {
-            transform: translateX(0);
-        }
+    &.sidemenuOpen {
+      transform: translateX(0);
     }
+  }
 
-    nav {
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        width: 100%;
+  nav {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 100%;
 
-        ul {
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
+    ul {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
 
-            li {
-                list-style: none;
-                background-color: var(--hintergrund-variant-darker);
+      li {
+        list-style: none;
+        background-color: var(--hintergrund-variant-darker);
 
-                &.active {
-                    border-left: 3px solid;
-                    border-right: 3px solid;
-                }
-
-                hr {
-                    width: 100%;
-                }
-
-                a {
-                    padding: 1em 0.5em;
-                    text-decoration: none;
-                    display: flex;
-                    gap: 1em;
-                    align-items: center;
-                    font-size: 1.2em;
-                    justify-content: center;
-                    transition: all 100ms;
-                    text-align: center;
-                    text-wrap: balance;
-                    color: var(--primary-variant-darker);
-
-                    &:hover {
-                        background-color: var(--hintergrund-variant);
-                    }
-                }
-            }
+        &.active {
+          border-left: 3px solid;
+          border-right: 3px solid;
         }
+
+        hr {
+          width: 100%;
+        }
+
+        a {
+          padding: 1em 0.5em;
+          text-decoration: none;
+          display: flex;
+          gap: 1em;
+          align-items: center;
+          font-size: 1.2em;
+          justify-content: center;
+          transition: all 100ms;
+          text-align: center;
+          text-wrap: balance;
+          color: var(--primary-variant-darker);
+
+          &:hover {
+            background-color: var(--hintergrund-variant);
+          }
+        }
+      }
     }
+  }
 }
 
 .error {
-    color: red;
-    font-size: 0.8em;
+  color: red;
+  font-size: 0.8em;
 }

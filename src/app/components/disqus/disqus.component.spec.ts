@@ -9,8 +9,7 @@ describe('DisqusComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DisqusComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DisqusComponent);
     component = fixture.componentInstance;

@@ -1,16 +1,16 @@
-import { UserRole } from "server/interfaces/user-role.interface";
+import { UserRole } from 'server/interfaces/user-role.interface';
 
 export class User {
-    userID?: number;
-    username: string;
-    passwordHash?: string;
-    isInitialPassword: boolean = true;
-    userRole: UserRole;
-    userRoleID: number;
+  userID?: number;
+  username: string;
+  passwordHash?: string;
+  isInitialPassword: boolean = true;
+  userRole: UserRole;
+  userRoleID: number;
 
-    constructor(username: string, userRole: UserRole, userRoleID: number) {
-        this.username = username;
-        this.userRole = userRole;
-        this.userRoleID = userRoleID;
-    }
+  constructor(username: string, userRole: UserRole, userRoleID: number) {
+    this.username = username;
+    this.userRole = userRole;
+    this.userRoleID = userRoleID;
+  }
 }

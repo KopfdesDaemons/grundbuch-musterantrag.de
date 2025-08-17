@@ -1,69 +1,95 @@
 <header [ngClass]="{ darkmode: dl.darkmode.value }">
-    <div class="desktopheader" [style.background]="background()">
+  <div class="desktopheader" [style.background]="background()">
+    <div class="farbauswahlbuttondiv">
+      <button class="btnDesign farbauswahlbutton" (click)="clickOnColorPicker()" aria-label="Farbeinstellungen"></button>
+      <div class="farbauswahl" [ngClass]="{ open: colorPickerIsOpen() }">
+        @for (color of colorOptions; track color) {
+          <button
+            class="btnDesign"
+            (click)="setColorFromPresets($event.target)"
+            [style.background-color]="color"
+            aria-label="Farbe auswählen"
+          ></button>
+        }
+        <div class="anderefarbediv">
+          <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
+          <input
+            #colorPicker
+            [value]="dl.primaryColor"
+            type="color"
+            name="farbe"
+            (change)="setCustomColor($event.target)"
+            id="colorPickerDesktop"
+            (blur)="clickOnColorPicker()"
+          />
+        </div>
+      </div>
+    </div>
+    <button class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()" aria-label="Darkmode umschalten">
+      <fa-icon [icon]="faMoon"></fa-icon>
+    </button>
+    <nav>
+      <ul>
+        <li>
+          <a routerLink="/">Musteranträge</a>
+        </li>
+        <li>
+          <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="mobileheader">
+    <div class="mobileheadercontent">
+      <nav>
+        <ul>
+          <li>
+            <a routerLink="/"><span>Musteranträge</span></a>
+          </li>
+          <li>
+            <a routerLink="/grundbuchrecht/einleitung"><span>Grundbuchrecht</span></a>
+          </li>
+        </ul>
+      </nav>
+      <div class="designButtonsDiv">
         <div class="farbauswahlbuttondiv">
-            <button class="btnDesign farbauswahlbutton" (click)="clickOnColorPicker()" aria-label="Farbeinstellungen"></button>
-            <div class="farbauswahl" [ngClass]="{ open: colorPickerIsOpen() }">
-                @for (color of colorOptions; track color) {
-                    <button class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color" aria-label="Farbe auswählen"></button>
-                }
-                <div class="anderefarbediv">
-                    <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
-                    <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerDesktop" (blur)="clickOnColorPicker()" />
-                </div>
+          <button class="btnDesign farbauswahlbutton" (click)="clickOnColorPicker()" aria-label="Farbeinstellungen"></button>
+          <div class="farbauswahl" [ngClass]="{ open: colorPickerIsOpen() }">
+            @for (color of colorOptions; track color) {
+              <button
+                class="btnDesign"
+                (click)="setColorFromPresets($event.target)"
+                [style.background-color]="color"
+                aria-label="Farbe auswählen"
+              ></button>
+            }
+            <div class="anderefarbediv">
+              <label for="colorPickerMobile">Eigene Farbe auswählen</label>
+              <input
+                #colorPicker
+                [value]="dl.primaryColor"
+                type="color"
+                name="farbe"
+                (change)="setCustomColor($event.target)"
+                id="colorPickerMobile"
+                (blur)="clickOnColorPicker()"
+              />
             </div>
+          </div>
         </div>
         <button class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()" aria-label="Darkmode umschalten">
-            <fa-icon [icon]="faMoon"></fa-icon>
+          <fa-icon [icon]="faMoon"></fa-icon>
         </button>
-        <nav>
-            <ul>
-                <li>
-                    <a routerLink="/">Musteranträge</a>
-                </li>
-                <li>
-                    <a routerLink="/grundbuchrecht/einleitung">Grundbuchrecht</a>
-                </li>
-            </ul>
-        </nav>
+      </div>
     </div>
+  </div>
 
-    <div class="mobileheader">
-        <div class="mobileheadercontent">
-            <nav>
-                <ul>
-                    <li>
-                        <a routerLink="/"><span>Musteranträge</span></a>
-                    </li>
-                    <li>
-                        <a routerLink="/grundbuchrecht/einleitung"><span>Grundbuchrecht</span></a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="designButtonsDiv">
-                <div class="farbauswahlbuttondiv">
-                    <button class="btnDesign farbauswahlbutton" (click)="clickOnColorPicker()" aria-label="Farbeinstellungen"></button>
-                    <div class="farbauswahl" [ngClass]="{ open: colorPickerIsOpen() }">
-                        @for (color of colorOptions; track color) {
-                            <button class="btnDesign" (click)="setColorFromPresets($event.target)" [style.background-color]="color" aria-label="Farbe auswählen"></button>
-                        }
-                        <div class="anderefarbediv">
-                            <label for="colorPickerMobile">Eigene Farbe auswählen</label>
-                            <input #colorPicker [value]="dl.primaryColor" type="color" name="farbe" (change)="setCustomColor($event.target)" id="colorPickerMobile" (blur)="clickOnColorPicker()" />
-                        </div>
-                    </div>
-                </div>
-                <button class="btnDesign darkmodebtn" (click)="dl.togledesignScheme()" aria-label="Darkmode umschalten">
-                    <fa-icon [icon]="faMoon"></fa-icon>
-                </button>
-            </div>
-        </div>
+  <div #cookiebanner class="cookiebanner hidden">
+    <div>
+      <span>{{ requestetCookie()?.consentQuestion }}</span>
+      <button (click)="confirmCookie()" id="cookiejabtn" class="btntext">Ja</button>
+      <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
     </div>
-
-    <div #cookiebanner class="cookiebanner hidden">
-        <div>
-            <span>{{ requestetCookie()?.consentQuestion }}</span>
-            <button (click)="confirmCookie()" id="cookiejabtn" class="btntext">Ja</button>
-            <button (click)="nextBanner()" id="cookieneinbtn" class="btntext">Nein</button>
-        </div>
-    </div>
+  </div>
 </header>

@@ -5,14 +5,13 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
  * @returns {ValidationErrors | null}
  */
 export function NachlassAktenzeichenValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    // When there is no value, it is valid
+    if (!control.value) return null;
 
-        // When there is no value, it is valid
-        if (!control.value) return null;
-
-        const value = control.value || '';
-        const regex = /.*(IV|VI).*/;
-        const valid = regex.test(value);
-        return valid ? null : { IVorVI: true };
-    };
+    const value = control.value || '';
+    const regex = /.*(IV|VI).*/;
+    const valid = regex.test(value);
+    return valid ? null : { IVorVI: true };
+  };
 }

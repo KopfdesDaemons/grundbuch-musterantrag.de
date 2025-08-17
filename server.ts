@@ -50,9 +50,7 @@ export async function app(): Promise<express.Express> {
 
     angularNodeAppEngine
       .handle(req, { server: 'express' })
-      .then((response) =>
-        response ? writeResponseToNodeResponse(response, res) : next()
-      )
+      .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))
       .catch(next);
   });
 

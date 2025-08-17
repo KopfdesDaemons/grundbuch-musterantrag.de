@@ -11,7 +11,6 @@ import { AuthService } from 'src/app/services/user/auth.service';
   styleUrls: ['./footer.component.scss'],
   imports: [FormsModule, FaIconComponent, RouterLink]
 })
-
 export class FooterComponent {
   authS = inject(AuthService);
 

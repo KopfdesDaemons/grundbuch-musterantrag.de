@@ -8,9 +8,8 @@ describe('TeilungserklaerungComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [TeilungserklaerungComponent]
-})
-    .compileComponents();
+      imports: [TeilungserklaerungComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TeilungserklaerungComponent);
     component = fixture.componentInstance;

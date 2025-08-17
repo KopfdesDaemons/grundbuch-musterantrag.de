@@ -13,6 +13,6 @@ export class TeilungserklaerungComponent {
   fs = inject(FormService);
 
   constructor() {
-    this.form = this.fs.form.get("teilungserklaerung") as FormGroup;
+    this.form = this.fs.form.get('teilungserklaerung') as FormGroup;
   }
 }

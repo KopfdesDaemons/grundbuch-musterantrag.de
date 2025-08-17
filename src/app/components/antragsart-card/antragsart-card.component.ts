@@ -9,7 +9,6 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink, NgClass]
 })
 export class AntragsartCardComponent {
-
   readonly antragsRoute = input<string>('');
   readonly title = input<string>('');
   readonly description = input<string>('');

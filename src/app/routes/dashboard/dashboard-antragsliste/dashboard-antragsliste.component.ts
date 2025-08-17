@@ -1,6 +1,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import { faRotateRight, faCircleExclamation, faCircleDown, faArrowUpRightFromSquare, faEllipsisVertical, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faRotateRight,
+  faCircleExclamation,
+  faCircleDown,
+  faArrowUpRightFromSquare,
+  faEllipsisVertical,
+  faCheck
+} from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/utils/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/user/auth.service';
@@ -9,7 +16,7 @@ import { LoggerService } from 'src/app/services/server/logger.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Upload } from 'server/models/upload.model';
 import { DatePipe } from '@angular/common';
-import { ErrorDisplayComponent } from "../../../components/error-display/error-display.component";
+import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
 
 @Component({
   selector: 'app-dashboard-antragsliste',
@@ -17,7 +24,6 @@ import { ErrorDisplayComponent } from "../../../components/error-display/error-d
   styleUrls: ['./dashboard-antragsliste.component.scss'],
   imports: [FaIconComponent, DatePipe, ErrorDisplayComponent]
 })
-
 export class DashboardAntragslisteComponent implements OnInit {
   private elem = inject(ElementRef);
   http = inject(HttpClient);
