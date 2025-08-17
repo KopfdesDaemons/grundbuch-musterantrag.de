@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, DOCUMENT, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { faFilePdf, faFileWord } from '@fortawesome/free-regular-svg-icons';
 import { DocxgeneratorService } from 'src/app/services/document/docxgenerator.service';
 import { FormService } from 'src/app/services/document/form.service';
@@ -11,13 +11,14 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
   selector: 'app-antragsgenerierung',
   templateUrl: './antragsgenerierung.component.html',
   styleUrl: './antragsgenerierung.component.scss',
-  imports: [FaIconComponent, ProgressSpinnerComponent]
+  imports: [FaIconComponent, ProgressSpinnerComponent],
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
-  fs = inject(FormService);
+  private fs = inject(FormService);
   docxS = inject(DocxgeneratorService);
   pdfS = inject(PdfgeneratorService);
-  platformId = inject(PLATFORM_ID);
+  private platformId = inject(PLATFORM_ID);
+  private document = inject(DOCUMENT);
 
   faFileWord = faFileWord;
   faFilePdf = faFilePdf;
@@ -35,7 +36,17 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   }
 
   downloadDocx() {
-    window.open(URL.createObjectURL(this.docx));
+    const docxUrl = URL.createObjectURL(this.docx);
+    const link = this.document.createElement('a');
+
+    link.href = docxUrl;
+    const fileName = this.fs.antrag?.title;
+    link.download = fileName ? `${fileName}.docx` : 'Antrag.docx';
+    this.document.body.appendChild(link);
+    link.click();
+
+    this.document.body.removeChild(link);
+    URL.revokeObjectURL(docxUrl);
   }
 
   openPdf() {
