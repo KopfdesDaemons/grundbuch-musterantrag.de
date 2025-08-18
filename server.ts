@@ -1,7 +1,6 @@
 import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
 import { resolve } from 'node:path';
-import { submitFormRoutes } from './server/routes/submit-form.routes';
 import { uploadsRoutes } from './server/routes/uploads.routes';
 import fileUpload from 'express-fileupload';
 import { getAmtsgerichtAusPLZ } from './server/controller/scraping.controller';
@@ -15,6 +14,7 @@ import { statisticRoutes } from 'server/routes/statistic.routes';
 import { userManagementRoutes } from 'server/routes/user-management.routes';
 import { userRoleRoutes } from 'server/routes/user-role.routes';
 import { userSettingsRoutes } from 'server/routes/user-settings.routes';
+import { submitForm } from 'server/controller/submit-form.controller';
 
 export async function app(): Promise<express.Express> {
   const server = express();
@@ -23,15 +23,16 @@ export async function app(): Promise<express.Express> {
 
   await initDatabase();
 
-  // Middlewares für die gesamte App
+  // Middleware for the entire server
   server.use(fileUpload());
   server.use(express.json());
 
+  // Routes that call a controller
   server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
+  server.use('/api/submitForm', submitForm);
 
-  // ausgelagerte Routen
+  // Outsourced routes
   server.use('/api/auth', authRoutes);
-  server.use('/api/submitForm', submitFormRoutes);
   server.use('/api/uploads', uploadsRoutes);
   server.use('/api/settings', settingsRoutes);
   server.use('/api/migration', migrationRoutes);
@@ -40,9 +41,11 @@ export async function app(): Promise<express.Express> {
   server.use('/api/user-management', userManagementRoutes);
   server.use('/api/user-settings', userSettingsRoutes);
   server.use('/api/userrole', userRoleRoutes);
+
+  // 404 for all other API routes
   server.all('/api/*', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));
 
-  // Routen, welche die Angular Engine ansprechen
+  // Angular routes
   server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));
 
   server.get('**', (req, res, next) => {
