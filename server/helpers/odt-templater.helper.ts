@@ -25,12 +25,11 @@ class OdtTemplater {
 
   /**
    * Traverses a data object to find a value based on a dot-separated path.
-   * @private
    * @param data The data object to traverse.
    * @param path The dot-separated path (e.g., 'user.name').
    * @returns The value found at the specified path, or `undefined` if not found.
    */
-  private _getValueFromPath(data: any, path: string): any {
+  private _getValueFromPath(data: any, path: string): string | undefined {
     const keys = path.split('.');
     let value = data;
 
@@ -41,27 +40,23 @@ class OdtTemplater {
         return undefined;
       }
     }
-    return value;
+    return value as string;
   }
 
   /**
    * Processes conditional blocks like `{#variable == "value"}...{/}`.
-   * @private
    * @param data The object containing the placeholder values.
    */
   private _processConditionals(data: { [key: string]: any }): void {
-    console.log(data);
     const conditionRegex = /\{#\s*(.*?)\s*==\s*(.*?)\}(.*?)\{\/\}/gs;
     this.contentXml = this.contentXml.replace(conditionRegex, (_match, key: string, value: string, content: string): string => {
       const actualValue = this._getValueFromPath(data, key);
-      console.log(`Checking condition for key: ${key}, expected value: ${value}, actual value: ${actualValue}`);
       return actualValue?.toString() === value ? content : '';
     });
   }
 
   /**
    * Replaces normal placeholders like `{...}`.
-   * @private
    * @param data The object containing the placeholder values.
    */
   private _replacePlaceholders(data: { [key: string]: any }): void {
