@@ -21,8 +21,11 @@ services:
         source: .
         target: /app
       - type: bind
-        source: ./storage # Home-Verzeichnis des Benutzers
+        source: ./storage
         target: /app/storage
+      - type: bind
+        source: ./server/templates
+        target: /templates
     stdin_open: true
     tty: true
     depends_on:

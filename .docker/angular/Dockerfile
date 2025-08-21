@@ -1,4 +1,4 @@
-# Stage 1: Build-Phase
+# Stage 1: Build
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -9,15 +9,18 @@ COPY . .
 RUN npm run build
 
 
-# Stage 2: Produktion
+# Stage 2: Production
 FROM node:20-alpine AS prod
 WORKDIR /app
 
-# Installiere LibreOffice
+# install LibreOffice
 RUN apk add --no-cache libreoffice openjdk8-jre
 
-# Kopiere das Build-Ergebnis
+# copy the built application from the builder stage
 COPY --from=builder /app/dist ./dist
+
+# copy templates
+COPY ./server/templates /templates
 
 EXPOSE 4000
 # Node starten

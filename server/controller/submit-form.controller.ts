@@ -1,14 +1,15 @@
-import path from 'path';
+import path, { resolve } from 'path';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import * as converterController from '../helpers/file-conversion.helper';
 import { updateStatistic } from 'server/services/statistic.service';
-import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
+import { SERVER_DIST_FOLDER, TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
 import { Upload } from 'server/models/upload.model';
 import { deleteGeneratedFiles, updateUploadData } from 'server/services/uploads.service';
 import { SettingsService } from 'server/services/settings.service';
 import { randomUUID } from 'crypto';
+import OdtTemplater from 'server/helpers/odt-templater.helper';
 
 export const submitForm = async (req: Request, res: Response) => {
   try {
@@ -51,7 +52,21 @@ export const submitForm = async (req: Request, res: Response) => {
     // Save the DOCX-File
     await docx.mv(filePathDocx);
 
+    // Test odt-Templater ############################################################
+
+    try {
+      const templater = new OdtTemplater(path.join(TEMPLATES_FOLDER_PATH, 'abschriftBewilligung.odt'));
+      const { antrag } = req.body;
+      const parsedAntrag = JSON.parse(antrag);
+      templater.replaceVariables(parsedAntrag);
+      templater.generate(path.join(uploadFolderPath, `${uploadID}.odt`));
+    } catch (error) {
+      logger.error('Fehler beim Erstellen der ODT-Datei:', error);
+      return res.status(500).send('Fehler beim Erstellen der ODT-Datei.');
+    }
     await updateStatistic(newUpload.antragsart, 1);
+
+    // ###############################################################################
 
     // Convert the DOCX-File to a PDF-File
     try {

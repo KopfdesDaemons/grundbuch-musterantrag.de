@@ -1,8 +1,7 @@
-# Entwicklungs-Phase
 FROM node:20-alpine AS dev
 WORKDIR /app
 
-# Installiere LibreOffice
+# install LibreOffice
 RUN apk add --no-cache libreoffice openjdk8-jre
 
 COPY package*.json ./
