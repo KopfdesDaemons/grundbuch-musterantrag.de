@@ -5,10 +5,6 @@ class OdtTemplater {
   private zip: PizZip;
   private contentXml: string;
 
-  /**
-   * Constructs the OdtTemplater by loading the ODT template.
-   * @param templatePath The path to the ODT template file.
-   */
   constructor(templatePath: string) {
     if (!fs.existsSync(templatePath)) {
       throw new Error(`Template file not found at: ${templatePath}`);
@@ -23,12 +19,6 @@ class OdtTemplater {
     this.contentXml = file.asText();
   }
 
-  /**
-   * Traverses a data object to find a value based on a dot-separated path.
-   * @param data The data object to traverse.
-   * @param path The dot-separated path (e.g., 'user.name').
-   * @returns The value found at the specified path, or `undefined` if not found.
-   */
   private _getValueFromPath(data: any, path: string): string | undefined {
     const keys = path.split('.');
     let value = data;
@@ -43,24 +33,25 @@ class OdtTemplater {
     return value as string;
   }
 
-  /**
-   * Processes conditional blocks like `{#variable == "value"}...{/}`.
-   * @param data The object containing the placeholder values.
-   */
   private _processConditionals(data: { [key: string]: any }): void {
     const conditionRegex = /\{#\s*(.*?)\s*==\s*(.*?)\}(.*?)\{\/\}/gs;
     this.contentXml = this.contentXml.replace(conditionRegex, (_match, key: string, value: string, content: string): string => {
       const actualValue = this._getValueFromPath(data, key);
+      console.log(`Processing conditional for key: ${key} with value: ${value} and actual value: ${actualValue}`);
       return actualValue?.toString() === value ? content : '';
     });
   }
 
-  /**
-   * Replaces normal placeholders like `{...}`.
-   * @param data The object containing the placeholder values.
-   */
+  private _processEmptyConditionals(data: { [key: string]: any }): void {
+    const emptyConditionRegex = /\{#\s*([^=]*?)\s*\}(.*?)\{\/\}/gs;
+    this.contentXml = this.contentXml.replace(emptyConditionRegex, (_match, key: string, content: string): string => {
+      const actualValue = this._getValueFromPath(data, key);
+      return actualValue !== null && actualValue !== undefined && actualValue !== '' ? content : '';
+    });
+  }
+
   private _replacePlaceholders(data: { [key: string]: any }): void {
-    const variableRegex = /\{(.*?)}/g;
+    const variableRegex = /\{(.*?)\}/g;
     this.contentXml = this.contentXml.replace(variableRegex, (_match: string, path: string): string => {
       const value = this._getValueFromPath(data, path.trim());
       return value !== null && value !== undefined ? String(value) : '';
@@ -73,6 +64,7 @@ class OdtTemplater {
    */
   public replaceVariables(data: { [key: string]: any }): void {
     this._processConditionals(data);
+    this._processEmptyConditionals(data);
     this._replacePlaceholders(data);
   }
 
