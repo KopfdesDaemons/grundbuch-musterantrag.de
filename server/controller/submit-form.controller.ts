@@ -1,9 +1,9 @@
-import path, { resolve } from 'path';
+import path from 'path';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import * as converterController from '../helpers/file-conversion.helper';
 import { updateStatistic } from 'server/services/statistic.service';
-import { SERVER_DIST_FOLDER, TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
+import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
 import { Upload } from 'server/models/upload.model';
 import { deleteGeneratedFiles, updateUploadData } from 'server/services/uploads.service';

@@ -1,26 +1,21 @@
 import PizZip from 'pizzip';
 import * as fs from 'fs';
 
-// Define a type for the data object to support nested properties
-type DataObject = { [key: string]: any };
-
 class OdtTemplater {
   private zip: PizZip;
-  private contentXml: string | null = null;
+  private contentXml: string;
 
+  /**
+   * Constructs the OdtTemplater by loading the ODT template.
+   * @param templatePath The path to the ODT template file.
+   */
   constructor(templatePath: string) {
     if (!fs.existsSync(templatePath)) {
       throw new Error(`Template file not found at: ${templatePath}`);
     }
     const content = fs.readFileSync(templatePath, 'binary');
     this.zip = new PizZip(content);
-  }
 
-  /**
-   * Loads the content.xml file from the ODT archive.
-   * @private
-   */
-  private loadContentXml(): void {
     const file = this.zip.files['content.xml'];
     if (!file) {
       throw new Error('content.xml not found in the ODT file.');
@@ -29,65 +24,69 @@ class OdtTemplater {
   }
 
   /**
-   * Replaces placeholders and processes conditional blocks in the ODT content.
-   * @param {DataObject} data The object containing the placeholder values.
+   * Traverses a data object to find a value based on a dot-separated path.
+   * @private
+   * @param data The data object to traverse.
+   * @param path The dot-separated path (e.g., 'user.name').
+   * @returns The value found at the specified path, or `undefined` if not found.
    */
-  public replaceVariables(data: DataObject): void {
-    if (!this.contentXml) {
-      this.loadContentXml();
-    }
+  private _getValueFromPath(data: any, path: string): any {
+    const keys = path.split('.');
+    let value = data;
 
-    let newContentXml = this.contentXml as string;
-
-    // Process conditional blocks: {#variable == "value"}...{/}
-    const conditionRegex = /\{#(.*?)\s*==\s*"(.*?)"\}(.*?)\{\/\}/gs;
-
-    newContentXml = newContentXml.replace(conditionRegex, (_match, key: string, value: string, content: string): string => {
-      const path = key.split('.');
-      let actualValue: any = data;
-
-      for (const p of path) {
-        if (actualValue && typeof actualValue === 'object' && Object.prototype.hasOwnProperty.call(actualValue, p)) {
-          actualValue = actualValue[p];
-        } else {
-          actualValue = undefined;
-          break;
-        }
-      }
-
-      if (actualValue?.toString() === value) {
-        return content;
+    for (const key of keys) {
+      if (value && typeof value === 'object' && Object.prototype.hasOwnProperty.call(value, key)) {
+        value = value[key];
       } else {
-        return '';
+        return undefined;
       }
+    }
+    return value;
+  }
+
+  /**
+   * Processes conditional blocks like `{#variable == "value"}...{/}`.
+   * @private
+   * @param data The object containing the placeholder values.
+   */
+  private _processConditionals(data: { [key: string]: any }): void {
+    console.log(data);
+    const conditionRegex = /\{#\s*(.*?)\s*==\s*(.*?)\}(.*?)\{\/\}/gs;
+    this.contentXml = this.contentXml.replace(conditionRegex, (_match, key: string, value: string, content: string): string => {
+      const actualValue = this._getValueFromPath(data, key);
+      console.log(`Checking condition for key: ${key}, expected value: ${value}, actual value: ${actualValue}`);
+      return actualValue?.toString() === value ? content : '';
     });
+  }
 
-    // Replace normal placeholders: {...}
-    const variableRegex = /{(.*?)}/g;
-    newContentXml = newContentXml.replace(variableRegex, (_match: string, p1: string): string => {
-      // Split the path by '.' to support nested properties e.g. "user.name"
-      const path = p1.trim().split('.');
-      let value: any = data;
-
-      for (const key of path) {
-        if (value && typeof value === 'object' && Object.prototype.hasOwnProperty.call(value, key)) {
-          // Remember key to access nested properties
-          value = value[key];
-        } else {
-          return '';
-        }
-      }
-      return value !== undefined && value !== null ? (value.toString() as string) : '';
+  /**
+   * Replaces normal placeholders like `{...}`.
+   * @private
+   * @param data The object containing the placeholder values.
+   */
+  private _replacePlaceholders(data: { [key: string]: any }): void {
+    const variableRegex = /\{(.*?)}/g;
+    this.contentXml = this.contentXml.replace(variableRegex, (_match: string, path: string): string => {
+      const value = this._getValueFromPath(data, path.trim());
+      return value !== null && value !== undefined ? String(value) : '';
     });
+  }
 
-    this.zip.file('content.xml', newContentXml);
+  /**
+   * Replaces placeholders and processes conditional blocks in the ODT content.
+   * @param data The object containing the placeholder values.
+   */
+  public replaceVariables(data: { [key: string]: any }): void {
+    this._processConditionals(data);
+    this._replacePlaceholders(data);
   }
 
   /**
    * Generates a new ODT file with the updated content.
-   * @param {string} outputPath The path where the new file should be saved.
+   * @param outputPath The path where the new file should be saved.
    */
   public generate(outputPath: string): void {
+    this.zip.file('content.xml', this.contentXml);
     const newZipContent = this.zip.generate({ type: 'nodebuffer' });
     fs.writeFileSync(outputPath, newZipContent);
   }
