@@ -33,11 +33,19 @@ class OdtTemplater {
     return value as string;
   }
 
+  private _removeTagsFromTemplate(): void {
+    const variableWithTagsRegex = /\{([^}]*)\}/g;
+
+    this.contentXml = this.contentXml.replace(variableWithTagsRegex, (_match, innerContent) => {
+      const cleanedContent = innerContent.replace(/<[^>]+>/g, '');
+      return `{${cleanedContent}}`;
+    });
+  }
+
   private _processConditionals(data: { [key: string]: any }): void {
-    const conditionRegex = /\{#\s*(.*?)\s*==\s*(.*?)\}(.*?)\{\/\}/gs;
+    const conditionRegex = /\{#\s*([^\\{}]+?)\s*==\s*(.*?)\}(.*?)\{\/\}/gs;
     this.contentXml = this.contentXml.replace(conditionRegex, (_match, key: string, value: string, content: string): string => {
       const actualValue = this._getValueFromPath(data, key);
-      console.log(`Processing conditional for key: ${key} with value: ${value} and actual value: ${actualValue}`);
       return actualValue?.toString() === value ? content : '';
     });
   }
@@ -63,6 +71,7 @@ class OdtTemplater {
    * @param data The object containing the placeholder values.
    */
   public replaceVariables(data: { [key: string]: any }): void {
+    this._removeTagsFromTemplate();
     this._processConditionals(data);
     this._processEmptyConditionals(data);
     this._replacePlaceholders(data);
