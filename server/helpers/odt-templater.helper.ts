@@ -51,7 +51,7 @@ class OdtTemplater {
   }
 
   private _processEmptyConditionals(data: { [key: string]: any }): void {
-    const emptyConditionRegex = /\{#\s*([^=]*?)\s*\}(.*?)\{\/\}/gs;
+    const emptyConditionRegex = /<text:p(?:(?!<text:p)[\s\S])*?\{#\s*(.*?)\s*\}<.*?\/text:p>(<text:p[\s\S]*?)<text:p[^<]*?>\{\/\}\s*<\/text:p>/gs;
     this.contentXml = this.contentXml.replace(emptyConditionRegex, (_match, key: string, content: string): string => {
       const actualValue = this._getValueFromPath(data, key);
       return actualValue !== null && actualValue !== undefined && actualValue !== '' ? content : '';
