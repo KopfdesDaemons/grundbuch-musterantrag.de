@@ -14,7 +14,7 @@ import { statisticRoutes } from 'server/routes/statistic.routes';
 import { userManagementRoutes } from 'server/routes/user-management.routes';
 import { userRoleRoutes } from 'server/routes/user-role.routes';
 import { userSettingsRoutes } from 'server/routes/user-settings.routes';
-import { submitForm } from 'server/controller/submit-form.controller';
+import { handleGetOdtAfterSubmitForm, handleGetPdfAfterSubmitForm, submitForm } from 'server/controller/submit-form.controller';
 
 export async function app(): Promise<express.Express> {
   const server = express();
@@ -29,7 +29,9 @@ export async function app(): Promise<express.Express> {
 
   // Routes that call a controller
   server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
-  server.use('/api/submitForm', submitForm);
+  server.post('/api/submitForm', submitForm);
+  server.get('/api/getOdtAfterSubmitForm', handleGetOdtAfterSubmitForm);
+  server.get('/api/getPdfAfterSubmitForm', handleGetPdfAfterSubmitForm);
 
   // Outsourced routes
   server.use('/api/auth', authRoutes);

@@ -7,9 +7,9 @@ import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.c
 import logger from 'server/config/logger.config';
 import { Upload } from 'server/models/upload.model';
 import { deleteGeneratedFiles, updateUploadData } from 'server/services/uploads.service';
-import { SettingsService } from 'server/services/settings.service';
 import { randomUUID } from 'crypto';
 import OdtTemplater from 'server/helpers/odt-templater.helper';
+import { SettingsService } from 'server/services/settings.service';
 
 export const submitForm = async (req: Request, res: Response) => {
   try {
@@ -54,7 +54,7 @@ export const submitForm = async (req: Request, res: Response) => {
 
     await updateStatistic(newUpload.antragsart, 1);
 
-    // Convert the DOCX-File to a PDF-File
+    // Convert the ODT-File to a PDF-File
     try {
       await converterController.convertToPdf(filePathOdt, uploadFolderPath);
     } catch (convertError) {
@@ -69,18 +69,7 @@ export const submitForm = async (req: Request, res: Response) => {
     } else newUpload.pdfFile = true;
     await saveUploadinfo();
 
-    // Send the PDF-File
-    res.contentType('application/pdf').sendFile(filePathPdf, cleanupFiles);
-
-    // Delete generated files after response when setting is enabled
-    async function cleanupFiles(): Promise<void> {
-      try {
-        if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
-        await deleteGeneratedFiles(uploadID);
-      } catch (error) {
-        logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
-      }
-    }
+    res.status(200).send({ message: 'Antrag erfolgreich erstellt.', uploadID });
 
     async function saveUploadinfo(): Promise<void> {
       try {
@@ -94,5 +83,47 @@ export const submitForm = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error('Fehler bei der Generierung des Antrags: ', error);
     return res.status(500).send('Interner Serverfehler.');
+  }
+};
+
+export const handleGetOdtAfterSubmitForm = (req: Request, res: Response) => {
+  const uploadID = req.query['uploadID'] as string;
+  if (!uploadID) return res.status(400).send({ message: 'Fehlende UploadID' });
+
+  const fileName = `${uploadID}.odt`;
+  const folderPath: string = path.join(UPLOADS_FOLDER_PATH, uploadID);
+
+  try {
+    const filePath = path.join(folderPath, fileName);
+    return res.contentType('application/vnd.oasis.opendocument.text').sendFile(filePath);
+  } catch (error) {
+    logger.error('Fehler beim Abrufen der ODT-Datei:', error);
+    return res.status(500).send({ message: 'Fehler beim Abrufen der ODT-Datei' });
+  }
+};
+
+export const handleGetPdfAfterSubmitForm = (req: Request, res: Response) => {
+  const uploadID = req.query['uploadID'] as string;
+  if (!uploadID) return res.status(400).send({ message: 'Fehlende UploadID' });
+
+  const fileName = `${uploadID}.pdf`;
+  const folderPath: string = path.join(UPLOADS_FOLDER_PATH, uploadID);
+
+  try {
+    const filePath = path.join(folderPath, fileName);
+    return res.contentType('application/pdf').sendFile(filePath, cleanupFiles);
+
+    // Delete generated files after response when setting is enabled
+    async function cleanupFiles(): Promise<void> {
+      try {
+        if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
+        await deleteGeneratedFiles(uploadID);
+      } catch (error) {
+        logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
+      }
+    }
+  } catch (error) {
+    logger.error('Fehler beim Abrufen der PDF-Datei:', error);
+    return res.status(500).send({ message: 'Fehler beim Abrufen der PDF-Datei' });
   }
 };

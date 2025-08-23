@@ -15,7 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   private fs = inject(FormService);
-  pdfS = inject(DocumentService);
+  private docS = inject(DocumentService);
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
 
@@ -25,6 +25,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   odt: any = null;
   pdf: any = null;
   pdfIsLoading: boolean = false;
+  odtIsLoading: boolean = false;
   statusMessage: string = '';
 
   pdfError: HttpErrorResponse | null = null;
@@ -40,13 +41,13 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     await this.generatePdf();
   }
 
-  downloadDocx() {
+  downloadOdt() {
     const docxUrl = URL.createObjectURL(this.odt);
     const link = this.document.createElement('a');
 
     link.href = docxUrl;
     const fileName = this.fs.antrag?.title;
-    link.download = fileName ? `${fileName}.docx` : 'Antrag.docx';
+    link.download = fileName ? `${fileName}.odt` : 'Antrag.odt';
     this.document.body.appendChild(link);
     link.click();
 
@@ -62,18 +63,20 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
     try {
       this.statusMessage = 'Dokument wird generiert...';
-      this.pdfIsLoading = true;
       this.pdfError = null;
       if (!this.fs.antrag) return;
       this.fs.antragAbschließen();
-      this.pdf = await this.pdfS.generatePdf(this.fs.antrag);
+      const uploadID = await this.docS.submitForm(this.fs.antrag);
+      this.odtIsLoading = true;
+      this.odt = await this.docS.getOdtAfterSubmitForm(uploadID);
+      this.pdfIsLoading = true;
+      this.pdf = await this.docS.getPdfAfterSubmitForm(uploadID);
       this.statusMessage = 'Dokument wurde erfolgreich generiert.';
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.pdfError = error;
-      }
+      if (error instanceof HttpErrorResponse) this.pdfError = error;
       this.statusMessage = 'Fehler bei der Dokumentgenerierung.';
     }
     this.pdfIsLoading = false;
+    this.odtIsLoading = false;
   }
 }

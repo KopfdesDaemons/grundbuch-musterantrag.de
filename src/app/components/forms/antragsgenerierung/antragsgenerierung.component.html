@@ -11,13 +11,13 @@
       }
     </div>
     <div class="kachelcontainer">
-      <!-- <button class="btnoutlined kachel" [disabled]="docx == null" (click)="downloadDocx()">
+      <button class="btnoutlined kachel" [disabled]="odt == null" (click)="downloadOdt()">
         <fa-icon [icon]="faFileLines"></fa-icon>
-        <span>.odt (OpenDocument)</span>
-        @if (docxS.progress != 100) {
-          <app-progress-spinner [prozent]="docxS.progress"></app-progress-spinner>
+        <span>.odt</span>
+        @if (odtIsLoading) {
+          <app-progress-spinner [endless]="true"></app-progress-spinner>
         }
-      </button> -->
+      </button>
       <button class="btnoutlined kachel" [disabled]="pdf == null" (click)="openPdf()">
         <fa-icon [icon]="faFilePdf"></fa-icon>
         <span>.pdf</span>
