@@ -42,17 +42,17 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   }
 
   downloadOdt() {
-    const docxUrl = URL.createObjectURL(this.odt);
+    const url = URL.createObjectURL(this.odt);
     const link = this.document.createElement('a');
 
-    link.href = docxUrl;
+    link.href = url;
     const fileName = this.fs.antrag?.title;
     link.download = fileName ? `${fileName}.odt` : 'Antrag.odt';
     this.document.body.appendChild(link);
     link.click();
 
     this.document.body.removeChild(link);
-    URL.revokeObjectURL(docxUrl);
+    URL.revokeObjectURL(url);
   }
 
   openPdf() {

@@ -34,7 +34,7 @@ export class AntragslisteComponent {
 
     meta.updateTag({
       name: 'description',
-      content: 'Generierung und Download von Musteranträgen für das Grundbuchamt als DOCX- oder PDF-Datei'
+      content: 'Generierung und Download von Musteranträgen für das Grundbuchamt als .odt oder .pdf Datei'
     });
     title.setTitle('Kostenlose Musteranträge für das Grundbuchamt');
   }

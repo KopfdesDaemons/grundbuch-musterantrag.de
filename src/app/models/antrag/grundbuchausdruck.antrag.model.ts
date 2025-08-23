@@ -22,7 +22,6 @@ export class AntragGrundbuchausdruck implements Antrag {
   berechtigtesInteresse: BerechtigtesInteresse = new BerechtigtesInteresse();
   grundbuchamt: Grundbuchamt = new Grundbuchamt();
 
-  // der docx-templater funktioniert nicht mit getter/setter
   formDesAusdrucksTemplate: 'beglaubigt' | 'einfach' = 'einfach';
 
   datum: string = '';

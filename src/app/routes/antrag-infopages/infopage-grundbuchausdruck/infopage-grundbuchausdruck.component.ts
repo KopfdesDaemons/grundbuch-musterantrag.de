@@ -46,7 +46,7 @@ export class InfopageGrundbuchausdruckComponent {
   constructor() {
     this.meta.updateTag({
       name: 'description',
-      content: 'Download eines Musterantrags auf ' + this.antrag.title + ' als .pdf oder docx.'
+      content: 'Download eines Musterantrags auf ' + this.antrag.title + ' als .pdf oder .odt.'
     });
     this.titleService.setTitle('Kostenloser Musterantrag auf ' + this.antrag.title);
   }

@@ -1,7 +1,7 @@
 # www.grundbuch-musterantrag.de
 
 A website about German land registry law, with the option to generate free applications.
-There is a user-friendly form. The user is guided through the form step by step. At the end, a .docx and a .pdf file are generated.
+There is a user-friendly form. The user is guided through the form step by step. At the end, a .odt and a .pdf file are generated.
 
 The website also offers a concise introduction to land registry law for laypeople.
 
@@ -15,7 +15,6 @@ It is a private website that does not represent any authority.
 - Express
 - MySQL
 - Google Charts
-- Docxtemplater
 - LibreOffice
 
 ## Dashboard
