@@ -1,11 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, DOCUMENT, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
-import { faFilePdf, faFileWord } from '@fortawesome/free-regular-svg-icons';
-import { DocxgeneratorService } from 'src/app/services/document/docxgenerator.service';
+import { faFileLines, faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import { FormService } from 'src/app/services/document/form.service';
-import { PdfgeneratorService } from 'src/app/services/document/pdfgenerator.service';
+import { DocumentService } from 'src/app/services/document/document.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-antragsgenerierung',
@@ -15,28 +15,33 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   private fs = inject(FormService);
-  docxS = inject(DocxgeneratorService);
-  pdfS = inject(PdfgeneratorService);
+  pdfS = inject(DocumentService);
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
 
-  faFileWord = faFileWord;
   faFilePdf = faFilePdf;
+  faFileLines = faFileLines;
 
-  docx: any;
-  pdf: any;
+  odt: any = null;
+  pdf: any = null;
+  pdfIsLoading: boolean = false;
+  statusMessage: string = '';
+
+  pdfError: HttpErrorResponse | null = null;
 
   ngOnDestroy(): void {
-    this.docxS.reset();
-    this.pdfS.reset();
+    this.odt = null;
+    this.pdf = null;
+    this.pdfError = null;
+    this.pdfIsLoading = false;
   }
 
   async ngOnInit(): Promise<void> {
-    await this.generate();
+    await this.generatePdf();
   }
 
   downloadDocx() {
-    const docxUrl = URL.createObjectURL(this.docx);
+    const docxUrl = URL.createObjectURL(this.odt);
     const link = this.document.createElement('a');
 
     link.href = docxUrl;
@@ -53,11 +58,22 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     window.open(URL.createObjectURL(this.pdf));
   }
 
-  async generate() {
+  async generatePdf() {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.fs.antrag) return;
-    this.fs.antragAbschließen();
-    this.docx = await this.docxS.generate(this.fs.antrag);
-    this.pdf = await this.pdfS.generate(this.docx, this.fs.antrag);
+    try {
+      this.statusMessage = 'Dokument wird generiert...';
+      this.pdfIsLoading = true;
+      this.pdfError = null;
+      if (!this.fs.antrag) return;
+      this.fs.antragAbschließen();
+      this.pdf = await this.pdfS.generatePdf(this.fs.antrag);
+      this.statusMessage = 'Dokument wurde erfolgreich generiert.';
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.pdfError = error;
+      }
+      this.statusMessage = 'Fehler bei der Dokumentgenerierung.';
+    }
+    this.pdfIsLoading = false;
   }
 }
