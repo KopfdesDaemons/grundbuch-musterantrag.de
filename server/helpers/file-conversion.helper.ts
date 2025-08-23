@@ -5,7 +5,6 @@ export const convertToPdf = async (docxFilePath: string, outputFolderPath: strin
 
   const child = spawn('soffice', args);
 
-  // Die Funktion wartet auf den Abschluss des Prozesses und gibt ein Ergebnis zurück.
   const promise = new Promise<void>((resolve, reject) => {
     child.on('error', err => {
       reject(err);

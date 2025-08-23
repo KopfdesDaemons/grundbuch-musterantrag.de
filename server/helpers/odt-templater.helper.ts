@@ -19,7 +19,7 @@ class OdtTemplater {
     this.contentXml = file.asText();
   }
 
-  private _getValueFromPath(data: any, path: string): string | undefined {
+  private _getValueFromPath(data: any, path: string): string | undefined | boolean {
     const keys = path.split('.');
     let value = data;
 
@@ -30,7 +30,7 @@ class OdtTemplater {
         return undefined;
       }
     }
-    return value as string;
+    return value as string | undefined | boolean;
   }
 
   private _removeTagsFromTemplate(): void {
@@ -51,15 +51,16 @@ class OdtTemplater {
   }
 
   private _processEmptyConditionals(data: { [key: string]: any }): void {
-    const emptyConditionRegex = /<text:p(?:(?!<text:p)[\s\S])*?\{#\s*(.*?)\s*\}<.*?\/text:p>(<text:p[\s\S]*?)<text:p[^<]*?>\{\/\}\s*<\/text:p>/gs;
+    const emptyConditionRegex =
+      /<text:p(?:(?!<text:p)[\s\S])*?\{#\s*(.*?)\s*\}<.*?\/text:p>(<text:p[\s\S]*?)<text:p(?:(?!<text:p)[\s\S])*?\{\/\}.*?<\/text:p>/gs;
     this.contentXml = this.contentXml.replace(emptyConditionRegex, (_match, key: string, content: string): string => {
       const actualValue = this._getValueFromPath(data, key);
-      return actualValue !== null && actualValue !== undefined && actualValue !== '' ? content : '';
+      return actualValue !== null && actualValue !== undefined && actualValue !== '' && actualValue !== false ? content : '';
     });
   }
 
   private _replacePlaceholders(data: { [key: string]: any }): void {
-    const variableRegex = /\{(.*?)\}/g;
+    const variableRegex = /\{([^#/]*?)\}/g;
     this.contentXml = this.contentXml.replace(variableRegex, (_match: string, path: string): string => {
       const value = this._getValueFromPath(data, path.trim());
       return value !== null && value !== undefined ? String(value) : '';

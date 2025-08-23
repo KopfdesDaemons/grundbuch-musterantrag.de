@@ -19,7 +19,7 @@ export const submitForm = async (req: Request, res: Response) => {
     const uploadFolderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
     await fs.promises.mkdir(uploadFolderPath, { recursive: true });
 
-    const filePathDocx = path.join(uploadFolderPath, `${uploadID}.docx`);
+    const filePathOdt = path.join(uploadFolderPath, `${uploadID}.odt`);
     const filePathPdf = path.join(uploadFolderPath, `${uploadID}.pdf`);
 
     // Check if the uploadinfo is in the formdata
@@ -33,44 +33,30 @@ export const submitForm = async (req: Request, res: Response) => {
     Object.assign(newUpload, JSON.parse(uploadinfo));
     newUpload.uploadDate = new Date();
 
-    // Check if files is in the formdata
-    if (!req.files) {
-      logger.error('Es wurde keine Datei in der Formdata empfangen.');
-      await saveUploadinfo();
-      return res.status(400).send('Es wurde keine Datei in der Formdata empfangen.');
-    }
-
-    // Check if the DOCX-File is in the formdata
-    const { docx } = req.files as any;
-    if (!docx) {
-      logger.error('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
-      await saveUploadinfo();
-      return res.status(400).send('Es wurde keine Datei in dem Wert "docx" in der Formdata empfangen.');
-    } else newUpload.docxFile = true;
-    await saveUploadinfo();
-
-    // Save the DOCX-File
-    await docx.mv(filePathDocx);
-
-    // Test odt-Templater ############################################################
-
+    // Generate the ODT-File from the template
     try {
-      const templater = new OdtTemplater(path.join(TEMPLATES_FOLDER_PATH, 'abschriftBewilligung.odt'));
-      const { antrag } = req.body;
-      const parsedAntrag = JSON.parse(antrag);
-      templater.replaceVariables(parsedAntrag);
-      templater.generate(path.join(uploadFolderPath, `${uploadID}.odt`));
+      let { antrag } = req.body;
+      antrag = JSON.parse(antrag);
+
+      if (!antrag || !antrag.templateFileName) {
+        logger.error('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
+        return res.status(400).send('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
+      }
+
+      const templatePath = path.join(TEMPLATES_FOLDER_PATH, `${antrag.templateFileName}.odt`);
+      const templater = new OdtTemplater(templatePath);
+      templater.replaceVariables(antrag);
+      templater.generate(path.join(filePathOdt));
     } catch (error) {
       logger.error('Fehler beim Erstellen der ODT-Datei:', error);
       return res.status(500).send('Fehler beim Erstellen der ODT-Datei.');
     }
-    await updateStatistic(newUpload.antragsart, 1);
 
-    // ###############################################################################
+    await updateStatistic(newUpload.antragsart, 1);
 
     // Convert the DOCX-File to a PDF-File
     try {
-      await converterController.convertToPdf(filePathDocx, uploadFolderPath);
+      await converterController.convertToPdf(filePathOdt, uploadFolderPath);
     } catch (convertError) {
       logger.error('Fehler bei der Konvertierung:', convertError);
       return res.status(500).send('Fehler bei der Konvertierung der Datei.');
