@@ -1,6 +1,6 @@
 export class Upload {
   uploadID: string;
-  docxFile: boolean = false;
+  odtFile: boolean = false;
   pdfFile: boolean = false;
   filesDeleted: boolean = false;
   uploadDate: Date = new Date();

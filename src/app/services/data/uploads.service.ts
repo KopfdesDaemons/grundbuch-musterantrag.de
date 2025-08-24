@@ -57,7 +57,7 @@ export class UploadsService {
     return { page: this.uploadsData['page'], files: this.uploadsData['files'] };
   }
 
-  async getFile(fileName: string, fileType: 'pdf' | 'docx') {
+  async getFile(fileName: string, fileType: 'pdf' | 'odt') {
     fileName = `${fileName}.${fileType}`;
 
     const response = await lastValueFrom(
@@ -79,7 +79,7 @@ export class UploadsService {
       return;
     }
 
-    // docx download
+    // odt download
     const link = this.document.createElement('a');
     link.href = blobUrl;
     link.download = fileName;

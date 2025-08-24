@@ -20,8 +20,8 @@
               <th>Grundbuchamt</th>
               <th>Antragsart</th>
               <th>Datum</th>
-              <th>odt</th>
-              <th>pdf</th>
+              <th>.odt</th>
+              <th>.pdf</th>
               <th></th>
             </tr>
           </thead>
@@ -36,11 +36,11 @@
                 <td>{{ file.uploadDate | date: "dd.MM.yyyy HH:mm" }} Uhr</td>
 
                 <td class="iconTableCell">
-                  @if (file.docxFile && !file.filesDeleted) {
-                    <a class="btnicon" (click)="getFile(file.uploadID, 'docx')"
-                      ><fa-icon [icon]="faCircleDown" title="Download .docx Datei"></fa-icon
+                  @if (file.odtFile && !file.filesDeleted) {
+                    <a class="btnicon" (click)="getFile(file.uploadID, 'odt')"
+                      ><fa-icon [icon]="faCircleDown" title="Download .odt Datei"></fa-icon
                     ></a>
-                  } @else if (file.docxFile && file.filesDeleted) {
+                  } @else if (file.odtFile && file.filesDeleted) {
                     <fa-icon [icon]="faCheck" title="Datei wurde generiert und nach dem Response gelöscht"></fa-icon>
                   } @else {
                     <fa-icon [icon]="faCircleExclamation" class="btnicon notFound"></fa-icon>

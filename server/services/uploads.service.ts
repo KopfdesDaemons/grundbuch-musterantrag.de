@@ -19,7 +19,7 @@ export const getUploadsData = async (
 
   // SQL-Abfrage mit LIMIT und OFFSET
   const offset = (page - 1) * pageSize;
-  const readQuery = `SELECT uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt 
+  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt 
                        FROM uploads 
                        ORDER BY uploadDate DESC 
                        LIMIT ${pageSize} OFFSET ${offset}`;
@@ -30,7 +30,7 @@ export const getUploadsData = async (
   // Mapping der Ergebnisse zu Upload-Objekten
   const list: Upload[] = rows.map(row => {
     const upload = new Upload(row['uploadID']);
-    upload.docxFile = Boolean(row['docxFile']);
+    upload.odtFile = Boolean(row['odtFile']);
     upload.pdfFile = Boolean(row['pdfFile']);
     upload.filesDeleted = Boolean(row['filesDeleted']);
     upload.uploadDate = new Date(row['uploadDate']);
@@ -54,13 +54,13 @@ export const getUploadsData = async (
 };
 
 export const readUpload = async (UploadID: string): Promise<Upload> => {
-  const readQuery = `SELECT uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads WHERE uploadID = ?`;
+  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads WHERE uploadID = ?`;
   const [result] = await db.execute<RowDataPacket[]>(readQuery, [UploadID]);
   const row = result[0];
 
   const upload = new Upload(row['uploadID']);
 
-  upload.docxFile = Boolean(row['docxFile']);
+  upload.odtFile = Boolean(row['odtFile']);
   upload.pdfFile = Boolean(row['pdfFile']);
   upload.filesDeleted = Boolean(row['filesDeleted']);
   upload.uploadDate = new Date(row['uploadDate']);
@@ -76,14 +76,14 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
 
   const sql = exists
     ? `UPDATE uploads 
-           SET docxFile = ?, pdfFile = ?, filesDeleted = ?, uploadDate = ?, antragsart = ?, grundbuchamt = ? 
+           SET odtFile = ?, pdfFile = ?, filesDeleted = ?, uploadDate = ?, antragsart = ?, grundbuchamt = ? 
            WHERE uploadID = ?`
-    : `INSERT INTO uploads (uploadID, docxFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt) 
+    : `INSERT INTO uploads (uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt) 
            VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
   const params = exists
-    ? [data.docxFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt, data.uploadID]
-    : [data.uploadID, data.docxFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt];
+    ? [data.odtFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt, data.uploadID]
+    : [data.uploadID, data.odtFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt];
 
   await db.execute(sql, params);
 };

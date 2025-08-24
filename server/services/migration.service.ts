@@ -38,8 +38,8 @@ export const migrateFromAntragToUploadinfo = async (): Promise<void> => {
       if (!upload.antragsart) upload.antragsart = antrag.title;
       if (!(typeof upload.grundbuchamt === 'string')) upload.grundbuchamt = antrag.grundbuchamt.name;
 
-      if (!upload.docxFile) {
-        upload.docxFile = await checkFileExists(path.join(UPLOADS_FOLDER_PATH, folder, folder + '.docx'));
+      if (!upload.odtFile) {
+        upload.odtFile = await checkFileExists(path.join(UPLOADS_FOLDER_PATH, folder, folder + '.docx'));
       }
 
       if (!upload.pdfFile) {

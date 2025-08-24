@@ -152,7 +152,7 @@ export class DashboardAntragslisteComponent implements OnInit {
     if (ulElement) ulElement.style.visibility = 'visible';
   }
 
-  async getFile(fileName: string, fileType: 'pdf' | 'docx') {
+  async getFile(fileName: string, fileType: 'pdf' | 'odt') {
     try {
       this.error = null;
       await this.uploadsdS.getFile(fileName, fileType);

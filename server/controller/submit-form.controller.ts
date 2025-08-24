@@ -47,6 +47,7 @@ export const submitForm = async (req: Request, res: Response) => {
       const templater = new OdtTemplater(templatePath);
       templater.replaceVariables(antrag);
       templater.generate(path.join(filePathOdt));
+      newUpload.odtFile = true;
     } catch (error) {
       logger.error('Fehler beim Erstellen der ODT-Datei:', error);
       return res.status(500).json({ message: 'Fehler beim Erstellen der ODT-Datei.' });

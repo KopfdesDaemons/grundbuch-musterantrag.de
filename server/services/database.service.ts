@@ -17,7 +17,7 @@ export const initDatabase = async () => {
         name: 'uploads',
         columns: [
           { name: 'uploadID', type: 'VARCHAR(255) NOT NULL PRIMARY KEY' },
-          { name: 'docxFile', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
+          { name: 'odtFile', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
           { name: 'pdfFile', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
           { name: 'filesDeleted', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
           { name: 'uploadDate', type: 'DATETIME NOT NULL' },
