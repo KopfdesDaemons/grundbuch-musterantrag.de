@@ -1,6 +1,6 @@
 import logger from 'server/config/logger.config';
 import { Request, Response } from 'express';
-import { migrateFromAntragToUploadinfo, migrateFromJSONFilesToDatabase } from 'server/services/migration.service';
+import { migrateFromAntragToUploadinfo, migrateFromDocxToOdt, migrateFromJSONFilesToDatabase } from 'server/services/migration.service';
 
 export const handleMigrationFromAntragToUploadinfo = async (req: Request, res: Response) => {
   try {
@@ -21,5 +21,16 @@ export const handleMigrateFromJSONFilesToDatabase = async (req: Request, res: Re
   } catch (error: any) {
     logger.error('Migration von JSON zu Datenbank fehlgeschlagen: ', error);
     return res.status(500).send({ message: 'Migration von JSON zu Datenbank fehlgeschlagen' });
+  }
+};
+
+export const handleMigrateFromDocxToOdt = async (req: Request, res: Response) => {
+  try {
+    await migrateFromDocxToOdt();
+    logger.info('Migration von .docx zu .odt erfolgreich.');
+    return res.status(200).send({ message: 'Migration von .docx zu .odt erfolgreich.' });
+  } catch (error: any) {
+    logger.error('Migration von .docx zu .odt fehlgeschlagen: ', error);
+    return res.status(500).send({ message: 'Migration von .docx zu .odt fehlgeschlagen' });
   }
 };

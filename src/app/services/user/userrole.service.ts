@@ -76,6 +76,7 @@ export class UserroleService {
 
     [MigrationAction.JSONToDatabaseMigration]: 'JSON zu Datenbankmigration',
     [MigrationAction.AntragToUploadinfoMigration]: 'Antrag zu Uploadinfo',
+    [MigrationAction.DocxToOdtMigration]: 'Docx zu Odt',
 
     [SettingsAction.ReadSettings]: 'Einstellungen lesen',
     [SettingsAction.UpdateSettings]: 'Einstellungen aktualisieren',

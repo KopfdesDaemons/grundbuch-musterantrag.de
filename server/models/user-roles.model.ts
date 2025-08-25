@@ -42,7 +42,11 @@ export class Admin implements UserRole {
     new statisticPermission([StatisticAction.ReadStatistic]),
     new settingsPermission([SettingsAction.ReadSettings, SettingsAction.UpdateSettings]),
     new loggerPermission([LoggerAction.ReadLogFile, LoggerAction.ClearLogFile]),
-    new migrationPermission([MigrationAction.JSONToDatabaseMigration, MigrationAction.AntragToUploadinfoMigration]),
+    new migrationPermission([
+      MigrationAction.JSONToDatabaseMigration,
+      MigrationAction.AntragToUploadinfoMigration,
+      MigrationAction.DocxToOdtMigration
+    ]),
     new userRoleManagementPermission([
       UserRoleManagementAction.CreateUserRole,
       UserRoleManagementAction.DeleteUserRole,

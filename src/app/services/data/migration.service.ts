@@ -20,7 +20,12 @@ export class MigrationService {
         'Migration der Struktur der gespeicherten Uploadinfos der Anträge. Es werden nicht mehr alle Daten aus dem Formular gespeichert, sondern nur die, die im Dashboard angezeigt werden.',
         this.migrateFromAntragToUploadinfo
       ),
-      new Migration('Von JSON zur Datenbank', 'Migration von der JSON Struktur zur Datenbank.', this.migrateFromJSONToDatabase)
+      new Migration('Von JSON zur Datenbank', 'Migration von der JSON Struktur zur Datenbank.', this.migrateFromJSONToDatabase),
+      new Migration(
+        'Von .docx zu .odt',
+        'Aktualisiert bereits vorhandene Datenbankeinträge von docxFile zu odtFile und entfernt die Spalte docxFile.',
+        this.migrateFromDocxToOdt
+      )
     ];
   }
 
@@ -41,6 +46,19 @@ export class MigrationService {
     const data = await lastValueFrom(
       this.http.post(
         '/api/migration/fromJSONToDatabase',
+        {},
+        {
+          headers: this.authS.getAuthHeader()
+        }
+      )
+    );
+    return data;
+  };
+
+  migrateFromDocxToOdt = async (): Promise<any> => {
+    const data = await lastValueFrom(
+      this.http.post(
+        '/api/migration/fromDocxToOdt',
         {},
         {
           headers: this.authS.getAuthHeader()

@@ -52,7 +52,8 @@ export enum LoggerAction {
 
 export enum MigrationAction {
   JSONToDatabaseMigration = 'JSONToDatabaseMigration',
-  AntragToUploadinfoMigration = 'AntragToUploadinfoMigration'
+  AntragToUploadinfoMigration = 'AntragToUploadinfoMigration',
+  DocxToOdtMigration = 'DocxToOdtMigration'
 }
 
 export enum SettingsAction {

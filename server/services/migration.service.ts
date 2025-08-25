@@ -7,6 +7,8 @@ import { updateUploadData } from './uploads.service';
 import logger from 'server/config/logger.config';
 import { checkFileExists } from '../helpers/file-system.helper';
 import { updateStatistic } from './statistic.service';
+import { db } from './database.service';
+import { RowDataPacket } from 'mysql2';
 
 /**
  * Migration von Antrag zu Uploadinfo
@@ -94,4 +96,16 @@ export const migrateFromJSONFilesToDatabase = async (): Promise<void> => {
       throw error;
     }
   }
+};
+
+/**
+ * Migration von .docx zu .odt
+ * (Aktualisiert bereits vorhandene Datenbankeinträge von .docx zu .odt)
+ */
+export const migrateFromDocxToOdt = async (): Promise<void> => {
+  const query = `UPDATE uploads SET odtFile = TRUE WHERE docxFile = TRUE`;
+  await db.execute<RowDataPacket[]>(query);
+
+  const dropColumnSQL = `ALTER TABLE uploads DROP COLUMN docxFile`;
+  await db.execute(dropColumnSQL);
 };
