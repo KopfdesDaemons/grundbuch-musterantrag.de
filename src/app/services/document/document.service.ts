@@ -10,12 +10,8 @@ export class DocumentService {
   http = inject(HttpClient);
 
   async submitForm(antrag: Antrag): Promise<string> {
-    const form = new FormData();
-    form.append('uploadinfo', JSON.stringify({ antragsart: antrag.title, grundbuchamt: antrag.grundbuchamt.name }));
-    form.append('antrag', JSON.stringify(antrag));
     const url = '/api/submitForm';
-
-    const response = await lastValueFrom(this.http.post(url, form));
+    const response = await lastValueFrom(this.http.post(url, { antrag: antrag }));
     const { uploadID } = response as { uploadID: string };
     return uploadID;
   }

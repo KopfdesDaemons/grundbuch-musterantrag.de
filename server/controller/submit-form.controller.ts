@@ -22,22 +22,11 @@ export const submitForm = async (req: Request, res: Response) => {
     const filePathOdt = path.join(uploadFolderPath, `${uploadID}.odt`);
     const filePathPdf = path.join(uploadFolderPath, `${uploadID}.pdf`);
 
-    // Check if the uploadinfo is in the formdata
-    const { uploadinfo } = req.body;
-    if (!uploadinfo) {
-      logger.error('Es wurde keine Daten in dem Wert "uploadinfo" in der Formdata empfangen.');
-      return res.status(400).send('Es wurde keine Daten in dem Wert "uploadinfo" in der Formdata empfangen.');
-    }
-
     const newUpload = new Upload(uploadID);
-    Object.assign(newUpload, JSON.parse(uploadinfo));
-    newUpload.uploadDate = new Date();
+    const { antrag } = req.body;
 
     // Generate the ODT-File from the template
     try {
-      let { antrag } = req.body;
-      antrag = JSON.parse(antrag);
-
       if (!antrag || !antrag.templateFileName) {
         logger.error('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
         return res.status(400).send('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
@@ -46,12 +35,17 @@ export const submitForm = async (req: Request, res: Response) => {
       const templatePath = path.join(TEMPLATES_FOLDER_PATH, `${antrag.templateFileName}.odt`);
       const templater = new OdtTemplater(templatePath);
       templater.replaceVariables(antrag);
-      templater.generate(path.join(filePathOdt));
+      templater.generate(filePathOdt);
       newUpload.odtFile = true;
     } catch (error) {
       logger.error('Fehler beim Erstellen der ODT-Datei:', error);
       return res.status(500).json({ message: 'Fehler beim Erstellen der ODT-Datei.' });
     }
+
+    newUpload.antragsart = antrag.title;
+    newUpload.grundbuchamt = antrag.grundbuchamt.name;
+    newUpload.uploadDate = new Date();
+    await saveUploadinfo();
 
     await updateStatistic(newUpload.antragsart, 1);
 
