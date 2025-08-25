@@ -19,6 +19,13 @@ class OdtTemplater {
     this.contentXml = file.asText();
   }
 
+  /**
+   * Retrieves the value from a nested object based on a dot-separated path.
+   * E.g., for path 'user.name', it retrieves data['user']['name'].
+   * @param data The object to retrieve the value from.
+   * @param path The dot-separated path string.
+   * @returns The value at the specified path or undefined if not found.
+   */
   private _getValueFromPath(data: any, path: string): string | undefined | boolean {
     const keys = path.split('.');
     let value = data;
@@ -33,6 +40,10 @@ class OdtTemplater {
     return value as string | undefined | boolean;
   }
 
+  /**
+   * Removes Tags from within placeholders in the template.
+   * E.g., {<text:span>key</text:span>} becomes {key}
+   */
   private _removeTagsFromTemplate(): void {
     const variableWithTagsRegex = /\{([^}]*)\}/g;
 
@@ -42,6 +53,11 @@ class OdtTemplater {
     });
   }
 
+  /**
+   * Processes conditionals in the ODT content.
+   * E.g., {#key == value}...{/} will include the content if key equals value.
+   * @param data The object containing the placeholder values.
+   */
   private _processConditionals(data: { [key: string]: any }): void {
     const conditionRegex = /\{#\s*([^\\{}]+?)\s*==\s*(.*?)\}(.*?)\{\/\}/gs;
     this.contentXml = this.contentXml.replace(conditionRegex, (_match, key: string, value: string, content: string): string => {
@@ -50,6 +66,11 @@ class OdtTemplater {
     });
   }
 
+  /**
+   * Processes empty conditionals in the ODT content.
+   * E.g., {#key }...{/} will include the content if key is non-empty.
+   * @param data The object containing the placeholder values.
+   */
   private _processEmptyConditionals(data: { [key: string]: any }): void {
     const emptyConditionRegex =
       /<text:p(?:(?!<text:p)[\s\S])*?\{#\s*(.*?)\s*\}<.*?\/text:p>(<text:p[\s\S]*?)<text:p(?:(?!<text:p)[\s\S])*?\{\/\}.*?<\/text:p>/gs;
@@ -59,6 +80,11 @@ class OdtTemplater {
     });
   }
 
+  /**
+   * Replaces placeholders in the ODT content with their corresponding values.
+   * E.g., {user.name} will be replaced with the value of data.user.name.
+   * @param data The object containing the placeholder values.
+   */
   private _replacePlaceholders(data: { [key: string]: any }): void {
     const variableRegex = /\{([^#/]*?)\}/g;
     this.contentXml = this.contentXml.replace(variableRegex, (_match: string, path: string): string => {
