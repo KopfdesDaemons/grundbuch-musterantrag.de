@@ -32,7 +32,7 @@ export const handleDeleteAllUploads = async (req: Request, res: Response) => {
     await deleteAllUploads();
     await clearStatistic();
     logger.info('Alle Uploads gelöscht');
-    return res.send('Alle Uploads gelöscht');
+    return res.send({ message: 'Alle Uploads gelöscht' });
   } catch (error) {
     logger.error('Fehler beim Löschen aller Uploads:', error);
     return res.status(500).send({ message: 'Fehler beim Löschen aller Uploads' });
