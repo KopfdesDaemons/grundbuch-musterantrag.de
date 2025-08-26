@@ -88,6 +88,15 @@ export const handleGetOdtAfterSubmitForm = (req: Request, res: Response) => {
   const fileName = `${uploadID}.odt`;
   const folderPath: string = path.join(UPLOADS_FOLDER_PATH, uploadID);
 
+  res.on('finish', async () => {
+    try {
+      if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
+      await deleteGeneratedFiles(uploadID);
+    } catch (error) {
+      logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
+    }
+  });
+
   try {
     const filePath = path.join(folderPath, fileName);
     return res.contentType('application/vnd.oasis.opendocument.text').sendFile(filePath);
@@ -106,17 +115,7 @@ export const handleGetPdfAfterSubmitForm = (req: Request, res: Response) => {
 
   try {
     const filePath = path.join(folderPath, fileName);
-    return res.contentType('application/pdf').sendFile(filePath, cleanupFiles);
-
-    // Delete generated files after response when setting is enabled
-    async function cleanupFiles(): Promise<void> {
-      try {
-        if (!(await SettingsService.getSettings()).deleteGeneratedFilesAfterResponse) return;
-        await deleteGeneratedFiles(uploadID);
-      } catch (error) {
-        logger.error('Fehler beim Löschen der generierten Dateien nach dem Response:', error);
-      }
-    }
+    return res.contentType('application/pdf').sendFile(filePath);
   } catch (error) {
     logger.error('Fehler beim Abrufen der PDF-Datei:', error);
     return res.status(500).send({ message: 'Fehler beim Abrufen der PDF-Datei' });

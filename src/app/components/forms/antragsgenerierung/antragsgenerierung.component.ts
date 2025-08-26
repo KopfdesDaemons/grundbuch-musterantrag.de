@@ -67,10 +67,10 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
       if (!this.fs.antrag) return;
       this.fs.antragAbschließen();
       const uploadID = await this.docS.submitForm(this.fs.antrag);
-      this.odtIsLoading = true;
-      this.odt = await this.docS.getOdtAfterSubmitForm(uploadID);
       this.pdfIsLoading = true;
       this.pdf = await this.docS.getPdfAfterSubmitForm(uploadID);
+      this.odtIsLoading = true;
+      this.odt = await this.docS.getOdtAfterSubmitForm(uploadID);
       this.statusMessage = 'Dokument wurde erfolgreich generiert.';
     } catch (error) {
       if (error instanceof HttpErrorResponse) this.pdfError = error;
