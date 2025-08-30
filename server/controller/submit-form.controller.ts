@@ -1,6 +1,8 @@
 import path from 'path';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
+import PizZip from 'pizzip';
+import { OdtTemplater } from 'odt-templater';
 import * as converterController from '../helpers/file-conversion.helper';
 import { updateStatistic } from 'server/services/statistic.service';
 import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
@@ -8,7 +10,6 @@ import logger from 'server/config/logger.config';
 import { Upload } from 'server/models/upload.model';
 import { deleteGeneratedFiles, updateUploadData } from 'server/services/uploads.service';
 import { randomUUID } from 'crypto';
-import OdtTemplater from 'server/helpers/odt-templater.helper';
 import { SettingsService } from 'server/services/settings.service';
 
 export const submitForm = async (req: Request, res: Response) => {
@@ -31,11 +32,24 @@ export const submitForm = async (req: Request, res: Response) => {
         logger.error('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
         return res.status(400).send('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
       }
-
+      // Load the ODT template file
       const templatePath = path.join(TEMPLATES_FOLDER_PATH, `${antrag.templateFileName}.odt`);
-      const templater = new OdtTemplater(templatePath);
-      templater.replaceVariables(antrag);
-      templater.generate(filePathOdt);
+      const templateBuffer = fs.readFileSync(templatePath);
+      const zip = new PizZip(templateBuffer);
+      const contentFile = zip.file('content.xml');
+      if (!contentFile) throw new Error('Die content.xml-Datei wurde im ODT-Template nicht gefunden.');
+      const content = contentFile.asText();
+
+      // Initialize OdtTemplater and render the document
+      const templater = new OdtTemplater(content);
+      const renderedContent = templater.render(antrag);
+
+      // Replace the content in the ZIP
+      zip.file('content.xml', renderedContent);
+
+      // Generate the output ODT file
+      const outputBuffer = zip.generate({ type: 'nodebuffer' });
+      fs.writeFileSync(filePathOdt, outputBuffer);
       newUpload.odtFile = true;
     } catch (error) {
       logger.error('Fehler beim Erstellen der ODT-Datei:', error);

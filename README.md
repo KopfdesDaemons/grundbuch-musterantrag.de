@@ -16,6 +16,8 @@ It is a private website that does not represent any authority.
 - MySQL
 - Google Charts
 - LibreOffice
+- Disqus
+- [OdtTemplater](https://www.npmjs.com/package/odt-templater)
 
 ## Dashboard
 
