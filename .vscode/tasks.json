@@ -37,6 +37,13 @@
           }
         }
       }
+    },
+    {
+      "label": "Start Dev Server",
+      "type": "shell",
+      "command": "docker compose -f docker-compose.dev.yml up --build",
+      "group": "none",
+      "problemMatcher": []
     }
   ]
 }
