@@ -3,13 +3,13 @@
 </div>
 <div class="hero">
   <img src="{{ imagePath() }}" />
-  <fa-icon [icon]="faIcon()"></fa-icon>
+  <ng-content select="[icon]"></ng-content>
 </div>
 <div class="content">
   @if (description()) {
     <p class="description">{{ description() }}</p>
   }
-  <ng-content></ng-content>
+  <ng-content select="[content]"></ng-content>
 </div>
 <div class="title-box">
   <h1>{{ title() }}</h1>

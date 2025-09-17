@@ -33,10 +33,10 @@
     object-fit: cover;
   }
 
-  fa-icon {
-    z-index: 1;
-    filter: drop-shadow(10px 8px 6px var(--primary-variant-much-brighter));
-    animation: wobble 1s infinite;
+  svg {
+    height: 5em;
+    width: 5em;
+    fill: var(--primary-color);
   }
 }
 

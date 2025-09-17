@@ -3,16 +3,13 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserRole } from 'server/interfaces/user-role.interface';
 import { UserRoleOption } from 'src/app/models/user-role-option.model';
 import { UserroleService } from 'src/app/services/user/userrole.service';
-import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
-import { faFloppyDisk } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-user-roles',
-  imports: [FormsModule, FontAwesomeModule, ReactiveFormsModule, ProgressSpinnerComponent, ErrorDisplayComponent],
+  imports: [FormsModule, ReactiveFormsModule, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './user-roles.component.html',
   styleUrl: './user-roles.component.scss'
 })
@@ -25,10 +22,6 @@ export class UserRolesComponent implements OnInit {
   isNewUserRole = false;
   error: HttpErrorResponse | null = null;
   isLoading = false;
-
-  faPlus = faPlus;
-  faTrashCan = faTrashCan;
-  faFloppyDisk = faFloppyDisk;
 
   async ngOnInit(): Promise<void> {
     try {

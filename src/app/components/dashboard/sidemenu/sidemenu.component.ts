@@ -1,8 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons';
 import { SidemenuService } from 'src/app/services/ui/sidemenu.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
@@ -10,7 +8,7 @@ import { AuthService } from 'src/app/services/user/auth.service';
 
 @Component({
   selector: 'app-sidemenu',
-  imports: [RouterLink, NgClass, FontAwesomeModule, ProgressSpinnerComponent],
+  imports: [RouterLink, NgClass, ProgressSpinnerComponent],
   templateUrl: './sidemenu.component.html',
   styleUrl: './sidemenu.component.scss'
 })
@@ -20,9 +18,6 @@ export class SidemenuComponent implements OnInit {
   userSettingsS = inject(UserSettingsService);
   router = inject(Router);
   component = viewChild.required<ElementRef>('sidemenu');
-
-  faArrowRightFromBracket = faArrowRightFromBracket;
-  faGear = faGear;
 
   ngOnInit(): void {
     if (!this.userSettingsS.username.isLoading()) {

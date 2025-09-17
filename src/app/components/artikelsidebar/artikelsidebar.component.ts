@@ -1,14 +1,12 @@
 import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { faSortDown, faBars } from '@fortawesome/free-solid-svg-icons';
 import { NgClass } from '@angular/common';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-artikelsidebar',
   templateUrl: './artikelsidebar.component.html',
   styleUrls: ['./artikelsidebar.component.scss'],
-  imports: [FaIconComponent, NgClass, RouterLink]
+  imports: [NgClass, RouterLink]
 })
 export class ArtikelsidebarComponent {
   router = inject(Router);
@@ -16,8 +14,6 @@ export class ArtikelsidebarComponent {
   readonly sidebar = viewChild.required<ElementRef>('sidebar');
   readonly sidebarbutton = viewChild.required<ElementRef>('sidebarbutton');
   readonly closingdiv = viewChild.required<ElementRef>('closingdiv');
-  faSortDown = faSortDown;
-  faBars = faBars;
 
   themen = [
     {
@@ -89,17 +85,17 @@ export class ArtikelsidebarComponent {
 
   dropdown(event: Event): void {
     const element = event.target as Element;
-    element.closest('.thema')!.classList.toggle('themaangeklickt');
+    element.closest('.thema')!.classList.toggle('open');
   }
 
   open() {
-    this.sidebar().nativeElement.classList.add('sidebaroffen');
+    this.sidebar().nativeElement.classList.add('open');
     this.sidebarbutton().nativeElement.style.display = 'none';
     this.closingdiv().nativeElement.style.display = 'block';
   }
 
   close() {
-    this.sidebar().nativeElement.classList.remove('sidebaroffen');
+    this.sidebar().nativeElement.classList.remove('open');
     this.sidebarbutton().nativeElement.style.display = 'flex';
     this.closingdiv().nativeElement.style.display = 'none';
   }

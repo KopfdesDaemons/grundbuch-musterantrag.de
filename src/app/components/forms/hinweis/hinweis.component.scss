@@ -1,23 +1,25 @@
 #container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
   .content {
-    flex: 1 0 50%;
+    flex: 1 0 60%;
   }
 
-  .infoIcon {
+  svg {
     flex: 1;
-    font-size: 10rem;
-    color: rgb(204, 204, 204);
-    margin: 0.2em 0.4em;
-    text-align: center;
+    min-height: 10em;
+    min-width: 10em;
+    max-width: 15em;
+    max-height: 15em;
+    margin: 0.2em min(10vw, 3em);
   }
 }
 
-@media only screen and (max-width: 950px) {
-  .infoIcon {
-    order: 0;
+@media only screen and (max-width: 550px) {
+  .content {
+    order: 1;
   }
 }
 

@@ -18,7 +18,7 @@ section {
   }
 
   .reloadBtn {
-    padding: 0;
+    padding: 0.2em;
     margin: 0;
     height: 25px;
     width: 25px;
@@ -56,15 +56,25 @@ section {
   }
 }
 
+.icon-table-cell {
+  text-align: center;
+
+  svg {
+    max-width: 1.5em;
+    max-height: 1.5em;
+  }
+}
+
 .dropDown {
   position: relative;
 
   ul {
     visibility: collapse;
+    margin: 0;
     padding: 0;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 3em;
+    top: 3em;
     background-color: var(--hintergrund);
     border-radius: 6px;
     list-style: none;

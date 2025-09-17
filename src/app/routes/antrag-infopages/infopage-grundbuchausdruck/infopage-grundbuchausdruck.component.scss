@@ -19,7 +19,8 @@ h2 {
 }
 
 .icondiv {
-  font-size: clamp(0.8rem, 3vw, 2rem);
+  width: clamp(0.8rem, 3vw, 2rem);
+  height: clamp(0.8rem, 3vw, 2rem);
   padding: clamp(0.8rem, 5vw, 1.2rem);
   border-radius: 10px;
   background-color: var(--primary-variant-much-brighter);

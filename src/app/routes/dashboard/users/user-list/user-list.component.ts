@@ -1,7 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
-import { faTrash, faRotateRight, faEdit, faLock } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { User } from 'src/app/models/user.model';
@@ -13,7 +11,7 @@ import { ErrorDisplayComponent } from '../../../../components/error-display/erro
 
 @Component({
   selector: 'app-users',
-  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, ProgressSpinnerComponent, ErrorDisplayComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgClass, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
@@ -25,11 +23,6 @@ export class UserListComponent implements OnInit {
   isLoading = false;
   rows: { isChecked: boolean; user: User; editMode: boolean; editForm: FormGroup | undefined }[] = [];
   userRoles: UserRoleOption[] = [];
-
-  faTrash = faTrash;
-  faRotateRight = faRotateRight;
-  faEdit = faEdit;
-  faLock = faLock;
 
   async ngOnInit(): Promise<void> {
     await Promise.all([this.loadUsers(), this.userRoleS.getAllUserRoles().then(userRoles => (this.userRoles = userRoles))]);

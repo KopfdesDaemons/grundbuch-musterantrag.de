@@ -1,7 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-
-import { faUniversity, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { SachlicheUndOrtlicheZustaendigkeitComponent } from '../../../components/sachliche-und-ortliche-zustaendigkeit/sachliche-und-ortliche-zustaendigkeit.component';
 import { RouterLink } from '@angular/router';
 import { ArtikelComponent } from '../../../components/artikel/artikel.component';
@@ -15,9 +13,6 @@ import { ArtikelComponent } from '../../../components/artikel/artikel.component'
 export class EinleitungComponent {
   private meta = inject(Meta);
   private titleService = inject(Title);
-
-  faUniversity = faUniversity;
-  faMapMarkedAlt = faMapMarkedAlt;
 
   constructor() {
     this.meta.addTag({

@@ -43,9 +43,9 @@
       margin: 0 1em;
     }
 
-    .icon {
-      font-size: clamp(1rem, 1vw, 1.5rem);
-      color: var(--schrift);
+    svg {
+      width: clamp(2em, 5vw, 3em);
+      height: clamp(2em, 5vw, 3em);
     }
   }
 }

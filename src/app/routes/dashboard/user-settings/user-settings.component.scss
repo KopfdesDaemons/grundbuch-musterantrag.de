@@ -15,7 +15,6 @@ h1 {
   align-items: flex-start;
   gap: 1em;
   width: 100%;
-  align-items: flex-start;
 }
 
 form {
@@ -54,6 +53,7 @@ hr {
 
 .userInfos {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5em;
   align-items: center;
   background-color: var(--hintergrund-variant);
@@ -64,15 +64,17 @@ hr {
   .userInfosContent {
     display: flex;
     flex-direction: column;
+    flex: 1 0 50%;
   }
 
   p {
     margin: 0.5em 0;
   }
 
-  fa-icon {
-    font-size: 3em;
+  svg {
+    height: 4em;
+    width: 4em;
     border: 1px solid var(--primary-color);
-    padding: 0.5em;
+    padding: 2em;
   }
 }

@@ -1,19 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import {
-  faRotateRight,
-  faCircleExclamation,
-  faCircleDown,
-  faArrowUpRightFromSquare,
-  faEllipsisVertical,
-  faCheck
-} from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from 'src/app/services/utils/cookies.service';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { LoggerService } from 'src/app/services/server/logger.service';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Upload } from 'server/models/upload.model';
 import { DatePipe } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
@@ -22,7 +13,7 @@ import { ErrorDisplayComponent } from '../../../components/error-display/error-d
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],
-  imports: [FaIconComponent, DatePipe, ErrorDisplayComponent]
+  imports: [DatePipe, ErrorDisplayComponent]
 })
 export class DashboardAntragslisteComponent implements OnInit {
   private elem = inject(ElementRef);
@@ -32,14 +23,6 @@ export class DashboardAntragslisteComponent implements OnInit {
   uploadsdS = inject(UploadsService);
   loggerS = inject(LoggerService);
   titleService = inject(Title);
-
-  // Fontawesome Icons
-  faRotateRight = faRotateRight;
-  faCircleExclamation = faCircleExclamation;
-  faCircleDown = faCircleDown;
-  faArrowUpRightFromSquare = faArrowUpRightFromSquare;
-  faEllipsisVertical = faEllipsisVertical;
-  faCheck = faCheck;
 
   files: Upload[] = [];
   private loadedPages: number = 0;

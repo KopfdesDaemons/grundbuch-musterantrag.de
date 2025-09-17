@@ -26,7 +26,7 @@ export class DashboardHomeComponent implements OnInit {
   userSettingsS = inject(UserSettingsService);
   title = inject(Title);
   greeting = computed(() => {
-    const username = this.userSettingsS.username.value() ?? '';
+    const username = this.userSettingsS.username.hasValue() ? this.userSettingsS.username.value() : '';
     const greeting = TimeHelper.getTimeOfDay();
     if (username) return 'Guten ' + greeting + ', ' + username + '!';
     else return 'Guten ' + greeting + '!';

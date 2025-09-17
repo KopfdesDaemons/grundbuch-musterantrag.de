@@ -42,5 +42,10 @@ form {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    button {
+      width: 3em;
+      height: 3em;
+    }
   }
 }

@@ -1,10 +1,8 @@
 import { Component, ElementRef, inject, input, OnInit, signal, viewChild } from '@angular/core';
-import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { CookiesService } from '../../services/utils/cookies.service';
 import { Cookie } from '../../models/cookie.model';
 import { DesignloaderService } from 'src/app/services/ui/designloader.service';
 import { RouterLink } from '@angular/router';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgClass } from '@angular/common';
 import { ColorHelper } from 'src/app/helpers/color.helper';
 
@@ -12,7 +10,7 @@ import { ColorHelper } from 'src/app/helpers/color.helper';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  imports: [NgClass, FaIconComponent, RouterLink]
+  imports: [NgClass, RouterLink]
 })
 export class HeaderComponent implements OnInit {
   cs = inject(CookiesService);
@@ -24,8 +22,6 @@ export class HeaderComponent implements OnInit {
   cookieBannerIsDisplayed: boolean = false;
   requestetCookie = signal<Cookie | null>(null);
   colorPickerIsOpen = signal<boolean>(false);
-
-  faMoon = faMoon;
 
   colorOptions = [
     'hsl(195, 75%, 50%)',

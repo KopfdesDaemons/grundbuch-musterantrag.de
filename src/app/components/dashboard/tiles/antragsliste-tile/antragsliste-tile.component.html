@@ -1,7 +1,11 @@
 <app-dashboard-tile [tileTitle]="'Generierte Anträge' + (totalFiles ? ': ' + totalFiles : '')">
   <div>
-    <button class="reloadBtn">
-      <fa-icon [icon]="faRotateRight" (click)="loadData()" title="Neuladen"></fa-icon>
+    <button class="reloadBtn" (click)="loadData()" title="Neuladen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+        <path
+          d="M552 256L408 256C398.3 256 389.5 250.2 385.8 241.2C382.1 232.2 384.1 221.9 391 215L437.7 168.3C362.4 109.7 253.4 115 184.2 184.2C109.2 259.2 109.2 380.7 184.2 455.7C259.2 530.7 380.7 530.7 455.7 455.7C463.9 447.5 471.2 438.8 477.6 429.6C487.7 415.1 507.7 411.6 522.2 421.7C536.7 431.8 540.2 451.8 530.1 466.3C521.6 478.5 511.9 490.1 501 501C401 601 238.9 601 139 501C39.1 401 39 239 139 139C233.3 44.7 382.7 39.4 483.3 122.8L535 71C541.9 64.1 552.2 62.1 561.2 65.8C570.2 69.5 576 78.3 576 88L576 232C576 245.3 565.3 256 552 256z"
+        />
+      </svg>
     </button>
     @if (errorLatestFile) {
       <app-error-display [error]="errorLatestFile"></app-error-display>
@@ -15,7 +19,12 @@
             <span>{{ latestFile.antragsart }} </span>
             @if (!latestFile.filesDeleted) {
               <a (click)="uploadsS.getFile(latestFile.uploadID, 'pdf')" class="btnicon" title="Pdf öffnen">
-                <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                  <path
+                    fill="currentColor"
+                    d="M384 64C366.3 64 352 78.3 352 96C352 113.7 366.3 128 384 128L466.7 128L265.3 329.4C252.8 341.9 252.8 362.2 265.3 374.7C277.8 387.2 298.1 387.2 310.6 374.7L512 173.3L512 256C512 273.7 526.3 288 544 288C561.7 288 576 273.7 576 256L576 96C576 78.3 561.7 64 544 64L384 64zM144 160C99.8 160 64 195.8 64 240L64 496C64 540.2 99.8 576 144 576L400 576C444.2 576 480 540.2 480 496L480 416C480 398.3 465.7 384 448 384C430.3 384 416 398.3 416 416L416 496C416 504.8 408.8 512 400 512L144 512C135.2 512 128 504.8 128 496L128 240C128 231.2 135.2 224 144 224L224 224C241.7 224 256 209.7 256 192C256 174.3 241.7 160 224 160L144 160z"
+                  />
+                </svg>
               </a>
             }
           </div>

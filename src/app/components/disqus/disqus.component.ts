@@ -1,15 +1,13 @@
 import { Component, ElementRef, Renderer2, OnChanges, PLATFORM_ID, inject, input } from '@angular/core';
 import { DisqusService } from 'src/app/services/integration/disqus.service';
-import { faComment } from '@fortawesome/free-regular-svg-icons';
 import { isPlatformBrowser } from '@angular/common';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-disqus',
   templateUrl: './disqus.component.html',
   styleUrls: ['./disqus.component.scss'],
-  imports: [FaIconComponent, RouterLink]
+  imports: [RouterLink]
 })
 export class DisqusComponent implements OnChanges {
   disqusS = inject(DisqusService);
@@ -19,7 +17,6 @@ export class DisqusComponent implements OnChanges {
 
   identifier = input<string | undefined>();
   private observer: IntersectionObserver | undefined;
-  faComment = faComment;
 
   ngOnChanges(): void {
     if (!isPlatformBrowser(this.platformId)) return;

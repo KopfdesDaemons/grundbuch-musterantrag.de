@@ -4,7 +4,6 @@ import { routes } from './routes/app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +14,7 @@ export const appConfig: ApplicationConfig = {
         anchorScrolling: 'enabled'
       })
     ),
-    importProvidersFrom(BrowserModule, FontAwesomeModule, FormsModule, ReactiveFormsModule),
+    importProvidersFrom(BrowserModule, FormsModule, ReactiveFormsModule),
     provideHttpClient(withFetch()),
     provideClientHydration(withIncrementalHydration())
   ]

@@ -2,23 +2,18 @@ import { Component, inject, OnInit } from '@angular/core';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from '../../../error-display/error-display.component';
 
 @Component({
   selector: 'app-antragsarten-tile',
-  imports: [DashboardTileComponent, ProgressSpinnerComponent, FontAwesomeModule, ErrorDisplayComponent],
+  imports: [DashboardTileComponent, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './antragsarten-tile.component.html',
   styleUrl: './antragsarten-tile.component.scss'
 })
 export class AntragsartenTileComponent implements OnInit {
   uploadsS = inject(UploadsService);
-
   statistic: { antragsart: string; anzahl: number }[] | undefined = undefined;
-
-  faRotateRight = faRotateRight;
   error: HttpErrorResponse | null = null;
 
   async ngOnInit(): Promise<void> {

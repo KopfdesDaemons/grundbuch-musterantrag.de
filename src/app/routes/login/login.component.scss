@@ -21,3 +21,10 @@ form {
   line-height: 1;
   padding: 0.5em 0;
 }
+
+.icon {
+  width: 1.5em;
+  fill: var(--primary-color);
+  filter: drop-shadow(10px 8px 6px var(--primary-variant-much-brighter));
+  animation: wobble 1s infinite;
+}

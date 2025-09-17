@@ -117,16 +117,14 @@ header {
 }
 
 .darkmodebtn {
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
+  padding: unset;
   margin: auto 0.5em;
   background-color: unset;
   color: var(--schrift);
 
-  fa-icon {
-    display: flex;
-    align-items: center;
+  svg {
+    width: 1em;
+    height: 1em;
   }
 }
 

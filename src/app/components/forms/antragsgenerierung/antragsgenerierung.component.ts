@@ -1,26 +1,21 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, DOCUMENT, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
-import { faFileLines, faFilePdf } from '@fortawesome/free-regular-svg-icons';
 import { FormService } from 'src/app/services/document/form.service';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-antragsgenerierung',
   templateUrl: './antragsgenerierung.component.html',
   styleUrl: './antragsgenerierung.component.scss',
-  imports: [FaIconComponent, ProgressSpinnerComponent]
+  imports: [ProgressSpinnerComponent]
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   private fs = inject(FormService);
   private docS = inject(DocumentService);
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
-
-  faFilePdf = faFilePdf;
-  faFileLines = faFileLines;
 
   odt: any = null;
   pdf: any = null;

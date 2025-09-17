@@ -7,6 +7,13 @@
   }
 }
 
+.controlls {
+  button {
+    height: 3em;
+    width: 3em;
+  }
+}
+
 .tableScrollContainer {
   max-height: 800px;
   width: clamp(300px, 90%, 1000px);

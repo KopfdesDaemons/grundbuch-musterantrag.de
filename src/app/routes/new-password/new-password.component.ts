@@ -8,7 +8,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 import { LoginCardComponent } from '../../components/login-card/login-card.component';
-import { faLockOpen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-new-password',
@@ -25,8 +24,6 @@ export class NewPasswordComponent implements OnInit, OnInit {
   router = inject(Router);
   username: string = '';
   description: string = '';
-
-  faLockOpen = faLockOpen;
 
   readonly oldPasswordInput = viewChild.required<ElementRef>('oldPassword');
 

@@ -1,10 +1,19 @@
-.navigationlinks {
+aside {
   width: 19em;
   overflow: hidden;
   position: fixed;
   padding: 0;
-  transition: left 0.3s;
+  transition: left 0.3s allow-discrete;
   z-index: 1;
+
+  &.open {
+    left: 0;
+    display: block;
+
+    @starting-style {
+      left: -19em;
+    }
+  }
 }
 
 .darkmode .themenliste,
@@ -36,13 +45,18 @@
     background-color: var(--hintergrund);
   }
 
-  .icon {
+  .icon-container {
     padding: 1em;
     border: 1px solid;
     cursor: pointer;
     border-radius: 8px 0 0 8px;
     display: flex;
     align-items: center;
+    fill: var(--schrift);
+
+    svg {
+      width: 1.5em;
+    }
   }
 
   .thema {
@@ -61,7 +75,7 @@
     }
   }
 
-  .themaangeklickt {
+  .open {
     ul {
       max-height: 1000px;
       display: block;
@@ -74,6 +88,16 @@
 
     div a {
       background-color: var(--primary-variant-much-brighter);
+    }
+
+    .icon-container svg {
+      transform: rotate(180deg);
+      transition: 0.2s;
+      fill: var(--primary-variant-darker);
+
+      @starting-style {
+        transform: rotate(0deg);
+      }
     }
   }
 
@@ -91,7 +115,7 @@
     }
   }
 
-  .icon:hover,
+  .icon-container:hover,
   .unterthema a:hover {
     border: 1px solid var(--primary-variant-darker);
   }
@@ -103,10 +127,11 @@
 }
 
 @media only screen and (max-width: 700px) {
-  .navigationlinks {
+  aside {
     left: -19em;
     overflow-x: hidden;
     background: var(--gradient);
+    display: none;
   }
 
   .sidebarbutton {
@@ -116,8 +141,8 @@
     border: 1px solid var(--primary-variant-darker);
     background-color: var(--hintergrund);
     padding: 0.5em;
-    width: 30px;
-    height: 30px;
+    width: 3em;
+    height: 3em;
     font-size: 24px;
     display: flex;
     justify-content: center;
@@ -126,12 +151,7 @@
     margin: 0 auto;
     cursor: pointer;
     z-index: 1;
-
-    i {
-      height: 24px;
-      width: 24px;
-      vertical-align: middle;
-    }
+    fill: var(--schrift);
   }
 
   .themenliste {
@@ -148,14 +168,9 @@
   background-color: var(--primary-variant-much-brighter);
 }
 
-.sidebaroffen {
-  left: 0em;
-}
-
 .closingDiv {
   position: fixed;
   display: none;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
 }

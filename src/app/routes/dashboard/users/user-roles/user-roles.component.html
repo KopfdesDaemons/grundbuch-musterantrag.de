@@ -11,10 +11,20 @@
         }
       </select>
       <button class="btnicon" title="Neue Userrolle erstellen" (click)="createNewUserRole()">
-        <fa-icon [icon]="faPlus"></fa-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            fill="currentColor"
+            d="M352 128C352 110.3 337.7 96 320 96C302.3 96 288 110.3 288 128L288 288L128 288C110.3 288 96 302.3 96 320C96 337.7 110.3 352 128 352L288 352L288 512C288 529.7 302.3 544 320 544C337.7 544 352 529.7 352 512L352 352L512 352C529.7 352 544 337.7 544 320C544 302.3 529.7 288 512 288L352 288L352 128z"
+          />
+        </svg>
       </button>
       <button class="btnicon" title="Userrolle löschen" (click)="deleteUserRole()">
-        <fa-icon [icon]="faTrashCan"></fa-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            fill="currentColor"
+            d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
+          />
+        </svg>
       </button>
     </div>
     <div>{{ selectedUserRoleOption?.description }}</div>
@@ -29,7 +39,14 @@
             <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required spellcheck="false" placeholder="&nbsp;" />
             <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
           </div>
-          <button [disabled]="isLoading" type="submit"><fa-icon [icon]="faFloppyDisk"></fa-icon></button>
+          <button [disabled]="isLoading" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+              <path
+                fill="currentColor"
+                d="M160 144C151.2 144 144 151.2 144 160L144 480C144 488.8 151.2 496 160 496L480 496C488.8 496 496 488.8 496 480L496 237.3C496 233.1 494.3 229 491.3 226L416 150.6L416 240C416 257.7 401.7 272 384 272L224 272C206.3 272 192 257.7 192 240L192 144L160 144zM240 144L240 224L368 224L368 144L240 144zM96 160C96 124.7 124.7 96 160 96L402.7 96C419.7 96 436 102.7 448 114.7L525.3 192C537.3 204 544 220.3 544 237.3L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 160zM256 384C256 348.7 284.7 320 320 320C355.3 320 384 348.7 384 384C384 419.3 355.3 448 320 448C284.7 448 256 419.3 256 384z"
+              />
+            </svg>
+          </button>
         </div>
         <div class="descriptiondiv">
           <label for="description">Beschreibung:</label>

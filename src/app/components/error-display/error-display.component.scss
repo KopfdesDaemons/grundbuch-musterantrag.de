@@ -4,9 +4,10 @@
   align-items: center;
 }
 
-fa-icon {
-  color: var(--primary-color);
-  font-size: 5em;
+svg {
+  fill: var(--primary-color);
+  height: 8em;
+  width: 8em;
   animation: shake 200ms 5;
 }
 
