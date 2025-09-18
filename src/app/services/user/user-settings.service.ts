@@ -1,8 +1,8 @@
-import { inject, Injectable, resource } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,33 +11,15 @@ export class UserSettingsService {
   authS = inject(AuthService);
   http = inject(HttpClient);
 
-  username = resource({
-    loader: async () => await this.loadUsername()
-  });
+  usernameResource = httpResource<{ username: string }>(() => ({
+    url: '/api/user-settings/username',
+    headers: this.authS.getAuthHeader()
+  }));
 
-  userRole = resource({
-    loader: async () => await this.loadUserRole()
-  });
-
-  private async loadUsername(): Promise<string> {
-    const response = await lastValueFrom(
-      this.http.get('/api/user-settings/username', {
-        headers: this.authS.getAuthHeader()
-      })
-    );
-    const data = response as { username: string };
-    return data.username;
-  }
-
-  private async loadUserRole(): Promise<{ userRoleName: string; userRoleDescription: string }> {
-    const response = await lastValueFrom(
-      this.http.get('/api/user-settings/userrole', {
-        headers: this.authS.getAuthHeader()
-      })
-    );
-    const data = response as { userRoleName: string; userRoleDescription: string };
-    return data;
-  }
+  userRoleResource = httpResource<{ userRoleName: string; userRoleDescription: string }>(() => ({
+    url: '/api/user-settings/userrole',
+    headers: this.authS.getAuthHeader()
+  }));
 
   getNewPasswordGroup(): FormGroup {
     const formBuilder = new FormBuilder();
@@ -58,7 +40,7 @@ export class UserSettingsService {
         }
       )
     );
-    this.username.set(newUsername);
+    this.usernameResource.set({ username: newUsername });
   }
 
   async changePassword(oldPassword: string, newPassword: string): Promise<void> {

@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './routes/app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -16,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     ),
     importProvidersFrom(BrowserModule, FormsModule, ReactiveFormsModule),
     provideHttpClient(withFetch()),
-    provideClientHydration(withIncrementalHydration())
+    provideClientHydration(withIncrementalHydration()),
+    provideZonelessChangeDetection()
   ]
 };

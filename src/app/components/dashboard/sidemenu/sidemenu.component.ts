@@ -20,11 +20,11 @@ export class SidemenuComponent implements OnInit {
   component = viewChild.required<ElementRef>('sidemenu');
 
   ngOnInit(): void {
-    if (!this.userSettingsS.username.isLoading()) {
-      this.userSettingsS.username.reload();
+    if (!this.userSettingsS.usernameResource.isLoading()) {
+      this.userSettingsS.usernameResource.reload();
     }
-    if (!this.userSettingsS.userRole.isLoading()) {
-      this.userSettingsS.userRole.reload();
+    if (!this.userSettingsS.userRoleResource.isLoading()) {
+      this.userSettingsS.userRoleResource.reload();
     }
   }
 

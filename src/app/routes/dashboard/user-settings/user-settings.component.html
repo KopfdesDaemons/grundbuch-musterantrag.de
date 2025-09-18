@@ -9,22 +9,22 @@
           />
         </svg>
         <div class="userInfosContent">
-          @if (userSettingsS.username.isLoading()) {
+          @if (userSettingsS.usernameResource.isLoading()) {
             <app-progress-spinner [endless]="true"></app-progress-spinner>
-          } @else if (userSettingsS.username.error()) {
+          } @else if (userSettingsS.usernameResource.error()) {
             <span class="error">Benutzername konnen nicht geladen werden</span>
           } @else {
-            <h1>{{ userSettingsS.username.value() }}</h1>
+            <h1>{{ userSettingsS.usernameResource.value() }}</h1>
           }
 
-          @if (userSettingsS.userRole.isLoading()) {
+          @if (userSettingsS.userRoleResource.isLoading()) {
             <app-progress-spinner [endless]="true"></app-progress-spinner>
-          } @else if (userSettingsS.userRole.error()) {
+          } @else if (userSettingsS.userRoleResource.error()) {
             <span class="error">Nutzerrolle konnen nicht geladen werden</span>
           } @else {
-            <span class="italic">Userrolle: {{ userSettingsS.userRole.value()?.userRoleName }}</span>
+            <span class="italic">Userrolle: {{ userSettingsS.userRoleResource.value()?.userRoleName }}</span>
             <p class="textBox">
-              {{ userSettingsS.userRole.value()?.userRoleDescription }}
+              {{ userSettingsS.userRoleResource.value()?.userRoleDescription }}
             </p>
           }
         </div>

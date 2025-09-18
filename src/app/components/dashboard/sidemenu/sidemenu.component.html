@@ -10,12 +10,12 @@
             />
           </svg>
         </button>
-        @if (userSettingsS.username.isLoading()) {
+        @if (userSettingsS.usernameResource.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
-        } @else if (userSettingsS.username.error()) {
+        } @else if (userSettingsS.usernameResource.error()) {
           <span class="error">Benutzername konnen nicht geladen werden</span>
         } @else {
-          <span class="username">{{ userSettingsS.username.value() }}</span>
+          <span class="username">{{ userSettingsS.usernameResource.value()?.username }}</span>
         }
         <button class="btnicon" (click)="authS.logout()" title="ausloggen">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -27,13 +27,13 @@
         </button>
       </div>
       <div class="row2">
-        @if (userSettingsS.userRole.isLoading()) {
+        @if (userSettingsS.userRoleResource.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
-        } @else if (userSettingsS.userRole.error()) {
+        } @else if (userSettingsS.userRoleResource.error()) {
           <span class="error">Userrolle konnen nicht geladen werden</span>
         } @else {
-          <span class="userrole" [ngClass]="{ admin: userSettingsS.userRole.value()?.userRoleName === 'Admin' }">{{
-            userSettingsS.userRole.value()?.userRoleName
+          <span class="userrole" [ngClass]="{ admin: userSettingsS.userRoleResource.value()?.userRoleName === 'Admin' }">{{
+            userSettingsS.userRoleResource.value()?.userRoleName
           }}</span>
         }
       </div>
