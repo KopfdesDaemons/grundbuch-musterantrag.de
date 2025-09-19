@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, OnChanges, Renderer2, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, Renderer2, signal, viewChild } from '@angular/core';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
@@ -8,7 +8,7 @@ import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.c
   templateUrl: './google-chart.component.html',
   styleUrl: './google-chart.component.scss'
 })
-export class GoogleChartComponent implements OnChanges {
+export class GoogleChartComponent {
   renderer = inject(Renderer2);
   gCharts = inject(GooglechartsService);
   chartContainer = viewChild.required<ElementRef>('chartContainer');
@@ -16,23 +16,25 @@ export class GoogleChartComponent implements OnChanges {
   chartType = input.required<'LineChart' | 'PieChart' | 'BarChart' | 'ColumnChart'>();
   chartData = input.required<(string | number)[][]>();
   chartOptions = input.required<any>({});
-  chart: any = undefined;
+  chart = signal<any>(null);
 
   private resizeObserver!: ResizeObserver;
   private resizeTimeout!: number;
 
-  async ngOnChanges(): Promise<void> {
-    if (this.chartData().length === 0) return;
-    await this.gCharts.loadGoogleCharts(this.renderer);
-    this.drawChart();
-    this.observeResize();
+  constructor() {
+    effect(async () => {
+      if (this.chartData().length === 0) return;
+      await this.gCharts.loadGoogleCharts(this.renderer);
+      this.drawChart();
+      this.observeResize();
+    });
   }
 
   ngOnDestroy(): void {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
-    if (this.chart) this.chart.clearChart();
+    if (this.chart()) this.chart().clearChart();
   }
 
   private drawChart() {
@@ -44,8 +46,8 @@ export class GoogleChartComponent implements OnChanges {
     data.addRows(this.chartData());
 
     const container = this.chartContainer()?.nativeElement;
-    this.chart = new google.visualization[this.chartType()](container);
-    this.chart.draw(data, this.chartOptions());
+    this.chart.set(new google.visualization[this.chartType()](container));
+    this.chart().draw(data, this.chartOptions());
   }
 
   private observeResize() {

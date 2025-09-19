@@ -1,11 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import { CookiesService } from 'src/app/services/utils/cookies.service';
-import { Title } from '@angular/platform-browser';
+import { Component, ElementRef, HostListener, inject, signal } from '@angular/core';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UploadsService } from 'src/app/services/data/uploads.service';
-import { LoggerService } from 'src/app/services/server/logger.service';
-import { Upload } from 'server/models/upload.model';
 import { DatePipe } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
 
@@ -15,98 +11,67 @@ import { ErrorDisplayComponent } from '../../../components/error-display/error-d
   styleUrls: ['./dashboard-antragsliste.component.scss'],
   imports: [DatePipe, ErrorDisplayComponent]
 })
-export class DashboardAntragslisteComponent implements OnInit {
+export class DashboardAntragslisteComponent {
   private elem = inject(ElementRef);
   http = inject(HttpClient);
-  cs = inject(CookiesService);
   authS = inject(AuthService);
-  uploadsdS = inject(UploadsService);
-  loggerS = inject(LoggerService);
-  titleService = inject(Title);
+  uploadsS = inject(UploadsService);
 
-  files: Upload[] = [];
-  private loadedPages: number = 0;
-  totalPages: number = 0;
-  totalFiles: number = 0;
-  isLoadingNextPage: boolean = false;
-  error: HttpErrorResponse | null = null;
+  error = signal<HttpErrorResponse | null>(null);
 
-  async ngOnInit() {
-    this.titleService.setTitle('Dashboard');
-    await this.reloadFiles();
-  }
-
-  async scroll(element: any) {
+  scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
-      if (!this.isLoadingNextPage) await this.loadPage(this.loadedPages + 1);
+      if (!this.uploadsS.uploadsResource.isLoading()) this.loadPage(this.uploadsS.loadedPages() + 1);
     }
   }
 
-  async loadPage(pageNumber: number = 1) {
-    if (pageNumber > this.totalPages) return;
-    try {
-      this.error = null;
-      this.isLoadingNextPage = true;
-      const { page, files } = await this.uploadsdS.getFiles(pageNumber);
-      this.loadedPages = page;
-      this.files = this.files.concat(files);
-      this.isLoadingNextPage = false;
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.error = error;
-      }
-    }
-    this.isLoadingNextPage = false;
+  loadPage(pageNumber: number) {
+    if (!this.uploadsS.totalPages()) return;
+    if (pageNumber > this.uploadsS.totalPages()!) return;
+    this.uploadsS.pageToLoad.set(pageNumber);
+    this.uploadsS.uploadsResource.reload();
   }
 
-  async reloadFiles() {
-    try {
-      this.error = null;
-      this.loadedPages = 0;
-      this.totalPages = await this.uploadsdS.getTotalPages();
-      this.totalFiles = await this.uploadsdS.getTotalFiles();
-      this.files = [];
-      await this.loadPage();
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.error = error;
-      }
-    }
+  reloadFiles() {
+    this.error.set(null);
+    this.uploadsS.uploads.set([]);
+    this.uploadsS.pageToLoad.set(0);
+    this.uploadsS.uploadsResource.reload();
   }
 
   async deleteUpload(name: string) {
     try {
-      this.error = null;
-      await this.uploadsdS.deleteUpload(name);
-      await this.reloadFiles();
+      this.error.set(null);
+      await this.uploadsS.deleteUpload(name);
+      this.reloadFiles();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.error.set(error);
       }
     }
   }
 
   async deleteGeneratedFiles(uploadID: string) {
     try {
-      this.error = null;
-      await this.uploadsdS.deleteGeneratedFiles(uploadID);
-      await this.reloadFiles();
+      this.error.set(null);
+      await this.uploadsS.deleteGeneratedFiles(uploadID);
+      this.reloadFiles();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.error.set(error);
       }
     }
   }
 
   async deleteFolder() {
     try {
-      this.error = null;
+      this.error.set(null);
       if (!confirm('Soll wirklich alle Antragsdaten gelöscht werden?')) return;
-      await this.uploadsdS.deleteFolder();
-      await this.reloadFiles();
+      await this.uploadsS.deleteFolder();
+      this.reloadFiles();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.error.set(error);
       }
     }
   }
@@ -137,11 +102,11 @@ export class DashboardAntragslisteComponent implements OnInit {
 
   async getFile(fileName: string, fileType: 'pdf' | 'odt') {
     try {
-      this.error = null;
-      await this.uploadsdS.getFile(fileName, fileType);
+      this.error.set(null);
+      await this.uploadsS.getFile(fileName, fileType);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.error.set(error);
       }
     }
   }

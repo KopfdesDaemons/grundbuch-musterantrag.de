@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT } from '@angular/core';
+import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT, computed } from '@angular/core';
 import { ScriptService } from '../utils/script.service';
 import { DesignloaderService } from '../ui/designloader.service';
 import { UploadsService } from '../data/uploads.service';
@@ -32,8 +32,8 @@ export class GooglechartsService {
     await this.loadPromise;
   }
 
-  async getAntragTimeframeChartRows(timeframe: 'week' | 'month'): Promise<(string | number)[][]> {
-    const chartDates = await this.uploadsS.getUploadDatesAndCounts(timeframe);
+  private mapStatisticToChartRows(chartDates: { date: string; count: number }[] | undefined | null) {
+    if (!chartDates) return [];
     const chartRows = [];
     for (const date of chartDates) {
       const formattedDate = formatDate(date.date, 'dd.MM.yyyy', this.local) || '';
@@ -43,15 +43,23 @@ export class GooglechartsService {
     return chartRows;
   }
 
-  async getAntragsartenChartRows(): Promise<(string | number)[][]> {
-    const statistic = await this.uploadsS.getStatistic();
+  uploadsTimeframeChartRowsWeek = computed<(string | number)[][]>(() => {
+    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceWeek.value());
+  });
+  uploadsTimeframeChartRowsMonth = computed<(string | number)[][]>(() => {
+    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceMonth.value());
+  });
+
+  uploadTypsChartRows = computed<(string | number)[][]>(() => {
+    const statistic = this.uploadsS.totalUploadsByTypResource.value();
+    if (!statistic) return [];
     const chartRows = [];
     for (const [antragsart, anzahl] of Object.entries(statistic)) {
       const row = [antragsart, anzahl];
       chartRows.push(row);
     }
     return chartRows;
-  }
+  });
 
   getPieChartOptions() {
     const schriftColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--schrift').trim();

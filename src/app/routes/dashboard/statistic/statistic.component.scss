@@ -19,6 +19,10 @@ section {
   width: 100%;
   display: flex;
   flex-direction: column;
+
+  app-progress-spinner {
+    margin: auto auto;
+  }
 }
 
 app-google-chart {

@@ -1,14 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
 import { MigrationService } from 'src/app/services/data/migration.service';
 import { Migration } from 'src/app/models/migration.model';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
 
 @Component({
   selector: 'app-migration-tile',
-  imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule],
+  imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule, ErrorDisplayComponent],
   templateUrl: './migration-tile.component.html',
   styleUrl: './migration-tile.component.scss'
 })
@@ -17,20 +18,21 @@ export class MigrationTileComponent {
 
   selectedMigration: Migration = this.migrationS.migrations[0];
 
-  responseText: string = '';
-  isLoading = false;
+  responseText = signal('');
+  isLoading = signal(false);
+  error = signal<HttpErrorResponse | null>(null);
 
   async migrate() {
     if (!confirm('Migration ' + this.selectedMigration.name + ' wirklich durchführen?')) return;
     try {
-      this.isLoading = true;
+      this.isLoading.set(true);
       const { message } = await this.selectedMigration.migrate();
-      this.responseText = message;
+      this.responseText.set(message);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.responseText = error.error.message;
+        this.error.set(error);
       }
     }
-    this.isLoading = false;
+    this.isLoading.set(false);
   }
 }

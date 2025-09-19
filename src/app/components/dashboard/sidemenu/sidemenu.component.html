@@ -13,7 +13,7 @@
         @if (userSettingsS.usernameResource.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else if (userSettingsS.usernameResource.error()) {
-          <span class="error">Benutzername konnen nicht geladen werden</span>
+          <span class="error">Fehler</span>
         } @else {
           <span class="username">{{ userSettingsS.usernameResource.value()?.username }}</span>
         }
@@ -30,7 +30,7 @@
         @if (userSettingsS.userRoleResource.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else if (userSettingsS.userRoleResource.error()) {
-          <span class="error">Userrolle konnen nicht geladen werden</span>
+          <span class="error">Fehler</span>
         } @else {
           <span class="userrole" [ngClass]="{ admin: userSettingsS.userRoleResource.value()?.userRoleName === 'Admin' }">{{
             userSettingsS.userRoleResource.value()?.userRoleName

@@ -1,16 +1,16 @@
 <app-dashboard-tile tileTitle="Settings">
   <div class="content">
-    @if (error) {
-      <app-error-display [error]="error"></app-error-display>
+    @if (error() || settingsS.settingsResource.error()) {
+      <app-error-display [error]="error() ?? settingsS.settingsResource.error()"></app-error-display>
     } @else {
       <ul>
         <li>
-          @if (settings) {
+          @if (settingsS.settingsResource.hasValue()) {
             <input
               type="checkbox"
               id="deleteGeneratedFilesAfterResponse"
               #deleteGeneratedFilesAfterResponse
-              [checked]="settings.deleteGeneratedFilesAfterResponse"
+              [checked]="settingsS.settingsResource.value().deleteGeneratedFilesAfterResponse"
               (change)="changeSetting('deleteGeneratedFilesAfterResponse', deleteGeneratedFilesAfterResponse.checked)"
             />
             <label for="deleteGeneratedFilesAfterResponse">Lösche Dateien sofort nach dem Response</label>
@@ -24,13 +24,13 @@
           <p>Löscht nur die Dateien, ohne die Uploadsinfos zu löschen</p>
         </li>
         <li>
-          @if (settings) {
+          @if (settingsS.settingsResource.hasValue()) {
             <input
               type="color"
               id="primaryColor"
               name="primaryColor"
               #primaryColor
-              [value]="settings.primaryColor"
+              [value]="settingsS.settingsResource.value().primaryColor"
               (change)="changeSetting('primaryColor', primaryColor.value)"
             />
             <label for="primaryColor"> Standard Primärfarbe</label>

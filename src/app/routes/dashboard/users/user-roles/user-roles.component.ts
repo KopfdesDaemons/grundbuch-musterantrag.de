@@ -1,7 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, WritableSignal, effect, inject, signal } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserRole } from 'server/interfaces/user-role.interface';
-import { UserRoleOption } from 'src/app/models/user-role-option.model';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
@@ -13,106 +11,83 @@ import { ErrorDisplayComponent } from '../../../../components/error-display/erro
   templateUrl: './user-roles.component.html',
   styleUrl: './user-roles.component.scss'
 })
-export class UserRolesComponent implements OnInit {
+export class UserRolesComponent {
   userRoleS = inject(UserroleService);
-  userRolesOptions: UserRoleOption[] = [];
-  selectedUserRoleOption?: UserRoleOption;
-  userRole?: UserRole;
-  form: FormGroup = this.userRoleS.getFormGroup();
+  form = signal<FormGroup>(this.userRoleS.getFormGroup());
   isNewUserRole = false;
-  error: HttpErrorResponse | null = null;
-  isLoading = false;
+  error = signal<HttpErrorResponse | null>(null);
+  isLoading = signal(false);
+  selectedUserRoleID: WritableSignal<number | undefined> = signal(undefined);
 
-  async ngOnInit(): Promise<void> {
-    try {
-      this.error = null;
-      await this.loadFirstUserRole();
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.error = error;
+  constructor() {
+    effect(() => {
+      const firstId = this.userRoleS.firstUserRoleID();
+      if (firstId !== undefined && this.selectedUserRoleID() === undefined && !this.isNewUserRole) {
+        this.selectedUserRoleID.set(firstId);
       }
-    }
-  }
+    });
 
-  private async loadFirstUserRole(): Promise<void> {
-    this.userRolesOptions = await this.userRoleS.getAllUserRoles();
-    this.isNewUserRole = false;
-    if (this.userRolesOptions.length > 0) {
-      this.selectedUserRoleOption = this.userRolesOptions[0];
-      await this.loadUserRole(this.selectedUserRoleOption.userRoleID);
-    }
-  }
+    effect(() => {
+      this.userRoleS.userRoleInEditID.set(this.selectedUserRoleID());
+      this.error.set(null);
+    });
 
-  async loadUserRole(userRoleID?: number): Promise<void> {
-    try {
-      this.isLoading = true;
-      this.error = null;
-      if (!userRoleID) return;
-      this.isNewUserRole = false;
-      this.userRole = await this.userRoleS.getUserRole(userRoleID);
-      this.form = this.userRoleS.getFormGroup(this.userRole);
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.error = error;
+    effect(() => {
+      const userRoleInEdit = this.userRoleS.userRoleInEdit.value();
+      if (userRoleInEdit) {
+        this.form.set(this.userRoleS.getFormGroup(userRoleInEdit));
+        this.isNewUserRole = false;
       }
-    }
-    this.isLoading = false;
+    });
   }
 
   createNewUserRole(): void {
-    this.error = null;
+    this.error.set(null);
     this.isNewUserRole = true;
-    this.selectedUserRoleOption = undefined;
-    this.userRole = {
-      name: '',
-      description: '',
-      userPermissions: []
-    };
-    this.form = this.userRoleS.getFormGroup();
+    this.selectedUserRoleID.set(undefined);
+    this.form.set(this.userRoleS.getFormGroup());
   }
 
   async saveUserRole(): Promise<void> {
     try {
-      if (this.form.invalid) return;
-      this.isLoading = true;
-      const userRoleInForm = this.userRoleS.getUserRoleFromFormGroup(this.form);
+      if (this.form().invalid) return;
+      this.isLoading.set(true);
+      const userRoleInForm = this.userRoleS.getUserRoleFromFormGroup(this.form());
       if (!userRoleInForm) return;
       let userRoleID;
       if (this.isNewUserRole) {
         // Create new user role
         userRoleID = await this.userRoleS.createUserRole(userRoleInForm);
+        this.isNewUserRole = false;
       } else {
         // Update existing user role
+        userRoleID = userRoleInForm.userRoleID;
         await this.userRoleS.updateUserRole(userRoleInForm);
       }
-      await this.refreshUserRoleOptions(userRoleID ?? this.selectedUserRoleOption?.userRoleID);
+      this.userRoleS.userRoleOptions.reload();
+      this.selectedUserRoleID.set(userRoleID);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.error.set(error);
       }
     }
-    this.isLoading = false;
+    this.isLoading.set(false);
   }
 
   async deleteUserRole(): Promise<void> {
     try {
-      const userRoleID = this.userRole?.userRoleID;
+      const userRoleID = this.selectedUserRoleID();
       if (!userRoleID) return;
-      this.error = null;
-      this.isLoading = true;
+      this.error.set(null);
+      this.isLoading.set(true);
       await this.userRoleS.deleteUserRole([userRoleID]);
-      await this.loadFirstUserRole();
+      this.selectedUserRoleID.set(undefined);
+      this.userRoleS.userRoleOptions.reload();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.error.set(error);
       }
     }
-    this.isLoading = false;
-  }
-
-  private async refreshUserRoleOptions(userRoleID?: number): Promise<void> {
-    this.userRolesOptions = await this.userRoleS.getAllUserRoles();
-    this.selectedUserRoleOption = this.userRolesOptions.find(option => option.userRoleID === userRoleID);
-    if (userRoleID) await this.loadUserRole(userRoleID);
+    this.isLoading.set(false);
   }
 }

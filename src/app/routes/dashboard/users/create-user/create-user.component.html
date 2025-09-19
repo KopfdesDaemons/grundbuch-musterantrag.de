@@ -1,19 +1,28 @@
 <form [formGroup]="form" (ngSubmit)="createUser()" #ngForm="ngForm">
-  <div>
-    <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole" (change)="getSelectedRoleDescription()">
-      @for (userRole of userRoles; track userRole.userRoleID) {
-        <option value="{{ userRole.userRoleID }}" [selected]="userRole.name === 'guest'">{{ userRole.name }}</option>
+  @if (error(); as e) {
+    <app-error-display [error]="e"></app-error-display>
+  }
+  <div class="inputfeld-group">
+    @if (userroleS.userRoleOptions.isLoading()) {
+      <app-progress-spinner [endless]="true"></app-progress-spinner>
+    } @else if (userroleS.userRoleOptions.hasValue()) {
+      <select formControlName="userRoleID" id="userRoleinput" name="userRole" (change)="userRoleChanged()">
+        @for (userRole of userroleS.userRoleOptions.value(); track userRole.userRoleID) {
+          <option [value]="userRole.userRoleID">{{ userRole.name }}</option>
+        }
+      </select>
+      @if (selectedUserRoleOption(); as selectedOption) {
+        <p class="description">{{ selectedOption.description }}</p>
       }
-    </select>
-    @if (selectedUserRole) {
-      <p>{{ selectedUserRole.description }}</p>
     }
   </div>
-  <div class="inputfeld" id="username">
+
+  <div class="inputfeld">
     <input formControlName="username" type="text" id="usernameinput" name="username" required spellcheck="false" placeholder="&nbsp;" />
     <label class="placeholder" for="usernameinput">Username</label>
   </div>
-  <div class="inputfeld" id="userPassword">
+
+  <div class="inputfeld">
     <input
       formControlName="userPassword"
       autocomplete="new-password"
@@ -26,8 +35,6 @@
     />
     <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
   </div>
-  <button>Erstellen</button>
-  @if (error) {
-    <app-error-display [error]="error"></app-error-display>
-  }
+
+  <button type="submit" [disabled]="form.invalid">Erstellen</button>
 </form>

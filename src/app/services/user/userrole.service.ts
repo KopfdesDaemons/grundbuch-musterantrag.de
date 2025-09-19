@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { UserRole } from 'server/interfaces/user-role.interface';
@@ -87,14 +87,32 @@ export class UserroleService {
     [UserRoleManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren'
   };
 
-  async getAllUserRoles(): Promise<UserRoleOption[]> {
-    const data = await lastValueFrom(
-      this.http.get('/api/userrole/get-all-user-roles', {
-        headers: this.authS.getAuthHeader()
-      })
-    );
-    return data as UserRoleOption[];
-  }
+  userRoleOptions = httpResource<UserRoleOption[]>(() => ({
+    url: '/api/userrole/get-all-user-roles',
+    headers: this.authS.getAuthHeader()
+  }));
+
+  firstUserRoleID = computed<number | undefined>(() => {
+    if (!this.userRoleOptions.hasValue()) return undefined;
+    const options = this.userRoleOptions.value();
+    return options && options.length > 0 ? options[0].userRoleID : undefined;
+  });
+
+  userRoleInEditID = signal<number | undefined>(undefined);
+
+  userRoleInEdit = httpResource<UserRole | null>(() => {
+    const userRoleID = this.userRoleInEditID();
+
+    if (userRoleID === undefined) {
+      return undefined;
+    }
+
+    return {
+      url: '/api/userrole/',
+      headers: this.authS.getAuthHeader(),
+      params: { userRoleID: userRoleID }
+    };
+  });
 
   async getUserRole(userRoleID: number): Promise<UserRole> {
     const data = await lastValueFrom(

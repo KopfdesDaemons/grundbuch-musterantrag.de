@@ -3,15 +3,15 @@
     <h2>Geschafft!</h2>
     <span>Sie sind fast fertig.</span>
     <span>Vergessen Sie nicht den Antrag zu unterschreiben</span>
-    <div class="status" [class.fehlerstatus]="pdfError">
-      <p>{{ statusMessage }}</p>
-      <div>{{ pdfError?.error.message }}</div>
-      @if (pdfError) {
+    <div class="status">
+      <p>{{ statusMessage() }}</p>
+      @if (error()) {
+        <p class="error-text">{{ error()!.error.message }}</p>
         <button class="btntext" (click)="generatePdf()">erneut versuchen</button>
       }
     </div>
     <div class="kachelcontainer">
-      <button class="btnoutlined kachel" [disabled]="odt == null" (click)="downloadOdt()">
+      <button class="btnoutlined kachel" [disabled]="!odt()" (click)="downloadOdt()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -19,11 +19,11 @@
           />
         </svg>
         <span>.odt</span>
-        @if (odtIsLoading) {
+        @if (odtIsLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
         }
       </button>
-      <button class="btnoutlined kachel" [disabled]="pdf == null" (click)="openPdf()">
+      <button class="btnoutlined kachel" [disabled]="!pdf()" (click)="openPdf()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -31,7 +31,7 @@
           />
         </svg>
         <span>.pdf</span>
-        @if (pdfIsLoading) {
+        @if (pdfIsLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
         }
       </button>

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -13,14 +13,10 @@ export class UserService {
   authS = inject(AuthService);
   formBuilder = new FormBuilder();
 
-  async getAllUsersJSON(): Promise<[]> {
-    const data = await lastValueFrom(
-      this.http.get('/api/user-management', {
-        headers: this.authS.getAuthHeader()
-      })
-    );
-    return data as [];
-  }
+  allUsers = httpResource<User[]>(() => ({
+    url: '/api/user-management',
+    headers: this.authS.getAuthHeader()
+  }));
 
   async deleteUsers(userIDs: number[]): Promise<void> {
     await lastValueFrom(

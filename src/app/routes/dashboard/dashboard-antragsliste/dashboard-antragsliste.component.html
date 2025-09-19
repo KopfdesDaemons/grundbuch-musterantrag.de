@@ -8,12 +8,12 @@
           />
         </svg>
       </button>
-      <span>Anträge: {{ totalFiles }} </span>
+      <span>Anträge: {{ uploadsS.totalFiles() }} </span>
       <button class="btntext" (click)="deleteFolder()">alle löschen</button>
     </div>
 
-    @if (error) {
-      <app-error-display [error]="error"></app-error-display>
+    @if (error() || uploadsS.uploadsResource.error()) {
+      <app-error-display [error]="error() ?? uploadsS.uploadsResource.error()"></app-error-display>
     } @else {
       <div class="tableScrollContainer" (scroll)="scroll($event.target)">
         <table>
@@ -29,7 +29,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (file of files; track file) {
+            @for (file of uploadsS.uploads(); track file) {
               <tr>
                 <td class="uploadID" title="{{ file.uploadID }}">{{ file.uploadID }}</td>
                 <td>{{ file.grundbuchamt }}</td>

@@ -14,7 +14,7 @@
           } @else if (userSettingsS.usernameResource.error()) {
             <span class="error">Benutzername konnen nicht geladen werden</span>
           } @else {
-            <h1>{{ userSettingsS.usernameResource.value() }}</h1>
+            <h1>{{ userSettingsS.usernameResource.value()?.username }}</h1>
           }
 
           @if (userSettingsS.userRoleResource.isLoading()) {

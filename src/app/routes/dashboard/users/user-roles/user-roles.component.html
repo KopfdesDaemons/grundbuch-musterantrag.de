@@ -1,13 +1,14 @@
 <section>
   <div class="sectiondiv">
     <div class="controls">
-      <div [formGroup]="form" class="inputfeld" id="userRoleID">
-        <input formControlName="userRoleID" type="number" id="userRoleIDinput" name="userRoleID" placeholder="&nbsp;" />
-        <label class="placeholder" for="userRoleIDinput">ID</label>
-      </div>
-      <select [(ngModel)]="selectedUserRoleOption" (change)="loadUserRole(selectedUserRoleOption?.userRoleID)">
-        @for (userRole of userRolesOptions; track userRole.userRoleID) {
-          <option [ngValue]="userRole">{{ userRole.name }}</option>
+      <select [(ngModel)]="selectedUserRoleID">
+        @if (isNewUserRole) {
+          <option [ngValue]="undefined" selected>Neue Benutzerrolle</option>
+        }
+        @if (userRoleS.userRoleOptions.hasValue()) {
+          @for (userRole of userRoleS.userRoleOptions.value(); track userRole.userRoleID) {
+            <option [ngValue]="userRole.userRoleID">{{ userRole.name }}</option>
+          }
         }
       </select>
       <button class="btnicon" title="Neue Userrolle erstellen" (click)="createNewUserRole()">
@@ -18,7 +19,7 @@
           />
         </svg>
       </button>
-      <button class="btnicon" title="Userrolle löschen" (click)="deleteUserRole()">
+      <button class="btnicon" title="Userrolle löschen" (click)="deleteUserRole()" [disabled]="!selectedUserRoleID()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -27,19 +28,19 @@
         </svg>
       </button>
     </div>
-    <div>{{ selectedUserRoleOption?.description }}</div>
-    @if (isLoading) {
+    @if ((userRoleS.userRoleInEdit.isLoading() && !userRoleS.userRoleInEdit.error()) || isLoading()) {
       <app-progress-spinner [endless]="true"></app-progress-spinner>
-    } @else if (error) {
-      <app-error-display [error]="error"></app-error-display>
-    } @else {
-      <form [formGroup]="form" (ngSubmit)="saveUserRole()">
+    } @else if (userRoleS.userRoleInEdit.error() || error()) {
+      <app-error-display [error]="userRoleS.userRoleInEdit.error() ?? error()!"></app-error-display>
+    } @else if (userRoleS.userRoleInEdit.hasValue()) {
+      <div>{{ userRoleS.userRoleInEdit.value()?.description }}</div>
+      <form [formGroup]="form()" (ngSubmit)="saveUserRole()">
         <div class="formRow1">
           <div class="inputfeld" id="userroleName">
             <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required spellcheck="false" placeholder="&nbsp;" />
             <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
           </div>
-          <button [disabled]="isLoading" type="submit">
+          <button [disabled]="isLoading() || form().invalid" type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
               <path
                 fill="currentColor"

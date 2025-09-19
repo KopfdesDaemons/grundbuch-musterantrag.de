@@ -83,6 +83,13 @@ export const handleDeleteUserRole = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'Userrollen erfolgreich gelöscht' });
   } catch (error) {
     logger.error('Fehler beim Löschen einer oder mehrerer Userrollen:', error);
+
+    if (error instanceof Error && error.message.includes('Es gibt noch Benutzer')) {
+      return res.status(409).json({
+        message: 'Das Löschen ist gescheitert, da noch Nutzer mit dieser Rolle existieren.'
+      });
+    }
+
     return res.status(500).json({ message: 'Fehler beim Löschen einer oder mehrerer Userrollen' });
   }
 };

@@ -4,6 +4,7 @@ export const dashboardRoutes: Routes = [
   {
     path: '',
     loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent),
+    title: 'Dashboard',
     children: [
       {
         path: '',

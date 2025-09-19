@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, DOCUMENT, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, DOCUMENT, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormService } from 'src/app/services/document/form.service';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
@@ -17,19 +17,20 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
 
-  odt: any = null;
-  pdf: any = null;
-  pdfIsLoading: boolean = false;
-  odtIsLoading: boolean = false;
-  statusMessage: string = '';
+  readonly odt = signal<Blob | null>(null);
+  readonly pdf = signal<Blob | null>(null);
+  pdfIsLoading = signal<boolean>(false);
+  odtIsLoading = signal<boolean>(false);
+  statusMessage = signal<string>('');
 
-  pdfError: HttpErrorResponse | null = null;
+  readonly error = signal<HttpErrorResponse | null>(null);
 
   ngOnDestroy(): void {
-    this.odt = null;
-    this.pdf = null;
-    this.pdfError = null;
-    this.pdfIsLoading = false;
+    this.odt.set(null);
+    this.pdf.set(null);
+    this.error.set(null);
+    this.pdfIsLoading.set(false);
+    this.odtIsLoading.set(false);
   }
 
   async ngOnInit(): Promise<void> {
@@ -37,7 +38,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   }
 
   downloadOdt() {
-    const url = URL.createObjectURL(this.odt);
+    const url = URL.createObjectURL(this.odt()!);
     const link = this.document.createElement('a');
 
     link.href = url;
@@ -51,27 +52,27 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   }
 
   openPdf() {
-    window.open(URL.createObjectURL(this.pdf));
+    window.open(URL.createObjectURL(this.pdf()!));
   }
 
   async generatePdf() {
     if (!isPlatformBrowser(this.platformId)) return;
     try {
-      this.statusMessage = 'Dokument wird generiert...';
-      this.pdfError = null;
+      this.statusMessage.set('Dokument wird generiert...');
+      this.error.set(null);
       if (!this.fs.antrag) return;
       this.fs.antragAbschließen();
       const uploadID = await this.docS.submitForm(this.fs.antrag);
-      this.pdfIsLoading = true;
-      this.pdf = await this.docS.getPdfAfterSubmitForm(uploadID);
-      this.odtIsLoading = true;
-      this.odt = await this.docS.getOdtAfterSubmitForm(uploadID);
-      this.statusMessage = 'Dokument wurde erfolgreich generiert.';
+      this.pdfIsLoading.set(true);
+      this.pdf.set(await this.docS.getPdfAfterSubmitForm(uploadID));
+      this.odtIsLoading.set(true);
+      this.odt.set(await this.docS.getOdtAfterSubmitForm(uploadID));
+      this.statusMessage.set('Dokument wurde erfolgreich generiert.');
     } catch (error) {
-      if (error instanceof HttpErrorResponse) this.pdfError = error;
-      this.statusMessage = 'Fehler bei der Dokumentgenerierung.';
+      if (error instanceof HttpErrorResponse) this.error.set(error);
+      this.statusMessage.set('Fehler bei der Dokumentgenerierung.');
     }
-    this.pdfIsLoading = false;
-    this.odtIsLoading = false;
+    this.pdfIsLoading.set(false);
+    this.odtIsLoading.set(false);
   }
 }

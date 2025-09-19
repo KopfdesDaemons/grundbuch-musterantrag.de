@@ -1,9 +1,9 @@
 <app-dashboard-tile tileTitle="Server Logs">
   <div class="content">
-    @if (error) {
-      <app-error-display [error]="error"></app-error-display>
+    @if (error() || loggerS.loggerResource.error()) {
+      <app-error-display [error]="error() ?? loggerS.loggerResource.error()"></app-error-display>
     } @else {
-      @if (logs) {
+      @if (loggerS.loggerResource.hasValue()) {
         <div class="controlls">
           <a class="btntext" (click)="loggerS.openLogFileInNewTab()">öffne Logfile</a>
           <button (click)="deleteLogFile()" class="btnicon" title="Logfile leeren">
@@ -16,13 +16,12 @@
           </button>
         </div>
       }
-      @if (logs === undefined) {
+      @if (loggerS.loggerResource.isLoading()) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
       }
-      @if (logs === null) {
+      @if (!loggerS.loggerResource.value()) {
         <p>Keine Logs vorhanden</p>
-      }
-      @if (logs) {
+      } @else {
         <div class="tableContainer">
           <table>
             <thead>
@@ -32,7 +31,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (log of logs; track log) {
+              @for (log of loggerS.formatedLogs(); track log) {
                 <tr [ngClass]="{ error: log.level === 'error' }">
                   <td>{{ addLineBreak(log.timestamp) }}</td>
                   <td>{{ log.message }}</td>

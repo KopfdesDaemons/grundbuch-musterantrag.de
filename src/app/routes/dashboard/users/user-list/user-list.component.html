@@ -1,7 +1,7 @@
 <section>
   <div class="sectiondiv">
     <div class="controlls">
-      <button (click)="loadUsers()">
+      <button (click)="reload()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -9,7 +9,7 @@
           />
         </svg>
       </button>
-      @if (!isLoading && !error) {
+      @if (!userS.allUsers.isLoading() && !userS.allUsers.error()) {
         <button (click)="deleteUsers()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
@@ -20,10 +20,10 @@
         </button>
       }
     </div>
-    @if (isLoading) {
+    @if (userS.allUsers.isLoading()) {
       <app-progress-spinner [endless]="true"></app-progress-spinner>
-    } @else if (error) {
-      <app-error-display [error]="error"></app-error-display>
+    } @else if (error() || userS.allUsers.error()) {
+      <app-error-display [error]="error() ?? userS.allUsers.error()"></app-error-display>
     } @else {
       <div class="tableScrollContainer">
         <table>
@@ -38,7 +38,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (row of rows; track row.user.userID) {
+            @for (row of rows(); track row.user.userID) {
               <tr>
                 <td>
                   <input type="checkbox" [(ngModel)]="row.isChecked" />
@@ -69,7 +69,7 @@
                       <form class="editForm" [formGroup]="row.editForm" (ngSubmit)="row.editForm.valid && saveUser(row)">
                         <div>
                           <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole">
-                            @for (userRole of userRoles; track userRole.userRoleID) {
+                            @for (userRole of userRoleS.userRoleOptions.value(); track userRole.userRoleID) {
                               <option value="{{ userRole.userRoleID }}" [selected]="userRole.userRoleID === row.user.userRoleID">
                                 {{ userRole.name }}
                               </option>

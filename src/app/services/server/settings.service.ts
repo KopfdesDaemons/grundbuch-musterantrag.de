@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Settings } from 'server/models/settings.model';
@@ -11,33 +11,12 @@ export class SettingsService {
   http = inject(HttpClient);
   authS = inject(AuthService);
 
-  private settings: Settings | null = null;
-
-  /**
-   * Lade die Einstellungen von der API
-   * @returns Settings | null
-   */
-  async loadSettings(): Promise<Settings | null> {
-    const response = await lastValueFrom(
-      this.http.get('/api/settings', {
-        headers: this.authS.getAuthHeader(),
-        responseType: 'json' as const
-      })
-    );
-    return response as Settings;
-  }
-
-  /**
-   * Lade die Einstellungen aus dem Service ohne API-Aufruf, wenn sie bereits geladen wurden
-   * @returns Settings | null
-   */
-  async getSettings(): Promise<Settings | null> {
-    if (!this.settings) this.settings = await this.loadSettings();
-    return this.settings;
-  }
+  settingsResource = httpResource<Settings>(() => ({
+    url: '/api/settings',
+    headers: this.authS.getAuthHeader()
+  }));
 
   async saveSettings(settings: Settings): Promise<void> {
-    this.settings = settings;
     await lastValueFrom(
       this.http.put(
         '/api/settings',
@@ -48,6 +27,7 @@ export class SettingsService {
         }
       )
     );
+    this.settingsResource.set(settings);
   }
 
   async getPrimaryColorFromSetings(): Promise<string | null> {

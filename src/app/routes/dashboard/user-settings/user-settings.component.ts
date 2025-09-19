@@ -17,12 +17,10 @@ export class UserSettingsComponent {
   newPasswordForm = this.userSettingsS.getNewPasswordGroup();
   ngFormNewPassword = viewChild.required<FormGroupDirective>('ngFormNewPassword');
   ngFormNewUsername = viewChild.required<FormGroupDirective>('ngFormNewUsername');
-  newUsernameForm: FormGroup;
   formBuilder = new FormBuilder();
-
-  constructor() {
-    this.newUsernameForm = this.getNewUsernameFormGroup();
-  }
+  newUsernameForm = this.formBuilder.group({
+    newUsername: ['', Validators.required]
+  });
 
   async changePassword() {
     try {
@@ -50,6 +48,7 @@ export class UserSettingsComponent {
     try {
       if (this.newUsernameForm.invalid) return;
       const newUsername = this.newUsernameForm.get('newUsername')?.value;
+      if (!newUsername) return;
       await this.userSettingsS.changeUsername(newUsername);
       this.ngFormNewUsername().resetForm();
     } catch (err) {

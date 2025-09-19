@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { LoggerService } from 'src/app/services/server/logger.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
@@ -12,34 +12,18 @@ import { NgClass } from '@angular/common';
   templateUrl: './logger-tile.component.html',
   styleUrl: './logger-tile.component.scss'
 })
-export class LoggerTileComponent implements OnInit {
+export class LoggerTileComponent {
   loggerS = inject(LoggerService);
-  logs: { level: string; timestamp: string; message: string }[] | null | undefined = undefined;
-  error: HttpErrorResponse | null = null;
-
-  async ngOnInit(): Promise<void> {
-    await this.loadLogFile();
-  }
+  error = signal<HttpErrorResponse | null>(null);
 
   async deleteLogFile() {
     try {
-      this.error = null;
+      this.error.set(null);
       await this.loggerS.deleteLogFile();
-      await this.loadLogFile();
+      this.loggerS.loggerResource.reload();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        this.error = error;
-      }
-    }
-  }
-
-  async loadLogFile() {
-    try {
-      this.error = null;
-      this.logs = await this.loggerS.getLogFile();
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        this.error = error;
+        this.error.set(error);
       }
     }
   }
