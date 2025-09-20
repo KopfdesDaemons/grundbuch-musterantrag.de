@@ -61,7 +61,7 @@ export class UserListComponent {
       const newUsername = row.editForm?.get('username')?.value;
       const newPassword = row.editForm?.get('userPassword')?.value;
       const userRoleID = row.editForm?.get('userRoleID')?.value;
-      if (newUsername) await this.userS.updateUsername(row.user.userID, newUsername);
+      if (newUsername !== row.user.username) await this.userS.updateUsername(row.user.userID, newUsername);
       if (newPassword) await this.userS.setinitialpassword(row.user.userID, newPassword);
       if (userRoleID != row.user.userRole.userRoleID) await this.userS.updateUserRole(row.user.userID, userRoleID);
       this.userS.allUsers.reload();

@@ -115,7 +115,7 @@ export class UserService {
 
   getEditUserFormGroup(user: User): FormGroup {
     return this.formBuilder.group({
-      username: [''],
+      username: [user.username],
       userRoleID: [user.userRoleID],
       userPassword: ['']
     });
