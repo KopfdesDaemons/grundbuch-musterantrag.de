@@ -100,7 +100,7 @@ export class UserroleService {
 
   userRoleInEditID = signal<number | undefined>(undefined);
 
-  userRoleInEdit = httpResource<UserRole | null>(() => {
+  userRoleInEdit = httpResource<UserRole>(() => {
     const userRoleID = this.userRoleInEditID();
 
     if (userRoleID === undefined) {

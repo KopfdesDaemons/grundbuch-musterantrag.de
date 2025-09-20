@@ -25,7 +25,7 @@ export const verifyRole = (userPermission: UserPermission) => {
       return next();
     } catch (error) {
       logger.error('Fehler beim Auslesen der Benutzerrolle:', error);
-      res.status(500).send({ message: 'Interner Serverfehler' });
+      res.status(500).send({ message: 'Interner Serverfehler beim Auslesen der Benutzerrolle zur Prüfung der Berechtigung' });
     }
   };
 };

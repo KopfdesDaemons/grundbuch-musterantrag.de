@@ -21,6 +21,6 @@ export default async function authMiddleware(req: Request, res: Response, next: 
     }
   } catch (error) {
     logger.error('Fehler bei der Authentifizierung:', error);
-    res.status(500).send({ message: 'Interner Serverfehler' });
+    res.status(500).send({ message: 'Interner Serverfehler bei der Authentifizierung' });
   }
 }

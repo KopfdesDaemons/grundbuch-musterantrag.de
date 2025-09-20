@@ -20,25 +20,33 @@ export class UserRolesComponent {
   selectedUserRoleID: WritableSignal<number | undefined> = signal(undefined);
 
   constructor() {
-    effect(() => {
-      const firstId = this.userRoleS.firstUserRoleID();
-      if (firstId !== undefined && this.selectedUserRoleID() === undefined && !this.isNewUserRole) {
-        this.selectedUserRoleID.set(firstId);
-      }
-    });
+    effect(this.setupUserRoleOptions.bind(this));
+    effect(this.handleSelectedUserRoleIDChange.bind(this));
+    effect(this.handleUserRoleInEditChange.bind(this));
+  }
 
-    effect(() => {
-      this.userRoleS.userRoleInEditID.set(this.selectedUserRoleID());
-      this.error.set(null);
-    });
+  private setupUserRoleOptions(): void {
+    const firstId = this.userRoleS.firstUserRoleID();
+    if (firstId !== undefined && this.selectedUserRoleID() === undefined && !this.isNewUserRole) {
+      this.selectedUserRoleID.set(firstId);
+    }
+  }
 
-    effect(() => {
-      const userRoleInEdit = this.userRoleS.userRoleInEdit.value();
-      if (userRoleInEdit) {
-        this.form.set(this.userRoleS.getFormGroup(userRoleInEdit));
-        this.isNewUserRole = false;
-      }
-    });
+  private handleSelectedUserRoleIDChange(): void {
+    this.error.set(null);
+    this.userRoleS.userRoleInEditID.set(this.selectedUserRoleID());
+  }
+
+  private handleUserRoleInEditChange(): void {
+    const resource = this.userRoleS.userRoleInEdit;
+    if (resource.error()) {
+      this.isNewUserRole = false;
+      return;
+    }
+    if (resource.value()) {
+      this.isNewUserRole = false;
+      this.form.set(this.userRoleS.getFormGroup(resource.value()));
+    }
   }
 
   createNewUserRole(): void {
