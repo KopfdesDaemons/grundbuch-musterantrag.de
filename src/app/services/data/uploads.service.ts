@@ -103,13 +103,13 @@ export class UploadsService {
     const blob = new Blob([response], { type: contentType });
     const blobUrl = URL.createObjectURL(blob);
 
-    // open pdf in new tab
+    // Open pdf in new tab
     if (fileType === 'pdf') {
       window.open(blobUrl, '_blank');
       return;
     }
 
-    // odt download
+    // Odt download
     const link = this.document.createElement('a');
     link.href = blobUrl;
     link.download = fileName;

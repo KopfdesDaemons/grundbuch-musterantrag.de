@@ -89,7 +89,6 @@ export const initDatabase = async () => {
                 ${table.links ? ', ' + table.links.map(link => `FOREIGN KEY (${link.columnName}) REFERENCES ${link.tableName}(${link.foreignKey}) ON DELETE CASCADE`).join(', ') : ''}
             )`;
       await db.execute(createTableSQL);
-      logger.info(`Tabelle "${table.name}" wurde erstellt bzw. überprüft.`);
 
       // Spalten überprüfen und bei Bedarf hinzufügen
       for (const column of table.columns) {

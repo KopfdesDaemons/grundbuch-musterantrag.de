@@ -20,6 +20,7 @@ export default [
       },
     },
     rules: {
+      "capitalized-comments": "error",
       "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-misused-promises": "off",
@@ -27,8 +28,12 @@ export default [
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/unbound-method": "off",
-      "@typescript-eslint/only-throw-error": "off",
+      "@typescript-eslint/unbound-method": [
+        "error",
+        {
+          ignoreStatic: true,
+        },
+      ],
     },
   },
   {
