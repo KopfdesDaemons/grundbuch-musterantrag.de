@@ -1,4 +1,4 @@
-<aside #sidemenu [ngClass]="{ sidemenuOpen: sidemenuS.DashboaardSidemenuIsOpen }">
+<aside #sidemenu [ngClass]="{ sidemenuOpen: sidemenuS.DashboaardSidemenuIsOpen() }">
   <div class="content">
     <div class="user">
       <div class="row1">
@@ -48,5 +48,5 @@
       </ul>
     </nav>
   </div>
-  <div class="closingDiv" [ngClass]="{ sidemenuOpen: sidemenuS.DashboaardSidemenuIsOpen }" (click)="sidemenuS.toggleDashboardSidemenu()"></div>
+  <div class="closingDiv" [ngClass]="{ sidemenuOpen: sidemenuS.DashboaardSidemenuIsOpen() }" (click)="sidemenuS.toggleDashboardSidemenu()"></div>
 </aside>

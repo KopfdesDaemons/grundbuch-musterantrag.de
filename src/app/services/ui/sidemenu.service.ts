@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidemenuService {
-  public DashboaardSidemenuIsOpen = false;
+  public DashboaardSidemenuIsOpen = signal(false);
 
   public toggleDashboardSidemenu() {
-    this.DashboaardSidemenuIsOpen = !this.DashboaardSidemenuIsOpen;
+    this.DashboaardSidemenuIsOpen.update(value => !value);
   }
 }
