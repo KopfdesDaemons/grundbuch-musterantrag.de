@@ -19,7 +19,7 @@ export class AntragslisteTileComponent {
   uploadsS = inject(UploadsService);
   gChartS = inject(GooglechartsService);
 
-  statisticTimeframe = signal<'week' | 'month'>('week');
+  statisticTimeframe = signal<'week' | 'month'>('month');
   toggleTextMapping = { week: 'Woche', month: 'Monat' };
 
   lineChartOptions = computed(() => this.gChartS.getLineChartOptions(this.statisticTimeframe()));
