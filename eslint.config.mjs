@@ -28,6 +28,7 @@ export default [
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/only-throw-error": "off",
       "@typescript-eslint/unbound-method": [
         "error",
         {

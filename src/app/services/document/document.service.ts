@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, httpResource } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Antrag } from '../../interfaces/antrag';
 import { lastValueFrom } from 'rxjs';
@@ -38,15 +38,6 @@ export class DocumentService {
       throw new Error('getPdfAfterSubmitForm failed without HttpErrorResponse');
     }
   }
-
-  odtResource = httpResource.blob(() => {
-    const uploadID = this.uploadID();
-    if (!uploadID) return undefined;
-    return {
-      url: '/api/getOdtAfterSubmitForm',
-      params: { uploadID }
-    };
-  });
 
   async getOdtAfterSubmitForm(uploadID: string): Promise<Blob> {
     const url = `/api/getOdtAfterSubmitForm?uploadID=${uploadID}`;
