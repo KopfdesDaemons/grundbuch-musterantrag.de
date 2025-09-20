@@ -1,4 +1,4 @@
-<header [ngClass]="{ darkmode: dl.darkmode.value }">
+<header [ngClass]="{ darkmode: dl.darkmode() }">
   <div class="desktopheader" [style.background]="background()">
     <div class="farbauswahlbuttondiv">
       <button class="btnDesign farbauswahlbutton" (click)="clickOnColorPicker()" aria-label="Farbeinstellungen"></button>

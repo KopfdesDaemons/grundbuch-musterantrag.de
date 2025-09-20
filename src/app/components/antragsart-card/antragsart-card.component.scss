@@ -20,7 +20,10 @@
     object-fit: cover;
     object-position: top;
     width: 100%;
-    filter: brightness(0.95);
+
+    &.darkmode {
+      filter: brightness(0.95);
+    }
   }
 
   &:focus-visible {

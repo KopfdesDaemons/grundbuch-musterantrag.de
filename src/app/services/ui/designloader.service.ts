@@ -1,5 +1,4 @@
-import { inject, Injectable, PLATFORM_ID, DOCUMENT } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { effect, inject, Injectable, PLATFORM_ID, DOCUMENT, signal } from '@angular/core';
 import { Cookie } from '../../models/cookie.model';
 import { CookiesService } from '../utils/cookies.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -15,22 +14,26 @@ export class DesignloaderService {
   private platformId = inject(PLATFORM_ID);
   document = inject(DOCUMENT).documentElement;
 
-  darkmode: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  darkmode = signal(false);
   private initialized = false;
   primaryColor: string | null = '#20afdf';
 
+  constructor() {
+    effect(() => {
+      const isDarkMode = this.darkmode();
+      if (this.initialized) {
+        if (isDarkMode) this.activateDarkmode();
+        else this.deactivateDarkmode();
+      }
+    });
+  }
+
   async initDesign() {
     // Init darkmode from cookie or preference
-    this.darkmode.next(this.getSchemeFromCookie() ?? this.preferenceSchemeIsDarkmode());
-    if (this.darkmode.value == true) this.activateDarkmode(true);
-
-    // Listen for darkmode change
-    this.darkmode.subscribe((state: boolean) => {
-      if (this.initialized) {
-        if (state) this.activateDarkmode();
-        else this.deactivateDarkmode();
-      } else this.initialized = true;
-    });
+    const initialMode = this.getSchemeFromCookie() ?? this.preferenceSchemeIsDarkmode();
+    this.darkmode.set(initialMode);
+    if (this.darkmode()) this.activateDarkmode(true);
+    this.initialized = true;
 
     // Init primary color from cookie
     if (this.setColorFromCookie()) return;
@@ -44,14 +47,14 @@ export class DesignloaderService {
     this.changeColor(hsl['h'], hsl['s'], hsl['l'], true);
   }
 
-  preferenceSchemeIsDarkmode(): boolean {
+  private preferenceSchemeIsDarkmode(): boolean {
     if (!isPlatformBrowser(this.platformId)) return false;
     const mediaMatch = window.matchMedia('(prefers-color-scheme: dark)').matches;
     return typeof mediaMatch === 'boolean' ? mediaMatch : false;
   }
 
   togledesignScheme() {
-    this.darkmode.next(!this.darkmode.value);
+    this.darkmode.update(value => !value);
   }
 
   private activateDarkmode(withoutCookieConsent: boolean = false) {

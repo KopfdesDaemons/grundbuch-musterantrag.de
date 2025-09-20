@@ -10,21 +10,19 @@
     </p>
   </div>
   <ul class="antragsliste">
-    @defer (hydrate never) {
-      @for (antrag of antraege; track antrag.title) {
-        <li>
-          <app-antragsart-card
-            [title]="antrag.title"
-            [antragsRoute]="antrag.antragsRoute"
-            [mehrInfosRoute]="antrag.mehrInfosRoute ?? ''"
-            [description]="antrag.description"
-            [gebuehr]="antrag.gebuehr"
-            [erforderlicheUnterlagen]="antrag.erforderlicheUnterlagen"
-            [imagePath]="antrag.image?.path ?? ''"
-          >
-          </app-antragsart-card>
-        </li>
-      }
+    @for (antrag of antraege; track antrag.title) {
+      <li>
+        <app-antragsart-card
+          [title]="antrag.title"
+          [antragsRoute]="antrag.antragsRoute"
+          [mehrInfosRoute]="antrag.mehrInfosRoute ?? ''"
+          [description]="antrag.description"
+          [gebuehr]="antrag.gebuehr"
+          [erforderlicheUnterlagen]="antrag.erforderlicheUnterlagen"
+          [imagePath]="antrag.image?.path ?? ''"
+        >
+        </app-antragsart-card>
+      </li>
     }
   </ul>
 </section>
