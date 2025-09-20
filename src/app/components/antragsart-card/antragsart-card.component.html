@@ -1,31 +1,33 @@
-<a class="image-container" routerLink="{{ antragsRoute() }}">
-  <img [ngClass]="{ darkmode: designS.darkmode() }" loading="lazy" src="{{ imagePath() }}" alt="{{ title() }}" />
-</a>
-<div class="content">
-  <a class="title" routerLink="{{ antragsRoute() }}">
-    <h2>{{ title() }}</h2>
+<div class="container" [ngClass]="{ darkmode: designS.darkmode() }">
+  <a class="image-container" routerLink="{{ antragsRoute() }}">
+    <img loading="lazy" src="{{ imagePath() }}" alt="{{ title() }}" />
   </a>
-  <p>
-    {{ description() }}
-  </p>
-  <div class="gebuehr-container">
-    <span>Gebühr des Grundbuchamts:</span>
-    <span [ngClass]="gebuehr() === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{ gebuehr() }}</span>
-  </div>
-  @if (erforderlicheUnterlagen().length > 0) {
-    <div class="erforderlicheUnterlagenDiv">
-      <h3>Erforderliche Unterlagen:</h3>
-      <ul>
-        @for (unterlage of erforderlicheUnterlagen(); track unterlage) {
-          <li>{{ unterlage }}</li>
-        }
-      </ul>
+  <div class="content">
+    <a class="title" routerLink="{{ antragsRoute() }}">
+      <h2>{{ title() }}</h2>
+    </a>
+    <p>
+      {{ description() }}
+    </p>
+    <div class="gebuehr-container">
+      <span>Gebühr des Grundbuchamts:</span>
+      <span [ngClass]="gebuehr() === 'gebührenfrei' ? 'gebuehrenfrei' : 'gebuehrenpflichtig'">{{ gebuehr() }}</span>
     </div>
-  }
-  <div class="buttons">
-    @if (mehrInfosRoute()) {
-      <a routerLink="{{ mehrInfosRoute() }}" class="btn-text">mehr Infos</a>
+    @if (erforderlicheUnterlagen().length > 0) {
+      <div class="erforderlicheUnterlagenDiv">
+        <h3>Erforderliche Unterlagen:</h3>
+        <ul>
+          @for (unterlage of erforderlicheUnterlagen(); track unterlage) {
+            <li>{{ unterlage }}</li>
+          }
+        </ul>
+      </div>
     }
-    <a routerLink="{{ antragsRoute() }}" class="btn-outlined">Antrag ausfüllen</a>
+    <div class="buttons">
+      @if (mehrInfosRoute()) {
+        <a routerLink="{{ mehrInfosRoute() }}" class="btn-text">mehr Infos</a>
+      }
+      <a routerLink="{{ antragsRoute() }}" class="btn-outlined">Antrag ausfüllen</a>
+    </div>
   </div>
 </div>

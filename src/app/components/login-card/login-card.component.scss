@@ -5,8 +5,9 @@
   overflow: hidden;
   position: relative;
   border-radius: 8px;
-  border: 1px solid;
+  border: 1px solid rgb(190, 190, 190);
   background-color: var(--body);
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
 
   &.darkmode {
     background-color: var(--background-variant);

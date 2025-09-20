@@ -1,34 +1,49 @@
 :host {
   display: flex;
+}
+
+.container {
+  display: flex;
   flex-direction: column;
   border-radius: 12px;
   animation: grow 500ms;
   font-size: 0.9em;
   border-radius: 6px;
-  background-color: var(--background-variant);
+  background-color: white;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
 
   &:hover {
     outline: 1px solid;
+
+    img {
+      transform: scale(1.1);
+    }
+  }
+
+  &.darkmode {
+    background-color: var(--background-variant);
   }
 }
 
 .image-container {
   display: flex;
+  overflow: hidden;
 
   img {
     height: 18em;
     object-fit: cover;
     object-position: top;
     width: 100%;
-
-    &.darkmode {
-      filter: brightness(0.95);
-    }
+    transition: all 0.3s ease-in-out;
   }
 
   &:focus-visible {
     outline: 5px solid var(--primary-color);
   }
+}
+
+.darkmode img {
+  filter: brightness(0.95);
 }
 
 .title {
