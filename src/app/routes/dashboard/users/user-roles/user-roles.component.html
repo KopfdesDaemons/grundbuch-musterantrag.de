@@ -2,7 +2,7 @@
   <div class="sectiondiv">
     <div class="controls">
       <div class="inputfeld" id="userRoleID">
-        <input type="number" [value]="selectedUserRoleID()" [disabled]="true" id="userRoleIDinput" placeholder="&nbsp;" />
+        <input type="number" [value]="selectedUserRoleID() ?? null" [disabled]="true" id="userRoleIDinput" placeholder="&nbsp;" />
         <label class="placeholder" for="userRoleIDinput">ID</label>
       </div>
       <select [(ngModel)]="selectedUserRoleID">

@@ -102,16 +102,13 @@ export class UserroleService {
 
   userRoleInEdit = httpResource<UserRole>(() => {
     const userRoleID = this.userRoleInEditID();
-
-    if (userRoleID === undefined) {
-      return undefined;
-    }
-
-    return {
-      url: '/api/userrole/',
-      headers: this.authS.getAuthHeader(),
-      params: { userRoleID: userRoleID }
-    };
+    return userRoleID
+      ? {
+          url: '/api/userrole/',
+          headers: this.authS.getAuthHeader(),
+          params: { userRoleID: userRoleID }
+        }
+      : undefined;
   });
 
   async getUserRole(userRoleID: number): Promise<UserRole> {

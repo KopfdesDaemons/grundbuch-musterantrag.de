@@ -52,6 +52,7 @@ export class UploadsService {
 
   totalPages = computed<number | undefined>(() => (this.uploadsResource.hasValue() ? this.uploadsResource.value()?.totalPages : undefined));
   totalFiles = computed<number | undefined>(() => (this.uploadsResource.hasValue() ? this.uploadsResource.value()?.totalFiles : undefined));
+
   latestFile = computed<Upload | null>(() => {
     const files = this.uploadsResource.value()?.files ?? [];
     if (files.length === 0) return null;
