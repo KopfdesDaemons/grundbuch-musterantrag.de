@@ -19,6 +19,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
 
   readonly odt = signal<Blob | null>(null);
   readonly pdf = signal<Blob | null>(null);
+  submitIsLoading = signal<boolean>(false);
   pdfIsLoading = signal<boolean>(false);
   odtIsLoading = signal<boolean>(false);
   statusMessage = signal<string>('');
@@ -62,11 +63,15 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
       this.error.set(null);
       if (!this.fs.antrag) return;
       this.fs.antragAbschließen();
+      this.submitIsLoading.set(true);
       const uploadID = await this.docS.submitForm(this.fs.antrag);
+      this.submitIsLoading.set(false);
       this.pdfIsLoading.set(true);
       this.pdf.set(await this.docS.getPdfAfterSubmitForm(uploadID));
+      this.pdfIsLoading.set(false);
       this.odtIsLoading.set(true);
       this.odt.set(await this.docS.getOdtAfterSubmitForm(uploadID));
+      this.odtIsLoading.set(false);
       this.statusMessage.set('Dokument wurde erfolgreich generiert.');
     } catch (error) {
       if (error instanceof HttpErrorResponse) this.error.set(error);
@@ -74,5 +79,6 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     }
     this.pdfIsLoading.set(false);
     this.odtIsLoading.set(false);
+    this.submitIsLoading.set(false);
   }
 }

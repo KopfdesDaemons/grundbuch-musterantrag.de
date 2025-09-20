@@ -4,7 +4,12 @@
     <span>Sie sind fast fertig.</span>
     <span>Vergessen Sie nicht den Antrag zu unterschreiben</span>
     <div class="status">
-      <p>{{ statusMessage() }}</p>
+      <div class="status-text-row">
+        <p>{{ statusMessage() }}</p>
+        @if (submitIsLoading()) {
+          <app-progress-spinner [endless]="true"></app-progress-spinner>
+        }
+      </div>
       @if (error()) {
         <p class="error-text">{{ error()!.error.message }}</p>
         <button class="btntext" (click)="generatePdf()">erneut versuchen</button>
