@@ -26,7 +26,7 @@
 
 .auswahlcard input[type="radio"]:checked + label {
   border: 5px solid var(--primary-variant-much-brighter);
-  background-color: var(--hintergrund-inputfeld);
+  background-color: var(--background-inputfeld);
 
   strong {
     color: var(--primary-color);

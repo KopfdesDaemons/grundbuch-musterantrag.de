@@ -32,7 +32,7 @@
               }
             ],
             "styles": [
-              "src/styles/ricos-css/ricosframework.scss",
+              "src/styles/ricos-css/ricos-css.scss",
               "src/styles/styles.scss"
             ],
             "scripts": [],

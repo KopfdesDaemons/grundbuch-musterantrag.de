@@ -13,7 +13,7 @@ header {
   animation: slideIn 0.2s linear;
 
   div {
-    background-color: var(--hintergrund-variant-darker);
+    background-color: var(--background-variant-darker);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,7 +64,7 @@ header {
 
   a,
   a:visited {
-    color: var(--schrift);
+    color: var(--font-color);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -120,7 +120,7 @@ header {
   padding: unset;
   margin: auto 0.5em;
   background-color: unset;
-  color: var(--schrift);
+  color: var(--font-color);
 
   svg {
     width: 1em;
@@ -147,7 +147,7 @@ header {
   gap: 0.2rem;
   top: -15em;
   position: absolute;
-  background-color: var(--hintergrund-variant-darker);
+  background-color: var(--background-variant-darker);
   height: 200px;
   width: 200px;
   padding: 0.5em;
@@ -197,7 +197,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--hintergrund-variant-darker);
+    background-color: var(--background-variant-darker);
     align-items: stretch;
   }
 
@@ -239,13 +239,13 @@ header {
       a {
         text-decoration: none;
         flex: 1;
-        color: var(--schrift);
+        color: var(--font-color);
         display: flex;
         align-items: center;
         justify-content: center;
 
         &:hover {
-          background-color: var(--hintergrund-variant);
+          background-color: var(--background-variant);
         }
       }
     }

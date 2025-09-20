@@ -7,7 +7,7 @@
   <div class="formularcontent">
     <div id="bezeichnungContainer">
       <span>Welches Recht ist betroffen? z.B. "Wohnungsrecht Max Mustermann"</span>
-      <div class="inputfeld" id="bezeichnung">
+      <div class="input-container" id="bezeichnung">
         <input formControlName="bezeichnung" type="text" id="bezeichnunginput" name="bezeichnung" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="bezeichnunginput">Bezeichnung des Rechts</label>
       </div>
@@ -17,7 +17,7 @@
     </div>
     <div>
       <label class="placeholder" for="laufendeNummerinput">Laufende Nummer: </label>
-      <div class="inputfeld" id="laufendeNummer">
+      <div class="input-container" id="laufendeNummer">
         <input
           formControlName="laufendeNummer"
           type="number"
@@ -30,7 +30,7 @@
     </div>
     <div>
       <label class="placeholder" for="datumDerBewilligunginput">Datum der Bewilligung: </label>
-      <div class="inputfeld" id="datumDerBewilligung">
+      <div class="input-container" id="datumDerBewilligung">
         <input
           formControlName="datumDerBewilligung"
           type="date"
@@ -43,9 +43,9 @@
     </div>
     <div class="formNavBtn">
       @if (fs.getCurrentStep() > 1) {
-        <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+        <button class="btn-text" type="button" (click)="fs.stepback()">zurück</button>
       }
-      <button class="btnoutlined">Weiter</button>
+      <button class="btn-outlined">Weiter</button>
     </div>
   </div>
 </form>

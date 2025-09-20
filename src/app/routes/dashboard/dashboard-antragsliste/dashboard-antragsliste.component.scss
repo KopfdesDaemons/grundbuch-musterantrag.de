@@ -1,5 +1,5 @@
 section {
-  animation: slideInFromTop 500ms forwards;
+  animation: slide-in-from-top 500ms forwards;
   margin-top: 4em;
 }
 
@@ -26,7 +26,7 @@ section {
   }
 }
 
-.tableScrollContainer {
+.tablehorizontal-scroll-container {
   height: 500px;
   width: clamp(300px, 95%, 1000px);
   overflow: auto;
@@ -75,7 +75,7 @@ section {
     position: absolute;
     right: 3em;
     top: 3em;
-    background-color: var(--hintergrund);
+    background-color: var(--background);
     border-radius: 6px;
     list-style: none;
     z-index: 1;
@@ -86,7 +86,7 @@ section {
       display: block;
 
       &:hover {
-        background-color: var(--hintergrund-variant-darker);
+        background-color: var(--background-variant-darker);
       }
 
       border: 1px solid var(--primary-variant-much-brighter);

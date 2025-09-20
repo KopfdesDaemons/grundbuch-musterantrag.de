@@ -3,7 +3,7 @@
 }
 @defer (hydrate never) {
   <section>
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <app-antragsinfos-hero [antragsart]="antrag">
         <p>{{ antrag.description }}</p>
       </app-antragsinfos-hero>
@@ -11,7 +11,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Was sind Bewilligungen?</h2>
     <blockquote cite="https://www.gesetze-im-internet.de/gbo/__19.html">
       Eine Eintragung erfolgt, wenn derjenige sie bewilligt, dessen Recht von ihr betroffen wird.
@@ -33,7 +33,7 @@
   </div>
 </section>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Wie beantrage ich Abschriften einer Bewilligung?</h2>
     <p>
       Es genügt ein formloser Antrag. Der Antrag sollte genügend Angaben enthalten, damit das betroffene Recht identifiziert werden kann. Ein Antrag
@@ -42,11 +42,11 @@
     <blockquote class="beispiel">
       "Ich beantrage eine Abschrift der Bewilligung vom 18.02.2005 des Wegerechts Abteilung II laufende Nummer 4."
     </blockquote>
-    <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
+    <div><a [routerLink]="antrag.antragsRoute" class="btn-outlined">Kostenloser Musterantrag</a></div>
   </div>
 </section>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Wie viel kosten Abschriften von Bewilligungen?</h2>
     <p>
       Die Gebühr richtet sich nach der Anzahl der kopierten Seiten. Grundlage ist die KV-Nr. 31000 aus der
@@ -88,7 +88,7 @@
 </section>
 @defer (hydrate never) {
   <section>
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Wo können Abschriften der Bewilligungen beantragt werden?</h2>
       <br />
       <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
@@ -97,7 +97,7 @@
 }
 @defer (hydrate on interaction) {
   <section id="FAQ">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Fragen und Antworten</h2>
       <ul>
         <li>
@@ -123,7 +123,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <app-disqus [identifier]="antrag.title"></app-disqus>
   </div>
 </section>

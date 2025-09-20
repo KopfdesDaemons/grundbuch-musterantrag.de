@@ -15,14 +15,14 @@
           <label for="b2">
             <span>
               Ich habe eine schriftliche Vollmacht
-              <span class="rot">&nbsp;(Vollmacht beifügen!)</span>
+              <span class="red">&nbsp;(Vollmacht beifügen!)</span>
             </span>
           </label>
         </li>
         <li class="radiochip">
           <input formControlName="interesse" id="b3" type="radio" value="Ich bin Erbe" />
           <label for="b3"
-            ><span> Ich bin Erbe und habe einen Erbnachweis<span class="rot">&nbsp;(Kopie beifügen!)</span> </span></label
+            ><span> Ich bin Erbe und habe einen Erbnachweis<span class="red">&nbsp;(Kopie beifügen!)</span> </span></label
           >
         </li>
         <li class="radiochip">
@@ -36,12 +36,12 @@
         <li class="radiochip">
           <input formControlName="interesse" id="b6" type="radio" value="Ich habe einen Vollstreckungstitel" />
           <label for="b6"
-            ><span> Ich habe einen Vollstreckungstitel <span class="rot">&nbsp;(Kopie beifügen!)</span> </span></label
+            ><span> Ich habe einen Vollstreckungstitel <span class="red">&nbsp;(Kopie beifügen!)</span> </span></label
           >
         </li>
         <li class="radiochip">
           <input formControlName="interesse" id="b7" type="radio" value="siehe Bemerkungen" />
-          <label for="b7">Sonstiger Grund <span class="rot">&nbsp;(begründen!)</span></label>
+          <label for="b7">Sonstiger Grund <span class="red">&nbsp;(begründen!)</span></label>
         </li>
       </ul>
       <div>Bemerkungen für das Grundbuchamt:</div>
@@ -50,8 +50,8 @@
   </div>
   <div class="formNavBtn">
     @if (fs.getCurrentStep() > 1) {
-      <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+      <button class="btn-text" type="button" (click)="fs.stepback()">zurück</button>
     }
-    <button class="btnoutlined">Weiter</button>
+    <button class="btn-outlined">Weiter</button>
   </div>
 </form>

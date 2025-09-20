@@ -9,7 +9,7 @@ h1 {
   font-size: 1.5em;
 }
 
-.sectiondiv {
+.content-spacer {
   flex-direction: row;
 }
 
@@ -19,7 +19,7 @@ h1 {
   justify-content: center;
   align-items: center;
   margin-top: var(--header-height);
-  background-color: var(--hintergrund-variant);
+  background-color: var(--background-variant);
   border-radius: 12px;
   padding: 1em;
   animation: grow 500ms;

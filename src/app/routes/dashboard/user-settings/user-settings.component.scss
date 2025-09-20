@@ -1,4 +1,4 @@
-.sectiondiv {
+.content-spacer {
   @media only screen and (max-width: 700px) {
     margin-top: 4em;
   }
@@ -56,10 +56,10 @@ hr {
   flex-wrap: wrap;
   gap: 1.5em;
   align-items: center;
-  background-color: var(--hintergrund-variant);
+  background-color: var(--background-variant);
   padding: 0.5em;
   border-radius: 12px;
-  animation: slideInFromTop 400ms forwards;
+  animation: slide-in-from-top 400ms forwards;
 
   .userInfosContent {
     display: flex;

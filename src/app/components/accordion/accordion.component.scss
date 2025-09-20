@@ -12,10 +12,10 @@
   padding: 0.5em 1em;
   user-select: none;
   border-radius: 12px;
-  background-color: var(--hintergrund);
+  background-color: var(--background);
 
   &:hover {
-    background-color: var(--hintergrund-variant);
+    background-color: var(--background-variant);
   }
 
   &:focus-visible {
@@ -24,7 +24,7 @@
 }
 
 .toggle svg {
-  fill: var(--schrift);
+  fill: var(--font-color);
   height: 2em;
   width: 2em;
   margin: 5px;
@@ -34,7 +34,7 @@
   max-height: 0;
   transition: all 0.2s ease-out allow-discrete;
   overflow: hidden;
-  background-color: var(--hintergrund-variant);
+  background-color: var(--background-variant);
   border-radius: 12px;
   display: none;
 }

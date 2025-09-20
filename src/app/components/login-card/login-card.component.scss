@@ -1,5 +1,5 @@
 :host {
-  background-color: var(--hintergrund-variant);
+  background-color: var(--background-variant);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@
   font-size: 6em;
   color: var(--primary-color);
   padding: 10% 0;
-  background-color: var(--hintergrund-variant-darker);
+  background-color: var(--background-variant-darker);
   position: relative;
 
   img {

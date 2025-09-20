@@ -46,14 +46,14 @@ h2 {
   background-color: rgb(255, 118, 118);
 }
 
-#info .btnoutlined {
+#info .btn-outlined {
   font-size: 1.3em;
   margin: 1em;
 }
 
 /*Was steht im Grundbuch?-------------------------------------------------------------------------------*/
 
-#GB-Inhalt .sectiondiv .grid {
+#GB-Inhalt .content-spacer .grid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, 20em);
@@ -69,7 +69,7 @@ h2 {
   flex-direction: column;
   padding: 0.3em;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  background-color: var(--hintergrund-variant-darker);
+  background-color: var(--background-variant-darker);
   border: 2px solid var(--primary-color);
 
   h3 {
@@ -93,9 +93,9 @@ h2 {
 
 a.GB-Abschnitt {
   text-decoration: none;
-  color: var(--schrift);
+  color: var(--font-color);
 
   &:hover {
-    background-color: var(--hintergrund-variant);
+    background-color: var(--background-variant);
   }
 }

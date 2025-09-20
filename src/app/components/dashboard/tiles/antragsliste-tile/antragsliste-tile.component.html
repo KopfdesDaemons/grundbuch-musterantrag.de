@@ -18,7 +18,7 @@
           <div class="latestfile">
             <span>{{ uploadsS.latestFile()?.antragsart }} </span>
             @if (!uploadsS.latestFile()?.filesDeleted) {
-              <a (click)="uploadsS.getFile(uploadsS.latestFile()?.uploadID ?? '', 'pdf')" class="btnicon" title="Pdf öffnen">
+              <a (click)="uploadsS.getFile(uploadsS.latestFile()?.uploadID ?? '', 'pdf')" class="btn-icon" title="Pdf öffnen">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                   <path
                     fill="currentColor"
@@ -40,7 +40,7 @@
     } @else {
       <span class="chartToggle" (click)="toggleChartTimeframe()">{{ toggleTextMapping[statisticTimeframe()] }}</span>
       <app-google-chart [chartData]="chartData()" [chartOptions]="lineChartOptions()" chartType="LineChart"></app-google-chart>
-      <a routerLink="/dashboard/antragsliste" class="btntext">Alle Anträge anzeigen</a>
+      <a routerLink="/dashboard/antragsliste" class="btn-text">Alle Anträge anzeigen</a>
     }
   }
 </app-dashboard-tile>

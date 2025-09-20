@@ -3,7 +3,7 @@
 }
 @defer (hydrate never) {
   <section>
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <app-antragsinfos-hero [antragsart]="antrag">
         <p>{{ antrag.description }}</p>
       </app-antragsinfos-hero>
@@ -11,10 +11,10 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Wie beantrage ich die Grundbuchberichtigung aufgrund Sterbefalls?</h2>
     <p>Der Antrag auf Grundbuchberichtigung ist formfrei zu stellen, jedoch bedarf es eines geeigneten Erbnachweises.</p>
-    <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
+    <div><a [routerLink]="antrag.antragsRoute" class="btn-outlined">Kostenloser Musterantrag</a></div>
     <p>
       Sollte der Erblasser Grundbesitz hinterlassen haben und kein Erbe von sich aus tätig werden, wird das Grundbuchamt einen der Erben schriftlich
       zur Berichtigung des Grundbuchs auffordern. Das Grundbuchamt sendet dabei in der Regel einen vorbereiteten Antrag zum unterschreiben mit. Die
@@ -25,7 +25,7 @@
   </div>
 </section>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Was ist ein geeigneter Erbnachweis?</h2>
     <p>
       Aus <a href="https://www.gesetze-im-internet.de/gbo/__35.html" target="_blank">§&nbsp;35&nbsp;GBO</a> ergibt sich womit der Nachweis der
@@ -43,7 +43,7 @@
       <tbody>
         <tr>
           <td>Handschriftliches Testament</td>
-          <td class="rot">Nicht zulässig<br />(Erbschein erforderlich)</td>
+          <td class="red">Nicht zulässig<br />(Erbschein erforderlich)</td>
         </tr>
         <tr>
           <td>Erbscheinsausfertigung</td>
@@ -66,18 +66,18 @@
   </div>
 </section>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Wer kann die Grundbuchberichtigung beantragen?</h2>
     <p>
       Die Grundbuchberichtigung kann von jedem der Erben beantragt werden. Es genügt der Antrag eines Erben und es erfolgt die Berichtigung auf die
       Erbengemeinschaft. Ein Testamentsvollstrecker ist ebenfalls antragsberechtigt.
     </p>
-    <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
+    <div><a [routerLink]="antrag.antragsRoute" class="btn-outlined">Kostenloser Musterantrag</a></div>
   </div>
 </section>
 @defer (hydrate never) {
   <section>
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Wo muss die Grundbuchberichtigung beantragt werden?</h2>
       <br />
       <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
@@ -85,7 +85,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Was kostet die Grundbuchberichtigung aufgrund eines Sterbefalls?</h2>
     <p>
       Die Grundbuchberichtigung ist zwei Jahre nach dem Tod des Eigentümers gebührenfrei. Wenn diese Frist abgelaufen ist, entsteht die Gebühr für die
@@ -96,7 +96,7 @@
       einem Grundstückswert von bis zu 110.000,00&nbsp;€ eine Gebühr in Höhe von 273,00&nbsp;€.
     </p>
     <p style="color: green">Zwei Jahre nach dem Tod des Eigentümers gebührenfrei.</p>
-    <div class="scrollContainer">
+    <div class="horizontal-scroll-container">
       <table>
         <thead>
           <tr>
@@ -156,7 +156,7 @@
 </section>
 @defer (hydrate on interaction) {
   <section id="FAQ">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Fragen und Antworten</h2>
       <ul>
         <li>
@@ -174,7 +174,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <app-disqus [identifier]="antrag.title"></app-disqus>
   </div>
 </section>

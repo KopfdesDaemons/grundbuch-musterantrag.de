@@ -1,7 +1,7 @@
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <div class="controls">
-      <div class="inputfeld" id="userRoleID">
+      <div class="input-container" id="userRoleID">
         <input type="number" [value]="selectedUserRoleID() ?? null" [disabled]="true" id="userRoleIDinput" placeholder="&nbsp;" />
         <label class="placeholder" for="userRoleIDinput">ID</label>
       </div>
@@ -15,7 +15,7 @@
           }
         }
       </select>
-      <button class="btnicon" title="Neue Userrolle erstellen" (click)="createNewUserRole()">
+      <button class="btn-icon" title="Neue Userrolle erstellen" (click)="createNewUserRole()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -23,7 +23,7 @@
           />
         </svg>
       </button>
-      <button class="btnicon" title="Userrolle löschen" (click)="deleteUserRole()" [disabled]="!selectedUserRoleID()">
+      <button class="btn-icon" title="Userrolle löschen" (click)="deleteUserRole()" [disabled]="!selectedUserRoleID()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -40,7 +40,7 @@
       <div>{{ userRoleS.userRoleInEdit.value()?.description }}</div>
       <form [formGroup]="form()" (ngSubmit)="saveUserRole()">
         <div class="formRow1">
-          <div class="inputfeld" id="userroleName">
+          <div class="input-container" id="userroleName">
             <input formControlName="name" type="text" id="userroleNameinput" name="userroleName" required spellcheck="false" placeholder="&nbsp;" />
             <label class="placeholder" for="userroleNameinput">Name der Userrolle</label>
           </div>

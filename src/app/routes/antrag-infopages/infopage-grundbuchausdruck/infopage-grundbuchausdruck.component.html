@@ -3,7 +3,7 @@
 }
 @defer (hydrate never) {
   <section>
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <app-antragsinfos-hero [antragsart]="antrag">
         <p>
           Ein einfacher Grundbuchausdruck kostet <b>genau</b> 10,00&nbsp;€ Gerichtsgebühren. Internetanbieter verlangen oft über 25,00&nbsp;€ und
@@ -19,9 +19,9 @@
 <!--Wie  ############################################################################################################ -->
 
 <section id="info">
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Wie beantrage ich einen Grundbuchausdruck?</h2>
-    <div class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">ausschließlich</b> beantragt werden...</div>
+    <div class="Erklärung">Ein Grundbuchausdruck kann <b class="red">ausschließlich</b> beantragt werden...</div>
     <div class="antragsartdiv">
       <div class="antragsart">
         <div class="icondiv">
@@ -57,8 +57,8 @@
         <div class="antragsarttext">persönlich</div>
       </div>
     </div>
-    <a class="btnoutlined" routerLink="{{ antrag.antragsRoute }}">Kostenloser Musterantrag</a>
-    <span class="Erklärung">Ein Grundbuchausdruck kann <b class="rot">NICHT</b> beantragt werden...</span>
+    <a class="btn-outlined" routerLink="{{ antrag.antragsRoute }}">Kostenloser Musterantrag</a>
+    <span class="Erklärung">Ein Grundbuchausdruck kann <b class="red">NICHT</b> beantragt werden...</span>
     <div class="antragsartdiv">
       <div class="antragsart antragsartfalsch">
         <div class="icondiv">
@@ -102,7 +102,7 @@
 
 @defer (hydrate never) {
   <section id="Wo">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Wo beantrage ich einen Grundbuchausdruck?</h2>
       <br />
       <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
@@ -113,7 +113,7 @@
 <!--Wer  ############################################################################################################ -->
 
 <section id="Berechtigtes-Interesse">
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Wer darf einen Grundbuchausdruck beantragen?</h2>
     <p>
       Die Einsicht des Grundbuchs ist jedem gestattet, der ein <b>berechtigtes Interesse</b> darlegt (<a
@@ -167,7 +167,7 @@
 <!--Was  ############################################################################################################ -->
 
 <section id="GB-Inhalt">
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Was steht im Grundbuch?</h2>
     <p class="Erklärung">
       Für jede Gemarkung (Ort) gibt es für jedes Eigentumsverhältnis ein Grundbuch. Jedes Grundbuch hat einen festen Aufbau. Neben der Aufschrift und
@@ -281,7 +281,7 @@
 <!--FAQ  ############################################################################################################ -->
 @defer (hydrate on interaction) {
   <section id="FAQ">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Fragen und Antworten</h2>
       <ul>
         <li>
@@ -347,7 +347,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <app-disqus [identifier]="antrag.title"></app-disqus>
   </div>
 </section>

@@ -14,19 +14,19 @@
           </div>
         </div>
       </div>
-      <div class="inputfeld" id="vorname">
+      <div class="input-container" id="vorname">
         <input formControlName="vorname" type="text" id="vornameinput" name="vorname" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="vornameinput">Vorname</label>
       </div>
-      <div class="inputfeld" id="nachname">
+      <div class="input-container" id="nachname">
         <input formControlName="nachname" type="text" id="nachnameinput" name="nachname" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="nachnameinput">Nachname</label>
       </div>
-      <div class="inputfeld" id="straße">
+      <div class="input-container" id="straße">
         <input formControlName="straße" type="text" id="straßeinput" name="straße" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="straßeinput">Straße + Hausnummer</label>
       </div>
-      <div class="inputfeld" id="postleitzahl" (keyup)="suchePlz($event)">
+      <div class="input-container" id="postleitzahl" (keyup)="suchePlz($event)">
         <input
           formControlName="plz"
           type="text"
@@ -39,7 +39,7 @@
         />
         <label class="placeholder" for="postleitzahlinput">PLZ</label>
       </div>
-      <div class="inputfeld" id="ort">
+      <div class="input-container" id="ort">
         <input formControlName="ort" type="text" id="ortinput" name="ort" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="ortinput">Ort</label>
       </div>
@@ -47,11 +47,11 @@
         <hr />
       </div>
       <div class="formularerklärung">Optionale Angaben für mögliche Rückfragen des Grundbuchamts:</div>
-      <div class="inputfeld" id="telefonnummer">
+      <div class="input-container" id="telefonnummer">
         <input formControlName="telefonnummer" type="tel" id="telefonnummerinput" name="telefonnummer" spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="telefonnummerinput">Telefonnummer</label>
       </div>
-      <div class="inputfeld" id="email">
+      <div class="input-container" id="email">
         <input formControlName="email" type="email" id="emailinput" name="email" autocomplete="email" spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="emailinput">E-Mail</label>
       </div>
@@ -67,8 +67,8 @@
   </div>
   <div class="formNavBtn">
     @if (fs.getCurrentStep() > 1) {
-      <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+      <button class="btn-text" type="button" (click)="fs.stepback()">zurück</button>
     }
-    <button class="btnoutlined">Weiter</button>
+    <button class="btn-outlined">Weiter</button>
   </div>
 </form>

@@ -21,7 +21,7 @@
   }
 
   .header {
-    border: 1px solid var(--schrift);
+    border: 1px solid var(--font-color);
     display: flex;
   }
 
@@ -59,15 +59,15 @@
   }
 
   .borderright {
-    border-right: 1px solid var(--schrift);
+    border-right: 1px solid var(--font-color);
   }
 
   .borderbottom {
-    border-bottom: 1px solid var(--schrift);
+    border-bottom: 1px solid var(--font-color);
   }
 
   .bordertop {
-    border-top: 1px solid var(--schrift);
+    border-top: 1px solid var(--font-color);
   }
 
   .padding {
@@ -85,7 +85,7 @@
 
   .gbinhalt {
     height: 200px;
-    border: 1px solid var(--schrift);
+    border: 1px solid var(--font-color);
     border-top: 0;
     position: relative;
   }

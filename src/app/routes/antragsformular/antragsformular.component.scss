@@ -6,10 +6,10 @@
 
 section {
   margin-top: 3.5em;
-  animation: slideInFromTop 700ms forwards;
+  animation: slide-in-from-top 700ms forwards;
 }
 
-.sectiondiv {
+.content-spacer {
   align-items: unset;
   max-width: 50em;
   margin-bottom: 5vh;
@@ -28,7 +28,7 @@ progress[value]::-webkit-progress-value {
 }
 
 h1 {
-  background-color: var(--hintergrund-variant-darker);
+  background-color: var(--background-variant-darker);
   text-align: center;
   margin: 0;
   padding: 0.5em;

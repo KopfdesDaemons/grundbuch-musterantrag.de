@@ -1,7 +1,7 @@
 <app-dashboard-tile tileTitle="Cookies">
   <div class="content">
     @if (cookies.length !== 0) {
-      <div class="scrollContainer">
+      <div class="horizontal-scroll-container">
         <table>
           <thead>
             <tr>
@@ -17,7 +17,7 @@
                 <td>{{ cookie.name }}</td>
                 <td>{{ cookie.value }}</td>
                 <td>
-                  <button (click)="deleteCookie(cookie)" class="btnicon" title="Cookie löschen">
+                  <button (click)="deleteCookie(cookie)" class="btn-icon" title="Cookie löschen">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                       <path
                         fill="currentColor"
@@ -31,7 +31,7 @@
           </tbody>
         </table>
       </div>
-      <button class="btntext" (click)="deleteAllCookies()">Alle Cookies löschen</button>
+      <button class="btn-text" (click)="deleteAllCookies()">Alle Cookies löschen</button>
     } @else {
       <p>Keine Cookies gespeichert</p>
     }

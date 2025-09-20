@@ -119,7 +119,7 @@ aside {
 
       li {
         list-style: none;
-        background-color: var(--hintergrund-variant-darker);
+        background-color: var(--background-variant-darker);
 
         &.active {
           border-left: 3px solid;
@@ -144,7 +144,7 @@ aside {
           color: var(--primary-variant-darker);
 
           &:hover {
-            background-color: var(--hintergrund-variant);
+            background-color: var(--background-variant);
           }
         }
       }

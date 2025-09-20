@@ -40,9 +40,9 @@ aside {
     padding: 1em 1em 1em 0.5em;
     text-decoration: none;
     font-weight: bold;
-    color: var(--schrift);
+    color: var(--font-color);
     border-radius: 0 15px 15px 0;
-    background-color: var(--hintergrund);
+    background-color: var(--background);
   }
 
   .icon-container {
@@ -52,7 +52,7 @@ aside {
     border-radius: 8px 0 0 8px;
     display: flex;
     align-items: center;
-    fill: var(--schrift);
+    fill: var(--font-color);
 
     svg {
       width: 1.5em;
@@ -139,7 +139,7 @@ aside {
     left: 0;
     right: 0;
     border: 1px solid var(--primary-variant-darker);
-    background-color: var(--hintergrund);
+    background-color: var(--background);
     padding: 0.5em;
     width: 3em;
     height: 3em;
@@ -151,7 +151,7 @@ aside {
     margin: 0 auto;
     cursor: pointer;
     z-index: 1;
-    fill: var(--schrift);
+    fill: var(--font-color);
   }
 
   .themenliste {

@@ -1,5 +1,5 @@
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <div class="content">
       <div class="userInfos">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -31,38 +31,38 @@
       </div>
       <div class="tile">
         <form [formGroup]="newUsernameForm" #ngFormNewUsername="ngForm" (ngSubmit)="changeUsername()">
-          <div class="inputfeld">
+          <div class="input-container">
             <input formControlName="newUsername" type="text" name="username" placeholder="&nbsp;" />
             <label class="placeholder" for="username">Neuer Username</label>
           </div>
           @if (newUsernameForm.get("newUsername")?.errors?.["error"]) {
             <small class="error">{{ newUsernameForm.controls["newUsername"].getError("error").message }}</small>
           }
-          <button class="btntext" type="submit">Username aktualisieren</button>
+          <button class="btn-text" type="submit">Username aktualisieren</button>
         </form>
       </div>
       <div class="tile">
         <p>Passwort ändern:</p>
         <form [formGroup]="newPasswordForm" #ngFormNewPassword="ngForm" (ngSubmit)="changePassword()">
-          <div class="inputfeld">
+          <div class="input-container">
             <input formControlName="oldPassword" type="password" name="oldPassword" placeholder="&nbsp;" />
             <label class="placeholder" for="oldPassword">Altes Passwort</label>
           </div>
           @if (newPasswordForm.get("oldPassword")?.errors?.["wrongPassword"]) {
             <small class="error">Falsches Passwort</small>
           }
-          <div class="inputfeld">
+          <div class="input-container">
             <input formControlName="password" type="password" name="password" placeholder="&nbsp;" />
             <label class="placeholder" for="password">Neues Passwort</label>
           </div>
-          <div class="inputfeld">
+          <div class="input-container">
             <input formControlName="confirmPassword" type="password" name="confirmPassword" placeholder="&nbsp;" />
             <label class="placeholder" for="confirmPassword">Neues Passwort wiederholen</label>
           </div>
           @if (newPasswordForm.get("confirmPassword")?.errors?.["passwordsDontMatch"]) {
             <small class="error">Passwörter stimmen nicht überein</small>
           }
-          <button class="btntext" type="submit">Passwort aktualisieren</button>
+          <button class="btn-text" type="submit">Passwort aktualisieren</button>
         </form>
       </div>
     </div>

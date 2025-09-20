@@ -6,7 +6,7 @@
   font-size: 0.9em;
   border-radius: 6px;
   //   overflow: hidden;
-  background-color: var(--hintergrund-variant);
+  background-color: var(--background-variant);
 
   &:hover {
     outline: 1px solid;
@@ -32,7 +32,7 @@
 .title {
   &:focus-visible h2 {
     outline: 1px solid;
-    color: var(--schrift);
+    color: var(--font-color);
   }
 
   h2 {
@@ -60,7 +60,7 @@ h3 {
   margin: 0;
   hyphens: auto;
   text-wrap: balance;
-  color: var(--schrift);
+  color: var(--font-color);
 }
 
 p {
@@ -83,7 +83,7 @@ p {
 }
 
 .erforderlicheUnterlagenDiv {
-  background-color: var(--hintergrund-variant-darker);
+  background-color: var(--background-variant-darker);
   padding: 0.5em;
   margin-bottom: 0.5em;
   border-radius: 12px;

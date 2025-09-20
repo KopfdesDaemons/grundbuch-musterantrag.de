@@ -14,7 +14,7 @@
   justify-content: flex-end;
 }
 
-.inputfelder .inputfeld {
+.inputfelder .input-container {
   width: 48%;
 }
 
@@ -31,7 +31,7 @@ hr {
 }
 
 @media only screen and (max-width: 580px) {
-  .inputfelder .inputfeld {
+  .inputfelder .input-container {
     width: 100%;
   }
 }

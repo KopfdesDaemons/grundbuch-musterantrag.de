@@ -1,5 +1,5 @@
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <div class="controlls">
       <button (click)="reload()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -25,7 +25,7 @@
     } @else if (error() || userS.allUsers.error()) {
       <app-error-display [error]="error() ?? userS.allUsers.error()"></app-error-display>
     } @else {
-      <div class="tableScrollContainer">
+      <div class="tablehorizontal-scroll-container">
         <table>
           <thead>
             <tr>
@@ -52,7 +52,7 @@
                   {{ row.user.isInitialPassword ? "Initialpasswort" : "vergeben" }}
                 </td>
                 <td>
-                  <span class="btnicon" (click)="toggleEditMode(row)">
+                  <span class="btn-icon" (click)="toggleEditMode(row)">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                       <path
                         fill="currentColor"
@@ -76,11 +76,11 @@
                             }
                           </select>
                         </div>
-                        <div class="inputfeld" id="username">
+                        <div class="input-container" id="username">
                           <input formControlName="username" type="text" id="usernameinput" name="username" spellcheck="false" placeholder="&nbsp;" />
                           <label class="placeholder" for="usernameinput">Username</label>
                         </div>
-                        <div class="inputfeld" id="userPassword">
+                        <div class="input-container" id="userPassword">
                           <input
                             formControlName="userPassword"
                             autocomplete="new-password"

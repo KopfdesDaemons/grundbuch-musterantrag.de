@@ -1,4 +1,4 @@
-.sectiondiv {
+.content-spacer {
   animation: grow 500ms;
   overflow: hidden;
 
@@ -14,7 +14,7 @@
   }
 }
 
-.tableScrollContainer {
+.tablehorizontal-scroll-container {
   max-height: 800px;
   width: clamp(300px, 90%, 1000px);
   overflow: auto;

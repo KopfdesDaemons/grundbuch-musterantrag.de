@@ -4,7 +4,7 @@
   }
 }
 
-section:first-of-type .sectiondiv {
+section:first-of-type .content-spacer {
   padding-top: 0;
 }
 
@@ -31,14 +31,14 @@ section:first-of-type .sectiondiv {
 
   blockquote {
     padding: 1em;
-    background-color: var(--hintergrund-variant);
+    background-color: var(--background-variant);
     border-left: 6px solid var(--primary-variant-darker);
     border-radius: 3px;
     max-width: 80%;
     margin: 1em 0 0 1em;
   }
 
-  .sectiondiv {
+  .content-spacer {
     align-items: flex-start;
     max-width: 60em;
   }
@@ -77,7 +77,7 @@ section:first-of-type .sectiondiv {
     }
   }
 
-  .imageZoomBox {
+  .image-zoom-box {
     border-radius: 8px;
   }
 }

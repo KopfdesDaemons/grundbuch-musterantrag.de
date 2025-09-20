@@ -19,16 +19,16 @@ h2 + blockquote {
       a,
       div {
         border: 1px solid var(--primary-variant-darker);
-        background-color: var(--hintergrund-variant-darker);
+        background-color: var(--background-variant-darker);
         text-decoration: none;
-        color: var(--schrift);
+        color: var(--font-color);
         display: flex;
         flex-direction: column;
         padding: 0.5em;
       }
 
       a:hover {
-        background-color: var(--hintergrund-variant);
+        background-color: var(--background-variant);
         transition: all 200ms;
       }
     }

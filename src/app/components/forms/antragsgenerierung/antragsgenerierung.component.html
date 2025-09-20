@@ -12,11 +12,11 @@
       </div>
       @if (error()) {
         <p class="error-text">{{ error()!.error.message }}</p>
-        <button class="btntext" (click)="generatePdf()">erneut versuchen</button>
+        <button class="btn-text" (click)="generatePdf()">erneut versuchen</button>
       }
     </div>
     <div class="kachelcontainer">
-      <button class="btnoutlined kachel" [disabled]="!odt()" (click)="downloadOdt()">
+      <button class="btn-outlined kachel" [disabled]="!odt()" (click)="downloadOdt()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -28,7 +28,7 @@
           <app-progress-spinner [endless]="true"></app-progress-spinner>
         }
       </button>
-      <button class="btnoutlined kachel" [disabled]="!pdf()" (click)="openPdf()">
+      <button class="btn-outlined kachel" [disabled]="!pdf()" (click)="openPdf()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"

@@ -2,7 +2,7 @@
   <app-header></app-header>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <app-antragsinfos-hero [antragsart]="antrag">
       <br />
       <span>Der Name einer natürlichen Person kann sich zum Beispiel ändern aufgrund:</span>
@@ -17,22 +17,22 @@
   </div>
 </section>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Wie kann der Name im Grundbuch berichtigt werden?</h2>
     <p>
       Das Grundbuchamt benötigt einen Nachweis über die erfolgte Namensänderung. Das Grundbuchamt erhält den Nachweis über die Namensänderung nicht
       automatisch. Der Nachweis muss schriftlich beim Grundbuchamt eingereicht werden. Ein Antragszwang besteht nicht. Ein Antrag ist als Anregung zur
       Berichtigung auszulegen.
     </p>
-    <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
+    <div><a [routerLink]="antrag.antragsRoute" class="btn-outlined">Kostenloser Musterantrag</a></div>
   </div>
 </section>
 <section>
-  <div class="sectiondiv" id="womit">
+  <div class="content-spacer" id="womit">
     <h2>Womit kann die Namensänderung nachgewiesen werden?</h2>
     <p>
       Der Nachweis über die Namensänderung sollte als
-      <b class="rot">beglaubigte Abschrift</b> eingereicht werden. Eine einfache Kopie könnte vom Sachbearbeiter abgelehnt werden. Wenn Sie keine
+      <b class="red">beglaubigte Abschrift</b> eingereicht werden. Eine einfache Kopie könnte vom Sachbearbeiter abgelehnt werden. Wenn Sie keine
       beglaubigte Abschrift anfertigen lassen wollen, können Sie den Nachweis als Original mitsenden und um Rückgabe bitten. Sie können auch das
       Original vorort auf der Geschäftsstelle des Grundbuchamts vorzeigen.
     </p>
@@ -61,7 +61,7 @@
   </div>
 </section>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>In welcher Form muss der Nachweis vorliegen?</h2>
     <p>In der Theorie gilt nach Schöner/Stöber folgendes:</p>
     <blockquote cite="Schöner/Stöber, Grundbuchrecht 16&nbsp;Auflage 2020 Rn.&nbsp;239">
@@ -84,7 +84,7 @@
 </section>
 @defer (hydrate never) {
   <section id="Wo">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Wo muss die Namensberichtigung beantragt werden?</h2>
       <br />
       <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
@@ -93,7 +93,7 @@
 }
 @defer (hydrate on interaction) {
   <section id="FAQ">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Fragen und Antworten</h2>
       <ul>
         <li>
@@ -114,7 +114,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <app-disqus [identifier]="antrag.title"></app-disqus>
   </div>
 </section>

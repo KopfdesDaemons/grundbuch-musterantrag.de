@@ -3,7 +3,7 @@
 }
 @defer (hydrate never) {
   <section>
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <app-antragsinfos-hero [antragsart]="antrag">
         <p>{{ antrag.description }}</p>
       </app-antragsinfos-hero>
@@ -11,7 +11,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv" id="wie">
+  <div class="content-spacer" id="wie">
     <h2>Wie können Lasten und Beschränkungen gelöscht werden?</h2>
     <p>
       Der Berechtigte muss die Löschung bewilligen <a href="https://www.gesetze-im-internet.de/bgb/__875.html" target="_blank">§ 875 BGB</a>. Die
@@ -23,7 +23,7 @@
       <div>
         <h3>Auf Lebenszeit beschränkte Rechte</h3>
         <span
-          >Rechte, die <span class="rot">nicht veräußerbar und nicht vererblich</span> sind, sind mit dem Tod des Berechtigen erloschen. Dazu zählen
+          >Rechte, die <span class="red">nicht veräußerbar und nicht vererblich</span> sind, sind mit dem Tod des Berechtigen erloschen. Dazu zählen
           z.B.</span
         >
         <ul>
@@ -35,7 +35,7 @@
           enthält die Grundbucheintragung den Vermerk "löschbar bei Todesnachweis". Die Löschung erfolgt dann per formlosen Antrag und Vorlage einer
           beglaubigten Abschrift einer Sterbeurkunde.
         </p>
-        <div><a [routerLink]="antrag.antragsRoute" class="btnoutlined">Kostenloser Musterantrag</a></div>
+        <div><a [routerLink]="antrag.antragsRoute" class="btn-outlined">Kostenloser Musterantrag</a></div>
         <p>
           Bei Rechten ohne Löschungsklausel kann die Löschung per Sterbeurkunde erst erfolgen, wenn keine Rückstände von Leistungen möglich sind (z.B.
           Schulden beim Pflegedienst). Sind Rückstände möglich und der Berechtigte ist noch kein Jahr verstorben, muss die Zustimmung aller Erben in
@@ -60,7 +60,7 @@
   </div>
 </section>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <h2>Welche Kosten entstehen für eine Löschung in Abteilung II?</h2>
     <p>
       Grundlage der Gebühr ist die KV-Nr. 14143 der <a href="https://www.gesetze-im-internet.de/gnotkg/anlage_1.html">Anlage 1 des GNotKG</a>. Die
@@ -72,7 +72,7 @@
 </section>
 @defer (hydrate never) {
   <section id="Wo">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Wo muss die Löschung beantragt werden?</h2>
       <br />
       <app-sachliche-und-ortliche-zustaendigkeit></app-sachliche-und-ortliche-zustaendigkeit>
@@ -81,7 +81,7 @@
 }
 @defer (hydrate on interaction) {
   <section id="FAQ">
-    <div class="sectiondiv">
+    <div class="content-spacer">
       <h2>Fragen und Antworten</h2>
       <ul>
         <li>
@@ -102,7 +102,7 @@
   </section>
 }
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <app-disqus [identifier]="antrag.title"></app-disqus>
   </div>
 </section>

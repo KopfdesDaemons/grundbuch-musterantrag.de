@@ -41,7 +41,7 @@
         <label for="erbnachweisGerichtbekanntInput">Erbnachweis ist vom gleichen Amtsgericht</label>
         @if (erbnachweisGerichtbekannt.checked) {
           <br />
-          <div class="inputfeld" id="aktenzeichenNachlassgericht">
+          <div class="input-container" id="aktenzeichenNachlassgericht">
             <input
               formControlName="aktenzeichenNachlassgericht"
               id="aktenzeichenNachlassgerichtInput"
@@ -52,7 +52,7 @@
             <label class="placeholder" for="aktenzeichenNachlassgerichtInput">Nachlassaktenzeichen</label>
           </div>
           @if (form.controls["aktenzeichenNachlassgericht"].hasError("IVorVI")) {
-            <p class="rot">Das Nachlassaktenzeichen muss IV oder VI enthalten.</p>
+            <p class="red">Das Nachlassaktenzeichen muss IV oder VI enthalten.</p>
           }
         }
       </div>
@@ -60,8 +60,8 @@
   </div>
   <div class="formNavBtn">
     @if (fs.getCurrentStep() > 1) {
-      <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+      <button class="btn-text" type="button" (click)="fs.stepback()">zurück</button>
     }
-    <button class="btnoutlined">Weiter</button>
+    <button class="btn-outlined">Weiter</button>
   </div>
 </form>

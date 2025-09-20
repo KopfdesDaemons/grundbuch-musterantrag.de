@@ -3,7 +3,7 @@
   <p>Zu welcher Eintragung im Grundbuch brauchen Sie die Abschrift der Bewilligung?</p>
   <div class="formularcontent">
     <div id="bezeichnungContainer">
-      <div class="inputfeld" id="bezeichnung">
+      <div class="input-container" id="bezeichnung">
         <input formControlName="bezeichnung" type="text" id="bezeichnunginput" name="bezeichnung" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="bezeichnunginput">Bezeichnung der Eintragung</label>
       </div>
@@ -18,7 +18,7 @@
     </div>
     <div>
       <label class="placeholder" for="laufendeNummerinput">Laufende Nummer: </label>
-      <div class="inputfeld" id="laufendeNummer">
+      <div class="input-container" id="laufendeNummer">
         <input
           formControlName="laufendeNummer"
           type="number"
@@ -31,15 +31,15 @@
     </div>
     <div>
       <label class="placeholder" for="datuminput">Datum der Bewilligung: </label>
-      <div class="inputfeld" id="datum">
+      <div class="input-container" id="datum">
         <input formControlName="datum" type="date" id="datuminput" name="datum" spellcheck="false" placeholder="&nbsp;" />
       </div>
     </div>
     <div class="formNavBtn">
       @if (fs.getCurrentStep() > 1) {
-        <button class="btntext" type="button" (click)="fs.stepback()">zurück</button>
+        <button class="btn-text" type="button" (click)="fs.stepback()">zurück</button>
       }
-      <button class="btnoutlined">Weiter</button>
+      <button class="btn-outlined">Weiter</button>
     </div>
   </div>
 </form>

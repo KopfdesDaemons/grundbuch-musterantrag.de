@@ -15,7 +15,7 @@
   background-color: inherit;
 }
 
-.inputfelder .inputfeld {
+.inputfelder .input-container {
   width: 48%;
 }
 
@@ -60,7 +60,7 @@ label {
 }
 
 @media only screen and (max-width: 580px) {
-  .inputfelder .inputfeld {
+  .inputfelder .input-container {
     width: 100%;
   }
 

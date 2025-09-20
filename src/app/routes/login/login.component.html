@@ -1,6 +1,6 @@
 <app-header></app-header>
 <section>
-  <div class="sectiondiv">
+  <div class="content-spacer">
     <app-login-card title="Admin Login" imagePath="/images/liegenschaftskarte.avif">
       <svg class="icon" icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
         <path
@@ -9,11 +9,11 @@
       </svg>
       <form content [formGroup]="loginForm" (ngSubmit)="tryLogin()">
         <span class="error">{{ errorMessage }}</span>
-        <div class="inputfeld">
+        <div class="input-container">
           <input formControlName="username" type="text" id="username" name="username" placeholder="&nbsp;" autocomplete="username" #username />
           <label class="placeholder" for="username">Benutzername</label>
         </div>
-        <div class="inputfeld">
+        <div class="input-container">
           <input
             formControlName="password"
             type="password"
@@ -25,7 +25,7 @@
           />
           <label class="placeholder" for="password">Passwort</label>
         </div>
-        <button class="btnoutlined" type="submit">Anmelden</button>
+        <button class="btn-outlined" type="submit">Anmelden</button>
       </form>
     </app-login-card>
   </div>
