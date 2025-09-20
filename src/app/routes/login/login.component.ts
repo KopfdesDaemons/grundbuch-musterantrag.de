@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from 'src/app/components/header/header.component';
@@ -15,7 +15,7 @@ import { LoginCardComponent } from '../../components/login-card/login-card.compo
 })
 export class LoginComponent implements OnInit {
   authS: AuthService = inject(AuthService);
-  errorMessage: string = ' ';
+  errorMessage = signal('');
   router = inject(Router);
 
   loginForm = this.authS.getLoginFormGroup();
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   async tryLogin() {
     try {
       if (this.loginForm.invalid) return;
-      this.errorMessage = '';
+      this.errorMessage.set('');
       const username = this.loginForm.value.username.trim();
       const password = this.loginForm.value.password;
 
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       if (error instanceof HttpErrorResponse) {
         switch (error.status) {
           case 403:
-            this.errorMessage = 'Login verweigert';
+            this.errorMessage.set('Login verweigert');
             break;
           case 401:
             if (error.error.message === 'Passwortänderung erforderlich') {
@@ -45,11 +45,11 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('username', error.error.userName);
               await this.router.navigate(['/new-password']);
             } else {
-              this.errorMessage = 'Logindaten unvollständig';
+              this.errorMessage.set('Logindaten unvollständig');
             }
             break;
           default:
-            this.errorMessage = `Login nicht erfolgreich: ${error.message || error.status}`;
+            this.errorMessage.set(`Login nicht erfolgreich: ${error.message || error.status}`);
         }
       }
     }

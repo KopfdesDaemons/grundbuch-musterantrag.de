@@ -20,11 +20,11 @@ export class DesignloaderService {
   primaryColor: string | null = '#20afdf';
 
   async initDesign() {
-    // init darkmode from cookie or preference
+    // Init darkmode from cookie or preference
     this.darkmode.next(this.getSchemeFromCookie() ?? this.preferenceSchemeIsDarkmode());
     if (this.darkmode.value == true) this.activateDarkmode(true);
 
-    // listen for darkmode change
+    // Listen for darkmode change
     this.darkmode.subscribe((state: boolean) => {
       if (this.initialized) {
         if (state) this.activateDarkmode();
@@ -32,10 +32,10 @@ export class DesignloaderService {
       } else this.initialized = true;
     });
 
-    // init primary color from cookie
+    // Init primary color from cookie
     if (this.setColorFromCookie()) return;
 
-    // init primary color from settings
+    // Init primary color from settings
     const primaryColorFromSettings = await this.settingsS.getPrimaryColorFromSetings();
     if (!primaryColorFromSettings) return;
     if (!ColorHelper.isValidHexColor(primaryColorFromSettings)) return;

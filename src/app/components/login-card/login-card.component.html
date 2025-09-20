@@ -1,7 +1,7 @@
 <div class="headline">
   <span>www.grundbuch-musterantrag.de</span>
 </div>
-<div class="hero">
+<div class="hero" [ngClass]="{ darkmode: designS.darkmode.value }">
   <img src="{{ imagePath() }}" />
   <ng-content select="[icon]"></ng-content>
 </div>

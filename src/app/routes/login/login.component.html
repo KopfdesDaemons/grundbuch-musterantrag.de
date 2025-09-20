@@ -8,7 +8,8 @@
         />
       </svg>
       <form content [formGroup]="loginForm" (ngSubmit)="tryLogin()">
-        <span class="error">{{ errorMessage }}</span>
+        <span>Logindaten für das geschütze Admin-Dachboard:</span>
+        <span class="error">{{ errorMessage() }}</span>
         <div class="input-container">
           <input formControlName="username" type="text" id="username" name="username" placeholder="&nbsp;" autocomplete="username" #username />
           <label class="placeholder" for="username">Benutzername</label>
