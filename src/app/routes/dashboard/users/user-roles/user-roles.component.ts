@@ -61,7 +61,6 @@ export class UserRolesComponent {
       if (this.form().invalid) return;
       this.isLoading.set(true);
       const userRoleInForm = this.userRoleS.getUserRoleFromFormGroup(this.form());
-      if (!userRoleInForm) return;
       let userRoleID;
       if (this.isNewUserRole) {
         // Create new user role
@@ -73,6 +72,7 @@ export class UserRolesComponent {
         await this.userRoleS.updateUserRole(userRoleInForm);
       }
       this.userRoleS.userRoleOptions.reload();
+      this.userRoleS.userRoleInEdit.reload();
       this.selectedUserRoleID.set(userRoleID);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
