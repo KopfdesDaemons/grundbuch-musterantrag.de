@@ -1,5 +1,5 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Settings } from 'server/models/settings.model';
 import { AuthService } from '../user/auth.service';
@@ -11,10 +11,21 @@ export class SettingsService {
   http = inject(HttpClient);
   authS = inject(AuthService);
 
-  settingsResource = httpResource<Settings>(() => ({
-    url: '/api/settings',
-    headers: this.authS.getAuthHeader()
-  }));
+  private loadTrigger = signal(false);
+
+  settingsResource = httpResource<Settings>(() => {
+    if (!this.loadTrigger()) {
+      return undefined;
+    }
+    return {
+      url: '/api/settings',
+      headers: this.authS.getAuthHeader()
+    };
+  });
+
+  load() {
+    this.loadTrigger.set(true);
+  }
 
   async saveSettings(settings: Settings): Promise<void> {
     await lastValueFrom(
