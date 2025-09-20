@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragGrundbuchberichtigungSterbefall } from 'src/app/models/antrag/grundbuchberichtigung-sterbefall.antrag.model';
@@ -11,6 +11,7 @@ import { HeaderComponent } from '../../../components/header/header.component';
 import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-infopage-sterbefall',
   templateUrl: './infopage-sterbefall.component.html',
   styleUrl: './infopage-sterbefall.component.scss',

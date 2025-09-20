@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragLoesschungAbt2 } from 'src/app/models/antrag/loeschung-abteilung-2.antrag.model';
@@ -11,6 +11,7 @@ import { HeaderComponent } from '../../../components/header/header.component';
 import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-infopage-loeschung-abteilung2',
   templateUrl: './infopage-loeschung-abteilung2.component.html',
   styleUrl: './infopage-loeschung-abteilung2.component.scss',

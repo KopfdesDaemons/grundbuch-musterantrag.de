@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragTeilungserklaerung } from 'src/app/models/antrag/teilungserklaerung.antrag.model';
@@ -10,6 +10,7 @@ import { HeaderComponent } from '../../../components/header/header.component';
 import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-infopage-teilungserklaerung',
   templateUrl: './infopage-teilungserklaerung.component.html',
   styleUrl: './infopage-teilungserklaerung.component.scss',

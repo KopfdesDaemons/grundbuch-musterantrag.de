@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragNamensberichtigung } from 'src/app/models/antrag/namensberichtigung.antrag.model';
@@ -11,6 +11,7 @@ import { HeaderComponent } from '../../../components/header/header.component';
 import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-infopage-namensberichtigung',
   templateUrl: './infopage-namensberichtigung.component.html',
   styleUrl: './infopage-namensberichtigung.component.scss',

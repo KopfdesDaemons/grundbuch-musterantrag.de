@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragAbschriftBewilligung } from 'src/app/models/antrag/abschrift-bewilligung.antrag.model';
@@ -13,6 +13,7 @@ import { AntragsartCardComponent } from '../../components/antragsart-card/antrag
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-antragsliste',
   templateUrl: './antragsliste.component.html',
   styleUrl: './antragsliste.component.scss',

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { AntragGrundbuchausdruck } from 'src/app/models/antrag/grundbuchausdruck.antrag.model';
@@ -11,6 +11,7 @@ import { HeaderComponent } from '../../../components/header/header.component';
 import { DisqusComponent } from '../../../components/disqus/disqus.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-home',
   templateUrl: './infopage-grundbuchausdruck.component.html',
   styleUrls: ['./infopage-grundbuchausdruck.component.scss'],

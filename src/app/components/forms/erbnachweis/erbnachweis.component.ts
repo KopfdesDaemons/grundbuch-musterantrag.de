@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormService } from 'src/app/services/document/form.service';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-erbnachweis',
   templateUrl: './erbnachweis.component.html',
   styleUrl: './erbnachweis.component.scss',

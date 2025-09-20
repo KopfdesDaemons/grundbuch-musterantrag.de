@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { SettingsService } from 'src/app/services/server/settings.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from '../../../error-display/error-display.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-settings-tile',
   imports: [DashboardTileComponent, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './settings-tile.component.html',

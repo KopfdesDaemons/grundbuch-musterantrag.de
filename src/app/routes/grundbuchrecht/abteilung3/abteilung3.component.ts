@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ArtikelComponent } from '../../../components/artikel/artikel.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-abteilung3',
   templateUrl: './abteilung3.component.html',
   styleUrls: ['./abteilung3.component.scss'],

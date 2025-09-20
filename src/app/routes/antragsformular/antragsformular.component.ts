@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/document/form.service';
 import { Title } from '@angular/platform-browser';
 import { AntragGrundbuchausdruck } from 'src/app/models/antrag/grundbuchausdruck.antrag.model';
@@ -16,6 +16,7 @@ import { NgComponentOutlet } from '@angular/common';
 import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-antragsformular',
   templateUrl: './antragsformular.component.html',
   styleUrls: ['./antragsformular.component.scss'],

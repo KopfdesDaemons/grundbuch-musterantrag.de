@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
@@ -9,6 +9,7 @@ import { ErrorDisplayComponent } from '../../../../components/error-display/erro
 import { UserRow } from 'src/app/interfaces/userRow';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-users',
   imports: [FormsModule, ReactiveFormsModule, NgClass, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './user-list.component.html',

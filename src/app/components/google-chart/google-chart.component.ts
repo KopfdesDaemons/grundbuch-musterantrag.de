@@ -1,8 +1,9 @@
-import { Component, effect, ElementRef, inject, input, Renderer2, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, Renderer2, signal, viewChild } from '@angular/core';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-google-chart',
   imports: [ProgressSpinnerComponent],
   templateUrl: './google-chart.component.html',

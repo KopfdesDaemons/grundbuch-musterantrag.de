@@ -1,8 +1,9 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { RouterLink } from '@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-antragsinfos-hero',
   templateUrl: './antragsinfos-hero.component.html',
   styleUrl: './antragsinfos-hero.component.scss',

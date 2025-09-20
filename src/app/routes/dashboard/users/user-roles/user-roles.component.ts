@@ -1,4 +1,4 @@
-import { Component, WritableSignal, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, WritableSignal, effect, inject, signal } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { ProgressSpinnerComponent } from '../../../../components/progress-spinne
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-user-roles',
   imports: [FormsModule, ReactiveFormsModule, ProgressSpinnerComponent, ErrorDisplayComponent],
   templateUrl: './user-roles.component.html',

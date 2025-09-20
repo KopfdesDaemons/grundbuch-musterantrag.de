@@ -1,9 +1,10 @@
-import { Component, ElementRef, Renderer2, OnChanges, PLATFORM_ID, inject, input } from '@angular/core';
+import { Component, ElementRef, Renderer2, OnChanges, PLATFORM_ID, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { DisqusService } from 'src/app/services/integration/disqus.service';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-disqus',
   templateUrl: './disqus.component.html',
   styleUrls: ['./disqus.component.scss'],

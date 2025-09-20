@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserRoleOption } from 'src/app/models/user-role-option.model';
 import { UserService } from 'src/app/services/user/user.service';
@@ -8,6 +8,7 @@ import { ErrorDisplayComponent } from '../../../../components/error-display/erro
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-create-user',
   imports: [FormsModule, ReactiveFormsModule, ErrorDisplayComponent, ProgressSpinnerComponent],
   templateUrl: './create-user.component.html',

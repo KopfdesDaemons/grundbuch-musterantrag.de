@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
 import { MigrationService } from 'src/app/services/data/migration.service';
@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-migration-tile',
   imports: [DashboardTileComponent, ProgressSpinnerComponent, FormsModule, ErrorDisplayComponent],
   templateUrl: './migration-tile.component.html',

@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, input, OnInit, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, input, OnInit, signal, viewChild } from '@angular/core';
 import { CookiesService } from '../../services/utils/cookies.service';
 import { Cookie } from '../../models/cookie.model';
 import { DesignloaderService } from 'src/app/services/ui/designloader.service';
@@ -7,6 +7,7 @@ import { NgClass } from '@angular/common';
 import { ColorHelper } from 'src/app/helpers/color.helper';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

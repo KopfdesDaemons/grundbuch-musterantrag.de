@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { RouterLink } from '@angular/router';
 import { UploadsService } from 'src/app/services/data/uploads.service';
@@ -9,6 +9,7 @@ import { GooglechartsService } from 'src/app/services/integration/googlecharts.s
 import { GoogleChartComponent } from '../../../google-chart/google-chart.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-antragsliste-tile',
   imports: [DashboardTileComponent, RouterLink, ProgressSpinnerComponent, DatePipe, ErrorDisplayComponent, GoogleChartComponent],
   templateUrl: './antragsliste-tile.component.html',

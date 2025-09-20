@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GoogleChartComponent } from '../../../components/google-chart/google-chart.component';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
@@ -6,6 +6,7 @@ import { ProgressSpinnerComponent } from '../../../components/progress-spinner/p
 import { UploadsService } from 'src/app/services/data/uploads.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-statistic',
   imports: [GoogleChartComponent, ErrorDisplayComponent, ProgressSpinnerComponent],
   templateUrl: './statistic.component.html',

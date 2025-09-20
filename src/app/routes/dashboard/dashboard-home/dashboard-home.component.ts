@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
 import { CookiesTileComponent } from '../../../components/dashboard/tiles/cookies-tile/cookies-tile.component';
 import { LoggerTileComponent } from '../../../components/dashboard/tiles/logger-tile/logger-tile.component';
 import { AntragslisteTileComponent } from 'src/app/components/dashboard/tiles/antragsliste-tile/antragsliste-tile.component';
@@ -10,6 +10,7 @@ import { SettingsTileComponent } from '../../../components/dashboard/tiles/setti
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard-home',
   imports: [
     CookiesTileComponent,

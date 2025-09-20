@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormService } from 'src/app/services/document/form.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-hinweis',
   templateUrl: './hinweis.component.html',
   styleUrl: './hinweis.component.scss',

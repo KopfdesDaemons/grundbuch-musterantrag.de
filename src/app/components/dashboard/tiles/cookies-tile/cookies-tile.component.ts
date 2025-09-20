@@ -1,10 +1,11 @@
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { CookiesService } from 'src/app/services/utils/cookies.service';
 import { Cookie } from 'src/app/models/cookie.model';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-cookies-tile',
   imports: [DashboardTileComponent],
   templateUrl: './cookies-tile.component.html',

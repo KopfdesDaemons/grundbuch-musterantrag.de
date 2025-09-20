@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from 'src/app/components/header/header.component';
@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LoginCardComponent } from '../../components/login-card/login-card.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-login',
   imports: [HeaderComponent, FormsModule, ReactiveFormsModule, LoginCardComponent],
   templateUrl: './login.component.html',
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
             break;
           case 401:
             if (error.error.message === 'Passwortänderung erforderlich') {
-              // get username case sensitive
+              // Get username case sensitive
               localStorage.setItem('username', error.error.userName);
               await this.router.navigate(['/new-password']);
             } else {

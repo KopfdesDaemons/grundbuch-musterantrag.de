@@ -1,11 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, HostListener, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal } from '@angular/core';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DatePipe } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],

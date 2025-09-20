@@ -1,11 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, DOCUMENT, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DOCUMENT, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormService } from 'src/app/services/document/form.service';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-antragsgenerierung',
   templateUrl: './antragsgenerierung.component.html',
   styleUrl: './antragsgenerierung.component.scss',
@@ -75,7 +76,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
       this.odtIsLoading.set(true);
       this.odt.set(await this.docS.getOdtAfterSubmitForm(uploadID));
       this.odtIsLoading.set(false);
-      
+
       this.statusMessage.set('Dokument wurde erfolgreich generiert.');
     } catch (error) {
       if (error instanceof HttpErrorResponse) this.error.set(error);

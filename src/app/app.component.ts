@@ -1,12 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DesignloaderService } from './services/ui/designloader.service';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  imports: [RouterOutlet]
-})
+@Component({ changeDetection: ChangeDetectionStrategy.OnPush, selector: 'app-root', templateUrl: './app.component.html', imports: [RouterOutlet] })
 export class AppComponent implements OnInit {
   designloaderS = inject(DesignloaderService);
 

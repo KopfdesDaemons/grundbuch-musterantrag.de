@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -10,6 +10,7 @@ import { UserSettingsService } from 'src/app/services/user/user-settings.service
 import { LoginCardComponent } from '../../components/login-card/login-card.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-new-password',
   imports: [HeaderComponent, ReactiveFormsModule, LoginCardComponent],
   templateUrl: './new-password.component.html',

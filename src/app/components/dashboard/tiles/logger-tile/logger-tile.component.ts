@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { LoggerService } from 'src/app/services/server/logger.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
@@ -7,6 +7,7 @@ import { ErrorDisplayComponent } from '../../../error-display/error-display.comp
 import { NgClass } from '@angular/common';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-logger-tile',
   imports: [DashboardTileComponent, ProgressSpinnerComponent, ErrorDisplayComponent, NgClass],
   templateUrl: './logger-tile.component.html',

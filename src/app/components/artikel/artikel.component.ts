@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DisqusComponent } from '../disqus/disqus.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-artikel',
   templateUrl: './artikel.component.html',
   styleUrls: ['./artikel.component.scss'],

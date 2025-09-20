@@ -1,8 +1,9 @@
-import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-artikelsidebar',
   templateUrl: './artikelsidebar.component.html',
   styleUrls: ['./artikelsidebar.component.scss'],
