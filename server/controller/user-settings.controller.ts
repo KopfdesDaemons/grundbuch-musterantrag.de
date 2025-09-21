@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import logger from 'server/config/logger.config';
+import { ValidationError, validateNewUsername } from 'server/helpers/validation.helper';
 import { getUserByUserID, getUserByUsername, getUsername, updatePassword, updateUsername } from 'server/services/user.service';
 
 export const handleGetOwnUsername = async (req: Request, res: Response) => {
@@ -59,13 +60,13 @@ export const handleChangeOwnUsername = async (req: Request, res: Response) => {
     if (!userFromDB) {
       return res.status(400).json({ message: 'User nicht gefunden' });
     }
-    const userFromDBwithNewUsername = await getUserByUsername(newUsername);
-    if (userFromDBwithNewUsername) {
-      return res.status(400).json({ message: 'Username ' + newUsername + ' existiert bereits' });
-    }
+    await validateNewUsername(newUsername);
     await updateUsername(userID, newUsername);
     return res.status(200).json({ message: 'Username erfolgreich aktualisiert' });
   } catch (error) {
+    if (error instanceof ValidationError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
     logger.error('Fehler beim Aktualisieren des Usernamens', error);
     return res.status(500).json({ message: 'Fehler beim Aktualisieren des Usernamens' });
   }
