@@ -1,14 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/auth.service';
 import logger from '../config/logger.config';
-import { User } from 'server/models/user.model';
-
-declare module 'express-serve-static-core' {
-  interface Request {
-    jwtPayload?: any;
-    user: User;
-  }
-}
 
 export default async function authMiddleware(req: Request, res: Response, next: NextFunction): Promise<any> {
   try {

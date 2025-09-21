@@ -14,6 +14,7 @@ import { userManagementRoutes } from 'server/routes/user-management.routes';
 import { userRoleRoutes } from 'server/routes/user-role.routes';
 import { userSettingsRoutes } from 'server/routes/user-settings.routes';
 import { handleGetOdtAfterSubmitForm, handleGetPdfAfterSubmitForm, submitForm } from 'server/controller/submit-form.controller';
+import { errorHandler } from 'server/middleware/error-handler.middleware';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -44,7 +45,7 @@ app.use('/api/user-settings', userSettingsRoutes);
 app.use('/api/userrole', userRoleRoutes);
 
 // 404 for all other API routes
-// App.all('/api/*', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));
+app.all('/api/*splat', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));
 
 /**
  * Serve static files from /browser
@@ -66,6 +67,8 @@ app.use((req, res, next) => {
     .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))
     .catch(next);
 });
+
+app.use(errorHandler);
 
 /**
  * Start the server if this module is the main entry point.

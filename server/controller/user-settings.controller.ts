@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import logger from 'server/config/logger.config';
-import { ValidationError, validateNewUsername } from 'server/helpers/validation.helper';
+import { validateNewUsername } from 'server/helpers/validation.helper';
+import { ValidationError } from 'server/models/errors/validation-error.model';
 import { getUserByUserID, getUserByUsername, getUsername, updatePassword, updateUsername } from 'server/services/user.service';
 
 export const handleGetOwnUsername = async (req: Request, res: Response) => {

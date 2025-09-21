@@ -1,17 +1,8 @@
 import { UserRole } from 'server/interfaces/user-role.interface';
+import { ValidationError } from 'server/models/errors/validation-error.model';
 import { User } from 'server/models/user.model';
 import { getUserRole } from 'server/services/user-role.service';
 import { getUserByUserID, getUserByUsername } from 'server/services/user.service';
-
-export class ValidationError extends Error {
-  public statusCode: number;
-
-  constructor(message: string, statusCode = 400) {
-    super(message);
-    this.name = 'ValidationError';
-    this.statusCode = statusCode;
-  }
-}
 
 export const validateAndGetUserRole = async (userRoleID: any): Promise<UserRole> => {
   if (isNaN(+userRoleID)) {
