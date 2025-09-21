@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
@@ -14,15 +14,15 @@ export class AuthService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
 
-  private _authToken: string | null = null;
+  private _authToken = signal<string | null>(null);
 
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
-    this._authToken = localStorage.getItem('auth_token');
+    this._authToken.set(localStorage.getItem('auth_token'));
   }
 
   get authToken(): string | null {
-    return this._authToken;
+    return this._authToken();
   }
 
   async login(username: string, password: string): Promise<void> {
@@ -39,7 +39,7 @@ export class AuthService {
     const data = response as { token: string };
 
     localStorage.setItem('auth_token', data.token);
-    this._authToken = data.token;
+    this._authToken.set(data.token);
 
     await this.router.navigate(['/dashboard']);
   }
@@ -49,7 +49,7 @@ export class AuthService {
 
     localStorage.removeItem('auth_token');
     localStorage.removeItem('username');
-    this._authToken = null;
+    this._authToken.set(null);
 
     await this.router.navigate(['/login']);
     console.log('Abmeldung erfolgt');

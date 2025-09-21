@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient, httpResource } from '@angular/common/http';
@@ -16,7 +16,10 @@ export class UserSettingsService {
     headers: this.authS.getAuthHeader()
   }));
 
-  userRoleResource = httpResource<{ userRoleName: string; userRoleDescription: string }>(() => ({
+  userRoleResource = httpResource<{
+    userRoleName: string;
+    userRoleDescription: string;
+  }>(() => ({
     url: '/api/user-settings/userrole',
     headers: this.authS.getAuthHeader()
   }));

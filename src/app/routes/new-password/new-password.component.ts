@@ -16,7 +16,7 @@ import { LoginCardComponent } from '../../components/login-card/login-card.compo
   templateUrl: './new-password.component.html',
   styleUrl: './new-password.component.scss'
 })
-export class NewPasswordComponent implements OnInit, OnInit {
+export class NewPasswordComponent implements OnInit {
   authS = inject(AuthService);
   userS = inject(UserService);
   userSetingsS = inject(UserSettingsService);
