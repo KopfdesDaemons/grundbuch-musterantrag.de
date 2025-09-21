@@ -14,9 +14,7 @@ export class SettingsService {
   private loadTrigger = signal(false);
 
   settingsResource = httpResource<Settings>(() => {
-    if (!this.loadTrigger()) {
-      return undefined;
-    }
+    if (!this.loadTrigger()) return undefined;
     return {
       url: '/api/settings',
       headers: this.authS.getAuthHeader()
