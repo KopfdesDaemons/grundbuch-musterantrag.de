@@ -6,7 +6,7 @@ import { getUserByUserID, getUserByUsername } from 'server/services/user.service
 
 export const validateAndGetUserRole = async (userRoleID: any): Promise<UserRole> => {
   if (isNaN(+userRoleID)) {
-    throw new ValidationError('userRoleID muss eine Zahl sein');
+    throw new ValidationError('userRoleID muss eine Zahl sein', 400);
   }
   const userRole = await getUserRole(+userRoleID);
   if (!userRole) {
@@ -17,7 +17,7 @@ export const validateAndGetUserRole = async (userRoleID: any): Promise<UserRole>
 
 export const validateNewUsername = async (username: any): Promise<void> => {
   if (typeof username !== 'string' || username.trim().length === 0) {
-    throw new ValidationError('Username darf nicht nur aus Leerzeichen bestehen.');
+    throw new ValidationError('Username darf nicht nur aus Leerzeichen bestehen.', 400);
   }
   const userFromDB = await getUserByUsername(username);
   if (userFromDB) {
@@ -27,7 +27,7 @@ export const validateNewUsername = async (username: any): Promise<void> => {
 
 export const validateAndGetUser = async (userID: any): Promise<User> => {
   if (isNaN(+userID)) {
-    throw new ValidationError('UserID muss eine Zahl sein');
+    throw new ValidationError('UserID muss eine Zahl sein', 400);
   }
   const user = await getUserByUserID(+userID);
   if (!user) {

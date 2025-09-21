@@ -13,6 +13,12 @@ import { randomUUID } from 'crypto';
 import { SettingsService } from 'server/services/settings.service';
 
 export const submitForm = async (req: Request, res: Response) => {
+  const { antrag } = req.body;
+  if (!antrag || !antrag.templateFileName) {
+    logger.error('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
+    return res.status(400).send('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
+  }
+
   const uploadID = randomUUID();
 
   // Create a folder for the upload
@@ -23,71 +29,44 @@ export const submitForm = async (req: Request, res: Response) => {
   const filePathPdf = path.join(uploadFolderPath, `${uploadID}.pdf`);
 
   const newUpload = new Upload(uploadID);
-  const { antrag } = req.body;
 
-  // Generate the ODT-File from the template
-  try {
-    if (!antrag || !antrag.templateFileName) {
-      logger.error('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
-      return res.status(400).send('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
-    }
-    // Load the ODT template file
-    const templatePath = path.join(TEMPLATES_FOLDER_PATH, `${antrag.templateFileName}.odt`);
-    const templateBuffer = fs.readFileSync(templatePath);
-    const zip = new PizZip(templateBuffer);
-    const contentFile = zip.file('content.xml');
-    if (!contentFile) throw new Error('Die content.xml-Datei wurde im ODT-Template nicht gefunden.');
-    const content = contentFile.asText();
+  // Load the ODT template file
+  const templatePath = path.join(TEMPLATES_FOLDER_PATH, `${antrag.templateFileName}.odt`);
+  const templateBuffer = fs.readFileSync(templatePath);
+  const zip = new PizZip(templateBuffer);
+  const contentFile = zip.file('content.xml');
+  if (!contentFile) throw new Error('Die content.xml-Datei wurde im ODT-Template nicht gefunden.');
+  const content = contentFile.asText();
 
-    // Initialize OdtTemplater and render the document
-    const templater = new OdtTemplater(content);
-    const renderedContent = templater.render(antrag);
+  // Initialize OdtTemplater and render the document
+  const templater = new OdtTemplater(content);
+  const renderedContent = templater.render(antrag);
 
-    // Replace the content in the ZIP
-    zip.file('content.xml', renderedContent);
+  // Replace the content in the ZIP
+  zip.file('content.xml', renderedContent);
 
-    // Generate the output ODT file
-    const outputBuffer = zip.generate({ type: 'nodebuffer' });
-    fs.writeFileSync(filePathOdt, outputBuffer);
-    newUpload.odtFile = true;
-  } catch (error) {
-    logger.error('Fehler beim Erstellen der ODT-Datei:', error);
-    return res.status(500).json({ message: 'Fehler beim Erstellen der ODT-Datei.' });
-  }
+  // Generate the output ODT file
+  const outputBuffer = zip.generate({ type: 'nodebuffer' });
+  fs.writeFileSync(filePathOdt, outputBuffer);
+  newUpload.odtFile = true;
 
   newUpload.antragsart = antrag.title;
   newUpload.grundbuchamt = antrag.grundbuchamt.name;
   newUpload.uploadDate = new Date();
-  await saveUploadinfo();
+  await updateUploadData(newUpload);
 
   await updateStatistic(newUpload.antragsart, 1);
 
-  // Convert the ODT-File to a PDF-File
-  try {
-    await converterController.convertToPdf(filePathOdt, uploadFolderPath);
-  } catch (convertError) {
-    logger.error('Fehler bei der Konvertierung:', convertError);
-    return res.status(500).send('Fehler bei der Konvertierung der Datei.');
-  }
+  await converterController.convertToPdf(filePathOdt, uploadFolderPath);
 
   // Check if the PDF-File was created
   if (!fs.existsSync(filePathPdf)) {
     logger.error('Die PDF-Datei wurde nicht erstellt.');
     return res.status(500).send('Interner Serverfehler: PDF-Datei nicht gefunden.');
   } else newUpload.pdfFile = true;
-  await saveUploadinfo();
+  await updateUploadData(newUpload);
 
-  res.status(200).send({ message: 'Antrag erfolgreich erstellt.', uploadID });
-
-  async function saveUploadinfo(): Promise<void> {
-    try {
-      await updateUploadData(newUpload);
-    } catch (error) {
-      logger.error('Fehler beim Speichern der Uploadinfos:', error);
-    }
-  }
-
-  return;
+  return res.status(200).send({ message: 'Antrag erfolgreich erstellt.', uploadID });
 };
 
 export const handleGetOdtAfterSubmitForm = (req: Request, res: Response) => {

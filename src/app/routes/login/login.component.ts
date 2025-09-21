@@ -35,21 +35,12 @@ export class LoginComponent implements OnInit {
       await this.authS.login(username, password);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        switch (error.status) {
-          case 403:
-            this.errorMessage.set('Login verweigert');
-            break;
-          case 401:
-            if (error.error.message === 'Passwortänderung erforderlich') {
-              // Get username case sensitive
-              localStorage.setItem('username', error.error.userName);
-              await this.router.navigate(['/new-password']);
-            } else {
-              this.errorMessage.set('Logindaten unvollständig');
-            }
-            break;
-          default:
-            this.errorMessage.set(`Login nicht erfolgreich: ${error.message || error.status}`);
+        if (error.error.message === 'Passwortänderung erforderlich') {
+          // Get username case sensitive
+          localStorage.setItem('username', error.error.userName);
+          await this.router.navigate(['/new-password']);
+        } else {
+          this.errorMessage.set(error.error.message);
         }
       }
     }

@@ -17,9 +17,9 @@ export class AuthGuard {
   async canActivate(): Promise<Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree> {
     if (!isPlatformBrowser(this.platformId)) return false;
     try {
-      return await this.authS.ckeckAuth();
+      return await this.authS.checkAuth();
     } catch (error: any) {
-      if (error.status == 401 || error.status == 403) {
+      if (error.status == 401) {
         await this.authS.logout();
         return false;
       }

@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   async login(username: string, password: string): Promise<void> {
-    // required for new-passoword page
+    // Required for new-passoword page
     localStorage.setItem('username', username);
 
     const response = await firstValueFrom(
@@ -67,7 +67,7 @@ export class AuthService {
     });
   }
 
-  async ckeckAuth(): Promise<boolean> {
+  async checkAuth(): Promise<boolean> {
     await lastValueFrom(
       this.http.get('/api/auth/checkAuth', {
         headers: new HttpHeaders({

@@ -1,7 +1,7 @@
 import express from 'express';
 import { handleGetOwnUserRoleName as handleGetOwnUserRole } from 'server/controller/user-roles.controller';
 import { handleChangeOwnPassword, handleChangeOwnUsername, handleGetOwnUsername } from 'server/controller/user-settings.controller';
-import authMiddleware from 'server/middleware/auth.middleware';
+import { authMiddleware } from 'server/middleware/auth.middleware';
 
 export const userSettingsRoutes = express.Router();
 

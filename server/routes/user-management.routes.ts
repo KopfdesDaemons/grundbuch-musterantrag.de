@@ -8,10 +8,10 @@ import {
 } from 'server/controller/user-management.controller';
 import express from 'express';
 import { UserManagementAction } from 'server/interfaces/user-permission.interface';
-import authMiddleware from 'server/middleware/auth.middleware';
+import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
 import { userManagementPermission } from 'server/models/user-permissons.model';
-import { handleSetPassword } from 'server/controller/user-settings.controller';
+import { handleSetPasswordAfterInitalLogin } from 'server/controller/user-settings.controller';
 
 export const userManagementRoutes = express.Router();
 
@@ -35,7 +35,7 @@ userManagementRoutes.patch(
   handleSetInitialPassword
 );
 
-userManagementRoutes.patch('/updatepassword', handleSetPassword);
+userManagementRoutes.patch('/updatepassword', handleSetPasswordAfterInitalLogin);
 
 userManagementRoutes.patch(
   '/userrole',

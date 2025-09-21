@@ -1,9 +1,9 @@
-export class ValidationError extends Error {
+export class AuthError extends Error {
   public statusCode: number;
 
   constructor(message: string, statusCode: number) {
     super(message);
-    this.name = 'ValidationError';
+    this.name = 'AuthError';
     this.statusCode = statusCode;
   }
 }
