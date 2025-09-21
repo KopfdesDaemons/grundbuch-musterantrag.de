@@ -5,7 +5,7 @@ import { getUserByUserID, getUserByUsername, getUsername, updatePassword, update
 
 export const handleGetOwnUsername = async (req: Request, res: Response) => {
   try {
-    const { jwtPayload } = req.body;
+    const { jwtPayload } = req;
     if (!jwtPayload) {
       return res.status(400).json({ message: 'Kein JWT in der Anfrage' });
     }
@@ -55,7 +55,7 @@ export const handleChangeOwnUsername = async (req: Request, res: Response) => {
     if (!newUsername) {
       return res.status(400).json({ message: 'Unvollständige Anfrage' });
     }
-    const { userID } = req.body.jwtPayload;
+    const { userID } = req.jwtPayload;
     const userFromDB = await getUserByUserID(userID);
     if (!userFromDB) {
       return res.status(400).json({ message: 'User nicht gefunden' });

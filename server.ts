@@ -1,10 +1,9 @@
 import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
-import { resolve } from 'node:path';
+import { join } from 'node:path';
 import { uploadsRoutes } from './server/routes/uploads.routes';
 import fileUpload from 'express-fileupload';
 import { getAmtsgerichtAusPLZ } from './server/controller/scraping.controller';
-import { SERVER_DIST_FOLDER } from 'server/config/path.config';
 import { initDatabase } from 'server/services/database.service';
 import { settingsRoutes } from 'server/routes/settings.routes';
 import { migrationRoutes } from 'server/routes/migration.routes';
@@ -16,58 +15,74 @@ import { userRoleRoutes } from 'server/routes/user-role.routes';
 import { userSettingsRoutes } from 'server/routes/user-settings.routes';
 import { handleGetOdtAfterSubmitForm, handleGetPdfAfterSubmitForm, submitForm } from 'server/controller/submit-form.controller';
 
-export async function app(): Promise<express.Express> {
-  const server = express();
-  const browserDistFolder = resolve(SERVER_DIST_FOLDER, '../browser');
-  const angularNodeAppEngine = new AngularNodeAppEngine();
+const browserDistFolder = join(import.meta.dirname, '../browser');
 
-  await initDatabase();
+const app = express();
+const angularApp = new AngularNodeAppEngine();
 
-  // Middleware for the entire server
-  server.use(fileUpload());
-  server.use(express.json());
+await initDatabase();
 
-  // Routes that call a controller
-  server.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
-  server.post('/api/submitForm', submitForm);
-  server.get('/api/getOdtAfterSubmitForm', handleGetOdtAfterSubmitForm);
-  server.get('/api/getPdfAfterSubmitForm', handleGetPdfAfterSubmitForm);
+// Middleware for the entire server
+app.use(fileUpload());
+app.use(express.json());
 
-  // Outsourced routes
-  server.use('/api/auth', authRoutes);
-  server.use('/api/uploads', uploadsRoutes);
-  server.use('/api/settings', settingsRoutes);
-  server.use('/api/migration', migrationRoutes);
-  server.use('/api/logger', loggerRoutes);
-  server.use('/api/statistic', statisticRoutes);
-  server.use('/api/user-management', userManagementRoutes);
-  server.use('/api/user-settings', userSettingsRoutes);
-  server.use('/api/userrole', userRoleRoutes);
+// Routes that call a controller
+app.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
+app.post('/api/submitForm', submitForm);
+app.get('/api/getOdtAfterSubmitForm', handleGetOdtAfterSubmitForm);
+app.get('/api/getPdfAfterSubmitForm', handleGetPdfAfterSubmitForm);
 
-  // 404 for all other API routes
-  server.all('/api/*', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));
+// Outsourced routes
+app.use('/api/auth', authRoutes);
+app.use('/api/uploads', uploadsRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/migration', migrationRoutes);
+app.use('/api/logger', loggerRoutes);
+app.use('/api/statistic', statisticRoutes);
+app.use('/api/user-management', userManagementRoutes);
+app.use('/api/user-settings', userSettingsRoutes);
+app.use('/api/userrole', userRoleRoutes);
 
-  // Angular routes
-  server.get('**', express.static(browserDistFolder, { maxAge: '1y', index: 'index.html' }));
+// 404 for all other API routes
+// App.all('/api/*', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));
 
-  server.get('**', (req, res, next) => {
-    console.log('request', req.url);
+/**
+ * Serve static files from /browser
+ */
+app.use(
+  express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: false,
+    redirect: false
+  })
+);
 
-    angularNodeAppEngine
-      .handle(req, { server: 'express' })
-      .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))
-      .catch(next);
-  });
+/**
+ * Handle all other requests by rendering the Angular application.
+ */
+app.use((req, res, next) => {
+  angularApp
+    .handle(req)
+    .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))
+    .catch(next);
+});
 
-  return server;
-}
-
-const server = await app();
-
+/**
+ * Start the server if this module is the main entry point.
+ * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ */
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
-  server.listen(port, () => {
+  app.listen(port, error => {
+    if (error) {
+      throw error;
+    }
+
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
-export const reqHandler = createNodeRequestHandler(server);
+
+/**
+ * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
+ */
+export const reqHandler = createNodeRequestHandler(app);

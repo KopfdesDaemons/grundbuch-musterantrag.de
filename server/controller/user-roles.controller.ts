@@ -96,7 +96,7 @@ export const handleDeleteUserRole = async (req: Request, res: Response) => {
 
 export const handleGetOwnUserRoleName = async (req: Request, res: Response) => {
   try {
-    const { jwtPayload } = req.body;
+    const { jwtPayload } = req;
     if (!jwtPayload) {
       return res.status(400).json({ message: 'Kein JWT in der Anfrage' });
     }
