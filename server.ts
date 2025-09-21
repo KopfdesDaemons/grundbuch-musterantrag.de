@@ -1,5 +1,6 @@
 import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
+import './server/interfaces/request.interface';
 import { join } from 'node:path';
 import { uploadsRoutes } from './server/routes/uploads.routes';
 import fileUpload from 'express-fileupload';

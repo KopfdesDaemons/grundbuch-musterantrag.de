@@ -42,7 +42,13 @@ export const handleDeleteUserRole = async (req: Request, res: Response) => {
 
   for (const userRoleID of userRoleIDs) await validateAndGetUserRole(userRoleID);
 
-  await deleteUserRole(userRoleIDs);
+  try {
+    await deleteUserRole(userRoleIDs);
+  } catch (error) {
+    if (error instanceof Error && error?.message.includes('Es gibt noch Benutzer')) {
+      return res.status(409).json({ message: error.message });
+    } else throw error;
+  }
   return res.status(200).json({ message: 'Userrollen erfolgreich gelöscht' });
 };
 
@@ -51,7 +57,7 @@ export const handleGetOwnUserRoleName = async (req: Request, res: Response) => {
   if (!jwtPayload) {
     return res.status(400).json({ message: 'Kein JWT in der Anfrage' });
   }
-  const userID = jwtPayload.userID;
+  const userID = jwtPayload['userID'];
   const user = await validateAndGetUser(userID);
   const userRoleName = user.userRole.name;
   const userRoleDescription = user.userRole.description;

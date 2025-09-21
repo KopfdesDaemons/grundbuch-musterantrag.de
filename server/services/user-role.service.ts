@@ -85,7 +85,7 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
       }
     }
 
-    // delete Permissions
+    // Delete Permissions
     if (deletedPermissions) {
       for (const permission of deletedPermissions) {
         const deletePermissionQuery = `DELETE FROM user_permissions WHERE userRoleID = ? AND feature = ?`;
@@ -93,7 +93,7 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
       }
     }
 
-    // update Permissions
+    // Update Permissions
     if (existingPermissionsDB) {
       for (const permission of existingPermissions) {
         const actions = permission.allowedActions;
@@ -101,12 +101,12 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
         const newActions = actions.filter(action => !existingPermissionsDB.some(p => p.allowedActions.includes(action)));
         const deletedActions = actionsDB?.filter(action => !actions.includes(action));
 
-        // get permissionID
+        // Get permissionID
         const permissionQuery = `SELECT userPermissionID FROM user_permissions WHERE userRoleID = ? AND feature = ?`;
         const [result]: any = await connection.execute<RowDataPacket[]>(permissionQuery, [userRole.userRoleID, permission.feature]);
         const permissionId = result[0]['userPermissionID'] as number;
 
-        // add new actions
+        // Add new actions
         if (newActions.length > 0) {
           const tableName = actionsTableMapping[permission.feature];
           if (!tableName) throw new Error(`Unbekanntes Feature: ${permission.feature}`);
@@ -116,7 +116,7 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
           await connection.execute(`INSERT INTO ${tableName} (userPermissionID, action_name) VALUES ${placeholders}`, values);
         }
 
-        // remove deleted actions
+        // Remove deleted actions
         if (deletedActions) {
           const tableName = actionsTableMapping[permission.feature];
           if (!tableName) throw new Error(`Unbekanntes Feature: ${permission.feature}`);

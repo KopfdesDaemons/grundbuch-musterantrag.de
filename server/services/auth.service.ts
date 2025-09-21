@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import { JWT_SECRET } from 'server/config/env.config';
 import { User } from 'server/models/user.model';
 
@@ -13,7 +13,7 @@ export const login = async (user: User, password: string): Promise<string> => {
     throw new Error('Ungültige Anmeldedaten');
   } else {
     // Erstelle ein Token mit einer Gültigkeit von 3 Wochen
-    return jwt.sign({ userID: user.userID }, JWT_SECRET, { expiresIn: '21d' });
+    return sign({ userID: user.userID }, JWT_SECRET, { expiresIn: '21d' });
   }
 };
 
@@ -22,13 +22,13 @@ export const login = async (user: User, password: string): Promise<string> => {
  *   @param token Das zu prüfende Token.
  *   @returns username und Generierungszeitpunkt und Ablauffzeitpunkt
  */
-export const verifyToken = async (token: string): Promise<any> => {
+export const verifyToken = async (token: string): Promise<JwtPayload> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, JWT_SECRET, (err, user) => {
+    verify(token, JWT_SECRET, (err, payload) => {
       if (err) {
         return reject(new Error('Token ungültig'));
       }
-      resolve(user);
+      resolve(payload as JwtPayload);
     });
   });
 };

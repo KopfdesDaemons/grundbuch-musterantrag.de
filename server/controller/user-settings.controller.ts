@@ -10,7 +10,7 @@ export const handleGetOwnUsername = async (req: Request, res: Response) => {
     if (!jwtPayload) {
       return res.status(400).json({ message: 'Kein JWT in der Anfrage' });
     }
-    const userID = jwtPayload.userID;
+    const userID = jwtPayload['userID'];
     const username = await getUsername(userID);
     if (!username) {
       return res.status(400).json({ message: 'Kein Benutzer gefunden' });
@@ -56,6 +56,9 @@ export const handleChangeOwnUsername = async (req: Request, res: Response) => {
     if (!newUsername) {
       return res.status(400).json({ message: 'Unvollständige Anfrage' });
     }
+    if (!req.jwtPayload) {
+      return res.status(401).json({ message: 'Nicht autorisiert' });
+    }
     const { userID } = req.jwtPayload;
     const userFromDB = await getUserByUserID(userID);
     if (!userFromDB) {
@@ -79,7 +82,10 @@ export const handleChangeOwnPassword = async (req: Request, res: Response) => {
     if (!newPassword || !oldPassword) {
       return res.status(400).json({ message: 'Unvollständige Anfrage' });
     }
-    const { userID } = req.body.jwtPayload;
+    if (!req.jwtPayload) {
+      return res.status(401).json({ message: 'Nicht autorisiert' });
+    }
+    const { userID } = req.jwtPayload;
     const userFromDB = await getUserByUserID(userID);
     if (!userFromDB) {
       return res.status(400).json({ message: 'User nicht gefunden' });

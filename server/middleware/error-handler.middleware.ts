@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { log } from 'node:console';
 import logger from 'server/config/logger.config';
 import { ValidationError } from 'server/models/errors/validation-error.model';
 
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  log('test');
   if (err instanceof ValidationError) {
     logger.warn(`Validation Error: ${err.message} - Path: ${req.originalUrl}`);
     return res.status(err.statusCode).json({ message: err.message });
