@@ -1,7 +1,7 @@
 import { User } from 'server/models/user.model';
 import { addNewUser, deleteUser, getAllUsers, setNewInitalPassword, updateUsername, updateUserRole } from 'server/services/user.service';
 import { Request, Response } from 'express';
-import { validateAndGetUser, validateAndGetUserRole, validateNewUsername } from 'server/helpers/validation.helper';
+import { validateAndGetUser, validateAndGetUserRole, validateNewPasswort, validateNewUsername } from 'server/helpers/validation.helper';
 
 export const handleCreateUser = async (req: Request, res: Response) => {
   const { username, password, userRoleID } = req.body;
@@ -9,6 +9,7 @@ export const handleCreateUser = async (req: Request, res: Response) => {
     return res.status(400).json({ message: 'Unvollständige Anfrage' });
   }
   await validateNewUsername(username);
+  validateNewPasswort(password);
 
   const userRole = await validateAndGetUserRole(userRoleID);
 

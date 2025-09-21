@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient, httpResource } from '@angular/common/http';
+import { newPassowrdValidator } from 'src/app/validators/newPassword.validator';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,14 @@ export class UserSettingsService {
 
   getNewPasswordGroup(): FormGroup {
     const formBuilder = new FormBuilder();
-    return formBuilder.group({
-      oldPassword: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    });
+    return formBuilder.group(
+      {
+        oldPassword: ['', Validators.required],
+        password: ['', [Validators.required, newPassowrdValidator()]],
+        confirmPassword: ['', Validators.required]
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   async changeUsername(newUsername: string): Promise<void> {

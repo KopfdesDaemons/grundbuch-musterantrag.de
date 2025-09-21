@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, PLATFORM_ID, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, PLATFORM_ID, signal, viewChild } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -25,6 +25,7 @@ export class NewPasswordComponent implements OnInit {
   router = inject(Router);
   username: string = '';
   description: string = '';
+  errorMessage = signal('');
 
   readonly oldPasswordInput = viewChild.required<ElementRef>('oldPassword');
 
@@ -37,6 +38,7 @@ export class NewPasswordComponent implements OnInit {
 
   async changePassword() {
     try {
+      this.errorMessage.set('');
       if (this.form.invalid) return;
       const newPassword = this.form.get('password')?.value;
       const oldPassword = this.form.get('oldPassword')?.value;
@@ -50,9 +52,7 @@ export class NewPasswordComponent implements OnInit {
       await this.authS.login(this.username, newPassword);
     } catch (err) {
       if (err instanceof HttpErrorResponse) {
-        if (err.error.message === 'Falsches Passwort') {
-          this.form.get('oldPassword')?.setErrors({ wrongPassword: true });
-        }
+        this.errorMessage.set(err.error.message);
       }
     }
   }

@@ -17,7 +17,7 @@
         } @else {
           <span class="username">{{ userSettingsS.usernameResource.value()?.username }}</span>
         }
-        <button class="btn-icon" (click)="authS.logout()" title="ausloggen">
+        <button class="btn-icon" (click)="authS.logout(); sidemenuS.toggleDashboardSidemenu()" title="ausloggen">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
               fill="currentColor"

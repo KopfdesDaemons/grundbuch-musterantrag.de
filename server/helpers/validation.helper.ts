@@ -35,3 +35,12 @@ export const validateAndGetUser = async (userID: any): Promise<User> => {
   }
   return user;
 };
+
+export const validateNewPasswort = (password: any): void => {
+  if (typeof password !== 'string' || password.trim().length === 0) {
+    throw new ValidationError('Passwort darf nicht nur aus Leerzeichen bestehen.', 400);
+  }
+  if (password.length < 8) {
+    throw new ValidationError('Passwort muss mindestens 8 Zeichen lang sein.', 400);
+  }
+};

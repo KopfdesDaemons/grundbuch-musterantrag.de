@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { validateAndGetUser, validateNewUsername } from 'server/helpers/validation.helper';
+import { validateAndGetUser, validateNewPasswort, validateNewUsername } from 'server/helpers/validation.helper';
 import { getUserByUsername, getUsername, updatePassword, updateUsername } from 'server/services/user.service';
 
 export const handleGetOwnUsername = async (req: Request, res: Response) => {
@@ -28,6 +28,7 @@ export const handleSetPasswordAfterInitalLogin = async (req: Request, res: Respo
   if (!isCorrectPassword) {
     return res.status(400).json({ message: 'Falsches Passwort' });
   }
+  validateNewPasswort(newPassword);
   await userFromDB.setPasswordHash(newPassword);
   if (userFromDB.passwordHash) {
     if (userFromDB.userID) {
@@ -67,6 +68,7 @@ export const handleChangeOwnPassword = async (req: Request, res: Response) => {
   if (!isCorrectPassword) {
     return res.status(400).json({ message: 'Falsches Passwort' });
   }
+  validateNewPasswort(newPassword);
   await userFromDB.setPasswordHash(newPassword);
   if (userFromDB.passwordHash) {
     if (userFromDB.userID) {

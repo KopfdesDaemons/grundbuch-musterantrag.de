@@ -1,14 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 import { ProgressSpinnerComponent } from '../../../components/progress-spinner/progress-spinner.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-user-settings',
-  imports: [FormsModule, ReactiveFormsModule, ProgressSpinnerComponent],
+  imports: [FormsModule, ReactiveFormsModule, ProgressSpinnerComponent, NgClass],
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.scss'
 })
@@ -22,9 +23,13 @@ export class UserSettingsComponent {
   newUsernameForm = this.formBuilder.group({
     newUsername: ['', Validators.required]
   });
+  message = signal('');
+  isError = signal(false);
 
   async changePassword() {
     try {
+      this.message.set('');
+      this.isError.set(false);
       if (this.newPasswordForm.invalid) return;
       const newPassword = this.newPasswordForm.get('password')?.value;
       const oldPassword = this.newPasswordForm.get('oldPassword')?.value;
@@ -35,13 +40,13 @@ export class UserSettingsComponent {
       }
       await this.userSettingsS.changePassword(oldPassword, newPassword);
       this.ngFormNewPassword().resetForm();
+      this.message.set('Passwort erfolgreich geändert');
+      this.isError.set(false);
     } catch (err) {
       if (err instanceof HttpErrorResponse) {
-        if (err.error.message === 'Falsches Passwort') {
-          this.newPasswordForm.get('oldPassword')?.setErrors({ wrongPassword: true });
-        }
+        this.message.set(err.error.message);
+        this.isError.set(true);
       }
-      throw err;
     }
   }
 
