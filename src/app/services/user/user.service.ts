@@ -1,7 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from './auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../models/user.model';
 
@@ -9,19 +8,16 @@ import { User } from '../../models/user.model';
   providedIn: 'root'
 })
 export class UserService {
-  http = inject(HttpClient);
-  authS = inject(AuthService);
-  formBuilder = new FormBuilder();
+  private http = inject(HttpClient);
+  private formBuilder = new FormBuilder();
 
   allUsers = httpResource<User[]>(() => ({
-    url: '/api/user-management',
-    headers: this.authS.getAuthHeader()
+    url: '/api/user-management'
   }));
 
   async deleteUsers(userIDs: number[]): Promise<void> {
     await lastValueFrom(
       this.http.delete('/api/user-management', {
-        headers: this.authS.getAuthHeader(),
         body: { userIDs: userIDs }
       })
     );
@@ -29,79 +25,49 @@ export class UserService {
 
   async createUser(username: string, userRole: string, password: string, userRoleID: number): Promise<void> {
     await lastValueFrom(
-      this.http.put(
-        '/api/user-management',
-        {
-          username: username,
-          userRole: userRole,
-          password: password,
-          userRoleID: userRoleID
-        },
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
+      this.http.put('/api/user-management', {
+        username: username,
+        userRole: userRole,
+        password: password,
+        userRoleID: userRoleID
+      })
     );
   }
 
   async updateUsername(userID: number, newUsername: string): Promise<void> {
     await lastValueFrom(
-      this.http.patch(
-        '/api/user-management/username',
-        {
-          userID: userID,
-          newUsername: newUsername
-        },
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
+      this.http.patch('/api/user-management/username', {
+        userID: userID,
+        newUsername: newUsername
+      })
     );
   }
 
   async setinitialpassword(userID: number, newPassword: string): Promise<void> {
     await lastValueFrom(
-      this.http.patch(
-        '/api/user-management/setinitialpassword',
-        {
-          userID: userID,
-          newPassword: newPassword
-        },
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
+      this.http.patch('/api/user-management/setinitialpassword', {
+        userID: userID,
+        newPassword: newPassword
+      })
     );
   }
 
   async updatePassword(username: string, oldPassword: string, newPassword: string): Promise<void> {
     await lastValueFrom(
-      this.http.patch(
-        '/api/user-management/updatepassword',
-        {
-          username: username,
-          oldPassword: oldPassword,
-          newPassword: newPassword
-        },
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
+      this.http.patch('/api/user-management/updatepassword', {
+        username: username,
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      })
     );
   }
 
   async updateUserRole(userID: number, userRoleID: number): Promise<void> {
     await lastValueFrom(
-      this.http.patch(
-        '/api/user-management/userrole',
-        {
-          userID: userID,
-          userRoleID: userRoleID
-        },
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
+      this.http.patch('/api/user-management/userrole', {
+        userID: userID,
+        userRoleID: userRoleID
+      })
     );
   }
 

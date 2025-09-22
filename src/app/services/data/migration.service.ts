@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthService } from '../user/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Migration } from '../../models/migration.model';
@@ -9,7 +8,6 @@ import { Migration } from '../../models/migration.model';
 })
 export class MigrationService {
   private http = inject(HttpClient);
-  private authS = inject(AuthService);
 
   migrations: Migration[] = [];
 
@@ -30,41 +28,17 @@ export class MigrationService {
   }
 
   migrateFromAntragToUploadinfo = async (): Promise<any> => {
-    const data = await lastValueFrom(
-      this.http.post(
-        '/api/migration/fromAntragToUploadinfo',
-        {},
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
-    );
+    const data = await lastValueFrom(this.http.post('/api/migration/fromAntragToUploadinfo', {}));
     return data;
   };
 
   migrateFromJSONToDatabase = async (): Promise<any> => {
-    const data = await lastValueFrom(
-      this.http.post(
-        '/api/migration/fromJSONToDatabase',
-        {},
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
-    );
+    const data = await lastValueFrom(this.http.post('/api/migration/fromJSONToDatabase', {}));
     return data;
   };
 
   migrateFromDocxToOdt = async (): Promise<any> => {
-    const data = await lastValueFrom(
-      this.http.post(
-        '/api/migration/fromDocxToOdt',
-        {},
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
-    );
+    const data = await lastValueFrom(this.http.post('/api/migration/fromDocxToOdt', {}));
     return data;
   };
 }

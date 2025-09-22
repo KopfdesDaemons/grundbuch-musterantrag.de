@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
 import { computed, DOCUMENT, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from '../user/auth.service';
 import { Upload } from 'server/models/upload.model';
 import { UploadData } from 'src/app/interfaces/uploadData';
 
@@ -10,14 +9,12 @@ import { UploadData } from 'src/app/interfaces/uploadData';
 })
 export class UploadsService {
   private http = inject(HttpClient);
-  private authS = inject(AuthService);
   private document = inject(DOCUMENT);
 
   pageToLoad = signal<number>(0);
 
   uploadsResource = httpResource<UploadData>(() => ({
     url: '/api/uploads',
-    headers: this.authS.getAuthHeader(),
     params: {
       page: this.pageToLoad()
     }
@@ -61,7 +58,6 @@ export class UploadsService {
 
   statisticResourceWeek = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/uploads/getUploadCountPerDays',
-    headers: this.authS.getAuthHeader(),
     params: {
       timeframe: 'week'
     }
@@ -69,15 +65,13 @@ export class UploadsService {
 
   statisticResourceMonth = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/uploads/getUploadCountPerDays',
-    headers: this.authS.getAuthHeader(),
     params: {
       timeframe: 'month'
     }
   }));
 
   totalUploadsByTypResource = httpResource<{ [key: string]: number }>(() => ({
-    url: '/api/statistic',
-    headers: this.authS.getAuthHeader()
+    url: '/api/statistic'
   }));
 
   totalUploadsByTyp = computed<{ antragsart: string; anzahl: number }[]>(() => {
@@ -92,7 +86,6 @@ export class UploadsService {
 
     const response = await lastValueFrom(
       this.http.get('/api/uploads/getFile', {
-        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('fileName', fileName),
         responseType: 'blob'
       })
@@ -122,34 +115,24 @@ export class UploadsService {
   async deleteUpload(name: string) {
     await lastValueFrom(
       this.http.delete('/api/uploads/deleteUpload', {
-        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('uploadID', name)
       })
     );
   }
 
   async deleteFolder() {
-    await lastValueFrom(
-      this.http.delete('/api/uploads/', {
-        headers: this.authS.getAuthHeader()
-      })
-    );
+    await lastValueFrom(this.http.delete('/api/uploads/'));
   }
 
   async deleteGeneratedFiles(uploadID: string) {
     await lastValueFrom(
       this.http.delete('/api/uploads/deleteGeneratedFiles', {
-        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('uploadID', uploadID)
       })
     );
   }
 
   async deleteAllGeneratedFiles() {
-    await lastValueFrom(
-      this.http.delete('/api/uploads/deleteAllGeneratedFiles', {
-        headers: this.authS.getAuthHeader()
-      })
-    );
+    await lastValueFrom(this.http.delete('/api/uploads/deleteAllGeneratedFiles'));
   }
 }

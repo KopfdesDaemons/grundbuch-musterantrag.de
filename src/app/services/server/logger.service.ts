@@ -13,8 +13,7 @@ export class LoggerService {
   platformID = inject(PLATFORM_ID);
 
   loggerResource = httpResource<{ level: string; timestamp: string; message: string }[]>(() => ({
-    url: '/api/logger',
-    headers: this.authS.getAuthHeader()
+    url: '/api/logger'
   }));
 
   formatedLogs = computed(() => {
@@ -46,10 +45,6 @@ export class LoggerService {
   }
 
   async deleteLogFile() {
-    await lastValueFrom(
-      this.http.delete('/api/logger', {
-        headers: this.authS.getAuthHeader()
-      })
-    );
+    await lastValueFrom(this.http.delete('/api/logger'));
   }
 }

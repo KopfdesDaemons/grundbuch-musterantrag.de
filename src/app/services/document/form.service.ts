@@ -73,7 +73,7 @@ export class FormService {
       this.scroll.scrollToPosition([0, 0]);
     }
 
-    // after last step start generating files
+    // After last step start generating files
     if (step === this.requiredComponents.length + 1) {
       this.currentComponent = AntragsgenerierungComponent;
     }

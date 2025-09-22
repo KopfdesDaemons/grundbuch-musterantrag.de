@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from './auth.service';
 import { UserRole } from 'server/interfaces/user-role.interface';
 import { UserRoleOption } from '../../models/user-role-option.model';
 import {
@@ -30,9 +29,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   providedIn: 'root'
 })
 export class UserroleService {
-  authS = inject(AuthService);
-  http = inject(HttpClient);
-  formBuilder = new FormBuilder();
+  private http = inject(HttpClient);
+  private formBuilder = new FormBuilder();
 
   allPermissions: UserPermission[] = [
     new uploadManagementPermission(Object.values(UploadManagementAction)),
@@ -88,8 +86,7 @@ export class UserroleService {
   };
 
   userRoleOptions = httpResource<UserRoleOption[]>(() => ({
-    url: '/api/userrole/get-all-user-roles',
-    headers: this.authS.getAuthHeader()
+    url: '/api/userrole/get-all-user-roles'
   }));
 
   firstUserRoleID = computed<number | undefined>(() => {
@@ -105,7 +102,6 @@ export class UserroleService {
     return userRoleID
       ? {
           url: '/api/userrole/',
-          headers: this.authS.getAuthHeader(),
           params: { userRoleID: userRoleID }
         }
       : undefined;
@@ -114,7 +110,6 @@ export class UserroleService {
   async getUserRole(userRoleID: number): Promise<UserRole> {
     const data = await lastValueFrom(
       this.http.get('/api/userrole/', {
-        headers: this.authS.getAuthHeader(),
         params: new HttpParams().set('userRoleID', userRoleID)
       })
     );
@@ -122,29 +117,13 @@ export class UserroleService {
   }
 
   async createUserRole(userRole: UserRole): Promise<number> {
-    const data = await lastValueFrom(
-      this.http.put(
-        '/api/userrole/',
-        { userRole: userRole },
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
-    );
+    const data = await lastValueFrom(this.http.put('/api/userrole/', { userRole: userRole }));
     const { userRoleID } = data as { userRoleID: number };
     return userRoleID;
   }
 
   async updateUserRole(userRole: UserRole): Promise<void> {
-    await lastValueFrom(
-      this.http.patch(
-        '/api/userrole/',
-        { userRole: userRole },
-        {
-          headers: this.authS.getAuthHeader()
-        }
-      )
-    );
+    await lastValueFrom(this.http.patch('/api/userrole/', { userRole: userRole }));
   }
 
   getFormGroup(userRole: UserRole = { name: '', description: '', userPermissions: [] }): FormGroup {
@@ -209,7 +188,6 @@ export class UserroleService {
   async deleteUserRole(userRoleIDs: number[]): Promise<void> {
     await lastValueFrom(
       this.http.delete('/api/userrole/', {
-        headers: this.authS.getAuthHeader(),
         body: { userRoleIDs: userRoleIDs }
       })
     );

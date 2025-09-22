@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -55,10 +55,6 @@ export class AuthService {
     console.log('Abmeldung erfolgt');
   }
 
-  getAuthHeader(): HttpHeaders {
-    return new HttpHeaders({ Authorization: `Bearer ${this.authToken}` });
-  }
-
   getLoginFormGroup(): FormGroup {
     const formBuilder = new FormBuilder();
     return formBuilder.group({
@@ -68,13 +64,7 @@ export class AuthService {
   }
 
   async checkAuth(): Promise<boolean> {
-    await lastValueFrom(
-      this.http.get('/api/auth/checkAuth', {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${this.authToken}`
-        })
-      })
-    );
+    await lastValueFrom(this.http.get('/api/auth/checkAuth'));
     return true;
   }
 }
