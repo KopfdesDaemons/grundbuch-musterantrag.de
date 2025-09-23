@@ -12,6 +12,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   try {
     const uri = new URL(req.url);
+    console.log('req.url: ' + req.url);
+    console.log('uri.hostname: ' + uri.hostname);
+    console.log('environment.hostname: ' + environment.hostname);
 
     // Check if hostname matches the production hostname
     if (uri.hostname === environment.hostname || uri.hostname === 'www.' + environment.hostname) {
