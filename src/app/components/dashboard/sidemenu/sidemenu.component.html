@@ -41,7 +41,7 @@
     <nav>
       <ul>
         @for (page of pages; track page.route) {
-          <li [ngClass]="{ active: isActive(page.route) }">
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: page.route === '/dashboard' }">
             <a [routerLink]="page.route" (click)="sidemenuS.toggleDashboardSidemenu()">{{ page.name }}</a>
           </li>
         }
