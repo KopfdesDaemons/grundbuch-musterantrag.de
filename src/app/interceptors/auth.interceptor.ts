@@ -1,40 +1,27 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/user/auth.service';
-import { environment } from 'src/app/environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authS = inject(AuthService);
 
+  // Check if an auth token exists
   if (!authS.authToken) {
     return next(req);
   }
 
-  try {
-    console.log('req.url: ' + req.url);
-    console.log('environment.hostname: ' + environment.hostname);
-    const uri = new URL(req.url);
-    console.log('uri.hostname: ' + uri.hostname);
+  // Check if the request URL starts with the API base URL
+  const isApiRequest = req.url.startsWith('/api/');
 
-    // Check if hostname matches the production hostname
-    if (uri.hostname === environment.hostname || uri.hostname === 'www.' + environment.hostname) {
-      return setAuthHeader();
-    }
-  } catch {
-    // New URL will fail if localhost
-    if (!environment.production) return setAuthHeader();
-    else return next(req);
-  }
-
-  return next(req);
-
-  function setAuthHeader() {
+  if (isApiRequest) {
     const reqWithAuth = req.clone({
       setHeaders: {
         Authorization: `Bearer ${authS.authToken}`
       }
     });
-
     return next(reqWithAuth);
   }
+
+  // If it's not a request to your API, proceed without modification
+  return next(req);
 };
