@@ -1,14 +1,26 @@
 section {
   animation: slide-in-from-top 500ms forwards;
   margin-top: 4em;
+
+  .content-spacer {
+    max-width: 90em;
+  }
+
+  @media only screen and (max-width: 700px) {
+    .content-spacer {
+      padding: 0em;
+    }
+  }
 }
+
+$tabele-width: clamp(300px, 95%, 1200px);
 
 .tableHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-radius: 8px 8px 0 0;
-  width: clamp(300px, 95%, 1000px);
+  width: $tabele-width;
   padding-left: 0.5em;
   box-sizing: border-box;
 
@@ -28,7 +40,7 @@ section {
 
 .tablehorizontal-scroll-container {
   height: 500px;
-  width: clamp(300px, 95%, 1000px);
+  width: $tabele-width;
   overflow: auto;
   position: relative;
   resize: vertical;
@@ -37,16 +49,6 @@ section {
     margin-top: 0;
     font-size: clamp(12px, 2vw, 14px);
     width: 100%;
-  }
-
-  .uploadID {
-    white-space: nowrap;
-    max-width: 8em;
-    overflow: hidden;
-  }
-
-  .antragsart {
-    max-width: 25em;
   }
 
   thead {
@@ -73,23 +75,22 @@ section {
     margin: 0;
     padding: 0;
     position: absolute;
-    right: 3em;
-    top: 3em;
+    right: 50%;
+    top: 50%;
     background-color: var(--background);
-    border-radius: 6px;
+    border-radius: 8px;
     list-style: none;
     z-index: 1;
+    border: 1px solid var(--primary-variant-much-brighter);
+    overflow: hidden;
 
     li {
       padding: 10px;
       cursor: pointer;
-      display: block;
 
       &:hover {
         background-color: var(--background-variant-darker);
       }
-
-      border: 1px solid var(--primary-variant-much-brighter);
     }
   }
 }

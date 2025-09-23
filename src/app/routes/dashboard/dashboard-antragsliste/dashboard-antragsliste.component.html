@@ -19,10 +19,9 @@
         <table>
           <thead>
             <tr>
-              <th>uploadID</th>
-              <th>Grundbuchamt</th>
-              <th>Antragsart</th>
               <th>Datum</th>
+              <th>Antragsart</th>
+              <th>Grundbuchamt</th>
               <th>.odt</th>
               <th>.pdf</th>
               <th></th>
@@ -31,12 +30,9 @@
           <tbody>
             @for (file of uploadsS.uploads(); track file) {
               <tr>
-                <td class="uploadID" title="{{ file.uploadID }}">{{ file.uploadID }}</td>
+                <td>{{ file.uploadDate | date: "dd.MM.yyyy HH:mm" }}&nbsp;Uhr</td>
+                <td>{{ file.antragsart }}</td>
                 <td>{{ file.grundbuchamt }}</td>
-                <td>
-                  <div class="antragsart">{{ file.antragsart }}</div>
-                </td>
-                <td>{{ file.uploadDate | date: "dd.MM.yyyy HH:mm" }} Uhr</td>
 
                 <td class="icon-table-cell">
                   @if (file.odtFile && !file.filesDeleted) {
