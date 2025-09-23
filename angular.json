@@ -72,13 +72,7 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "statsJson": false,
-              "fileReplacements": [
-                {
-                  "replace": "src/app/environments/environment.ts",
-                  "with": "src/app/environments/environment.dev.ts"
-                }
-              ]
+              "statsJson": false
             }
           },
           "defaultConfiguration": "production"
