@@ -22,7 +22,9 @@ export const initDatabase = async () => {
           { name: 'filesDeleted', type: 'BOOLEAN NOT NULL DEFAULT FALSE' },
           { name: 'uploadDate', type: 'DATETIME NOT NULL' },
           { name: 'antragsart', type: 'VARCHAR(255)' },
-          { name: 'grundbuchamt', type: 'VARCHAR(255)' }
+          { name: 'grundbuchamt', type: 'VARCHAR(255)' },
+          { name: 'pdfFileDownloadedByUser', type: 'BOOLEAN' },
+          { name: 'odtFileDownloadedByUser', type: 'BOOLEAN' }
         ]
       },
       {
@@ -124,7 +126,7 @@ export const initDatabase = async () => {
       }
     }
     await Promise.all([createRootUser(), createGuestRole()]);
-    logger.info('Datenbank und Tabellen wurden erfolgreich initialisiert bzw. überprüft.');
+    // Logger.info('Datenbank und Tabellen wurden erfolgreich initialisiert bzw. überprüft.');
   } catch (error) {
     logger.error('Fehler bei der Initialisierung der Datenbank:', error);
   }

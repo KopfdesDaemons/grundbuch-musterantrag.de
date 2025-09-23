@@ -59,4 +59,9 @@ export class DocumentService {
       throw new Error('getOdtAfterSubmitForm failed without HttpErrorResponse');
     }
   }
+
+  async reportDownloadByUser(uploadID: string, fileType: 'odtFile' | 'pdfFile'): Promise<void> {
+    const url = '/api/uploads/reportDownloadByUser';
+    await lastValueFrom(this.http.put(url, { uploadID, fileType }));
+  }
 }

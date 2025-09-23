@@ -6,6 +6,8 @@ export class Upload {
   uploadDate: Date = new Date();
   antragsart: string = '';
   grundbuchamt: string = '';
+  pdfFileDownloadedByUser: boolean | undefined = false;
+  odtFileDownloadedByUser: boolean | undefined = false;
 
   constructor(uploadID: string) {
     this.uploadID = uploadID;

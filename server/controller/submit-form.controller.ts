@@ -8,7 +8,7 @@ import { updateStatistic } from 'server/services/statistic.service';
 import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
 import { Upload } from 'server/models/upload.model';
-import { deleteGeneratedFiles, updateUploadData } from 'server/services/uploads.service';
+import { deleteGeneratedFiles, reportDownloadByUser, updateUploadData } from 'server/services/uploads.service';
 import { randomUUID } from 'crypto';
 import { SettingsService } from 'server/services/settings.service';
 
@@ -98,4 +98,16 @@ export const handleGetPdfAfterSubmitForm = (req: Request, res: Response) => {
 
   const filePath = path.join(folderPath, fileName);
   return res.contentType('application/pdf').sendFile(filePath);
+};
+
+export const handleReportDownloadByUser = async (req: Request, res: Response) => {
+  const { uploadID, fileType } = req.body;
+  if (!uploadID || !fileType) {
+    return res.status(400).send({ message: 'Ungültige Anfrage' });
+  }
+  if (fileType !== 'odtFile' && fileType !== 'pdfFile') {
+    return res.status(400).send({ message: 'Ungültiger Dateityp' });
+  }
+  await reportDownloadByUser(uploadID, fileType);
+  return res.status(200).send('Download erfolgreich gemeldet.');
 };

@@ -1,4 +1,5 @@
 import express from 'express';
+import { handleReportDownloadByUser } from 'server/controller/submit-form.controller';
 import {
   handleDeleteUpload,
   handleDeleteAllUploads,
@@ -56,3 +57,5 @@ uploadsRoutes.get(
   verifyRole(new statisticPermission([StatisticAction.ReadStatistic])),
   handleGetUploadCountPerDays
 );
+
+uploadsRoutes.put('/reportDownloadByUser', handleReportDownloadByUser);

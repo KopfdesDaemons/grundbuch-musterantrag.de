@@ -19,7 +19,7 @@ export const getUploadsData = async (
 
   // SQL-Abfrage mit LIMIT und OFFSET
   const offset = (page - 1) * pageSize;
-  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt 
+  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser 
                        FROM uploads 
                        ORDER BY uploadDate DESC 
                        LIMIT ${pageSize} OFFSET ${offset}`;
@@ -36,6 +36,8 @@ export const getUploadsData = async (
     upload.uploadDate = new Date(row['uploadDate']);
     upload.antragsart = row['antragsart'];
     upload.grundbuchamt = row['grundbuchamt'];
+    upload.pdfFileDownloadedByUser = row['pdfFileDownloadedByUser'] === null ? undefined : !!row['pdfFileDownloadedByUser'];
+    upload.odtFileDownloadedByUser = row['odtFileDownloadedByUser'] === null ? undefined : !!row['odtFileDownloadedByUser'];
     return upload;
   });
 
@@ -54,7 +56,8 @@ export const getUploadsData = async (
 };
 
 export const readUpload = async (UploadID: string): Promise<Upload> => {
-  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt FROM uploads WHERE uploadID = ?`;
+  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser
+                       FROM uploads WHERE uploadID = ?`;
   const [result] = await db.execute<RowDataPacket[]>(readQuery, [UploadID]);
   const row = result[0];
 
@@ -66,6 +69,8 @@ export const readUpload = async (UploadID: string): Promise<Upload> => {
   upload.uploadDate = new Date(row['uploadDate']);
   upload.antragsart = row['antragsart'];
   upload.grundbuchamt = row['grundbuchamt'];
+  upload.pdfFileDownloadedByUser = row['pdfFileDownloadedByUser'] === null ? undefined : !!row['pdfFileDownloadedByUser'];
+  upload.odtFileDownloadedByUser = row['odtFileDownloadedByUser'] === null ? undefined : !!row['odtFileDownloadedByUser'];
   return upload;
 };
 
@@ -76,14 +81,34 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
 
   const sql = exists
     ? `UPDATE uploads 
-           SET odtFile = ?, pdfFile = ?, filesDeleted = ?, uploadDate = ?, antragsart = ?, grundbuchamt = ? 
+           SET odtFile = ?, pdfFile = ?, filesDeleted = ?, uploadDate = ?, antragsart = ?, grundbuchamt = ?, pdfFileDownloadedByUser = ?, odtFileDownloadedByUser = ?
            WHERE uploadID = ?`
-    : `INSERT INTO uploads (uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt) 
-           VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    : `INSERT INTO uploads (uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   const params = exists
-    ? [data.odtFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt, data.uploadID]
-    : [data.uploadID, data.odtFile, data.pdfFile, data.filesDeleted, data.uploadDate, data.antragsart, data.grundbuchamt];
+    ? [
+        data.odtFile,
+        data.pdfFile,
+        data.filesDeleted,
+        data.uploadDate,
+        data.antragsart,
+        data.grundbuchamt,
+        data.pdfFileDownloadedByUser,
+        data.odtFileDownloadedByUser,
+        data.uploadID
+      ]
+    : [
+        data.uploadID,
+        data.odtFile,
+        data.pdfFile,
+        data.filesDeleted,
+        data.uploadDate,
+        data.antragsart,
+        data.grundbuchamt,
+        data.pdfFileDownloadedByUser,
+        data.odtFileDownloadedByUser
+      ];
 
   await db.execute(sql, params);
 };
@@ -157,4 +182,9 @@ export const getUploadCountPerDays = async (timeframe: 'week' | 'month'): Promis
   }
 
   return allDaysInTimeframe;
+};
+
+export const reportDownloadByUser = async (uploadID: string, fileType: 'odtFile' | 'pdfFile'): Promise<void> => {
+  const updateQuery = `UPDATE uploads SET ${fileType}DownloadedByUser = 1 WHERE uploadID = ?`;
+  await db.execute(updateQuery, [uploadID]);
 };

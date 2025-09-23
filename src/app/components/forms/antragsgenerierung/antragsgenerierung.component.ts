@@ -39,7 +39,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     await this.generatePdf();
   }
 
-  downloadOdt() {
+  async downloadOdt() {
     const url = URL.createObjectURL(this.odt()!);
     const link = this.document.createElement('a');
 
@@ -51,10 +51,16 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
 
     this.document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    if (this.docS.uploadID()) {
+      await this.docS.reportDownloadByUser(this.docS.uploadID()!, 'odtFile');
+    }
   }
 
-  openPdf() {
+  async openPdf() {
     window.open(URL.createObjectURL(this.pdf()!));
+    if (this.docS.uploadID()) {
+      await this.docS.reportDownloadByUser(this.docS.uploadID()!, 'pdfFile');
+    }
   }
 
   async generatePdf() {

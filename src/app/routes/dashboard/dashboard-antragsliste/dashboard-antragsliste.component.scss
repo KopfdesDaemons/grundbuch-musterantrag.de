@@ -65,6 +65,11 @@ $tabele-width: clamp(300px, 95%, 1200px);
 .check {
   max-width: 1.5em;
   max-height: 1.5em;
+  fill: var(--font-color);
+
+  &.downloadedByUser {
+    fill: greenyellow;
+  }
 }
 
 .dropDown {
@@ -95,7 +100,7 @@ $tabele-width: clamp(300px, 95%, 1200px);
   }
 }
 
-.notFound {
+.not-found {
   background-color: #c17878;
   cursor: unset;
 }
