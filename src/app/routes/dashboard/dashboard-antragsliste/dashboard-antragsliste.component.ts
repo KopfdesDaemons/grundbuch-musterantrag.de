@@ -46,7 +46,7 @@ export class DashboardAntragslisteComponent {
     }
   }
 
-  loadPage(pageNumber: number) {
+  private loadPage(pageNumber: number) {
     if (!this.uploadsS.totalPages()) return;
     if (pageNumber > this.uploadsS.totalPages()!) return;
     this.uploadsS.pageToLoad.set(pageNumber);
@@ -57,7 +57,7 @@ export class DashboardAntragslisteComponent {
     this.error.set(null);
     this.uploadsS.uploads.set([]);
     this.rowsMap.clear();
-    this.uploadsS.pageToLoad.set(0);
+    this.uploadsS.pageToLoad.set(1);
     this.uploadsS.uploadsResource.reload();
     this.selectAllInput().nativeElement.checked = false;
   }

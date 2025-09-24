@@ -68,17 +68,37 @@ export const createRootUser = async (): Promise<void> => {
   }
 };
 
-export const getAllUsers = async (): Promise<User[]> => {
-  const queryStr = `SELECT userID, username, userRoleID, isInitialPassword FROM users`;
+const pageSize: number = 10;
+
+export const getAllUsers = async (page: number = 1): Promise<{ page: number; totalPages: number; totalFiles: number; files: User[] }> => {
+  if (page < 1) throw new Error('Die Seitennummer muss größer oder gleich 1 sein.');
+  const offset = (page - 1) * pageSize;
+
+  const queryStr = `SELECT userID, username, userRoleID, isInitialPassword FROM users ORDER BY userID ASC LIMIT ${pageSize} OFFSET ${offset}`;
   const [result] = await db.execute<RowDataPacket[]>(queryStr);
-  return Promise.all(
-    result.map(async user => {
-      const userRole = await getUserRole(user['userRoleID']);
-      if (!userRole) throw new Error('Userrolle nicht gefunden');
-      user['userRole'] = userRole;
-      return user as User;
-    })
-  );
+
+  const userPromises = result.map(async user => {
+    const userRole = await getUserRole(user['userRoleID']);
+    if (!userRole) throw new Error('Userrolle nicht gefunden');
+    const newUser = new User(user['username'], userRole, user['userRoleID']);
+    newUser.userID = user['userID'];
+    newUser.isInitialPassword = user['isInitialPassword'];
+    return newUser;
+  });
+
+  const list: User[] = await Promise.all(userPromises);
+  // Gesamtanzahl der Dateien berechnen
+  const countQuery = `SELECT COUNT(*) AS totalFiles FROM users`;
+  const [countResult] = await db.execute<RowDataPacket[]>(countQuery);
+  const totalUsers = countResult[0]['totalFiles'] as number;
+  const totalPages = Math.ceil(totalUsers / pageSize);
+
+  return {
+    page,
+    totalPages,
+    totalFiles: totalUsers,
+    files: list
+  };
 };
 
 export const updateUsername = async (userID: number, newUsername: string): Promise<void> => {

@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, linkedSignal, signal, viewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { UserroleService } from 'src/app/services/user/userrole.service';
-import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
 import { UserRow } from 'src/app/interfaces/userRow';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-users',
-  imports: [FormsModule, ReactiveFormsModule, NgClass, ProgressSpinnerComponent, ErrorDisplayComponent],
+  selector: 'app-user-list',
+  imports: [FormsModule, ReactiveFormsModule, NgClass, ErrorDisplayComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
@@ -19,20 +19,54 @@ export class UserListComponent {
   userS = inject(UserService);
   userRoleS = inject(UserroleService);
   error = signal<Error | null>(null);
-  selectAllinput = viewChild.required<HTMLInputElement>('selectAllInput');
+  selectAllinput = viewChild.required<ElementRef>('selectAllInput');
 
-  rows = computed<UserRow[]>(() => {
-    if (this.userS.allUsers.isLoading() || this.userS.allUsers.error()) return [];
-    const users = this.userS.allUsers.value() ?? [];
-    return users.map(user => ({ isChecked: signal(false), user: user, editMode: false, editForm: undefined }));
+  private rowsMap = new Map<string, UserRow>();
+  rows = linkedSignal<User[], UserRow[]>({
+    source: () => this.userS.users(),
+    computation: (users, previous) => {
+      if (!users) {
+        return previous?.value ?? [];
+      }
+      return users.map(user => {
+        const userID = user.userID?.toString() ?? '0';
+        if (this.rowsMap.has(userID)) {
+          return this.rowsMap.get(userID)!;
+        }
+        const newRow: UserRow = {
+          isChecked: signal(false),
+          user: user,
+          editMode: false,
+          editForm: undefined
+        };
+        this.rowsMap.set(userID, newRow);
+        return newRow;
+      });
+    }
   });
 
   selectedRows = computed<UserRow[]>(() => this.rows().filter(row => row.isChecked()));
 
+  scroll(element: any) {
+    if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
+      if (!this.userS.usersResource.isLoading()) this.loadPage(this.userS.loadedPages() + 1);
+    }
+  }
+
+  private loadPage(pageNumber: number) {
+    if (!this.userS.totalPages()) return;
+    if (pageNumber > this.userS.totalPages()!) return;
+    this.userS.pageToLoad.set(pageNumber);
+    this.userS.usersResource.reload();
+  }
+
   reload() {
     this.error.set(null);
-    this.userS.allUsers.reload();
-    this.selectAllinput().checked = false;
+    this.userS.users.set([]);
+    this.rowsMap.clear();
+    this.userS.pageToLoad.set(1);
+    this.userS.usersResource.reload();
+    this.selectAllinput().nativeElement.checked = false;
   }
 
   selectAll(value: boolean) {
@@ -48,7 +82,7 @@ export class UserListComponent {
       if (userIDs.length === 0) return;
       if (!confirm(`Soll wirklich ${userIDs.length} ausgewählte Benutzer gelöscht werden?`)) return;
       await this.userS.deleteUsers(userIDs);
-      this.userS.allUsers.reload();
+      this.reload();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
@@ -72,7 +106,7 @@ export class UserListComponent {
       if (newUsername !== row.user.username) await this.userS.updateUsername(row.user.userID, newUsername);
       if (newPassword) await this.userS.setinitialpassword(row.user.userID, newPassword);
       if (userRoleID != row.user.userRole.userRoleID) await this.userS.updateUserRole(row.user.userID, userRoleID);
-      this.userS.allUsers.reload();
+      this.userS.usersResource.reload();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);

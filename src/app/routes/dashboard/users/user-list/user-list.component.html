@@ -21,12 +21,10 @@
         </svg>
       </button>
     </div>
-    @if (userS.allUsers.isLoading()) {
-      <app-progress-spinner [endless]="true"></app-progress-spinner>
-    } @else if (error() || userS.allUsers.error()) {
-      <app-error-display [error]="error() ?? userS.allUsers.error()"></app-error-display>
+    @if (error() || userS.usersResource.error()) {
+      <app-error-display [error]="error() ?? userS.usersResource.error()"></app-error-display>
     } @else {
-      <div class="tablehorizontal-scroll-container">
+      <div class="tablehorizontal-scroll-container" (scroll)="scroll($event.target)">
         <table>
           <thead>
             <tr>

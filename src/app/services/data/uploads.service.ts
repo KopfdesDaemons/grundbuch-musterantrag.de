@@ -11,7 +11,7 @@ export class UploadsService {
   private http = inject(HttpClient);
   private document = inject(DOCUMENT);
 
-  pageToLoad = signal<number>(0);
+  pageToLoad = signal<number>(1);
 
   uploadsResource = httpResource<UploadData>(() => ({
     url: '/api/uploads',
@@ -27,8 +27,8 @@ export class UploadsService {
         return previous?.value ?? [];
       }
 
-      // When loading page 0, start a new list.
-      if (source.page === 0) {
+      // When loading page 1, start a new list.
+      if (source.page === 1) {
         return source.files;
       }
 
@@ -48,7 +48,12 @@ export class UploadsService {
   });
 
   totalPages = computed<number | undefined>(() => (this.uploadsResource.hasValue() ? this.uploadsResource.value()?.totalPages : undefined));
-  totalFiles = computed<number | undefined>(() => (this.uploadsResource.hasValue() ? this.uploadsResource.value()?.totalFiles : undefined));
+  totalFiles = linkedSignal<UploadData | undefined, number | undefined>({
+    source: () => this.uploadsResource.value(),
+    computation: (source, previous) => {
+      return source ? source.totalFiles : previous?.value;
+    }
+  });
 
   latestFile = computed<Upload | null>(() => {
     const files = this.uploadsResource.value()?.files ?? [];

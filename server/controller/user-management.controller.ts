@@ -33,7 +33,9 @@ export const handleDeleteUser = async (req: Request, res: Response) => {
 };
 
 export const handleGetAllUsers = async (req: Request, res: Response) => {
-  const users = await getAllUsers();
+  const page = parseInt(req.query['page'] as string, 10) || 1;
+
+  const users = await getAllUsers(page);
   return res.status(200).json(users);
 };
 
