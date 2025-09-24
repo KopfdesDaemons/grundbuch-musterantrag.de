@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DatePipe, NgClass } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
 import { UploadRow } from 'src/app/interfaces/uploadRow';
 import { FormsModule } from '@angular/forms';
+import { Upload } from 'server/models/upload.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,13 +16,24 @@ import { FormsModule } from '@angular/forms';
 })
 export class DashboardAntragslisteComponent {
   uploadsS = inject(UploadsService);
-
   error = signal<Error | null>(null);
 
-  rows = computed<UploadRow[]>(() => {
-    const upload = this.uploadsS.uploads();
-    if (!upload) return [];
-    return upload.map(upload => ({ isChecked: signal(false), upload: upload, editMode: false }));
+  private rowsMap = new Map<string, UploadRow>();
+  rows = linkedSignal<Upload[], UploadRow[]>({
+    source: () => this.uploadsS.uploads(),
+    computation: (uploads, previous) => {
+      if (!uploads) {
+        return previous?.value ?? [];
+      }
+      return uploads.map(upload => {
+        if (this.rowsMap.has(upload.uploadID)) {
+          return this.rowsMap.get(upload.uploadID)!;
+        }
+        const newRow: UploadRow = { isChecked: signal(false), upload: upload, editMode: false };
+        this.rowsMap.set(upload.uploadID, newRow);
+        return newRow;
+      });
+    }
   });
 
   selectedRows = computed<UploadRow[]>(() => this.rows().filter(row => row.isChecked()));
@@ -43,6 +55,7 @@ export class DashboardAntragslisteComponent {
   reloadFiles() {
     this.error.set(null);
     this.uploadsS.uploads.set([]);
+    this.rowsMap.clear();
     this.uploadsS.pageToLoad.set(0);
     this.uploadsS.uploadsResource.reload();
   }
