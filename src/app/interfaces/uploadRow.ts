@@ -1,7 +1,8 @@
+import { Signal } from '@angular/core';
 import { Upload } from 'server/models/upload.model';
 
 export interface UploadRow {
-  isChecked: boolean;
+  isChecked: Signal<boolean>;
   upload: Upload;
   editMode: boolean;
 }

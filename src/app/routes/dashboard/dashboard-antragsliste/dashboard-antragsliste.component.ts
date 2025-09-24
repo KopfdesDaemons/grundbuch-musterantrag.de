@@ -21,8 +21,11 @@ export class DashboardAntragslisteComponent {
   rows = computed<UploadRow[]>(() => {
     const upload = this.uploadsS.uploads();
     if (!upload) return [];
-    return upload.map(upload => ({ isChecked: false, upload: upload, editMode: false }));
+    return upload.map(upload => ({ isChecked: signal(false), upload: upload, editMode: false }));
   });
+
+  selectedRows = computed<UploadRow[]>(() => this.rows().filter(row => row.isChecked()));
+  selectedRowsWithGeneratedFiles = computed<UploadRow[]>(() => this.selectedRows().filter(row => row.upload.filesDeleted === false));
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
@@ -59,12 +62,27 @@ export class DashboardAntragslisteComponent {
   async deleteSelectedUploads() {
     try {
       this.error.set(null);
-      const selectedUploadIDs = this.rows()
-        .filter(row => row.isChecked)
-        .map(row => row.upload.uploadID);
+      const selectedUploadIDs = this.selectedRows().map(row => row.upload.uploadID);
       if (selectedUploadIDs.length === 0) return;
       if (!confirm(`Soll wirklich ${selectedUploadIDs.length} ausgewählte Antragsdaten gelöscht werden?`)) return;
       await this.uploadsS.deleteUpload(selectedUploadIDs);
+      this.reloadFiles();
+    } catch (error) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
+        this.error.set(error);
+      }
+    }
+  }
+
+  async deleteGeneratedFilesForSelectedUploads() {
+    try {
+      this.error.set(null);
+      const selectedUploadIDs = this.selectedRowsWithGeneratedFiles().map(row => row.upload.uploadID);
+      if (selectedUploadIDs.length === 0) return;
+      if (!confirm(`Soll wirklich die generierten Dateien für ${selectedUploadIDs.length} ausgewählte Anträge gelöscht werden?`)) return;
+      for (const id of selectedUploadIDs) {
+        await this.uploadsS.deleteGeneratedFiles(id);
+      }
       this.reloadFiles();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {

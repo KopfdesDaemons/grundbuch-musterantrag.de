@@ -12,11 +12,7 @@
           />
         </svg>
       </button>
-      <button
-        (click)="deleteUsers()"
-        [disabled]="userS.allUsers.isLoading() || userS.allUsers.error() || selectedRows().length === 0"
-        title="Ausgewählte Nutzer löschen"
-      >
+      <button (click)="deleteUsers()" [disabled]="selectedRows().length === 0" title="Ausgewählte Nutzer löschen">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
