@@ -39,6 +39,7 @@ export class UserListComponent {
         .map(row => row.user.userID)
         .filter((userID): userID is number => userID !== undefined);
       if (userIDs.length === 0) return;
+      if (!confirm(`Soll wirklich ${userIDs.length} ausgewählte Benutzer gelöscht werden?`)) return;
       await this.userS.deleteUsers(userIDs);
       this.userS.allUsers.reload();
     } catch (error) {

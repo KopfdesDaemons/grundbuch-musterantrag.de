@@ -13,6 +13,13 @@ section {
   }
 }
 
+.controlls-row {
+  button {
+    height: 3em;
+    width: 3em;
+  }
+}
+
 $tabele-width: clamp(300px, 95%, 1200px);
 
 .tableHeader {
@@ -27,14 +34,6 @@ $tabele-width: clamp(300px, 95%, 1200px);
   h2 {
     margin: 0.5em;
     font-size: 1em;
-  }
-
-  .reloadBtn {
-    padding: 0.2em;
-    margin: 0;
-    height: 25px;
-    width: 25px;
-    text-align: center;
   }
 }
 
@@ -58,6 +57,11 @@ $tabele-width: clamp(300px, 95%, 1200px);
   }
 }
 
+.grundbuchamt {
+  display: block;
+  max-width: 15em;
+}
+
 .icon-table-cell {
   text-align: center;
 }
@@ -72,35 +76,41 @@ $tabele-width: clamp(300px, 95%, 1200px);
   }
 }
 
-.dropDown {
-  position: relative;
+.not-found {
+  background-color: #c17878;
+}
 
-  ul {
-    visibility: collapse;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    right: 50%;
-    top: 50%;
-    background-color: var(--background);
-    border-radius: 8px;
-    list-style: none;
-    z-index: 1;
-    border: 1px solid var(--primary-variant-much-brighter);
-    overflow: hidden;
+.edit-row {
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
 
-    li {
-      padding: 10px;
-      cursor: pointer;
+  .details {
+    h3 {
+      margin-top: 0;
+    }
 
-      &:hover {
-        background-color: var(--background-variant-darker);
+    ul {
+      padding: 0;
+      list-style: none;
+
+      li span:first-of-type {
+        font-weight: bold;
       }
     }
   }
-}
 
-.not-found {
-  background-color: #c17878;
-  cursor: unset;
+  .controlls {
+    display: flex;
+    button {
+      margin-top: 0;
+    }
+
+    .delete-btn {
+      height: 2.5rem;
+      width: 2.5rem;
+      padding: 0.5rem;
+    }
+  }
 }

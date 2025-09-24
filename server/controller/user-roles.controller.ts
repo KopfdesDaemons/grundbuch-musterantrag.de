@@ -34,16 +34,17 @@ export const handleCreateUserRole = async (req: Request, res: Response) => {
 };
 
 export const handleDeleteUserRole = async (req: Request, res: Response) => {
-  const { userRoleIDs } = req.body;
+  const userRoleIDs = req.query['userRoleIDs'] as string;
+  const userRoleIDsArray = userRoleIDs.split(',').map(id => id.trim());
 
-  if (!userRoleIDs || !Array.isArray(userRoleIDs)) {
+  if (!userRoleIDsArray) {
     return res.status(400).json({ message: 'Unvollständige oder ungültige Anfrage, erwartet wird ein Array von IDs' });
   }
 
-  for (const userRoleID of userRoleIDs) await validateAndGetUserRole(userRoleID);
+  for (const userRoleID of userRoleIDsArray) await validateAndGetUserRole(userRoleID);
 
   try {
-    await deleteUserRole(userRoleIDs);
+    await deleteUserRole(userRoleIDsArray.map(id => +id));
   } catch (error) {
     if (error instanceof Error && error?.message.includes('Es gibt noch Benutzer')) {
       return res.status(409).json({ message: error.message });

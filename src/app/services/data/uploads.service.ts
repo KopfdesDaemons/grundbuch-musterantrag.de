@@ -112,10 +112,10 @@ export class UploadsService {
     URL.revokeObjectURL(blobUrl);
   }
 
-  async deleteUpload(name: string) {
+  async deleteUpload(UploadIDs: string[]) {
     await lastValueFrom(
       this.http.delete('/api/uploads/deleteUpload', {
-        params: new HttpParams().set('uploadID', name)
+        params: new HttpParams().set('uploadIDs', UploadIDs.toString())
       })
     );
   }

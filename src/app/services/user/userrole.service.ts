@@ -188,7 +188,7 @@ export class UserroleService {
   async deleteUserRole(userRoleIDs: number[]): Promise<void> {
     await lastValueFrom(
       this.http.delete('/api/userrole/', {
-        body: { userRoleIDs: userRoleIDs }
+        params: new HttpParams().set('userRoleIDs', userRoleIDs.toString())
       })
     );
   }

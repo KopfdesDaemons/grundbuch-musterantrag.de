@@ -1,24 +1,28 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal } from '@angular/core';
-import { AuthService } from 'src/app/services/user/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DatePipe, NgClass } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
+import { UploadRow } from 'src/app/interfaces/uploadRow';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],
-  imports: [DatePipe, ErrorDisplayComponent, NgClass]
+  imports: [DatePipe, ErrorDisplayComponent, NgClass, FormsModule]
 })
 export class DashboardAntragslisteComponent {
-  private elem = inject(ElementRef);
-  http = inject(HttpClient);
-  authS = inject(AuthService);
   uploadsS = inject(UploadsService);
 
   error = signal<HttpErrorResponse | null>(null);
+
+  rows = computed<UploadRow[]>(() => {
+    const upload = this.uploadsS.uploads();
+    if (!upload) return [];
+    return upload.map(upload => ({ isChecked: false, upload: upload, editMode: false }));
+  });
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
@@ -40,10 +44,27 @@ export class DashboardAntragslisteComponent {
     this.uploadsS.uploadsResource.reload();
   }
 
-  async deleteUpload(name: string) {
+  async deleteUpload(uploadID: string) {
     try {
       this.error.set(null);
-      await this.uploadsS.deleteUpload(name);
+      await this.uploadsS.deleteUpload([uploadID]);
+      this.reloadFiles();
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error.set(error);
+      }
+    }
+  }
+
+  async deleteSelectedUploads() {
+    try {
+      this.error.set(null);
+      const selectedUploadIDs = this.rows()
+        .filter(row => row.isChecked)
+        .map(row => row.upload.uploadID);
+      if (selectedUploadIDs.length === 0) return;
+      if (!confirm(`Soll wirklich ${selectedUploadIDs.length} ausgewählte Antragsdaten gelöscht werden?`)) return;
+      await this.uploadsS.deleteUpload(selectedUploadIDs);
       this.reloadFiles();
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
@@ -75,30 +96,6 @@ export class DashboardAntragslisteComponent {
         this.error.set(error);
       }
     }
-  }
-
-  /* 
-    Schließt Dropdowns, wenn Klick auf anderen Element
-  */
-  @HostListener('document:click', ['$event']) onDocumentClick(event: any) {
-    const dropDowns = this.elem.nativeElement.querySelectorAll('.dropDown');
-
-    for (const dropdown of dropDowns) {
-      const ul = dropdown.querySelector('ul');
-
-      if (ul.style.visibility === 'visible') {
-        if (!dropdown.contains(event.target)) {
-          ul.style.visibility = 'collapse';
-        }
-      }
-    }
-  }
-
-  clickOnDropdown(element: any) {
-    const dropdown = element.closest('.dropDown') as HTMLElement;
-    const ulElement = dropdown.querySelector('.dropDownMenu') as HTMLElement;
-
-    if (ulElement) ulElement.style.visibility = 'visible';
   }
 
   async getFile(fileName: string, fileType: 'pdf' | 'odt') {

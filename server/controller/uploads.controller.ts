@@ -30,18 +30,21 @@ export const handleDeleteAllUploads = async (req: Request, res: Response) => {
 };
 
 export const handleDeleteUpload = async (req: Request, res: Response) => {
-  const uploadID = req.query['uploadID'] as string;
-  if (!uploadID) return res.status(400).send({ message: 'Fehlende UploadID' });
+  const uploadIDs = req.query['uploadIDs'] as string;
+  const uploadIDsArray = uploadIDs.split(',').map(id => id.trim());
+  if (!uploadIDsArray) return res.status(400).send({ message: 'Unvollständige oder ungültige Anfrage, erwartet wird ein Array von IDs' });
 
   // Aktualisiere die Statistik
   try {
-    const antrag: Upload = await readUpload(uploadID);
-    await updateStatistic(antrag.antragsart, -1);
+    for (const id of uploadIDsArray) {
+      const antrag: Upload = await readUpload(id);
+      await updateStatistic(antrag.antragsart, -1);
+    }
   } catch (error) {
     logger.error('Fehler beim Aktualisieren der Statistik:', error);
   }
 
-  await deleteUpload(uploadID);
+  await deleteUpload(uploadIDsArray);
   return res.status(200).send({ message: 'Upload gelöscht' });
 };
 

@@ -1,14 +1,26 @@
 <section>
   <div class="content-spacer">
-    <div class="tableHeader">
-      <button class="reloadBtn" (click)="reloadFiles()">
+    <div class="controlls-row">
+      <button (click)="reloadFiles()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
+            fill="currentColor"
             d="M552 256L408 256C398.3 256 389.5 250.2 385.8 241.2C382.1 232.2 384.1 221.9 391 215L437.7 168.3C362.4 109.7 253.4 115 184.2 184.2C109.2 259.2 109.2 380.7 184.2 455.7C259.2 530.7 380.7 530.7 455.7 455.7C463.9 447.5 471.2 438.8 477.6 429.6C487.7 415.1 507.7 411.6 522.2 421.7C536.7 431.8 540.2 451.8 530.1 466.3C521.6 478.5 511.9 490.1 501 501C401 601 238.9 601 139 501C39.1 401 39 239 139 139C233.3 44.7 382.7 39.4 483.3 122.8L535 71C541.9 64.1 552.2 62.1 561.2 65.8C570.2 69.5 576 78.3 576 88L576 232C576 245.3 565.3 256 552 256z"
           />
         </svg>
       </button>
+      <button (click)="deleteSelectedUploads()" [disabled]="uploadsS.uploadsResource.isLoading() && uploadsS.uploadsResource.error()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            fill="currentColor"
+            d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="tableHeader">
       <span>Anträge: {{ uploadsS.totalFiles() }} </span>
+      <h2>Uploads</h2>
       <button class="btn-text" (click)="deleteFolder()">alle löschen</button>
     </div>
 
@@ -19,6 +31,7 @@
         <table>
           <thead>
             <tr>
+              <th></th>
               <th>Datum</th>
               <th>Antragsart</th>
               <th>Grundbuchamt</th>
@@ -28,15 +41,18 @@
             </tr>
           </thead>
           <tbody>
-            @for (file of uploadsS.uploads(); track file) {
+            @for (row of rows(); track row) {
               <tr>
-                <td>{{ file.uploadDate | date: "dd.MM.yyyy HH:mm" }}&nbsp;Uhr</td>
-                <td>{{ file.antragsart }}</td>
-                <td>{{ file.grundbuchamt }}</td>
+                <td>
+                  <input type="checkbox" [(ngModel)]="row.isChecked" />
+                </td>
+                <td>{{ row.upload.uploadDate | date: "dd.MM.yyyy HH:mm" }}&nbsp;Uhr</td>
+                <td>{{ row.upload.antragsart }}</td>
+                <td class="grundbuchamt">{{ row.upload.grundbuchamt }}</td>
 
                 <td class="icon-table-cell">
-                  @if (file.odtFile && !file.filesDeleted) {
-                    <button class="btn-icon" (click)="getFile(file.uploadID, 'odt')" title="Download .odt Datei">
+                  @if (row.upload.odtFile && !row.upload.filesDeleted) {
+                    <button class="btn-icon" (click)="getFile(row.upload.uploadID, 'odt')" title="Download .odt Datei">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                         <path
                           fill="currentColor"
@@ -44,14 +60,14 @@
                         />
                       </svg>
                     </button>
-                  } @else if (file.odtFile && file.filesDeleted) {
+                  } @else if (row.upload.odtFile && row.upload.filesDeleted) {
                     <svg
                       class="check"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 640 640"
-                      [ngClass]="{ downloadedByUser: file.odtFileDownloadedByUser }"
+                      [ngClass]="{ downloadedByUser: row.upload.odtFileDownloadedByUser }"
                     >
-                      @if (file.odtFileDownloadedByUser) {
+                      @if (row.upload.odtFileDownloadedByUser) {
                         <title>Der User hat den Download-Button angeklickt</title>
                       } @else {
                         <title>Die Datei wurde generiert und nach dem Response gelöscht</title>
@@ -71,8 +87,8 @@
                 </td>
 
                 <td class="icon-table-cell">
-                  @if (file.pdfFile && !file.filesDeleted) {
-                    <button class="btn-icon" target="_blank" (click)="getFile(file.uploadID, 'pdf')" title=".pdf Datei öffnen">
+                  @if (row.upload.pdfFile && !row.upload.filesDeleted) {
+                    <button class="btn-icon" target="_blank" (click)="getFile(row.upload.uploadID, 'pdf')" title=".pdf Datei öffnen">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                         <path
                           fill="currentColor"
@@ -80,14 +96,14 @@
                         />
                       </svg>
                     </button>
-                  } @else if (file.pdfFile && file.filesDeleted) {
+                  } @else if (row.upload.pdfFile && row.upload.filesDeleted) {
                     <svg
                       class="check"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 640 640"
-                      [ngClass]="{ downloadedByUser: file.pdfFileDownloadedByUser }"
+                      [ngClass]="{ downloadedByUser: row.upload.pdfFileDownloadedByUser }"
                     >
-                      @if (file.pdfFileDownloadedByUser) {
+                      @if (row.upload.pdfFileDownloadedByUser) {
                         <title>Der User hat den Download-Button angeklickt</title>
                       } @else {
                         <title>Die Datei wurde generiert und nach dem Response gelöscht</title>
@@ -106,8 +122,8 @@
                   }
                 </td>
 
-                <td class="dropDown">
-                  <button class="btn-icon" (click)="clickOnDropdown($event.target)">
+                <td class="toggle">
+                  <button class="btn-icon" (click)="row.editMode = !row.editMode" title="Details">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                       <path
                         fill="currentColor"
@@ -115,14 +131,52 @@
                       />
                     </svg>
                   </button>
-                  <ul class="dropDownMenu">
-                    <li (click)="deleteUpload(file.uploadID)">Upload&nbsp;komplett&nbsp;löschen</li>
-                    @if (!file.filesDeleted) {
-                      <li (click)="deleteGeneratedFiles(file.uploadID)">Nur&nbsp;generierte&nbsp;Dateien&nbsp;löschen (Upload&nbsp;beibehalten)</li>
-                    }
-                  </ul>
                 </td>
               </tr>
+              @if (row.editMode) {
+                <tr class="edit-row">
+                  <td colspan="7">
+                    <div class="container">
+                      <div class="details">
+                        <h3>Details zum Antrag</h3>
+                        <ul>
+                          <li>
+                            <span>UploadID: </span><span>{{ row.upload.uploadID }}</span>
+                          </li>
+                          <li>
+                            <span>Odt-Datei generiert: </span><span>{{ row.upload.odtFile }}</span>
+                          </li>
+                          <li>
+                            <span>Pdf-Datei generiert: </span><span>{{ row.upload.pdfFile }}</span>
+                          </li>
+                          <li>
+                            <span>Generierte Dateien gelöscht: </span><span>{{ row.upload.filesDeleted }}</span>
+                          </li>
+                          <li>
+                            <span>Odt-Datei vom User heruntergeladen: </span><span>{{ row.upload.odtFileDownloadedByUser ?? "nicht bekannt" }}</span>
+                          </li>
+                          <li>
+                            <span>Pdf-Datei vom User heruntergeladen: </span><span>{{ row.upload.pdfFileDownloadedByUser ?? "nicht bekannt" }}</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="controlls">
+                        <button [disabled]="row.upload.filesDeleted" (click)="deleteGeneratedFiles(row.upload.uploadID)">
+                          Generierte Dateien löschen
+                        </button>
+                        <button class="delete-btn" (click)="deleteUpload(row.upload.uploadID)">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                            <path
+                              fill="currentColor"
+                              d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              }
             }
           </tbody>
         </table>

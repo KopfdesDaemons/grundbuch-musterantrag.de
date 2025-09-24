@@ -10,7 +10,7 @@ export const handleGetOwnUsername = async (req: Request, res: Response) => {
   const userID = jwtPayload['userID'];
   const username = await getUsername(userID);
   if (!username) {
-    return res.status(400).json({ message: 'Kein Benutzer gefunden' });
+    return res.status(400).json({ message: 'Benutzer nicht gefunden' });
   }
   return res.status(200).json({ message: 'Username erfolgreich geladen', username });
 };

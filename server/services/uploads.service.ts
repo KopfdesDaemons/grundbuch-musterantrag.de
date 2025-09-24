@@ -94,8 +94,8 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
         data.uploadDate,
         data.antragsart,
         data.grundbuchamt,
-        data.pdfFileDownloadedByUser,
-        data.odtFileDownloadedByUser,
+        data.pdfFileDownloadedByUser ?? null,
+        data.odtFileDownloadedByUser ?? null,
         data.uploadID
       ]
     : [
@@ -106,17 +106,21 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
         data.uploadDate,
         data.antragsart,
         data.grundbuchamt,
-        data.pdfFileDownloadedByUser,
-        data.odtFileDownloadedByUser
+        data.pdfFileDownloadedByUser ?? null,
+        data.odtFileDownloadedByUser ?? null
       ];
 
   await db.execute(sql, params);
 };
 
-export const deleteUpload = async (uploadID: string): Promise<void> => {
-  await deleteGeneratedFiles(uploadID);
-  const deleteQuery = `DELETE FROM uploads WHERE uploadID = ?`;
-  await db.execute<RowDataPacket[]>(deleteQuery, [uploadID]);
+export const deleteUpload = async (uploadID: string[]): Promise<void> => {
+  if (uploadID.length === 0) throw new Error('Keine UploadIDs übergeben');
+  for (const id of uploadID) {
+    await deleteGeneratedFiles(id);
+  }
+  const placeholders = uploadID.map(() => '?').join(', ');
+  const deleteQuery = `DELETE FROM uploads WHERE uploadID IN (${placeholders})`;
+  await db.execute<RowDataPacket[]>(deleteQuery, uploadID);
 };
 
 export const deleteAllUploads = async (): Promise<void> => {
