@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
@@ -19,6 +19,7 @@ export class UserListComponent {
   userS = inject(UserService);
   userRoleS = inject(UserroleService);
   error = signal<Error | null>(null);
+  selectAllinput = viewChild.required<HTMLInputElement>('selectAllInput');
 
   rows = computed<UserRow[]>(() => {
     if (this.userS.allUsers.isLoading() || this.userS.allUsers.error()) return [];
@@ -31,6 +32,11 @@ export class UserListComponent {
   reload() {
     this.error.set(null);
     this.userS.allUsers.reload();
+    this.selectAllinput().checked = false;
+  }
+
+  selectAll(value: boolean) {
+    this.rows().forEach(row => row.isChecked.set(value));
   }
 
   async deleteUsers(): Promise<void> {

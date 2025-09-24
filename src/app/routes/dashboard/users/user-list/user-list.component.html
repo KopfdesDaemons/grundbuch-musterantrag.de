@@ -30,7 +30,7 @@
         <table>
           <thead>
             <tr>
-              <th></th>
+              <th><input type="checkbox" #selectAllInput (change)="selectAll(selectAllInput.checked)" /></th>
               <th>Username</th>
               <th>User&nbsp;ID</th>
               <th>Benutzerrolle</th>
