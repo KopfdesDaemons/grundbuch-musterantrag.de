@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import * as fs from 'fs';
 import PizZip from 'pizzip';
 import { OdtTemplater } from 'odt-templater';
-import * as converterController from '../helpers/file-conversion.helper';
 import { updateStatistic } from 'server/services/statistic.service';
 import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
@@ -11,6 +10,7 @@ import { Upload } from 'server/models/upload.model';
 import { deleteGeneratedFiles, reportDownloadByUser, updateUploadData } from 'server/services/uploads.service';
 import { randomUUID } from 'crypto';
 import { SettingsService } from 'server/services/settings.service';
+import { convertToPdf } from '../helpers/file-conversion.helper';
 
 export const submitForm = async (req: Request, res: Response) => {
   const { antrag } = req.body;
@@ -56,16 +56,18 @@ export const submitForm = async (req: Request, res: Response) => {
   await updateUploadData(newUpload);
 
   await updateStatistic(newUpload.antragsart, 1);
-
-  await converterController.convertToPdf(filePathOdt, uploadFolderPath);
+  try {
+    await convertToPdf(filePathOdt, uploadFolderPath);
+  } catch (e) {
+    logger.error('Fehler bei der PDF-Konvertierung:', e);
+  }
 
   // Check if the PDF-File was created
   if (!fs.existsSync(filePathPdf)) {
-    logger.error('Die PDF-Datei wurde nicht erstellt.');
-    return res.status(500).send('Interner Serverfehler: PDF-Datei nicht gefunden.');
+    logger.error('PDF-Datei wurde nicht erstellt.');
   } else newUpload.pdfFile = true;
-  await updateUploadData(newUpload);
 
+  await updateUploadData(newUpload);
   return res.status(200).send({ message: 'Antrag erfolgreich erstellt.', uploadID });
 };
 
@@ -85,6 +87,9 @@ export const handleGetOdtAfterSubmitForm = (req: Request, res: Response) => {
     }
   });
 
+  if (!fs.existsSync(path.join(folderPath, fileName))) {
+    return res.status(404).send({ message: 'ODT-Datei nicht gefunden' });
+  }
   const filePath = path.join(folderPath, fileName);
   return res.contentType('application/vnd.oasis.opendocument.text').sendFile(filePath);
 };
@@ -97,6 +102,9 @@ export const handleGetPdfAfterSubmitForm = (req: Request, res: Response) => {
   const folderPath: string = path.join(UPLOADS_FOLDER_PATH, uploadID);
 
   const filePath = path.join(folderPath, fileName);
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send({ message: 'PDF-Datei nicht gefunden' });
+  }
   return res.contentType('application/pdf').sendFile(filePath);
 };
 
@@ -109,5 +117,5 @@ export const handleReportDownloadByUser = async (req: Request, res: Response) =>
     return res.status(400).send({ message: 'Ungültiger Dateityp' });
   }
   await reportDownloadByUser(uploadID, fileType);
-  return res.status(200).send('Download erfolgreich gemeldet.');
+  return res.status(200).send({ message: 'Download erfolgreich gemeldet.' });
 };

@@ -21,7 +21,7 @@ export class MigrationTileComponent {
 
   responseText = signal('');
   isLoading = signal(false);
-  error = signal<HttpErrorResponse | null>(null);
+  error = signal<Error | HttpErrorResponse | null>(null);
 
   async migrate() {
     if (!confirm('Migration ' + this.selectedMigration.name + ' wirklich durchführen?')) return;
@@ -30,7 +30,7 @@ export class MigrationTileComponent {
       const { message } = await this.selectedMigration.migrate();
       this.responseText.set(message);
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }

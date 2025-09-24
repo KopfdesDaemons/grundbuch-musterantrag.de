@@ -16,7 +16,7 @@ export class UserRolesComponent {
   userRoleS = inject(UserroleService);
   form = signal<FormGroup>(this.userRoleS.getFormGroup());
   isNewUserRole = false;
-  error = signal<HttpErrorResponse | null>(null);
+  error = signal<Error | HttpErrorResponse | null>(null);
   isLoading = signal(false);
   selectedUserRoleID: WritableSignal<number | undefined> = signal(undefined);
 
@@ -76,7 +76,7 @@ export class UserRolesComponent {
       this.userRoleS.userRoleInEdit.reload();
       this.selectedUserRoleID.set(userRoleID);
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
@@ -93,7 +93,7 @@ export class UserRolesComponent {
       this.selectedUserRoleID.set(undefined);
       this.userRoleS.userRoleOptions.reload();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }

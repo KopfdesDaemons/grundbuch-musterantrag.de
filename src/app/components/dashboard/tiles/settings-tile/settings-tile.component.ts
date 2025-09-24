@@ -16,7 +16,7 @@ import { ErrorDisplayComponent } from '../../../error-display/error-display.comp
 export class SettingsTileComponent implements OnInit {
   private uploadS = inject(UploadsService);
   settingsS = inject(SettingsService);
-  error = signal<HttpErrorResponse | null>(null);
+  error = signal<Error | HttpErrorResponse | null>(null);
 
   ngOnInit(): void {
     this.settingsS.load();
@@ -30,7 +30,7 @@ export class SettingsTileComponent implements OnInit {
       (settings as any)[settingName] = value;
       await this.settingsS.saveSettings(settings);
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
@@ -42,7 +42,7 @@ export class SettingsTileComponent implements OnInit {
       if (!confirm('Soll wirklich alle generierten Dateien gelöscht werden?')) return;
       await this.uploadS.deleteAllGeneratedFiles();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }

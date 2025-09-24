@@ -25,15 +25,7 @@ export class DocumentService {
       return response;
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        // New instance of HttpErrorResponse is needed because the error.error is a Blob and not a JSON object
-        const errorMessage = JSON.parse(await error.error.text()).message;
-        throw new HttpErrorResponse({
-          error: { message: errorMessage },
-          headers: error.headers,
-          status: error.status,
-          statusText: error.statusText,
-          url: error.url || undefined
-        });
+        throw await this.getHttpErrorWithMessageParsedFromBody(error);
       }
       throw new Error('getPdfAfterSubmitForm failed without HttpErrorResponse');
     }
@@ -46,18 +38,21 @@ export class DocumentService {
       return response;
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
-        // New instance of HttpErrorResponse is needed because the error.error is a Blob and not a JSON object
-        const errorMessage = JSON.parse(await error.error.text()).message;
-        throw new HttpErrorResponse({
-          error: { message: errorMessage },
-          headers: error.headers,
-          status: error.status,
-          statusText: error.statusText,
-          url: error.url || undefined
-        });
+        throw await this.getHttpErrorWithMessageParsedFromBody(error);
       }
       throw new Error('getOdtAfterSubmitForm failed without HttpErrorResponse');
     }
+  }
+
+  async getHttpErrorWithMessageParsedFromBody(error: HttpErrorResponse): Promise<HttpErrorResponse> {
+    const errorMessage = JSON.parse(await error.error.text()).message;
+    throw new HttpErrorResponse({
+      error: { message: errorMessage },
+      headers: error.headers,
+      status: error.status,
+      statusText: error.statusText,
+      url: error.url || undefined
+    });
   }
 
   async reportDownloadByUser(uploadID: string, fileType: 'odtFile' | 'pdfFile'): Promise<void> {

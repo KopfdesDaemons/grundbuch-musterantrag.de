@@ -30,6 +30,7 @@
         </div>
       </div>
       <div class="tile">
+        <span [ngClass]="{ error: newUsernameError() }">{{ newUsernameMessage() }}</span>
         <form [formGroup]="newUsernameForm" #ngFormNewUsername="ngForm" (ngSubmit)="changeUsername()">
           <div class="input-container">
             <input formControlName="newUsername" type="text" name="username" placeholder="&nbsp;" />
@@ -40,7 +41,7 @@
       </div>
       <div class="tile">
         <p>Passwort ändern:</p>
-        <span [ngClass]="{ error: isError() }">{{ message() }}</span>
+        <span [ngClass]="{ error: newPasswordError() }">{{ newPasswordMessage() }}</span>
         <form [formGroup]="newPasswordForm" #ngFormNewPassword="ngForm" (ngSubmit)="changePassword()">
           <div class="input-container">
             <input formControlName="oldPassword" type="password" name="oldPassword" placeholder="&nbsp;" />

@@ -23,13 +23,15 @@ export class UserSettingsComponent {
   newUsernameForm = this.formBuilder.group({
     newUsername: ['', Validators.required]
   });
-  message = signal('');
-  isError = signal(false);
+  newPasswordMessage = signal('');
+  newPasswordError = signal(false);
+  newUsernameMessage = signal('');
+  newUsernameError = signal(false);
 
   async changePassword() {
     try {
-      this.message.set('');
-      this.isError.set(false);
+      this.newPasswordMessage.set('');
+      this.newPasswordError.set(false);
       if (this.newPasswordForm.invalid) return;
       const newPassword = this.newPasswordForm.get('password')?.value;
       const oldPassword = this.newPasswordForm.get('oldPassword')?.value;
@@ -40,26 +42,29 @@ export class UserSettingsComponent {
       }
       await this.userSettingsS.changePassword(oldPassword, newPassword);
       this.ngFormNewPassword().resetForm();
-      this.message.set('Passwort erfolgreich geändert');
-      this.isError.set(false);
+      this.newPasswordMessage.set('Passwort erfolgreich geändert');
     } catch (err) {
       if (err instanceof HttpErrorResponse) {
-        this.message.set(err.error.message);
-        this.isError.set(true);
+        this.newPasswordMessage.set(err.error.message);
+        this.newPasswordError.set(true);
       }
     }
   }
 
   async changeUsername() {
     try {
+      this.newUsernameMessage.set('');
+      this.newUsernameError.set(false);
       if (this.newUsernameForm.invalid) return;
       const newUsername = this.newUsernameForm.get('newUsername')?.value;
       if (!newUsername) return;
       await this.userSettingsS.changeUsername(newUsername);
       this.ngFormNewUsername().resetForm();
+      this.newUsernameMessage.set('Username erfolgreich geändert');
     } catch (err) {
       if (err instanceof HttpErrorResponse) {
-        this.newUsernameForm.get('newUsername')?.setErrors({ error: { message: err.error.message } });
+        this.newUsernameMessage.set(err.error.message);
+        this.newUsernameError.set(true);
       }
     }
   }

@@ -11,7 +11,7 @@
         }
       </div>
       @if (error()) {
-        <p class="error-text">{{ error()!.error.message }}</p>
+        <p class="error-text">{{ error()!.error.message ?? error()!.statusText }}</p>
         <button class="btn-text" (click)="generatePdf()">erneut versuchen</button>
       }
     </div>

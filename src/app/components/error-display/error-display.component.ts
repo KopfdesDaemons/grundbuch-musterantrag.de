@@ -11,6 +11,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 export class ErrorDisplayComponent {
   error = input.required<Error | undefined | HttpErrorResponse>();
   httpError = computed<HttpErrorResponse | null>(() => {
+    console.log(this.error());
     if (this.error() instanceof HttpErrorResponse) return this.error() as HttpErrorResponse;
     else return null;
   });

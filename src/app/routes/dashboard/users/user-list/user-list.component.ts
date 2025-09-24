@@ -43,7 +43,7 @@ export class UserListComponent {
       await this.userS.deleteUsers(userIDs);
       this.userS.allUsers.reload();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
@@ -67,7 +67,7 @@ export class UserListComponent {
       if (userRoleID != row.user.userRole.userRoleID) await this.userS.updateUserRole(row.user.userID, userRoleID);
       this.userS.allUsers.reload();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }

@@ -15,7 +15,7 @@ import { NgClass } from '@angular/common';
 })
 export class LoggerTileComponent {
   loggerS = inject(LoggerService);
-  error = signal<HttpErrorResponse | null>(null);
+  error = signal<Error | HttpErrorResponse | null>(null);
 
   async deleteLogFile() {
     try {
@@ -23,7 +23,7 @@ export class LoggerTileComponent {
       await this.loggerS.deleteLogFile();
       this.loggerS.loggerResource.reload();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }

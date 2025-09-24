@@ -9,7 +9,7 @@
           />
         </svg>
       </button>
-      <button (click)="deleteUsers()" [disabled]="userS.allUsers.isLoading() && userS.allUsers.error()">
+      <button (click)="deleteUsers()" [disabled]="userS.allUsers.isLoading() || userS.allUsers.error()" title="Ausgewählte Nutzer löschen">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"

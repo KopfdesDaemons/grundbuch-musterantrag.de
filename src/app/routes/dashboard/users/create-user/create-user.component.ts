@@ -25,7 +25,7 @@ export class CreateUserComponent {
     if (!this.userroleS.userRoleOptions.hasValue()) return undefined;
     return this.userroleS.userRoleOptions.value().find(role => role.userRoleID === +selectedRoleID);
   });
-  error = signal<HttpErrorResponse | null>(null);
+  error = signal<Error | HttpErrorResponse | null>(null);
   form: FormGroup = this.userS.getNewUserFormGroup(this.userroleS.firstUserRoleID());
 
   constructor() {
@@ -48,10 +48,9 @@ export class CreateUserComponent {
       // Reset form to prevent validation errors for new form
       this.ngForm().resetForm(this.userS.getNewUserFormGroup(this.userroleS.firstUserRoleID()).value);
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
-      throw error;
     }
   }
 

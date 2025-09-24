@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class DashboardAntragslisteComponent {
   uploadsS = inject(UploadsService);
 
-  error = signal<HttpErrorResponse | null>(null);
+  error = signal<Error | null>(null);
 
   rows = computed<UploadRow[]>(() => {
     const upload = this.uploadsS.uploads();
@@ -50,7 +50,7 @@ export class DashboardAntragslisteComponent {
       await this.uploadsS.deleteUpload([uploadID]);
       this.reloadFiles();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
@@ -67,7 +67,7 @@ export class DashboardAntragslisteComponent {
       await this.uploadsS.deleteUpload(selectedUploadIDs);
       this.reloadFiles();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
@@ -79,7 +79,7 @@ export class DashboardAntragslisteComponent {
       await this.uploadsS.deleteGeneratedFiles(uploadID);
       this.reloadFiles();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
@@ -92,7 +92,7 @@ export class DashboardAntragslisteComponent {
       await this.uploadsS.deleteFolder();
       this.reloadFiles();
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
@@ -102,8 +102,8 @@ export class DashboardAntragslisteComponent {
     try {
       this.error.set(null);
       await this.uploadsS.getFile(fileName, fileType);
-    } catch (error) {
-      if (error instanceof HttpErrorResponse) {
+    } catch (error: unknown) {
+      if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
       }
     }
