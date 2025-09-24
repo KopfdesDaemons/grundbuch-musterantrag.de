@@ -8,6 +8,18 @@
 }
 
 .controlls {
+  width: 80%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .selected-rows-count {
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
   button {
     height: 3em;
     width: 3em;

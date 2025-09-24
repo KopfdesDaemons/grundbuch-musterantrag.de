@@ -1,6 +1,9 @@
 <section>
   <div class="content-spacer">
     <div class="controlls">
+      @if (selectedRows().length > 0) {
+        <span class="selected-rows-count">{{ selectedRows().length }}</span>
+      }
       <button (click)="reload()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
@@ -9,7 +12,11 @@
           />
         </svg>
       </button>
-      <button (click)="deleteUsers()" [disabled]="userS.allUsers.isLoading() || userS.allUsers.error()" title="Ausgewählte Nutzer löschen">
+      <button
+        (click)="deleteUsers()"
+        [disabled]="userS.allUsers.isLoading() || userS.allUsers.error() || selectedRows().length === 0"
+        title="Ausgewählte Nutzer löschen"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"

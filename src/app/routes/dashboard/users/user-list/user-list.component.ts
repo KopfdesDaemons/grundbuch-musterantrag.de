@@ -21,10 +21,12 @@ export class UserListComponent {
   error = signal<Error | null>(null);
 
   rows = computed<UserRow[]>(() => {
-    const users = this.userS.allUsers.value();
-    if (!users) return [];
-    return users.map(user => ({ isChecked: false, user: user, editMode: false, editForm: undefined }));
+    if (this.userS.allUsers.isLoading() || this.userS.allUsers.error()) return [];
+    const users = this.userS.allUsers.value() ?? [];
+    return users.map(user => ({ isChecked: signal(false), user: user, editMode: false, editForm: undefined }));
   });
+
+  selectedRows = computed<UserRow[]>(() => this.rows().filter(row => row.isChecked()));
 
   reload() {
     this.error.set(null);
@@ -34,8 +36,7 @@ export class UserListComponent {
   async deleteUsers(): Promise<void> {
     try {
       this.error.set(null);
-      const userIDs = this.rows()
-        .filter(row => row.isChecked)
+      const userIDs = this.selectedRows()
         .map(row => row.user.userID)
         .filter((userID): userID is number => userID !== undefined);
       if (userIDs.length === 0) return;
