@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, linkedSignal, signal, viewChild } from '@angular/core';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DatePipe, NgClass } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
@@ -17,6 +17,7 @@ import { Upload } from 'server/models/upload.model';
 export class DashboardAntragslisteComponent {
   uploadsS = inject(UploadsService);
   error = signal<Error | null>(null);
+  selectAllInput = viewChild.required<ElementRef>('selectAllInput');
 
   private rowsMap = new Map<string, UploadRow>();
   rows = linkedSignal<Upload[], UploadRow[]>({
@@ -58,6 +59,7 @@ export class DashboardAntragslisteComponent {
     this.rowsMap.clear();
     this.uploadsS.pageToLoad.set(0);
     this.uploadsS.uploadsResource.reload();
+    this.selectAllInput().nativeElement.checked = false;
   }
 
   async deleteUpload(uploadID: string) {
@@ -102,6 +104,10 @@ export class DashboardAntragslisteComponent {
         this.error.set(error);
       }
     }
+  }
+
+  selectAll(value: boolean) {
+    this.rows().forEach(row => row.isChecked.set(value));
   }
 
   async deleteGeneratedFiles(uploadID: string) {

@@ -34,7 +34,7 @@
         <table>
           <thead>
             <tr>
-              <th></th>
+              <th><input #selectAllInput type="checkbox" (change)="selectAll(selectAllInput.checked)" /></th>
               <th>Datum</th>
               <th>Antragsart</th>
               <th>Grundbuchamt</th>
