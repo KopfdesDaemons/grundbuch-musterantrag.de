@@ -17,7 +17,7 @@ import { Upload } from 'server/models/upload.model';
 export class DashboardAntragslisteComponent {
   uploadsS = inject(UploadsService);
   error = signal<Error | null>(null);
-  selectAllInput = viewChild.required<ElementRef>('selectAllInput');
+  selectAllInput = viewChild<ElementRef>('selectAllInput');
 
   private rowsMap = new Map<string, UploadRow>();
   rows = linkedSignal<Upload[], UploadRow[]>({
@@ -59,7 +59,9 @@ export class DashboardAntragslisteComponent {
     this.rowsMap.clear();
     this.uploadsS.pageToLoad.set(1);
     this.uploadsS.uploadsResource.reload();
-    this.selectAllInput().nativeElement.checked = false;
+    if (this.selectAllInput()) {
+      this.selectAllInput()!.nativeElement.checked = false;
+    }
   }
 
   async deleteUpload(uploadID: string) {

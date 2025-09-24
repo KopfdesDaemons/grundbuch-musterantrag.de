@@ -22,7 +22,7 @@ export class UserService {
   }));
 
   users = linkedSignal<UserData | undefined, User[]>({
-    source: () => this.usersResource.value(),
+    source: () => (this.usersResource.hasValue() ? this.usersResource.value() : undefined),
     computation: (source, previous) => {
       if (!source) {
         return previous?.value ?? [];

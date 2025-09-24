@@ -21,7 +21,7 @@ export class UploadsService {
   }));
 
   uploads = linkedSignal<UploadData | undefined, Upload[]>({
-    source: () => this.uploadsResource.value(),
+    source: () => (this.uploadsResource.hasValue() ? this.uploadsResource.value() : undefined),
     computation: (source, previous) => {
       if (!source) {
         return previous?.value ?? [];
@@ -49,7 +49,7 @@ export class UploadsService {
 
   totalPages = computed<number | undefined>(() => (this.uploadsResource.hasValue() ? this.uploadsResource.value()?.totalPages : undefined));
   totalFiles = linkedSignal<UploadData | undefined, number | undefined>({
-    source: () => this.uploadsResource.value(),
+    source: () => (this.uploadsResource.hasValue() ? this.uploadsResource.value() : undefined),
     computation: (source, previous) => {
       return source ? source.totalFiles : previous?.value;
     }

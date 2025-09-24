@@ -19,7 +19,7 @@ export class UserListComponent {
   userS = inject(UserService);
   userRoleS = inject(UserroleService);
   error = signal<Error | null>(null);
-  selectAllinput = viewChild.required<ElementRef>('selectAllInput');
+  selectAllinput = viewChild<ElementRef>('selectAllInput');
 
   private rowsMap = new Map<string, UserRow>();
   rows = linkedSignal<User[], UserRow[]>({
@@ -66,7 +66,9 @@ export class UserListComponent {
     this.rowsMap.clear();
     this.userS.pageToLoad.set(1);
     this.userS.usersResource.reload();
-    this.selectAllinput().nativeElement.checked = false;
+    if (this.selectAllinput()) {
+      this.selectAllinput()!.nativeElement.checked = false;
+    }
   }
 
   selectAll(value: boolean) {
@@ -106,7 +108,7 @@ export class UserListComponent {
       if (newUsername !== row.user.username) await this.userS.updateUsername(row.user.userID, newUsername);
       if (newPassword) await this.userS.setinitialpassword(row.user.userID, newPassword);
       if (userRoleID != row.user.userRole.userRoleID) await this.userS.updateUserRole(row.user.userID, userRoleID);
-      this.userS.usersResource.reload();
+      this.reload();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
