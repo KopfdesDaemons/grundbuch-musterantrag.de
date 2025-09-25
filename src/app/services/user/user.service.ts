@@ -18,21 +18,21 @@ export class UserService {
     this.pageToLoad.set(value);
   }
 
-  private readonly _usersResource = httpResource<UserData>(() => ({
+  private readonly _userData = httpResource<UserData>(() => ({
     url: '/api/user-management',
     params: {
       page: this.pageToLoad()
     }
   }));
 
-  readonly usersResource = this._usersResource.asReadonly();
+  readonly userData = this._userData.asReadonly();
 
   loadUsers() {
-    this._usersResource.reload();
+    this._userData.reload();
   }
 
   private readonly _users = linkedSignal<UserData | undefined, User[]>({
-    source: () => (this.usersResource.hasValue() ? this.usersResource.value() : undefined),
+    source: () => (this.userData.hasValue() ? this.userData.value() : undefined),
     computation: (source, previous) => {
       if (!source) {
         return previous?.value ?? [];
@@ -45,7 +45,10 @@ export class UserService {
 
       // For subsequent pages, we append to the existing list.
       if (previous?.value && Array.isArray(previous.value)) {
-        return previous.value.concat(source.files);
+        const existingIds = new Set(previous.value.map(u => u.userID));
+        const newUsers = source.files.filter(u => !existingIds.has(u.userID));
+        if (newUsers.length === 0) return previous.value;
+        return previous.value.concat(newUsers);
       }
 
       // Fallback
@@ -60,12 +63,17 @@ export class UserService {
   }
 
   readonly loadedPages = computed(() => {
-    if (!this.usersResource.hasValue()) return 0;
-    return this.usersResource.value().page;
+    if (!this.userData.hasValue()) return 0;
+    return this.userData.value().page;
   });
 
-  readonly totalPages = computed<number | undefined>(() => (this.usersResource.hasValue() ? this.usersResource.value()?.totalPages : undefined));
-  readonly totalFiles = computed<number | undefined>(() => (this.usersResource.hasValue() ? this.usersResource.value()?.totalUsers : undefined));
+  readonly totalPages = computed<number | undefined>(() => (this.userData.hasValue() ? this.userData.value()?.totalPages : undefined));
+  readonly totalUsers = linkedSignal<UserData | undefined, number | undefined>({
+    source: () => (this.userData.hasValue() ? this.userData.value() : undefined),
+    computation: (source, previous) => {
+      return source ? source.totalUsers : previous?.value;
+    }
+  }).asReadonly();
 
   async deleteUsers(userIDs: number[]): Promise<void> {
     await lastValueFrom(

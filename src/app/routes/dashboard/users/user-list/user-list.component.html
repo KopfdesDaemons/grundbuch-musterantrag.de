@@ -21,8 +21,8 @@
         </svg>
       </button>
     </div>
-    @if (error() || userS.usersResource.error()) {
-      <app-error-display [error]="error() ?? userS.usersResource.error()"></app-error-display>
+    @if (error() || userS.userData.error()) {
+      <app-error-display [error]="error() ?? userS.userData.error()"></app-error-display>
     } @else {
       <div class="tablehorizontal-scroll-container" (scroll)="scroll($event.target)">
         <table>

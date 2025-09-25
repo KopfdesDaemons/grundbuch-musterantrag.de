@@ -16,13 +16,13 @@ import { User } from 'src/app/models/user.model';
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
-  userS = inject(UserService);
-  userRoleS = inject(UserroleService);
-  error = signal<Error | null>(null);
-  selectAllinput = viewChild<ElementRef>('selectAllInput');
+  readonly userS = inject(UserService);
+  readonly userRoleS = inject(UserroleService);
+  readonly selectAllinput = viewChild<ElementRef>('selectAllInput');
+  protected readonly error = signal<Error | null>(null);
 
-  private rowsMap = new Map<string, UserRow>();
-  rows = linkedSignal<User[], UserRow[]>({
+  private readonly rowsMap = new Map<string, UserRow>();
+  protected readonly rows = linkedSignal<User[], UserRow[]>({
     source: () => this.userS.users(),
     computation: (users, previous) => {
       if (!users) {
@@ -45,11 +45,11 @@ export class UserListComponent {
     }
   });
 
-  selectedRows = computed<UserRow[]>(() => this.rows().filter(row => row.isChecked()));
+  protected readonly selectedRows = computed<UserRow[]>(() => this.rows().filter(row => row.isChecked()));
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
-      if (!this.userS.usersResource.isLoading()) this.loadPage(this.userS.loadedPages() + 1);
+      if (!this.userS.userData.isLoading()) this.loadPage(this.userS.loadedPages() + 1);
     }
   }
 

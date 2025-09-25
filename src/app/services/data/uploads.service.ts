@@ -8,20 +8,19 @@ import { UploadData } from 'src/app/interfaces/uploadData';
   providedIn: 'root'
 })
 export class UploadsService {
-  private http = inject(HttpClient);
-  private document = inject(DOCUMENT);
+  private readonly http = inject(HttpClient);
+  private readonly document = inject(DOCUMENT);
 
-  private _pageToLoadSignal = signal<number>(1);
-  readonly pageToLoad = this._pageToLoadSignal.asReadonly();
+  private readonly pageToLoad = signal<number>(1);
 
   setPageToLoad(value: number) {
-    this._pageToLoadSignal.set(value);
+    this.pageToLoad.set(value);
   }
 
   private readonly _uploadsDataResource = httpResource<UploadData>(() => ({
     url: '/api/uploads',
     params: {
-      page: this._pageToLoadSignal()
+      page: this.pageToLoad()
     }
   }));
 
@@ -31,7 +30,7 @@ export class UploadsService {
     this._uploadsDataResource.reload();
   }
 
-  private uploadsSignal = linkedSignal<UploadData | undefined, Upload[]>({
+  private _uploads = linkedSignal<UploadData | undefined, Upload[]>({
     source: () => (this.uploadsData.hasValue() ? this.uploadsData.value() : undefined),
     computation: (source, previous) => {
       if (!source) {
@@ -45,7 +44,10 @@ export class UploadsService {
 
       // For subsequent pages, we append to the existing list.
       if (previous?.value && Array.isArray(previous.value)) {
-        return previous.value.concat(source.files);
+        const existingIds = new Set(previous.value.map(u => u.uploadID));
+        const newFiles = source.files.filter(u => !existingIds.has(u.uploadID));
+        if (newFiles.length === 0) return previous.value;
+        return previous.value.concat(newFiles);
       }
 
       // Fallback
@@ -53,10 +55,10 @@ export class UploadsService {
     }
   });
 
-  readonly uploads = this.uploadsSignal.asReadonly();
+  readonly uploads = this._uploads.asReadonly();
 
   resetUploads() {
-    this.uploadsSignal.set([]);
+    this._uploads.set([]);
   }
 
   readonly loadedPages = computed(() => {
