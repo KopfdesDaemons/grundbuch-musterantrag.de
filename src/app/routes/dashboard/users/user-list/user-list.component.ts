@@ -56,16 +56,16 @@ export class UserListComponent {
   private loadPage(pageNumber: number) {
     if (!this.userS.totalPages()) return;
     if (pageNumber > this.userS.totalPages()!) return;
-    this.userS.pageToLoad.set(pageNumber);
-    this.userS.usersResource.reload();
+    this.userS.setPageToLoad(pageNumber);
+    this.userS.loadUsers();
   }
 
   reload() {
     this.error.set(null);
-    this.userS.users.set([]);
+    this.userS.resetUsers();
     this.rowsMap.clear();
-    this.userS.pageToLoad.set(1);
-    this.userS.usersResource.reload();
+    this.userS.setPageToLoad(1);
+    this.userS.loadUsers();
     if (this.selectAllinput()) {
       this.selectAllinput()!.nativeElement.checked = false;
     }

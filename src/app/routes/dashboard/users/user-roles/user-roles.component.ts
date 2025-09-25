@@ -35,7 +35,7 @@ export class UserRolesComponent {
 
   private handleSelectedUserRoleIDChange(): void {
     this.error.set(null);
-    this.userRoleS.userRoleInEditID.set(this.selectedUserRoleID());
+    this.userRoleS.setUserRoleInEditID(this.selectedUserRoleID());
   }
 
   private handleUserRoleInEditChange(): void {
@@ -72,8 +72,8 @@ export class UserRolesComponent {
         userRoleID = userRoleInForm.userRoleID;
         await this.userRoleS.updateUserRole(userRoleInForm);
       }
-      this.userRoleS.userRoleOptions.reload();
-      this.userRoleS.userRoleInEdit.reload();
+      this.userRoleS.reloadUserRoleOptions();
+      this.userRoleS.reloadUserRoleInEdit();
       this.selectedUserRoleID.set(userRoleID);
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
@@ -91,7 +91,7 @@ export class UserRolesComponent {
       this.isLoading.set(true);
       await this.userRoleS.deleteUserRole([userRoleID]);
       this.selectedUserRoleID.set(undefined);
-      this.userRoleS.userRoleOptions.reload();
+      this.userRoleS.reloadUserRoleOptions();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);

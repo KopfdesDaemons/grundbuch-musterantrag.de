@@ -9,19 +9,29 @@ import { UserData } from 'src/app/interfaces/userData';
   providedIn: 'root'
 })
 export class UserService {
-  private http = inject(HttpClient);
-  private formBuilder = inject(FormBuilder);
+  private readonly http = inject(HttpClient);
+  private readonly formBuilder = inject(FormBuilder);
 
-  pageToLoad = signal<number>(1);
+  private readonly pageToLoad = signal<number>(1);
 
-  usersResource = httpResource<UserData>(() => ({
+  setPageToLoad(value: number) {
+    this.pageToLoad.set(value);
+  }
+
+  private readonly _usersResource = httpResource<UserData>(() => ({
     url: '/api/user-management',
     params: {
       page: this.pageToLoad()
     }
   }));
 
-  users = linkedSignal<UserData | undefined, User[]>({
+  readonly usersResource = this._usersResource.asReadonly();
+
+  loadUsers() {
+    this._usersResource.reload();
+  }
+
+  private readonly _users = linkedSignal<UserData | undefined, User[]>({
     source: () => (this.usersResource.hasValue() ? this.usersResource.value() : undefined),
     computation: (source, previous) => {
       if (!source) {
@@ -43,13 +53,19 @@ export class UserService {
     }
   });
 
-  loadedPages = computed(() => {
+  readonly users = this._users.asReadonly();
+
+  resetUsers() {
+    this._users.set([]);
+  }
+
+  readonly loadedPages = computed(() => {
     if (!this.usersResource.hasValue()) return 0;
     return this.usersResource.value().page;
   });
 
-  totalPages = computed<number | undefined>(() => (this.usersResource.hasValue() ? this.usersResource.value()?.totalPages : undefined));
-  totalFiles = computed<number | undefined>(() => (this.usersResource.hasValue() ? this.usersResource.value()?.totalUsers : undefined));
+  readonly totalPages = computed<number | undefined>(() => (this.usersResource.hasValue() ? this.usersResource.value()?.totalPages : undefined));
+  readonly totalFiles = computed<number | undefined>(() => (this.usersResource.hasValue() ? this.usersResource.value()?.totalUsers : undefined));
 
   async deleteUsers(userIDs: number[]): Promise<void> {
     await lastValueFrom(

@@ -29,10 +29,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   providedIn: 'root'
 })
 export class UserroleService {
-  private http = inject(HttpClient);
-  private formBuilder = inject(FormBuilder);
+  private readonly http = inject(HttpClient);
+  private readonly formBuilder = inject(FormBuilder);
 
-  allPermissions: UserPermission[] = [
+  private readonly _allPermissions: UserPermission[] = [
     new uploadManagementPermission(Object.values(UploadManagementAction)),
     new userManagementPermission(Object.values(UserManagementAction)),
     new statisticPermission(Object.values(StatisticAction)),
@@ -42,7 +42,11 @@ export class UserroleService {
     new userRoleManagementPermission(Object.values(UserRoleManagementAction))
   ];
 
-  featuresNameMapping = {
+  get allPermissions(): UserPermission[] {
+    return [...this._allPermissions];
+  }
+
+  private readonly _featuresNameMapping = {
     [Feature.UploadManagement]: 'Upload Management',
     [Feature.UserManagement]: 'User Management',
     [Feature.Statistic]: 'Statistic',
@@ -52,7 +56,11 @@ export class UserroleService {
     [Feature.UserRoleManagement]: 'User Role Management'
   };
 
-  actionsNameMapping = {
+  get featuresNameMapping() {
+    return { ...this._featuresNameMapping };
+  }
+
+  private readonly _actionsNameMapping = {
     [UploadManagementAction.ReadUploadData]: 'Lesen der Upload-Daten',
     [UploadManagementAction.GetFiles]: 'Herunterladen der Upload-Dateien',
     [UploadManagementAction.DeleteUpload]: 'Löschen einzelner Uploads',
@@ -85,19 +93,34 @@ export class UserroleService {
     [UserRoleManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren'
   };
 
-  userRoleOptions = httpResource<UserRoleOption[]>(() => ({
+  get actionsNameMapping() {
+    return { ...this._actionsNameMapping };
+  }
+
+  private readonly _userRoleOptions = httpResource<UserRoleOption[]>(() => ({
     url: '/api/userrole/get-all-user-roles'
   }));
 
-  firstUserRoleID = computed<number | undefined>(() => {
+  readonly userRoleOptions = this._userRoleOptions.asReadonly();
+
+  reloadUserRoleOptions() {
+    this._userRoleOptions.reload();
+  }
+
+  readonly firstUserRoleID = computed<number | undefined>(() => {
     if (!this.userRoleOptions.hasValue()) return undefined;
     const options = this.userRoleOptions.value();
     return options && options.length > 0 ? options[0].userRoleID : undefined;
   });
 
-  userRoleInEditID = signal<number | undefined>(undefined);
+  private readonly userRoleInEditID = signal<number | undefined>(undefined);
+  readonly userRoleInEditIDSignal = this.userRoleInEditID.asReadonly();
 
-  userRoleInEdit = httpResource<UserRole>(() => {
+  setUserRoleInEditID(value: number | undefined) {
+    this.userRoleInEditID.set(value);
+  }
+
+  private readonly _userRoleInEdit = httpResource<UserRole>(() => {
     const userRoleID = this.userRoleInEditID();
     return userRoleID
       ? {
@@ -106,6 +129,12 @@ export class UserroleService {
         }
       : undefined;
   });
+
+  reloadUserRoleInEdit() {
+    this._userRoleInEdit.reload();
+  }
+
+  readonly userRoleInEdit = this._userRoleInEdit.asReadonly();
 
   async getUserRole(userRoleID: number): Promise<UserRole> {
     const data = await lastValueFrom(
