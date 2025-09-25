@@ -19,7 +19,7 @@ export class UserSettingsComponent {
   newPasswordForm = this.userSettingsS.getNewPasswordGroup();
   ngFormNewPassword = viewChild.required<FormGroupDirective>('ngFormNewPassword');
   ngFormNewUsername = viewChild.required<FormGroupDirective>('ngFormNewUsername');
-  formBuilder = new FormBuilder();
+  formBuilder = inject(FormBuilder);
   newUsernameForm = this.formBuilder.group({
     newUsername: ['', Validators.required]
   });

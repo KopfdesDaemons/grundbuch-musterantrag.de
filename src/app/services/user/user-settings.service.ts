@@ -9,6 +9,7 @@ import { newPassowrdValidator } from 'src/app/validators/newPassword.validator';
 })
 export class UserSettingsService {
   private http = inject(HttpClient);
+  private formBuilder = inject(FormBuilder);
 
   usernameResource = httpResource<{ username: string }>(() => ({
     url: '/api/user-settings/username'
@@ -22,7 +23,7 @@ export class UserSettingsService {
   }));
 
   getNewPasswordGroup(): FormGroup {
-    const formBuilder = new FormBuilder();
+    const formBuilder = this.formBuilder;
     return formBuilder.group(
       {
         oldPassword: ['', Validators.required],

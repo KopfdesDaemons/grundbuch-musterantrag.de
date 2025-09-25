@@ -10,7 +10,7 @@ import { UserData } from 'src/app/interfaces/userData';
 })
 export class UserService {
   private http = inject(HttpClient);
-  private formBuilder = new FormBuilder();
+  private formBuilder = inject(FormBuilder);
 
   pageToLoad = signal<number>(1);
 

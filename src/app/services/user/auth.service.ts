@@ -13,6 +13,7 @@ export class AuthService {
   router = inject(Router);
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
+  private formBuilder = inject(FormBuilder);
 
   private _authToken = signal<string | null>(null);
 
@@ -56,7 +57,7 @@ export class AuthService {
   }
 
   getLoginFormGroup(): FormGroup {
-    const formBuilder = new FormBuilder();
+    const formBuilder = this.formBuilder;
     return formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]

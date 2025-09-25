@@ -30,7 +30,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UserroleService {
   private http = inject(HttpClient);
-  private formBuilder = new FormBuilder();
+  private formBuilder = inject(FormBuilder);
 
   allPermissions: UserPermission[] = [
     new uploadManagementPermission(Object.values(UploadManagementAction)),
