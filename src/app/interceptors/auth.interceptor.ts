@@ -6,7 +6,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authS = inject(AuthService);
 
   // Check if an auth token exists
-  if (!authS.authToken) {
+  if (!authS.authToken()) {
     return next(req);
   }
 
@@ -16,7 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (isApiRequest) {
     const reqWithAuth = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${authS.authToken}`
+        Authorization: `Bearer ${authS.authToken()}`
       }
     });
     return next(reqWithAuth);

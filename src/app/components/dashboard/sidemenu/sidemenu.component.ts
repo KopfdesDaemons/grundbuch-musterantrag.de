@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidemenuService } from 'src/app/services/ui/sidemenu.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
@@ -14,15 +14,13 @@ import { AuthService } from 'src/app/services/user/auth.service';
   styleUrl: './sidemenu.component.scss'
 })
 export class SidemenuComponent implements OnInit {
-  sidemenuS = inject(SidemenuService);
-  authS = inject(AuthService);
-  userSettingsS = inject(UserSettingsService);
-  router = inject(Router);
-  component = viewChild.required<ElementRef>('sidemenu');
+  protected readonly sidemenuS = inject(SidemenuService);
+  protected readonly authS = inject(AuthService);
+  protected readonly userSettingsS = inject(UserSettingsService);
 
   ngOnInit(): void {
-    this.userSettingsS.usernameResource.reload();
-    this.userSettingsS.userRoleResource.reload();
+    this.userSettingsS.reloadUsername();
+    this.userSettingsS.reloadUserRole();
   }
 
   pages = [

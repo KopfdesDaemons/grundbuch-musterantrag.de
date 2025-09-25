@@ -10,20 +10,17 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
   providedIn: 'root'
 })
 export class AuthService {
-  router = inject(Router);
-  private http = inject(HttpClient);
-  private platformId = inject(PLATFORM_ID);
-  private formBuilder = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly http = inject(HttpClient);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly formBuilder = inject(FormBuilder);
 
-  private _authToken = signal<string | null>(null);
+  private readonly _authToken = signal<string | null>(null);
+  readonly authToken = this._authToken.asReadonly();
 
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
     this._authToken.set(localStorage.getItem('auth_token'));
-  }
-
-  get authToken(): string | null {
-    return this._authToken();
   }
 
   async login(username: string, password: string): Promise<void> {

@@ -8,19 +8,31 @@ import { newPassowrdValidator } from 'src/app/validators/newPassword.validator';
   providedIn: 'root'
 })
 export class UserSettingsService {
-  private http = inject(HttpClient);
-  private formBuilder = inject(FormBuilder);
+  private readonly http = inject(HttpClient);
+  private readonly formBuilder = inject(FormBuilder);
 
-  usernameResource = httpResource<{ username: string }>(() => ({
+  private readonly _usernameResource = httpResource<{ username: string }>(() => ({
     url: '/api/user-settings/username'
   }));
 
-  userRoleResource = httpResource<{
+  readonly usernameResource = this._usernameResource.asReadonly();
+
+  reloadUsername() {
+    this._usernameResource.reload();
+  }
+
+  private readonly _userRoleResource = httpResource<{
     userRoleName: string;
     userRoleDescription: string;
   }>(() => ({
     url: '/api/user-settings/userrole'
   }));
+
+  readonly userRoleResource = this._userRoleResource.asReadonly();
+
+  reloadUserRole() {
+    this._userRoleResource.reload();
+  }
 
   getNewPasswordGroup(): FormGroup {
     const formBuilder = this.formBuilder;
@@ -36,7 +48,7 @@ export class UserSettingsService {
 
   async changeUsername(newUsername: string): Promise<void> {
     await lastValueFrom(this.http.patch('/api/user-settings/username', { newUsername: newUsername }));
-    this.usernameResource.set({ username: newUsername });
+    this._usernameResource.set({ username: newUsername });
   }
 
   async changePassword(oldPassword: string, newPassword: string): Promise<void> {
