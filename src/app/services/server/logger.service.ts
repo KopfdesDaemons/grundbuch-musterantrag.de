@@ -1,22 +1,25 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { computed, inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from '../user/auth.service';
 import { TimeHelper } from '../../helpers/time.helper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggerService {
-  http = inject(HttpClient);
-  authS = inject(AuthService);
-  platformID = inject(PLATFORM_ID);
+  private readonly http = inject(HttpClient);
 
-  loggerResource = httpResource<{ level: string; timestamp: string; message: string }[]>(() => ({
+  private readonly _loggerResource = httpResource<{ level: string; timestamp: string; message: string }[]>(() => ({
     url: '/api/logger'
   }));
 
-  formatedLogs = computed(() => {
+  readonly loggerResource = this._loggerResource.asReadonly();
+
+  reloadLogger() {
+    this._loggerResource.reload();
+  }
+
+  readonly formatedLogs = computed(() => {
     if (!this.loggerResource.hasValue()) return;
     const logs = this.loggerResource.value();
 

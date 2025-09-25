@@ -7,16 +7,18 @@ import { Settings } from 'server/models/settings.model';
   providedIn: 'root'
 })
 export class SettingsService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  private loadTrigger = signal(false);
+  private readonly loadTrigger = signal(false);
 
-  settingsResource = httpResource<Settings>(() => {
+  private readonly _settingsResource = httpResource<Settings>(() => {
     if (!this.loadTrigger()) return undefined;
     return {
       url: '/api/settings'
     };
   });
+
+  readonly settingsResource = this._settingsResource.asReadonly();
 
   load() {
     this.loadTrigger.set(true);
@@ -24,7 +26,7 @@ export class SettingsService {
 
   async saveSettings(settings: Settings): Promise<void> {
     await lastValueFrom(this.http.put('/api/settings', { settings: settings }));
-    this.settingsResource.set(settings);
+    this._settingsResource.set(settings);
   }
 
   async getPrimaryColorFromSetings(): Promise<string | null> {

@@ -14,14 +14,14 @@ import { NgClass } from '@angular/common';
   styleUrl: './logger-tile.component.scss'
 })
 export class LoggerTileComponent {
-  loggerS = inject(LoggerService);
-  error = signal<Error | HttpErrorResponse | null>(null);
+  readonly loggerS = inject(LoggerService);
+  protected readonly error = signal<Error | HttpErrorResponse | null>(null);
 
   async deleteLogFile() {
     try {
       this.error.set(null);
       await this.loggerS.deleteLogFile();
-      this.loggerS.loggerResource.reload();
+      this.loggerS.reloadLogger();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
