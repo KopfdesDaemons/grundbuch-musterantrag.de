@@ -6,24 +6,26 @@ import { ScriptService } from '../utils/script.service';
   providedIn: 'root'
 })
 export class DisqusService {
-  scriptS = inject(ScriptService);
-  consentS = inject(ConsentService);
+  private readonly scriptS = inject(ScriptService);
+  private readonly consentS = inject(ConsentService);
 
-  consent = signal<boolean>(false);
-  disqus: any;
-  shortname: string = 'grundbuch-musterantrag';
+  private readonly _consent = signal<boolean>(false);
+  readonly consent = this._consent.asReadonly();
+
+  private disqus: any;
+  private readonly shortname: string = 'grundbuch-musterantrag';
 
   constructor() {
-    this.consent.set(this.consentS.checkConsent('Disqus'));
+    this._consent.set(this.consentS.checkConsent('Disqus'));
   }
 
   giveConsent() {
     this.consentS.giveConsent('Disqus');
-    this.consent.set(true);
+    this._consent.set(true);
   }
 
   async loadDisqus(renderer: Renderer2, title: string): Promise<void> {
-    this.consent.set(this.consentS.checkConsent('Disqus'));
+    this._consent.set(this.consentS.checkConsent('Disqus'));
     this.disqus = (window as any)['DISQUS'];
     if (!this.disqus) {
       (window as any).disqus_config = function () {
@@ -42,7 +44,7 @@ export class DisqusService {
 
   revokeConsent() {
     this.consentS.revokeConsent('Disqus');
-    this.consent.set(false);
+    this._consent.set(false);
     this.scriptS.removeJsScript('https://' + this.shortname + '.disqus.com/embed.js');
     (window as any)['DISQUS'] = undefined;
   }

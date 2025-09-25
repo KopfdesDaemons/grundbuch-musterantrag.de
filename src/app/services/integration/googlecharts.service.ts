@@ -10,11 +10,11 @@ import { ColorHelper } from '../../helpers/color.helper';
 })
 export class GooglechartsService {
   private loadPromise: Promise<void> | null = null;
-  private scriptS = inject(ScriptService);
-  private designS = inject(DesignloaderService);
-  private uploadsS = inject(UploadsService);
-  private local = inject(LOCALE_ID);
-  private document = inject(DOCUMENT);
+  private readonly scriptS = inject(ScriptService);
+  private readonly designS = inject(DesignloaderService);
+  private readonly uploadsS = inject(UploadsService);
+  private readonly local = inject(LOCALE_ID);
+  private readonly document = inject(DOCUMENT);
 
   async loadGoogleCharts(renderer: Renderer2): Promise<void> {
     if (!this.loadPromise) {
@@ -43,14 +43,14 @@ export class GooglechartsService {
     return chartRows;
   }
 
-  uploadsTimeframeChartRowsWeek = computed<(string | number)[][]>(() => {
+  readonly uploadsTimeframeChartRowsWeek = computed<(string | number)[][]>(() => {
     return this.mapStatisticToChartRows(this.uploadsS.statisticResourceWeek.value());
   });
-  uploadsTimeframeChartRowsMonth = computed<(string | number)[][]>(() => {
+  readonly uploadsTimeframeChartRowsMonth = computed<(string | number)[][]>(() => {
     return this.mapStatisticToChartRows(this.uploadsS.statisticResourceMonth.value());
   });
 
-  uploadTypsChartRows = computed<(string | number)[][]>(() => {
+  readonly uploadTypsChartRows = computed<(string | number)[][]>(() => {
     const statistic = this.uploadsS.totalUploadsByTyp();
     if (!statistic) return [];
     const chartRows = [];

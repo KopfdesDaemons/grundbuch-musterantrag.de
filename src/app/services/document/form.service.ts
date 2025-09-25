@@ -40,7 +40,7 @@ export class FormService {
   private readonly step = signal<number>(1);
   readonly currentStep = this.step.asReadonly();
 
-  componentsMapping: { control: string; component: Type<any> }[] = [
+  private readonly componentsMapping: { control: string; component: Type<any> }[] = [
     { control: 'antragsteller', component: AntragstellerComponent },
     { control: 'erblasser', component: ErblasserComponent },
     { control: 'grundstueck', component: GrundstueckComponent },
