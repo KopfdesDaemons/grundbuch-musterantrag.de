@@ -4,9 +4,10 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class SidemenuService {
-  public DashboaardSidemenuIsOpen = signal(false);
+  private readonly _dashboardSidemenuIsOpen = signal(false);
+  readonly dashboardSidemenuIsOpen = this._dashboardSidemenuIsOpen.asReadonly();
 
   public toggleDashboardSidemenu() {
-    this.DashboaardSidemenuIsOpen.update(value => !value);
+    this._dashboardSidemenuIsOpen.update(value => !value);
   }
 }

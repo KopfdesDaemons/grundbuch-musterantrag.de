@@ -9,14 +9,18 @@ import { ColorHelper } from '../../helpers/color.helper';
   providedIn: 'root'
 })
 export class DesignloaderService {
-  cs = inject(CookiesService);
-  settingsS = inject(SettingsService);
-  private platformId = inject(PLATFORM_ID);
-  document = inject(DOCUMENT).documentElement;
+  private readonly cookieS = inject(CookiesService);
+  private readonly settingsS = inject(SettingsService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT).documentElement;
 
-  darkmode = signal(false);
+  private readonly _darkmode = signal(false);
+  readonly darkmode = this._darkmode.asReadonly();
   private initialized = false;
-  primaryColor: string | null = '#20afdf';
+  private _primaryColor: string | null = '#20afdf';
+  get primaryColor() {
+    return this._primaryColor;
+  }
 
   constructor() {
     effect(() => {
@@ -31,7 +35,7 @@ export class DesignloaderService {
   async initDesign() {
     // Init darkmode from cookie or preference
     const initialMode = this.getSchemeFromCookie() ?? this.preferenceSchemeIsDarkmode();
-    this.darkmode.set(initialMode);
+    this._darkmode.set(initialMode);
     if (this.darkmode()) this.activateDarkmode(true);
     this.initialized = true;
 
@@ -42,7 +46,7 @@ export class DesignloaderService {
     const primaryColorFromSettings = await this.settingsS.getPrimaryColorFromSetings();
     if (!primaryColorFromSettings) return;
     if (!ColorHelper.isValidHexColor(primaryColorFromSettings)) return;
-    this.primaryColor = primaryColorFromSettings;
+    this._primaryColor = primaryColorFromSettings;
     const hsl = ColorHelper.HexToHSL(primaryColorFromSettings);
     this.changeColor(hsl['h'], hsl['s'], hsl['l'], true);
   }
@@ -54,29 +58,29 @@ export class DesignloaderService {
   }
 
   togledesignScheme() {
-    this.darkmode.update(value => !value);
+    this._darkmode.update(value => !value);
   }
 
   private activateDarkmode(withoutCookieConsent: boolean = false) {
     this.document?.classList.add('darkmode');
     const c = new Cookie('Darkmode', String(true), 90, 'Darf das Designschema gespeichert werden?');
-    if (withoutCookieConsent) this.cs.setcookie(c);
-    else this.cs.setCookieWithRequest(c);
+    if (withoutCookieConsent) this.cookieS.setcookie(c);
+    else this.cookieS.setCookieWithRequest(c);
   }
 
   private deactivateDarkmode() {
     this.document?.classList.remove('darkmode');
     const c = new Cookie('Darkmode', String(false), 90, 'Darf das Designschema gespeichert werden?');
-    this.cs.setCookieWithRequest(c);
+    this.cookieS.setCookieWithRequest(c);
   }
 
   private getSchemeFromCookie(): boolean | undefined {
-    const cookie = this.cs.getCookie('Darkmode');
+    const cookie = this.cookieS.getCookie('Darkmode');
     return cookie === 'true' ? true : cookie === '' ? undefined : false;
   }
 
   setColorFromCookie(): boolean {
-    const FarbCookie = this.cs.getCookie('Farbe');
+    const FarbCookie = this.cookieS.getCookie('Farbe');
     if (!FarbCookie) return false;
     const split = FarbCookie.split(',');
     this.changeColor(Number(split[0]), Number(split[1]));
@@ -86,10 +90,10 @@ export class DesignloaderService {
   changeColor(h: number, s: number, l: number = 50, withoutCookieConsent: boolean = false) {
     const hsl = h + ', ' + s + '%';
     this.document?.style.setProperty('--hsl-color', hsl);
-    this.primaryColor = ColorHelper.HSLToHex(h, s, l);
+    this._primaryColor = ColorHelper.HSLToHex(h, s, l);
 
     if (withoutCookieConsent) return;
     const c: Cookie = new Cookie('Farbe', h + ',' + s, 90, 'Darf die Farbe gespeichert werden?');
-    this.cs.setCookieWithRequest(c);
+    this.cookieS.setCookieWithRequest(c);
   }
 }
