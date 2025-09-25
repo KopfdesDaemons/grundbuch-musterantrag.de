@@ -7,14 +7,15 @@ import { lastValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class DocumentService {
-  private http = inject(HttpClient);
-  uploadID = signal<string | undefined>(undefined);
+  private readonly http = inject(HttpClient);
+  private readonly _uploadID = signal<string | undefined>(undefined);
+  readonly uploadID = this._uploadID.asReadonly();
 
   async submitForm(antrag: Antrag): Promise<string> {
     const url = '/api/submitForm';
     const response = await lastValueFrom(this.http.post(url, { antrag: antrag }));
     const { uploadID } = response as { uploadID: string };
-    this.uploadID.set(uploadID);
+    this._uploadID.set(uploadID);
     return uploadID;
   }
 

@@ -24,8 +24,8 @@ import { GrundbuchamtComponent } from 'src/app/components/forms/grundbuchamt/gru
   providedIn: 'root'
 })
 export class FormService {
-  private http = inject(HttpClient);
-  private scroll = inject(ViewportScroller);
+  private readonly http = inject(HttpClient);
+  private readonly scroll = inject(ViewportScroller);
 
   antrag: Antrag | null = null;
   form: FormGroup = new FormGroup({});

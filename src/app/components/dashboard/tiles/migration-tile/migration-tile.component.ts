@@ -15,17 +15,18 @@ import { ErrorDisplayComponent } from 'src/app/components/error-display/error-di
   styleUrl: './migration-tile.component.scss'
 })
 export class MigrationTileComponent {
-  migrationS = inject(MigrationService);
+  protected migrationS = inject(MigrationService);
 
-  selectedMigration: Migration = this.migrationS.migrations[0];
+  protected selectedMigration: Migration = this.migrationS.migrations[0];
 
-  responseText = signal('');
-  isLoading = signal(false);
-  error = signal<Error | HttpErrorResponse | null>(null);
+  protected responseText = signal('');
+  protected isLoading = signal(false);
+  protected error = signal<Error | HttpErrorResponse | null>(null);
 
   async migrate() {
     if (!confirm('Migration ' + this.selectedMigration.name + ' wirklich durchführen?')) return;
     try {
+      this.reset();
       this.isLoading.set(true);
       const { message } = await this.selectedMigration.migrate();
       this.responseText.set(message);
@@ -35,5 +36,10 @@ export class MigrationTileComponent {
       }
     }
     this.isLoading.set(false);
+  }
+
+  reset() {
+    this.responseText.set('');
+    this.error.set(null);
   }
 }

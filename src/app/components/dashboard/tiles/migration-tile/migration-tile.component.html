@@ -9,7 +9,7 @@
     @if (isLoading()) {
       <app-progress-spinner [endless]="true"></app-progress-spinner>
     }
-    <select #migrationDropdown [(ngModel)]="selectedMigration">
+    <select #migrationDropdown [(ngModel)]="selectedMigration" (change)="reset()">
       @for (migration of migrationS.migrations; track migration.name) {
         <option [ngValue]="migration">{{ migration.name }}</option>
       }

@@ -7,38 +7,53 @@ import { Migration } from '../../models/migration.model';
   providedIn: 'root'
 })
 export class MigrationService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  migrations: Migration[] = [];
+  private _migrations: Migration[] = [
+    new Migration(
+      'Von Antrag zu Uploadinfo',
+      'Migration der Struktur der gespeicherten Uploadinfos der Anträge. Es werden nicht mehr alle Daten aus dem Formular gespeichert, sondern nur die, die im Dashboard angezeigt werden.',
+      this.migrateFromAntragToUploadinfo.bind(this)
+    ),
+    new Migration('Von JSON zur Datenbank', 'Migration von der JSON Struktur zur Datenbank.', this.migrateFromJSONToDatabase.bind(this)),
+    new Migration(
+      'Von .docx zu .odt',
+      'Aktualisiert bereits vorhandene Datenbankeinträge von docxFile zu odtFile und entfernt die Spalte docxFile.',
+      this.migrateFromDocxToOdt.bind(this)
+    )
+  ];
 
-  constructor() {
-    this.migrations = [
-      new Migration(
-        'Von Antrag zu Uploadinfo',
-        'Migration der Struktur der gespeicherten Uploadinfos der Anträge. Es werden nicht mehr alle Daten aus dem Formular gespeichert, sondern nur die, die im Dashboard angezeigt werden.',
-        this.migrateFromAntragToUploadinfo
-      ),
-      new Migration('Von JSON zur Datenbank', 'Migration von der JSON Struktur zur Datenbank.', this.migrateFromJSONToDatabase),
-      new Migration(
-        'Von .docx zu .odt',
-        'Aktualisiert bereits vorhandene Datenbankeinträge von docxFile zu odtFile und entfernt die Spalte docxFile.',
-        this.migrateFromDocxToOdt
-      )
-    ];
+  get migrations(): Migration[] {
+    return [...this._migrations];
   }
 
-  migrateFromAntragToUploadinfo = async (): Promise<any> => {
-    const data = await lastValueFrom(this.http.post('/api/migration/fromAntragToUploadinfo', {}));
-    return data;
-  };
+  async migrateFromAntragToUploadinfo(): Promise<any> {
+    try {
+      const data = await lastValueFrom(this.http.post('/api/migration/fromAntragToUploadinfo', {}));
+      return data;
+    } catch (error) {
+      console.error('Migration "AntragToUploadinfo" failed:', error);
+      throw error;
+    }
+  }
 
-  migrateFromJSONToDatabase = async (): Promise<any> => {
-    const data = await lastValueFrom(this.http.post('/api/migration/fromJSONToDatabase', {}));
-    return data;
-  };
+  async migrateFromJSONToDatabase(): Promise<any> {
+    try {
+      const data = await lastValueFrom(this.http.post('/api/migration/fromJSONToDatabase', {}));
+      return data;
+    } catch (error) {
+      console.error('Migration "JSONToDatabase" failed:', error);
+      throw error;
+    }
+  }
 
-  migrateFromDocxToOdt = async (): Promise<any> => {
-    const data = await lastValueFrom(this.http.post('/api/migration/fromDocxToOdt', {}));
-    return data;
-  };
+  async migrateFromDocxToOdt(): Promise<any> {
+    try {
+      const data = await lastValueFrom(this.http.post('/api/migration/fromDocxToOdt', {}));
+      return data;
+    } catch (error) {
+      console.error('Migration "DocxToOdt" failed:', error);
+      throw error;
+    }
+  }
 }
