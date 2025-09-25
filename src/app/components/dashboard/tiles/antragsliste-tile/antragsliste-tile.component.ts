@@ -25,9 +25,9 @@ export class AntragslisteTileComponent {
   lineChartOptions = computed(() => this.gChartS.getLineChartOptions(this.statisticTimeframe()));
 
   reload() {
-    this.uploadsS.uploadsResource.reload();
-    this.uploadsS.statisticResourceMonth.reload();
-    this.uploadsS.statisticResourceWeek.reload();
+    this.uploadsS.loadUploads();
+    this.uploadsS.reloadStatisticMonth();
+    this.uploadsS.reloadStatisticWeek();
   }
 
   chartData = computed(() => {

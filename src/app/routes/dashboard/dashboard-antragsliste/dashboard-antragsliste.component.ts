@@ -42,23 +42,23 @@ export class DashboardAntragslisteComponent {
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
-      if (!this.uploadsS.uploadsResource.isLoading()) this.loadPage(this.uploadsS.loadedPages() + 1);
+      if (!this.uploadsS.uploadsData.isLoading()) this.loadPage(this.uploadsS.loadedPages() + 1);
     }
   }
 
   private loadPage(pageNumber: number) {
     if (!this.uploadsS.totalPages()) return;
     if (pageNumber > this.uploadsS.totalPages()!) return;
-    this.uploadsS.pageToLoad.set(pageNumber);
-    this.uploadsS.uploadsResource.reload();
+    this.uploadsS.setPageToLoad(pageNumber);
+    this.uploadsS.loadUploads();
   }
 
   reloadFiles() {
     this.error.set(null);
-    this.uploadsS.uploads.set([]);
+    this.uploadsS.resetUploads();
     this.rowsMap.clear();
-    this.uploadsS.pageToLoad.set(1);
-    this.uploadsS.uploadsResource.reload();
+    this.uploadsS.setPageToLoad(1);
+    this.uploadsS.loadUploads();
     if (this.selectAllInput()) {
       this.selectAllInput()!.nativeElement.checked = false;
     }

@@ -11,17 +11,28 @@ export class UploadsService {
   private http = inject(HttpClient);
   private document = inject(DOCUMENT);
 
-  pageToLoad = signal<number>(1);
+  private _pageToLoadSignal = signal<number>(1);
+  readonly pageToLoad = this._pageToLoadSignal.asReadonly();
 
-  uploadsResource = httpResource<UploadData>(() => ({
+  setPageToLoad(value: number) {
+    this._pageToLoadSignal.set(value);
+  }
+
+  private readonly _uploadsDataResource = httpResource<UploadData>(() => ({
     url: '/api/uploads',
     params: {
-      page: this.pageToLoad()
+      page: this._pageToLoadSignal()
     }
   }));
 
-  uploads = linkedSignal<UploadData | undefined, Upload[]>({
-    source: () => (this.uploadsResource.hasValue() ? this.uploadsResource.value() : undefined),
+  readonly uploadsData = this._uploadsDataResource.asReadonly();
+
+  loadUploads() {
+    this._uploadsDataResource.reload();
+  }
+
+  private uploadsSignal = linkedSignal<UploadData | undefined, Upload[]>({
+    source: () => (this.uploadsData.hasValue() ? this.uploadsData.value() : undefined),
     computation: (source, previous) => {
       if (!source) {
         return previous?.value ?? [];
@@ -42,45 +53,69 @@ export class UploadsService {
     }
   });
 
-  loadedPages = computed(() => {
-    if (!this.uploadsResource.hasValue()) return 0;
-    return this.uploadsResource.value().page;
+  readonly uploads = this.uploadsSignal.asReadonly();
+
+  resetUploads() {
+    this.uploadsSignal.set([]);
+  }
+
+  readonly loadedPages = computed(() => {
+    if (!this.uploadsData.hasValue()) return 0;
+    return this.uploadsData.value().page;
   });
 
-  totalPages = computed<number | undefined>(() => (this.uploadsResource.hasValue() ? this.uploadsResource.value()?.totalPages : undefined));
-  totalFiles = linkedSignal<UploadData | undefined, number | undefined>({
-    source: () => (this.uploadsResource.hasValue() ? this.uploadsResource.value() : undefined),
+  readonly totalPages = computed<number | undefined>(() => (this.uploadsData.hasValue() ? this.uploadsData.value()?.totalPages : undefined));
+  readonly totalFiles = linkedSignal<UploadData | undefined, number | undefined>({
+    source: () => (this.uploadsData.hasValue() ? this.uploadsData.value() : undefined),
     computation: (source, previous) => {
       return source ? source.totalFiles : previous?.value;
     }
-  });
+  }).asReadonly();
 
-  latestFile = computed<Upload | null>(() => {
-    const files = this.uploadsResource.value()?.files ?? [];
+  readonly latestFile = computed<Upload | null>(() => {
+    const files = this.uploadsData.value()?.files ?? [];
     if (files.length === 0) return null;
     return files[0];
   });
 
-  statisticResourceWeek = httpResource<{ date: string; count: number }[]>(() => ({
+  private readonly _statisticResourceWeek = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/uploads/getUploadCountPerDays',
     params: {
       timeframe: 'week'
     }
   }));
 
-  statisticResourceMonth = httpResource<{ date: string; count: number }[]>(() => ({
+  readonly statisticResourceWeek = this._statisticResourceWeek.asReadonly();
+
+  reloadStatisticWeek() {
+    this._statisticResourceWeek.reload();
+  }
+
+  private readonly _statisticResourceMonth = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/uploads/getUploadCountPerDays',
     params: {
       timeframe: 'month'
     }
   }));
 
-  totalUploadsByTypResource = httpResource<{ [key: string]: number }>(() => ({
+  readonly statisticResourceMonth = this._statisticResourceMonth.asReadonly();
+
+  reloadStatisticMonth() {
+    this._statisticResourceMonth.reload();
+  }
+
+  private readonly _totalUploadsByTypResource = httpResource<{ [key: string]: number }>(() => ({
     url: '/api/statistic'
   }));
 
-  totalUploadsByTyp = computed<{ antragsart: string; anzahl: number }[]>(() => {
-    const json = this.totalUploadsByTypResource.value();
+  readonly totalUploadsByTypResource = this._totalUploadsByTypResource.asReadonly();
+
+  reloadUploadsByTyp() {
+    this._totalUploadsByTypResource.reload();
+  }
+
+  readonly totalUploadsByTyp = computed<{ antragsart: string; anzahl: number }[]>(() => {
+    const json = this._totalUploadsByTypResource.value();
     if (!json) return [];
     const statisticArray = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value }));
     return statisticArray.sort((a, b) => b.anzahl - a.anzahl);

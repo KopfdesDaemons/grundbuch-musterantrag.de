@@ -7,10 +7,10 @@
         />
       </svg>
     </button>
-    @if (uploadsS.uploadsResource.error()) {
-      <app-error-display [error]="uploadsS.uploadsResource.error()"></app-error-display>
+    @if (uploadsS.uploadsData.error()) {
+      <app-error-display [error]="uploadsS.uploadsData.error()"></app-error-display>
     } @else {
-      @if (uploadsS.uploadsResource.isLoading()) {
+      @if (uploadsS.uploadsData.isLoading()) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
       } @else {
         @if (uploadsS.latestFile()) {

@@ -51,11 +51,11 @@ export class GooglechartsService {
   });
 
   uploadTypsChartRows = computed<(string | number)[][]>(() => {
-    const statistic = this.uploadsS.totalUploadsByTypResource.value();
+    const statistic = this.uploadsS.totalUploadsByTyp();
     if (!statistic) return [];
     const chartRows = [];
-    for (const [antragsart, anzahl] of Object.entries(statistic)) {
-      const row = [antragsart, anzahl];
+    for (const s of statistic) {
+      const row = [s.antragsart, s.anzahl];
       chartRows.push(row);
     }
     return chartRows;

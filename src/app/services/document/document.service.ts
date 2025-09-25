@@ -7,7 +7,7 @@ import { lastValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class DocumentService {
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
   uploadID = signal<string | undefined>(undefined);
 
   async submitForm(antrag: Antrag): Promise<string> {

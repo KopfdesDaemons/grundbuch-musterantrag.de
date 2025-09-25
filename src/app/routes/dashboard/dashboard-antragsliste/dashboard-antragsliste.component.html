@@ -27,8 +27,8 @@
       <button class="btn-text" (click)="deleteFolder()">alle löschen</button>
     </div>
 
-    @if (error() || uploadsS.uploadsResource.error()) {
-      <app-error-display [error]="error() ?? uploadsS.uploadsResource.error()"></app-error-display>
+    @if (error() || uploadsS.uploadsData.error()) {
+      <app-error-display [error]="error() ?? uploadsS.uploadsData.error()"></app-error-display>
     } @else {
       <div class="tablehorizontal-scroll-container" (scroll)="scroll($event.target)">
         <table>
