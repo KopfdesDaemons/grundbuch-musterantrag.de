@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from
   imports: []
 })
 export class AccordionComponent {
-  readonly frage = input<string>('');
-  readonly toggle = viewChild.required<ElementRef>('toggle');
+  readonly title = input<string>('');
+  readonly toggleElement = viewChild.required<ElementRef>('toggleElement');
 
-  click() {
-    const toggleElement = this.toggle().nativeElement;
+  toggle() {
+    const toggleElement = this.toggleElement().nativeElement;
 
     toggleElement.classList.toggle('open');
     const container = toggleElement.nextElementSibling;
