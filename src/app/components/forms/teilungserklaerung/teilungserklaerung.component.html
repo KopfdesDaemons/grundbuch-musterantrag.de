@@ -24,7 +24,7 @@
     </li>
   </ul>
   <div class="formNavBtn">
-    @if (fs.getCurrentStep() > 1) {
+    @if (fs.currentStep() > 1) {
       <button class="btn-text" type="button" (click)="fs.stepback()">zurück</button>
     }
     <button class="btn-outlined">Weiter</button>

@@ -69,7 +69,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
       this.statusMessage.set('Dokument wird generiert...');
       this.error.set(null);
       if (!this.fs.antrag) return;
-      this.fs.antragAbschließen();
+      this.fs.finish();
 
       this.submitIsLoading.set(true);
       const uploadID = await this.docS.submitForm(this.fs.antrag);

@@ -27,10 +27,19 @@ export class FormService {
   private readonly http = inject(HttpClient);
   private readonly scroll = inject(ViewportScroller);
 
-  antrag: Antrag | null = null;
-  form: FormGroup = new FormGroup({});
-  progress = signal(0);
-  private step = signal<number>(1);
+  private _antrag: Antrag | null = null;
+  get antrag(): Antrag | null {
+    return this._antrag;
+  }
+  private _form: FormGroup = new FormGroup({});
+  get form(): FormGroup {
+    return this._form;
+  }
+  private readonly _progress = signal(0);
+  readonly progress = this._progress.asReadonly();
+  private readonly step = signal<number>(1);
+  readonly currentStep = this.step.asReadonly();
+
   componentsMapping: { control: string; component: Type<any> }[] = [
     { control: 'antragsteller', component: AntragstellerComponent },
     { control: 'erblasser', component: ErblasserComponent },
@@ -45,12 +54,15 @@ export class FormService {
     { control: 'berechtigtesInteresse', component: BerechtigtesInteresseComponent },
     { control: 'grundbuchamt', component: GrundbuchamtComponent }
   ];
-  requiredComponents: Type<any>[] = [];
-  currentComponent: Type<any> = AntragstellerComponent;
+  private requiredComponents: Type<any>[] = [];
+  private _currentComponent: Type<any> = AntragstellerComponent;
+  get currentComponent(): Type<any> {
+    return this._currentComponent;
+  }
 
   init(antrag: Antrag) {
-    this.antrag = antrag;
-    this.form = antrag.getFormGroup();
+    this._antrag = antrag;
+    this._form = antrag.getFormGroup();
     this.requiredComponents = this.getRequiredComponents();
     (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz));
     this.nextStep(1);
@@ -68,14 +80,14 @@ export class FormService {
       if (this.checkGrundbuchamtSkip(nextComponent)) {
         return this.nextStep(step + 1);
       }
-      this.currentComponent = nextComponent;
+      this._currentComponent = nextComponent;
       this.step.set(step);
       this.scroll.scrollToPosition([0, 0]);
     }
 
     // After last step start generating files
     if (step === this.requiredComponents.length + 1) {
-      this.currentComponent = AntragsgenerierungComponent;
+      this._currentComponent = AntragsgenerierungComponent;
     }
 
     this.setProgress();
@@ -84,7 +96,7 @@ export class FormService {
   private setProgress() {
     const step: number = this.requiredComponents.indexOf(this.currentComponent);
     const progress: number = (step / this.requiredComponents.length) * 100;
-    this.progress.set(progress);
+    this._progress.set(progress);
   }
 
   private checkGrundbuchamtSkip(nextComponent: Type<any>): boolean {
@@ -94,23 +106,19 @@ export class FormService {
     return false;
   }
 
-  getCurrentStep() {
-    return this.step();
-  }
-
   stepback(step: number = this.step() - 1): void {
     if (step >= 0) {
       const previousComponent = this.requiredComponents[step - 1];
-      this.currentComponent = previousComponent;
+      this._currentComponent = previousComponent;
       this.step.set(step);
       this.scroll.scrollToPosition([0, 0]);
       this.setProgress();
     }
   }
 
-  antragAbschließen() {
+  finish() {
     if (!this.antrag) return;
-    this.progress.set(100);
+    this._progress.set(100);
     this.antrag.loadFormValue(this.form.value);
     this.antrag.datum = TimeHelper.formatDate();
   }
