@@ -1,5 +1,5 @@
 import path from 'path';
-import { Upload } from '../models/upload.model';
+import { Upload } from '../../common/models/upload.model';
 import fs from 'fs';
 import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import { db } from './database.service';

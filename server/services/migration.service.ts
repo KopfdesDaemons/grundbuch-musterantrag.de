@@ -1,7 +1,7 @@
 import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import * as fs from 'fs';
 import path from 'path';
-import { Upload } from 'server/models/upload.model';
+import { Upload } from 'common/models/upload.model';
 import { Antrag } from 'src/app/interfaces/antrag';
 import { updateUploadData } from './uploads.service';
 import logger from 'server/config/logger.config';

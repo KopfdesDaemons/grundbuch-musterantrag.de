@@ -1,4 +1,4 @@
-import { Settings } from 'server/models/settings.model';
+import { Settings } from 'common/models/settings.model';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2/promise';
 

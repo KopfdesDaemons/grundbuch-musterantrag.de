@@ -1,7 +1,7 @@
-import { UserRole } from 'server/interfaces/user-role.interface';
 import { scrypt, randomBytes, timingSafeEqual } from 'crypto';
 import { promisify } from 'util';
-import { UserPermission } from 'server/interfaces/user-permission.interface';
+import { UserPermission } from 'common/interfaces/user-permission.interface';
+import { UserRole } from 'common/interfaces/user-role.interface';
 
 const scryptAsync = promisify(scrypt);
 

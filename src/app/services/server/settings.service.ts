@@ -1,7 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Settings } from 'server/models/settings.model';
+import { Settings } from 'common/models/settings.model';
 
 @Injectable({
   providedIn: 'root'

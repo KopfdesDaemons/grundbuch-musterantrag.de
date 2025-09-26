@@ -10,10 +10,10 @@ import {
   handleGetUploadDates,
   handleGetUploadCountPerDay as handleGetUploadCountPerDays
 } from 'server/controller/uploads.controller';
-import { StatisticAction, UploadManagementAction } from 'server/interfaces/user-permission.interface';
+import { StatisticAction, UploadManagementAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { statisticPermission, uploadManagementPermission } from 'server/models/user-permissons.model';
+import { statisticPermission, uploadManagementPermission } from 'common/models/user-permissons.model';
 
 export const uploadsRoutes = express.Router();
 

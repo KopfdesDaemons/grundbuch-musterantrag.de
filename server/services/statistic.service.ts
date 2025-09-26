@@ -1,4 +1,4 @@
-import { Statistic } from 'server/interfaces/statistic.interface';
+import { Statistic } from 'common/interfaces/statistic.interface';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2/promise';
 

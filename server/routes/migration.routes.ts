@@ -4,10 +4,10 @@ import {
   handleMigrateFromJSONFilesToDatabase,
   handleMigrationFromAntragToUploadinfo
 } from 'server/controller/migration.controller';
-import { MigrationAction } from 'server/interfaces/user-permission.interface';
+import { MigrationAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { migrationPermission } from 'server/models/user-permissons.model';
+import { migrationPermission } from 'common/models/user-permissons.model';
 
 export const migrationRoutes = express.Router();
 

@@ -1,7 +1,7 @@
-import { UserRole } from 'server/interfaces/user-role.interface';
 import { addUserRole, deleteUserRole, getAllUserRoles, updateUserRole } from 'server/services/user-role.service';
 import { Request, Response } from 'express';
 import { validateAndGetUser, validateAndGetUserRole } from 'server/helpers/validation.helper';
+import { UserRole } from 'common/interfaces/user-role.interface';
 
 export const handleGetAllUserRoles = async (req: Request, res: Response) => {
   const userRoles = await getAllUserRoles();

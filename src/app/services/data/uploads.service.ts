@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
 import { computed, DOCUMENT, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Upload } from 'server/models/upload.model';
+import { Upload } from 'common/models/upload.model';
 import { UploadData } from 'src/app/interfaces/uploadData';
 
 @Injectable({

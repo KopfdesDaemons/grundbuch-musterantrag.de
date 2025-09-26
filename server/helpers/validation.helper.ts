@@ -1,4 +1,4 @@
-import { UserRole } from 'server/interfaces/user-role.interface';
+import { UserRole } from 'common/interfaces/user-role.interface';
 import { ValidationError } from 'server/models/errors/validation-error.model';
 import { User } from 'server/models/user.model';
 import { getUserRole } from 'server/services/user-role.service';

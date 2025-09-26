@@ -6,7 +6,7 @@ import { OdtTemplater } from 'odt-templater';
 import { updateStatistic } from 'server/services/statistic.service';
 import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
-import { Upload } from 'server/models/upload.model';
+import { Upload } from 'common/models/upload.model';
 import { deleteGeneratedFiles, reportDownloadByUser, updateUploadData } from 'server/services/uploads.service';
 import { randomUUID } from 'crypto';
 import { SettingsService } from 'server/services/settings.service';

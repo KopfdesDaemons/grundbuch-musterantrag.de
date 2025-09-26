@@ -5,7 +5,7 @@ import { DatePipe, NgClass } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
 import { UploadRow } from 'src/app/interfaces/uploadRow';
 import { FormsModule } from '@angular/forms';
-import { Upload } from 'server/models/upload.model';
+import { Upload } from 'common/models/upload.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,5 @@
 import { WritableSignal } from '@angular/core';
-import { Upload } from 'server/models/upload.model';
+import { Upload } from 'common/models/upload.model';
 
 export interface UploadRow {
   isChecked: WritableSignal<boolean>;

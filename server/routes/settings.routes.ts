@@ -1,9 +1,9 @@
 import express from 'express';
 import { handleGetSettings, handleSaveSettings, handleGetPrimaryColor } from 'server/controller/settings.controller';
-import { SettingsAction } from 'server/interfaces/user-permission.interface';
+import { SettingsAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { settingsPermission } from 'server/models/user-permissons.model';
+import { settingsPermission } from 'common/models/user-permissons.model';
 
 export const settingsRoutes = express.Router();
 

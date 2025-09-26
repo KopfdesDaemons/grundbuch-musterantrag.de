@@ -1,9 +1,9 @@
-import { UserRole } from 'server/interfaces/user-role.interface';
 import { db } from './database.service';
-import { Feature, UserPermission } from 'server/interfaces/user-permission.interface';
-import { Guest } from 'server/models/user-roles.model';
+import { Feature, UserPermission } from 'common/interfaces/user-permission.interface';
 import logger from 'server/config/logger.config';
 import { RowDataPacket } from 'mysql2/promise';
+import { UserRole } from 'common/interfaces/user-role.interface';
+import { Guest } from 'common/models/user-roles.model';
 
 export const actionsTableMapping = {
   [Feature.UploadManagement]: 'upload_management_actions',

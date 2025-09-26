@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import path from 'path';
 import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
-import { Upload } from 'server/models/upload.model';
+import { Upload } from 'common/models/upload.model';
 import { getFile } from 'server/helpers/file-system.helper';
 import { updateStatistic, clearStatistic } from 'server/services/statistic.service';
 import {

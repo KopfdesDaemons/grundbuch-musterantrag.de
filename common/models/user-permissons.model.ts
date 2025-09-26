@@ -8,7 +8,7 @@ import {
   UserManagementAction,
   UserPermission,
   UserRoleManagementAction
-} from 'server/interfaces/user-permission.interface';
+} from 'common/interfaces/user-permission.interface';
 
 export class uploadManagementPermission implements UserPermission {
   feature: Feature = Feature.UploadManagement;

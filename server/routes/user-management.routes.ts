@@ -7,10 +7,10 @@ import {
   handleUpdateUserRole
 } from 'server/controller/user-management.controller';
 import express from 'express';
-import { UserManagementAction } from 'server/interfaces/user-permission.interface';
+import { UserManagementAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { userManagementPermission } from 'server/models/user-permissons.model';
+import { userManagementPermission } from 'common/models/user-permissons.model';
 import { handleSetPasswordAfterInitalLogin } from 'server/controller/user-settings.controller';
 
 export const userManagementRoutes = express.Router();

@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { UserRole } from 'server/interfaces/user-role.interface';
 import { UserRoleOption } from '../../models/user-role-option.model';
 import {
   Feature,
@@ -13,7 +12,7 @@ import {
   UserManagementAction,
   UserPermission,
   UserRoleManagementAction
-} from 'server/interfaces/user-permission.interface';
+} from 'common/interfaces/user-permission.interface';
 import {
   uploadManagementPermission,
   userManagementPermission,
@@ -22,8 +21,9 @@ import {
   migrationPermission,
   settingsPermission,
   userRoleManagementPermission
-} from 'server/models/user-permissons.model';
+} from 'common/models/user-permissons.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserRole } from 'common/interfaces/user-role.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,10 @@
 import { User } from 'server/models/user.model';
 import { db } from './database.service';
-import { Admin } from 'server/models/user-roles.model';
 import logger from 'server/config/logger.config';
 import { getUserRole, addUserRole } from './user-role.service';
 import { RowDataPacket } from 'mysql2/promise';
 import { DASHBOARD_ROOT_USER, DASHBOARD_ROOT_PASSWORD } from 'server/config/env.config';
+import { Admin } from 'common/models/user-roles.model';
 
 export const getUser = async (key: 'username' | 'userID', value: string | number): Promise<User | null> => {
   const queryStr = `SELECT userID, username, passwordHash, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;

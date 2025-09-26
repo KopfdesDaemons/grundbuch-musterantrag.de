@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getStatistic } from 'server/services/statistic.service';
-import { Statistic } from 'server/interfaces/statistic.interface';
+import { Statistic } from 'common/interfaces/statistic.interface';
 
 export const handleGetStatistic = async (req: Request, res: Response) => {
   const statistic: Statistic = await getStatistic();

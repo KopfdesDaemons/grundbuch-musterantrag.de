@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import logger from 'server/config/logger.config';
-import { Settings } from 'server/models/settings.model';
+import { Settings } from 'common/models/settings.model';
 import { SettingsService } from 'server/services/settings.service';
 
 export const handleSaveSettings = async (req: Request, res: Response) => {

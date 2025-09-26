@@ -1,4 +1,4 @@
-import { UserPermission } from './user-permission.interface';
+import { UserPermission } from 'common/interfaces/user-permission.interface';
 
 export interface UserRole {
   userRoleID?: number;

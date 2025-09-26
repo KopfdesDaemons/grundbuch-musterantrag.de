@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserPermission } from 'server/interfaces/user-permission.interface';
+import { UserPermission } from 'common/interfaces/user-permission.interface';
 import { getUserByUserID } from 'server/services/user.service';
 import { User } from 'server/models/user.model';
 import { AuthError } from 'server/models/errors/auth-error.model';
