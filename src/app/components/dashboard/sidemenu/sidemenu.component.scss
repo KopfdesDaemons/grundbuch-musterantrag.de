@@ -21,7 +21,8 @@ aside {
   left: 0;
   height: 100dvh;
   width: var(--dashboard-sidemenu-width);
-  transition: transform 100ms ease-in-out;
+  transition: all 100ms ease-in-out;
+  transition-behavior: allow-discrete;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -99,9 +100,15 @@ aside {
 
   @media only screen and (max-width: 1100px) {
     transform: translateX(calc(-1 * var(--dashboard-sidemenu-width)));
+    display: none;
 
     &.sidemenuOpen {
       transform: translateX(0);
+      display: flex;
+
+      @starting-style {
+        transform: translateX(calc(-1 * var(--dashboard-sidemenu-width)));
+      }
     }
   }
 

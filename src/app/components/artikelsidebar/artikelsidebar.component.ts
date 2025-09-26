@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 
@@ -10,11 +10,9 @@ import { NgClass } from '@angular/common';
   imports: [NgClass, RouterLink]
 })
 export class ArtikelsidebarComponent {
-  router = inject(Router);
-
-  readonly sidebar = viewChild.required<ElementRef>('sidebar');
-  readonly sidebarbutton = viewChild.required<ElementRef>('sidebarbutton');
-  readonly closingdiv = viewChild.required<ElementRef>('closingdiv');
+  protected readonly router = inject(Router);
+  readonly elementRef = inject(ElementRef);
+  protected readonly isOpen = signal(false);
 
   themen = [
     {
@@ -89,15 +87,17 @@ export class ArtikelsidebarComponent {
     element.closest('.thema')!.classList.toggle('open');
   }
 
-  open() {
-    this.sidebar().nativeElement.classList.add('open');
-    this.sidebarbutton().nativeElement.style.display = 'none';
-    this.closingdiv().nativeElement.style.display = 'block';
+  toggleSidemenu() {
+    this.isOpen.update(v => !v);
   }
 
-  close() {
-    this.sidebar().nativeElement.classList.remove('open');
-    this.sidebarbutton().nativeElement.style.display = 'flex';
-    this.closingdiv().nativeElement.style.display = 'none';
+  closeSidemenu() {
+    this.isOpen.set(false);
+  }
+
+  @HostListener('focusout', ['$event']) onFocusOut(event: FocusEvent) {
+    if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget as Node)) {
+      this.closeSidemenu();
+    }
   }
 }

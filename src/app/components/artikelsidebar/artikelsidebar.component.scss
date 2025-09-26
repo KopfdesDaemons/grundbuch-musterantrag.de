@@ -124,6 +124,10 @@ aside {
 .sidebarbutton {
   display: none;
   position: absolute;
+
+  &.open {
+    display: flex;
+  }
 }
 
 @media only screen and (max-width: 700px) {
@@ -173,4 +177,8 @@ aside {
   display: none;
   width: 100vw;
   height: 100vh;
+
+  &.open {
+    display: block;
+  }
 }

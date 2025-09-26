@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidemenuService } from 'src/app/services/ui/sidemenu.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
@@ -17,6 +17,7 @@ export class SidemenuComponent implements OnInit {
   protected readonly sidemenuS = inject(SidemenuService);
   protected readonly authS = inject(AuthService);
   protected readonly userSettingsS = inject(UserSettingsService);
+  protected readonly elementRef = inject(ElementRef);
 
   ngOnInit(): void {
     this.userSettingsS.reloadUsername();
@@ -29,4 +30,10 @@ export class SidemenuComponent implements OnInit {
     { name: 'Statistik', route: '/dashboard/statistic' },
     { name: 'Users', route: '/dashboard/users' }
   ];
+
+  @HostListener('focusout', ['$event']) onFocusOut(event: FocusEvent) {
+    if (!this.elementRef.nativeElement.contains(event.relatedTarget)) {
+      this.sidemenuS.toggleDashboardSidemenu();
+    }
+  }
 }
