@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
-import { computed, DOCUMENT, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { computed, DOCUMENT, inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Upload } from 'common/models/upload.model';
-import { UploadData } from 'src/app/interfaces/uploadData';
+import { PaginatedDataService } from './paginated-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,72 +10,24 @@ import { UploadData } from 'src/app/interfaces/uploadData';
 export class UploadsService {
   private readonly http = inject(HttpClient);
   private readonly document = inject(DOCUMENT);
+  private readonly paginatedDataService = new PaginatedDataService<Upload>();
 
-  private readonly pageToLoad = signal<number>(1);
-
-  setPageToLoad(value: number) {
-    this.pageToLoad.set(value);
+  constructor() {
+    this.paginatedDataService.init('/api/uploads', upload => upload.uploadID);
   }
 
-  private readonly _uploadsDataResource = httpResource<UploadData>(() => ({
-    url: '/api/uploads',
-    params: {
-      page: this.pageToLoad()
-    }
-  }));
+  setPageToLoad = this.paginatedDataService.setPageToLoad.bind(this.paginatedDataService);
+  loadUploads = this.paginatedDataService.loadData.bind(this.paginatedDataService);
+  resetUploads = this.paginatedDataService.resetItems.bind(this.paginatedDataService);
 
-  readonly uploadsData = this._uploadsDataResource.asReadonly();
-
-  loadUploads() {
-    this._uploadsDataResource.reload();
-  }
-
-  private _uploads = linkedSignal<UploadData | undefined, Upload[]>({
-    source: () => (this.uploadsData.hasValue() ? this.uploadsData.value() : undefined),
-    computation: (source, previous) => {
-      if (!source) {
-        return previous?.value ?? [];
-      }
-
-      // When loading page 1, start a new list.
-      if (source.page === 1) {
-        return source.files;
-      }
-
-      // For subsequent pages, we append to the existing list.
-      if (previous?.value && Array.isArray(previous.value)) {
-        const existingIds = new Set(previous.value.map(u => u.uploadID));
-        const newFiles = source.files.filter(u => !existingIds.has(u.uploadID));
-        if (newFiles.length === 0) return previous.value;
-        return previous.value.concat(newFiles);
-      }
-
-      // Fallback
-      return source.files;
-    }
-  });
-
-  readonly uploads = this._uploads.asReadonly();
-
-  resetUploads() {
-    this._uploads.set([]);
-  }
-
-  readonly loadedPages = computed(() => {
-    if (!this.uploadsData.hasValue()) return 0;
-    return this.uploadsData.value().page;
-  });
-
-  readonly totalPages = computed<number | undefined>(() => (this.uploadsData.hasValue() ? this.uploadsData.value()?.totalPages : undefined));
-  readonly totalFiles = linkedSignal<UploadData | undefined, number | undefined>({
-    source: () => (this.uploadsData.hasValue() ? this.uploadsData.value() : undefined),
-    computation: (source, previous) => {
-      return source ? source.totalFiles : previous?.value;
-    }
-  }).asReadonly();
+  readonly uploadsData = this.paginatedDataService.data;
+  readonly uploads = this.paginatedDataService.items;
+  readonly loadedPages = this.paginatedDataService.loadedPages;
+  readonly totalPages = this.paginatedDataService.totalPages;
+  readonly totalFiles = this.paginatedDataService.totalItems;
 
   readonly latestFile = computed<Upload | null>(() => {
-    const files = this.uploadsData.value()?.files ?? [];
+    const files = this.uploadsData.value()?.items ?? [];
     if (files.length === 0) return null;
     return files[0];
   });

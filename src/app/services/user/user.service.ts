@@ -1,9 +1,9 @@
-import { HttpClient, httpResource } from '@angular/common/http';
-import { computed, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../models/user.model';
-import { UserData } from 'src/app/interfaces/userData';
+import { PaginatedDataService } from '../data/paginated-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,69 +11,21 @@ import { UserData } from 'src/app/interfaces/userData';
 export class UserService {
   private readonly http = inject(HttpClient);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly paginatedDataService = new PaginatedDataService<User>();
 
-  private readonly pageToLoad = signal<number>(1);
-
-  setPageToLoad(value: number) {
-    this.pageToLoad.set(value);
+  constructor() {
+    this.paginatedDataService.init('/api/user-management', user => user.userID!);
   }
 
-  private readonly _userData = httpResource<UserData>(() => ({
-    url: '/api/user-management',
-    params: {
-      page: this.pageToLoad()
-    }
-  }));
+  setPageToLoad = this.paginatedDataService.setPageToLoad.bind(this.paginatedDataService);
+  loadUsers = this.paginatedDataService.loadData.bind(this.paginatedDataService);
+  resetUsers = this.paginatedDataService.resetItems.bind(this.paginatedDataService);
 
-  readonly userData = this._userData.asReadonly();
-
-  loadUsers() {
-    this._userData.reload();
-  }
-
-  private readonly _users = linkedSignal<UserData | undefined, User[]>({
-    source: () => (this.userData.hasValue() ? this.userData.value() : undefined),
-    computation: (source, previous) => {
-      if (!source) {
-        return previous?.value ?? [];
-      }
-
-      // When loading page 1, start a new list.
-      if (source.page === 1) {
-        return source.files;
-      }
-
-      // For subsequent pages, we append to the existing list.
-      if (previous?.value && Array.isArray(previous.value)) {
-        const existingIds = new Set(previous.value.map(u => u.userID));
-        const newUsers = source.files.filter(u => !existingIds.has(u.userID));
-        if (newUsers.length === 0) return previous.value;
-        return previous.value.concat(newUsers);
-      }
-
-      // Fallback
-      return source.files;
-    }
-  });
-
-  readonly users = this._users.asReadonly();
-
-  resetUsers() {
-    this._users.set([]);
-  }
-
-  readonly loadedPages = computed(() => {
-    if (!this.userData.hasValue()) return 0;
-    return this.userData.value().page;
-  });
-
-  readonly totalPages = computed<number | undefined>(() => (this.userData.hasValue() ? this.userData.value()?.totalPages : undefined));
-  readonly totalUsers = linkedSignal<UserData | undefined, number | undefined>({
-    source: () => (this.userData.hasValue() ? this.userData.value() : undefined),
-    computation: (source, previous) => {
-      return source ? source.totalUsers : previous?.value;
-    }
-  }).asReadonly();
+  readonly userData = this.paginatedDataService.data;
+  readonly users = this.paginatedDataService.items;
+  readonly loadedPages = this.paginatedDataService.loadedPages;
+  readonly totalPages = this.paginatedDataService.totalPages;
+  readonly totalUsers = this.paginatedDataService.totalItems;
 
   async deleteUsers(userIDs: number[]): Promise<void> {
     await lastValueFrom(

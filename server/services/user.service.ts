@@ -5,6 +5,7 @@ import { getUserRole, addUserRole } from './user-role.service';
 import { RowDataPacket } from 'mysql2/promise';
 import { DASHBOARD_ROOT_USER, DASHBOARD_ROOT_PASSWORD } from 'server/config/env.config';
 import { Admin } from 'common/models/user-roles.model';
+import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
 
 export const getUser = async (key: 'username' | 'userID', value: string | number): Promise<User | null> => {
   const queryStr = `SELECT userID, username, passwordHash, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;
@@ -70,7 +71,7 @@ export const createRootUser = async (): Promise<void> => {
 
 const pageSize: number = 10;
 
-export const getAllUsers = async (page: number = 1): Promise<{ page: number; totalPages: number; totalFiles: number; files: User[] }> => {
+export const getAllUsers = async (page: number = 1): Promise<PaginatedApiResponse<User>> => {
   if (page < 1) throw new Error('Die Seitennummer muss größer oder gleich 1 sein.');
   const offset = (page - 1) * pageSize;
 
@@ -86,18 +87,18 @@ export const getAllUsers = async (page: number = 1): Promise<{ page: number; tot
     return newUser;
   });
 
-  const list: User[] = await Promise.all(userPromises);
+  const items: User[] = await Promise.all(userPromises);
   // Gesamtanzahl der Dateien berechnen
   const countQuery = `SELECT COUNT(*) AS totalFiles FROM users`;
   const [countResult] = await db.execute<RowDataPacket[]>(countQuery);
-  const totalUsers = countResult[0]['totalFiles'] as number;
-  const totalPages = Math.ceil(totalUsers / pageSize);
+  const totalItems = countResult[0]['totalFiles'] as number;
+  const totalPages = Math.ceil(totalItems / pageSize);
 
   return {
     page,
     totalPages,
-    totalFiles: totalUsers,
-    files: list
+    totalItems,
+    items
   };
 };
 

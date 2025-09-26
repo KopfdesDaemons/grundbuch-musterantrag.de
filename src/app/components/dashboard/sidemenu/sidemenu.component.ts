@@ -32,7 +32,7 @@ export class SidemenuComponent implements OnInit {
   ];
 
   @HostListener('focusout', ['$event']) onFocusOut(event: FocusEvent) {
-    if (!this.elementRef.nativeElement.contains(event.relatedTarget)) {
+    if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget as Node)) {
       this.sidemenuS.toggleDashboardSidemenu();
     }
   }

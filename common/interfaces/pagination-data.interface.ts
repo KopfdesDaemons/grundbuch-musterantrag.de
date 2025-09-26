@@ -1,6 +1,6 @@
-export interface PaginationData {
+export interface PaginatedApiResponse<T> {
   page: number;
   totalPages: number;
-  totalFiles: number;
-  Files: any[];
+  totalItems: number;
+  items: T[];
 }

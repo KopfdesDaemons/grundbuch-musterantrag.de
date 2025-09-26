@@ -4,17 +4,11 @@ import fs from 'fs';
 import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2/promise';
+import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
 
 const pageSize: number = 20;
 
-export const getUploadsData = async (
-  page: number
-): Promise<{
-  page: number;
-  totalPages: number;
-  totalFiles: number;
-  files: Upload[];
-}> => {
+export const getUploadsData = async (page: number): Promise<PaginatedApiResponse<Upload>> => {
   if (page < 1) throw new Error('Die Seitennummer muss größer oder gleich 1 sein.');
 
   // SQL-Abfrage mit LIMIT und OFFSET
@@ -28,7 +22,7 @@ export const getUploadsData = async (
   const [rows] = await db.execute<RowDataPacket[]>(readQuery);
 
   // Mapping der Ergebnisse zu Upload-Objekten
-  const list: Upload[] = rows.map(row => {
+  const items: Upload[] = rows.map(row => {
     const upload = new Upload(row['uploadID']);
     upload.odtFile = Boolean(row['odtFile']);
     upload.pdfFile = Boolean(row['pdfFile']);
@@ -44,14 +38,14 @@ export const getUploadsData = async (
   // Gesamtanzahl der Dateien berechnen
   const countQuery = `SELECT COUNT(*) AS totalFiles FROM uploads`;
   const [countResult] = await db.execute<RowDataPacket[]>(countQuery);
-  const totalFiles = countResult[0]['totalFiles'] as number;
-  const totalPages = Math.ceil(totalFiles / pageSize);
+  const totalItems = countResult[0]['totalFiles'] as number;
+  const totalPages = Math.ceil(totalItems / pageSize);
 
   return {
     page,
     totalPages,
-    totalFiles,
-    files: list
+    totalItems,
+    items
   };
 };
 
