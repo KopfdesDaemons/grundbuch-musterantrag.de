@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { clearLogFile, readLogFile } from '../helpers/log-file.helper';
+import { clearLogFile } from '../helpers/log-file.helper';
+import { getLogs } from 'server/services/logger.service';
 
 export const deleteLogFile = async (req: Request, res: Response) => {
   await clearLogFile();
@@ -7,9 +8,11 @@ export const deleteLogFile = async (req: Request, res: Response) => {
 };
 
 export const getLogFile = async (req: Request, res: Response) => {
-  const logs = await readLogFile();
+  const page = parseInt(req.query['page'] as string, 10) || 1;
 
-  if (logs.length === 0) {
+  const logs = await getLogs(page);
+
+  if (!logs) {
     return res.status(204).send('Keine Serverlogs');
   }
 

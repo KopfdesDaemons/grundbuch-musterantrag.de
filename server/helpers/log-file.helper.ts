@@ -1,11 +1,13 @@
 import * as fs from 'fs';
 import { LOG_FILE_PATH } from '../config/path.config';
+import { Log } from 'common/models/log.model';
+import { isLogEntry } from './type-guards.helper';
 
 export const clearLogFile = async (): Promise<void> => {
   await fs.promises.writeFile(LOG_FILE_PATH, '');
 };
 
-export const readLogFile = async (): Promise<any[]> => {
+export const readLogFile = async (): Promise<Log[]> => {
   const data = await fs.promises.readFile(LOG_FILE_PATH, 'utf8');
 
   if (data === '') {
@@ -18,7 +20,11 @@ export const readLogFile = async (): Promise<any[]> => {
     .split('\n')
     .map(line => {
       try {
-        return JSON.parse(line) as string;
+        const object: unknown = JSON.parse(line);
+        if (isLogEntry(object)) {
+          return new Log(object.level, object.message, new Date(object.timestamp), object.stack, object.path);
+        }
+        return null;
       } catch (error) {
         console.error('Invalid JSON:', line, error);
         return null;
