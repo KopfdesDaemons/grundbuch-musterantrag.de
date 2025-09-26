@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
-import { computed, DOCUMENT, inject, Injectable } from '@angular/core';
+import { computed, DOCUMENT, inject, Injectable, linkedSignal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Upload } from 'common/models/upload.model';
 import { PaginatedDataService } from './paginated-data.service';
+import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,14 @@ export class UploadsService {
   readonly totalPages = this.paginatedDataService.totalPages;
   readonly totalFiles = this.paginatedDataService.totalItems;
 
-  readonly latestFile = computed<Upload | null>(() => {
-    const files = this.uploadsData.value()?.items ?? [];
-    if (files.length === 0) return null;
-    return files[0];
+  readonly latestFile = linkedSignal<PaginatedApiResponse<Upload> | undefined, Upload | null>({
+    source: () => (this.uploadsData.hasValue() ? this.uploadsData.value() : undefined),
+    computation: (source, previous) => {
+      const files = source?.items ?? [];
+      if (this.uploadsData.value()?.page !== 1) return previous?.value ?? null;
+      if (files.length === 0) return null;
+      return files[0];
+    }
   });
 
   private readonly _statisticResourceWeek = httpResource<{ date: string; count: number }[]>(() => ({
