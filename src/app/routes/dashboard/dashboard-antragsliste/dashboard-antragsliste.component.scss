@@ -46,8 +46,6 @@ $tabele-width: clamp(300px, 95%, 1200px);
   overflow: auto;
   position: relative;
   resize: vertical;
-  display: flex;
-  justify-content: center;
 
   table {
     margin-top: 0;
@@ -59,6 +57,10 @@ $tabele-width: clamp(300px, 95%, 1200px);
     position: sticky;
     top: 0;
     z-index: 1;
+  }
+
+  app-progress-spinner {
+    margin: auto;
   }
 }
 
