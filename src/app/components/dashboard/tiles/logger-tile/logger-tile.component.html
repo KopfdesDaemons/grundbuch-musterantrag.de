@@ -1,6 +1,6 @@
 <app-dashboard-tile tileTitle="Server Logs">
   <div class="content">
-    <p>Die aktuellste Seite der Serverlogs</p>
+    <p class="info-text">Die aktuellste Seite der Serverlogs</p>
     <div class="controlls">
       <button class="reloadBtn" (click)="reload()" title="Neuladen">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -34,9 +34,9 @@
               </tr>
             </thead>
             <tbody>
-              @for (log of loggerS.logs(); track log) {
+              @for (log of firstLogPage(); track log) {
                 <tr [ngClass]="{ error: log.level === 'error' }">
-                  <td>{{ addLineBreak((log.timestamp | date: "dd.MM.yyyy HH:mm:ss") || "") }}</td>
+                  <td>{{ addLineBreak((log.timestamp | date: "dd.MM.yyyy HH:mm") || "") }}</td>
                   <td>{{ log.message }}</td>
                 </tr>
               }

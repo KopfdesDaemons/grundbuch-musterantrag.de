@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, linke
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DatePipe, NgClass } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
-import { UploadRow } from 'src/app/interfaces/uploadRow';
 import { FormsModule } from '@angular/forms';
 import { Upload } from 'common/models/upload.model';
+import { UploadRow } from 'src/app/interfaces/upload-row';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

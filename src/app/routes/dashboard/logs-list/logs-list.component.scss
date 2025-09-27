@@ -1,0 +1,35 @@
+section {
+  animation: slide-in-from-top 500ms forwards;
+  margin-top: 2em;
+}
+
+.controlls-row {
+  display: flex;
+  align-items: center;
+
+  button.icon {
+    height: 3em;
+    width: 3em;
+  }
+}
+
+.horizontal-scroll-container {
+  overflow: auto;
+  height: 500px;
+
+  table {
+    margin-top: 0;
+    font-size: clamp(12px, 2vw, 16px);
+    width: 100%;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
+
+.error {
+  color: red;
+}

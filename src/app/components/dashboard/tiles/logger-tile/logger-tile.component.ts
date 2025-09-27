@@ -22,7 +22,7 @@ export class LoggerTileComponent {
     return this.loggerS.logerData.isLoading() || !!this.error() || !!this.loggerS.logerData.error() || !this.loggerS.logs();
   });
 
-  firstLogPage = computed<Log[]>(() => {
+  protected readonly firstLogPage = computed<Log[]>(() => {
     const logs = this.loggerS.logs();
     if (!logs) return [];
     return logs.slice(0, 10);

@@ -5,8 +5,8 @@ import { NgClass } from '@angular/common';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
-import { UserRow } from 'src/app/interfaces/userRow';
 import { User } from 'src/app/models/user.model';
+import { UserRow } from 'src/app/interfaces/user-row';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

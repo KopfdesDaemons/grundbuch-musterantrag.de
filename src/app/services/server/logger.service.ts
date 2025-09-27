@@ -1,7 +1,6 @@
-import { HttpClient, httpResource } from '@angular/common/http';
-import { computed, inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { TimeHelper } from '../../helpers/time.helper';
 import { PaginatedDataService } from '../data/paginated-data.service';
 import { Log } from 'common/models/log.model';
 
@@ -24,32 +23,6 @@ export class LoggerService {
   readonly loadedPages = this.paginatedDataService.loadedPages;
   readonly totalPages = this.paginatedDataService.totalPages;
   readonly totalLogs = this.paginatedDataService.totalItems;
-
-  // Private readonly _loggerResource = httpResource<{ level: string; timestamp: string; message: string }[]>(() => ({
-  //   Url: '/api/logger'
-  // }));
-
-  // Readonly loggerResource = this._loggerResource.asReadonly();
-
-  // ReloadLogger() {
-  //   This._loggerResource.reload();
-  // }
-
-  // Readonly formatedLogs = computed(() => {
-  //   If (!this.loggerResource.hasValue()) return;
-  //   Const logs = this.loggerResource.value();
-
-  //   Const formattedLogs = logs.map(log => {
-  //     Const date = new Date(log.timestamp);
-  //     Const formattedDate = TimeHelper.formatDate(date);
-  //     Const formattedTime = TimeHelper.formatTime(date);
-  //     Const formattedTimestamp = `${formattedDate} ${formattedTime}`;
-
-  //     Return { ...log, timestamp: formattedTimestamp };
-  //   });
-
-  //   Return formattedLogs;
-  // });
 
   openLogFileInNewTab() {
     const logFile = this.logs();

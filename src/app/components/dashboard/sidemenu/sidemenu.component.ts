@@ -28,7 +28,8 @@ export class SidemenuComponent implements OnInit {
     { name: 'Übersicht', route: '/dashboard' },
     { name: 'Uploads', route: '/dashboard/antragsliste' },
     { name: 'Statistik', route: '/dashboard/statistic' },
-    { name: 'Users', route: '/dashboard/users' }
+    { name: 'Users', route: '/dashboard/users' },
+    { name: 'Logs', route: '/dashboard/logs' }
   ];
 
   @HostListener('focusout', ['$event']) onFocusOut(event: FocusEvent) {
