@@ -6,13 +6,14 @@ import { ErrorDisplayComponent } from '../../../components/error-display/error-d
 import { FormsModule } from '@angular/forms';
 import { Upload } from 'common/models/upload.model';
 import { UploadRow } from 'src/app/interfaces/upload-row';
+import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],
-  imports: [DatePipe, ErrorDisplayComponent, NgClass, FormsModule]
+  imports: [DatePipe, ErrorDisplayComponent, NgClass, FormsModule, ProgressSpinnerComponent]
 })
 export class DashboardAntragslisteComponent {
   uploadsS = inject(UploadsService);

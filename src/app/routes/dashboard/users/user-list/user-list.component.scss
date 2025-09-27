@@ -1,6 +1,7 @@
 .content-spacer {
   animation: grow 500ms;
   overflow: hidden;
+  padding-top: 0;
 
   @media only screen and (max-width: 700px) {
     padding: 0;
@@ -33,6 +34,8 @@
   position: relative;
   resize: vertical;
   margin-top: 1em;
+  display: flex;
+  justify-content: center;
 
   @media only screen and (max-width: 700px) {
     width: 100%;

@@ -25,81 +25,96 @@
       <app-error-display [error]="error() ?? userS.userData.error()"></app-error-display>
     } @else {
       <div class="tablehorizontal-scroll-container" (scroll)="scroll($event.target)">
-        <table>
-          <thead>
-            <tr>
-              <th><input type="checkbox" #selectAllInput (change)="selectAll(selectAllInput.checked)" /></th>
-              <th>Username</th>
-              <th>User&nbsp;ID</th>
-              <th>Benutzerrolle</th>
-              <th>Passwort</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of rows(); track row.user.userID) {
+        @if (userS.userData.isLoading()) {
+          <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else if (!userS.users() || userS.users().length === 0) {
+          <p class="info-text">Keine Nutzer vorhanden</p>
+        }
+        @if (rows().length > 0) {
+          <table>
+            <thead>
               <tr>
-                <td>
-                  <input type="checkbox" [(ngModel)]="row.isChecked" />
-                </td>
-                <td>{{ row.user.username }}</td>
-                <td>{{ row.user.userID }}</td>
-                <td [ngClass]="{ admin: row.user.userRole.name === 'admin' }">
-                  {{ row.user.userRole.name }}
-                </td>
-                <td>
-                  {{ row.user.isInitialPassword ? "Initialpasswort" : "vergeben" }}
-                </td>
-                <td>
-                  <button class="btn-icon" (click)="toggleEditMode(row)">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                      <path
-                        fill="currentColor"
-                        d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z"
-                      />
-                    </svg>
-                  </button>
-                </td>
+                <th><input type="checkbox" #selectAllInput (change)="selectAll(selectAllInput.checked)" /></th>
+                <th>Username</th>
+                <th>User&nbsp;ID</th>
+                <th>Benutzerrolle</th>
+                <th>Passwort</th>
+                <th></th>
               </tr>
-              @if (row.editMode) {
+            </thead>
+
+            <tbody>
+              @for (row of rows(); track row.user.userID) {
                 <tr>
-                  <td colspan="6">
-                    @if (row.editForm) {
-                      <form class="editForm" [formGroup]="row.editForm" (ngSubmit)="row.editForm.valid && saveUser(row)">
-                        <div>
-                          <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole">
-                            @for (userRole of userRoleS.userRoleOptions.value(); track userRole.userRoleID) {
-                              <option value="{{ userRole.userRoleID }}" [selected]="userRole.userRoleID === row.user.userRoleID">
-                                {{ userRole.name }}
-                              </option>
-                            }
-                          </select>
-                        </div>
-                        <div class="input-container" id="username">
-                          <input formControlName="username" type="text" id="usernameinput" name="username" spellcheck="false" placeholder="&nbsp;" />
-                          <label class="placeholder" for="usernameinput">Username</label>
-                        </div>
-                        <div class="input-container" id="userPassword">
-                          <input
-                            formControlName="userPassword"
-                            autocomplete="new-password"
-                            type="password"
-                            id="userPasswordinput"
-                            name="userPassword"
-                            spellcheck="false"
-                            placeholder="&nbsp;"
-                          />
-                          <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
-                        </div>
-                        <button>Speichern</button>
-                      </form>
-                    }
+                  <td>
+                    <input type="checkbox" [(ngModel)]="row.isChecked" />
+                  </td>
+                  <td>{{ row.user.username }}</td>
+                  <td>{{ row.user.userID }}</td>
+                  <td [ngClass]="{ admin: row.user.userRole.name === 'admin' }">
+                    {{ row.user.userRole.name }}
+                  </td>
+                  <td>
+                    {{ row.user.isInitialPassword ? "Initialpasswort" : "vergeben" }}
+                  </td>
+                  <td>
+                    <button class="btn-icon" (click)="toggleEditMode(row)">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                          fill="currentColor"
+                          d="M535.6 85.7C513.7 63.8 478.3 63.8 456.4 85.7L432 110.1L529.9 208L554.3 183.6C576.2 161.7 576.2 126.3 554.3 104.4L535.6 85.7zM236.4 305.7C230.3 311.8 225.6 319.3 222.9 327.6L193.3 416.4C190.4 425 192.7 434.5 199.1 441C205.5 447.5 215 449.7 223.7 446.8L312.5 417.2C320.7 414.5 328.2 409.8 334.4 403.7L496 241.9L398.1 144L236.4 305.7zM160 128C107 128 64 171 64 224L64 480C64 533 107 576 160 576L416 576C469 576 512 533 512 480L512 384C512 366.3 497.7 352 480 352C462.3 352 448 366.3 448 384L448 480C448 497.7 433.7 512 416 512L160 512C142.3 512 128 497.7 128 480L128 224C128 206.3 142.3 192 160 192L256 192C273.7 192 288 177.7 288 160C288 142.3 273.7 128 256 128L160 128z"
+                        />
+                      </svg>
+                    </button>
                   </td>
                 </tr>
+                @if (row.editMode) {
+                  <tr>
+                    <td colspan="6">
+                      @if (row.editForm) {
+                        <form class="editForm" [formGroup]="row.editForm" (ngSubmit)="row.editForm.valid && saveUser(row)">
+                          <div>
+                            <select formControlName="userRoleID" type="text" id="userRoleinput" name="userRole">
+                              @for (userRole of userRoleS.userRoleOptions.value(); track userRole.userRoleID) {
+                                <option value="{{ userRole.userRoleID }}" [selected]="userRole.userRoleID === row.user.userRoleID">
+                                  {{ userRole.name }}
+                                </option>
+                              }
+                            </select>
+                          </div>
+                          <div class="input-container" id="username">
+                            <input
+                              formControlName="username"
+                              type="text"
+                              id="usernameinput"
+                              name="username"
+                              spellcheck="false"
+                              placeholder="&nbsp;"
+                            />
+                            <label class="placeholder" for="usernameinput">Username</label>
+                          </div>
+                          <div class="input-container" id="userPassword">
+                            <input
+                              formControlName="userPassword"
+                              autocomplete="new-password"
+                              type="password"
+                              id="userPasswordinput"
+                              name="userPassword"
+                              spellcheck="false"
+                              placeholder="&nbsp;"
+                            />
+                            <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
+                          </div>
+                          <button>Speichern</button>
+                        </form>
+                      }
+                    </td>
+                  </tr>
+                }
               }
-            }
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        }
       </div>
     }
   </div>

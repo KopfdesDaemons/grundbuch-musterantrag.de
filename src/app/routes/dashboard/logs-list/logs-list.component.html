@@ -21,8 +21,8 @@
       } @else if (!loggerS.logs() || loggerS.logs().length === 0) {
         <p class="info-text">Keine Logs vorhanden</p>
       }
-      <table>
-        @if (rows().length > 0) {
+      @if (rows().length > 0) {
+        <table>
           <thead>
             <tr>
               <th></th>
@@ -32,71 +32,72 @@
               <th></th>
             </tr>
           </thead>
-        }
-        <tbody>
-          @for (row of rows(); track row.log.timestamp) {
-            <tr [class]="{ error: row.log.level === 'error' }">
-              <td>
-                @switch (row.log.level) {
-                  @case ("info") {
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                      <path
-                        fill="currentColor"
-                        d="M320 64C176.5 64 48 192.5 48 336C48 479.5 176.5 608 320 608C463.5 608 592 479.5 592 336C592 192.5 463.5 64 320 64zM320 544C206.4 544 112 449.6 112 336C112 222.4 206.4 128 320 128C433.6 128 528 222.4 528 336C528 449.6 433.6 544 320 544zM304 176C304 161.9 315.9 150 330 150C344.1 150 356 161.9 356 176C356 190.1 344.1 202 330 202C315.9 202 304 190.1 304 176zM348.7 256H311.3C307.7 256 304.7 259.1 304.7 262.7L304.7 416C304.7 419.6 307.7 422.7 311.3 422.7H348.7C352.3 422.7 355.3 419.6 355.3 416L355.3 262.7C355.3 259.1 352.3 256 348.7 256z"
-                      />
-                    </svg>
-                  }
-                  @case ("error") {
-                    <svg class="icon error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                      <path
-                        fill="currentColor"
-                        d="M320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576zM320 384C302.3 384 288 398.3 288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416C352 398.3 337.7 384 320 384zM320 192C301.8 192 287.3 207.5 288.6 225.7L296 329.7C296.9 342.3 307.4 352 319.9 352C332.5 352 342.9 342.3 343.8 329.7L351.2 225.7C352.5 207.5 338.1 192 319.8 192z"
-                      />
-                    </svg>
-                  }
-                  @case ("warn") {
-                    <svg class="icon error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                      <path
-                        fill="currentColor"
-                        d="M320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576zM320 384C302.3 384 288 398.3 288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416C352 398.3 337.7 384 320 384zM320 192C301.8 192 287.3 207.5 288.6 225.7L296 329.7C296.9 342.3 307.4 352 319.9 352C332.5 352 342.9 342.3 343.8 329.7L351.2 225.7C352.5 207.5 338.1 192 319.8 192z"
-                      />
-                    </svg>
-                  }
-                }
-              </td>
-              <td>{{ row.log.level }}</td>
-              <td>{{ addLineBreak((row.log.timestamp | date: "dd.MM.yyyy HH:mm") || "") }}</td>
-              <td>{{ row.log.message }}</td>
 
-              <td class="toggle">
-                @if (row.log.stack) {
-                  <button class="btn-icon" (click)="row.editMode = !row.editMode" title="Details">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                      <path
-                        fill="currentColor"
-                        d="M320 208C289.1 208 264 182.9 264 152C264 121.1 289.1 96 320 96C350.9 96 376 121.1 376 152C376 182.9 350.9 208 320 208zM320 432C350.9 432 376 457.1 376 488C376 518.9 350.9 544 320 544C289.1 544 264 518.9 264 488C264 457.1 289.1 432 320 432zM376 320C376 350.9 350.9 376 320 376C289.1 376 264 350.9 264 320C264 289.1 289.1 264 320 264C350.9 264 376 289.1 376 320z"
-                      />
-                    </svg>
-                  </button>
-                }
-              </td>
-            </tr>
-            @if (row.editMode) {
-              <tr class="edit-row">
-                <td colspan="5">
-                  <div>
-                    <div class="route">
-                      <span>Route:</span><span> {{ row.log.route }}</span>
-                    </div>
-                    <br />
-                    <span>{{ row.log.stack }}</span>
-                  </div>
+          <tbody>
+            @for (row of rows(); track row.log.timestamp) {
+              <tr [class]="{ error: row.log.level === 'error' }">
+                <td>
+                  @switch (row.log.level) {
+                    @case ("info") {
+                      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                          fill="currentColor"
+                          d="M320 64C176.5 64 48 192.5 48 336C48 479.5 176.5 608 320 608C463.5 608 592 479.5 592 336C592 192.5 463.5 64 320 64zM320 544C206.4 544 112 449.6 112 336C112 222.4 206.4 128 320 128C433.6 128 528 222.4 528 336C528 449.6 433.6 544 320 544zM304 176C304 161.9 315.9 150 330 150C344.1 150 356 161.9 356 176C356 190.1 344.1 202 330 202C315.9 202 304 190.1 304 176zM348.7 256H311.3C307.7 256 304.7 259.1 304.7 262.7L304.7 416C304.7 419.6 307.7 422.7 311.3 422.7H348.7C352.3 422.7 355.3 419.6 355.3 416L355.3 262.7C355.3 259.1 352.3 256 348.7 256z"
+                        />
+                      </svg>
+                    }
+                    @case ("error") {
+                      <svg class="icon error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                          fill="currentColor"
+                          d="M320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576zM320 384C302.3 384 288 398.3 288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416C352 398.3 337.7 384 320 384zM320 192C301.8 192 287.3 207.5 288.6 225.7L296 329.7C296.9 342.3 307.4 352 319.9 352C332.5 352 342.9 342.3 343.8 329.7L351.2 225.7C352.5 207.5 338.1 192 319.8 192z"
+                        />
+                      </svg>
+                    }
+                    @case ("warn") {
+                      <svg class="icon error" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                          fill="currentColor"
+                          d="M320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576zM320 384C302.3 384 288 398.3 288 416C288 433.7 302.3 448 320 448C337.7 448 352 433.7 352 416C352 398.3 337.7 384 320 384zM320 192C301.8 192 287.3 207.5 288.6 225.7L296 329.7C296.9 342.3 307.4 352 319.9 352C332.5 352 342.9 342.3 343.8 329.7L351.2 225.7C352.5 207.5 338.1 192 319.8 192z"
+                        />
+                      </svg>
+                    }
+                  }
+                </td>
+                <td>{{ row.log.level }}</td>
+                <td>{{ addLineBreak((row.log.timestamp | date: "dd.MM.yyyy HH:mm") || "") }}</td>
+                <td>{{ row.log.message }}</td>
+
+                <td class="toggle">
+                  @if (row.log.stack) {
+                    <button class="btn-icon" (click)="row.editMode = !row.editMode" title="Details">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                          fill="currentColor"
+                          d="M320 208C289.1 208 264 182.9 264 152C264 121.1 289.1 96 320 96C350.9 96 376 121.1 376 152C376 182.9 350.9 208 320 208zM320 432C350.9 432 376 457.1 376 488C376 518.9 350.9 544 320 544C289.1 544 264 518.9 264 488C264 457.1 289.1 432 320 432zM376 320C376 350.9 350.9 376 320 376C289.1 376 264 350.9 264 320C264 289.1 289.1 264 320 264C350.9 264 376 289.1 376 320z"
+                        />
+                      </svg>
+                    </button>
+                  }
                 </td>
               </tr>
+              @if (row.editMode) {
+                <tr class="edit-row">
+                  <td colspan="5">
+                    <div>
+                      <div class="route">
+                        <span>Route:</span><span> {{ row.log.route }}</span>
+                      </div>
+                      <br />
+                      <span>{{ row.log.stack }}</span>
+                    </div>
+                  </td>
+                </tr>
+              }
             }
-          }
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      }
     }
   </div>
 </section>

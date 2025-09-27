@@ -7,11 +7,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
 import { User } from 'src/app/models/user.model';
 import { UserRow } from 'src/app/interfaces/user-row';
+import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-user-list',
-  imports: [FormsModule, ReactiveFormsModule, NgClass, ErrorDisplayComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgClass, ErrorDisplayComponent, ProgressSpinnerComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
