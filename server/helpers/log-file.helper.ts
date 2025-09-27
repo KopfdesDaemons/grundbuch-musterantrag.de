@@ -22,7 +22,7 @@ export const readLogFile = async (): Promise<Log[]> => {
       try {
         const object: unknown = JSON.parse(line);
         if (isLogEntry(object)) {
-          return new Log(object.level, object.message, new Date(object.timestamp), object.stack, object.path);
+          return new Log(object.level, object.message, new Date(object.timestamp), object.stack, object.route);
         }
         return null;
       } catch (error) {

@@ -5,13 +5,13 @@ export class Log implements LogEntry {
   message: string;
   timestamp: Date;
   stack?: string;
-  path?: string;
+  route?: string;
 
   constructor(level: string, message: string, timestamp: Date, stack?: string, path?: string) {
     this.level = level;
     this.message = message;
     this.timestamp = timestamp;
     this.stack = stack;
-    this.path = path;
+    this.route = path;
   }
 }

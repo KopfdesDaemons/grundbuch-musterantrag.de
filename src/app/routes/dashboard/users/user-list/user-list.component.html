@@ -62,7 +62,7 @@
                 </td>
               </tr>
               @if (row.editMode) {
-                <tr class="editRow">
+                <tr>
                   <td colspan="6">
                     @if (row.editForm) {
                       <form class="editForm" [formGroup]="row.editForm" (ngSubmit)="row.editForm.valid && saveUser(row)">

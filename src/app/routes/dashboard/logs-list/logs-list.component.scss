@@ -16,11 +16,17 @@ section {
 .horizontal-scroll-container {
   overflow: auto;
   height: 500px;
+  max-width: 900px;
 
   table {
     margin-top: 0;
     font-size: clamp(12px, 2vw, 16px);
     width: 100%;
+
+    .icon {
+      height: 2em;
+      width: 2em;
+    }
   }
 
   thead {
@@ -32,4 +38,10 @@ section {
 
 .error {
   color: red;
+}
+
+.route {
+  & span:first-child {
+    font-weight: bold;
+  }
 }

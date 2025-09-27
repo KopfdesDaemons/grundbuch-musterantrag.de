@@ -13,6 +13,6 @@ export const isLogEntry = (obj: unknown): obj is Log => {
     'timestamp' in obj &&
     (typeof (obj as any).timestamp === 'string' || (obj as any).timestamp instanceof Date) &&
     (!('stack' in obj) || typeof (obj as any).stack === 'string') &&
-    (!('path' in obj) || typeof (obj as any).path === 'string')
+    (!('route' in obj) || typeof (obj as any).route === 'string')
   );
 };

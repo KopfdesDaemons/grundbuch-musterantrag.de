@@ -4,10 +4,11 @@ import { Log } from 'common/models/log.model';
 import { LogRow } from 'src/app/interfaces/log-row';
 import { LoggerService } from 'src/app/services/server/logger.service';
 import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
+import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 
 @Component({
   selector: 'app-logs-list',
-  imports: [DatePipe, ErrorDisplayComponent],
+  imports: [DatePipe, ErrorDisplayComponent, ProgressSpinnerComponent],
   templateUrl: './logs-list.component.html',
   styleUrl: './logs-list.component.scss'
 })
