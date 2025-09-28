@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../services/auth.service';
+import { verifyToken } from 'server/helpers/jwt.helper';
 import { AuthError } from 'server/models/errors/auth-error.model';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {

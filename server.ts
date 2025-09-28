@@ -16,17 +16,22 @@ import { userRoleRoutes } from 'server/routes/user-role.routes';
 import { userSettingsRoutes } from 'server/routes/user-settings.routes';
 import { handleGetOdtAfterSubmitForm, handleGetPdfAfterSubmitForm, submitForm } from 'server/controller/submit-form.controller';
 import { errorHandler } from 'server/middleware/error-handler.middleware';
+import cookieParser from 'cookie-parser';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+// To get ip from req
+app.set('trust proxy', true);
+
 await initDatabase();
 
 // Middleware for the entire server
 app.use(fileUpload());
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes that call a controller
 app.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);

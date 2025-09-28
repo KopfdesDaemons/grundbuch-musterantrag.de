@@ -1,31 +1,56 @@
 import { Request, Response } from 'express';
-import { login, verifyToken } from '../services/auth.service';
+import { getRefreshTokenCookieOptions, login, refreshAccessToken } from '../services/auth.service';
 import { getUserByUsername } from 'server/services/user.service';
 import { User } from 'server/models/user.model';
 import { AuthError } from 'server/models/errors/auth-error.model';
+import { AuthResponse } from 'common/interfaces/auth-response.interface';
+import { validateAndGetUser } from 'server/helpers/validation.helper';
+import { verifyToken } from 'server/helpers/jwt.helper';
 
-export const handleLogin = async (req: Request, res: Response): Promise<any> => {
-  const { username, password } = req.body;
-  if (!username || !password) throw new AuthError('Anmeldedaten unvollständig', 401);
+export const handleLogin = async (req: Request, res: Response) => {
+  const { username, password, userAgent } = req.body;
+  if (!username || !password || !userAgent) throw new AuthError('Anmeldedaten unvollständig', 401);
+
+  const ip = req.ip;
+  if (!ip) throw new AuthError('IP-Adresse nicht gefunden', 500);
 
   const user: User | null = await getUserByUsername(username);
   if (!user) throw new AuthError('Ungültige Anmeldedaten', 401);
-
-  const token = await login(user, password);
 
   if (user.isInitialPassword) {
     return res.status(401).json({ message: 'Passwortänderung erforderlich', userName: user.username });
   }
 
-  return res.json({ token: token, username: user.username, userRoleName: user.userRole.name });
+  const { accessToken, refreshToken } = await login(user, password, userAgent, ip);
+
+  const response = {
+    accessToken: accessToken
+  } as AuthResponse;
+
+  res.cookie('refresh_token', refreshToken, getRefreshTokenCookieOptions());
+  return res.json(response);
 };
 
-export const checkToken = async (req: Request, res: Response) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+export const handleRefreshToken = async (req: Request, res: Response) => {
+  const oldRefreshToken = req.cookies['refresh_token'];
+  const userAgent = req.query['userAgent'] as string;
 
-  if (token == null) throw new AuthError('Unauthorized', 401);
+  const { userID } = await verifyToken(oldRefreshToken);
+  const user = await validateAndGetUser(userID);
 
-  await verifyToken(token);
-  return res.status(200).send({ message: 'Authorized' });
+  const ip = req.ip;
+
+  if (!oldRefreshToken) throw new AuthError('Refresh Token fehlt. Bitte neu anmelden.', 401);
+  if (!ip) throw new AuthError('IP-Adresse nicht gefunden', 500);
+  if (!userAgent) throw new AuthError('User Agent fehlt', 400);
+
+  const { accessToken, refreshToken } = await refreshAccessToken(oldRefreshToken, user, userAgent, ip);
+
+  res.cookie('refresh_token', refreshToken, getRefreshTokenCookieOptions());
+
+  const authResponse = {
+    accessToken: accessToken
+  } as AuthResponse;
+
+  return res.json(authResponse);
 };

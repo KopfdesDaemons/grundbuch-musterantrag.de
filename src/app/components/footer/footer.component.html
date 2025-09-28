@@ -1,6 +1,6 @@
 <footer>
   <div class="anmeldediv">
-    @if (!authS.authToken()) {
+    @if (!authS.accessToken()) {
       <a routerLink="/login" class="btn-icon" aria-label="Login">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" area-hidden="true">
           <path
@@ -10,7 +10,7 @@
         </svg>
       </a>
     }
-    @if (authS.authToken()) {
+    @if (authS.accessToken()) {
       <div class="adminDiv">
         <ul>
           <li>

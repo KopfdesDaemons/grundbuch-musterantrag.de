@@ -68,6 +68,20 @@ export const initDatabase = async () => {
           { name: 'feature', type: 'VARCHAR(255) NOT NULL' }
         ],
         links: [{ columnName: 'userRoleID', tableName: 'user_roles', foreignKey: 'userRoleID' }]
+      },
+      {
+        name: 'refresh_tokens',
+        columns: [
+          { name: 'tokenID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
+          { name: 'userID', type: 'INT NOT NULL' },
+          { name: 'tokenHash', type: 'VARCHAR(255) NOT NULL' },
+          { name: 'userAgent', type: 'VARCHAR(255)' },
+          { name: 'ip', type: 'VARCHAR(255)' },
+          { name: 'creationDate', type: 'DATETIME NOT NULL' },
+          { name: 'expiryDate', type: 'DATETIME NOT NULL' },
+          { name: 'isRevoked', type: 'BOOLEAN NOT NULL DEFAULT FALSE' }
+        ],
+        links: [{ columnName: 'userID', tableName: 'users', foreignKey: 'userID' }]
       }
     ];
 

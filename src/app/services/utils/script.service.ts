@@ -17,7 +17,7 @@ export class ScriptService {
       const script = renderer.createElement('script');
       script.type = 'text/javascript';
       script.src = src;
-      script.onload = () => resolve(); // erfolgreich geladen.
+      script.onload = () => resolve(); // Erfolgreich geladen.
       script.onerror = () => reject(new Error(`Error loading script: ${src}`));
       renderer.appendChild(this.document.body, script);
     });
