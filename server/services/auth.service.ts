@@ -6,7 +6,8 @@ import { db } from './database.service';
 import { IS_PRODUCTION } from 'server/config/env.config';
 import { RowDataPacket } from 'mysql2';
 
-const refreshTokenLifetimeInMS = 5 * 60 * 1000; // 5 minutes
+const refreshTokenLifetimeInMS = 21 * 24 * 60 * 60 * 1000; // 21 days
+const accessTokenLifetimeInMS = 5 * 60 * 1000; // 5 minutes
 
 export const login = async (user: User, password: string, userAgent: string, ip: string): Promise<{ accessToken: string; refreshToken: string }> => {
   const passwordIsCorrect = await user.comparePassword(password);
@@ -21,9 +22,7 @@ export const login = async (user: User, password: string, userAgent: string, ip:
 
 const getNewAccessToken = (user: User): string => {
   if (!user.userID) throw new Error('No User ID');
-  const lifetimeInMinutes = 5;
-  const lifetimeInMS = lifetimeInMinutes * 60 * 1000;
-  return createToken({ userID: user.userID, userRoleID: user.userRoleID }, lifetimeInMS.toString());
+  return createToken({ userID: user.userID, userRoleID: user.userRoleID }, accessTokenLifetimeInMS.toString());
 };
 
 const createAndSaveRefreshToken = async (user: User, userAgent: string, ip: string): Promise<string> => {
