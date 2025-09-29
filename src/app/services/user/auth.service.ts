@@ -19,6 +19,17 @@ export class AuthService {
   private readonly _accessToken = signal<string | null>(null);
   readonly accessToken = this._accessToken.asReadonly();
 
+  private readonly refreshTimeInMS = 4 * 60 * 1000 + 50 * 1000; // 4 minuts and 50 seconds
+  private refreshTimer?: ReturnType<typeof setTimeout>;
+
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (localStorage.getItem('login') === 'true') {
+        void this.refresh();
+      }
+    }
+  }
+
   async login(username: string, password: string): Promise<void> {
     // Required for new-passoword page
     localStorage.setItem('username', username);
@@ -36,6 +47,8 @@ export class AuthService {
     const data = response as AuthResponse;
 
     this._accessToken.set(data.accessToken);
+    localStorage.setItem('login', 'true');
+    this.refresh();
 
     await this.router.navigate(['/dashboard']);
   }
@@ -45,13 +58,15 @@ export class AuthService {
 
     localStorage.removeItem('username');
     this._accessToken.set(null);
-
+    clearTimeout(this.refreshTimer);
+    localStorage.setItem('login', 'false');
     await this.router.navigate(['/login']);
     console.log('Abmeldung erfolgt');
   }
 
   async restoreSession(): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) return;
+    if (localStorage.getItem('login') !== 'true') return;
     const userAgent = window.navigator.userAgent;
     const respose = await lastValueFrom(
       this.http.get('/api/auth/refresh', {
@@ -60,8 +75,13 @@ export class AuthService {
     );
     const { accessToken } = respose as AuthResponse;
     this._accessToken.set(accessToken);
-    console.log('Wiederherstellung der Session erfolgt');
-    console.log(accessToken);
+  }
+
+  refresh(): void {
+    this.refreshTimer = setTimeout(async () => {
+      await this.restoreSession();
+      void this.refresh();
+    }, this.refreshTimeInMS);
   }
 
   getLoginFormGroup(): FormGroup {
