@@ -25,7 +25,7 @@ export class AuthService {
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       if (localStorage.getItem('login') === 'true') {
-        void this.refresh();
+        void this.setRefreshTimer();
       }
     }
   }
@@ -48,9 +48,7 @@ export class AuthService {
 
     this._accessToken.set(data.accessToken);
     localStorage.setItem('login', 'true');
-    this.refresh();
-
-    await this.router.navigate(['/dashboard']);
+    this.setRefreshTimer();
   }
 
   async logout() {
@@ -77,10 +75,10 @@ export class AuthService {
     this._accessToken.set(accessToken);
   }
 
-  refresh(): void {
+  setRefreshTimer(): void {
     this.refreshTimer = setTimeout(async () => {
       await this.restoreSession();
-      void this.refresh();
+      void this.setRefreshTimer();
     }, this.refreshTimeInMS);
   }
 

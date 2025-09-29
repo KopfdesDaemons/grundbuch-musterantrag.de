@@ -35,6 +35,11 @@ const createAndSaveRefreshToken = async (user: User, userAgent: string, ip: stri
   return token;
 };
 
+export const updateRefreshToken = async (token: RefreshToken): Promise<void> => {
+  const query = 'UPDATE refresh_tokens SET tokenHash = ?, userAgent = ?, ip = ?, creationDate = ?, expiryDate = ?, isRevoked = ? WHERE tokenID = ?';
+  await db.execute(query, [token.tokenHash, token.userAgent, token.ip, token.creationDate, token.expiryDate, token.isRevoked, token.tokenID]);
+};
+
 export const saveRefreshToken = async (token: RefreshToken): Promise<void> => {
   const query =
     'INSERT INTO refresh_tokens (tokenID, userID, tokenHash, userAgent, ip, creationDate, expiryDate, isRevoked) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)';
@@ -73,9 +78,9 @@ export const getRefreshTokensByUserID = async (userID: number): Promise<RefreshT
   });
 };
 
-export const updateRefreshToken = async (token: RefreshToken): Promise<void> => {
-  const query = 'UPDATE refresh_tokens SET tokenHash = ?, userAgent = ?, ip = ?, creationDate = ?, expiryDate = ?, isRevoked = ? WHERE tokenID = ?';
-  await db.execute(query, [token.tokenHash, token.userAgent, token.ip, token.creationDate, token.expiryDate, token.isRevoked, token.tokenID]);
+export const revokeAllRefreshTokensByUserID = async (userID: number): Promise<void> => {
+  const query = 'UPDATE refresh_tokens SET isRevoked = 1 WHERE userID = ?';
+  await db.execute(query, [userID]);
 };
 
 export const refreshAccessToken = async (

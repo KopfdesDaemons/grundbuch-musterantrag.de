@@ -17,15 +17,15 @@ import { LoginCardComponent } from '../../components/login-card/login-card.compo
   styleUrl: './new-password.component.scss'
 })
 export class NewPasswordComponent implements OnInit {
-  authS = inject(AuthService);
-  userS = inject(UserService);
-  userSetingsS = inject(UserSettingsService);
-  form = this.userSetingsS.getNewPasswordGroup();
-  platformId = inject(PLATFORM_ID);
-  router = inject(Router);
-  username: string = '';
-  description: string = '';
-  errorMessage = signal('');
+  private readonly authS = inject(AuthService);
+  private readonly userS = inject(UserService);
+  private readonly userSetingsS = inject(UserSettingsService);
+  protected readonly form = this.userSetingsS.getNewPasswordGroup();
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
+  private username: string = '';
+  protected description: string = '';
+  protected readonly errorMessage = signal('');
 
   readonly oldPasswordInput = viewChild.required<ElementRef>('oldPassword');
 
@@ -50,6 +50,7 @@ export class NewPasswordComponent implements OnInit {
       if (!this.username) return;
       await this.userS.updatePassword(this.username, oldPassword, newPassword);
       await this.authS.login(this.username, newPassword);
+      await this.router.navigate(['/dashboard']);
     } catch (err) {
       if (err instanceof HttpErrorResponse) {
         this.errorMessage.set(err.error.message);

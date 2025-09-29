@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { validateAndGetUser, validateNewPasswort, validateNewUsername } from 'server/helpers/validation.helper';
+import { revokeAllRefreshTokensByUserID } from 'server/services/auth.service';
 import { getUserByUsername, getUsername, updatePassword, updateUsername } from 'server/services/user.service';
 
 export const handleGetOwnUsername = async (req: Request, res: Response) => {
@@ -70,6 +71,9 @@ export const handleChangeOwnPassword = async (req: Request, res: Response) => {
   }
   validateNewPasswort(newPassword);
   await userFromDB.setPasswordHash(newPassword);
+
+  await revokeAllRefreshTokensByUserID(userID);
+
   if (userFromDB.passwordHash) {
     if (userFromDB.userID) {
       await updatePassword(userFromDB.userID, userFromDB.passwordHash);

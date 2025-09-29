@@ -9,5 +9,3 @@ if (!DASHBOARD_ROOT_USER) console.warn('⚠️ DASHBOARD_ROOT_USER ist nicht def
 
 export const IS_PRODUCTION: boolean = process.env['NODE_ENV'] === 'production';
 if (!process.env['NODE_ENV']) console.warn('⚠️ NODE_ENV ist nicht definiert');
-
-console.log(`Umgebungsmodus: ${IS_PRODUCTION ? 'PRODUCTION' : 'DEVELOPMENT'}`);

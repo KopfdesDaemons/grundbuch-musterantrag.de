@@ -14,9 +14,9 @@ import { LoginCardComponent } from '../../components/login-card/login-card.compo
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-  authS: AuthService = inject(AuthService);
-  errorMessage = signal('');
-  router = inject(Router);
+  private readonly authS: AuthService = inject(AuthService);
+  protected readonly errorMessage = signal('');
+  private readonly router = inject(Router);
 
   loginForm = this.authS.getLoginFormGroup();
   readonly usernameInput = viewChild.required<ElementRef>('username');
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       const password = this.loginForm.value.password;
 
       await this.authS.login(username, password);
+      await this.router.navigate(['/dashboard']);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
         if (error.error.message === 'Passwortänderung erforderlich') {

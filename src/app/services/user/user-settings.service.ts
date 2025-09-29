@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { newPassowrdValidator } from 'src/app/validators/newPassword.validator';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { newPassowrdValidator } from 'src/app/validators/newPassword.validator';
 export class UserSettingsService {
   private readonly http = inject(HttpClient);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly authS = inject(AuthService);
 
   private readonly _usernameResource = httpResource<{ username: string }>(() => ({
     url: '/api/user-settings/username'
@@ -58,5 +60,7 @@ export class UserSettingsService {
         newPassword: newPassword
       })
     );
+    if (!this.usernameResource.hasValue()) return;
+    await this.authS.login(this.usernameResource.value().username, newPassword);
   }
 }
