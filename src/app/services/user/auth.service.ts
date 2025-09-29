@@ -2,7 +2,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthResponse } from 'common/interfaces/auth-response.interface';
 import { lastValueFrom } from 'rxjs';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
@@ -11,7 +10,6 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly formBuilder = inject(FormBuilder);
@@ -23,11 +21,9 @@ export class AuthService {
   private refreshTimer?: ReturnType<typeof setTimeout>;
 
   constructor() {
-    if (isPlatformBrowser(this.platformId)) {
-      if (localStorage.getItem('login') === 'true') {
-        void this.setRefreshTimer();
-      }
-    }
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (localStorage.getItem('login') !== 'true') return;
+    void this.setRefreshTimer();
   }
 
   async login(username: string, password: string): Promise<void> {
@@ -51,15 +47,19 @@ export class AuthService {
     this.setRefreshTimer();
   }
 
-  async logout() {
+  reset() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    localStorage.removeItem('username');
     this._accessToken.set(null);
     clearTimeout(this.refreshTimer);
-    localStorage.setItem('login', 'false');
-    await this.router.navigate(['/login']);
-    console.log('Abmeldung erfolgt');
+
+    localStorage.removeItem('username');
+    localStorage.removeItem('login');
+  }
+
+  async logoutEverywhere() {
+    await lastValueFrom(this.http.delete('/api/auth/logout-everywhere'));
+    this.reset();
   }
 
   async restoreSession(): Promise<void> {
@@ -77,7 +77,12 @@ export class AuthService {
 
   setRefreshTimer(): void {
     this.refreshTimer = setTimeout(async () => {
-      await this.restoreSession();
+      try {
+        await this.restoreSession();
+      } catch (e) {
+        console.error('Fehler beim Wiederherstellen der Session:', e);
+        this.reset();
+      }
       void this.setRefreshTimer();
     }, this.refreshTimeInMS);
   }

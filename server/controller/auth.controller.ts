@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRefreshTokenCookieOptions, login, refreshAccessToken } from '../services/auth.service';
+import { getRefreshTokenCookieOptions, login, refreshAccessToken, revokeAllRefreshTokensByUserID } from '../services/auth.service';
 import { getUserByUsername } from 'server/services/user.service';
 import { User } from 'server/models/user.model';
 import { AuthError } from 'server/models/errors/auth-error.model';
@@ -53,4 +53,12 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
   } as AuthResponse;
 
   return res.json(authResponse);
+};
+
+export const handleLogoutEverywhere = async (req: Request, res: Response) => {
+  if (!req.jwtPayload) throw new AuthError('Kein JWT in der Anfrage', 400);
+  const { userID } = req.jwtPayload;
+  if (!userID) throw new AuthError('UserID fehlt', 400);
+  await revokeAllRefreshTokensByUserID(userID);
+  res.status(200).json({ message: 'Alle Refresh Tokens erfolgreich gelöscht' });
 };

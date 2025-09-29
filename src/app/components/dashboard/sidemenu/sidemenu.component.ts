@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SidemenuService } from 'src/app/services/ui/sidemenu.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
@@ -18,6 +18,7 @@ export class SidemenuComponent implements OnInit {
   protected readonly authS = inject(AuthService);
   protected readonly userSettingsS = inject(UserSettingsService);
   protected readonly elementRef = inject(ElementRef);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.userSettingsS.reloadUsername();
@@ -36,5 +37,11 @@ export class SidemenuComponent implements OnInit {
     if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget as Node)) {
       this.sidemenuS.toggleDashboardSidemenu();
     }
+  }
+
+  async logout() {
+    this.authS.reset();
+    this.sidemenuS.toggleDashboardSidemenu();
+    await this.router.navigate(['/login']);
   }
 }

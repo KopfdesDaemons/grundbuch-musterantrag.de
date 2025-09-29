@@ -40,6 +40,10 @@
         </form>
       </div>
       <div class="tile">
+        <button (click)="logoutEverywhere()" class="btn-outlined">Von allen Geräten abmelden</button>
+        <p>Sämmtliche Anmeldungen werden ungültig gemacht.</p>
+      </div>
+      <div class="tile">
         <p>Passwort ändern:</p>
         <span [ngClass]="{ error: newPasswordError() }">{{ newPasswordMessage() }}</span>
         <form [formGroup]="newPasswordForm" #ngFormNewPassword="ngForm" (ngSubmit)="changePassword()">

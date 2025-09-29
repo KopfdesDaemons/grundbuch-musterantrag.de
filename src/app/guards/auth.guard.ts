@@ -18,7 +18,7 @@ export class AuthGuard {
     if (!isPlatformBrowser(this.platformId)) return false;
 
     if (this.authS.accessToken() == null) {
-      await this.authS.logout();
+      await this.router.navigate(['/login']);
       return false;
     }
     return true;
