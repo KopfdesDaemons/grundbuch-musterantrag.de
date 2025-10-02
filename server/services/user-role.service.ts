@@ -5,6 +5,8 @@ import { RowDataPacket } from 'mysql2/promise';
 import { UserRole } from 'common/interfaces/user-role.interface';
 import { Guest } from 'common/models/user-roles.model';
 
+const userRoleCache = new Map<number, UserRole>();
+
 export const actionsTableMapping = {
   [Feature.UploadManagement]: 'upload_management_actions',
   [Feature.UserManagement]: 'user_management_actions',
@@ -44,6 +46,7 @@ export const addUserRole = async (userRole: UserRole): Promise<number> => {
     await connection.commit();
     return userRoleID;
   } catch (error) {
+    userRoleCache.clear(); // Invalidate cache on error too
     await connection.rollback();
     throw error;
   }
@@ -54,6 +57,9 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
   await connection.beginTransaction();
   try {
     if (!userRole.userRoleID) throw new Error('userRoleID ist nicht gesetzt');
+
+    // Invalidate cache for the updated role
+    userRoleCache.delete(userRole.userRoleID);
 
     const userRoleFromDB = await getUserRole(userRole.userRoleID);
 
@@ -134,11 +140,15 @@ export const updateUserRole = async (userRole: UserRole): Promise<void> => {
     logger.error(error);
     throw error;
   } finally {
+    if (userRole.userRoleID) {
+      userRoleCache.delete(userRole.userRoleID);
+    }
     connection.release();
   }
 };
 
 export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
+  if (userRoleCache.has(roleId)) return userRoleCache.get(roleId)!;
   const roleQuery = `SELECT userRoleID, name, description FROM user_roles WHERE userRoleID = ?`;
   const [[role]] = await db.execute<RowDataPacket[]>(roleQuery, [roleId]);
 
@@ -162,7 +172,10 @@ export const getUserRole = async (roleId: number): Promise<UserRole | null> => {
     })
   );
 
-  return { name: role['name'], description: role['description'], userPermissions, userRoleID: role['userRoleID'] };
+  const userRole: UserRole = { name: role['name'], description: role['description'], userPermissions, userRoleID: role['userRoleID'] };
+  userRoleCache.set(roleId, userRole);
+
+  return userRole;
 };
 
 export const getAllUserRoles = async (): Promise<{ userRoleID: number; name: string; description: string }[]> => {
@@ -204,5 +217,8 @@ export const deleteUserRole = async (userRoleIDs: number[]): Promise<void> => {
   }
 
   const deleteQuery = `DELETE FROM user_roles WHERE userRoleID IN (${placeholders})`;
+  for (const id of userRoleIDs) {
+    userRoleCache.delete(id);
+  }
   await db.execute(deleteQuery, userRoleIDs);
 };
