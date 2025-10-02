@@ -17,13 +17,19 @@ export class AuthService {
   private readonly _accessToken = signal<string | null>(null);
   readonly accessToken = this._accessToken.asReadonly();
 
-  private readonly refreshTimeInMS = 4 * 60 * 1000 + 50 * 1000; // 4 minuts and 50 seconds
-  private refreshTimer?: ReturnType<typeof setTimeout>;
+  private _accessTokenExpiryDate: Date | null = null;
+  get accessTokenExpiryDate(): Date | null {
+    return this._accessTokenExpiryDate;
+  }
+
+  private _refreshTokenExpiryDate: Date | null = null;
+  get refreshTokenExpiryDate(): Date | null {
+    return this._refreshTokenExpiryDate;
+  }
 
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (localStorage.getItem('login') !== 'true') return;
-    void this.setRefreshTimer();
   }
 
   async login(username: string, password: string): Promise<void> {
@@ -43,16 +49,16 @@ export class AuthService {
     const data = response as AuthResponse;
 
     this._accessToken.set(data.accessToken);
+    this._accessTokenExpiryDate = new Date(data.accessTokenExpiryDate);
+    this._refreshTokenExpiryDate = new Date(data.refreshTokenExpiryDate);
     localStorage.setItem('login', 'true');
-    this.setRefreshTimer();
   }
 
   reset() {
     if (!isPlatformBrowser(this.platformId)) return;
+    this._accessTokenExpiryDate = null;
 
     this._accessToken.set(null);
-    clearTimeout(this.refreshTimer);
-
     localStorage.removeItem('username');
     localStorage.removeItem('login');
   }
@@ -71,20 +77,10 @@ export class AuthService {
         params: new HttpParams().set('userAgent', userAgent)
       })
     );
-    const { accessToken } = respose as AuthResponse;
+    const { accessToken, accessTokenExpiryDate, refreshTokenExpiryDate } = respose as AuthResponse;
     this._accessToken.set(accessToken);
-  }
-
-  setRefreshTimer(): void {
-    this.refreshTimer = setTimeout(async () => {
-      try {
-        await this.restoreSession();
-      } catch (e) {
-        console.error('Fehler beim Wiederherstellen der Session:', e);
-        this.reset();
-      }
-      void this.setRefreshTimer();
-    }, this.refreshTimeInMS);
+    this._accessTokenExpiryDate = new Date(accessTokenExpiryDate);
+    this._refreshTokenExpiryDate = new Date(refreshTokenExpiryDate);
   }
 
   getLoginFormGroup(): FormGroup {

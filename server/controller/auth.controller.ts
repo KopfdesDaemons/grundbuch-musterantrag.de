@@ -21,11 +21,13 @@ export const handleLogin = async (req: Request, res: Response) => {
     return res.status(401).json({ message: 'Passwortänderung erforderlich', userName: user.username });
   }
 
-  const { accessToken, refreshToken } = await login(user, password, userAgent, ip);
+  const { accessToken, refreshToken, accessTokenExpiryDate, refreshTokenExpiryDate } = await login(user, password, userAgent, ip);
 
-  const response = {
-    accessToken: accessToken
-  } as AuthResponse;
+  const response: AuthResponse = {
+    accessToken: accessToken,
+    accessTokenExpiryDate: accessTokenExpiryDate,
+    refreshTokenExpiryDate: refreshTokenExpiryDate
+  };
 
   res.cookie('refresh_token', refreshToken, getRefreshTokenCookieOptions());
   return res.json(response);
@@ -44,13 +46,15 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
   if (!ip) throw new AuthError('IP-Adresse nicht gefunden', 500);
   if (!userAgent) throw new AuthError('User Agent fehlt', 400);
 
-  const { accessToken, refreshToken } = await refreshAccessToken(oldRefreshToken, user, userAgent, ip);
+  const { accessToken, refreshToken, accessTokenExpiryDate, refreshTokenExpiryDate } = await refreshAccessToken(oldRefreshToken, user, userAgent, ip);
 
   res.cookie('refresh_token', refreshToken, getRefreshTokenCookieOptions());
 
-  const authResponse = {
-    accessToken: accessToken
-  } as AuthResponse;
+  const authResponse: AuthResponse = {
+    accessToken: accessToken,
+    accessTokenExpiryDate: accessTokenExpiryDate,
+    refreshTokenExpiryDate: refreshTokenExpiryDate
+  };
 
   return res.json(authResponse);
 };

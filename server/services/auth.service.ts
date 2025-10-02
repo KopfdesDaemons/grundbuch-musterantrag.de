@@ -9,15 +9,27 @@ import { RowDataPacket } from 'mysql2';
 const refreshTokenLifetimeInMS = 21 * 24 * 60 * 60 * 1000; // 21 days
 const accessTokenLifetimeInMS = 5 * 60 * 1000; // 5 minutes
 
-export const login = async (user: User, password: string, userAgent: string, ip: string): Promise<{ accessToken: string; refreshToken: string }> => {
+export const login = async (
+  user: User,
+  password: string,
+  userAgent: string,
+  ip: string
+): Promise<{ accessToken: string; refreshToken: string; accessTokenExpiryDate: Date; refreshTokenExpiryDate: Date }> => {
   const passwordIsCorrect = await user.comparePassword(password);
   if (!passwordIsCorrect) throw new AuthError('Ungültige Anmeldedaten', 401);
   if (!user.userID) throw new AuthError('Ungültige Anmeldedaten', 401);
 
   const refreshToken = await createAndSaveRefreshToken(user, userAgent, ip);
   const accessToken = getNewAccessToken(user);
+  const accessTokenExpiryDate = new Date(Date.now() + accessTokenLifetimeInMS);
+  const refreshTokenExpiryDate = new Date(Date.now() + refreshTokenLifetimeInMS);
 
-  return { accessToken: accessToken, refreshToken: refreshToken };
+  return {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+    accessTokenExpiryDate: accessTokenExpiryDate,
+    refreshTokenExpiryDate: refreshTokenExpiryDate
+  };
 };
 
 const getNewAccessToken = (user: User): string => {
@@ -88,13 +100,14 @@ export const refreshAccessToken = async (
   user: User,
   userAgent: string,
   ip: string
-): Promise<{ accessToken: string; refreshToken: string }> => {
+): Promise<{ accessToken: string; refreshToken: string; accessTokenExpiryDate: Date; refreshTokenExpiryDate: Date }> => {
   if (!user.userID) throw new Error('No User ID');
 
   const activeRefreshTokens = await getRefreshTokensByUserID(user.userID);
   if (activeRefreshTokens.length === 0) throw new AuthError('Keine aktiven Sessions gefunden. Bitte neu anmelden.', 401);
 
   let matchedToken: RefreshToken | undefined;
+
   for (const token of activeRefreshTokens) {
     if (await token.compareTokens(oldRefreshTokenString)) {
       matchedToken = token;
@@ -110,7 +123,14 @@ export const refreshAccessToken = async (
 
   // Create new tokens
   const newAccessToken = getNewAccessToken(user);
+  const newAccessTokenExpiryDate = new Date(Date.now() + accessTokenLifetimeInMS);
   const newRefreshToken = await createAndSaveRefreshToken(user, userAgent, ip);
+  const newRefreshTokenExpiryDate = new Date(Date.now() + refreshTokenLifetimeInMS);
 
-  return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  return {
+    accessToken: newAccessToken,
+    refreshToken: newRefreshToken,
+    accessTokenExpiryDate: newAccessTokenExpiryDate,
+    refreshTokenExpiryDate: newRefreshTokenExpiryDate
+  };
 };

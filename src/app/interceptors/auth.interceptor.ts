@@ -1,27 +1,35 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpEvent, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/user/auth.service';
+import { from, Observable, switchMap } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authS = inject(AuthService);
+  const authService = inject(AuthService);
 
-  // Check if an auth token exists
-  if (!authS.accessToken()) {
+  // Check if user is logged in. If not, pass the request through without modification.
+  if (localStorage.getItem('login') !== 'true') return next(req);
+
+  if (req.url.startsWith('/api/auth/refresh')) return next(req);
+
+  const handleRequest = (): Observable<HttpEvent<unknown>> => {
+    // Check if the request URL starts with the API base URL
+    const isApiRequest = req.url.startsWith('/api/');
+
+    if (isApiRequest && authService.accessToken()) {
+      const reqWithAuth = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${authService.accessToken()}`
+        }
+      });
+      return next(reqWithAuth);
+    }
+
+    // If it's not an API request, or there is no access token, proceed without modification
     return next(req);
-  }
+  };
 
-  // Check if the request URL starts with the API base URL
-  const isApiRequest = req.url.startsWith('/api/');
+  const accessTokenExpireDate = authService.accessTokenExpiryDate ? new Date(authService.accessTokenExpiryDate.getTime() - 10 * 1000) : null; // 10 seconds buffer
+  const sessionPromise = !accessTokenExpireDate || accessTokenExpireDate < new Date() ? authService.restoreSession() : Promise.resolve();
 
-  if (isApiRequest) {
-    const reqWithAuth = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${authS.accessToken()}`
-      }
-    });
-    return next(reqWithAuth);
-  }
-
-  // If it's not a request to your API, proceed without modification
-  return next(req);
+  return from(sessionPromise).pipe(switchMap(() => handleRequest()));
 };
