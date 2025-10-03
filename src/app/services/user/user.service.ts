@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from '../../models/user.model';
 import { PaginatedDataService } from '../data/paginated-data.service';
+import { User } from 'common/models/user.model';
 
 @Injectable({
   providedIn: 'root'

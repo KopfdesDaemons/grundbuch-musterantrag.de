@@ -1,7 +1,7 @@
 import { createToken } from 'server/helpers/jwt.helper';
 import { AuthError } from 'server/models/errors/auth-error.model';
 import { RefreshToken } from 'server/models/refresh-token.model';
-import { User } from 'server/models/user.model';
+import { User } from 'common/models/user.model';
 import { db } from './database.service';
 import { IS_PRODUCTION } from 'server/config/env.config';
 import { RowDataPacket } from 'mysql2';

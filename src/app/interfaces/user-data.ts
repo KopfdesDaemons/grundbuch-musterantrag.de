@@ -1,4 +1,4 @@
-import { User } from 'server/models/user.model';
+import { User } from 'common/models/user.model';
 
 export interface UserData {
   page: number;

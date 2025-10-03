@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getRefreshTokenCookieOptions, login, refreshAccessToken, revokeAllRefreshTokensByUserID } from '../services/auth.service';
 import { getUserByUsername } from 'server/services/user.service';
-import { User } from 'server/models/user.model';
+import { User } from 'common/models/user.model';
 import { AuthError } from 'server/models/errors/auth-error.model';
 import { AuthResponse } from 'common/interfaces/auth-response.interface';
 import { validateAndGetUser } from 'server/helpers/validation.helper';

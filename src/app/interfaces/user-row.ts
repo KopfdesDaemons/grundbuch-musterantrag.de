@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
-import { User } from '../models/user.model';
 import { WritableSignal } from '@angular/core';
+import { User } from 'common/models/user.model';
 
 export interface UserRow {
   isChecked: WritableSignal<boolean>;

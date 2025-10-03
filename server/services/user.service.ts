@@ -1,4 +1,4 @@
-import { User } from 'server/models/user.model';
+import { User } from 'common/models/user.model';
 import { db } from './database.service';
 import logger from 'server/config/logger.config';
 import { getUserRole, addUserRole } from './user-role.service';

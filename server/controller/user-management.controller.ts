@@ -1,4 +1,4 @@
-import { User } from 'server/models/user.model';
+import { User } from 'common/models/user.model';
 import { addNewUser, deleteUser, getAllUsers, setNewInitalPassword, updateUsername, updateUserRole } from 'server/services/user.service';
 import { Request, Response } from 'express';
 import { validateAndGetUser, validateAndGetUserRole, validateNewUsername } from 'server/helpers/validation.helper';
