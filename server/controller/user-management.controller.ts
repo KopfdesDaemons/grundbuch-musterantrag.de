@@ -2,6 +2,7 @@ import { User } from 'server/models/user.model';
 import { addNewUser, deleteUser, getAllUsers, setNewInitalPassword, updateUsername, updateUserRole } from 'server/services/user.service';
 import { Request, Response } from 'express';
 import { validateAndGetUser, validateAndGetUserRole, validateNewUsername } from 'server/helpers/validation.helper';
+import { getHashFromString } from 'server/helpers/hash.helper';
 
 export const handleCreateUser = async (req: Request, res: Response) => {
   const { username, password, userRoleID } = req.body;
@@ -13,7 +14,7 @@ export const handleCreateUser = async (req: Request, res: Response) => {
   const userRole = await validateAndGetUserRole(userRoleID);
 
   const newUser = new User(username, userRole, +userRoleID);
-  await newUser.setPasswordHash(password);
+  newUser.passwordHash = await getHashFromString(password);
   await addNewUser(newUser);
   return res.status(201).json({ message: `User ${username} erfolgreich erstellt` });
 };
@@ -60,7 +61,7 @@ export const handleSetInitialPassword = async (req: Request, res: Response) => {
 
   const userFromDB = await validateAndGetUser(userID);
 
-  await userFromDB.setPasswordHash(newPassword);
+  userFromDB.passwordHash = await getHashFromString(newPassword);
   if (userFromDB.passwordHash) {
     await setNewInitalPassword(+userID, userFromDB.passwordHash);
     return res.status(200).json({ message: 'Initialpasswort erfolgreich aktualisiert' });

@@ -5,6 +5,7 @@ import { User } from 'server/models/user.model';
 import { db } from './database.service';
 import { IS_PRODUCTION } from 'server/config/env.config';
 import { RowDataPacket } from 'mysql2';
+import { compareStringsAndHash, getHashFromString } from 'server/helpers/hash.helper';
 
 const refreshTokenLifetimeInMS = 21 * 24 * 60 * 60 * 1000; // 21 days
 const accessTokenLifetimeInMS = 5 * 60 * 1000; // 5 minutes
@@ -15,7 +16,8 @@ export const login = async (
   userAgent: string,
   ip: string
 ): Promise<{ accessToken: string; refreshToken: string; accessTokenExpiryDate: Date; refreshTokenExpiryDate: Date }> => {
-  const passwordIsCorrect = await user.comparePassword(password);
+  if (!user.passwordHash) throw new AuthError('Ungültige Anmeldedaten', 401);
+  const passwordIsCorrect = await compareStringsAndHash(password, user.passwordHash);
   if (!passwordIsCorrect) throw new AuthError('Ungültige Anmeldedaten', 401);
   if (!user.userID) throw new AuthError('Ungültige Anmeldedaten', 401);
 
@@ -42,7 +44,7 @@ const createAndSaveRefreshToken = async (user: User, userAgent: string, ip: stri
   const expireDate = new Date(Date.now() + refreshTokenLifetimeInMS);
   const refreshToken = new RefreshToken(user.userID, '', new Date(), expireDate, userAgent, ip);
   const token = createToken({ userID: user.userID }, refreshTokenLifetimeInMS.toString());
-  await refreshToken.setTokenHash(token);
+  refreshToken.tokenHash = await getHashFromString(token);
   await saveRefreshToken(refreshToken);
   return token;
 };
@@ -109,7 +111,7 @@ export const refreshAccessToken = async (
   let matchedToken: RefreshToken | undefined;
 
   for (const token of activeRefreshTokens) {
-    if (await token.compareTokens(oldRefreshTokenString)) {
+    if (await compareStringsAndHash(oldRefreshTokenString, token.tokenHash!)) {
       matchedToken = token;
       break;
     }

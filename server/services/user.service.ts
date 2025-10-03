@@ -6,6 +6,7 @@ import { RowDataPacket } from 'mysql2/promise';
 import { DASHBOARD_ROOT_USER, DASHBOARD_ROOT_PASSWORD } from 'server/config/env.config';
 import { Admin } from 'common/models/user-roles.model';
 import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
+import { getHashFromString } from 'server/helpers/hash.helper';
 
 export const getUser = async (key: 'username' | 'userID', value: string | number): Promise<User | null> => {
   const queryStr = `SELECT userID, username, passwordHash, isInitialPassword, userRoleID FROM users WHERE ${key} = ?`;
@@ -63,7 +64,7 @@ export const createRootUser = async (): Promise<void> => {
     const userRole = new Admin();
     const userRoleID = await addUserRole(userRole);
     const rootUser = new User(DASHBOARD_ROOT_USER, userRole, userRoleID);
-    await rootUser.setPasswordHash(DASHBOARD_ROOT_PASSWORD);
+    rootUser.passwordHash = await getHashFromString(DASHBOARD_ROOT_PASSWORD);
     await addNewUser(rootUser);
     logger.info('Root User erfolgreich erstellt');
   }

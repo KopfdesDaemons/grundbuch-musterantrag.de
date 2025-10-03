@@ -1,8 +1,3 @@
-import { scrypt, randomBytes, timingSafeEqual } from 'crypto';
-import { promisify } from 'util';
-
-const scryptAsync = promisify(scrypt);
-
 export class RefreshToken {
   tokenID?: string;
   userID: number;
@@ -21,23 +16,4 @@ export class RefreshToken {
     this.userAgent = userAgent;
     this.ip = ip;
   }
-
-  setTokenHash = async (token: string): Promise<void> => {
-    const salt = randomBytes(16).toString('hex');
-    const buf = (await scryptAsync(token, salt, 64)) as Buffer;
-    this.tokenHash = `${buf.toString('hex')}.${salt}`;
-  };
-
-  compareTokens = async (token: string): Promise<boolean> => {
-    if (!this.tokenHash) {
-      throw new Error('No Token Hash from DB');
-    }
-    if (!token) {
-      throw new Error('No Token Hash');
-    }
-    const [hashedToken, salt] = this.tokenHash.split('.');
-    const hashedTokenBuf = Buffer.from(hashedToken, 'hex');
-    const suppliedTokenBuf = (await scryptAsync(token, salt, 64)) as Buffer;
-    return timingSafeEqual(hashedTokenBuf, suppliedTokenBuf);
-  };
 }

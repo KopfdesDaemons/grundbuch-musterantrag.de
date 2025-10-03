@@ -1,9 +1,5 @@
-import { scrypt, randomBytes, timingSafeEqual } from 'crypto';
-import { promisify } from 'util';
 import { UserPermission } from 'common/interfaces/user-permission.interface';
 import { UserRole } from 'common/interfaces/user-role.interface';
-
-const scryptAsync = promisify(scrypt);
 
 export class User {
   userID?: number;
@@ -18,25 +14,6 @@ export class User {
     this.userRole = userRole;
     this.userRoleID = userRoleID;
   }
-
-  setPasswordHash = async (password: string): Promise<void> => {
-    const salt = randomBytes(16).toString('hex');
-    const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-    this.passwordHash = `${buf.toString('hex')}.${salt}`;
-  };
-
-  comparePassword = async (userPassword: string): Promise<boolean> => {
-    if (!this.passwordHash) {
-      throw new Error('No Password Hash from DB');
-    }
-    if (!userPassword) {
-      throw new Error('No Password Hash from User');
-    }
-    const [hashedPassword, salt] = this.passwordHash.split('.');
-    const hashedPasswordBuf = Buffer.from(hashedPassword, 'hex');
-    const suppliedPasswordBuf = (await scryptAsync(userPassword, salt, 64)) as Buffer;
-    return timingSafeEqual(hashedPasswordBuf, suppliedPasswordBuf);
-  };
 
   checkPermission = (permissionToCheck: UserPermission): boolean => {
     if (!permissionToCheck?.allowedActions?.length) {

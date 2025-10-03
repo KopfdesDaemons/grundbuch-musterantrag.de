@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { compareStringsAndHash, getHashFromString } from 'server/helpers/hash.helper';
 import { validateAndGetUser, validateNewPasswort, validateNewUsername } from 'server/helpers/validation.helper';
 import { revokeAllRefreshTokensByUserID } from 'server/services/auth.service';
 import { getUserByUsername, getUsername, updatePassword, updateUsername } from 'server/services/user.service';
@@ -25,12 +26,12 @@ export const handleSetPasswordAfterInitalLogin = async (req: Request, res: Respo
   if (!userFromDB) {
     return res.status(400).json({ message: 'Fehlerhafte Anfrage' });
   }
-  const isCorrectPassword = await userFromDB.comparePassword(oldPassword);
+  const isCorrectPassword = await compareStringsAndHash(oldPassword, userFromDB.passwordHash!);
   if (!isCorrectPassword) {
     return res.status(400).json({ message: 'Falsches Passwort' });
   }
   validateNewPasswort(newPassword);
-  await userFromDB.setPasswordHash(newPassword);
+  userFromDB.passwordHash = await getHashFromString(newPassword);
   if (userFromDB.passwordHash) {
     if (userFromDB.userID) {
       await updatePassword(userFromDB.userID, userFromDB.passwordHash);
@@ -65,12 +66,12 @@ export const handleChangeOwnPassword = async (req: Request, res: Response) => {
   }
   const { userID } = req.jwtPayload;
   const userFromDB = await validateAndGetUser(userID);
-  const isCorrectPassword = await userFromDB.comparePassword(oldPassword);
+  const isCorrectPassword = await compareStringsAndHash(oldPassword, userFromDB.passwordHash!);
   if (!isCorrectPassword) {
     return res.status(400).json({ message: 'Falsches Passwort' });
   }
   validateNewPasswort(newPassword);
-  await userFromDB.setPasswordHash(newPassword);
+  userFromDB.passwordHash = await getHashFromString(newPassword);
 
   await revokeAllRefreshTokensByUserID(userID);
 
