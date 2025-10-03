@@ -1,10 +1,14 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { AuthService } from '../services/user/auth.service';
 import { from, Observable, switchMap } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const authService = inject(AuthService);
+  const plattformId = inject(PLATFORM_ID);
+
+  if (!isPlatformBrowser(plattformId)) return next(req);
 
   if (localStorage.getItem('login') !== 'true' || !req.url.startsWith('/api/') || req.url.startsWith('/api/auth/login')) {
     return next(req);
