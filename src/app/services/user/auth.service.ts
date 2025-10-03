@@ -27,6 +27,8 @@ export class AuthService {
     return this._refreshTokenExpiryDate;
   }
 
+  private refreshTokenPromise: Promise<void> | null = null;
+
   constructor() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (localStorage.getItem('login') !== 'true') return;
@@ -69,18 +71,26 @@ export class AuthService {
   }
 
   async restoreSession(): Promise<void> {
+    if (this.refreshTokenPromise) {
+      return this.refreshTokenPromise;
+    }
     if (!isPlatformBrowser(this.platformId)) return;
     if (localStorage.getItem('login') !== 'true') return;
-    const userAgent = window.navigator.userAgent;
-    const respose = await lastValueFrom(
-      this.http.get('/api/auth/refresh', {
-        params: new HttpParams().set('userAgent', userAgent)
-      })
-    );
-    const { accessToken, accessTokenExpiryDate, refreshTokenExpiryDate } = respose as AuthResponse;
-    this._accessToken.set(accessToken);
-    this._accessTokenExpiryDate = new Date(accessTokenExpiryDate);
-    this._refreshTokenExpiryDate = new Date(refreshTokenExpiryDate);
+
+    this.refreshTokenPromise = (async () => {
+      try {
+        const userAgent = window.navigator.userAgent;
+        const response = await lastValueFrom(
+          this.http.get<AuthResponse>('/api/auth/refresh', {
+            params: new HttpParams().set('userAgent', userAgent)
+          })
+        );
+        this.handleAuthResponse(response);
+      } finally {
+        this.refreshTokenPromise = null;
+      }
+    })();
+    return this.refreshTokenPromise;
   }
 
   getLoginFormGroup(): FormGroup {
@@ -89,5 +99,11 @@ export class AuthService {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
+
+  private handleAuthResponse(data: AuthResponse): void {
+    this._accessToken.set(data.accessToken);
+    this._accessTokenExpiryDate = new Date(data.accessTokenExpiryDate);
+    this._refreshTokenExpiryDate = new Date(data.refreshTokenExpiryDate);
   }
 }
