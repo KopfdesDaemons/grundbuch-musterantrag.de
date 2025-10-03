@@ -222,3 +222,24 @@ export const deleteUserRole = async (userRoleIDs: number[]): Promise<void> => {
   }
   await db.execute(deleteQuery, userRoleIDs);
 };
+
+export const checkPermission = async (UserRoleID: number, permissionToCheck: UserPermission): Promise<boolean> => {
+  if (!permissionToCheck?.allowedActions?.length) {
+    return false;
+  }
+
+  const userRole = await getUserRole(UserRoleID);
+
+  if (!userRole?.userPermissions?.length) {
+    return false;
+  }
+
+  const permission: UserPermission | undefined = userRole.userPermissions.find(perm => perm.feature === permissionToCheck.feature);
+
+  if (!permission?.allowedActions?.length) {
+    return false;
+  }
+
+  // Prüft, ob alle geforderten Aktionen in den vorhandenen Aktionen enthalten sind
+  return permissionToCheck.allowedActions.every(action => permission.allowedActions.includes(action));
+};

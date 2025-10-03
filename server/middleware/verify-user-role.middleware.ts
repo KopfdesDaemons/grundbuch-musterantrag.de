@@ -1,19 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserPermission } from 'common/interfaces/user-permission.interface';
-import { getUserByUserID } from 'server/services/user.service';
-import { User } from 'server/models/user.model';
 import { AuthError } from 'server/models/errors/auth-error.model';
+import { checkPermission } from 'server/services/user-role.service';
 
 export const verifyRole = (userPermission: UserPermission) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const { jwtPayload } = req;
+    const { userRoleID } = jwtPayload!;
 
-    const { userID } = jwtPayload!;
-    const user: User | null = await getUserByUserID(userID);
-    if (!user) throw new AuthError('Benutzer nicht gefunden', 401);
-    req.user = user;
+    if (!userRoleID) throw new AuthError('UserRoleID nicht im JWT', 401);
 
-    const userHasPermission = user.checkPermission(userPermission);
+    const userHasPermission = await checkPermission(userRoleID, userPermission);
     if (!userHasPermission) throw new AuthError('Nicht genügend Rechte', 403);
 
     return next();
