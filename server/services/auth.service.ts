@@ -75,7 +75,7 @@ export const getRefreshTokensByUserID = async (userID: number, page: number = 1)
   const pageSize: number = 30;
   const offset = (page - 1) * pageSize;
 
-  const query = `SELECT tokenID, userID, tokenHash, userAgent, ip, creationDate, expiryDate, isRevoked FROM refresh_tokens WHERE isRevoked = 0 AND userID = ? ORDER BY tokenID ASC LIMIT ${pageSize} OFFSET ${offset}`;
+  const query = `SELECT tokenID, userID, tokenHash, userAgent, ip, creationDate, expiryDate, isRevoked FROM refresh_tokens WHERE isRevoked = 0 AND userID = ? ORDER BY tokenID DESC LIMIT ${pageSize} OFFSET ${offset}`;
   const [rows] = await db.execute<RowDataPacket[]>(query, [userID]);
 
   const tokens: RefreshToken[] = rows.map(token => {
@@ -94,8 +94,8 @@ export const getRefreshTokensByUserID = async (userID: number, page: number = 1)
   });
 
   // Gesamtanzahl der Dateien berechnen
-  const countQuery = `SELECT COUNT(*) AS totalFiles FROM refresh_tokens`;
-  const [countResult] = await db.execute<RowDataPacket[]>(countQuery);
+  const countQuery = `SELECT COUNT(*) AS totalFiles FROM refresh_tokens WHERE isRevoked = 0 AND userID = ?`;
+  const [countResult] = await db.execute<RowDataPacket[]>(countQuery, [userID]);
   const totalItems = countResult[0]['totalFiles'] as number;
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -158,4 +158,9 @@ export const refreshAccessToken = async (
     accessTokenExpiryDate: newAccessTokenExpiryDate,
     refreshTokenExpiryDate: newRefreshTokenExpiryDate
   };
+};
+
+export const revokeRefreshToken = async (refreshTokenID: number): Promise<void> => {
+  const query = 'UPDATE refresh_tokens SET isRevoked = 1 WHERE tokenID = ?';
+  await db.execute(query, [refreshTokenID]);
 };

@@ -8,11 +8,12 @@ import { ErrorDisplayComponent } from '../../../../components/error-display/erro
 import { UserRow } from 'src/app/interfaces/user-row';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 import { User } from 'common/models/user.model';
+import { SessionsManagerComponent } from 'src/app/components/sessions-manager/sessions-manager.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-user-list',
-  imports: [FormsModule, ReactiveFormsModule, NgClass, ErrorDisplayComponent, ProgressSpinnerComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgClass, ErrorDisplayComponent, ProgressSpinnerComponent, SessionsManagerComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })

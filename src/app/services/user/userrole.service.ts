@@ -74,6 +74,7 @@ export class UserroleService {
     [UserManagementAction.UpdateUsername]: 'Benutzername aktualisieren',
     [UserManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren',
     [UserManagementAction.SetInitialPassword]: 'Initialpasswort setzen',
+    [UserManagementAction.RevokeSessions]: 'Sitzungen abmelden',
 
     [StatisticAction.ReadStatistic]: 'Statistik lesen',
 

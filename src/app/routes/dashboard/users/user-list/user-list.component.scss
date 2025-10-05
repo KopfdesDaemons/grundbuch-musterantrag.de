@@ -54,6 +54,10 @@
   app-progress-spinner {
     margin: auto;
   }
+
+  tr:has(.editForm):hover {
+    background-color: initial;
+  }
 }
 
 .editForm {

@@ -1,0 +1,54 @@
+.controlls {
+  margin: auto;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .selected-rows-count {
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
+  .icon {
+    height: 3em;
+    width: 3em;
+  }
+}
+
+.tablehorizontal-scroll-container {
+  max-height: 400px;
+  overflow: auto;
+  display: flex;
+
+  table {
+    flex: 1;
+    font-size: clamp(12px, 2vw, 16px);
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  app-progress-spinner {
+    margin: auto;
+  }
+
+  .info-text {
+    text-align: center;
+  }
+
+  .system-type-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+    .system-type-icon {
+      height: 1.5em;
+      width: 1.5em;
+    }
+  }
+}

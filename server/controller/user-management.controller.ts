@@ -3,9 +3,11 @@ import { addNewUser, deleteUser, getAllUsers, setNewInitalPassword, updateUserna
 import { Request, Response } from 'express';
 import { validateAndGetUser, validateAndGetUserRole, validateNewUsername } from 'server/helpers/validation.helper';
 import { getHashFromString } from 'server/helpers/hash.helper';
-import { getRefreshTokensByUserID } from 'server/services/auth.service';
+import { getRefreshTokensByUserID, revokeAllRefreshTokensByUserID, revokeRefreshToken } from 'server/services/auth.service';
 import { Session } from 'common/models/session.model';
 import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
+import { getSystemTypeFromUserAgent } from 'server/helpers/useragent.helper';
+import { ValidationError } from 'server/models/errors/validation-error.model';
 
 export const handleCreateUser = async (req: Request, res: Response) => {
   const { username, password, userRoleID } = req.body;
@@ -92,7 +94,8 @@ export const handleGetUserSessions = async (req: Request, res: Response) => {
   await validateAndGetUser(userID);
   const paginatedRefreshTokens = await getRefreshTokensByUserID(+userID!, page);
   const sessions = paginatedRefreshTokens.items.map(token => {
-    return new Session(token.userAgent, token.ip, token.creationDate, token.expiryDate);
+    const systemType = getSystemTypeFromUserAgent(token.userAgent);
+    return new Session(token.tokenID!, systemType, token.ip, token.creationDate, token.expiryDate);
   });
 
   const paginatedSessions: PaginatedApiResponse<Session> = {
@@ -102,4 +105,25 @@ export const handleGetUserSessions = async (req: Request, res: Response) => {
     items: sessions
   };
   return res.status(200).json(paginatedSessions);
+};
+
+export const handleRevokeAllSessions = async (req: Request, res: Response) => {
+  const { userID } = req.body;
+  await validateAndGetUser(userID);
+  await revokeAllRefreshTokensByUserID(+userID!);
+  return res.status(200).json({ message: 'Alle Sessions erfolgreich abgemeldet' });
+};
+
+export const handleRevokeSessions = async (req: Request, res: Response) => {
+  const { refreshTokensIDs } = req.body;
+  if (!refreshTokensIDs || !Array.isArray(refreshTokensIDs) || refreshTokensIDs.length === 0) {
+    return res.status(400).json({ message: 'Keine RefreshTokensIDs in der Anfrage' });
+  }
+  for (const id of refreshTokensIDs) {
+    if (isNaN(+id)) {
+      throw new ValidationError('refreshTokensID muss eine Zahl sein', 400);
+    }
+    await revokeRefreshToken(+id);
+  }
+  return res.status(200).json({ message: 'Sessions erfolgreich abgemeldet' });
 };

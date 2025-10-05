@@ -17,10 +17,13 @@ export class PaginatedDataService<T> {
 
   readonly pageToLoad = signal<number>(1);
 
+  private _params: object = {};
+
   private readonly _dataResource = httpResource<PaginatedApiResponse<T>>(() => ({
     url: this._apiUrl,
     params: {
-      page: this.pageToLoad()
+      page: this.pageToLoad(),
+      ...this._params
     }
   }));
 
@@ -66,9 +69,10 @@ export class PaginatedDataService<T> {
    * @param apiUrl The base URL for the API endpoint.
    * @param getItemId A function to get the unique ID of an item.
    */
-  init(apiUrl: string, getItemId: (item: T) => string | number) {
+  init(apiUrl: string, getItemId: (item: T) => string | number, params: object = {}) {
     this._apiUrl = apiUrl;
     this._getItemId = getItemId;
+    this._params = params;
   }
 
   setPageToLoad(value: number) {

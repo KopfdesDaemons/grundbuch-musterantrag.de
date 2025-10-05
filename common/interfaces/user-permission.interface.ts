@@ -38,7 +38,8 @@ export enum UserManagementAction {
   DeleteUser = 'DeleteUser',
   UpdateUsername = 'UpdateUsername',
   SetInitialPassword = 'SetInitialPassword',
-  UpdateUserRole = 'updateUserRole'
+  UpdateUserRole = 'updateUserRole',
+  RevokeSessions = 'RevokeSessions'
 }
 
 export enum StatisticAction {

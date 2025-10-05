@@ -1,5 +1,5 @@
 export class RefreshToken {
-  tokenID?: string;
+  tokenID?: number;
   userID: number;
   tokenHash?: string;
   userAgent: string;

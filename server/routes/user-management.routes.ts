@@ -3,6 +3,8 @@ import {
   handleDeleteUser,
   handleGetAllUsers,
   handleGetUserSessions,
+  handleRevokeAllSessions,
+  handleRevokeSessions,
   handleSetInitialPassword,
   handleUpdateUsername,
   handleUpdateUserRole
@@ -50,4 +52,18 @@ userManagementRoutes.get(
   authMiddleware,
   verifyRole(new userManagementPermission([UserManagementAction.ReadUser])),
   handleGetUserSessions
+);
+
+userManagementRoutes.patch(
+  '/revoke-all-sessions',
+  authMiddleware,
+  verifyRole(new userManagementPermission([UserManagementAction.RevokeSessions])),
+  handleRevokeAllSessions
+);
+
+userManagementRoutes.patch(
+  '/revoke-sessions',
+  authMiddleware,
+  verifyRole(new userManagementPermission([UserManagementAction.RevokeSessions])),
+  handleRevokeSessions
 );
