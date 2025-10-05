@@ -5,19 +5,18 @@ import { AuthService } from 'src/app/services/user/auth.service';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 import { ProgressSpinnerComponent } from '../../../components/progress-spinner/progress-spinner.component';
 import { NgClass } from '@angular/common';
-import { Router } from '@angular/router';
+import { SessionsManagerComponent } from 'src/app/components/sessions-manager/sessions-manager.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-user-settings',
-  imports: [FormsModule, ReactiveFormsModule, ProgressSpinnerComponent, NgClass],
+  imports: [FormsModule, ReactiveFormsModule, ProgressSpinnerComponent, NgClass, SessionsManagerComponent],
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.scss'
 })
 export class UserSettingsComponent {
   authS = inject(AuthService);
   userSettingsS = inject(UserSettingsService);
-  router = inject(Router);
   newPasswordForm = this.userSettingsS.getNewPasswordGroup();
   ngFormNewPassword = viewChild.required<FormGroupDirective>('ngFormNewPassword');
   ngFormNewUsername = viewChild.required<FormGroupDirective>('ngFormNewUsername');
@@ -75,10 +74,5 @@ export class UserSettingsComponent {
     return this.formBuilder.group({
       newUsername: ['', Validators.required]
     });
-  }
-
-  async logoutEverywhere() {
-    await this.authS.logoutEverywhere();
-    await this.router.navigate(['/login']);
   }
 }

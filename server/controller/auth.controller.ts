@@ -1,11 +1,22 @@
 import { Request, Response } from 'express';
-import { getRefreshTokenCookieOptions, login, refreshAccessToken, revokeAllRefreshTokensByUserID } from '../services/auth.service';
+import {
+  getRefreshTokenCookieOptions,
+  getRefreshTokensByUserID,
+  login,
+  refreshAccessToken,
+  revokeAllRefreshTokensByUserID,
+  revokeRefreshToken
+} from '../services/auth.service';
 import { getUserByUsername } from 'server/services/user.service';
 import { User } from 'common/models/user.model';
 import { AuthError } from 'server/models/errors/auth-error.model';
 import { AuthResponse } from 'common/interfaces/auth-response.interface';
 import { validateAndGetUser } from 'server/helpers/validation.helper';
 import { verifyToken } from 'server/helpers/jwt.helper';
+import { ValidationError } from 'server/models/errors/validation-error.model';
+import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
+import { Session } from 'common/models/session.model';
+import { getSystemTypeFromUserAgent } from 'server/helpers/useragent.helper';
 
 export const handleLogin = async (req: Request, res: Response) => {
   const { username, password, userAgent } = req.body;
@@ -62,7 +73,45 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
 export const handleLogoutEverywhere = async (req: Request, res: Response) => {
   if (!req.jwtPayload) throw new AuthError('Kein JWT in der Anfrage', 400);
   const { userID } = req.jwtPayload;
-  if (!userID) throw new AuthError('UserID fehlt', 400);
+  await validateAndGetUser(userID);
   await revokeAllRefreshTokensByUserID(userID);
   res.status(200).json({ message: 'Alle Refresh Tokens erfolgreich gelöscht' });
+};
+
+export const handleRevokeSessions = async (req: Request, res: Response) => {
+  const { refreshTokensIDs } = req.body;
+  if (!req.jwtPayload) throw new AuthError('Kein JWT in der Anfrage', 400);
+  const { userID } = req.jwtPayload;
+  await validateAndGetUser(userID);
+  if (!refreshTokensIDs || !Array.isArray(refreshTokensIDs) || refreshTokensIDs.length === 0) {
+    return res.status(400).json({ message: 'Keine RefreshTokensIDs in der Anfrage' });
+  }
+  for (const id of refreshTokensIDs) {
+    if (isNaN(+id)) {
+      throw new ValidationError('refreshTokensID muss eine Zahl sein', 400);
+    }
+    await revokeRefreshToken(+id, userID);
+  }
+  return res.status(200).json({ message: 'Sessions erfolgreich abgemeldet' });
+};
+
+export const handleGetSessions = async (req: Request, res: Response) => {
+  if (!req.jwtPayload) throw new AuthError('Kein JWT in der Anfrage', 400);
+  const { userID } = req.jwtPayload;
+  const page = parseInt(req.query['page'] as string, 10) || 1;
+
+  await validateAndGetUser(userID);
+  const paginatedRefreshTokens = await getRefreshTokensByUserID(+userID!, page);
+  const sessions = paginatedRefreshTokens.items.map(token => {
+    const systemType = getSystemTypeFromUserAgent(token.userAgent);
+    return new Session(token.tokenID!, systemType, token.ip, token.creationDate, token.expiryDate);
+  });
+
+  const paginatedSessions: PaginatedApiResponse<Session> = {
+    page: paginatedRefreshTokens.page,
+    totalPages: paginatedRefreshTokens.totalPages,
+    totalItems: paginatedRefreshTokens.totalItems,
+    items: sessions
+  };
+  return res.status(200).json(paginatedSessions);
 };

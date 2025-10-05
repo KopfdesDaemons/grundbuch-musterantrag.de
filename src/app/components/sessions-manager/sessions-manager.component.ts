@@ -8,6 +8,8 @@ import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.c
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { AuthService } from 'src/app/services/user/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sessions-manager',
@@ -17,6 +19,9 @@ import { lastValueFrom } from 'rxjs';
 })
 export class SessionsManagerComponent implements OnInit {
   private readonly http = inject(HttpClient);
+  private readonly authS = inject(AuthService);
+  private readonly router = inject(Router);
+
   readonly userID = input<number>();
   private paginatedDataService = new PaginatedDataService<Session>();
   protected readonly sessionsData = this.paginatedDataService.data;
@@ -51,9 +56,15 @@ export class SessionsManagerComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.paginatedDataService.init('/api/user-management/sessions', session => session.creationDate.toString(), {
-      userID: this.userID()
-    });
+    if (this.userID()) {
+      this.paginatedDataService.init('/api/user-management/sessions', session => session.creationDate.toString(), {
+        userID: this.userID()
+      });
+    } else {
+      this.paginatedDataService.init('/api/auth/sessions', session => session.creationDate.toString(), {
+        userID: this.userID()
+      });
+    }
   }
 
   scroll(element: any) {
@@ -88,11 +99,20 @@ export class SessionsManagerComponent implements OnInit {
     try {
       this.error.set(null);
       const refreshTokensIDs = this.selectedRows().map(row => row.session.refreshTokenID);
-      await lastValueFrom(
-        this.http.patch('/api/user-management/revoke-sessions', {
-          refreshTokensIDs: refreshTokensIDs
-        })
-      );
+      if (this.userID()) {
+        await lastValueFrom(
+          this.http.patch('/api/user-management/revoke-sessions', {
+            refreshTokensIDs: refreshTokensIDs,
+            userID: this.userID()
+          })
+        );
+      } else {
+        await lastValueFrom(
+          this.http.patch('/api/auth/revoke-sessions', {
+            refreshTokensIDs: refreshTokensIDs
+          })
+        );
+      }
       this.reload();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
@@ -104,11 +124,16 @@ export class SessionsManagerComponent implements OnInit {
   async revokeAllSessions() {
     try {
       this.error.set(null);
-      await lastValueFrom(
-        this.http.patch('/api/user-management/revoke-all-sessions', {
-          userID: this.userID()
-        })
-      );
+      if (this.userID()) {
+        await lastValueFrom(
+          this.http.patch('/api/user-management/revoke-all-sessions', {
+            userID: this.userID()
+          })
+        );
+      } else {
+        await this.authS.logoutEverywhere();
+        await this.router.navigate(['/login']);
+      }
       this.reload();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {

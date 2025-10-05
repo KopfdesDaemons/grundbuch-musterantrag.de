@@ -115,7 +115,8 @@ export const handleRevokeAllSessions = async (req: Request, res: Response) => {
 };
 
 export const handleRevokeSessions = async (req: Request, res: Response) => {
-  const { refreshTokensIDs } = req.body;
+  const { refreshTokensIDs, userID } = req.body;
+  await validateAndGetUser(userID);
   if (!refreshTokensIDs || !Array.isArray(refreshTokensIDs) || refreshTokensIDs.length === 0) {
     return res.status(400).json({ message: 'Keine RefreshTokensIDs in der Anfrage' });
   }
@@ -123,7 +124,7 @@ export const handleRevokeSessions = async (req: Request, res: Response) => {
     if (isNaN(+id)) {
       throw new ValidationError('refreshTokensID muss eine Zahl sein', 400);
     }
-    await revokeRefreshToken(+id);
+    await revokeRefreshToken(+id, userID);
   }
   return res.status(200).json({ message: 'Sessions erfolgreich abgemeldet' });
 };

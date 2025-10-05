@@ -29,11 +29,6 @@ export class AuthService {
 
   private refreshTokenPromise: Promise<void> | null = null;
 
-  constructor() {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (localStorage.getItem('login') !== 'true') return;
-  }
-
   async login(username: string, password: string): Promise<void> {
     // Required for new-passoword page
     localStorage.setItem('username', username);

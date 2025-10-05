@@ -160,7 +160,7 @@ export const refreshAccessToken = async (
   };
 };
 
-export const revokeRefreshToken = async (refreshTokenID: number): Promise<void> => {
-  const query = 'UPDATE refresh_tokens SET isRevoked = 1 WHERE tokenID = ?';
-  await db.execute(query, [refreshTokenID]);
+export const revokeRefreshToken = async (refreshTokenID: number, userID: number): Promise<void> => {
+  const query = 'UPDATE refresh_tokens SET isRevoked = 1 WHERE tokenID = ? AND userID = ?';
+  await db.execute(query, [refreshTokenID, userID]);
 };
