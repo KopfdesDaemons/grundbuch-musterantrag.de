@@ -27,6 +27,8 @@ form {
   padding: 1em;
   border-radius: 12px;
   animation: grow 500ms;
+  max-width: 100%;
+  box-sizing: border-box;
 
   &:hover {
     outline: 1px solid var(--primary-color);
