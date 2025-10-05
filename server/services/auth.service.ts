@@ -6,6 +6,7 @@ import { db } from './database.service';
 import { IS_PRODUCTION } from 'server/config/env.config';
 import { RowDataPacket } from 'mysql2';
 import { compareStringsAndHash, getHashFromString } from 'server/helpers/hash.helper';
+import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
 
 const refreshTokenLifetimeInMS = 21 * 24 * 60 * 60 * 1000; // 21 days
 const accessTokenLifetimeInMS = 5 * 60 * 1000; // 5 minutes
@@ -69,14 +70,15 @@ export const getRefreshTokenCookieOptions = (): { httpOnly: boolean; secure: boo
   };
 };
 
-export const getRefreshTokensByUserID = async (userID: number): Promise<RefreshToken[]> => {
-  const query =
-    'SELECT tokenID, userID, tokenHash, userAgent, ip, creationDate, expiryDate, isRevoked FROM refresh_tokens WHERE isRevoked = 0 AND userID = ?';
-  const [tokens] = await db.execute<RowDataPacket[]>(query, [userID]);
+export const getRefreshTokensByUserID = async (userID: number, page: number = 1): Promise<PaginatedApiResponse<RefreshToken>> => {
+  if (page < 1) throw new Error('Die Seitennummer muss größer oder gleich 1 sein.');
+  const pageSize: number = 30;
+  const offset = (page - 1) * pageSize;
 
-  if (!tokens || tokens.length === 0) return [];
+  const query = `SELECT tokenID, userID, tokenHash, userAgent, ip, creationDate, expiryDate, isRevoked FROM refresh_tokens WHERE isRevoked = 0 AND userID = ? ORDER BY tokenID ASC LIMIT ${pageSize} OFFSET ${offset}`;
+  const [rows] = await db.execute<RowDataPacket[]>(query, [userID]);
 
-  return tokens.map(token => {
+  const tokens: RefreshToken[] = rows.map(token => {
     const refreshToken = new RefreshToken(
       token['userID'],
       token['tokenHash'],
@@ -90,6 +92,19 @@ export const getRefreshTokensByUserID = async (userID: number): Promise<RefreshT
     refreshToken.tokenHash = token['tokenHash'];
     return refreshToken;
   });
+
+  // Gesamtanzahl der Dateien berechnen
+  const countQuery = `SELECT COUNT(*) AS totalFiles FROM refresh_tokens`;
+  const [countResult] = await db.execute<RowDataPacket[]>(countQuery);
+  const totalItems = countResult[0]['totalFiles'] as number;
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  return {
+    page: page,
+    totalPages: totalPages,
+    totalItems: totalItems,
+    items: tokens
+  };
 };
 
 export const revokeAllRefreshTokensByUserID = async (userID: number): Promise<void> => {
@@ -105,17 +120,25 @@ export const refreshAccessToken = async (
 ): Promise<{ accessToken: string; refreshToken: string; accessTokenExpiryDate: Date; refreshTokenExpiryDate: Date }> => {
   if (!user.userID) throw new Error('No User ID');
 
-  const activeRefreshTokens = await getRefreshTokensByUserID(user.userID);
-  if (activeRefreshTokens.length === 0) throw new AuthError('Keine aktiven Sessions gefunden. Bitte neu anmelden.', 401);
-
   let matchedToken: RefreshToken | undefined;
+  let currentPage = 1;
+  let totalPages = 1;
 
-  for (const token of activeRefreshTokens) {
-    if (await compareStringsAndHash(oldRefreshTokenString, token.tokenHash!)) {
-      matchedToken = token;
-      break;
+  do {
+    const paginatedResponse = await getRefreshTokensByUserID(user.userID, currentPage);
+    if (paginatedResponse.totalItems === 0 && currentPage === 1) {
+      throw new AuthError('Keine aktiven Sessions gefunden. Bitte neu anmelden.', 401);
     }
-  }
+    totalPages = paginatedResponse.totalPages;
+
+    for (const token of paginatedResponse.items) {
+      if (await compareStringsAndHash(oldRefreshTokenString, token.tokenHash!)) {
+        matchedToken = token;
+        break;
+      }
+    }
+    currentPage++;
+  } while (currentPage <= totalPages && !matchedToken);
 
   if (!matchedToken) {
     throw new AuthError('Ungültiges Refresh Token. Bitte neu anmelden.', 401);

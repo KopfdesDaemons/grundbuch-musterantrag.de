@@ -2,6 +2,7 @@ import {
   handleCreateUser,
   handleDeleteUser,
   handleGetAllUsers,
+  handleGetUserSessions,
   handleSetInitialPassword,
   handleUpdateUsername,
   handleUpdateUserRole
@@ -42,4 +43,11 @@ userManagementRoutes.patch(
   authMiddleware,
   verifyRole(new userManagementPermission([UserManagementAction.UpdateUserRole])),
   handleUpdateUserRole
+);
+
+userManagementRoutes.get(
+  '/sessions',
+  authMiddleware,
+  verifyRole(new userManagementPermission([UserManagementAction.ReadUser])),
+  handleGetUserSessions
 );

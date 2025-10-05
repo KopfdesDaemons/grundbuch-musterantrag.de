@@ -3,6 +3,9 @@ import { addNewUser, deleteUser, getAllUsers, setNewInitalPassword, updateUserna
 import { Request, Response } from 'express';
 import { validateAndGetUser, validateAndGetUserRole, validateNewUsername } from 'server/helpers/validation.helper';
 import { getHashFromString } from 'server/helpers/hash.helper';
+import { getRefreshTokensByUserID } from 'server/services/auth.service';
+import { Session } from 'common/models/session.model';
+import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
 
 export const handleCreateUser = async (req: Request, res: Response) => {
   const { username, password, userRoleID } = req.body;
@@ -80,4 +83,23 @@ export const handleUpdateUserRole = async (req: Request, res: Response) => {
 
   await updateUserRole(+userID, +userRoleID);
   return res.status(200).json({ message: 'Userrolle erfolgreich aktualisiert' });
+};
+
+export const handleGetUserSessions = async (req: Request, res: Response) => {
+  const userID = req.query['userID'];
+  const page = parseInt(req.query['page'] as string, 10) || 1;
+
+  await validateAndGetUser(userID);
+  const paginatedRefreshTokens = await getRefreshTokensByUserID(+userID!, page);
+  const sessions = paginatedRefreshTokens.items.map(token => {
+    return new Session(token.userAgent, token.ip, token.creationDate, token.expiryDate);
+  });
+
+  const paginatedSessions: PaginatedApiResponse<Session> = {
+    page: paginatedRefreshTokens.page,
+    totalPages: paginatedRefreshTokens.totalPages,
+    totalItems: paginatedRefreshTokens.totalItems,
+    items: sessions
+  };
+  return res.status(200).json(paginatedSessions);
 };
