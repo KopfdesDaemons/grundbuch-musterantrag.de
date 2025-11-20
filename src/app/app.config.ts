@@ -7,7 +7,7 @@ import { BrowserModule, provideClientHydration, withIncrementalHydration } from 
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/user/auth.service';
 
-export const initApp = async () => {
+const initApp = async () => {
   const authService = inject(AuthService);
   try {
     await authService.restoreSession();

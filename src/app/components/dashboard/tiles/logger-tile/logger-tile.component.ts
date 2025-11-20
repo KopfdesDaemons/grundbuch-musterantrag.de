@@ -18,8 +18,8 @@ export class LoggerTileComponent {
   readonly loggerS = inject(LoggerService);
   protected readonly error = signal<Error | HttpErrorResponse | null>(null);
 
-  protected readonly disableControlls = computed<boolean>(() => {
-    return this.loggerS.logerData.isLoading() || !!this.error() || !!this.loggerS.logerData.error() || !this.loggerS.logs();
+  protected readonly disableControls = computed<boolean>(() => {
+    return this.loggerS.loggerData.isLoading() || !!this.error() || !!this.loggerS.loggerData.error() || !this.loggerS.logs();
   });
 
   protected readonly firstLogPage = computed<Log[]>(() => {

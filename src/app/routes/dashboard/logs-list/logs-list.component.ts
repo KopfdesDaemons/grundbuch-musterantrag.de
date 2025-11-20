@@ -43,7 +43,7 @@ export class LogsListComponent {
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
-      if (!this.loggerS.logerData.isLoading()) this.loadPage(this.loggerS.loadedPages() + 1);
+      if (!this.loggerS.loggerData.isLoading()) this.loadPage(this.loggerS.loadedPages() + 1);
     }
   }
 

@@ -13,10 +13,10 @@
     </div>
   </div>
   <div class="horizontal-scroll-container" (scroll)="scroll($event.target)">
-    @if (loggerS.logerData.error() || error()) {
-      <app-error-display [error]="loggerS.logerData.error() ?? error()!"></app-error-display>
+    @if (loggerS.loggerData.error() || error()) {
+      <app-error-display [error]="loggerS.loggerData.error() ?? error()!"></app-error-display>
     } @else {
-      @if (loggerS.logerData.isLoading()) {
+      @if (loggerS.loggerData.isLoading()) {
         <app-progress-spinner [endless]="true"></app-progress-spinner>
       } @else if (!loggerS.logs() || loggerS.logs().length === 0) {
         <p class="info-text">Keine Logs vorhanden</p>
@@ -82,7 +82,7 @@
                 </td>
               </tr>
               @if (row.editMode) {
-                <tr class="edit-row">
+                <tr>
                   <td colspan="5">
                     <div>
                       <div class="route">

@@ -9,8 +9,8 @@
           />
         </svg>
       </button>
-      <button class="btn-text" (click)="loggerS.openLogFileInNewTab()" [disabled]="disableControlls()">öffne Logfile</button>
-      <button (click)="deleteLogFile()" class="btn-icon" title="Logfile leeren" [disabled]="disableControlls()">
+      <button class="btn-text" (click)="loggerS.openLogFileInNewTab()" [disabled]="disableControls()">öffne Logfile</button>
+      <button (click)="deleteLogFile()" class="btn-icon" title="Logfile leeren" [disabled]="disableControls()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -19,10 +19,10 @@
         </svg>
       </button>
     </div>
-    @if (error() || loggerS.logerData.error()) {
-      <app-error-display [error]="error() ?? loggerS.logerData.error()"></app-error-display>
+    @if (error() || loggerS.loggerData.error()) {
+      <app-error-display [error]="error() ?? loggerS.loggerData.error()"></app-error-display>
     } @else {
-      @if (!loggerS.logerData.value()) {
+      @if (!loggerS.loggerData.value()) {
         <p>Keine Logs vorhanden</p>
       } @else {
         <div class="tableContainer">
@@ -45,7 +45,7 @@
         </div>
       }
     }
-    @if (loggerS.logerData.isLoading()) {
+    @if (loggerS.loggerData.isLoading()) {
       <app-progress-spinner [endless]="true"></app-progress-spinner>
     }
   </div>

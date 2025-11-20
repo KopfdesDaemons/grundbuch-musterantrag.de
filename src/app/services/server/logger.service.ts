@@ -18,7 +18,7 @@ export class LoggerService {
   loadLogs = this.paginatedDataService.loadData.bind(this.paginatedDataService);
   resetLogs = this.paginatedDataService.resetItems.bind(this.paginatedDataService);
 
-  readonly logerData = this.paginatedDataService.data;
+  readonly loggerData = this.paginatedDataService.data;
   readonly logs = this.paginatedDataService.items;
   readonly loadedPages = this.paginatedDataService.loadedPages;
   readonly totalPages = this.paginatedDataService.totalPages;

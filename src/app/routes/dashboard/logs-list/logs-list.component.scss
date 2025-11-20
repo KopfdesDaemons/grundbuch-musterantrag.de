@@ -16,8 +16,7 @@ section {
 .horizontal-scroll-container {
   overflow: auto;
   height: 500px;
-  width: clamp(300px, 90%, 1000px);
-  max-width: 900px;
+  width: clamp(300px, 90%, 1400px);
 
   table {
     margin-top: 0;

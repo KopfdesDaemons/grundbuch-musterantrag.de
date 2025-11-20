@@ -1,6 +1,6 @@
 <section>
   <div class="content-spacer">
-    <div class="controlls-row">
+    <div class="controls-row">
       <button (click)="reloadFiles()" class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
@@ -30,7 +30,7 @@
     @if (error() || uploadsS.uploadsData.error()) {
       <app-error-display [error]="error() ?? uploadsS.uploadsData.error()"></app-error-display>
     } @else {
-      <div class="tablehorizontal-scroll-container" (scroll)="scroll($event.target)">
+      <div class="horizontal-scroll-container" (scroll)="scroll($event.target)">
         @if (uploadsS.uploadsData.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else if (!uploadsS.uploads() || uploadsS.uploads().length === 0) {
@@ -171,7 +171,7 @@
                             </li>
                           </ul>
                         </div>
-                        <div class="controlls">
+                        <div class="controls">
                           <button [disabled]="row.upload.filesDeleted" (click)="deleteGeneratedFiles(row.upload.uploadID)">
                             Generierte Dateien löschen
                           </button>
