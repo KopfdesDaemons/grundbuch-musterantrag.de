@@ -1,5 +1,5 @@
 <div #chartContainer class="container">
-  @if (!chart) {
+  @if (!chart()) {
     <app-progress-spinner [endless]="true"></app-progress-spinner>
   } @else {
     <div class="chart" #chart_div></div>

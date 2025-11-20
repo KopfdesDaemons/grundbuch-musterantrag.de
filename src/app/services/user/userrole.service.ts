@@ -21,7 +21,7 @@ import {
   migrationPermission,
   settingsPermission,
   userRoleManagementPermission
-} from 'common/models/user-permissons.model';
+} from 'common/models/user-permissions.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserRole } from 'common/interfaces/user-role.interface';
 
@@ -138,18 +138,16 @@ export class UserroleService {
   readonly userRoleInEdit = this._userRoleInEdit.asReadonly();
 
   async getUserRole(userRoleID: number): Promise<UserRole> {
-    const data = await lastValueFrom(
-      this.http.get('/api/userrole/', {
+    return await lastValueFrom(
+      this.http.get<UserRole>('/api/userrole/', {
         params: new HttpParams().set('userRoleID', userRoleID)
       })
     );
-    return data as UserRole;
   }
 
   async createUserRole(userRole: UserRole): Promise<number> {
-    const data = await lastValueFrom(this.http.put('/api/userrole/', { userRole: userRole }));
-    const { userRoleID } = data as { userRoleID: number };
-    return userRoleID;
+    const response = await lastValueFrom(this.http.put<{ userRoleID: number }>('/api/userrole/', { userRole: userRole }));
+    return response.userRoleID;
   }
 
   async updateUserRole(userRole: UserRole): Promise<void> {

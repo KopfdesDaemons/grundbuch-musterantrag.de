@@ -29,12 +29,11 @@ export class SettingsService {
     this._settingsResource.set(settings);
   }
 
-  async getPrimaryColorFromSetings(): Promise<string | null> {
+  async getPrimaryColorFromSettings(): Promise<string | null> {
     try {
-      const result = await lastValueFrom(this.http.get('/api/settings/getPrimaryColor'));
+      const result = await lastValueFrom(this.http.get<{ primaryColor: string }>('/api/settings/getPrimaryColor'));
       if (!result) return null;
-      const { primaryColor } = result as { primaryColor: string };
-      return primaryColor;
+      return result.primaryColor;
     } catch (error) {
       console.error('Error beim Laden der primären Farbe:', error);
       return null;

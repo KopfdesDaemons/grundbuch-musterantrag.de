@@ -30,7 +30,7 @@ export class AuthService {
   private refreshTokenPromise: Promise<void> | null = null;
 
   async login(username: string, password: string): Promise<void> {
-    // Required for new-passoword page
+    // Required for new-password page
     localStorage.setItem('username', username);
 
     const userAgent = window.navigator.userAgent;

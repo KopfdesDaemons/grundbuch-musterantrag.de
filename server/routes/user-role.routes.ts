@@ -9,7 +9,7 @@ import {
 import { UserRoleManagementAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { userRoleManagementPermission } from 'common/models/user-permissons.model';
+import { userRoleManagementPermission } from 'common/models/user-permissions.model';
 
 export const userRoleRoutes = express.Router();
 

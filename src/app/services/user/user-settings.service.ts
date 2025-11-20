@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient, httpResource } from '@angular/common/http';
-import { newPassowrdValidator } from 'src/app/validators/newPassword.validator';
+import { newPasswordValidator } from 'src/app/validators/newPassword.validator';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -41,7 +41,7 @@ export class UserSettingsService {
     return formBuilder.group(
       {
         oldPassword: ['', Validators.required],
-        password: ['', [Validators.required, newPassowrdValidator()]],
+        password: ['', [Validators.required, newPasswordValidator()]],
         confirmPassword: ['', Validators.required]
       },
       { updateOn: 'submit' }

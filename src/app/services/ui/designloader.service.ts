@@ -43,7 +43,7 @@ export class DesignloaderService {
     if (this.setColorFromCookie()) return;
 
     // Init primary color from settings
-    const primaryColorFromSettings = await this.settingsS.getPrimaryColorFromSetings();
+    const primaryColorFromSettings = await this.settingsS.getPrimaryColorFromSettings();
     if (!primaryColorFromSettings) return;
     if (!ColorHelper.isValidHexColor(primaryColorFromSettings)) return;
     this._primaryColor = primaryColorFromSettings;

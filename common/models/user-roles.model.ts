@@ -17,7 +17,7 @@ import {
   uploadManagementPermission,
   userManagementPermission,
   userRoleManagementPermission
-} from './user-permissons.model';
+} from './user-permissions.model';
 
 export class Admin implements UserRole {
   name: string = 'Admin';
