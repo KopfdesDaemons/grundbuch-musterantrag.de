@@ -51,14 +51,31 @@ const createAndSaveRefreshToken = async (user: User, userAgent: string, ip: stri
 };
 
 export const updateRefreshToken = async (token: RefreshToken): Promise<void> => {
+  if (!token.tokenID) throw new Error('Token ID is missing');
   const query = 'UPDATE refresh_tokens SET tokenHash = ?, userAgent = ?, ip = ?, creationDate = ?, expiryDate = ?, isRevoked = ? WHERE tokenID = ?';
-  await db.execute(query, [token.tokenHash, token.userAgent, token.ip, token.creationDate, token.expiryDate, token.isRevoked, token.tokenID]);
+  await db.execute(query, [
+    token.tokenHash ?? '',
+    token.userAgent ?? null,
+    token.ip ?? null,
+    token.creationDate,
+    token.expiryDate,
+    token.isRevoked ?? false,
+    token.tokenID
+  ]);
 };
 
 export const saveRefreshToken = async (token: RefreshToken): Promise<void> => {
   const query =
     'INSERT INTO refresh_tokens (tokenID, userID, tokenHash, userAgent, ip, creationDate, expiryDate, isRevoked) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)';
-  await db.execute(query, [token.userID, token.tokenHash, token.userAgent, token.ip, token.creationDate, token.expiryDate, token.isRevoked]);
+  await db.execute(query, [
+    token.userID,
+    token.tokenHash ?? '',
+    token.userAgent ?? null,
+    token.ip ?? null,
+    token.creationDate,
+    token.expiryDate,
+    token.isRevoked ?? false
+  ]);
 };
 
 export const getRefreshTokenCookieOptions = (): { httpOnly: boolean; secure: boolean; sameSite: 'lax'; expires: Date } => {
