@@ -1,8 +1,13 @@
-FROM node:22-alpine AS dev
+FROM node:24.12.0-alpine AS dev
+
 WORKDIR /app
 
-# install LibreOffice
 RUN apk add --no-cache libreoffice openjdk8-jre
 
+COPY package.json package-lock.json* ./
+
+RUN --mount=type=cache,target=/root/.npm npm install
+
 EXPOSE 4200
-CMD ["npm", "run", "start", "--", "--host", "0.0.0.0"]
+
+CMD ["npm", "start", "--", "--host=0.0.0.0"]
