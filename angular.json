@@ -65,7 +65,13 @@
                   "maximumError": "4mb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "security": {
+                "allowedHosts": [
+                  "grundbuch-musterantrag.de",
+                  "*.grundbuch-musterantrag.de"
+                ]
+              }
             },
             "development": {
               "optimization": false,
@@ -79,6 +85,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": ["localhost", "127.0.0.1"]
+          },
           "configurations": {
             "production": {
               "buildTarget": "grundbuch:build:production"

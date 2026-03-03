@@ -39,17 +39,23 @@
       }
     },
     {
-      "label": "Start Dev Server",
+      "label": "start dev server",
       "type": "shell",
       "command": "docker compose -f docker-compose.dev.yml up",
       "group": "none",
       "problemMatcher": []
     },
     {
-      "label": "Start Dev Server --build",
+      "label": "start dev server --build",
       "type": "shell",
       "command": "docker compose -f docker-compose.dev.yml up --build",
       "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "npm update in docker dev container",
+      "type": "shell",
+      "command": "docker compose exec angular-dev npm update",
       "problemMatcher": []
     }
   ]
