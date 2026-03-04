@@ -5,6 +5,17 @@ export const convertToPdf = async (filePath: string, outputFolderPath: string): 
 
   const child = spawn('soffice', args);
 
+  let stdout = '';
+  let stderr = '';
+
+  child.stdout?.on('data', data => {
+    stdout += data.toString();
+  });
+
+  child.stderr?.on('data', data => {
+    stderr += data.toString();
+  });
+
   const promise = new Promise<void>((resolve, reject) => {
     child.on('error', err => {
       reject(err);
@@ -14,7 +25,7 @@ export const convertToPdf = async (filePath: string, outputFolderPath: string): 
       if (code === 0) {
         resolve();
       } else {
-        reject(new Error(`Fehler beim Konvertieren: Exit-Code ${code}, Signal ${signal}`));
+        reject(new Error(`Exit-Code ${code}, Signal ${signal}\nStderr: ${stderr}\nStdout: ${stdout}`));
       }
     });
   });

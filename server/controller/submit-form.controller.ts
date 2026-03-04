@@ -14,9 +14,15 @@ import { convertToPdf } from '../helpers/file-conversion.helper';
 
 export const submitForm = async (req: Request, res: Response) => {
   const { antrag } = req.body;
-  if (!antrag || !antrag.templateFileName) {
-    logger.error('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
-    return res.status(400).send('Es wurde kein Antrag oder kein templateFileName im Antrag übermittelt.');
+
+  if (!antrag) {
+    logger.error('Es wurde kein Antrag übermittelt.');
+    return res.status(400).send('Es wurde kein Antrag übermittelt.');
+  }
+
+  if (!antrag.templateFileName) {
+    logger.error('Es wurde kein templateFileName übermittelt.');
+    return res.status(400).send('Es wurde kein templateFileName übermittelt.');
   }
 
   const uploadID = randomUUID();
@@ -25,6 +31,7 @@ export const submitForm = async (req: Request, res: Response) => {
   const uploadFolderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
   await fs.promises.mkdir(uploadFolderPath, { recursive: true });
 
+  // Define file paths for ODT and PDF
   const filePathOdt = path.join(uploadFolderPath, `${uploadID}.odt`);
   const filePathPdf = path.join(uploadFolderPath, `${uploadID}.pdf`);
 
@@ -34,6 +41,8 @@ export const submitForm = async (req: Request, res: Response) => {
   const templatePath = path.join(TEMPLATES_FOLDER_PATH, `${antrag.templateFileName}.odt`);
   const templateBuffer = fs.readFileSync(templatePath);
   const zip = new PizZip(templateBuffer);
+
+  // Extract the content.xml file from the ODT template
   const contentFile = zip.file('content.xml');
   if (!contentFile) throw new Error('Die content.xml-Datei wurde im ODT-Template nicht gefunden.');
   const content = contentFile.asText();
