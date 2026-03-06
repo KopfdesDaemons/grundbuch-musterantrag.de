@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Upload } from 'common/models/upload.model';
 import { UploadRow } from 'src/app/interfaces/upload-row';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,9 +17,10 @@ import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/pr
   imports: [DatePipe, ErrorDisplayComponent, NgClass, FormsModule, ProgressSpinnerComponent]
 })
 export class DashboardAntragslisteComponent {
-  uploadsS = inject(UploadsService);
-  error = signal<Error | null>(null);
-  selectAllInput = viewChild<ElementRef>('selectAllInput');
+  private readonly userSettingsS = inject(UserSettingsService);
+  protected readonly uploadsS = inject(UploadsService);
+  protected readonly error = signal<Error | null>(null);
+  protected readonly selectAllInput = viewChild<ElementRef>('selectAllInput');
 
   private rowsMap = new Map<string, UploadRow>();
   rows = linkedSignal<Upload[], UploadRow[]>({

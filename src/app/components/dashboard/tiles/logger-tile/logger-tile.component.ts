@@ -25,11 +25,9 @@ export class LoggerTileComponent {
     return this.loggerS.loggerData.isLoading() || !!this.error() || !!this.loggerS.loggerData.error() || !this.loggerS.logs();
   });
 
-  protected readonly userHasPermissionsDeleteLogFile = computed(() => {
-    const userPermissions = this.userSettingsS.userRoleResource.hasValue() ? this.userSettingsS.userRoleResource.value().userRolePermissions : [];
-    const loggerPermissions = userPermissions.find(permission => permission.feature === Feature.Logger);
-    if (!loggerPermissions) return false;
-    return loggerPermissions.allowedActions.includes(LoggerAction.ClearLogFile);
+  protected readonly userHasPermissionsDeleteLogFile = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.Logger,
+    allowedActions: [LoggerAction.ClearLogFile]
   });
 
   protected readonly firstLogPage = computed<Log[]>(() => {

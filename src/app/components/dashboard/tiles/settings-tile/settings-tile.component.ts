@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { SettingsService } from 'src/app/services/server/settings.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
@@ -21,18 +21,13 @@ export class SettingsTileComponent implements OnInit {
   protected readonly settingsS = inject(SettingsService);
   protected readonly error = signal<Error | HttpErrorResponse | null>(null);
 
-  protected readonly userHasPermissionsUpdateSettings = computed(() => {
-    const userPermissions = this.userSettingsS.userRoleResource.hasValue() ? this.userSettingsS.userRoleResource.value().userRolePermissions : [];
-    const settingsPermissions = userPermissions.find(permission => permission.feature === Feature.Settings);
-    if (!settingsPermissions) return false;
-    return settingsPermissions.allowedActions.includes(SettingsAction.UpdateSettings);
+  protected readonly userHasPermissionsUpdateSettings = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.Settings,
+    allowedActions: [SettingsAction.UpdateSettings]
   });
-
-  protected readonly userHasPermissionsDeleteGeneratedFiles = computed(() => {
-    const userPermissions = this.userSettingsS.userRoleResource.hasValue() ? this.userSettingsS.userRoleResource.value().userRolePermissions : [];
-    const uploadManagementPermissions = userPermissions.find(permission => permission.feature === Feature.UploadManagement);
-    if (!uploadManagementPermissions) return false;
-    return uploadManagementPermissions.allowedActions.includes(UploadManagementAction.DeleteAllGeneratedFiles);
+  protected readonly userHasPermissionsDeleteGeneratedFiles = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UploadManagement,
+    allowedActions: [UploadManagementAction.DeleteAllGeneratedFiles]
   });
 
   ngOnInit(): void {

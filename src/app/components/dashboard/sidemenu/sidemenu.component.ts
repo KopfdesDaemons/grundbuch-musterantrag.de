@@ -27,7 +27,7 @@ export class SidemenuComponent implements OnInit {
 
   pages = [
     { name: 'Übersicht', route: '/dashboard' },
-    { name: 'Uploads', route: '/dashboard/antragsliste' },
+    { name: 'Anträge', route: '/dashboard/antragsliste' },
     { name: 'Statistik', route: '/dashboard/statistic' },
     { name: 'Users', route: '/dashboard/users' },
     { name: 'Logs', route: '/dashboard/logs' }

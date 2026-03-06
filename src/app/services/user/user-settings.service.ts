@@ -1,10 +1,10 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { newPasswordValidator } from 'src/app/validators/newPassword.validator';
 import { AuthService } from './auth.service';
-import { UserPermission } from 'common/interfaces/user-permission.interface';
+import { Feature, UserPermission } from 'common/interfaces/user-permission.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +64,22 @@ export class UserSettingsService {
     );
     if (!this.usernameResource.hasValue()) return;
     await this.authS.login(this.usernameResource.value().username, newPassword);
+  }
+
+  getPermissionsSignal(userPermission: UserPermission): Signal<boolean> {
+    return computed(() => {
+      const userPermissions = this.userRoleResource.hasValue() ? this.userRoleResource.value().userRolePermissions : [];
+      const permissions = userPermissions.find(permission => permission.feature === userPermission.feature);
+      if (!permissions) return false;
+      let hasAllActions = true;
+      for (const action of userPermission.allowedActions) {
+        if (!permissions.allowedActions.includes(action)) {
+          hasAllActions = false;
+          break;
+        }
+      }
+      if (hasAllActions) return true;
+      return false;
+    });
   }
 }
