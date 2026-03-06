@@ -8,6 +8,7 @@ import { Upload } from 'common/models/upload.model';
 import { UploadRow } from 'src/app/interfaces/upload-row';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, UploadManagementAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +22,31 @@ export class DashboardAntragslisteComponent {
   protected readonly uploadsS = inject(UploadsService);
   protected readonly error = signal<Error | null>(null);
   protected readonly selectAllInput = viewChild<ElementRef>('selectAllInput');
+
+  protected readonly userHasPermissionsDeleteUpload = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UploadManagement,
+    allowedActions: [UploadManagementAction.DeleteUpload]
+  });
+
+  protected readonly userHasPermissionsDeleteAllUploads = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UploadManagement,
+    allowedActions: [UploadManagementAction.DeleteAllUploads]
+  });
+
+  protected readonly userHasPermissionsDeleteGeneratedFiles = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UploadManagement,
+    allowedActions: [UploadManagementAction.DeleteGeneratedFiles]
+  });
+
+  protected readonly userHasPermissionsDeleteAllGeneratedFiles = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UploadManagement,
+    allowedActions: [UploadManagementAction.DeleteAllGeneratedFiles]
+  });
+
+  protected readonly userHasPermissionsGetFiles = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UploadManagement,
+    allowedActions: [UploadManagementAction.GetFiles]
+  });
 
   private rowsMap = new Map<string, UploadRow>();
   rows = linkedSignal<Upload[], UploadRow[]>({

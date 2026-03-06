@@ -9,7 +9,16 @@
           />
         </svg>
       </button>
-      <button class="icon" (click)="deleteSelectedUploads()" [disabled]="selectedRows().length === 0" title="Ausgewählte Anträge löschen">
+      <button
+        class="icon"
+        (click)="deleteSelectedUploads()"
+        [disabled]="selectedRows().length === 0 ? true : !userHasPermissionsDeleteUpload()"
+        [title]="
+          userHasPermissionsDeleteUpload()
+            ? 'Ausgewählte Anträge löschen'
+            : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+        "
+      >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
@@ -17,14 +26,33 @@
           />
         </svg>
       </button>
-      <button (click)="deleteGeneratedFilesForSelectedUploads()" [disabled]="selectedRowsWithGeneratedFiles().length === 0">
+      <button
+        (click)="deleteGeneratedFilesForSelectedUploads()"
+        [disabled]="selectedRowsWithGeneratedFiles().length === 0 ? true : !userHasPermissionsDeleteGeneratedFiles()"
+        [title]="
+          userHasPermissionsDeleteGeneratedFiles()
+            ? 'Generierte Dateien löschen ohne die Anträge zu löschen.'
+            : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+        "
+      >
         Lösche generierte Dateien
       </button>
     </div>
     <div class="tableHeader">
       <span>Anträge: {{ uploadsS.totalFiles() }} </span>
       <h2>Uploads</h2>
-      <button class="btn-text" (click)="deleteFolder()">alle löschen</button>
+      <button
+        class="btn-text"
+        (click)="deleteFolder()"
+        [disabled]="!userHasPermissionsDeleteAllUploads()"
+        [title]="
+          userHasPermissionsDeleteAllUploads()
+            ? 'Lösche alle Anträge'
+            : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+        "
+      >
+        alle löschen
+      </button>
     </div>
 
     @if (error() || uploadsS.uploadsData.error()) {
@@ -61,7 +89,12 @@
 
                   <td class="icon-table-cell">
                     @if (row.upload.odtFile && !row.upload.filesDeleted) {
-                      <button class="btn-icon" (click)="getFile(row.upload.uploadID, 'odt')" title="Download .odt Datei">
+                      <button
+                        class="btn-icon"
+                        (click)="getFile(row.upload.uploadID, 'odt')"
+                        title="Download .odt Datei"
+                        [disabled]="!userHasPermissionsGetFiles()"
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                           <path
                             fill="currentColor"
@@ -97,7 +130,13 @@
 
                   <td class="icon-table-cell">
                     @if (row.upload.pdfFile && !row.upload.filesDeleted) {
-                      <button class="btn-icon" target="_blank" (click)="getFile(row.upload.uploadID, 'pdf')" title=".pdf Datei öffnen">
+                      <button
+                        class="btn-icon"
+                        target="_blank"
+                        (click)="getFile(row.upload.uploadID, 'pdf')"
+                        title=".pdf Datei öffnen"
+                        [disabled]="!userHasPermissionsGetFiles()"
+                      >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                           <path
                             fill="currentColor"
@@ -172,10 +211,13 @@
                           </ul>
                         </div>
                         <div class="controls">
-                          <button [disabled]="row.upload.filesDeleted" (click)="deleteGeneratedFiles(row.upload.uploadID)">
+                          <button
+                            [disabled]="row.upload.filesDeleted ? true : !userHasPermissionsDeleteGeneratedFiles()"
+                            (click)="deleteGeneratedFiles(row.upload.uploadID)"
+                          >
                             Generierte Dateien löschen
                           </button>
-                          <button class="delete-btn" (click)="deleteUpload(row.upload.uploadID)">
+                          <button class="delete-btn" (click)="deleteUpload(row.upload.uploadID)" [disabled]="!userHasPermissionsDeleteUpload()">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                               <path
                                 fill="currentColor"
