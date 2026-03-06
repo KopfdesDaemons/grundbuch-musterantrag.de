@@ -40,7 +40,7 @@ export class SidemenuComponent implements OnInit {
   }
 
   async logout() {
-    this.authS.reset();
+    this.authS.cleanLocalSession();
     this.sidemenuS.toggleDashboardSidemenu();
     await this.router.navigate(['/login']);
   }

@@ -10,7 +10,7 @@ import { AuthService } from './services/user/auth.service';
 const initApp = async () => {
   const authService = inject(AuthService);
   try {
-    await authService.restoreSession();
+    await authService.restoreSessionAndSetNewAccessToken();
   } catch (e) {
     console.error('Fehler bei der Wiederherstellung der Session:', e);
   }

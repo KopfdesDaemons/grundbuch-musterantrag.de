@@ -6,40 +6,51 @@ import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const authService = inject(AuthService);
-  const plattformId = inject(PLATFORM_ID);
+  const platformId = inject(PLATFORM_ID);
 
-  if (!isPlatformBrowser(plattformId)) return next(req);
+  if (!isPlatformBrowser(platformId)) return next(req);
 
+  // Don't try to refresh token if the user is not logged in or if the request is not to the API or if the request is for logging in
   if (localStorage.getItem('login') !== 'true' || !req.url.startsWith('/api/') || req.url.startsWith('/api/auth/login')) {
     return next(req);
   }
 
+  // Don't try to refresh token if the request is for refreshing the token itself
   if (req.url.startsWith('/api/auth/refresh')) return next(req);
 
-  const isTokenExpired = (): boolean => {
+  const accessTokenIsExpired = (): boolean => {
     const expiryDate = authService.accessTokenExpiryDate;
+
+    // Return expired if there is no expiry date
     if (!expiryDate) return true;
+
     // 10 seconds buffer
-    return new Date(expiryDate.getTime() - 10 * 1000) < new Date();
+    const isValidForLessThan10Seconds = new Date(expiryDate.getTime() - 10 * 1000) < new Date();
+    return isValidForLessThan10Seconds;
   };
 
-  const addToken = (request: HttpRequest<unknown>): HttpRequest<unknown> => {
-    const token = authService.accessToken();
-    if (!token) return request;
+  const addAccessTokenToAuthHeader = (request: HttpRequest<unknown>): HttpRequest<unknown> => {
+    // Get the access token from the auth service
+    const accessToken = authService.accessToken();
+    if (!accessToken) return request;
+
+    // Add the access token to the auth header
     return request.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${accessToken}`
       }
     });
   };
 
-  if (isTokenExpired()) {
-    return from(authService.restoreSession()).pipe(
+  if (accessTokenIsExpired()) {
+    // Refresh the token before request
+    return from(authService.restoreSessionAndSetNewAccessToken()).pipe(
       switchMap(() => {
-        return next(addToken(req));
+        return next(addAccessTokenToAuthHeader(req));
       })
     );
   } else {
-    return next(addToken(req));
+    // Add the valid access token before request
+    return next(addAccessTokenToAuthHeader(req));
   }
 };

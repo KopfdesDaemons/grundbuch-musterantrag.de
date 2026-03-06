@@ -51,7 +51,7 @@ export class AuthService {
     localStorage.setItem('login', 'true');
   }
 
-  reset() {
+  cleanLocalSession() {
     if (!isPlatformBrowser(this.platformId)) return;
     this._accessTokenExpiryDate = null;
 
@@ -62,10 +62,10 @@ export class AuthService {
 
   async logoutEverywhere() {
     await lastValueFrom(this.http.delete('/api/auth/logout-everywhere'));
-    this.reset();
+    this.cleanLocalSession();
   }
 
-  async restoreSession(): Promise<void> {
+  async restoreSessionAndSetNewAccessToken(): Promise<void> {
     if (this.refreshTokenPromise) {
       return this.refreshTokenPromise;
     }
@@ -80,7 +80,10 @@ export class AuthService {
             params: new HttpParams().set('userAgent', userAgent)
           })
         );
-        this.handleAuthResponse(response);
+        this.setAccessToken(response);
+      } catch (e) {
+        console.error(e);
+        this.cleanLocalSession();
       } finally {
         this.refreshTokenPromise = null;
       }
@@ -96,7 +99,7 @@ export class AuthService {
     });
   }
 
-  private handleAuthResponse(data: AuthResponse): void {
+  private setAccessToken(data: AuthResponse): void {
     this._accessToken.set(data.accessToken);
     this._accessTokenExpiryDate = new Date(data.accessTokenExpiryDate);
     this._refreshTokenExpiryDate = new Date(data.refreshTokenExpiryDate);
