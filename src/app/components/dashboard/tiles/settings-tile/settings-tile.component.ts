@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { SettingsService } from 'src/app/services/server/settings.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from '../../../error-display/error-display.component';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, SettingsAction, UploadManagementAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,9 +16,24 @@ import { ErrorDisplayComponent } from '../../../error-display/error-display.comp
   styleUrl: './settings-tile.component.scss'
 })
 export class SettingsTileComponent implements OnInit {
-  private uploadS = inject(UploadsService);
-  settingsS = inject(SettingsService);
-  error = signal<Error | HttpErrorResponse | null>(null);
+  private readonly uploadS = inject(UploadsService);
+  protected readonly userSettingsS = inject(UserSettingsService);
+  protected readonly settingsS = inject(SettingsService);
+  protected readonly error = signal<Error | HttpErrorResponse | null>(null);
+
+  protected readonly userHasPermissionsUpdateSettings = computed(() => {
+    const userPermissions = this.userSettingsS.userRoleResource.hasValue() ? this.userSettingsS.userRoleResource.value().userRolePermissions : [];
+    const settingsPermissions = userPermissions.find(permission => permission.feature === Feature.Settings);
+    if (!settingsPermissions) return false;
+    return settingsPermissions.allowedActions.includes(SettingsAction.UpdateSettings);
+  });
+
+  protected readonly userHasPermissionsDeleteGeneratedFiles = computed(() => {
+    const userPermissions = this.userSettingsS.userRoleResource.hasValue() ? this.userSettingsS.userRoleResource.value().userRolePermissions : [];
+    const uploadManagementPermissions = userPermissions.find(permission => permission.feature === Feature.UploadManagement);
+    if (!uploadManagementPermissions) return false;
+    return uploadManagementPermissions.allowedActions.includes(UploadManagementAction.DeleteAllGeneratedFiles);
+  });
 
   ngOnInit(): void {
     this.settingsS.load();

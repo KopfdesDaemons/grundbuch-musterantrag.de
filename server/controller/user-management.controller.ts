@@ -1,5 +1,5 @@
 import { User } from 'common/models/user.model';
-import { addNewUser, deleteUser, getAllUsers, setNewInitalPassword, updateUsername, updateUserRole } from 'server/services/user.service';
+import { addNewUser, deleteUser, getAllUsers, setNewInitialPassword, updateUsername, updateUserRole } from 'server/services/user.service';
 import { Request, Response } from 'express';
 import { validateAndGetUser, validateAndGetUserRole, validateNewUsername } from 'server/helpers/validation.helper';
 import { getHashFromString } from 'server/helpers/hash.helper';
@@ -68,7 +68,7 @@ export const handleSetInitialPassword = async (req: Request, res: Response) => {
 
   userFromDB.passwordHash = await getHashFromString(newPassword);
   if (userFromDB.passwordHash) {
-    await setNewInitalPassword(+userID, userFromDB.passwordHash);
+    await setNewInitialPassword(+userID, userFromDB.passwordHash);
     return res.status(200).json({ message: 'Initialpasswort erfolgreich aktualisiert' });
   }
   throw new Error('Fehler beim Setzen des Initialpasswords');

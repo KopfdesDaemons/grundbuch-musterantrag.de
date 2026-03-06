@@ -53,7 +53,7 @@ export const handleDeleteUserRole = async (req: Request, res: Response) => {
   return res.status(200).json({ message: 'Userrollen erfolgreich gelöscht' });
 };
 
-export const handleGetOwnUserRoleName = async (req: Request, res: Response) => {
+export const handleGetOwnUserRole = async (req: Request, res: Response) => {
   const { jwtPayload } = req;
   if (!jwtPayload) {
     return res.status(400).json({ message: 'Kein JWT in der Anfrage' });
@@ -62,5 +62,7 @@ export const handleGetOwnUserRoleName = async (req: Request, res: Response) => {
   const user = await validateAndGetUser(userID);
   const userRoleName = user.userRole.name;
   const userRoleDescription = user.userRole.description;
-  return res.status(200).json({ message: 'Userrolle erfolgreich geladen', userRoleName, userRoleDescription });
+  const userRolePermissions = user.userRole.userPermissions;
+
+  return res.status(200).json({ message: 'Userrolle erfolgreich geladen', userRoleName, userRoleDescription, userRolePermissions });
 };

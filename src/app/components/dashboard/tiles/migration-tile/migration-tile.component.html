@@ -15,6 +15,12 @@
       }
     </select>
     <p>{{ selectedMigration.description }}</p>
-    <button (click)="migrate()">Migration durchführen</button>
+    <button
+      (click)="migrate()"
+      [disabled]="userHasPermissionsMigrate() ? false : true"
+      [title]="userHasPermissionsMigrate() ? '' : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'"
+    >
+      Migration durchführen
+    </button>
   </div>
 </app-dashboard-tile>

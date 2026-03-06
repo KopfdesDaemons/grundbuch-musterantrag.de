@@ -55,7 +55,7 @@ export class UserService {
     );
   }
 
-  async setinitialpassword(userID: number, newPassword: string): Promise<void> {
+  async setInitialPassword(userID: number, newPassword: string): Promise<void> {
     await lastValueFrom(
       this.http.patch('/api/user-management/setinitialpassword', {
         userID: userID,

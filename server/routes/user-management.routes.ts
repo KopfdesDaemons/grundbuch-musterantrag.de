@@ -14,7 +14,7 @@ import { UserManagementAction } from 'common/interfaces/user-permission.interfac
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
 import { userManagementPermission } from 'common/models/user-permissions.model';
-import { handleSetPasswordAfterInitalLogin } from 'server/controller/user-settings.controller';
+import { handleSetPasswordAfterInitialLogin } from 'server/controller/user-settings.controller';
 
 export const userManagementRoutes = express.Router();
 
@@ -38,7 +38,7 @@ userManagementRoutes.patch(
   handleSetInitialPassword
 );
 
-userManagementRoutes.patch('/updatepassword', handleSetPasswordAfterInitalLogin);
+userManagementRoutes.patch('/updatepassword', handleSetPasswordAfterInitialLogin);
 
 userManagementRoutes.patch(
   '/userrole',

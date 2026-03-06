@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { newPasswordValidator } from 'src/app/validators/newPassword.validator';
 import { AuthService } from './auth.service';
+import { UserPermission } from 'common/interfaces/user-permission.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,7 @@ export class UserSettingsService {
   private readonly _userRoleResource = httpResource<{
     userRoleName: string;
     userRoleDescription: string;
+    userRolePermissions: UserPermission[];
   }>(() => ({
     url: '/api/user-settings/userrole'
   }));

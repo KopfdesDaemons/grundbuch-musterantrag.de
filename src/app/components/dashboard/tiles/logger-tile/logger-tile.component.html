@@ -10,7 +10,14 @@
         </svg>
       </button>
       <button class="btn-text" (click)="loggerS.openLogFileInNewTab()" [disabled]="disableControls()">öffne Logfile</button>
-      <button (click)="deleteLogFile()" class="btn-icon" title="Logfile leeren" [disabled]="disableControls()">
+      <button
+        (click)="deleteLogFile()"
+        class="btn-icon"
+        [title]="
+          userHasPermissionsDeleteLogFile() ? 'Logfile löschen' : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+        "
+        [disabled]="disableControls() ? true : !userHasPermissionsDeleteLogFile()"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"

@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorDisplayComponent } from '../../../error-display/error-display.component';
 import { DatePipe, NgClass } from '@angular/common';
 import { Log } from 'common/models/log.model';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, LoggerAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,10 +18,18 @@ import { Log } from 'common/models/log.model';
 })
 export class LoggerTileComponent {
   readonly loggerS = inject(LoggerService);
+  readonly userSettingsS = inject(UserSettingsService);
   protected readonly error = signal<Error | HttpErrorResponse | null>(null);
 
   protected readonly disableControls = computed<boolean>(() => {
     return this.loggerS.loggerData.isLoading() || !!this.error() || !!this.loggerS.loggerData.error() || !this.loggerS.logs();
+  });
+
+  protected readonly userHasPermissionsDeleteLogFile = computed(() => {
+    const userPermissions = this.userSettingsS.userRoleResource.hasValue() ? this.userSettingsS.userRoleResource.value().userRolePermissions : [];
+    const loggerPermissions = userPermissions.find(permission => permission.feature === Feature.Logger);
+    if (!loggerPermissions) return false;
+    return loggerPermissions.allowedActions.includes(LoggerAction.ClearLogFile);
   });
 
   protected readonly firstLogPage = computed<Log[]>(() => {

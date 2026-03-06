@@ -17,7 +17,7 @@ export const handleGetOwnUsername = async (req: Request, res: Response) => {
   return res.status(200).json({ message: 'Username erfolgreich geladen', username });
 };
 
-export const handleSetPasswordAfterInitalLogin = async (req: Request, res: Response) => {
+export const handleSetPasswordAfterInitialLogin = async (req: Request, res: Response) => {
   const { username, oldPassword, newPassword } = req.body;
   if (!username || !newPassword || !oldPassword) {
     return res.status(400).json({ message: 'Unvollständige Anfrage' });

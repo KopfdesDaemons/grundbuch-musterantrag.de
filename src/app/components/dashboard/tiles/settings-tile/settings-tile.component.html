@@ -10,6 +10,8 @@
               type="checkbox"
               id="deleteGeneratedFilesAfterResponse"
               #deleteGeneratedFilesAfterResponse
+              [disabled]="userHasPermissionsUpdateSettings() ? false : true"
+              [title]="userHasPermissionsUpdateSettings() ? '' : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Einstellung zu ändern.'"
               [checked]="settingsS.settingsResource.value().deleteGeneratedFilesAfterResponse"
               (change)="changeSetting('deleteGeneratedFilesAfterResponse', deleteGeneratedFilesAfterResponse.checked)"
             />
@@ -20,7 +22,15 @@
           }
         </li>
         <li>
-          <button (click)="deleteAllGeneratedFiles()">Alle generierten Dateien löschen</button>
+          <button
+            [disabled]="userHasPermissionsDeleteGeneratedFiles() ? false : true"
+            [title]="
+              userHasPermissionsDeleteGeneratedFiles() ? '' : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+            "
+            (click)="deleteAllGeneratedFiles()"
+          >
+            Alle generierten Dateien löschen
+          </button>
           <p>Löscht nur die Dateien, ohne die Uploadsinfos zu löschen</p>
         </li>
         <li>
@@ -30,6 +40,8 @@
               id="primaryColor"
               name="primaryColor"
               #primaryColor
+              [disabled]="userHasPermissionsUpdateSettings() ? false : true"
+              [title]="userHasPermissionsUpdateSettings() ? '' : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Einstellung zu ändern.'"
               [value]="settingsS.settingsResource.value().primaryColor"
               (change)="changeSetting('primaryColor', primaryColor.value)"
             />

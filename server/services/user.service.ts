@@ -108,7 +108,7 @@ export const updateUsername = async (userID: number, newUsername: string): Promi
   await db.execute(updateQuery, [newUsername, userID]);
 };
 
-export const setNewInitalPassword = async (userID: number, newPasswordHash: string): Promise<void> => {
+export const setNewInitialPassword = async (userID: number, newPasswordHash: string): Promise<void> => {
   const updateQuery = `UPDATE users SET passwordHash = ?, isInitialPassword = 1 WHERE userID = ?`;
   await db.execute(updateQuery, [newPasswordHash, userID]);
 };
