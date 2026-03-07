@@ -154,19 +154,22 @@ export class UserroleService {
     await lastValueFrom(this.http.patch('/api/userrole/', { userRole: userRole }));
   }
 
-  getFormGroup(userRole: UserRole = { name: '', description: '', userPermissions: [] }): FormGroup {
+  getFormGroup(isDisabled: boolean, userRole: UserRole = { name: '', description: '', userPermissions: [] }): FormGroup {
     const featureGroups: { [key: string]: FormGroup } = {};
 
     for (const permission of this.allPermissions) {
       const feature = permission.feature;
       const actions = permission.allowedActions;
 
-      const actionControls: { [key: string]: boolean } = {};
+      const actionControls: { [key: string]: { value: boolean; disabled: boolean } } = {};
 
       const userFeature = userRole.userPermissions.find(p => p.feature === feature);
 
       for (const action of actions) {
-        actionControls[action] = userFeature ? userFeature.allowedActions.includes(action) : false;
+        actionControls[action] = {
+          value: userFeature ? userFeature.allowedActions.includes(action) : false,
+          disabled: isDisabled
+        };
       }
 
       featureGroups[feature] = this.formBuilder.group(actionControls);
@@ -174,8 +177,8 @@ export class UserroleService {
 
     return this.formBuilder.group({
       userRoleID: [{ value: userRole.userRoleID, disabled: true }],
-      name: [userRole.name, Validators.required],
-      description: [userRole.description],
+      name: [{ value: userRole.name, disabled: isDisabled }, Validators.required],
+      description: [{ value: userRole.description, disabled: isDisabled }],
       features: this.formBuilder.group(featureGroups)
     });
   }

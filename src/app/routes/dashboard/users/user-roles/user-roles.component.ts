@@ -4,6 +4,8 @@ import { UserroleService } from 'src/app/services/user/userrole.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, UserRoleManagementAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,14 +15,31 @@ import { ErrorDisplayComponent } from '../../../../components/error-display/erro
   styleUrl: './user-roles.component.scss'
 })
 export class UserRolesComponent {
-  userRoleS = inject(UserroleService);
-  form = signal<FormGroup>(this.userRoleS.getFormGroup());
-  isNewUserRole = false;
-  error = signal<Error | HttpErrorResponse | null>(null);
-  isLoading = signal(false);
-  selectedUserRoleID: WritableSignal<number | undefined> = signal(undefined);
+  private readonly userSettingsS = inject(UserSettingsService);
+  protected readonly userRoleS = inject(UserroleService);
+  protected readonly form = signal<FormGroup>(new FormGroup({}));
+  protected isNewUserRole = false;
+  protected readonly error = signal<Error | HttpErrorResponse | null>(null);
+  protected readonly isLoading = signal(false);
+  protected readonly selectedUserRoleID: WritableSignal<number | undefined> = signal(undefined);
+
+  protected readonly userHasPermissionsDeleteUserRole = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UserRoleManagement,
+    allowedActions: [UserRoleManagementAction.DeleteUserRole]
+  });
+
+  protected readonly userHasPermissionsCreateUserRole = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UserRoleManagement,
+    allowedActions: [UserRoleManagementAction.CreateUserRole]
+  });
+
+  protected readonly userHasPermissionsUpdateUserRole = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UserRoleManagement,
+    allowedActions: [UserRoleManagementAction.UpdateUserRole]
+  });
 
   constructor() {
+    this.form.set(this.userRoleS.getFormGroup(!this.userHasPermissionsUpdateUserRole()));
     effect(this.setupUserRoleOptions.bind(this));
     effect(this.handleSelectedUserRoleIDChange.bind(this));
     effect(this.handleUserRoleInEditChange.bind(this));
@@ -46,7 +65,7 @@ export class UserRolesComponent {
     }
     if (resource.value()) {
       this.isNewUserRole = false;
-      this.form.set(this.userRoleS.getFormGroup(resource.value()));
+      this.form.set(this.userRoleS.getFormGroup(!this.userHasPermissionsUpdateUserRole(), resource.value()));
     }
   }
 
@@ -54,7 +73,7 @@ export class UserRolesComponent {
     this.error.set(null);
     this.isNewUserRole = true;
     this.selectedUserRoleID.set(undefined);
-    this.form.set(this.userRoleS.getFormGroup());
+    this.form.set(this.userRoleS.getFormGroup(false));
   }
 
   async saveUserRole(): Promise<void> {

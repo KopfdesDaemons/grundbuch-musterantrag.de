@@ -8,18 +8,28 @@
   }
 }
 
-.controls {
-  display: flex;
-  gap: 0.5em;
-  align-items: center;
-}
-
-#userRoleID input {
-  width: 3em;
-}
-
 form {
   width: 100%;
+
+  .controls {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #userRoleID input {
+    width: 3em;
+  }
+
+  .description-label {
+    display: block;
+    text-align: center;
+  }
+
+  app-progress-spinner {
+    margin: 5em auto;
+  }
 
   ul {
     list-style: none;
@@ -33,7 +43,7 @@ form {
     gap: 0.5em;
   }
 
-  .descriptiondiv {
+  .description-container {
     display: flex;
     flex-direction: column;
   }
