@@ -5,6 +5,8 @@ import { LogRow } from 'src/app/interfaces/log-row';
 import { LoggerService } from 'src/app/services/server/logger.service';
 import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, LoggerAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   selector: 'app-logs-list',
@@ -13,8 +15,14 @@ import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/pr
   styleUrl: './logs-list.component.scss'
 })
 export class LogsListComponent {
+  private readonly userSettingsS = inject(UserSettingsService);
   protected readonly error = signal<Error | null>(null);
   protected readonly loggerS = inject(LoggerService);
+
+  protected readonly userHasPermissionsDeleteLogs = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.Logger,
+    allowedActions: [LoggerAction.ClearLogFile]
+  });
 
   private rowsMap = new Map<string, LogRow>();
   rows = linkedSignal<Log[], LogRow[]>({

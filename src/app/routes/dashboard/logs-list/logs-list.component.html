@@ -1,6 +1,6 @@
 <section>
   <div class="content-spacer">
-    <div class="controlls-row">
+    <div class="controls-row">
       <button (click)="reloadFiles()" class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
@@ -9,7 +9,7 @@
           />
         </svg>
       </button>
-      <button (click)="deleteAllLogs()">Alle Logs löschen</button>
+      <button (click)="deleteAllLogs()" [disabled]="!userHasPermissionsDeleteLogs()">Alle Logs löschen</button>
     </div>
   </div>
   <div class="horizontal-scroll-container" (scroll)="scroll($event.target)">
