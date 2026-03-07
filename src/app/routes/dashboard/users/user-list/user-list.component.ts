@@ -9,6 +9,8 @@ import { UserRow } from 'src/app/interfaces/user-row';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 import { User } from 'common/models/user.model';
 import { SessionsManagerComponent } from 'src/app/components/sessions-manager/sessions-manager.component';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, UserManagementAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,10 +20,25 @@ import { SessionsManagerComponent } from 'src/app/components/sessions-manager/se
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
+  private readonly userSettingsS = inject(UserSettingsService);
   readonly userS = inject(UserService);
   readonly userRoleS = inject(UserroleService);
-  readonly selectAllinput = viewChild<ElementRef>('selectAllInput');
+  readonly selectAllInput = viewChild<ElementRef>('selectAllInput');
   protected readonly error = signal<Error | null>(null);
+
+  readonly userHasPermissionsDeleteUser = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UserManagement,
+    allowedActions: [UserManagementAction.DeleteUser]
+  });
+
+  readonly userPermissions = computed(() => {
+    return (
+      this.userSettingsS.userRoleResource.value()?.userRolePermissions.find(p => p.feature === Feature.UserManagement) ?? {
+        feature: Feature.UserManagement,
+        allowedActions: []
+      }
+    );
+  });
 
   private readonly rowsMap = new Map<string, UserRow>();
   protected readonly rows = linkedSignal<User[], UserRow[]>({
@@ -68,8 +85,8 @@ export class UserListComponent {
     this.rowsMap.clear();
     this.userS.setPageToLoad(1);
     this.userS.loadUsers();
-    if (this.selectAllinput()) {
-      this.selectAllinput()!.nativeElement.checked = false;
+    if (this.selectAllInput()) {
+      this.selectAllInput()!.nativeElement.checked = false;
     }
   }
 
@@ -96,7 +113,7 @@ export class UserListComponent {
 
   toggleEditMode(row: UserRow): void {
     row.editMode = !row.editMode;
-    row.editForm = this.userS.getEditUserFormGroup(row.user);
+    row.editForm = this.userS.getEditUserFormGroup(this.userPermissions(), row.user);
     row.editForm.get('userRole')?.setValue(row.user.userRole.name);
   }
 

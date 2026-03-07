@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { newPasswordValidator } from 'src/app/validators/newPassword.validator';
 import { AuthService } from './auth.service';
-import { Feature, UserPermission } from 'common/interfaces/user-permission.interface';
+import { UserPermission } from 'common/interfaces/user-permission.interface';
 
 @Injectable({
   providedIn: 'root'

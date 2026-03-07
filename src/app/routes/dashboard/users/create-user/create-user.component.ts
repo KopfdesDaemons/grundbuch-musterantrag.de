@@ -6,6 +6,8 @@ import { UserService } from 'src/app/services/user/user.service';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, UserManagementAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -15,18 +17,23 @@ import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/pr
   styleUrl: './create-user.component.scss'
 })
 export class CreateUserComponent {
-  userS = inject(UserService);
-  userroleS = inject(UserroleService);
-  ngForm = viewChild.required<FormGroupDirective>('ngForm');
-  selectedUserRoleID = signal<UserRoleOption | undefined>(undefined);
-  selectedUserRoleOption = computed<UserRoleOption | undefined>(() => {
+  private readonly userSettingsS = inject(UserSettingsService);
+  protected readonly userS = inject(UserService);
+  protected readonly userroleS = inject(UserroleService);
+  protected readonly ngForm = viewChild.required<FormGroupDirective>('ngForm');
+  protected readonly selectedUserRoleID = signal<UserRoleOption | undefined>(undefined);
+  protected readonly selectedUserRoleOption = computed<UserRoleOption | undefined>(() => {
     const selectedRoleID = this.selectedUserRoleID();
     if (!selectedRoleID) return undefined;
     if (!this.userroleS.userRoleOptions.hasValue()) return undefined;
     return this.userroleS.userRoleOptions.value().find(role => role.userRoleID === +selectedRoleID);
   });
-  error = signal<Error | HttpErrorResponse | null>(null);
-  form: FormGroup = this.userS.getNewUserFormGroup(this.userroleS.firstUserRoleID());
+  protected readonly error = signal<Error | HttpErrorResponse | null>(null);
+  protected readonly userHasPermissionsCreateUser = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UserManagement,
+    allowedActions: [UserManagementAction.CreateUser]
+  });
+  protected readonly form: FormGroup = this.userS.getNewUserFormGroup(!this.userHasPermissionsCreateUser(), this.userroleS.firstUserRoleID());
 
   constructor() {
     effect(() => {
@@ -46,7 +53,7 @@ export class CreateUserComponent {
       const userRoleName = this.userroleS.userRoleOptions.value()?.find(r => r.userRoleID === +formdata.userRoleID)?.name ?? '';
       await this.userS.createUser(formdata.username, userRoleName, formdata.userPassword, +formdata.userRoleID);
       // Reset form to prevent validation errors for new form
-      this.ngForm().resetForm(this.userS.getNewUserFormGroup(this.userroleS.firstUserRoleID()).value);
+      this.ngForm().resetForm(this.userS.getNewUserFormGroup(!this.userHasPermissionsCreateUser(), this.userroleS.firstUserRoleID()).value);
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);

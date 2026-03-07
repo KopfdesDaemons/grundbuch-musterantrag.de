@@ -10,8 +10,28 @@
       />
     </svg>
   </button>
-  <button (click)="revokeSessions()" [disabled]="selectedRows().length === 0" title="Ausgewählte Sitzungen abmelden">Abmelden</button>
-  <button (click)="revokeAllSessions()" [disabled]="rows().length === 0" title="Alle Sitzungen abmelden">Alle Sitzungen abmelden</button>
+  <button
+    (click)="revokeSessions()"
+    [disabled]="selectedRows().length === 0 ? true : !areUsersOwnSessions() && !userHasPermissionsRevokeSessions()"
+    [title]="
+      areUsersOwnSessions() || userHasPermissionsRevokeSessions()
+        ? 'Ausgewählte Sitzungen abmelden'
+        : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+    "
+  >
+    Abmelden
+  </button>
+  <button
+    (click)="revokeAllSessions()"
+    [disabled]="rows().length === 0 ? true : !areUsersOwnSessions() && !userHasPermissionsRevokeSessions()"
+    [title]="
+      areUsersOwnSessions() || userHasPermissionsRevokeSessions()
+        ? 'Alle Sitzungen abmelden'
+        : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+    "
+  >
+    Alle Sitzungen abmelden
+  </button>
 </div>
 @if (error() || sessionsData.error()) {
   <app-error-display [error]="error() ?? sessionsData.error()"></app-error-display>

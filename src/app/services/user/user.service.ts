@@ -4,6 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PaginatedDataService } from '../data/paginated-data.service';
 import { User } from 'common/models/user.model';
+import { UserManagementAction, UserPermission } from 'common/interfaces/user-permission.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -83,19 +84,22 @@ export class UserService {
     );
   }
 
-  getNewUserFormGroup(defaultUserRoleID: number | undefined = undefined): FormGroup {
+  getNewUserFormGroup(isDisabled: boolean, defaultUserRoleID: number | undefined = undefined): FormGroup {
     return this.formBuilder.group({
-      username: ['', Validators.required],
-      userRoleID: [defaultUserRoleID, Validators.required],
-      userPassword: ['', Validators.required]
+      username: [{ value: '', disabled: isDisabled }, Validators.required],
+      userRoleID: [{ value: defaultUserRoleID, disabled: isDisabled }, Validators.required],
+      userPassword: [{ value: '', disabled: isDisabled }, Validators.required]
     });
   }
 
-  getEditUserFormGroup(user: User): FormGroup {
+  getEditUserFormGroup(permissions: UserPermission, user: User): FormGroup {
     return this.formBuilder.group({
-      username: [user.username],
-      userRoleID: [user.userRoleID],
-      userPassword: ['']
+      username: [
+        { value: user.username, disabled: permissions.allowedActions.includes(UserManagementAction.UpdateUsername) ? false : true },
+        Validators.required
+      ],
+      userRoleID: [{ value: user.userRoleID, disabled: permissions.allowedActions.includes(UserManagementAction.UpdateUserRole) ? false : true }],
+      userPassword: [{ value: '', disabled: permissions.allowedActions.includes(UserManagementAction.SetInitialPassword) ? false : true }]
     });
   }
 }

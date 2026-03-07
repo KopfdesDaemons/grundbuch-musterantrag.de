@@ -10,6 +10,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { Router } from '@angular/router';
+import { UserSettingsService } from 'src/app/services/user/user-settings.service';
+import { Feature, UserManagementAction } from 'common/interfaces/user-permission.interface';
 
 @Component({
   selector: 'app-sessions-manager',
@@ -21,6 +23,16 @@ export class SessionsManagerComponent implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly authS = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly userSettingsS = inject(UserSettingsService);
+
+  protected readonly userHasPermissionsRevokeSessions = this.userSettingsS.getPermissionsSignal({
+    feature: Feature.UserManagement,
+    allowedActions: [UserManagementAction.RevokeSessions]
+  });
+
+  protected readonly areUsersOwnSessions = computed(() => {
+    return !this.userID();
+  });
 
   readonly userID = input<number>();
   private paginatedDataService = new PaginatedDataService<Session>();
@@ -30,16 +42,15 @@ export class SessionsManagerComponent implements OnInit {
   protected readonly totalPages = this.paginatedDataService.totalPages;
   protected readonly error = signal<Error | null>(null);
 
-  readonly selectAllinput = viewChild<ElementRef>('selectAllInput');
+  readonly selectAllInput = viewChild<ElementRef>('selectAllInput');
   protected readonly selectedRows = computed<SessionRow[]>(() => this.rows().filter(row => row.isChecked()));
 
   private readonly rowsMap = new Map<string, SessionRow>();
   protected readonly rows = linkedSignal<Session[], SessionRow[]>({
     source: () => this.paginatedDataService.items(),
     computation: (sessions, previous) => {
-      if (!sessions) {
-        return previous?.value ?? [];
-      }
+      if (!sessions) return previous?.value ?? [];
+
       return sessions.map(session => {
         const refreshTokenID = session.refreshTokenID.toString();
         if (this.rowsMap.has(refreshTokenID)) {
@@ -86,8 +97,8 @@ export class SessionsManagerComponent implements OnInit {
     this.rowsMap.clear();
     this.paginatedDataService.setPageToLoad(1);
     this.paginatedDataService.loadData();
-    if (this.selectAllinput()) {
-      this.selectAllinput()!.nativeElement.checked = false;
+    if (this.selectAllInput()) {
+      this.selectAllInput()!.nativeElement.checked = false;
     }
   }
 

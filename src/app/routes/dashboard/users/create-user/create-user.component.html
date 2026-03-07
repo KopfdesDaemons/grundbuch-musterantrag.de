@@ -36,5 +36,5 @@
     <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
   </div>
 
-  <button type="submit" [disabled]="form.invalid">Erstellen</button>
+  <button type="submit" [disabled]="form.invalid || !userHasPermissionsCreateUser()">Erstellen</button>
 </form>
