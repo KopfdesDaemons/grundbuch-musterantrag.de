@@ -25,6 +25,7 @@ export class GoogleChartComponent {
   constructor() {
     effect(async () => {
       this.chartData();
+      this.chartOptions();
       await this.gCharts.loadGoogleCharts(this.renderer);
       this.drawChart();
       this.observeResize();

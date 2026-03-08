@@ -17,10 +17,8 @@ export class DesignloaderService {
   private readonly _darkmode = signal(false);
   readonly darkmode = this._darkmode.asReadonly();
   private initialized = false;
-  private _primaryColor: string | null = '#20afdf';
-  get primaryColor() {
-    return this._primaryColor;
-  }
+  private readonly _primaryColor = signal<string | null>('#20afdf');
+  readonly primaryColor = this._primaryColor.asReadonly();
 
   constructor() {
     effect(() => {
@@ -46,7 +44,7 @@ export class DesignloaderService {
     const primaryColorFromSettings = await this.settingsS.getPrimaryColorFromSettings();
     if (!primaryColorFromSettings) return;
     if (!ColorHelper.isValidHexColor(primaryColorFromSettings)) return;
-    this._primaryColor = primaryColorFromSettings;
+    this._primaryColor.set(primaryColorFromSettings);
     const hsl = ColorHelper.HexToHSL(primaryColorFromSettings);
     this.changeColor(hsl['h'], hsl['s'], hsl['l'], true);
   }
@@ -90,7 +88,7 @@ export class DesignloaderService {
   changeColor(h: number, s: number, l: number = 50, withoutCookieConsent: boolean = false) {
     const hsl = h + ', ' + s + '%';
     this.document?.style.setProperty('--hsl-color', hsl);
-    this._primaryColor = ColorHelper.HSLToHex(h, s, l);
+    this._primaryColor.set(ColorHelper.HSLToHex(h, s, l));
 
     if (withoutCookieConsent) return;
     const c: Cookie = new Cookie('Farbe', h + ',' + s, 90, 'Darf die Farbe gespeichert werden?');

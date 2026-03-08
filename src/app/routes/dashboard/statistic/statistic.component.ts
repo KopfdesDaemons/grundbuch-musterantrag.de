@@ -15,8 +15,6 @@ import { UploadsService } from 'src/app/services/data/uploads.service';
 export class StatisticComponent {
   protected readonly gChartsS = inject(GooglechartsService);
   protected readonly uploadsS = inject(UploadsService);
-  protected readonly lineChartOptionsMonth = this.gChartsS.getLineChartOptions('month');
-  protected readonly lineChartOptionsWeek = this.gChartsS.getLineChartOptions('week');
 
   protected readonly monthNames = [
     'Januar',

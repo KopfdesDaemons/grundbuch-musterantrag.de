@@ -15,7 +15,7 @@
           <label for="colorPickerDesktop">Eigene Farbe auswählen</label>
           <input
             #colorPicker
-            [value]="dl.primaryColor"
+            [value]="dl.primaryColor()"
             type="color"
             name="farbe"
             (change)="setCustomColor($event.target)"
@@ -73,7 +73,7 @@
               <label for="colorPickerMobile">Eigene Farbe auswählen</label>
               <input
                 #colorPicker
-                [value]="dl.primaryColor"
+                [value]="dl.primaryColor()"
                 type="color"
                 name="farbe"
                 (change)="setCustomColor($event.target)"

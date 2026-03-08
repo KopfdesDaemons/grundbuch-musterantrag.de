@@ -32,7 +32,7 @@
             <app-google-chart
               chartType="LineChart"
               [chartData]="gChartsS.uploadsTimeframeChartRowsSpecificTimeframe()"
-              [chartOptions]="lineChartOptionsMonth"
+              [chartOptions]="gChartsS.getLineChartOptions('month')"
             >
             </app-google-chart>
           }

@@ -39,7 +39,11 @@
       <app-progress-spinner [endless]="true"></app-progress-spinner>
     } @else {
       <span class="chartToggle" (click)="toggleChartTimeframe()">{{ toggleTextMapping[statisticTimeframe()] }}</span>
-      <app-google-chart [chartData]="chartData()" [chartOptions]="lineChartOptions()" chartType="LineChart"></app-google-chart>
+      <app-google-chart
+        [chartData]="chartData()"
+        [chartOptions]="gChartS.getLineChartOptions(statisticTimeframe())"
+        chartType="LineChart"
+      ></app-google-chart>
       <a routerLink="/dashboard/antragsliste" class="btn-text">Alle Anträge anzeigen</a>
     }
   }

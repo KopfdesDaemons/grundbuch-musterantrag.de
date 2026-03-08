@@ -16,13 +16,11 @@ import { GoogleChartComponent } from '../../../google-chart/google-chart.compone
   styleUrl: './antragsliste-tile.component.scss'
 })
 export class AntragslisteTileComponent {
-  uploadsS = inject(UploadsService);
-  gChartS = inject(GooglechartsService);
+  protected readonly uploadsS = inject(UploadsService);
+  protected readonly gChartS = inject(GooglechartsService);
 
-  statisticTimeframe = signal<'week' | 'month'>('month');
-  toggleTextMapping = { week: 'Woche', month: 'Monat' };
-
-  lineChartOptions = computed(() => this.gChartS.getLineChartOptions(this.statisticTimeframe()));
+  protected readonly statisticTimeframe = signal<'week' | 'month'>('month');
+  protected readonly toggleTextMapping = { week: 'Woche', month: 'Monat' };
 
   reload() {
     this.uploadsS.setPageToLoad(1);
