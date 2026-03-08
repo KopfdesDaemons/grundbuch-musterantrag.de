@@ -7,7 +7,6 @@ import {
   getUploads,
   handeleDeleteAllGeneratedFiles,
   handeleDeleteGeneratedFiles,
-  handleGetUploadDates,
   handleGetUploadCountPerDay as handleGetUploadCountPerDays
 } from 'server/controller/uploads.controller';
 import { StatisticAction, UploadManagementAction } from 'common/interfaces/user-permission.interface';
@@ -48,8 +47,6 @@ uploadsRoutes.delete(
 );
 
 uploadsRoutes.get('/getFile', authMiddleware, verifyRole(new uploadManagementPermission([UploadManagementAction.GetFiles])), getUpload);
-
-uploadsRoutes.get('/getUploadDates', authMiddleware, verifyRole(new statisticPermission([StatisticAction.ReadStatistic])), handleGetUploadDates);
 
 uploadsRoutes.get(
   '/getUploadCountPerDays',

@@ -16,3 +16,29 @@ export const isLogEntry = (obj: unknown): obj is Log => {
     (!('route' in obj) || typeof (obj as any).route === 'string')
   );
 };
+
+type ValidTimespan = 'week' | 'month';
+
+const isValidTimespan = (value: any): value is ValidTimespan => {
+  return ['week', 'month'].includes(value);
+};
+
+export type ValidTimeFilterOptions = { timeframe: ValidTimespan } | { month: number; year: number };
+
+export const isValidTimeFilterOptions = (value: any): value is ValidTimeFilterOptions => {
+  // Basic check
+  if (typeof value !== 'object' || value === null) return false;
+
+  // Check for "timeframe" variant
+  if ('timeframe' in value && Object.keys(value).length === 1) {
+    return isValidTimespan(value.timeframe);
+  }
+
+  // Check for "month/year" variant
+  if ('month' in value && 'year' in value && Object.keys(value).length === 2) {
+    const { month, year } = value;
+    return typeof month === 'number' && typeof year === 'number' && month >= 1 && month <= 12 && year > 1900;
+  }
+
+  return false;
+};

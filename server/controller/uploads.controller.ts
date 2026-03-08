@@ -11,10 +11,10 @@ import {
   deleteGeneratedFiles,
   deleteUpload,
   getUploadCountPerDays,
-  getUploadDates,
   getUploadsData,
   readUpload
 } from 'server/services/uploads.service';
+import { isValidTimeFilterOptions as isValidTimeFilterOption } from 'server/helpers/type-guards.helper';
 
 export const getUploads = async (req: Request, res: Response) => {
   const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -34,7 +34,7 @@ export const handleDeleteUpload = async (req: Request, res: Response) => {
   const uploadIDsArray = uploadIDs.split(',').map(id => id.trim());
   if (!uploadIDsArray) return res.status(400).send({ message: 'Unvollständige oder ungültige Anfrage, erwartet wird ein Array von IDs' });
 
-  // Aktualisiere die Statistik
+  // Update statistic
   try {
     for (const id of uploadIDsArray) {
       const antrag: Upload = await readUpload(id);
@@ -76,25 +76,23 @@ export const handeleDeleteAllGeneratedFiles = async (req: Request, res: Response
   return res.status(200).send({ message: 'Alle generierten Dateien gelöscht' });
 };
 
-export const handleGetUploadDates = async (req: Request, res: Response) => {
-  const validTimespans = ['week', 'month'];
-  const timeframe = req.query['timeframe'] as string;
-
-  if (!validTimespans.includes(timeframe)) {
-    return res.status(400).send({ message: 'Ungültiger Zeitspanne' });
-  }
-  const dates = await getUploadDates(timeframe as 'week' | 'month');
-  return res.status(200).json(dates);
-};
-
 export const handleGetUploadCountPerDay = async (req: Request, res: Response) => {
-  const validTimespans = ['week', 'month'];
-  const timeframe = req.query['timeframe'] as string;
+  const timeframe = req.query['timeframe'] as string | undefined;
+  const monthStr = req.query['month'] as string | undefined;
+  const yearStr = req.query['year'] as string | undefined;
 
-  if (!validTimespans.includes(timeframe)) {
-    return res.status(400).send({ message: 'Ungültiger Zeitspanne' });
+  const month = monthStr ? parseInt(monthStr, 10) : undefined;
+  const year = yearStr ? parseInt(yearStr, 10) : undefined;
+
+  const options: { timeframe?: string; month?: number; year?: number } = {};
+  if (timeframe) options.timeframe = timeframe;
+  if (month) options.month = month;
+  if (year) options.year = year;
+
+  if (!isValidTimeFilterOption(options)) {
+    return res.status(400).send({ message: 'Ungültiger Filteroptionen' });
   }
 
-  const countPerDay = await getUploadCountPerDays(timeframe as 'week' | 'month');
+  const countPerDay = await getUploadCountPerDays(options);
   return res.status(200).json(countPerDay);
 };

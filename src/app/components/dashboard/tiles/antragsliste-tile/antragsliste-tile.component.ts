@@ -27,19 +27,19 @@ export class AntragslisteTileComponent {
   reload() {
     this.uploadsS.setPageToLoad(1);
     this.uploadsS.loadUploads();
-    this.uploadsS.reloadStatisticMonth();
-    this.uploadsS.reloadStatisticWeek();
+    this.uploadsS.reloadStatisticLastMonth();
+    this.uploadsS.reloadStatisticLastWeek();
   }
 
   chartData = computed(() => {
     if (this.statisticTimeframe() === 'week') {
-      return this.gChartS.uploadsTimeframeChartRowsWeek();
+      return this.gChartS.uploadsTimeframeChartRowsLastWeek();
     }
-    return this.gChartS.uploadsTimeframeChartRowsMonth();
+    return this.gChartS.uploadsTimeframeChartRowsLastMonth();
   });
 
   statisticResource = computed(() => {
-    return this.statisticTimeframe() === 'week' ? this.uploadsS.statisticResourceWeek : this.uploadsS.statisticResourceMonth;
+    return this.statisticTimeframe() === 'week' ? this.uploadsS.statisticResourceLastWeek : this.uploadsS.statisticResourceLastMonth;
   });
 
   toggleChartTimeframe() {

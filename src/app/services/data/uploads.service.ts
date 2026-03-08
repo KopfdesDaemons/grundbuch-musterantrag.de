@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
-import { computed, DOCUMENT, inject, Injectable, linkedSignal } from '@angular/core';
+import { computed, DOCUMENT, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Upload } from 'common/models/upload.model';
 import { PaginatedDataService } from './paginated-data.service';
@@ -44,23 +44,44 @@ export class UploadsService {
     }
   }));
 
-  readonly statisticResourceWeek = this._statisticResourceWeek.asReadonly();
+  readonly statisticResourceLastWeek = this._statisticResourceWeek.asReadonly();
 
-  reloadStatisticWeek() {
+  reloadStatisticLastWeek() {
     this._statisticResourceWeek.reload();
   }
 
-  private readonly _statisticResourceMonth = httpResource<{ date: string; count: number }[]>(() => ({
+  private readonly _statisticResourceLastMonth = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/uploads/getUploadCountPerDays',
     params: {
       timeframe: 'month'
     }
   }));
 
-  readonly statisticResourceMonth = this._statisticResourceMonth.asReadonly();
+  readonly statisticResourceLastMonth = this._statisticResourceLastMonth.asReadonly();
 
-  reloadStatisticMonth() {
-    this._statisticResourceMonth.reload();
+  reloadStatisticLastMonth() {
+    this._statisticResourceLastMonth.reload();
+  }
+
+  private specificTimeFrameMonth = signal<number>(new Date().getMonth() + 1);
+  private specificTimeFrameYear = signal<number>(new Date().getFullYear());
+  private readonly _statisticResourceSpecificTimeframe = httpResource<{ date: string; count: number }[]>(() => ({
+    url: '/api/uploads/getUploadCountPerDays',
+    params: {
+      month: this.specificTimeFrameMonth(),
+      year: this.specificTimeFrameYear()
+    }
+  }));
+
+  readonly statisticResourceSpecificTimeframe = this._statisticResourceSpecificTimeframe.asReadonly();
+
+  setStatisticSpecificTimeframe(month: number, year: number) {
+    this.specificTimeFrameMonth.set(month);
+    this.specificTimeFrameYear.set(year);
+  }
+
+  reloadStatisticSpecificTimeframe() {
+    this._statisticResourceSpecificTimeframe.reload();
   }
 
   private readonly _totalUploadsByTypResource = httpResource<{ [key: string]: number }>(() => ({

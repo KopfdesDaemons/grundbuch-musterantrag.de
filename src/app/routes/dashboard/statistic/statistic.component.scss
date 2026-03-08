@@ -5,13 +5,27 @@
   width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 1000px) {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    .chartContainer:first-child {
+      grid-column-end: auto;
+    }
   }
 }
 
 section {
   margin-top: 3em;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+
+  button.icon {
+    height: 3em;
+    width: 3em;
+  }
 }
 
 .chartContainer {
@@ -22,6 +36,10 @@ section {
 
   app-progress-spinner {
     margin: auto auto;
+  }
+
+  &:first-child {
+    grid-column-end: span 2;
   }
 }
 

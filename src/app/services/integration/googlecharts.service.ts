@@ -43,11 +43,16 @@ export class GooglechartsService {
     return chartRows;
   }
 
-  readonly uploadsTimeframeChartRowsWeek = computed<(string | number)[][]>(() => {
-    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceWeek.value());
+  readonly uploadsTimeframeChartRowsLastWeek = computed<(string | number)[][]>(() => {
+    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceLastWeek.value());
   });
-  readonly uploadsTimeframeChartRowsMonth = computed<(string | number)[][]>(() => {
-    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceMonth.value());
+
+  readonly uploadsTimeframeChartRowsLastMonth = computed<(string | number)[][]>(() => {
+    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceLastMonth.value());
+  });
+
+  readonly uploadsTimeframeChartRowsSpecificTimeframe = computed<(string | number)[][]>(() => {
+    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceSpecificTimeframe.value());
   });
 
   readonly uploadTypsChartRows = computed<(string | number)[][]>(() => {
@@ -62,16 +67,16 @@ export class GooglechartsService {
   });
 
   getPieChartOptions() {
-    const schriftColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--font-color').trim();
-    const schriftHEX = ColorHelper.rgbToHexFromString(schriftColorRGB);
+    const fontColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--font-color').trim();
+    const fontHEX = ColorHelper.rgbToHexFromString(fontColorRGB);
     const primaryColor = this.designS.primaryColor || '#20afdf';
     const colors = [primaryColor, ...[20, 30, 40, 50, 60].map(v => ColorHelper.darkenHexColor(primaryColor, v))];
     return {
-      legend: { textStyle: { color: schriftHEX } },
+      legend: { textStyle: { color: fontHEX } },
       responsive: true,
       colors,
       textStyle: {
-        color: schriftHEX
+        color: fontHEX
       },
       chartArea: {
         left: 20,
@@ -87,8 +92,8 @@ export class GooglechartsService {
   }
 
   getBarChartOptions() {
-    const schriftColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--font-color').trim();
-    const schriftHEX = ColorHelper.rgbToHexFromString(schriftColorRGB);
+    const fontColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--font-color').trim();
+    const fontHEX = ColorHelper.rgbToHexFromString(fontColorRGB);
     const primaryColor = this.designS.primaryColor || '#20afdf';
     return {
       legend: 'none',
@@ -98,25 +103,25 @@ export class GooglechartsService {
       },
       colors: [primaryColor],
       textStyle: {
-        color: schriftHEX
+        color: fontHEX
       },
       backgroundColor: {
         fill: 'transparent'
       },
       hAxis: {
-        textStyle: { color: schriftHEX }
+        textStyle: { color: fontHEX }
       },
       vAxis: {
-        textStyle: { color: schriftHEX }
+        textStyle: { color: fontHEX }
       }
     };
   }
 
   getLineChartOptions(chartTimeframe: 'week' | 'month') {
-    const schriftColorRGB = getComputedStyle(this.document.documentElement).getPropertyValue('--font-color').trim();
-    const schriftHEX = ColorHelper.rgbToHexFromString(schriftColorRGB);
+    const fontColorRGB = getComputedStyle(this.document.documentElement).getPropertyValue('--font-color').trim();
+    const fontHEX = ColorHelper.rgbToHexFromString(fontColorRGB);
     const primaryColor = this.designS.primaryColor;
-    const axisTextStyle = { color: schriftHEX };
+    const axisTextStyle = { color: fontHEX };
     const axisTitleStyle = { color: primaryColor };
 
     return {
