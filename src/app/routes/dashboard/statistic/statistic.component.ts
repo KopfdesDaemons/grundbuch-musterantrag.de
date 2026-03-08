@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GoogleChartComponent } from '../../../components/google-chart/google-chart.component';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
@@ -35,6 +35,16 @@ export class StatisticComponent {
   protected readonly years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
   protected selectedMonth = new Date().getMonth();
   protected selectedYear = new Date().getFullYear();
+
+  protected readonly totalUploadsByFilterOption = computed(() => {
+    const days = this.uploadsS.statisticResourceSpecificTimeframe.value();
+    if (!days) return 0;
+    let total = 0;
+    for (const day of days) {
+      total += day.count;
+    }
+    return total;
+  });
 
   constructor() {
     this.setStatisticForSpecificTimeframe(this.selectedMonth + 1, this.selectedYear);
