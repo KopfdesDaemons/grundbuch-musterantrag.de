@@ -23,11 +23,11 @@
     <div class="grid">
       <div class="chartContainer">
         <h2>Anzahl der Anträge ({{ monthNames[selectedMonth] }} {{ selectedYear }})</h2>
-        @if (uploadsS.statisticResourceLastMonth.isLoading()) {
+        @if (uploadsS.statisticResourceSpecificTimeframe.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
         } @else {
-          @if (uploadsS.statisticResourceLastMonth.error()) {
-            <app-error-display [error]="uploadsS.statisticResourceLastMonth.error()"></app-error-display>
+          @if (uploadsS.statisticResourceSpecificTimeframe.error()) {
+            <app-error-display [error]="uploadsS.statisticResourceSpecificTimeframe.error()"></app-error-display>
           } @else {
             <app-google-chart
               chartType="LineChart"
