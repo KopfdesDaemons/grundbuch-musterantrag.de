@@ -24,7 +24,7 @@ export class GoogleChartComponent {
 
   constructor() {
     effect(async () => {
-      if (this.chartData().length === 0) return;
+      this.chartData();
       await this.gCharts.loadGoogleCharts(this.renderer);
       this.drawChart();
       this.observeResize();
@@ -42,6 +42,7 @@ export class GoogleChartComponent {
     const google = (window as any)['google'];
 
     const data = new google.visualization.DataTable();
+
     data.addColumn('string');
     data.addColumn('number');
     data.addRows(this.chartData());

@@ -38,10 +38,10 @@ export class StatisticComponent {
 
   protected readonly totalUploadsByFilterOption = computed(() => {
     const days = this.uploadsS.statisticResourceSpecificTimeframe.value();
-    if (!days) return 0;
+    if (!days || !Array.isArray(days)) return 0;
     let total = 0;
     for (const day of days) {
-      total += day.count;
+      total += day.count || 0;
     }
     return total;
   });
@@ -62,5 +62,10 @@ export class StatisticComponent {
   yearChanged(year: string) {
     this.selectedYear = Number(year);
     this.setStatisticForSpecificTimeframe(this.selectedMonth + 1, this.selectedYear);
+  }
+
+  reload() {
+    this.uploadsS.reloadStatisticSpecificTimeframe();
+    this.uploadsS.reloadTotalUploadsByTypAndTimeframe();
   }
 }

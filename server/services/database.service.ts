@@ -35,13 +35,6 @@ export const initDatabase = async () => {
         ]
       },
       {
-        name: 'statistic',
-        columns: [
-          { name: 'antragsart', type: 'VARCHAR(255) PRIMARY KEY' },
-          { name: 'anzahl', type: 'INT DEFAULT 0' }
-        ]
-      },
-      {
         name: 'users',
         columns: [
           { name: 'userID', type: 'INT NOT NULL PRIMARY KEY AUTO_INCREMENT' },
@@ -84,6 +77,8 @@ export const initDatabase = async () => {
         links: [{ columnName: 'userID', tableName: 'users', foreignKey: 'userID' }]
       }
     ];
+
+    const tablesToDelete = ['statistic'];
 
     for (const featureActionTable of Object.values(actionsTableMapping)) {
       const table = {
@@ -139,8 +134,23 @@ export const initDatabase = async () => {
         }
       }
     }
+
+    for (const tableName of tablesToDelete) {
+      const [rows] = await db.execute<RowDataPacket[]>(
+        `SELECT TABLE_NAME FROM information_schema.tables 
+     WHERE table_schema = DATABASE() AND table_name = ?`,
+        [tableName]
+      );
+
+      if (rows.length > 0) {
+        const dropTableSQL = `DROP TABLE ${tableName}`;
+        await db.execute(dropTableSQL);
+        logger.info(`Tabelle "${tableName}" wurde gelöscht.`);
+      }
+    }
+
     await Promise.all([createRootUser(), createGuestRole()]);
-    // Logger.info('Datenbank und Tabellen wurden erfolgreich initialisiert bzw. überprüft.');
+    logger.info('Datenbank wurde erfolgreich initialisiert bzw. überprüft.');
   } catch (error) {
     logger.error('Fehler bei der Initialisierung der Datenbank:', error);
   }

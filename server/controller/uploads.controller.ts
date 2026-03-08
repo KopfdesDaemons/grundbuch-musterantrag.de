@@ -2,19 +2,16 @@ import { Request, Response } from 'express';
 import path from 'path';
 import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
-import { Upload } from 'common/models/upload.model';
 import { getFile } from 'server/helpers/file-system.helper';
-import { updateStatistic, clearStatistic } from 'server/services/statistic.service';
 import {
   deleteAllGeneratedFiles,
   deleteAllUploads,
   deleteGeneratedFiles,
   deleteUpload,
   getUploadCountPerDays,
-  getUploadsData,
-  readUpload
+  getUploadsData
 } from 'server/services/uploads.service';
-import { isValidTimeFilterOptions as isValidTimeFilterOption } from 'server/helpers/type-guards.helper';
+import { isValidTimeFilterOption as isValidTimeFilterOption } from 'server/helpers/type-guards.helper';
 
 export const getUploads = async (req: Request, res: Response) => {
   const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -24,27 +21,22 @@ export const getUploads = async (req: Request, res: Response) => {
 
 export const handleDeleteAllUploads = async (req: Request, res: Response) => {
   await deleteAllUploads();
-  await clearStatistic();
   logger.info('Alle Uploads gelöscht');
   return res.send({ message: 'Alle Uploads gelöscht' });
 };
 
 export const handleDeleteUpload = async (req: Request, res: Response) => {
   const uploadIDs = req.query['uploadIDs'] as string;
-  const uploadIDsArray = uploadIDs.split(',').map(id => id.trim());
-  if (!uploadIDsArray) return res.status(400).send({ message: 'Unvollständige oder ungültige Anfrage, erwartet wird ein Array von IDs' });
 
-  // Update statistic
-  try {
-    for (const id of uploadIDsArray) {
-      const antrag: Upload = await readUpload(id);
-      await updateStatistic(antrag.antragsart, -1);
-    }
-  } catch (error) {
-    logger.error('Fehler beim Aktualisieren der Statistik:', error);
+  // Split the comma-separated string into an array
+  const uploadIDsArray = uploadIDs.split(',').map(id => id.trim());
+
+  if (!uploadIDsArray) {
+    return res.status(400).send({ message: 'Unvollständige oder ungültige Anfrage, erwartet wird ein Array von IDs' });
   }
 
   await deleteUpload(uploadIDsArray);
+
   return res.status(200).send({ message: 'Upload gelöscht' });
 };
 

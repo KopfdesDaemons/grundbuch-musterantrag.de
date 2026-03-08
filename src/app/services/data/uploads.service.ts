@@ -90,12 +90,33 @@ export class UploadsService {
 
   readonly totalUploadsByTypResource = this._totalUploadsByTypResource.asReadonly();
 
-  reloadUploadsByTyp() {
+  reloadTotalUploadsByTyp() {
     this._totalUploadsByTypResource.reload();
+  }
+
+  private readonly _totalUploadsByTypAndTimeframeResource = httpResource<{ [key: string]: number } | null>(() => ({
+    url: '/api/statistic/byTimeframe',
+    params: {
+      month: this.specificTimeFrameMonth(),
+      year: this.specificTimeFrameYear()
+    }
+  }));
+
+  readonly totalUploadsByTypAndTimeframeResource = this._totalUploadsByTypAndTimeframeResource.asReadonly();
+
+  reloadTotalUploadsByTypAndTimeframe() {
+    this._totalUploadsByTypAndTimeframeResource.reload();
   }
 
   readonly totalUploadsByTyp = computed<{ antragsart: string; anzahl: number }[]>(() => {
     const json = this._totalUploadsByTypResource.value();
+    if (!json) return [];
+    const statisticArray = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value }));
+    return statisticArray.sort((a, b) => b.anzahl - a.anzahl);
+  });
+
+  readonly totalUploadsByTypAndTimeframe = computed<{ antragsart: string; anzahl: number }[]>(() => {
+    const json = this._totalUploadsByTypAndTimeframeResource.value();
     if (!json) return [];
     const statisticArray = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value }));
     return statisticArray.sort((a, b) => b.anzahl - a.anzahl);

@@ -23,9 +23,9 @@ const isValidTimespan = (value: any): value is ValidTimespan => {
   return ['week', 'month'].includes(value);
 };
 
-export type ValidTimeFilterOptions = { timeframe: ValidTimespan } | { month: number; year: number };
+export type ValidTimeFilterOption = { timeframe: ValidTimespan } | { month: number; year: number };
 
-export const isValidTimeFilterOptions = (value: any): value is ValidTimeFilterOptions => {
+export const isValidTimeFilterOption = (value: any): value is ValidTimeFilterOption => {
   // Basic check
   if (typeof value !== 'object' || value === null) return false;
 

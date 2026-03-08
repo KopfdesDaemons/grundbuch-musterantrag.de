@@ -33,9 +33,10 @@ export class GooglechartsService {
   }
 
   private mapStatisticToChartRows(chartDates: { date: string; count: number }[] | undefined | null) {
-    if (!chartDates) return [];
+    if (!chartDates || !Array.isArray(chartDates)) return [];
     const chartRows = [];
     for (const date of chartDates) {
+      if (!date?.date) continue;
       const formattedDate = formatDate(date.date, 'dd.MM.yyyy', this.local) || '';
       const row = [formattedDate, date.count];
       chartRows.push(row);
@@ -57,6 +58,15 @@ export class GooglechartsService {
 
   readonly uploadTypsChartRows = computed<(string | number)[][]>(() => {
     const statistic = this.uploadsS.totalUploadsByTyp();
+    return this.getChartRowsForStatistic(statistic);
+  });
+
+  readonly uploadTypsAndTimeframeChartRows = computed<(string | number)[][]>(() => {
+    const statistic = this.uploadsS.totalUploadsByTypAndTimeframe();
+    return this.getChartRowsForStatistic(statistic);
+  });
+
+  private getChartRowsForStatistic(statistic: { antragsart: string; anzahl: number }[]) {
     if (!statistic) return [];
     const chartRows = [];
     for (const s of statistic) {
@@ -64,7 +74,7 @@ export class GooglechartsService {
       chartRows.push(row);
     }
     return chartRows;
-  });
+  }
 
   getPieChartOptions() {
     const fontColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--font-color').trim();

@@ -2,35 +2,29 @@ import { Statistic } from 'common/interfaces/statistic.interface';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2/promise';
 
-export const getStatistic = async (): Promise<Statistic> => {
+/**
+ * Fetches statistics, optionally filtered by month and year.
+ * If no parameters are provided, it returns the total statistics.
+ */
+export const getStatistic = async (month?: number, year?: number): Promise<Statistic> => {
   const statistic: Statistic = {};
+  const params: number[] = [];
 
-  const readQuery = 'SELECT antragsart, anzahl FROM statistic';
-  const [result] = await db.execute<RowDataPacket[]>(readQuery);
+  let query = 'SELECT antragsart, COUNT(*) as anzahl FROM uploads';
+
+  // Add filter if both month and year are provided
+  if (month !== undefined && year !== undefined) {
+    query += ' WHERE MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
+    params.push(month, year);
+  }
+
+  query += ' GROUP BY antragsart';
+
+  const [result] = await db.execute<RowDataPacket[]>(query, params);
 
   result.forEach(row => {
-    statistic[row['antragsart']] = row['anzahl'];
+    statistic[row['antragsart'] as string] = row['anzahl'] as number;
   });
 
   return statistic;
-};
-
-export const updateStatistic = async (antragsart: string, numberOfDifferences: number): Promise<void> => {
-  const [exists] = await db.execute<RowDataPacket[]>('SELECT antragsart, anzahl FROM statistic WHERE antragsart = ?', [antragsart]);
-
-  if (exists.length > 0) {
-    // Statistik aktualisieren
-    const currentCount = exists[0]['anzahl'] as number;
-    const updateQuery = `UPDATE statistic SET anzahl = ? WHERE antragsart = ?`;
-    await db.execute(updateQuery, [currentCount + numberOfDifferences, antragsart]);
-  } else {
-    // Statistik einfügen
-    if (numberOfDifferences < 0) numberOfDifferences = 0;
-    const insertQuery = `INSERT INTO statistic (antragsart, anzahl) VALUES (?, ?)`;
-    await db.execute(insertQuery, [antragsart, numberOfDifferences]);
-  }
-};
-
-export const clearStatistic = async (): Promise<void> => {
-  await db.execute('DELETE FROM statistic');
 };

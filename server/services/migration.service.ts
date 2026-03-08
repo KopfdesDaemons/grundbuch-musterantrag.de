@@ -6,7 +6,6 @@ import { Antrag } from 'src/app/interfaces/antrag';
 import { updateUploadData } from './uploads.service';
 import logger from 'server/config/logger.config';
 import { checkFileExists } from '../helpers/file-system.helper';
-import { updateStatistic } from './statistic.service';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2';
 
@@ -86,7 +85,6 @@ export const migrateFromJSONFilesToDatabase = async (): Promise<void> => {
       Object.assign(upload, uploadJSON);
 
       await updateUploadData(upload);
-      await updateStatistic(upload.antragsart, 1);
 
       if (upload.filesDeleted) {
         await fs.promises.rm(path.join(UPLOADS_FOLDER_PATH, folder), { recursive: true, force: true });

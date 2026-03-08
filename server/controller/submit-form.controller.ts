@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import * as fs from 'fs';
 import PizZip from 'pizzip';
 import { OdtTemplater } from 'odt-templater';
-import { updateStatistic } from 'server/services/statistic.service';
 import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
 import { Upload } from 'common/models/upload.model';
@@ -64,7 +63,6 @@ export const submitForm = async (req: Request, res: Response) => {
   newUpload.uploadDate = new Date();
   await updateUploadData(newUpload);
 
-  await updateStatistic(newUpload.antragsart, 1);
   try {
     await convertToPdf(filePathOdt, uploadFolderPath);
   } catch (e) {
@@ -77,6 +75,7 @@ export const submitForm = async (req: Request, res: Response) => {
   } else newUpload.pdfFile = true;
 
   await updateUploadData(newUpload);
+
   return res.status(200).send({ message: 'Antrag erfolgreich erstellt.', uploadID });
 };
 
@@ -100,31 +99,39 @@ export const handleGetOdtAfterSubmitForm = (req: Request, res: Response) => {
     return res.status(404).send({ message: 'ODT-Datei nicht gefunden' });
   }
   const filePath = path.join(folderPath, fileName);
+
   return res.contentType('application/vnd.oasis.opendocument.text').sendFile(filePath);
 };
 
 export const handleGetPdfAfterSubmitForm = (req: Request, res: Response) => {
   const uploadID = req.query['uploadID'] as string;
+
   if (!uploadID) return res.status(400).send({ message: 'Fehlende UploadID' });
 
   const fileName = `${uploadID}.pdf`;
   const folderPath: string = path.join(UPLOADS_FOLDER_PATH, uploadID);
 
   const filePath = path.join(folderPath, fileName);
+
   if (!fs.existsSync(filePath)) {
     return res.status(404).send({ message: 'PDF-Datei nicht gefunden' });
   }
+
   return res.contentType('application/pdf').sendFile(filePath);
 };
 
 export const handleReportDownloadByUser = async (req: Request, res: Response) => {
   const { uploadID, fileType } = req.body;
+
   if (!uploadID || !fileType) {
     return res.status(400).send({ message: 'Ungültige Anfrage' });
   }
+
   if (fileType !== 'odtFile' && fileType !== 'pdfFile') {
     return res.status(400).send({ message: 'Ungültiger Dateityp' });
   }
+
   await reportDownloadByUser(uploadID, fileType);
+
   return res.status(200).send({ message: 'Download erfolgreich gemeldet.' });
 };
