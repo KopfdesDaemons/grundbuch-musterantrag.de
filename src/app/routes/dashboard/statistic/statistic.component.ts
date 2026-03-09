@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { GoogleChartComponent } from '../../../components/google-chart/google-chart.component';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
@@ -31,38 +31,35 @@ export class StatisticComponent {
     'Dezember'
   ];
   protected readonly years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
-  protected selectedMonth = new Date().getMonth();
-  protected selectedYear = new Date().getFullYear();
+  protected selectedMonth = signal<number | undefined>(new Date().getMonth());
+  protected selectedYear = signal<number>(new Date().getFullYear());
+
+  protected readonly timeframe = computed(() => {
+    return this.selectedMonth() === undefined ? 'year' : 'month';
+  });
 
   protected readonly totalUploadsByFilterOption = computed(() => {
-    if (this.statisticS.statisticResourceSpecificTimeframe.isLoading() || this.statisticS.statisticResourceSpecificTimeframe.error()) {
+    const resource = this.statisticS.statisticResourceSpecificTimeframe;
+    if (resource.isLoading() || resource.error()) {
       return 0;
     }
-    const days = this.statisticS.statisticResourceSpecificTimeframe.value();
-    if (!days || !Array.isArray(days)) return 0;
-    let total = 0;
-    for (const day of days) {
-      total += day.count || 0;
-    }
-    return total;
+    return (resource.value() ?? []).reduce((total, day) => total + (day.count || 0), 0);
   });
 
   constructor() {
-    this.setStatisticForSpecificTimeframe(this.selectedMonth + 1, this.selectedYear);
-  }
-
-  setStatisticForSpecificTimeframe(month: number, year: number) {
-    this.statisticS.setStatisticSpecificTimeframe(month, year);
+    effect(() => {
+      const month = this.selectedMonth();
+      const year = this.selectedYear();
+      this.statisticS.setStatisticSpecificTimeframe(month === undefined ? undefined : month + 1, year);
+    });
   }
 
   monthChanged(month: string) {
-    this.selectedMonth = this.monthNames.indexOf(month);
-    this.setStatisticForSpecificTimeframe(this.selectedMonth + 1, this.selectedYear);
+    this.selectedMonth.set(month === 'all' ? undefined : this.monthNames.indexOf(month));
   }
 
   yearChanged(year: string) {
-    this.selectedYear = Number(year);
-    this.setStatisticForSpecificTimeframe(this.selectedMonth + 1, this.selectedYear);
+    this.selectedYear.set(Number(year));
   }
 
   reload() {

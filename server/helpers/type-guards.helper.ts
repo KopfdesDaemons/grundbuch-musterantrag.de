@@ -23,7 +23,7 @@ const isValidTimespan = (value: any): value is ValidTimespan => {
   return ['week', 'month'].includes(value);
 };
 
-export type ValidTimeFilterOption = { timeframe: ValidTimespan } | { month: number; year: number };
+export type ValidTimeFilterOption = { timeframe: ValidTimespan } | { month: number; year: number } | { year: number };
 
 export const isValidTimeFilterOption = (value: any): value is ValidTimeFilterOption => {
   // Basic check
@@ -38,6 +38,12 @@ export const isValidTimeFilterOption = (value: any): value is ValidTimeFilterOpt
   if ('month' in value && 'year' in value && Object.keys(value).length === 2) {
     const { month, year } = value;
     return typeof month === 'number' && typeof year === 'number' && month >= 1 && month <= 12 && year > 1900;
+  }
+
+  // Check for "year" variant (no month specified)
+  if ('year' in value && Object.keys(value).length === 1) {
+    const { year } = value;
+    return typeof year === 'number' && year > 1900;
   }
 
   return false;

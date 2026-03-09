@@ -131,7 +131,7 @@ export class GooglechartsService {
     };
   }
 
-  getLineChartOptions(chartTimeframe: 'week' | 'month') {
+  getLineChartOptions(chartTimeframe: 'week' | 'month' | 'year') {
     this.designS.darkmode();
     const fontColorRGB = getComputedStyle(this.document.documentElement).getPropertyValue('--font-color').trim();
     const fontHEX = ColorHelper.rgbToHexFromString(fontColorRGB);
@@ -155,7 +155,7 @@ export class GooglechartsService {
       },
       hAxis: {
         title: 'Tage',
-        showTextEvery: chartTimeframe === 'week' ? 2 : 7,
+        showTextEvery: chartTimeframe === 'week' ? 2 : chartTimeframe === 'month' ? 7 : 60,
         textStyle: axisTextStyle,
         titleTextStyle: axisTitleStyle,
         viewWindow: {

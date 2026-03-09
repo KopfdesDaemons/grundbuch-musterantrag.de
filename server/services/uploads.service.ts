@@ -132,9 +132,14 @@ export const getUploadDates = async (options: { timeframe?: 'week' | 'month'; mo
   const params: (string | number)[] = [];
 
   // Set time condition based on provided options
-  if (month !== undefined && year !== undefined) {
-    timeCondition = 'MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
-    params.push(month, year);
+  if (year !== undefined) {
+    if (month === undefined) {
+      timeCondition = 'YEAR(uploadDate) = ?';
+      params.push(year);
+    } else {
+      timeCondition = 'MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
+      params.push(month, year);
+    }
   } else if (timeframe) {
     timeCondition = timeframe === 'week' ? 'uploadDate >= NOW() - INTERVAL 7 DAY' : 'uploadDate >= NOW() - INTERVAL 1 MONTH';
   }

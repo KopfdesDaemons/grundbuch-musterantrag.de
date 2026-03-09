@@ -15,8 +15,12 @@ export const handleGetStatisticByTimeframe = async (req: Request, res: Response)
   const month = monthStr ? parseInt(monthStr, 10) : undefined;
   const year = yearStr ? parseInt(yearStr, 10) : undefined;
 
-  if (!isValidTimeFilterOption({ month, year })) {
-    return res.status(400).json({ message: 'Ungültige Filteroption. Monat und Jahr müssen beide angegeben werden.' });
+  const options: { month?: number; year?: number } = {};
+  if (month !== undefined) options.month = month;
+  if (year !== undefined) options.year = year;
+
+  if (!isValidTimeFilterOption(options)) {
+    return res.status(400).json({ message: 'Ungültige Filteroption.' });
   }
 
   const statistic: Statistic = await getStatisticByType(month, year);
@@ -40,7 +44,7 @@ export const handleGetUploadCountPerDay = async (req: Request, res: Response) =>
   if (year) options.year = year;
 
   if (!isValidTimeFilterOption(options)) {
-    return res.status(400).send({ message: 'Ungültiger Filteroptionen' });
+    return res.status(400).send({ message: 'Ungültige Filteroption' });
   }
 
   const countPerDay = await getUploadCountPerDays(options);

@@ -9,14 +9,15 @@
           />
         </svg>
       </button>
-      <select (change)="monthChanged($any($event.target).value)">
+      <select #monthSelect (change)="monthChanged(monthSelect.value)">
+        <option [selected]="selectedMonth() === undefined" value="all">Gesamtjahr</option>
         @for (month of monthNames; track month) {
-          <option value="{{ month }}" [selected]="month === monthNames[selectedMonth]">{{ month }}</option>
+          <option [value]="month" [selected]="month === monthNames[selectedMonth() ?? -1]">{{ month }}</option>
         }
       </select>
-      <select (change)="yearChanged($any($event.target).value)">
+      <select #yearSelect (change)="yearChanged(yearSelect.value)">
         @for (year of years; track year) {
-          <option value="{{ year }}" [selected]="year === selectedYear">{{ year }}</option>
+          <option [value]="year" [selected]="year === selectedYear()">{{ year }}</option>
         }
       </select>
     </div>
@@ -25,51 +26,45 @@
         <h2>Anzahl ({{ totalUploadsByFilterOption() }} Anträge)</h2>
         @if (statisticS.statisticResourceSpecificTimeframe.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else if (statisticS.statisticResourceSpecificTimeframe.error()) {
+          <app-error-display [error]="statisticS.statisticResourceSpecificTimeframe.error()"></app-error-display>
         } @else {
-          @if (statisticS.statisticResourceSpecificTimeframe.error()) {
-            <app-error-display [error]="statisticS.statisticResourceSpecificTimeframe.error()"></app-error-display>
-          } @else {
-            <app-google-chart
-              chartType="LineChart"
-              [chartData]="gChartsS.uploadsTimeframeChartRowsSpecificTimeframe()"
-              [chartOptions]="gChartsS.getLineChartOptions('month')"
-            >
-            </app-google-chart>
-          }
+          <app-google-chart
+            chartType="LineChart"
+            [chartData]="gChartsS.uploadsTimeframeChartRowsSpecificTimeframe()"
+            [chartOptions]="gChartsS.getLineChartOptions(timeframe())"
+          >
+          </app-google-chart>
         }
       </div>
       <div class="chartContainer">
         <h2>Antragsarten</h2>
         @if (statisticS.statisticByTypAndTimeframeResource.isLoading()) {
           <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else if (statisticS.statisticByTypAndTimeframeResource.error()) {
+          <app-error-display [error]="statisticS.statisticByTypAndTimeframeResource.error()"></app-error-display>
         } @else {
-          @if (statisticS.statisticByTypAndTimeframeResource.error()) {
-            <app-error-display [error]="statisticS.statisticByTypAndTimeframeResource.error()"></app-error-display>
-          } @else {
-            <app-google-chart
-              chartType="PieChart"
-              [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
-              [chartOptions]="gChartsS.getPieChartOptions()"
-            >
-            </app-google-chart>
-          }
+          <app-google-chart
+            chartType="PieChart"
+            [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
+            [chartOptions]="gChartsS.getPieChartOptions()"
+          >
+          </app-google-chart>
         }
       </div>
       <div class="chartContainer">
         <h2>Antragsarten</h2>
-        @if (statisticS.statisticByTypAndTimeframeResource.error()) {
+        @if (statisticS.statisticByTypAndTimeframeResource.isLoading()) {
+          <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else if (statisticS.statisticByTypAndTimeframeResource.error()) {
           <app-error-display [error]="statisticS.statisticByTypAndTimeframeResource.error()"></app-error-display>
         } @else {
-          @if (statisticS.statisticByTypAndTimeframeResource.isLoading()) {
-            <app-progress-spinner [endless]="true"></app-progress-spinner>
-          } @else {
-            <app-google-chart
-              chartType="ColumnChart"
-              [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
-              [chartOptions]="gChartsS.getBarChartOptions()"
-            >
-            </app-google-chart>
-          }
+          <app-google-chart
+            chartType="ColumnChart"
+            [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
+            [chartOptions]="gChartsS.getBarChartOptions()"
+          >
+          </app-google-chart>
         }
       </div>
     </div>

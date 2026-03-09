@@ -40,19 +40,19 @@ export class StatisticService {
   /**
    * Statistic per day for specific time frame
    */
-  private specificTimeFrameMonth = signal<number>(new Date().getMonth() + 1);
+  private specificTimeFrameMonth = signal<number | undefined>(new Date().getMonth() + 1);
   private specificTimeFrameYear = signal<number>(new Date().getFullYear());
   private readonly _statisticResourceSpecificTimeframe = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/statistic/numberPerDay',
     params: {
-      month: this.specificTimeFrameMonth(),
+      month: this.specificTimeFrameMonth() ?? '',
       year: this.specificTimeFrameYear()
     }
   }));
 
   readonly statisticResourceSpecificTimeframe = this._statisticResourceSpecificTimeframe.asReadonly();
 
-  setStatisticSpecificTimeframe(month: number, year: number) {
+  setStatisticSpecificTimeframe(month: number | undefined, year: number) {
     this.specificTimeFrameMonth.set(month);
     this.specificTimeFrameYear.set(year);
   }
@@ -81,7 +81,7 @@ export class StatisticService {
     () => ({
       url: '/api/statistic/typeByTimeframe',
       params: {
-        month: this.specificTimeFrameMonth(),
+        month: this.specificTimeFrameMonth() ?? '',
         year: this.specificTimeFrameYear()
       }
     }),

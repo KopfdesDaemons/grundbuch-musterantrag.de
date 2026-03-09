@@ -17,6 +17,9 @@ export const getStatisticByType = async (month?: number, year?: number): Promise
   if (month !== undefined && year !== undefined) {
     query += ' WHERE MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
     params.push(month, year);
+  } else if (year !== undefined) {
+    query += ' WHERE YEAR(uploadDate) = ?';
+    params.push(year);
   }
 
   query += ' GROUP BY antragsart';
@@ -41,9 +44,16 @@ export const getUploadCountPerDays = async (options: {
   let endDate: Date;
 
   // Set start date and end date based on provided options
-  if (options.month !== undefined && options.year !== undefined) {
-    startDate = new Date(options.year, options.month - 1, 1);
-    endDate = new Date(options.year, options.month, 0);
+  if (options.year !== undefined) {
+    // Complete year if month is not provided
+    if (options.month === undefined) {
+      startDate = new Date(options.year, 0, 1);
+      endDate = new Date(options.year, 11, 31);
+    } else {
+      // Specific month and year
+      startDate = new Date(options.year, options.month - 1, 1);
+      endDate = new Date(options.year, options.month, 0);
+    }
   } else {
     const startDateWeek = new Date(new Date().setDate(new Date().getDate() - 6));
     const startDateMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
