@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
 import { ErrorDisplayComponent } from '../../../error-display/error-display.component';
+import { StatisticService } from 'src/app/services/data/statistic.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,5 +12,5 @@ import { ErrorDisplayComponent } from '../../../error-display/error-display.comp
   styleUrl: './antragsarten-tile.component.scss'
 })
 export class AntragsartenTileComponent {
-  uploadsS = inject(UploadsService);
+  protected readonly statisticS = inject(StatisticService);
 }

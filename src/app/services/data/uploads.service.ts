@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
-import { computed, DOCUMENT, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { DOCUMENT, inject, Injectable, linkedSignal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Upload } from 'common/models/upload.model';
 import { PaginatedDataService } from './paginated-data.service';
@@ -35,91 +35,6 @@ export class UploadsService {
       if (files.length === 0) return null;
       return files[0];
     }
-  });
-
-  private readonly _statisticResourceWeek = httpResource<{ date: string; count: number }[]>(() => ({
-    url: '/api/uploads/getUploadCountPerDays',
-    params: {
-      timeframe: 'week'
-    }
-  }));
-
-  readonly statisticResourceLastWeek = this._statisticResourceWeek.asReadonly();
-
-  reloadStatisticLastWeek() {
-    this._statisticResourceWeek.reload();
-  }
-
-  private readonly _statisticResourceLastMonth = httpResource<{ date: string; count: number }[]>(() => ({
-    url: '/api/uploads/getUploadCountPerDays',
-    params: {
-      timeframe: 'month'
-    }
-  }));
-
-  readonly statisticResourceLastMonth = this._statisticResourceLastMonth.asReadonly();
-
-  reloadStatisticLastMonth() {
-    this._statisticResourceLastMonth.reload();
-  }
-
-  private specificTimeFrameMonth = signal<number>(new Date().getMonth() + 1);
-  private specificTimeFrameYear = signal<number>(new Date().getFullYear());
-  private readonly _statisticResourceSpecificTimeframe = httpResource<{ date: string; count: number }[]>(() => ({
-    url: '/api/uploads/getUploadCountPerDays',
-    params: {
-      month: this.specificTimeFrameMonth(),
-      year: this.specificTimeFrameYear()
-    }
-  }));
-
-  readonly statisticResourceSpecificTimeframe = this._statisticResourceSpecificTimeframe.asReadonly();
-
-  setStatisticSpecificTimeframe(month: number, year: number) {
-    this.specificTimeFrameMonth.set(month);
-    this.specificTimeFrameYear.set(year);
-  }
-
-  reloadStatisticSpecificTimeframe() {
-    this._statisticResourceSpecificTimeframe.reload();
-  }
-
-  private readonly _totalUploadsByTypResource = httpResource<{ [key: string]: number }>(() => ({
-    url: '/api/statistic'
-  }));
-
-  readonly totalUploadsByTypResource = this._totalUploadsByTypResource.asReadonly();
-
-  reloadTotalUploadsByTyp() {
-    this._totalUploadsByTypResource.reload();
-  }
-
-  private readonly _totalUploadsByTypAndTimeframeResource = httpResource<{ [key: string]: number } | null>(() => ({
-    url: '/api/statistic/byTimeframe',
-    params: {
-      month: this.specificTimeFrameMonth(),
-      year: this.specificTimeFrameYear()
-    }
-  }));
-
-  readonly totalUploadsByTypAndTimeframeResource = this._totalUploadsByTypAndTimeframeResource.asReadonly();
-
-  reloadTotalUploadsByTypAndTimeframe() {
-    this._totalUploadsByTypAndTimeframeResource.reload();
-  }
-
-  readonly totalUploadsByTyp = computed<{ antragsart: string; anzahl: number }[]>(() => {
-    const json = this._totalUploadsByTypResource.value();
-    if (!json) return [];
-    const statisticArray = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value }));
-    return statisticArray.sort((a, b) => b.anzahl - a.anzahl);
-  });
-
-  readonly totalUploadsByTypAndTimeframe = computed<{ antragsart: string; anzahl: number }[]>(() => {
-    const json = this._totalUploadsByTypAndTimeframeResource.value();
-    if (!json) return [];
-    const statisticArray = Object.entries(json).map(([key, value]) => ({ antragsart: key, anzahl: value }));
-    return statisticArray.sort((a, b) => b.anzahl - a.anzahl);
   });
 
   async getFile(fileName: string, fileType: 'pdf' | 'odt') {

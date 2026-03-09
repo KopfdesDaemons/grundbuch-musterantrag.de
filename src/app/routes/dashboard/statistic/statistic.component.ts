@@ -3,7 +3,7 @@ import { GoogleChartComponent } from '../../../components/google-chart/google-ch
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
 import { ProgressSpinnerComponent } from '../../../components/progress-spinner/progress-spinner.component';
-import { UploadsService } from 'src/app/services/data/uploads.service';
+import { StatisticService } from 'src/app/services/data/statistic.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,7 +14,7 @@ import { UploadsService } from 'src/app/services/data/uploads.service';
 })
 export class StatisticComponent {
   protected readonly gChartsS = inject(GooglechartsService);
-  protected readonly uploadsS = inject(UploadsService);
+  protected readonly statisticS = inject(StatisticService);
 
   protected readonly monthNames = [
     'Januar',
@@ -35,7 +35,10 @@ export class StatisticComponent {
   protected selectedYear = new Date().getFullYear();
 
   protected readonly totalUploadsByFilterOption = computed(() => {
-    const days = this.uploadsS.statisticResourceSpecificTimeframe.value();
+    if (this.statisticS.statisticResourceSpecificTimeframe.isLoading() || this.statisticS.statisticResourceSpecificTimeframe.error()) {
+      return 0;
+    }
+    const days = this.statisticS.statisticResourceSpecificTimeframe.value();
     if (!days || !Array.isArray(days)) return 0;
     let total = 0;
     for (const day of days) {
@@ -49,7 +52,7 @@ export class StatisticComponent {
   }
 
   setStatisticForSpecificTimeframe(month: number, year: number) {
-    this.uploadsS.setStatisticSpecificTimeframe(month, year);
+    this.statisticS.setStatisticSpecificTimeframe(month, year);
   }
 
   monthChanged(month: string) {
@@ -63,7 +66,7 @@ export class StatisticComponent {
   }
 
   reload() {
-    this.uploadsS.reloadStatisticSpecificTimeframe();
-    this.uploadsS.reloadTotalUploadsByTypAndTimeframe();
+    this.statisticS.reloadStatisticSpecificTimeframe();
+    this.statisticS.reloadStatisticByTypAndTimeframe();
   }
 }

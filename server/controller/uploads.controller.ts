@@ -3,15 +3,7 @@ import path from 'path';
 import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
 import { getFile } from 'server/helpers/file-system.helper';
-import {
-  deleteAllGeneratedFiles,
-  deleteAllUploads,
-  deleteGeneratedFiles,
-  deleteUpload,
-  getUploadCountPerDays,
-  getUploadsData
-} from 'server/services/uploads.service';
-import { isValidTimeFilterOption as isValidTimeFilterOption } from 'server/helpers/type-guards.helper';
+import { deleteAllGeneratedFiles, deleteAllUploads, deleteGeneratedFiles, deleteUpload, getUploadsData } from 'server/services/uploads.service';
 
 export const getUploads = async (req: Request, res: Response) => {
   const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -66,25 +58,4 @@ export const handeleDeleteGeneratedFiles = async (req: Request, res: Response) =
 export const handeleDeleteAllGeneratedFiles = async (req: Request, res: Response) => {
   await deleteAllGeneratedFiles();
   return res.status(200).send({ message: 'Alle generierten Dateien gelöscht' });
-};
-
-export const handleGetUploadCountPerDay = async (req: Request, res: Response) => {
-  const timeframe = req.query['timeframe'] as string | undefined;
-  const monthStr = req.query['month'] as string | undefined;
-  const yearStr = req.query['year'] as string | undefined;
-
-  const month = monthStr ? parseInt(monthStr, 10) : undefined;
-  const year = yearStr ? parseInt(yearStr, 10) : undefined;
-
-  const options: { timeframe?: string; month?: number; year?: number } = {};
-  if (timeframe) options.timeframe = timeframe;
-  if (month) options.month = month;
-  if (year) options.year = year;
-
-  if (!isValidTimeFilterOption(options)) {
-    return res.status(400).send({ message: 'Ungültiger Filteroptionen' });
-  }
-
-  const countPerDay = await getUploadCountPerDays(options);
-  return res.status(200).json(countPerDay);
 };

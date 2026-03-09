@@ -6,13 +6,12 @@ import {
   getUpload,
   getUploads,
   handeleDeleteAllGeneratedFiles,
-  handeleDeleteGeneratedFiles,
-  handleGetUploadCountPerDay as handleGetUploadCountPerDays
+  handeleDeleteGeneratedFiles
 } from 'server/controller/uploads.controller';
-import { StatisticAction, UploadManagementAction } from 'common/interfaces/user-permission.interface';
+import { UploadManagementAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { statisticPermission, uploadManagementPermission } from 'common/models/user-permissions.model';
+import { uploadManagementPermission } from 'common/models/user-permissions.model';
 
 export const uploadsRoutes = express.Router();
 
@@ -47,12 +46,5 @@ uploadsRoutes.delete(
 );
 
 uploadsRoutes.get('/getFile', authMiddleware, verifyRole(new uploadManagementPermission([UploadManagementAction.GetFiles])), getUpload);
-
-uploadsRoutes.get(
-  '/getUploadCountPerDays',
-  authMiddleware,
-  verifyRole(new statisticPermission([StatisticAction.ReadStatistic])),
-  handleGetUploadCountPerDays
-);
 
 uploadsRoutes.put('/reportDownloadByUser', handleReportDownloadByUser);

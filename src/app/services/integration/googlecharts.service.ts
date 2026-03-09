@@ -2,8 +2,8 @@ import { formatDate } from '@angular/common';
 import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT, computed } from '@angular/core';
 import { ScriptService } from '../utils/script.service';
 import { DesignloaderService } from '../ui/designloader.service';
-import { UploadsService } from '../data/uploads.service';
 import { ColorHelper } from '../../helpers/color.helper';
+import { StatisticService } from '../data/statistic.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class GooglechartsService {
   private loadPromise: Promise<void> | null = null;
   private readonly scriptS = inject(ScriptService);
   private readonly designS = inject(DesignloaderService);
-  private readonly uploadsS = inject(UploadsService);
+  private readonly statisticS = inject(StatisticService);
   private readonly local = inject(LOCALE_ID);
   private readonly document = inject(DOCUMENT);
 
@@ -45,24 +45,26 @@ export class GooglechartsService {
   }
 
   readonly uploadsTimeframeChartRowsLastWeek = computed<(string | number)[][]>(() => {
-    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceLastWeek.value());
+    return this.mapStatisticToChartRows(this.statisticS.statisticResourceLastWeek.value());
   });
 
   readonly uploadsTimeframeChartRowsLastMonth = computed<(string | number)[][]>(() => {
-    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceLastMonth.value());
+    return this.mapStatisticToChartRows(this.statisticS.statisticResourceLastMonth.value());
   });
 
   readonly uploadsTimeframeChartRowsSpecificTimeframe = computed<(string | number)[][]>(() => {
-    return this.mapStatisticToChartRows(this.uploadsS.statisticResourceSpecificTimeframe.value());
+    return this.mapStatisticToChartRows(this.statisticS.statisticResourceSpecificTimeframe.value());
   });
 
   readonly uploadTypsChartRows = computed<(string | number)[][]>(() => {
-    const statistic = this.uploadsS.totalUploadsByTyp();
+    const statistic = this.statisticS.statisticByTypTotalResource.value();
+    if (!statistic) return [];
     return this.getChartRowsForStatistic(statistic);
   });
 
   readonly uploadTypsAndTimeframeChartRows = computed<(string | number)[][]>(() => {
-    const statistic = this.uploadsS.totalUploadsByTypAndTimeframe();
+    const statistic = this.statisticS.statisticByTypAndTimeframeResource.value();
+    if (!statistic) return [];
     return this.getChartRowsForStatistic(statistic);
   });
 
