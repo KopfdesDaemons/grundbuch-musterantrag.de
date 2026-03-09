@@ -126,32 +126,6 @@ export const deleteAllGeneratedFiles = async (): Promise<void> => {
   }
 };
 
-export const getUploadDates = async (options: { timeframe?: 'week' | 'month'; month?: number; year?: number }): Promise<Date[]> => {
-  const { timeframe, month, year } = options;
-  let timeCondition = '';
-  const params: (string | number)[] = [];
-
-  // Set time condition based on provided options
-  if (year !== undefined) {
-    if (month === undefined) {
-      timeCondition = 'YEAR(uploadDate) = ?';
-      params.push(year);
-    } else {
-      timeCondition = 'MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
-      params.push(month, year);
-    }
-  } else if (timeframe) {
-    timeCondition = timeframe === 'week' ? 'uploadDate >= NOW() - INTERVAL 7 DAY' : 'uploadDate >= NOW() - INTERVAL 1 MONTH';
-  }
-
-  // Execute the query
-  const sql = `SELECT uploadDate FROM uploads WHERE ${timeCondition}`;
-  const [results] = await db.execute<RowDataPacket[]>(sql, params);
-
-  // Return an array of dates
-  return results.map(row => row['uploadDate'] as Date);
-};
-
 export const reportDownloadByUser = async (uploadID: string, fileType: 'odtFile' | 'pdfFile'): Promise<void> => {
   const updateQuery = `UPDATE uploads SET ${fileType}DownloadedByUser = 1 WHERE uploadID = ?`;
   await db.execute(updateQuery, [uploadID]);

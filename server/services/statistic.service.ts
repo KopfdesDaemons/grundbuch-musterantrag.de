@@ -1,7 +1,6 @@
 import { Statistic } from 'common/interfaces/statistic.interface';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2/promise';
-import { getUploadDates } from './uploads.service';
 
 /**
  * Fetches statistics, optionally filtered by month and year.
@@ -38,7 +37,27 @@ export const getUploadCountPerDays = async (options: {
   month?: number;
   year?: number;
 }): Promise<{ date: Date; count: number }[]> => {
-  const datesArray: Date[] = await getUploadDates(options);
+  const { timeframe, month, year } = options;
+  let timeCondition = '';
+  const params: (string | number)[] = [];
+
+  if (year !== undefined) {
+    if (month === undefined) {
+      timeCondition = 'YEAR(uploadDate) = ?';
+      params.push(year);
+    } else {
+      timeCondition = 'MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
+      params.push(month, year);
+    }
+  } else if (timeframe) {
+    timeCondition = timeframe === 'week' ? 'uploadDate >= NOW() - INTERVAL 7 DAY' : 'uploadDate >= NOW() - INTERVAL 1 MONTH';
+  }
+
+  const query = `SELECT DATE_FORMAT(uploadDate, '%Y-%m-%d') as dateStr, COUNT(*) as count FROM uploads WHERE ${timeCondition} GROUP BY dateStr`;
+  const [rows] = await db.execute<RowDataPacket[]>(query, params);
+
+  const counts = new Map<string, number>();
+  rows.forEach(row => counts.set(row['dateStr'], row['count']));
 
   let startDate: Date;
   let endDate: Date;
@@ -57,7 +76,6 @@ export const getUploadCountPerDays = async (options: {
   } else {
     const startDateWeek = new Date(new Date().setDate(new Date().getDate() - 6));
     const startDateMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
-    const timeframe = options.timeframe;
 
     startDate = timeframe === 'week' ? startDateWeek : startDateMonth;
     const todayString = new Date().toLocaleDateString('us-US', { timeZone: 'Europe/Berlin' });
@@ -72,15 +90,11 @@ export const getUploadCountPerDays = async (options: {
 
   // Add each day in the timeframe to the array
   for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
-    allDaysInTimeframe.push({ date: new Date(date), count: 0 });
-  }
-
-  // Update the count for each day based on the upload dates
-  for (const date of datesArray) {
-    const dateFromTimeframe = allDaysInTimeframe.find(
-      day => day.date.toLocaleDateString('de-DE', { timeZone: 'Europe/Berlin' }) === date.toLocaleDateString('de-DE', { timeZone: 'Europe/Berlin' })
-    );
-    if (dateFromTimeframe) dateFromTimeframe.count++;
+    const yearStr = date.getFullYear();
+    const monthStr = String(date.getMonth() + 1).padStart(2, '0');
+    const dayStr = String(date.getDate()).padStart(2, '0');
+    const key = `${yearStr}-${monthStr}-${dayStr}`;
+    allDaysInTimeframe.push({ date: new Date(date), count: counts.get(key) || 0 });
   }
 
   return allDaysInTimeframe;
