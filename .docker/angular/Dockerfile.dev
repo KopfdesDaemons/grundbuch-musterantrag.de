@@ -4,10 +4,12 @@ WORKDIR /app
 
 RUN apk add --no-cache libreoffice openjdk8-jre
 
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./
 
-RUN --mount=type=cache,target=/root/.npm npm install
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 EXPOSE 4200
+
+USER node
 
 CMD ["npm", "start", "--", "--host=0.0.0.0"]
