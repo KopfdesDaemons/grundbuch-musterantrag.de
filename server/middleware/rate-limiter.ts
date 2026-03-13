@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+import { RateLimitStats } from 'server/types/rate-limit-stats.type';
 
-const requestCounts: Record<string, { count: number; lastRequest: number; dailyCount: number; dailyStart: number }> = {};
+const requestCounts: Record<string, RateLimitStats> = {};
 
 export const rateLimiter = (req: Request, res: Response, next: NextFunction) => {
   const ip = req.ip;
@@ -19,17 +20,18 @@ export const rateLimiter = (req: Request, res: Response, next: NextFunction) => 
   }
 
   if (!requestCounts[ip]) {
-    requestCounts[ip] = { count: 1, lastRequest: now, dailyCount: 1, dailyStart: now };
+    requestCounts[ip] = { count: 1, windowStart: now, dailyCount: 1, dailyStart: now };
   } else {
     const stats = requestCounts[ip];
 
     // Check request limit
-    const timeSinceLastRequest = now - stats.lastRequest;
-    if (timeSinceLastRequest < timeLimit) {
+    const timeSinceWindowStart = now - stats.windowStart;
+    if (timeSinceWindowStart < timeLimit) {
       stats.count += 1;
     } else {
       // Reset after time window
       stats.count = 1;
+      stats.windowStart = now;
     }
 
     // Check daily limit
@@ -43,13 +45,12 @@ export const rateLimiter = (req: Request, res: Response, next: NextFunction) => 
   }
 
   if (requestCounts[ip].count > maxRequestsPerTimeLimit) {
-    return res.status(429).json({ message: 'Too many requests, please try again later.' });
+    return res.status(429).json({ message: 'Zu viele Anfragen, bitte versuchen Sie es später erneut.' });
   }
 
   if (requestCounts[ip].dailyCount > maxRequestsPerDay) {
-    return res.status(429).json({ message: 'Daily limit exceeded, please try again tomorrow.' });
+    return res.status(429).json({ message: 'Tägliches Limit überschritten, bitte versuchen Sie es morgen erneut.' });
   }
 
-  requestCounts[ip].lastRequest = now;
   return next();
 };

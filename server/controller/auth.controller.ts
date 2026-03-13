@@ -47,15 +47,14 @@ export const handleLogin = async (req: Request, res: Response) => {
 export const handleRefreshToken = async (req: Request, res: Response) => {
   const oldRefreshToken = req.cookies['refresh_token'];
   const userAgent = req.query['userAgent'] as string;
-
-  const { userID } = await verifyToken(oldRefreshToken);
-  const user = await validateAndGetUser(userID);
-
   const ip = req.ip;
 
   if (!oldRefreshToken) throw new AuthError('Refresh Token fehlt. Bitte neu anmelden.', 401);
   if (!ip) throw new AuthError('IP-Adresse nicht gefunden', 500);
   if (!userAgent) throw new AuthError('User Agent fehlt', 400);
+
+  const { userID } = await verifyToken(oldRefreshToken);
+  const user = await validateAndGetUser(userID);
 
   const { accessToken, refreshToken, accessTokenExpiryDate, refreshTokenExpiryDate } = await refreshAccessToken(oldRefreshToken, user, userAgent, ip);
 
