@@ -21,10 +21,11 @@ It is a private website that does not represent any authority.
 
 ## Dashboard
 
-![Dashboard](/public/images/readme/dashboard.jpg)
-![Dashboard Uploads](/public/images/readme/uploads.jpg)
-![Dashboard Statistic](/public/images/readme/statistic.jpg)
-![Dashboard userroles](/public/images/readme/userroles.jpg)
+![Dashboard](/public/images/readme/übersicht.avif)
+![Dashboard Uploads](/public/images/readme/anträge.avif)
+![Dashboard Statistic](/public/images/readme/statistik.avif)
+![Dashboard userroles](/public/images/readme/user.avif)
+![Dashboard userroles](/public/images/readme/user-roles.avif)
 
 ## Development
 

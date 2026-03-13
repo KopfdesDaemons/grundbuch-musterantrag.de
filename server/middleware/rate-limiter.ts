@@ -8,7 +8,7 @@ export const rateLimiter = (req: Request, res: Response, next: NextFunction) => 
 
   // Request limit
   const timeLimit = 15 * 60 * 1000; // 15 minutes
-  const maxRequestsPerTimeLimit = 50;
+  const maxRequestsPerTimeLimit = 100;
 
   // Daily limit
   const dailyTimeLimit = 24 * 60 * 60 * 1000; // 24 hours
