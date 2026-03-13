@@ -16,8 +16,6 @@ WORKDIR /app
 # install LibreOffice
 RUN apk add --no-cache libreoffice openjdk8-jre
 
-RUN mkdir -p /app/storage && chown node:node /app/storage
-
 # copy the built application from the builder stage
 COPY --from=builder --chown=node:node /app/dist ./dist
 

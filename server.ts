@@ -17,6 +17,7 @@ import { userSettingsRoutes } from 'server/routes/user-settings.routes';
 import { handleGetOdtAfterSubmitForm, handleGetPdfAfterSubmitForm, submitForm } from 'server/controller/submit-form.controller';
 import { errorHandler } from 'server/middleware/error-handler.middleware';
 import cookieParser from 'cookie-parser';
+import { rateLimiter } from 'server/middleware/rate-limiter';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -32,6 +33,7 @@ await initDatabase();
 app.use(fileUpload());
 app.use(express.json());
 app.use(cookieParser());
+app.use('/api/', rateLimiter);
 
 // Routes that call a controller
 app.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);

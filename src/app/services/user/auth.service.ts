@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthResponse } from 'common/interfaces/auth-response.interface';
@@ -80,10 +80,12 @@ export class AuthService {
             params: new HttpParams().set('userAgent', userAgent)
           })
         );
+
         this.setAccessToken(response);
-      } catch (e) {
-        console.error(e);
-        this.cleanLocalSession();
+      } catch (error) {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          this.cleanLocalSession();
+        }
       } finally {
         this.refreshTokenPromise = null;
       }
