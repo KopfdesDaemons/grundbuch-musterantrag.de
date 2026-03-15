@@ -12,7 +12,7 @@
       <button (click)="deleteAllLogs()" [disabled]="!userHasPermissionsDeleteLogs()">Alle Logs löschen</button>
     </div>
   </div>
-  <div class="horizontal-scroll-container" (scroll)="scroll($event.target)">
+  <div #scrollContainer class="horizontal-scroll-container" (scroll)="scroll(scrollContainer)">
     @if (loggerS.loggerData.error() || error()) {
       <app-error-display [error]="loggerS.loggerData.error() ?? error()!"></app-error-display>
     } @else {

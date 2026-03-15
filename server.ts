@@ -18,6 +18,7 @@ import { handleGetOdtAfterSubmitForm, handleGetPdfAfterSubmitForm, submitForm } 
 import { errorHandler } from 'server/middleware/error-handler.middleware';
 import cookieParser from 'cookie-parser';
 import { rateLimiter } from 'server/middleware/rate-limiter';
+import { backupRoutes } from 'server/routes/backup.routes';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -51,6 +52,7 @@ app.use('/api/statistic', statisticRoutes);
 app.use('/api/user-management', userManagementRoutes);
 app.use('/api/user-settings', userSettingsRoutes);
 app.use('/api/userrole', userRoleRoutes);
+app.use('/api/backup', backupRoutes);
 
 // 404 for all other API routes
 app.all('/api/*splat', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));

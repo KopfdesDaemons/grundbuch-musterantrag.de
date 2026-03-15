@@ -14,7 +14,8 @@ export const actionsTableMapping = {
   [Feature.Logger]: 'logger_actions',
   [Feature.Migration]: 'migration_actions',
   [Feature.Settings]: 'settings_actions',
-  [Feature.UserRoleManagement]: 'user_role_management_actions'
+  [Feature.UserRoleManagement]: 'user_role_management_actions',
+  [Feature.Backup]: 'backup_actions'
 };
 
 export const addUserRole = async (userRole: UserRole): Promise<number> => {

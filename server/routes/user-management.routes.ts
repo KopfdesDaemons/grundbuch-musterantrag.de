@@ -13,28 +13,28 @@ import express from 'express';
 import { UserManagementAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { userManagementPermission } from 'common/models/user-permissions.model';
+import { UserManagementPermission } from 'common/models/user-permissions.model';
 import { handleSetPasswordAfterInitialLogin } from 'server/controller/user-settings.controller';
 
 export const userManagementRoutes = express.Router();
 
-userManagementRoutes.get('/', authMiddleware, verifyRole(new userManagementPermission([UserManagementAction.ReadUser])), handleGetAllUsers);
+userManagementRoutes.get('/', authMiddleware, verifyRole(new UserManagementPermission([UserManagementAction.ReadUser])), handleGetAllUsers);
 
-userManagementRoutes.put('/', authMiddleware, verifyRole(new userManagementPermission([UserManagementAction.CreateUser])), handleCreateUser);
+userManagementRoutes.put('/', authMiddleware, verifyRole(new UserManagementPermission([UserManagementAction.CreateUser])), handleCreateUser);
 
-userManagementRoutes.delete('/', authMiddleware, verifyRole(new userManagementPermission([UserManagementAction.DeleteUser])), handleDeleteUser);
+userManagementRoutes.delete('/', authMiddleware, verifyRole(new UserManagementPermission([UserManagementAction.DeleteUser])), handleDeleteUser);
 
 userManagementRoutes.patch(
   '/username',
   authMiddleware,
-  verifyRole(new userManagementPermission([UserManagementAction.UpdateUsername])),
+  verifyRole(new UserManagementPermission([UserManagementAction.UpdateUsername])),
   handleUpdateUsername
 );
 
 userManagementRoutes.patch(
   '/setinitialpassword',
   authMiddleware,
-  verifyRole(new userManagementPermission([UserManagementAction.SetInitialPassword])),
+  verifyRole(new UserManagementPermission([UserManagementAction.SetInitialPassword])),
   handleSetInitialPassword
 );
 
@@ -43,27 +43,27 @@ userManagementRoutes.patch('/updatepassword', handleSetPasswordAfterInitialLogin
 userManagementRoutes.patch(
   '/userrole',
   authMiddleware,
-  verifyRole(new userManagementPermission([UserManagementAction.UpdateUserRole])),
+  verifyRole(new UserManagementPermission([UserManagementAction.UpdateUserRole])),
   handleUpdateUserRole
 );
 
 userManagementRoutes.get(
   '/sessions',
   authMiddleware,
-  verifyRole(new userManagementPermission([UserManagementAction.ReadUser])),
+  verifyRole(new UserManagementPermission([UserManagementAction.ReadUser])),
   handleGetUserSessions
 );
 
 userManagementRoutes.patch(
   '/revoke-all-sessions',
   authMiddleware,
-  verifyRole(new userManagementPermission([UserManagementAction.RevokeSessions])),
+  verifyRole(new UserManagementPermission([UserManagementAction.RevokeSessions])),
   handleRevokeAllSessions
 );
 
 userManagementRoutes.patch(
   '/revoke-sessions',
   authMiddleware,
-  verifyRole(new userManagementPermission([UserManagementAction.RevokeSessions])),
+  verifyRole(new UserManagementPermission([UserManagementAction.RevokeSessions])),
   handleRevokeSessions
 );

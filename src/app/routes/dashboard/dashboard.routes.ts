@@ -29,6 +29,10 @@ export const dashboardRoutes: Routes = [
       {
         path: 'logs',
         loadComponent: () => import('./logs-list/logs-list.component').then(m => m.LogsListComponent)
+      },
+      {
+        path: 'backup',
+        loadComponent: () => import('./backup/backup.component').then(m => m.BackupComponent)
       }
     ]
   }

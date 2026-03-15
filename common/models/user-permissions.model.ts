@@ -1,4 +1,5 @@
 import {
+  BackupAction,
   Feature,
   LoggerAction,
   MigrationAction,
@@ -10,7 +11,7 @@ import {
   UserRoleManagementAction
 } from 'common/interfaces/user-permission.interface';
 
-export class uploadManagementPermission implements UserPermission {
+export class UploadManagementPermission implements UserPermission {
   feature: Feature = Feature.UploadManagement;
   allowedActions: UploadManagementAction[];
 
@@ -19,7 +20,7 @@ export class uploadManagementPermission implements UserPermission {
   }
 }
 
-export class userManagementPermission implements UserPermission {
+export class UserManagementPermission implements UserPermission {
   feature: Feature = Feature.UserManagement;
   allowedActions: UserManagementAction[];
 
@@ -28,7 +29,7 @@ export class userManagementPermission implements UserPermission {
   }
 }
 
-export class statisticPermission implements UserPermission {
+export class StatisticPermission implements UserPermission {
   feature: Feature = Feature.Statistic;
   allowedActions: StatisticAction[];
 
@@ -37,7 +38,7 @@ export class statisticPermission implements UserPermission {
   }
 }
 
-export class loggerPermission implements UserPermission {
+export class LoggerPermission implements UserPermission {
   feature: Feature = Feature.Logger;
   allowedActions: LoggerAction[];
 
@@ -46,7 +47,7 @@ export class loggerPermission implements UserPermission {
   }
 }
 
-export class migrationPermission implements UserPermission {
+export class MigrationPermission implements UserPermission {
   feature: Feature = Feature.Migration;
   allowedActions: MigrationAction[];
 
@@ -55,7 +56,7 @@ export class migrationPermission implements UserPermission {
   }
 }
 
-export class settingsPermission implements UserPermission {
+export class SettingsPermission implements UserPermission {
   feature: Feature = Feature.Settings;
   allowedActions: SettingsAction[];
 
@@ -64,11 +65,20 @@ export class settingsPermission implements UserPermission {
   }
 }
 
-export class userRoleManagementPermission implements UserPermission {
+export class UserRoleManagementPermission implements UserPermission {
   feature: Feature = Feature.UserRoleManagement;
   allowedActions: UserRoleManagementAction[];
 
   constructor(allowedActions: UserRoleManagementAction[]) {
+    this.allowedActions = allowedActions;
+  }
+}
+
+export class BackupPermission implements UserPermission {
+  feature: Feature = Feature.Backup;
+  allowedActions: BackupAction[];
+
+  constructor(allowedActions: BackupAction[]) {
     this.allowedActions = allowedActions;
   }
 }

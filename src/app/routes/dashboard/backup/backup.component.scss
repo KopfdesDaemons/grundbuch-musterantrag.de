@@ -1,0 +1,56 @@
+section {
+  animation: slide-in-from-top 500ms forwards;
+  margin-top: 2em;
+}
+
+.list-controls {
+  display: flex;
+  align-items: center;
+
+  button.icon {
+    height: 3em;
+    width: 3em;
+  }
+}
+.message-box {
+  text-align: center;
+
+  .restore-backup-response-message {
+    color: green;
+  }
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  all: unset;
+}
+
+.horizontal-scroll-container {
+  overflow: auto;
+  height: 500px;
+  width: clamp(300px, 90%, 1400px);
+
+  table {
+    margin-top: 0;
+    font-size: clamp(12px, 2vw, 16px);
+    width: 100%;
+
+    .icon {
+      height: 2em;
+      width: 2em;
+    }
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  app-progress-spinner {
+    margin: auto;
+  }
+}

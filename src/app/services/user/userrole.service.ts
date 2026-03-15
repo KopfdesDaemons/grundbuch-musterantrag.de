@@ -3,6 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { UserRoleOption } from '../../models/user-role-option.model';
 import {
+  BackupAction,
   Feature,
   LoggerAction,
   MigrationAction,
@@ -14,13 +15,14 @@ import {
   UserRoleManagementAction
 } from 'common/interfaces/user-permission.interface';
 import {
-  uploadManagementPermission,
-  userManagementPermission,
-  statisticPermission,
-  loggerPermission,
-  migrationPermission,
-  settingsPermission,
-  userRoleManagementPermission
+  UploadManagementPermission,
+  UserManagementPermission,
+  StatisticPermission,
+  LoggerPermission,
+  MigrationPermission,
+  SettingsPermission,
+  UserRoleManagementPermission,
+  BackupPermission
 } from 'common/models/user-permissions.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserRole } from 'common/interfaces/user-role.interface';
@@ -33,13 +35,14 @@ export class UserroleService {
   private readonly formBuilder = inject(FormBuilder);
 
   private readonly _allPermissions: UserPermission[] = [
-    new uploadManagementPermission(Object.values(UploadManagementAction)),
-    new userManagementPermission(Object.values(UserManagementAction)),
-    new statisticPermission(Object.values(StatisticAction)),
-    new loggerPermission(Object.values(LoggerAction)),
-    new migrationPermission(Object.values(MigrationAction)),
-    new settingsPermission(Object.values(SettingsAction)),
-    new userRoleManagementPermission(Object.values(UserRoleManagementAction))
+    new UploadManagementPermission(Object.values(UploadManagementAction)),
+    new UserManagementPermission(Object.values(UserManagementAction)),
+    new StatisticPermission(Object.values(StatisticAction)),
+    new LoggerPermission(Object.values(LoggerAction)),
+    new MigrationPermission(Object.values(MigrationAction)),
+    new SettingsPermission(Object.values(SettingsAction)),
+    new UserRoleManagementPermission(Object.values(UserRoleManagementAction)),
+    new BackupPermission(Object.values(BackupAction))
   ];
 
   get allPermissions(): UserPermission[] {
@@ -53,7 +56,8 @@ export class UserroleService {
     [Feature.Logger]: 'Logger',
     [Feature.Migration]: 'Migration',
     [Feature.Settings]: 'Settings',
-    [Feature.UserRoleManagement]: 'User Role Management'
+    [Feature.UserRoleManagement]: 'User Role Management',
+    [Feature.Backup]: 'Backup'
   };
 
   get featuresNameMapping() {
@@ -91,7 +95,11 @@ export class UserroleService {
     [UserRoleManagementAction.CreateUserRole]: 'Benutzerrolle erstellen',
     [UserRoleManagementAction.ReadUserRoles]: 'Benutzerrolle lesen',
     [UserRoleManagementAction.DeleteUserRole]: 'Benutzerrolle löschen',
-    [UserRoleManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren'
+    [UserRoleManagementAction.UpdateUserRole]: 'Benutzerrolle aktualisieren',
+
+    [BackupAction.CreateBackup]: 'Neues Backup erstellen',
+    [BackupAction.RestoreBackup]: 'Backup wiederherstellen',
+    [BackupAction.GetBackupList]: 'Backup-Liste lesen'
   };
 
   get actionsNameMapping() {

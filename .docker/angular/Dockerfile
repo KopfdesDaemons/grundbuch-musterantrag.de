@@ -13,13 +13,16 @@ RUN npm run build
 FROM node:24.12.0-alpine AS prod
 WORKDIR /app
 
-# install LibreOffice
+# Install LibreOffice
 RUN apk add --no-cache libreoffice openjdk8-jre
 
-# copy the built application from the builder stage
+# Install MySQL to use mysqldump
+RUN apk add --no-cache mysql-client
+
+# Copy the built application from the builder stage
 COPY --from=builder --chown=node:node /app/dist ./dist
 
-# copy templates
+# Copy templates
 COPY --chown=node:node ./server/templates /templates
 
 ENV NODE_ENV=production

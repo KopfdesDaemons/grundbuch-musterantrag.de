@@ -2,7 +2,11 @@ FROM node:24.12.0-alpine AS dev
 
 WORKDIR /app
 
+# Install LibreOffice
 RUN apk add --no-cache libreoffice openjdk8-jre
+
+# Install MySQL to use mysqldump
+RUN apk add --no-cache mysql-client
 
 COPY package.json package-lock.json ./
 

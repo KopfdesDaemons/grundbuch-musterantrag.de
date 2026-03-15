@@ -49,7 +49,7 @@ export class LogsListComponent {
     return `${date} ${time}\u00A0Uhr`;
   }
 
-  scroll(element: any) {
+  scroll(element: HTMLElement) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
       if (!this.loggerS.loggerData.isLoading()) this.loadPage(this.loggerS.loadedPages() + 1);
     }

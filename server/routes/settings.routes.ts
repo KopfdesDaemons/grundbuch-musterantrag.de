@@ -3,10 +3,10 @@ import { handleGetSettings, handleSaveSettings, handleGetPrimaryColor } from 'se
 import { SettingsAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
 import { verifyRole } from 'server/middleware/verify-user-role.middleware';
-import { settingsPermission } from 'common/models/user-permissions.model';
+import { SettingsPermission } from 'common/models/user-permissions.model';
 
 export const settingsRoutes = express.Router();
 
-settingsRoutes.get('/', authMiddleware, verifyRole(new settingsPermission([SettingsAction.ReadSettings])), handleGetSettings);
-settingsRoutes.put('/', authMiddleware, verifyRole(new settingsPermission([SettingsAction.UpdateSettings])), handleSaveSettings);
+settingsRoutes.get('/', authMiddleware, verifyRole(new SettingsPermission([SettingsAction.ReadSettings])), handleGetSettings);
+settingsRoutes.put('/', authMiddleware, verifyRole(new SettingsPermission([SettingsAction.UpdateSettings])), handleSaveSettings);
 settingsRoutes.get('/getPrimaryColor', handleGetPrimaryColor);

@@ -1,0 +1,76 @@
+<section>
+  <div class="content-spacer">
+    <div class="restore-backup-controls">
+      @if (restoreBackupIsLoading()) {
+        <app-progress-spinner [endless]="true"></app-progress-spinner>
+      } @else {
+        <div class="message-box">
+          @if (restoreBackupResponseMessage()) {
+            <span class="restore-backup-response-message">{{ restoreBackupResponseMessage() }}</span>
+          }
+          <span>{{ selectedFile()?.name }}</span>
+        </div>
+        <button (click)="createNewBackup()" [disabled]="!userHasPermissionsCreateBackup()">Neues Backup erstellen</button>
+        <label class="btn-text" for="backup-file-input" [attr.disabled]="!userHasPermissionsRestoreBackup() ? '' : null">Backupdatei auswählen</label>
+        <input
+          #fileInput
+          id="backup-file-input"
+          type="file"
+          accept=".sql"
+          (change)="onFileSelected($event)"
+          [disabled]="!userHasPermissionsRestoreBackup()"
+        />
+        <button [disabled]="!selectedFile() || !userHasPermissionsRestoreBackup()" (click)="restoreBackupByFileUpload()">Backup einspielen</button>
+        @if (restoreBackupError()) {
+          <app-error-display [error]="restoreBackupError()!"></app-error-display>
+        }
+      }
+    </div>
+    <div class="list-controls">
+      <button (click)="reloadBackupList()" class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            fill="currentColor"
+            d="M552 256L408 256C398.3 256 389.5 250.2 385.8 241.2C382.1 232.2 384.1 221.9 391 215L437.7 168.3C362.4 109.7 253.4 115 184.2 184.2C109.2 259.2 109.2 380.7 184.2 455.7C259.2 530.7 380.7 530.7 455.7 455.7C463.9 447.5 471.2 438.8 477.6 429.6C487.7 415.1 507.7 411.6 522.2 421.7C536.7 431.8 540.2 451.8 530.1 466.3C521.6 478.5 511.9 490.1 501 501C401 601 238.9 601 139 501C39.1 401 39 239 139 139C233.3 44.7 382.7 39.4 483.3 122.8L535 71C541.9 64.1 552.2 62.1 561.2 65.8C570.2 69.5 576 78.3 576 88L576 232C576 245.3 565.3 256 552 256z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div #scrollContainer class="horizontal-scroll-container" (scroll)="scroll(scrollContainer)">
+      @if (backupS.backupListData.error()) {
+        <app-error-display [error]="backupS.backupListData.error()"></app-error-display>
+      } @else {
+        @if (backupS.backupListData.isLoading()) {
+          <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else if (!backupS.backupList() || backupS.backupList().length === 0) {
+          <p class="info-text">Keine Backups vorhanden</p>
+        }
+        @if (rows().length > 0) {
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" #selectAllInput (change)="selectAll(selectAllInput.checked)" /></th>
+                <th>Dateiname</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (row of rows(); track row.backupFileName) {
+                <tr>
+                  <td><input type="checkbox" [checked]="row.isChecked()" /></td>
+                  <td>{{ row.backupFileName }}</td>
+                  <td>
+                    <button (click)="restoreBackupByFileName(row.backupFileName)" [disabled]="!userHasPermissionsRestoreBackup()">
+                      Backup einspielen
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      }
+    </div>
+  </div>
+</section>

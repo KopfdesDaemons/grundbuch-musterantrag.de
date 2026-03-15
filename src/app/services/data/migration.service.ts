@@ -28,32 +28,14 @@ export class MigrationService {
   }
 
   async migrateFromAntragToUploadinfo(): Promise<any> {
-    try {
-      const data = await lastValueFrom(this.http.post('/api/migration/fromAntragToUploadinfo', {}));
-      return data;
-    } catch (error) {
-      console.error('Migration "AntragToUploadinfo" failed:', error);
-      throw error;
-    }
+    return await lastValueFrom(this.http.post('/api/migration/fromAntragToUploadinfo', {}));
   }
 
   async migrateFromJSONToDatabase(): Promise<any> {
-    try {
-      const data = await lastValueFrom(this.http.post('/api/migration/fromJSONToDatabase', {}));
-      return data;
-    } catch (error) {
-      console.error('Migration "JSONToDatabase" failed:', error);
-      throw error;
-    }
+    return await lastValueFrom(this.http.post('/api/migration/fromJSONToDatabase', {}));
   }
 
   async migrateFromDocxToOdt(): Promise<any> {
-    try {
-      const data = await lastValueFrom(this.http.post('/api/migration/fromDocxToOdt', {}));
-      return data;
-    } catch (error) {
-      console.error('Migration "DocxToOdt" failed:', error);
-      throw error;
-    }
+    return await lastValueFrom(this.http.post('/api/migration/fromDocxToOdt', {}));
   }
 }
