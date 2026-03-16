@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { PaginatedDataService } from './paginated-data.service';
+import { BackupFile } from 'common/interfaces/backup-file.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,10 @@ import { PaginatedDataService } from './paginated-data.service';
 export class BackupService {
   private http = inject(HttpClient);
 
-  private readonly paginatedDataService = new PaginatedDataService<string>();
+  private readonly paginatedDataService = new PaginatedDataService<BackupFile>();
 
   constructor() {
-    this.paginatedDataService.init('/api/backup', backupFileName => backupFileName);
+    this.paginatedDataService.init('/api/backup', backupFile => backupFile.fileName);
   }
 
   setPageToLoad = this.paginatedDataService.setPageToLoad.bind(this.paginatedDataService);

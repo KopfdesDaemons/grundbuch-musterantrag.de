@@ -10,8 +10,8 @@ import { clearUserRoleCache } from 'server/services/user-role.service';
 
 export const handleGetBackupList = async (req: Request, res: Response) => {
   const page = parseInt(req.query['page'] as string, 10) || 1;
-  const files = await getBackupList(page);
-  return res.json(files);
+  const paginatedResponse = await getBackupList(page);
+  return res.json(paginatedResponse);
 };
 
 export const handelCreateNewBackup = async (req: Request, res: Response) => {
@@ -27,10 +27,10 @@ export const handleRestoreBackupByFileUpload = async (req: Request, res: Respons
 
     const backupFile = req.files['backupFile'] as UploadedFile;
     logger.info('Starte einspielen des Backups ' + backupFile.name);
-    if (!backupFile.name.endsWith('.sql')) {
-      return res.status(400).send({ message: 'Die Backup-Datei muss eine .sql-Datei sein.' });
+    if (!backupFile.name.endsWith('.zip')) {
+      return res.status(400).send({ message: 'Die Backup-Datei muss eine .zip-Datei sein.' });
     }
-    const tempFilePath = path.join(STORAGE_FOLDER_PATH, 'temp_restore.sql');
+    const tempFilePath = path.join(STORAGE_FOLDER_PATH, 'temp_restore.zip');
     await backupFile.mv(tempFilePath);
     await restoreBackup(tempFilePath);
     clearUserRoleCache();

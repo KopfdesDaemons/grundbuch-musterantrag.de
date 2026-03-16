@@ -7,10 +7,12 @@ import { UserSettingsService } from 'src/app/services/user/user-settings.service
 import { BackupAction, Feature } from 'common/interfaces/user-permission.interface';
 import { BackupRow } from 'src/app/interfaces/backup-row';
 import { FormsModule } from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
+import { BackupFile } from 'common/interfaces/backup-file.interface';
 
 @Component({
   selector: 'app-backup',
-  imports: [ProgressSpinnerComponent, ErrorDisplayComponent, FormsModule],
+  imports: [ProgressSpinnerComponent, ErrorDisplayComponent, FormsModule, DecimalPipe],
   templateUrl: './backup.component.html',
   styleUrl: './backup.component.scss'
 })
@@ -43,18 +45,18 @@ export class BackupComponent {
   });
 
   private rowsMap = new Map<string, BackupRow>();
-  rows = linkedSignal<string[], BackupRow[]>({
+  rows = linkedSignal<BackupFile[], BackupRow[]>({
     source: () => this.backupS.backupList(),
     computation: (backups, previous) => {
       if (!backups) {
         return previous?.value ?? [];
       }
       return backups.map(backup => {
-        if (this.rowsMap.has(backup)) {
-          return this.rowsMap.get(backup)!;
+        if (this.rowsMap.has(backup.fileName)) {
+          return this.rowsMap.get(backup.fileName)!;
         }
-        const newRow: BackupRow = { backupFileName: backup, isChecked: signal(false) };
-        this.rowsMap.set(backup, newRow);
+        const newRow: BackupRow = { backupFileName: backup.fileName, sizeInBytes: backup.sizeInBytes, isChecked: signal(false) };
+        this.rowsMap.set(backup.fileName, newRow);
         return newRow;
       });
     }

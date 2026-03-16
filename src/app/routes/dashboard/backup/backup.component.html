@@ -15,7 +15,7 @@
           #fileInput
           id="backup-file-input"
           type="file"
-          accept=".sql"
+          accept=".zip"
           (change)="onFileSelected($event)"
           [disabled]="!userHasPermissionsRestoreBackup()"
         />
@@ -72,6 +72,7 @@
               <tr>
                 <th><input type="checkbox" #selectAllInput (change)="selectAll(selectAllInput.checked)" /></th>
                 <th>Dateiname</th>
+                <th>Dateigröße</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -83,6 +84,12 @@
                 <tr>
                   <td><input type="checkbox" [(ngModel)]="row.isChecked" /></td>
                   <td>{{ row.backupFileName }}</td>
+                  @if (row.sizeInBytes / 1000 > 1000) {
+                    <td>{{ row.sizeInBytes / 1000 / 1000 | number: "1.2-2" }} MB</td>
+                  } @else {
+                    <td>{{ row.sizeInBytes / 1000 | number: "1.2-2" }} KB</td>
+                  }
+
                   <td>
                     <button class="btn-text" (click)="restoreBackupByFileName(row.backupFileName)" [disabled]="!userHasPermissionsRestoreBackup()">
                       Backup einspielen
