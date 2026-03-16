@@ -99,7 +99,9 @@ export class UserroleService {
 
     [BackupAction.CreateBackup]: 'Neues Backup erstellen',
     [BackupAction.RestoreBackup]: 'Backup wiederherstellen',
-    [BackupAction.GetBackupList]: 'Backup-Liste lesen'
+    [BackupAction.GetBackupList]: 'Backup-Liste lesen',
+    [BackupAction.DownloadBackup]: 'Backup herunterladen',
+    [BackupAction.DeleteBackup]: 'Backup löschen'
   };
 
   get actionsNameMapping() {

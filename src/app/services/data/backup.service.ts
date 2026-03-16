@@ -39,4 +39,14 @@ export class BackupService {
     const params = { backupFileName: fileName };
     return (await lastValueFrom(this.http.post('/api/backup/restoreByFileName', {}, { params }))) as { message: string };
   }
+
+  async deleteBackups(fileNames: string[]): Promise<void> {
+    const params = { fileNames: fileNames.join(',') };
+    await lastValueFrom(this.http.delete('/api/backup', { params }));
+  }
+
+  async downloadBackup(fileName: string): Promise<Blob> {
+    const params = { fileName: fileName };
+    return await lastValueFrom(this.http.get('/api/backup/backupFile', { params, responseType: 'blob' }));
+  }
 }

@@ -1,17 +1,24 @@
 section {
   animation: slide-in-from-top 500ms forwards;
-  margin-top: 2em;
+
+  @media only screen and (max-width: 700px) {
+    .content-spacer {
+      margin-top: 4em;
+      padding: 0em;
+    }
+  }
 }
 
 .list-controls {
   display: flex;
   align-items: center;
-
-  button.icon {
-    height: 3em;
-    width: 3em;
-  }
 }
+
+button.icon {
+  height: 3em;
+  width: 3em;
+}
+
 .message-box {
   text-align: center;
 
@@ -31,23 +38,23 @@ label {
 .horizontal-scroll-container {
   overflow: auto;
   height: 500px;
-  width: clamp(300px, 90%, 1400px);
+  width: clamp(300px, 100%, 1400px);
 
   table {
     margin-top: 0;
-    font-size: clamp(12px, 2vw, 16px);
+    font-size: clamp(12px, 1.5vw, 16px);
     width: 100%;
-
-    .icon {
-      height: 2em;
-      width: 2em;
-    }
   }
 
   thead {
     position: sticky;
     top: 0;
     z-index: 1;
+  }
+
+  td,
+  th {
+    padding: 0.5em;
   }
 
   app-progress-spinner {

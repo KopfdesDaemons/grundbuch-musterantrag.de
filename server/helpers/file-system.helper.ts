@@ -36,7 +36,7 @@ export const getFile = async (folderPath: string, fileName: string): Promise<Buf
   const filePath = path.join(folderPath, fileName);
 
   if (!(await checkFileExists(filePath))) {
-    throw new Error('Datei nicht gefunden');
+    throw new Error('Datei ' + filePath + ' nicht gefunden');
   }
 
   return fs.promises.readFile(filePath);

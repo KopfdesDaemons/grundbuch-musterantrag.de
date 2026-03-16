@@ -10,7 +10,6 @@
           }
           <span>{{ selectedFile()?.name }}</span>
         </div>
-        <button (click)="createNewBackup()" [disabled]="!userHasPermissionsCreateBackup()">Neues Backup erstellen</button>
         <label class="btn-text" for="backup-file-input" [attr.disabled]="!userHasPermissionsRestoreBackup() ? '' : null">Backupdatei auswählen</label>
         <input
           #fileInput
@@ -27,11 +26,33 @@
       }
     </div>
     <div class="list-controls">
+      <button
+        [title]="
+          userHasPermissionsCreateBackup() ? 'Backup erstellen' : 'Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.'
+        "
+        class="icon"
+        (click)="createNewBackup()"
+        [disabled]="!userHasPermissionsCreateBackup() || restoreBackupIsLoading()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            d="M128 64C92.7 64 64 92.7 64 128L64 512C64 547.3 92.7 576 128 576L308 576C285.3 544.5 272 505.8 272 464C272 363.4 349.4 280.8 448 272.7L448 234.6C448 217.6 441.3 201.3 429.3 189.3L322.7 82.7C310.7 70.7 294.5 64 277.5 64L128 64zM389.5 240L296 240C282.7 240 272 229.3 272 216L272 122.5L389.5 240zM464 608C543.5 608 608 543.5 608 464C608 384.5 543.5 320 464 320C384.5 320 320 384.5 320 464C320 543.5 384.5 608 464 608zM480 400L480 448L528 448C536.8 448 544 455.2 544 464C544 472.8 536.8 480 528 480L480 480L480 528C480 536.8 472.8 544 464 544C455.2 544 448 536.8 448 528L448 480L400 480C391.2 480 384 472.8 384 464C384 455.2 391.2 448 400 448L448 448L448 400C448 391.2 455.2 384 464 384C472.8 384 480 391.2 480 400z"
+          />
+        </svg>
+      </button>
       <button (click)="reloadBackupList()" class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path
             fill="currentColor"
             d="M552 256L408 256C398.3 256 389.5 250.2 385.8 241.2C382.1 232.2 384.1 221.9 391 215L437.7 168.3C362.4 109.7 253.4 115 184.2 184.2C109.2 259.2 109.2 380.7 184.2 455.7C259.2 530.7 380.7 530.7 455.7 455.7C463.9 447.5 471.2 438.8 477.6 429.6C487.7 415.1 507.7 411.6 522.2 421.7C536.7 431.8 540.2 451.8 530.1 466.3C521.6 478.5 511.9 490.1 501 501C401 601 238.9 601 139 501C39.1 401 39 239 139 139C233.3 44.7 382.7 39.4 483.3 122.8L535 71C541.9 64.1 552.2 62.1 561.2 65.8C570.2 69.5 576 78.3 576 88L576 232C576 245.3 565.3 256 552 256z"
+          />
+        </svg>
+      </button>
+      <button class="icon" [disabled]="selectedRows().length === 0 || !userHasPermissionsDeleteBackup()" (click)="deleteSelectedBackups()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            fill="currentColor"
+            d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
           />
         </svg>
       </button>
@@ -52,17 +73,39 @@
                 <th><input type="checkbox" #selectAllInput (change)="selectAll(selectAllInput.checked)" /></th>
                 <th>Dateiname</th>
                 <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
 
             <tbody>
               @for (row of rows(); track row.backupFileName) {
                 <tr>
-                  <td><input type="checkbox" [checked]="row.isChecked()" /></td>
+                  <td><input type="checkbox" [(ngModel)]="row.isChecked" /></td>
                   <td>{{ row.backupFileName }}</td>
                   <td>
-                    <button (click)="restoreBackupByFileName(row.backupFileName)" [disabled]="!userHasPermissionsRestoreBackup()">
+                    <button class="btn-text" (click)="restoreBackupByFileName(row.backupFileName)" [disabled]="!userHasPermissionsRestoreBackup()">
                       Backup einspielen
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn-icon" (click)="downloadBackup(row.backupFileName)" [disabled]="!userHasPermissionsDownloadBackup()">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                          fill="currentColor"
+                          d="M320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64zM308.7 451.3L204.7 347.3C200.1 342.7 198.8 335.8 201.2 329.9C203.6 324 209.5 320 216 320L272 320L272 224C272 206.3 286.3 192 304 192L336 192C353.7 192 368 206.3 368 224L368 320L424 320C430.5 320 436.3 323.9 438.8 329.9C441.3 335.9 439.9 342.8 435.3 347.3L331.3 451.3C325.1 457.5 314.9 457.5 308.7 451.3z"
+                        />
+                      </svg>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn-icon" (click)="deleteBackup(row.backupFileName)" [disabled]="!userHasPermissionsDeleteBackup()">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                          fill="currentColor"
+                          d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
+                        />
+                      </svg>
                     </button>
                   </td>
                 </tr>

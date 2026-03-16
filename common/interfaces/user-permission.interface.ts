@@ -74,5 +74,7 @@ export enum UserRoleManagementAction {
 export enum BackupAction {
   CreateBackup = 'CreateBackup',
   RestoreBackup = 'RestoreBackup',
-  GetBackupList = 'GetBackupList'
+  GetBackupList = 'GetBackupList',
+  DownloadBackup = 'DownloadBackup',
+  DeleteBackup = 'DeleteBackup'
 }

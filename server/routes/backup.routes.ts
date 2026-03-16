@@ -3,6 +3,8 @@ import { BackupPermission } from 'common/models/user-permissions.model';
 import express from 'express';
 import {
   handelCreateNewBackup,
+  handleDeleteBackup as handleDeleteBackups,
+  handleDownloadBackup,
   handleGetBackupList,
   handleRestoreBackupByFileName,
   handleRestoreBackupByFileUpload
@@ -26,3 +28,5 @@ backupRoutes.post(
   verifyRole(new BackupPermission([BackupAction.RestoreBackup])),
   handleRestoreBackupByFileName
 );
+backupRoutes.delete('/', authMiddleware, verifyRole(new BackupPermission([BackupAction.DeleteBackup])), handleDeleteBackups);
+backupRoutes.get('/backupFile', authMiddleware, verifyRole(new BackupPermission([BackupAction.DownloadBackup])), handleDownloadBackup);

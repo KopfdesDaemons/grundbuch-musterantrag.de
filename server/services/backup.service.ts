@@ -2,15 +2,14 @@ import { exec } from 'child_process';
 import util from 'util';
 import fs from 'fs';
 import path from 'path';
-import { STORAGE_FOLDER_PATH } from 'server/config/path.config';
 import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
+import { BACKUP_FOLDER_PATH } from 'server/config/path.config';
 
 const execPromise = util.promisify(exec);
 const dbHost = 'db';
 const dbName = 'grundbuch-musterantrag';
 const dbUser = process.env['MYSQL_USER'];
 const dbPassword = process.env['MYSQL_PASSWORD'];
-const backupDir = path.join(STORAGE_FOLDER_PATH, 'backups');
 
 export const createNewBackup = async () => {
   if (!dbUser || !dbPassword) {
@@ -19,14 +18,14 @@ export const createNewBackup = async () => {
 
   // Create backup folder
   try {
-    await fs.promises.access(backupDir);
+    await fs.promises.access(BACKUP_FOLDER_PATH);
   } catch {
-    await fs.promises.mkdir(backupDir, { recursive: true });
+    await fs.promises.mkdir(BACKUP_FOLDER_PATH, { recursive: true });
   }
 
   // Create filename with timestamp
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const backupFilePath = path.join(backupDir, `backup_${timestamp}.sql`);
+  const backupFilePath = path.join(BACKUP_FOLDER_PATH, `backup_${timestamp}.sql`);
 
   const dumpCommand = `mariadb-dump --skip-ssl -h ${dbHost} -u ${dbUser} ${dbName} > ${backupFilePath}`;
 
@@ -46,14 +45,10 @@ export const restoreBackup = async (sqlFilePath: string) => {
 export const getBackupList = async (page: number = 1): Promise<PaginatedApiResponse<string>> => {
   let backupFiles: string[] = [];
 
-  try {
-    await fs.promises.access(backupDir);
-    const files = await fs.promises.readdir(backupDir);
-    backupFiles = files.filter(file => file.endsWith('.sql'));
-    backupFiles.sort((a, b) => b.localeCompare(a)); // Neueste Backups zuerst
-  } catch {
-    // Verzeichnis existiert nicht oder ist nicht lesbar, wir geben eine leere Liste zurück
-  }
+  await fs.promises.access(BACKUP_FOLDER_PATH);
+  const files = await fs.promises.readdir(BACKUP_FOLDER_PATH);
+  backupFiles = files.filter(file => file.endsWith('.sql'));
+  backupFiles.sort((a, b) => b.localeCompare(a));
 
   const pageSize = 10;
   if (page < 1) throw new Error('Die Seitennummer muss größer oder gleich 1 sein.');
@@ -68,4 +63,12 @@ export const getBackupList = async (page: number = 1): Promise<PaginatedApiRespo
     totalItems,
     items: backupFiles.slice(offset, offset + pageSize)
   };
+};
+
+export const deleteBackups = async (fileNames: string[]) => {
+  for (const fileName of fileNames) {
+    const filePath = path.join(BACKUP_FOLDER_PATH, fileName);
+    await fs.promises.access(filePath);
+    await fs.promises.unlink(filePath);
+  }
 };

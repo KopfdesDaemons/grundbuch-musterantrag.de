@@ -244,3 +244,7 @@ export const checkPermission = async (UserRoleID: number, permissionToCheck: Use
   // Prüft, ob alle geforderten Aktionen in den vorhandenen Aktionen enthalten sind
   return permissionToCheck.allowedActions.every(action => permission.allowedActions.includes(action));
 };
+
+export const clearUserRoleCache = () => {
+  userRoleCache.clear();
+};
