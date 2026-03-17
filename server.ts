@@ -19,6 +19,7 @@ import { errorHandler } from 'server/middleware/error-handler.middleware';
 import cookieParser from 'cookie-parser';
 import { rateLimiter } from 'server/middleware/rate-limiter';
 import { backupRoutes } from 'server/routes/backup.routes';
+import { initBackupCronJob } from 'server/services/backup.service';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -28,7 +29,9 @@ const angularApp = new AngularNodeAppEngine();
 // To get ip from req
 app.set('trust proxy', true);
 
+// Init functions
 await initDatabase();
+initBackupCronJob();
 
 // Middleware for the entire server
 app.use(fileUpload());
