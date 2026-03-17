@@ -20,13 +20,6 @@ export const createNewBackup = async () => {
     throw new Error('Datenbank-Zugangsdaten (MYSQL_USER, MYSQL_PASSWORD) fehlen.');
   }
 
-  // Create backup folder
-  try {
-    await fs.promises.access(BACKUP_FOLDER_PATH);
-  } catch {
-    await fs.promises.mkdir(BACKUP_FOLDER_PATH, { recursive: true });
-  }
-
   // Create filename with timestamp
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const sqlFileName = `backup_${timestamp}.sql`;
@@ -122,7 +115,12 @@ export const deleteBackups = async (fileNames: string[]) => {
   }
 };
 
+let isCronJobInitialized = false;
+
 export const initBackupCronJob = () => {
+  if (isCronJobInitialized) return;
+  isCronJobInitialized = true;
+
   logger.info('Tägliches automatisches Backup eingeplant für 03:00 Uhr (Europe/Berlin).');
 
   let lastRunDate: string | null = null;

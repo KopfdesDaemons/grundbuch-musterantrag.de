@@ -20,6 +20,8 @@ import cookieParser from 'cookie-parser';
 import { rateLimiter } from 'server/middleware/rate-limiter';
 import { backupRoutes } from 'server/routes/backup.routes';
 import { initBackupCronJob } from 'server/services/backup.service';
+import { createStorageFolders } from 'server/config/path.config';
+import logger from 'server/config/logger.config';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -29,7 +31,10 @@ const angularApp = new AngularNodeAppEngine();
 // To get ip from req
 app.set('trust proxy', true);
 
+logger.info('Server gestartet.');
+
 // Init functions
+await createStorageFolders();
 await initDatabase();
 initBackupCronJob();
 
