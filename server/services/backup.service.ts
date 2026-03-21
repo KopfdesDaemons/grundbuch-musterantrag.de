@@ -21,7 +21,19 @@ export const createNewBackup = async () => {
   }
 
   // Create filename with timestamp
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Europe/Berlin',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hourCycle: 'h23'
+  }).formatToParts(now);
+  const getPart = (type: string) => parts.find(part => part.type === type)?.value;
+  const timestamp = `${getPart('year')}-${getPart('month')}-${getPart('day')}T${getPart('hour')}-${getPart('minute')}-${getPart('second')}`;
   const sqlFileName = `backup_${timestamp}.sql`;
   const zipFileName = `backup_${timestamp}.zip`;
   const sqlFilePath = path.join(BACKUP_FOLDER_PATH, sqlFileName);
