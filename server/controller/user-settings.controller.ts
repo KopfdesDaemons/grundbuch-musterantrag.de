@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { compareStringsAndHash, getHashFromString } from 'server/helpers/hash.helper';
-import { validateAndGetUser, validateNewPasswort, validateNewUsername } from 'server/helpers/validation.helper';
-import { revokeAllRefreshTokensByUserID } from 'server/services/auth.service';
-import { getUserByUsername, getUsername, updatePassword, updateUsername } from 'server/services/user.service';
+import { compareStringsAndHash, getHashFromString } from '../helpers/hash.helper';
+import { validateNewPasswort, validateAndGetUser, validateNewUsername } from '../helpers/validation.helper';
+import { revokeAllRefreshTokensByUserID } from '../services/auth.service';
+import { getUsername, getUserByUsername, updatePassword, updateUsername } from '../services/user.service';
 
 export const handleGetOwnUsername = async (req: Request, res: Response) => {
   const { jwtPayload } = req;
@@ -26,7 +26,10 @@ export const handleSetPasswordAfterInitialLogin = async (req: Request, res: Resp
   if (!userFromDB) {
     return res.status(400).json({ message: 'Fehlerhafte Anfrage' });
   }
-  const isCorrectPassword = await compareStringsAndHash(oldPassword, userFromDB.passwordHash!);
+  if (!userFromDB.passwordHash) {
+    return res.status(400).json({ message: 'Fehlerhafte Anfrage' });
+  }
+  const isCorrectPassword = await compareStringsAndHash(oldPassword, userFromDB.passwordHash);
   if (!isCorrectPassword) {
     return res.status(400).json({ message: 'Falsches Passwort' });
   }
@@ -66,7 +69,10 @@ export const handleChangeOwnPassword = async (req: Request, res: Response) => {
   }
   const { userID } = req.jwtPayload;
   const userFromDB = await validateAndGetUser(userID);
-  const isCorrectPassword = await compareStringsAndHash(oldPassword, userFromDB.passwordHash!);
+  if (!userFromDB.passwordHash) {
+    return res.status(400).json({ message: 'Fehlerhafte Anfrage' });
+  }
+  const isCorrectPassword = await compareStringsAndHash(oldPassword, userFromDB.passwordHash);
   if (!isCorrectPassword) {
     return res.status(400).json({ message: 'Falsches Passwort' });
   }

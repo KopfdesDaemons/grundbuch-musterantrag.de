@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, linkedSignal, signal } from '@angular/core';
+import { Component, inject, linkedSignal, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Log } from 'common/models/log.model';
 import { LogRow } from 'src/app/interfaces/log-row';
 import { LoggerService } from 'src/app/services/server/logger.service';
@@ -12,6 +12,7 @@ import { Feature, LoggerAction } from 'common/interfaces/user-permission.interfa
   selector: 'app-logs-list',
   imports: [DatePipe, ErrorDisplayComponent, ProgressSpinnerComponent],
   templateUrl: './logs-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './logs-list.component.scss'
 })
 export class LogsListComponent {

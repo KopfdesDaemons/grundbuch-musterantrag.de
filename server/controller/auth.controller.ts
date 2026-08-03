@@ -7,16 +7,16 @@ import {
   revokeAllRefreshTokensByUserID,
   revokeRefreshToken
 } from '../services/auth.service';
-import { getUserByUsername } from 'server/services/user.service';
-import { User } from 'common/models/user.model';
-import { AuthError } from 'server/models/errors/auth-error.model';
-import { AuthResponse } from 'common/interfaces/auth-response.interface';
-import { validateAndGetUser } from 'server/helpers/validation.helper';
-import { verifyToken } from 'server/helpers/jwt.helper';
-import { ValidationError } from 'server/models/errors/validation-error.model';
-import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
-import { Session } from 'common/models/session.model';
-import { getSystemTypeFromUserAgent } from 'server/helpers/useragent.helper';
+import { AuthResponse } from '../../common/interfaces/auth-response.interface';
+import { PaginatedApiResponse } from '../../common/interfaces/pagination-data.interface';
+import { Session } from '../../common/models/session.model';
+import { User } from '../../common/models/user.model';
+import { verifyToken } from '../helpers/jwt.helper';
+import { getSystemTypeFromUserAgent } from '../helpers/useragent.helper';
+import { validateAndGetUser } from '../helpers/validation.helper';
+import { AuthError } from '../models/errors/auth-error.model';
+import { ValidationError } from '../models/errors/validation-error.model';
+import { getUserByUsername } from '../services/user.service';
 
 export const handleLogin = async (req: Request, res: Response) => {
   const { username, password, userAgent } = req.body;
@@ -102,8 +102,9 @@ export const handleGetSessions = async (req: Request, res: Response) => {
   await validateAndGetUser(userID);
   const paginatedRefreshTokens = await getRefreshTokensByUserID(+userID!, page);
   const sessions = paginatedRefreshTokens.items.map(token => {
+    if (!token.tokenID) throw new Error('TokenID fehlt');
     const systemType = getSystemTypeFromUserAgent(token.userAgent);
-    return new Session(token.tokenID!, systemType, token.ip, token.creationDate, token.expiryDate);
+    return new Session(token.tokenID, systemType, token.ip, token.creationDate, token.expiryDate);
   });
 
   const paginatedSessions: PaginatedApiResponse<Session> = {

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, ElementRef, inject, input, linkedSignal, OnInit, signal, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, input, linkedSignal, OnInit, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Session } from 'common/models/session.model';
 import { SessionRow } from 'src/app/interfaces/session-row';
 import { PaginatedDataService } from 'src/app/services/data/paginated-data.service';
@@ -17,6 +17,7 @@ import { Feature, UserManagementAction } from 'common/interfaces/user-permission
   selector: 'app-sessions-manager',
   imports: [DatePipe, ErrorDisplayComponent, ProgressSpinnerComponent, FormsModule],
   templateUrl: './sessions-manager.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './sessions-manager.component.scss'
 })
 export class SessionsManagerComponent implements OnInit {

@@ -149,7 +149,8 @@ export const refreshAccessToken = async (
     totalPages = paginatedResponse.totalPages;
 
     for (const token of paginatedResponse.items) {
-      if (await compareStringsAndHash(oldRefreshTokenString, token.tokenHash!)) {
+      if (!token.tokenHash) continue;
+      if (await compareStringsAndHash(oldRefreshTokenString, token.tokenHash)) {
         matchedToken = token;
         break;
       }

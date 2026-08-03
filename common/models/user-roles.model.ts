@@ -61,7 +61,7 @@ export class Admin implements UserRole {
 
 export class Guest implements UserRole {
   name: string = 'Gast';
-  description: string = 'Gast nur mit Lesenrechten';
+  description: string = 'Gast nur mit Leserechten';
   userPermissions: UserPermission[] = [
     new UploadManagementPermission([UploadManagementAction.ReadUploadData]),
     new UserManagementPermission([UserManagementAction.ReadUser]),

@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:24.12.0-alpine AS builder
+FROM node:26.0.0-alpine AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -10,7 +10,7 @@ RUN npm run build
 
 
 # Stage 2: Production
-FROM node:24.12.0-alpine AS prod
+FROM node:26.0.0-alpine AS prod
 WORKDIR /app
 
 # Install LibreOffice

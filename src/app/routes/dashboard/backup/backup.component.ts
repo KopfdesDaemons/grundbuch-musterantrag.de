@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal, ChangeDetectionStrategy } from '@angular/core';
 import { BackupService } from 'src/app/services/data/backup.service';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
@@ -14,6 +14,7 @@ import { BackupFile } from 'common/interfaces/backup-file.interface';
   selector: 'app-backup',
   imports: [ProgressSpinnerComponent, ErrorDisplayComponent, FormsModule, DecimalPipe],
   templateUrl: './backup.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './backup.component.scss'
 })
 export class BackupComponent {
