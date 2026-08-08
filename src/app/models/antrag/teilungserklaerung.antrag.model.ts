@@ -18,7 +18,7 @@ export class AntragTeilungserklaerung implements Antrag {
 
   antragsteller: Antragsteller = new Antragsteller();
   grundstueck: Grundstueck = new Grundstueck();
-  farbe: 'farbig' | 'schwarz/weiß' = 'schwarz/weiß';
+  farbe: 'farbig' | 'sw' = 'sw';
   berechtigtesInteresse: BerechtigtesInteresse = new BerechtigtesInteresse();
   grundbuchamt: Grundbuchamt = new Grundbuchamt();
   datum: string = '';

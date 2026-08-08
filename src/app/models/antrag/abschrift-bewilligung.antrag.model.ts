@@ -21,7 +21,7 @@ export class AntragAbschriftBewilligung implements Antrag {
   grundstueck: Grundstueck = new Grundstueck();
   berechtigtesInteresse: BerechtigtesInteresse = new BerechtigtesInteresse();
   bewilligung: Bewilligung = new Bewilligung();
-  farbe: 'farbig' | 'schwarz/weiß' = 'schwarz/weiß';
+  farbe: 'farbig' | 'sw' = 'sw';
   grundbuchamt: Grundbuchamt = new Grundbuchamt();
   datum: string = '';
   hinweise?: string[] | undefined;
