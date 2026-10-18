@@ -40,9 +40,7 @@
               "express-fileupload",
               "winston",
               "jsonwebtoken",
-              "pako/dist/pako.es5.min.js",
-              "pizzip",
-              "pizzip/utils/index.js"
+              "pako/dist/pako.es5.min.js"
             ],
             "browser": "src/main.ts",
             "server": "src/main.server.ts",

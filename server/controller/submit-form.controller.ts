@@ -1,7 +1,7 @@
 import path from 'path';
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import PizZip from 'pizzip';
+import { unzipSync, zipSync, strFromU8, strToU8, Zippable } from 'fflate';
 import { OdtTemplater } from 'odt-templater';
 import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
@@ -39,22 +39,33 @@ export const submitForm = async (req: Request, res: Response) => {
   // Load the ODT template file
   const templatePath = path.join(TEMPLATES_FOLDER_PATH, `${antrag.templateFileName}.odt`);
   const templateBuffer = fs.readFileSync(templatePath);
-  const zip = new PizZip(templateBuffer);
+  const unzipped = unzipSync(templateBuffer);
 
   // Extract the content.xml file from the ODT template
-  const contentFile = zip.file('content.xml');
-  if (!contentFile) throw new Error('Die content.xml-Datei wurde im ODT-Template nicht gefunden.');
-  const content = contentFile.asText();
+  const contentU8 = unzipped['content.xml'];
+  if (!contentU8) throw new Error('Die content.xml-Datei wurde im ODT-Template nicht gefunden.');
+  const content = strFromU8(contentU8);
 
   // Initialize OdtTemplater and render the document
   const templater = new OdtTemplater(content);
   const renderedContent = templater.render(antrag);
 
   // Replace the content in the ZIP
-  zip.file('content.xml', renderedContent);
+  unzipped['content.xml'] = strToU8(renderedContent);
+
+  // In ODF, mimetype must be uncompressed (level 0) and the first entry in the archive
+  const filesToZip: Zippable = {};
+  if (unzipped['mimetype']) {
+    filesToZip['mimetype'] = [unzipped['mimetype'], { level: 0 }];
+  }
+  for (const [filename, fileData] of Object.entries(unzipped)) {
+    if (filename !== 'mimetype') {
+      filesToZip[filename] = fileData;
+    }
+  }
 
   // Generate the output ODT file
-  const outputBuffer = zip.generate({ type: 'nodebuffer' });
+  const outputBuffer = Buffer.from(zipSync(filesToZip));
   fs.writeFileSync(filePathOdt, outputBuffer);
   newUpload.odtFile = true;
 
