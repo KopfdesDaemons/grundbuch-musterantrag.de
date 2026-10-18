@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "order": [
+    "document:angular.json",
+    "folder:common",
+    "document:docker-compose.yml",
+    "document:docker-compose.base.yml",
+    "document:docker-compose.dev.yml",
+    "document:eslint.config.mjs",
+    "folder:node_modules",
+    "document:package.json",
+    "document:package-lock.json",
+    "folder:public",
+    "document:README.md",
+    "document:server.ts",
+    "folder:server",
+    "folder:src",
+    "folder:storage",
+    "document:tsconfig.json",
+    "document:tsconfig.app.json",
+    "document:tsconfig.spec.json"
+  ],
+  "disabled": []
+}

@@ -26,17 +26,25 @@ export const handleRestoreBackupByFileUpload = async (req: Request, res: Respons
     }
 
     const backupFile = req.files['backupFile'] as UploadedFile;
-    logger.info('Starte einspielen des Backups ' + backupFile.name);
-    if (!backupFile.name.endsWith('.zip')) {
-      return res.status(400).send({ message: 'Die Backup-Datei muss eine .zip-Datei sein.' });
+    if (!backupFile.name.endsWith('.sql.gz') && !backupFile.name.endsWith('.gz')) {
+      return res.status(400).send({ message: 'Die Backup-Datei muss eine .sql.gz-Datei sein.' });
     }
-    const tempFilePath = path.join(STORAGE_FOLDER_PATH, 'temp_restore.zip');
+
+    logger.info('Starte einspielen des Backups ' + backupFile.name);
+
+    const ext = backupFile.name.endsWith('.sql.gz') ? '.sql.gz' : '.gz';
+    const tempFilePath = path.join(STORAGE_FOLDER_PATH, `temp_restore_${Date.now()}${ext}`);
     await backupFile.mv(tempFilePath);
-    await restoreBackup(tempFilePath);
-    clearUserRoleCache();
-    fs.unlinkSync(tempFilePath);
-    logger.info('Backup ' + backupFile.name + ' erfolgreich eingespielt.');
-    return res.status(200).send({ message: 'Backup erfolgreich eingespielt.' });
+    try {
+      await restoreBackup(tempFilePath);
+      clearUserRoleCache();
+      logger.info('Backup ' + backupFile.name + ' erfolgreich eingespielt.');
+      return res.status(200).send({ message: 'Backup erfolgreich eingespielt.' });
+    } finally {
+      if (fs.existsSync(tempFilePath)) {
+        await fs.promises.unlink(tempFilePath);
+      }
+    }
   } catch (error) {
     logger.error('Fehler beim Einspielen des Backups:', error);
     return res.status(500).send({ message: 'Fehler beim Einspielen des Backups.' });
@@ -50,7 +58,7 @@ export const handleRestoreBackupByFileName = async (req: Request, res: Response)
       return res.status(400).send({ message: 'Es wurde kein Backup-Dateiname übermittelt.' });
     }
 
-    const backupFilePath = path.join(STORAGE_FOLDER_PATH, 'backups', backupFileName);
+    const backupFilePath = path.join(BACKUP_FOLDER_PATH, backupFileName);
     if (!fs.existsSync(backupFilePath)) {
       return res.status(404).send({ message: 'Die angegebene Backup-Datei wurde nicht gefunden.' });
     }

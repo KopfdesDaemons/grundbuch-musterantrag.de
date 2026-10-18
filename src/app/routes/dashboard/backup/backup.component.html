@@ -15,7 +15,7 @@
           #fileInput
           id="backup-file-input"
           type="file"
-          accept=".zip"
+          accept=".sql.gz,.gz"
           (change)="onFileSelected($event)"
           [disabled]="!userHasPermissionsRestoreBackup()"
         />

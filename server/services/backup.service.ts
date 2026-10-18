@@ -1,14 +1,13 @@
-import { exec } from 'child_process';
-import util from 'util';
+import { spawn } from 'child_process';
+import { pipeline } from 'stream/promises';
+import zlib from 'zlib';
 import fs from 'fs';
 import path from 'path';
 import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
-import { BACKUP_FOLDER_PATH, STORAGE_FOLDER_PATH } from 'server/config/path.config';
+import { BACKUP_FOLDER_PATH } from 'server/config/path.config';
 import { BackupFile } from 'common/interfaces/backup-file.interface';
-import PizZip from 'pizzip';
 import logger from 'server/config/logger.config';
 
-const EXEC_PROMISE = util.promisify(exec);
 const DB_HOST = 'db';
 const DB_NAME = 'grundbuch-musterantrag';
 const DB_USER = process.env['MYSQL_USER'];
@@ -34,57 +33,119 @@ export const createNewBackup = async () => {
   }).formatToParts(now);
   const getPart = (type: string) => parts.find(part => part.type === type)?.value;
   const timestamp = `${getPart('year')}-${getPart('month')}-${getPart('day')}T${getPart('hour')}-${getPart('minute')}-${getPart('second')}`;
-  const sqlFileName = `backup_${timestamp}.sql`;
-  const zipFileName = `backup_${timestamp}.zip`;
-  const sqlFilePath = path.join(BACKUP_FOLDER_PATH, sqlFileName);
-  const zipFilePath = path.join(BACKUP_FOLDER_PATH, zipFileName);
+  const backupFileName = `backup_${timestamp}.sql.gz`;
+  const backupFilePath = path.join(BACKUP_FOLDER_PATH, backupFileName);
 
-  const dumpCommand = `mariadb-dump --skip-ssl -h ${DB_HOST} -u ${DB_USER} ${DB_NAME} > ${sqlFilePath}`;
+  const dumpProcess = spawn(
+    'mariadb-dump',
+    ['--skip-ssl', '-h', DB_HOST, '-u', DB_USER, DB_NAME],
+    {
+      env: { ...process.env, MYSQL_PWD: DB_PASSWORD },
+      stdio: ['ignore', 'pipe', 'pipe']
+    }
+  );
 
-  await EXEC_PROMISE(dumpCommand, { env: { ...process.env, MYSQL_PWD: DB_PASSWORD } });
+  let stderr = '';
+  dumpProcess.stderr.on('data', chunk => {
+    stderr += chunk.toString();
+  });
 
-  const sqlData = await fs.promises.readFile(sqlFilePath);
-  const zip = new PizZip();
-  zip.file(sqlFileName, sqlData);
+  const exitPromise = new Promise<void>((resolve, reject) => {
+    dumpProcess.on('error', reject);
+    dumpProcess.on('close', (code, signal) => {
+      if (code === 0 || signal === 'SIGTERM') {
+        resolve();
+      } else {
+        reject(new Error(`mariadb-dump fehlgeschlagen mit Exit-Code ${code} (Signal: ${signal}):\n${stderr.trim()}`));
+      }
+    });
+  });
 
-  const zipBuffer = zip.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
-  await fs.promises.writeFile(zipFilePath, zipBuffer);
-  await fs.promises.unlink(sqlFilePath);
+  try {
+    await Promise.all([
+      pipeline(
+        dumpProcess.stdout,
+        zlib.createGzip({ level: 9 }),
+        fs.createWriteStream(backupFilePath)
+      ),
+      exitPromise
+    ]);
+  } catch (error) {
+    if (dumpProcess.exitCode === null && dumpProcess.signalCode === null) {
+      dumpProcess.kill('SIGTERM');
+    }
+    if (fs.existsSync(backupFilePath)) {
+      await fs.promises.unlink(backupFilePath);
+    }
+    await exitPromise;
+    throw error;
+  }
+
   await deleteOldBackups();
 };
 
+const isBackupFile = (file: string) => file.endsWith('.sql.gz') || file.endsWith('.gz');
+
 const deleteOldBackups = async () => {
   const files = await fs.promises.readdir(BACKUP_FOLDER_PATH);
-  const zipFiles = files.filter(file => file.endsWith('.zip'));
-  zipFiles.sort((a, b) => b.localeCompare(a));
+  const backupFiles = files.filter(isBackupFile);
+  backupFiles.sort((a, b) => b.localeCompare(a));
 
-  if (zipFiles.length > MAX_BACKUP_FILES) {
-    const filesToDelete = zipFiles.slice(MAX_BACKUP_FILES);
+  if (backupFiles.length > MAX_BACKUP_FILES) {
+    const filesToDelete = backupFiles.slice(MAX_BACKUP_FILES);
     await deleteBackups(filesToDelete);
   }
 };
 
-export const restoreBackup = async (zipFilePath: string) => {
+export const restoreBackup = async (backupFilePath: string) => {
   if (!DB_USER || !DB_PASSWORD) {
     throw new Error('Datenbank-Zugangsdaten (MYSQL_USER, MYSQL_PASSWORD) fehlen.');
   }
 
-  const zipData = await fs.promises.readFile(zipFilePath);
-  const zip = new PizZip(zipData);
-  const sqlFiles = Object.keys(zip.files).filter(name => name.endsWith('.sql'));
-  if (sqlFiles.length === 0) {
-    throw new Error('Die ZIP-Datei enthält keine .sql-Datei.');
+  if (!backupFilePath.endsWith('.sql.gz') && !backupFilePath.endsWith('.gz')) {
+    throw new Error('Nicht unterstütztes Backup-Dateiformat. Erwartet wird .sql.gz.');
   }
-  const sqlFileName = sqlFiles[0];
-  const sqlBuffer = zip.file(sqlFileName)!.asNodeBuffer();
-  const tempSqlPath = path.join(STORAGE_FOLDER_PATH, `temp_extract_${Date.now()}.sql`);
-  await fs.promises.writeFile(tempSqlPath, sqlBuffer);
+
+  const restoreProcess = spawn(
+    'mariadb',
+    ['--skip-ssl', '-h', DB_HOST, '-u', DB_USER, DB_NAME],
+    {
+      env: { ...process.env, MYSQL_PWD: DB_PASSWORD },
+      stdio: ['pipe', 'ignore', 'pipe']
+    }
+  );
+
+  let stderr = '';
+  restoreProcess.stderr.on('data', chunk => {
+    stderr += chunk.toString();
+  });
+
+  const exitPromise = new Promise<void>((resolve, reject) => {
+    restoreProcess.on('error', reject);
+    restoreProcess.on('close', (code, signal) => {
+      if (code === 0 || signal === 'SIGTERM') {
+        resolve();
+      } else {
+        reject(new Error(`mariadb-Restore fehlgeschlagen mit Exit-Code ${code} (Signal: ${signal}):\n${stderr.trim()}`));
+      }
+    });
+  });
 
   try {
-    const restoreCommand = `mariadb --skip-ssl -h ${DB_HOST} -u ${DB_USER} ${DB_NAME} < ${tempSqlPath}`;
-    await EXEC_PROMISE(restoreCommand, { env: { ...process.env, MYSQL_PWD: DB_PASSWORD } });
-  } finally {
-    await fs.promises.unlink(tempSqlPath);
+    await Promise.all([
+      pipeline(
+        fs.createReadStream(backupFilePath),
+        zlib.createGunzip(),
+        restoreProcess.stdin
+      ),
+      exitPromise
+    ]);
+  } catch (error) {
+    if (restoreProcess.exitCode === null && restoreProcess.signalCode === null) {
+      restoreProcess.kill('SIGTERM');
+    }
+    await exitPromise;
+    throw error;
   }
 };
 
@@ -93,7 +154,7 @@ export const getBackupList = async (page: number = 1): Promise<PaginatedApiRespo
 
   await fs.promises.access(BACKUP_FOLDER_PATH);
   const files = await fs.promises.readdir(BACKUP_FOLDER_PATH);
-  backupFiles = files.filter(file => file.endsWith('.zip'));
+  backupFiles = files.filter(isBackupFile);
   backupFiles.sort((a, b) => b.localeCompare(a));
 
   const pageSize = 10;
