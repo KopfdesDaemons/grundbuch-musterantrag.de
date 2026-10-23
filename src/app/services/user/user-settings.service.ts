@@ -14,9 +14,12 @@ export class UserSettingsService {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authS = inject(AuthService);
 
-  private readonly _usernameResource = httpResource<{ username: string }>(() => ({
-    url: '/api/user-settings/username'
-  }));
+  private readonly _usernameResource = httpResource<{ username: string }>(() => {
+    if (!this.authS.accessToken()) return undefined;
+    return {
+      url: '/api/user-settings/username'
+    };
+  });
 
   readonly usernameResource = this._usernameResource.asReadonly();
 
@@ -28,9 +31,12 @@ export class UserSettingsService {
     userRoleName: string;
     userRoleDescription: string;
     userRolePermissions: UserPermission[];
-  }>(() => ({
-    url: '/api/user-settings/userrole'
-  }));
+  }>(() => {
+    if (!this.authS.accessToken()) return undefined;
+    return {
+      url: '/api/user-settings/userrole'
+    };
+  });
 
   readonly userRoleResource = this._userRoleResource.asReadonly();
 

@@ -182,3 +182,31 @@ export const revokeRefreshToken = async (refreshTokenID: number, userID: number)
   const query = 'UPDATE refresh_tokens SET isRevoked = 1 WHERE tokenID = ? AND userID = ?';
   await db.execute(query, [refreshTokenID, userID]);
 };
+
+export const revokeRefreshTokenByTokenString = async (refreshTokenString: string, userID: number): Promise<void> => {
+  let matchedToken: RefreshToken | undefined;
+  let currentPage = 1;
+  let totalPages = 1;
+
+  do {
+    const paginatedResponse = await getRefreshTokensByUserID(userID, currentPage);
+    if (paginatedResponse.totalItems === 0 && currentPage === 1) {
+      return;
+    }
+    totalPages = paginatedResponse.totalPages;
+
+    for (const token of paginatedResponse.items) {
+      if (!token.tokenHash) continue;
+      if (await compareStringsAndHash(refreshTokenString, token.tokenHash)) {
+        matchedToken = token;
+        break;
+      }
+    }
+    currentPage++;
+  } while (currentPage <= totalPages && !matchedToken);
+
+  if (matchedToken) {
+    matchedToken.isRevoked = true;
+    await updateRefreshToken(matchedToken);
+  }
+};

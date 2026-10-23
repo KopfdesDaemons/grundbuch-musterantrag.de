@@ -10,4 +10,8 @@ export class SidemenuService {
   public toggleDashboardSidemenu() {
     this._dashboardSidemenuIsOpen.update(value => !value);
   }
+
+  public closeDashboardSidemenu() {
+    this._dashboardSidemenuIsOpen.set(false);
+  }
 }

@@ -28,32 +28,29 @@
     </div>
     @if (error() || loggerS.loggerData.error()) {
       <app-error-display [error]="error() ?? loggerS.loggerData.error()"></app-error-display>
-    } @else {
-      @if (!loggerS.loggerData.value()) {
-        <p>Keine Logs vorhanden</p>
-      } @else {
-        <div class="tableContainer">
-          <table>
-            <thead>
-              <tr>
-                <th>Zeit</th>
-                <th>Log</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (log of firstLogPage(); track log) {
-                <tr [ngClass]="{ error: log.level === 'error' }">
-                  <td>{{ addLineBreak((log.timestamp | date: "dd.MM.yyyy HH:mm") || "") }}</td>
-                  <td>{{ log.message }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      }
-    }
-    @if (loggerS.loggerData.isLoading()) {
+    } @else if (loggerS.loggerData.isLoading()) {
       <app-progress-spinner [endless]="true"></app-progress-spinner>
+    } @else if (!loggerS.loggerData.value() || firstLogPage().length === 0) {
+      <p>Keine Logs vorhanden</p>
+    } @else {
+      <div class="tableContainer">
+        <table>
+          <thead>
+            <tr>
+              <th>Zeit</th>
+              <th>Log</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (log of firstLogPage(); track log) {
+              <tr [ngClass]="{ error: log.level === 'error' }">
+                <td>{{ addLineBreak((log.timestamp | date: "dd.MM.yyyy HH:mm") || "") }}</td>
+                <td>{{ log.message }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     }
   </div>
 </app-dashboard-tile>

@@ -1,5 +1,5 @@
-import { HttpClient, httpResource } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
+import { inject, Injectable, Injector, untracked } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Settings } from 'common/models/settings.model';
 
@@ -8,25 +8,31 @@ import { Settings } from 'common/models/settings.model';
 })
 export class SettingsService {
   private readonly http = inject(HttpClient);
+  private readonly injector = inject(Injector);
 
-  private readonly loadTrigger = signal(false);
+  private _settingsResource?: HttpResourceRef<Settings | undefined>;
 
-  private readonly _settingsResource = httpResource<Settings>(() => {
-    if (!this.loadTrigger()) return undefined;
-    return {
-      url: '/api/settings'
-    };
-  });
-
-  readonly settingsResource = this._settingsResource.asReadonly();
+  get settingsResource() {
+    if (!this._settingsResource) {
+      this._settingsResource = untracked(() =>
+        httpResource<Settings>(
+          () => ({
+            url: '/api/settings'
+          }),
+          { injector: this.injector }
+        )
+      );
+    }
+    return this._settingsResource.asReadonly();
+  }
 
   load() {
-    this.loadTrigger.set(true);
+    this._settingsResource?.reload();
   }
 
   async saveSettings(settings: Settings): Promise<void> {
     await lastValueFrom(this.http.put('/api/settings', { settings: settings }));
-    this._settingsResource.set(settings);
+    this._settingsResource?.set(settings);
   }
 
   async getPrimaryColorFromSettings(): Promise<string | null> {

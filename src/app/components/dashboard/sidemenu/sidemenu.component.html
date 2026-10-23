@@ -2,7 +2,7 @@
   <div class="content">
     <div class="user">
       <div class="row1">
-        <button routerLink="./user-settings" class="btn-icon" (click)="sidemenuS.toggleDashboardSidemenu()" title="Einstellungen">
+        <button routerLink="./user-settings" class="btn-icon" (click)="sidemenuS.closeDashboardSidemenu()" title="Einstellungen">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
               fill="currentColor"
@@ -42,11 +42,11 @@
       <ul>
         @for (page of pages; track page.route) {
           <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: page.route === '/dashboard' }">
-            <a [routerLink]="page.route" (click)="sidemenuS.toggleDashboardSidemenu()">{{ page.name }}</a>
+            <a [routerLink]="page.route" (click)="sidemenuS.closeDashboardSidemenu()">{{ page.name }}</a>
           </li>
         }
       </ul>
     </nav>
   </div>
-  <div class="closingDiv" [ngClass]="{ sidemenuOpen: sidemenuS.dashboardSidemenuIsOpen() }" (click)="sidemenuS.toggleDashboardSidemenu()"></div>
+  <div class="closingDiv" [ngClass]="{ sidemenuOpen: sidemenuS.dashboardSidemenuIsOpen() }" (click)="sidemenuS.closeDashboardSidemenu()"></div>
 </aside>

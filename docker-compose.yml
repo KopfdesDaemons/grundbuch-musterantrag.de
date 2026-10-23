@@ -24,3 +24,4 @@ services:
       DASHBOARD_ROOT_USER: ${DASHBOARD_ROOT_USER}
       DASHBOARD_ROOT_PASSWORD: ${DASHBOARD_ROOT_PASSWORD}
       NODE_ENV: production
+      TZ: Europe/Berlin

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SidemenuService } from 'src/app/services/ui/sidemenu.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
@@ -13,17 +13,12 @@ import { AuthService } from 'src/app/services/user/auth.service';
   templateUrl: './sidemenu.component.html',
   styleUrl: './sidemenu.component.scss'
 })
-export class SidemenuComponent implements OnInit {
+export class SidemenuComponent {
   protected readonly sidemenuS = inject(SidemenuService);
   protected readonly authS = inject(AuthService);
   protected readonly userSettingsS = inject(UserSettingsService);
   protected readonly elementRef = inject(ElementRef);
   private readonly router = inject(Router);
-
-  ngOnInit(): void {
-    this.userSettingsS.reloadUsername();
-    this.userSettingsS.reloadUserRole();
-  }
 
   pages = [
     { name: 'Übersicht', route: '/dashboard' },
@@ -36,13 +31,13 @@ export class SidemenuComponent implements OnInit {
 
   @HostListener('focusout', ['$event']) onFocusOut(event: FocusEvent) {
     if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget as Node)) {
-      this.sidemenuS.toggleDashboardSidemenu();
+      this.sidemenuS.closeDashboardSidemenu();
     }
   }
 
   async logout() {
-    this.authS.cleanLocalSession();
-    this.sidemenuS.toggleDashboardSidemenu();
+    await this.authS.logout();
+    this.sidemenuS.closeDashboardSidemenu();
     await this.router.navigate(['/login']);
   }
 }

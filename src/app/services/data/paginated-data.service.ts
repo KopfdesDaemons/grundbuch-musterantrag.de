@@ -11,21 +11,25 @@ import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interfac
  */
 @Injectable()
 export class PaginatedDataService<T> {
-  private _apiUrl: string = '';
+  private readonly _apiUrl = signal<string>('');
 
   private _getItemId: ((item: T) => string | number) | undefined;
 
   readonly pageToLoad = signal<number>(1);
 
-  private _params: object = {};
+  private readonly _params = signal<Record<string, string | number | boolean>>({});
 
-  private readonly _dataResource = httpResource<PaginatedApiResponse<T>>(() => ({
-    url: this._apiUrl,
-    params: {
-      page: this.pageToLoad(),
-      ...this._params
-    }
-  }));
+  private readonly _dataResource = httpResource<PaginatedApiResponse<T>>(() => {
+    const url = this._apiUrl();
+    if (!url) return undefined;
+    return {
+      url,
+      params: {
+        page: this.pageToLoad(),
+        ...this._params()
+      }
+    };
+  });
 
   readonly data = this._dataResource.asReadonly();
 
@@ -69,10 +73,10 @@ export class PaginatedDataService<T> {
    * @param apiUrl The base URL for the API endpoint.
    * @param getItemId A function to get the unique ID of an item.
    */
-  init(apiUrl: string, getItemId: (item: T) => string | number, params: object = {}) {
-    this._apiUrl = apiUrl;
+  init(apiUrl: string, getItemId: (item: T) => string | number, params: Record<string, string | number | boolean> = {}) {
+    this._apiUrl.set(apiUrl);
     this._getItemId = getItemId;
-    this._params = params;
+    this._params.set(params);
   }
 
   setPageToLoad(value: number) {
@@ -80,7 +84,7 @@ export class PaginatedDataService<T> {
   }
 
   loadData() {
-    if (!this._apiUrl) {
+    if (!this._apiUrl()) {
       console.error('PaginatedDataService not initialized. Call init() first.');
       return;
     }

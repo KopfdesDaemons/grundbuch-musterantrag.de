@@ -1,5 +1,5 @@
-import { formatDate } from '@angular/common';
-import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT, computed } from '@angular/core';
+import { formatDate, isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT, computed, PLATFORM_ID } from '@angular/core';
 import { ScriptService } from '../utils/script.service';
 import { DesignloaderService } from '../ui/designloader.service';
 import { ColorHelper } from '../../helpers/color.helper';
@@ -15,6 +15,7 @@ export class GooglechartsService {
   private readonly statisticS = inject(StatisticService);
   private readonly local = inject(LOCALE_ID);
   private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
 
   async loadGoogleCharts(renderer: Renderer2): Promise<void> {
     if (!this.loadPromise) {
@@ -78,10 +79,15 @@ export class GooglechartsService {
     return chartRows;
   }
 
+  private getFontHex(): string {
+    if (!isPlatformBrowser(this.platformId)) return '#000000';
+    const fontColorRGB = getComputedStyle(this.document.documentElement).getPropertyValue('--font-color').trim();
+    return fontColorRGB ? ColorHelper.rgbToHexFromString(fontColorRGB) : '#000000';
+  }
+
   getPieChartOptions() {
     this.designS.darkmode();
-    const fontColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--font-color').trim();
-    const fontHEX = ColorHelper.rgbToHexFromString(fontColorRGB);
+    const fontHEX = this.getFontHex();
     const primaryColor = this.designS.primaryColor() || '#20afdf';
     const colors = [primaryColor, ...[20, 30, 40, 50, 60].map(v => ColorHelper.darkenHexColor(primaryColor, v))];
     return {
@@ -106,8 +112,7 @@ export class GooglechartsService {
 
   getBarChartOptions() {
     this.designS.darkmode();
-    const fontColorRGB = getComputedStyle(document.documentElement).getPropertyValue('--font-color').trim();
-    const fontHEX = ColorHelper.rgbToHexFromString(fontColorRGB);
+    const fontHEX = this.getFontHex();
     const primaryColor = this.designS.primaryColor() || '#20afdf';
     return {
       legend: 'none',
@@ -133,8 +138,7 @@ export class GooglechartsService {
 
   getLineChartOptions(chartTimeframe: 'week' | 'month' | 'year') {
     this.designS.darkmode();
-    const fontColorRGB = getComputedStyle(this.document.documentElement).getPropertyValue('--font-color').trim();
-    const fontHEX = ColorHelper.rgbToHexFromString(fontColorRGB);
+    const fontHEX = this.getFontHex();
     const primaryColor = this.designS.primaryColor() || '#20afdf';
     const axisTextStyle = { color: fontHEX };
     const axisTitleStyle = { color: primaryColor };

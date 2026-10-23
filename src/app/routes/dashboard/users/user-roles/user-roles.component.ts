@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, WritableSignal, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, signal } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -17,11 +17,10 @@ import { Feature, UserRoleManagementAction } from 'common/interfaces/user-permis
 export class UserRolesComponent {
   private readonly userSettingsS = inject(UserSettingsService);
   protected readonly userRoleS = inject(UserroleService);
-  protected readonly form = signal<FormGroup>(new FormGroup({}));
-  protected isNewUserRole = false;
+  protected readonly isNewUserRole = signal(false);
   protected readonly error = signal<Error | HttpErrorResponse | null>(null);
   protected readonly isLoading = signal(false);
-  protected readonly selectedUserRoleID: WritableSignal<number | undefined> = signal(undefined);
+  protected readonly selectedUserRoleID = this.userRoleS.userRoleInEditIDSignal;
 
   protected readonly userHasPermissionsDeleteUserRole = this.userSettingsS.getPermissionsSignal({
     feature: Feature.UserRoleManagement,
@@ -38,42 +37,25 @@ export class UserRolesComponent {
     allowedActions: [UserRoleManagementAction.UpdateUserRole]
   });
 
-  constructor() {
-    this.form.set(this.userRoleS.getFormGroup(!this.userHasPermissionsUpdateUserRole()));
-    effect(this.setupUserRoleOptions.bind(this));
-    effect(this.handleSelectedUserRoleIDChange.bind(this));
-    effect(this.handleUserRoleInEditChange.bind(this));
-  }
-
-  private setupUserRoleOptions(): void {
-    const firstId = this.userRoleS.firstUserRoleID();
-    if (firstId !== undefined && this.selectedUserRoleID() === undefined && !this.isNewUserRole) {
-      this.selectedUserRoleID.set(firstId);
+  protected readonly form = linkedSignal<FormGroup>(() => {
+    if (this.isNewUserRole()) {
+      return this.userRoleS.getFormGroup(false);
     }
-  }
+    const isDisabled = !this.userHasPermissionsUpdateUserRole();
+    const roleInEdit = this.userRoleS.userRoleInEdit.hasValue() ? this.userRoleS.userRoleInEdit.value() : undefined;
+    return this.userRoleS.getFormGroup(isDisabled, roleInEdit);
+  });
 
-  private handleSelectedUserRoleIDChange(): void {
+  selectUserRole(userRoleID: number | undefined): void {
     this.error.set(null);
-    this.userRoleS.setUserRoleInEditID(this.selectedUserRoleID());
-  }
-
-  private handleUserRoleInEditChange(): void {
-    const resource = this.userRoleS.userRoleInEdit;
-    if (resource.error()) {
-      this.isNewUserRole = false;
-      return;
-    }
-    if (resource.value()) {
-      this.isNewUserRole = false;
-      this.form.set(this.userRoleS.getFormGroup(!this.userHasPermissionsUpdateUserRole(), resource.value()));
-    }
+    this.isNewUserRole.set(false);
+    this.userRoleS.setUserRoleInEditID(userRoleID);
   }
 
   createNewUserRole(): void {
     this.error.set(null);
-    this.isNewUserRole = true;
-    this.selectedUserRoleID.set(undefined);
-    this.form.set(this.userRoleS.getFormGroup(false));
+    this.isNewUserRole.set(true);
+    this.userRoleS.setUserRoleInEditID(undefined);
   }
 
   async saveUserRole(): Promise<void> {
@@ -82,10 +64,10 @@ export class UserRolesComponent {
       this.isLoading.set(true);
       const userRoleInForm = this.userRoleS.getUserRoleFromFormGroup(this.form());
       let userRoleID;
-      if (this.isNewUserRole) {
+      if (this.isNewUserRole()) {
         // Create new user role
         userRoleID = await this.userRoleS.createUserRole(userRoleInForm);
-        this.isNewUserRole = false;
+        this.isNewUserRole.set(false);
       } else {
         // Update existing user role
         userRoleID = userRoleInForm.userRoleID;
@@ -93,7 +75,7 @@ export class UserRolesComponent {
       }
       this.userRoleS.reloadUserRoleOptions();
       this.userRoleS.reloadUserRoleInEdit();
-      this.selectedUserRoleID.set(userRoleID);
+      this.userRoleS.setUserRoleInEditID(userRoleID);
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {
         this.error.set(error);
@@ -109,7 +91,7 @@ export class UserRolesComponent {
       this.error.set(null);
       this.isLoading.set(true);
       await this.userRoleS.deleteUserRole([userRoleID]);
-      this.selectedUserRoleID.set(undefined);
+      this.userRoleS.setUserRoleInEditID(undefined);
       this.userRoleS.reloadUserRoleOptions();
     } catch (error) {
       if (error instanceof Error || error instanceof HttpErrorResponse) {

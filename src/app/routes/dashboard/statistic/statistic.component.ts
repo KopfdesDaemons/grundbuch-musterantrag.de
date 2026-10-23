@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { GoogleChartComponent } from '../../../components/google-chart/google-chart.component';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
@@ -46,20 +46,17 @@ export class StatisticComponent {
     return (resource.value() ?? []).reduce((total, day) => total + (day.count || 0), 0);
   });
 
-  constructor() {
-    effect(() => {
-      const month = this.selectedMonth();
-      const year = this.selectedYear();
-      this.statisticS.setStatisticSpecificTimeframe(month === undefined ? undefined : month + 1, year);
-    });
-  }
-
   monthChanged(month: string) {
-    this.selectedMonth.set(month === 'all' ? undefined : this.monthNames.indexOf(month));
+    const newMonth = month === 'all' ? undefined : this.monthNames.indexOf(month);
+    this.selectedMonth.set(newMonth);
+    this.statisticS.setStatisticSpecificTimeframe(newMonth === undefined ? undefined : newMonth + 1, this.selectedYear());
   }
 
   yearChanged(year: string) {
-    this.selectedYear.set(Number(year));
+    const newYear = Number(year);
+    this.selectedYear.set(newYear);
+    const month = this.selectedMonth();
+    this.statisticS.setStatisticSpecificTimeframe(month === undefined ? undefined : month + 1, newYear);
   }
 
   reload() {

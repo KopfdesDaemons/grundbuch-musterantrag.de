@@ -1,17 +1,18 @@
 export abstract class TimeHelper {
+  private static readonly TIMEZONE = 'Europe/Berlin';
+
   /**
    *Gibt das Datum im Format DD.MM.YYYY zurück
    *@param date - Datum, das formatiert werden soll. Standard: aktuelles Datum
    *@returns {string} - DD.MM.YYYY
    **/
   static formatDate(date: Date = new Date()): string {
-    // Tag, Monat und Jahr extrahieren
-    const tag = String(date.getDate()).padStart(2, '0');
-    const monat = String(date.getMonth() + 1).padStart(2, '0');
-    const jahr = date.getFullYear();
-
-    // Formatierung zum gewünschten Format
-    return `${tag}.${monat}.${jahr}`;
+    return new Intl.DateTimeFormat('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      timeZone: TimeHelper.TIMEZONE
+    }).format(date);
   }
 
   /**
@@ -20,8 +21,14 @@ export abstract class TimeHelper {
    *@returns {string} - HH.MM Uhr
    **/
   static formatTime(date: Date = new Date()): string {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const parts = new Intl.DateTimeFormat('de-DE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: TimeHelper.TIMEZONE
+    }).formatToParts(date);
+    const hours = parts.find(p => p.type === 'hour')?.value ?? '00';
+    const minutes = parts.find(p => p.type === 'minute')?.value ?? '00';
     return `${hours}.${minutes} Uhr`;
   }
 
@@ -31,7 +38,13 @@ export abstract class TimeHelper {
    * @returns {string} - "Morgen", "Tag", oder "Abend"
    */
   static getTimeOfDay(date: Date = new Date()): string {
-    const stunde = date.getHours();
+    const stunde = Number(
+      new Intl.DateTimeFormat('de-DE', {
+        hour: 'numeric',
+        hour12: false,
+        timeZone: TimeHelper.TIMEZONE
+      }).format(date)
+    );
 
     if (stunde >= 5 && stunde < 12) {
       return 'Morgen';

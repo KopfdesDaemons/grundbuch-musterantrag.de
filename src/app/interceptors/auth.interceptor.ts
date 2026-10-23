@@ -8,15 +8,25 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   const authService = inject(AuthService);
   const platformId = inject(PLATFORM_ID);
 
-  if (!isPlatformBrowser(platformId)) return next(req);
-
-  // Don't try to refresh token if the user is not logged in or if the request is not to the API or if the request is for logging in
-  if (localStorage.getItem('login') !== 'true' || !req.url.startsWith('/api/') || req.url.startsWith('/api/auth/login')) {
+  // Don't intercept non-API requests, login requests, logout requests, or refresh requests
+  if (
+    !req.url.startsWith('/api/') ||
+    req.url.startsWith('/api/auth/login') ||
+    req.url === '/api/auth/logout' ||
+    req.url.startsWith('/api/auth/refresh')
+  ) {
     return next(req);
   }
 
-  // Don't try to refresh token if the request is for refreshing the token itself
-  if (req.url.startsWith('/api/auth/refresh')) return next(req);
+  if (isPlatformBrowser(platformId)) {
+    if (localStorage.getItem('login') !== 'true') {
+      return next(req);
+    }
+  } else {
+    if (!authService.accessToken()) {
+      return next(req);
+    }
+  }
 
   const accessTokenIsExpired = (): boolean => {
     const expiryDate = authService.accessTokenExpiryDate;

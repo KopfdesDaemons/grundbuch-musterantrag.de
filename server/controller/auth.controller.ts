@@ -5,7 +5,8 @@ import {
   login,
   refreshAccessToken,
   revokeAllRefreshTokensByUserID,
-  revokeRefreshToken
+  revokeRefreshToken,
+  revokeRefreshTokenByTokenString
 } from '../services/auth.service';
 import { AuthResponse } from '../../common/interfaces/auth-response.interface';
 import { PaginatedApiResponse } from '../../common/interfaces/pagination-data.interface';
@@ -69,11 +70,30 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
   return res.json(authResponse);
 };
 
+export const handleLogout = async (req: Request, res: Response) => {
+  const refreshToken = req.cookies['refresh_token'];
+  res.clearCookie('refresh_token');
+
+  if (refreshToken) {
+    try {
+      const { userID } = await verifyToken(refreshToken);
+      if (userID) {
+        await revokeRefreshTokenByTokenString(refreshToken, +userID);
+      }
+    } catch {
+      // Token ist bereits ungültig oder abgelaufen
+    }
+  }
+
+  return res.status(200).json({ message: 'Erfolgreich abgemeldet' });
+};
+
 export const handleLogoutEverywhere = async (req: Request, res: Response) => {
   if (!req.jwtPayload) throw new AuthError('Kein JWT in der Anfrage', 400);
   const { userID } = req.jwtPayload;
   await validateAndGetUser(userID);
   await revokeAllRefreshTokensByUserID(userID);
+  res.clearCookie('refresh_token');
   res.status(200).json({ message: 'Alle Refresh Tokens erfolgreich gelöscht' });
 };
 

@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, linkedSignal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { UserRoleOption } from '../../models/user-role-option.model';
 import {
@@ -124,7 +124,7 @@ export class UserroleService {
     return options && options.length > 0 ? options[0].userRoleID : undefined;
   });
 
-  private readonly userRoleInEditID = signal<number | undefined>(undefined);
+  private readonly userRoleInEditID = linkedSignal<number | undefined>(() => this.firstUserRoleID());
   readonly userRoleInEditIDSignal = this.userRoleInEditID.asReadonly();
 
   setUserRoleInEditID(value: number | undefined) {

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, Renderer2, signal, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, PLATFORM_ID, Renderer2, signal, viewChild } from '@angular/core';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.component';
 
@@ -10,6 +11,7 @@ import { ProgressSpinnerComponent } from '../progress-spinner/progress-spinner.c
   styleUrl: './google-chart.component.scss'
 })
 export class GoogleChartComponent {
+  private readonly platformId = inject(PLATFORM_ID);
   renderer = inject(Renderer2);
   gCharts = inject(GooglechartsService);
   chartContainer = viewChild.required<ElementRef>('chartContainer');
@@ -26,6 +28,7 @@ export class GoogleChartComponent {
     effect(async () => {
       this.chartData();
       this.chartOptions();
+      if (!isPlatformBrowser(this.platformId)) return;
       await this.gCharts.loadGoogleCharts(this.renderer);
       this.drawChart();
       this.observeResize();

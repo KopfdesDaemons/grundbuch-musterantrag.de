@@ -68,14 +68,13 @@ export class SessionsManagerComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.userID()) {
+    const userID = this.userID();
+    if (userID) {
       this.paginatedDataService.init('/api/user-management/sessions', session => session.creationDate.toString(), {
-        userID: this.userID()
+        userID
       });
     } else {
-      this.paginatedDataService.init('/api/auth/sessions', session => session.creationDate.toString(), {
-        userID: this.userID()
-      });
+      this.paginatedDataService.init('/api/auth/sessions', session => session.creationDate.toString());
     }
   }
 

@@ -1,9 +1,9 @@
 import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './routes/app.routes';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule, provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/user/auth.service';
 
@@ -27,8 +27,12 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAppInitializer(initApp),
     importProvidersFrom(BrowserModule, FormsModule, ReactiveFormsModule),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideClientHydration(withIncrementalHydration()),
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideClientHydration(
+      withHttpTransferCacheOptions({
+        includeRequestsWithAuthHeaders: true
+      })
+    ),
     provideZonelessChangeDetection()
   ]
 };

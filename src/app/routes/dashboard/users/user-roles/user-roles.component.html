@@ -6,8 +6,8 @@
           <input type="number" formControlName="userRoleID" id="userRoleIDinput" placeholder="&nbsp;" />
           <label class="placeholder" for="userRoleIDinput">ID</label>
         </div>
-        <select [(ngModel)]="selectedUserRoleID" [ngModelOptions]="{ standalone: true }">
-          @if (isNewUserRole) {
+        <select [ngModel]="selectedUserRoleID()" (ngModelChange)="selectUserRole($event)" [ngModelOptions]="{ standalone: true }">
+          @if (isNewUserRole()) {
             <option [ngValue]="undefined" selected>Neue Benutzerrolle</option>
           }
           @if (userRoleS.userRoleOptions.hasValue()) {
@@ -56,13 +56,13 @@
             [disabled]="
               isLoading() ||
               form().invalid ||
-              (isNewUserRole && !userHasPermissionsCreateUserRole()) ||
-              (!isNewUserRole && !userHasPermissionsUpdateUserRole())
+              (isNewUserRole() && !userHasPermissionsCreateUserRole()) ||
+              (!isNewUserRole() && !userHasPermissionsUpdateUserRole())
             "
             [title]="
-              isNewUserRole && !userHasPermissionsCreateUserRole()
+              isNewUserRole() && !userHasPermissionsCreateUserRole()
                 ? 'Sie haben nicht genügend Rechte um eine Userrole zu erstellen'
-                : !isNewUserRole && !userHasPermissionsUpdateUserRole()
+                : !isNewUserRole() && !userHasPermissionsUpdateUserRole()
                   ? 'Sie haben nicht genügend Rechte um eine Userrole zu bearbeiten'
                   : 'Speichern'
             "

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="createUser()" #ngForm="ngForm">
+<form [formGroup]="form()" (ngSubmit)="createUser()" #ngForm="ngForm">
   @if (error(); as e) {
     <app-error-display [error]="e"></app-error-display>
   }
@@ -36,5 +36,5 @@
     <label class="placeholder" for="userPasswordinput">Initialpasswort</label>
   </div>
 
-  <button type="submit" [disabled]="form.invalid || !userHasPermissionsCreateUser()">Erstellen</button>
+  <button type="submit" [disabled]="form().invalid || !userHasPermissionsCreateUser()">Erstellen</button>
 </form>

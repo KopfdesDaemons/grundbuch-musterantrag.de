@@ -7,7 +7,8 @@ export const db = mysql.createPool({
   host: 'db',
   user: process.env['MYSQL_USER'],
   password: process.env['MYSQL_PASSWORD'],
-  database: 'grundbuch-musterantrag'
+  database: 'grundbuch-musterantrag',
+  timezone: 'Z'
 });
 
 export const initDatabase = async () => {
