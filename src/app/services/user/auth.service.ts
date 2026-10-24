@@ -6,7 +6,7 @@ import { AuthResponse } from 'common/interfaces/auth-response.interface';
 import { lastValueFrom } from 'rxjs';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
-const AUTH_STATE_KEY = makeStateKey<AuthResponse>('authResponse');
+const AUTH_STATE_KEY = makeStateKey<AuthResponse | null>('authResponse');
 
 @Injectable({
   providedIn: 'root'
@@ -95,8 +95,10 @@ export class AuthService {
         if (transferredAuth) {
           localStorage.setItem('login', 'true');
           this.setAccessToken(transferredAuth);
-          return;
+        } else {
+          this.cleanLocalSession();
         }
+        return;
       }
       if (localStorage.getItem('login') !== 'true') return;
     } else {
@@ -152,14 +154,17 @@ export class AuthService {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           if (isPlatformBrowser(this.platformId)) {
             this.cleanLocalSession();
-          } else if (this.responseInit) {
-            const clearCookie = 'refresh_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
-            if (this.responseInit.headers instanceof Headers) {
-              this.responseInit.headers.append('set-cookie', clearCookie);
-            } else {
-              const resHeaders = new Headers(this.responseInit.headers);
-              resHeaders.append('set-cookie', clearCookie);
-              this.responseInit.headers = resHeaders;
+          } else {
+            this.transferState.set(AUTH_STATE_KEY, null);
+            if (this.responseInit) {
+              const clearCookie = 'refresh_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT';
+              if (this.responseInit.headers instanceof Headers) {
+                this.responseInit.headers.append('set-cookie', clearCookie);
+              } else {
+                const resHeaders = new Headers(this.responseInit.headers);
+                resHeaders.append('set-cookie', clearCookie);
+                this.responseInit.headers = resHeaders;
+              }
             }
           }
         }

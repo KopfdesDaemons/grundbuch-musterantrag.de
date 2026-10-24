@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import { createToken } from 'server/helpers/jwt.helper';
 import { AuthError } from 'server/models/errors/auth-error.model';
 import { RefreshToken } from 'server/models/refresh-token.model';
@@ -10,6 +11,16 @@ import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interfac
 
 const refreshTokenLifetimeInMS = 21 * 24 * 60 * 60 * 1000; // 21 days
 const accessTokenLifetimeInMS = 5 * 60 * 1000; // 5 minutes
+const refreshGracePeriodInMS = 10 * 1000; // 10 seconds grace period for concurrent SSR/browser requests
+
+interface TokenPairResult {
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpiryDate: Date;
+  refreshTokenExpiryDate: Date;
+}
+
+const recentTokenRefreshes = new Map<string, Promise<TokenPairResult>>();
 
 export const login = async (
   user: User,
@@ -44,7 +55,7 @@ const createAndSaveRefreshToken = async (user: User, userAgent: string, ip: stri
   if (!user.userID) throw new Error('No User ID');
   const expireDate = new Date(Date.now() + refreshTokenLifetimeInMS);
   const refreshToken = new RefreshToken(user.userID, '', new Date(), expireDate, userAgent, ip);
-  const token = createToken({ userID: user.userID }, refreshTokenLifetimeInMS.toString());
+  const token = createToken({ userID: user.userID, jti: randomBytes(16).toString('hex') }, refreshTokenLifetimeInMS.toString());
   refreshToken.tokenHash = await getHashFromString(token);
   await saveRefreshToken(refreshToken);
   return token;
@@ -78,11 +89,12 @@ export const saveRefreshToken = async (token: RefreshToken): Promise<void> => {
   ]);
 };
 
-export const getRefreshTokenCookieOptions = (): { httpOnly: boolean; secure: boolean; sameSite: 'lax'; expires: Date } => {
+export const getRefreshTokenCookieOptions = (): { httpOnly: boolean; secure: boolean; sameSite: 'lax'; path: string; expires: Date } => {
   return {
     httpOnly: IS_PRODUCTION,
     secure: IS_PRODUCTION,
     sameSite: 'lax',
+    path: '/',
     expires: new Date(Date.now() + refreshTokenLifetimeInMS)
   };
 };
@@ -125,6 +137,7 @@ export const getRefreshTokensByUserID = async (userID: number, page: number = 1)
 };
 
 export const revokeAllRefreshTokensByUserID = async (userID: number): Promise<void> => {
+  recentTokenRefreshes.clear();
   const query = 'UPDATE refresh_tokens SET isRevoked = 1 WHERE userID = ?';
   await db.execute(query, [userID]);
 };
@@ -134,56 +147,76 @@ export const refreshAccessToken = async (
   user: User,
   userAgent: string,
   ip: string
-): Promise<{ accessToken: string; refreshToken: string; accessTokenExpiryDate: Date; refreshTokenExpiryDate: Date }> => {
+): Promise<TokenPairResult> => {
   if (!user.userID) throw new Error('No User ID');
 
-  let matchedToken: RefreshToken | undefined;
-  let currentPage = 1;
-  let totalPages = 1;
-
-  do {
-    const paginatedResponse = await getRefreshTokensByUserID(user.userID, currentPage);
-    if (paginatedResponse.totalItems === 0 && currentPage === 1) {
-      throw new AuthError('Keine aktiven Sessions gefunden. Bitte neu anmelden.', 401);
-    }
-    totalPages = paginatedResponse.totalPages;
-
-    for (const token of paginatedResponse.items) {
-      if (!token.tokenHash) continue;
-      if (await compareStringsAndHash(oldRefreshTokenString, token.tokenHash)) {
-        matchedToken = token;
-        break;
-      }
-    }
-    currentPage++;
-  } while (currentPage <= totalPages && !matchedToken);
-
-  if (!matchedToken) {
-    throw new AuthError('Ungültiges Refresh Token. Bitte neu anmelden.', 401);
+  const existingRefresh = recentTokenRefreshes.get(oldRefreshTokenString);
+  if (existingRefresh) {
+    return existingRefresh;
   }
-  matchedToken.isRevoked = true;
-  await updateRefreshToken(matchedToken);
 
-  // Create new tokens
-  const newAccessToken = getNewAccessToken(user);
-  const newAccessTokenExpiryDate = new Date(Date.now() + accessTokenLifetimeInMS);
-  const newRefreshToken = await createAndSaveRefreshToken(user, userAgent, ip);
-  const newRefreshTokenExpiryDate = new Date(Date.now() + refreshTokenLifetimeInMS);
+  const refreshPromise = (async (): Promise<TokenPairResult> => {
+    let matchedToken: RefreshToken | undefined;
+    let currentPage = 1;
+    let totalPages = 1;
 
-  return {
-    accessToken: newAccessToken,
-    refreshToken: newRefreshToken,
-    accessTokenExpiryDate: newAccessTokenExpiryDate,
-    refreshTokenExpiryDate: newRefreshTokenExpiryDate
-  };
+    do {
+      const paginatedResponse = await getRefreshTokensByUserID(user.userID!, currentPage);
+      if (paginatedResponse.totalItems === 0 && currentPage === 1) {
+        throw new AuthError('Keine aktiven Sessions gefunden. Bitte neu anmelden.', 401);
+      }
+      totalPages = paginatedResponse.totalPages;
+
+      for (const token of paginatedResponse.items) {
+        if (!token.tokenHash) continue;
+        if (await compareStringsAndHash(oldRefreshTokenString, token.tokenHash)) {
+          matchedToken = token;
+          break;
+        }
+      }
+      currentPage++;
+    } while (currentPage <= totalPages && !matchedToken);
+
+    if (!matchedToken) {
+      throw new AuthError('Ungültiges Refresh Token. Bitte neu anmelden.', 401);
+    }
+    matchedToken.isRevoked = true;
+    await updateRefreshToken(matchedToken);
+
+    // Create new tokens
+    const newAccessToken = getNewAccessToken(user);
+    const newAccessTokenExpiryDate = new Date(Date.now() + accessTokenLifetimeInMS);
+    const newRefreshToken = await createAndSaveRefreshToken(user, userAgent, ip);
+    const newRefreshTokenExpiryDate = new Date(Date.now() + refreshTokenLifetimeInMS);
+
+    return {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+      accessTokenExpiryDate: newAccessTokenExpiryDate,
+      refreshTokenExpiryDate: newRefreshTokenExpiryDate
+    };
+  })();
+
+  recentTokenRefreshes.set(oldRefreshTokenString, refreshPromise);
+  refreshPromise
+    .then(() => {
+      setTimeout(() => recentTokenRefreshes.delete(oldRefreshTokenString), refreshGracePeriodInMS);
+    })
+    .catch(() => {
+      recentTokenRefreshes.delete(oldRefreshTokenString);
+    });
+
+  return refreshPromise;
 };
 
 export const revokeRefreshToken = async (refreshTokenID: number, userID: number): Promise<void> => {
+  recentTokenRefreshes.clear();
   const query = 'UPDATE refresh_tokens SET isRevoked = 1 WHERE tokenID = ? AND userID = ?';
   await db.execute(query, [refreshTokenID, userID]);
 };
 
 export const revokeRefreshTokenByTokenString = async (refreshTokenString: string, userID: number): Promise<void> => {
+  recentTokenRefreshes.delete(refreshTokenString);
   let matchedToken: RefreshToken | undefined;
   let currentPage = 1;
   let totalPages = 1;

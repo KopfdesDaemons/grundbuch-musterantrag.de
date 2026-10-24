@@ -29,7 +29,7 @@ import logger from 'server/config/logger.config';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+const angularApp = new AngularNodeAppEngine({ trustProxyHeaders: true });
 
 // To get ip from req
 app.set('trust proxy', true);
@@ -89,7 +89,7 @@ app.use(
  * Non-GET/HEAD requests outside /api (e.g. bot POST scans to /admin) are rejected with 404.
  */
 app.use((req, res, next) => {
-  if (req.method !== 'GET' && req.method !== 'HEAD') {
+  if ((req.method !== 'GET' && req.method !== 'HEAD') || req.path.startsWith('/.well-known/')) {
     res.status(404).end();
     return;
   }
@@ -108,6 +108,7 @@ app.use(errorHandler);
  */
 if (isMainModule(import.meta.url)) {
   const port = process.env['PORT'] || 4000;
+  process.env['SSR_LOCAL_ORIGIN'] = `http://127.0.0.1:${port}`;
   app.listen(port, error => {
     if (error) {
       throw error;
