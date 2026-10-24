@@ -1,5 +1,12 @@
 import { Request, Response } from 'express';
-import { createNewBackup, deleteBackups, getBackupList, restoreBackup } from 'server/services/backup.service';
+import {
+  createNewBackup,
+  deleteBackups,
+  getBackupList,
+  IncompatibleBackupVersionError,
+  restoreBackup,
+  RestoreBackupResult
+} from 'server/services/backup.service';
 import { UploadedFile } from 'express-fileupload';
 import path from 'path';
 import { BACKUP_FOLDER_PATH, STORAGE_FOLDER_PATH } from 'server/config/path.config';
@@ -7,6 +14,14 @@ import fs from 'fs';
 import logger from 'server/config/logger.config';
 import { getFile } from 'server/helpers/file-system.helper';
 import { clearUserRoleCache } from 'server/services/user-role.service';
+
+const formatRestoreMessage = (result: RestoreBackupResult): string => {
+  if (result.migrated) {
+    const fromLabel = result.backupDbVersion === 0 ? 'v0 (Legacy)' : `v${result.backupDbVersion}`;
+    return `Backup (${fromLabel}) erfolgreich eingespielt und automatisch auf Datenbank-Version v${result.currentDbVersion} migriert.`;
+  }
+  return `Backup (v${result.currentDbVersion}) erfolgreich eingespielt.`;
+};
 
 export const handleGetBackupList = async (req: Request, res: Response) => {
   const page = parseInt(req.query['page'] as string, 10) || 1;
@@ -36,10 +51,11 @@ export const handleRestoreBackupByFileUpload = async (req: Request, res: Respons
     const tempFilePath = path.join(STORAGE_FOLDER_PATH, `temp_restore_${Date.now()}${ext}`);
     await backupFile.mv(tempFilePath);
     try {
-      await restoreBackup(tempFilePath);
+      const result = await restoreBackup(tempFilePath);
       clearUserRoleCache();
-      logger.info('Backup ' + backupFile.name + ' erfolgreich eingespielt.');
-      return res.status(200).send({ message: 'Backup erfolgreich eingespielt.' });
+      const message = formatRestoreMessage(result);
+      logger.info(`Backup ${backupFile.name} erfolgreich eingespielt (${message})`);
+      return res.status(200).send({ message });
     } finally {
       if (fs.existsSync(tempFilePath)) {
         await fs.promises.unlink(tempFilePath);
@@ -47,6 +63,9 @@ export const handleRestoreBackupByFileUpload = async (req: Request, res: Respons
     }
   } catch (error) {
     logger.error('Fehler beim Einspielen des Backups:', error);
+    if (error instanceof IncompatibleBackupVersionError) {
+      return res.status(400).send({ message: error.message });
+    }
     return res.status(500).send({ message: 'Fehler beim Einspielen des Backups.' });
   }
 };
@@ -58,18 +77,22 @@ export const handleRestoreBackupByFileName = async (req: Request, res: Response)
       return res.status(400).send({ message: 'Es wurde kein Backup-Dateiname übermittelt.' });
     }
 
-    const backupFilePath = path.join(BACKUP_FOLDER_PATH, backupFileName);
+    const backupFilePath = path.join(BACKUP_FOLDER_PATH, path.basename(backupFileName));
     if (!fs.existsSync(backupFilePath)) {
       return res.status(404).send({ message: 'Die angegebene Backup-Datei wurde nicht gefunden.' });
     }
 
     logger.info('Starte einspielen des Backups ' + backupFileName);
-    await restoreBackup(backupFilePath);
+    const result = await restoreBackup(backupFilePath);
     clearUserRoleCache();
-    logger.info('Backup ' + backupFileName + ' erfolgreich eingespielt.');
-    return res.status(200).send({ message: 'Backup erfolgreich eingespielt.' });
+    const message = formatRestoreMessage(result);
+    logger.info(`Backup ${backupFileName} erfolgreich eingespielt (${message})`);
+    return res.status(200).send({ message });
   } catch (error) {
     logger.error('Fehler beim Einspielen des Backups:', error);
+    if (error instanceof IncompatibleBackupVersionError) {
+      return res.status(400).send({ message: error.message });
+    }
     return res.status(500).send({ message: 'Fehler beim Einspielen des Backups.' });
   }
 };

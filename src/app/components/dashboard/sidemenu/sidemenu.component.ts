@@ -26,11 +26,11 @@ export class SidemenuComponent {
     { name: 'Statistik', route: '/dashboard/statistic' },
     { name: 'Users', route: '/dashboard/users' },
     { name: 'Logs', route: '/dashboard/logs' },
-    { name: 'Backup', route: '/dashboard/backup' }
+    { name: 'DB Backup', route: '/dashboard/backup' }
   ];
 
   @HostListener('focusout', ['$event']) onFocusOut(event: FocusEvent) {
-    if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget as Node)) {
+    if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget)) {
       this.sidemenuS.closeDashboardSidemenu();
     }
   }

@@ -54,9 +54,18 @@ export class BackupComponent {
       }
       return backups.map(backup => {
         if (this.rowsMap.has(backup.fileName)) {
-          return this.rowsMap.get(backup.fileName)!;
+          const existing = this.rowsMap.get(backup.fileName)!;
+          existing.dbVersion = backup.dbVersion;
+          existing.currentServerDbVersion = backup.currentServerDbVersion;
+          return existing;
         }
-        const newRow: BackupRow = { backupFileName: backup.fileName, sizeInBytes: backup.sizeInBytes, isChecked: signal(false) };
+        const newRow: BackupRow = {
+          backupFileName: backup.fileName,
+          sizeInBytes: backup.sizeInBytes,
+          dbVersion: backup.dbVersion,
+          currentServerDbVersion: backup.currentServerDbVersion,
+          isChecked: signal(false)
+        };
         this.rowsMap.set(backup.fileName, newRow);
         return newRow;
       });
@@ -114,10 +123,15 @@ export class BackupComponent {
     this.restoreBackupIsLoading.set(false);
   }
 
-  async restoreBackupByFileName(fileName: string) {
-    if (!fileName) return;
+  async restoreBackupByFileName(row: BackupRow) {
+    if (!row?.backupFileName || row.dbVersion > row.currentServerDbVersion) return;
 
-    if (!confirm('Möchten Sie das Backup wirklich einspielen? Alle aktuellen Daten werden überschrieben!')) {
+    const confirmMessage =
+      row.dbVersion < row.currentServerDbVersion
+        ? `Hinweis: Dieses Backup stammt aus einer älteren Datenbank-Version (v${row.dbVersion}) und wird beim Einspielen automatisch auf die aktuelle Version (v${row.currentServerDbVersion}) migriert.\n\nMöchten Sie das Backup wirklich einspielen? Alle aktuellen Daten werden überschrieben!`
+        : 'Möchten Sie das Backup wirklich einspielen? Alle aktuellen Daten werden überschrieben!';
+
+    if (!confirm(confirmMessage)) {
       return;
     }
 
@@ -125,7 +139,7 @@ export class BackupComponent {
     this.restoreBackupResponseMessage.set('');
     this.restoreBackupError.set(null);
     try {
-      const { message } = await this.backupS.restoreBackupByFileName(fileName);
+      const { message } = await this.backupS.restoreBackupByFileName(row.backupFileName);
       this.restoreBackupResponseMessage.set(message);
       this.selectedFile.set(null);
     } catch (error) {

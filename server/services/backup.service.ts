@@ -7,6 +7,7 @@ import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interfac
 import { BACKUP_FOLDER_PATH } from 'server/config/path.config';
 import { BackupFile } from 'common/interfaces/backup-file.interface';
 import logger from 'server/config/logger.config';
+import { CURRENT_DB_VERSION, db, getCurrentDbVersion, initDatabase } from './database.service';
 
 const DB_HOST = 'db';
 const DB_NAME = 'grundbuch-musterantrag';
@@ -14,12 +15,97 @@ const DB_USER = process.env['MYSQL_USER'];
 const DB_PASSWORD = process.env['MYSQL_PASSWORD'];
 const MAX_BACKUP_FILES = 30;
 
+export class IncompatibleBackupVersionError extends Error {
+  readonly backupVersion: number;
+  readonly serverVersion: number;
+
+  constructor(backupVersion: number, serverVersion: number) {
+    super(
+      `Das Backup stammt aus einer neueren Datenbank-Version (v${backupVersion}) als vom Server unterstützt (v${serverVersion}). Bitte aktualisieren Sie zuerst die Anwendung.`
+    );
+    this.name = 'IncompatibleBackupVersionError';
+    this.backupVersion = backupVersion;
+    this.serverVersion = serverVersion;
+  }
+}
+
+export interface RestoreBackupResult {
+  backupDbVersion: number;
+  currentDbVersion: number;
+  migrated: boolean;
+}
+
+export const parseDbVersionFromFileName = (fileName: string): number | null => {
+  const match = fileName.match(/_v(\d+)\.(?:sql\.)?gz$/i);
+  if (!match) return null;
+  const parsed = parseInt(match[1], 10);
+  return Number.isNaN(parsed) ? null : parsed;
+};
+
+/**
+ * Ermittelt die Datenbank-Version eines Backups anhand des Dateiinhalts (.sql.gz)
+ * bzw. des Dateinamens. Gibt 0 zurück, wenn es sich um ein Legacy-Backup ohne Version handelt.
+ */
+export const extractDbVersionFromBackupFile = async (backupFilePath: string): Promise<number> => {
+  const versionFromName = parseDbVersionFromFileName(path.basename(backupFilePath));
+
+  return new Promise<number>((resolve, reject) => {
+    const readStream = fs.createReadStream(backupFilePath);
+    const gunzip = zlib.createGunzip();
+    const versionRegex = /\(\s*'dbVersion'\s*,\s*'(\d+)'\s*\)/;
+    let tail = '';
+    let foundVersion: number | null = null;
+
+    const cleanup = () => {
+      readStream.destroy();
+      gunzip.destroy();
+    };
+
+    readStream.on('error', err => {
+      cleanup();
+      reject(err);
+    });
+
+    gunzip.on('error', err => {
+      cleanup();
+      reject(err);
+    });
+
+    gunzip.on('data', (chunk: Buffer) => {
+      const text = tail + chunk.toString('utf8');
+      const match = text.match(versionRegex);
+      if (match) {
+        const parsed = parseInt(match[1], 10);
+        if (!Number.isNaN(parsed)) {
+          foundVersion = parsed;
+          cleanup();
+          resolve(foundVersion);
+          return;
+        }
+      }
+      tail = text.slice(-128);
+    });
+
+    gunzip.on('close', () => {
+      if (foundVersion !== null) {
+        resolve(foundVersion);
+      } else {
+        resolve(versionFromName ?? 0);
+      }
+    });
+
+    readStream.pipe(gunzip);
+  });
+};
+
 export const createNewBackup = async () => {
   if (!DB_USER || !DB_PASSWORD) {
     throw new Error('Datenbank-Zugangsdaten (MYSQL_USER, MYSQL_PASSWORD) fehlen.');
   }
 
-  // Create filename with timestamp
+  const dbVersion = await getCurrentDbVersion();
+
+  // Create filename with timestamp and database version
   const now = new Date();
   const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: 'Europe/Berlin',
@@ -33,7 +119,7 @@ export const createNewBackup = async () => {
   }).formatToParts(now);
   const getPart = (type: string) => parts.find(part => part.type === type)?.value;
   const timestamp = `${getPart('year')}-${getPart('month')}-${getPart('day')}T${getPart('hour')}-${getPart('minute')}-${getPart('second')}`;
-  const backupFileName = `backup_${timestamp}.sql.gz`;
+  const backupFileName = `backup_${timestamp}_v${dbVersion}.sql.gz`;
   const backupFilePath = path.join(BACKUP_FOLDER_PATH, backupFileName);
 
   const dumpProcess = spawn(
@@ -97,13 +183,29 @@ const deleteOldBackups = async () => {
   }
 };
 
-export const restoreBackup = async (backupFilePath: string) => {
+export const restoreBackup = async (backupFilePath: string): Promise<RestoreBackupResult> => {
   if (!DB_USER || !DB_PASSWORD) {
     throw new Error('Datenbank-Zugangsdaten (MYSQL_USER, MYSQL_PASSWORD) fehlen.');
   }
 
   if (!backupFilePath.endsWith('.sql.gz') && !backupFilePath.endsWith('.gz')) {
     throw new Error('Nicht unterstütztes Backup-Dateiformat. Erwartet wird .sql.gz.');
+  }
+
+  // Prüfe die Datenbank-Version des Backups vor dem Einspielen
+  const backupDbVersion = await extractDbVersionFromBackupFile(backupFilePath);
+  if (backupDbVersion > CURRENT_DB_VERSION) {
+    throw new IncompatibleBackupVersionError(backupDbVersion, CURRENT_DB_VERSION);
+  }
+
+  /*
+   * Entferne vorab die aktuelle dbVersion-Markierung, damit Legacy-Backups (v0),
+   * die keinen dbVersion-Eintrag in settings besitzen, sicher als v0 erkannt werden.
+   */
+  try {
+    await db.execute(`DELETE FROM settings WHERE name = 'dbVersion'`);
+  } catch {
+    // Ignorieren, falls settings-Tabelle noch nicht existiert
   }
 
   const restoreProcess = spawn(
@@ -147,6 +249,20 @@ export const restoreBackup = async (backupFilePath: string) => {
     await exitPromise;
     throw error;
   }
+
+  /*
+   * Nach dem Einspielen des Backups Datenbank-Migrationen ausführen,
+   * um ältere Backups automatisch auf CURRENT_DB_VERSION zu heben.
+   */
+  const versionAfterRestore = await getCurrentDbVersion();
+  const migrated = versionAfterRestore < CURRENT_DB_VERSION;
+  await initDatabase();
+
+  return {
+    backupDbVersion: versionAfterRestore,
+    currentDbVersion: CURRENT_DB_VERSION,
+    migrated
+  };
 };
 
 export const getBackupList = async (page: number = 1): Promise<PaginatedApiResponse<BackupFile>> => {
@@ -168,8 +284,15 @@ export const getBackupList = async (page: number = 1): Promise<PaginatedApiRespo
   const items: BackupFile[] = [];
 
   for (const fileName of pageFiles) {
-    const stat = await fs.promises.stat(path.join(BACKUP_FOLDER_PATH, fileName));
-    items.push({ fileName, sizeInBytes: stat.size });
+    const filePath = path.join(BACKUP_FOLDER_PATH, fileName);
+    const stat = await fs.promises.stat(filePath);
+    const dbVersion = parseDbVersionFromFileName(fileName) ?? 0;
+    items.push({
+      fileName,
+      sizeInBytes: stat.size,
+      dbVersion,
+      currentServerDbVersion: CURRENT_DB_VERSION
+    });
   }
 
   return {

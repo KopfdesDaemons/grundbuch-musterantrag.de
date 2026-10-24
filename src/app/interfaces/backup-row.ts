@@ -4,4 +4,6 @@ export interface BackupRow {
   isChecked: WritableSignal<boolean>;
   sizeInBytes: number;
   backupFileName: string;
+  dbVersion: number;
+  currentServerDbVersion: number;
 }

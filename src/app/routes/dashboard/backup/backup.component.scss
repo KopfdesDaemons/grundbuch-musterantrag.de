@@ -64,4 +64,28 @@ label {
   .info-text {
     text-align: center;
   }
+
+  .version-badge {
+    display: inline-block;
+    padding: 0.15em 0.5em;
+    border-radius: 0.35em;
+    font-size: 0.85em;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &.version-current {
+      background-color: rgba(46, 125, 50, 0.15);
+      color: #2e7d32;
+    }
+
+    &.version-legacy {
+      background-color: rgba(237, 108, 2, 0.15);
+      color: #e65100;
+    }
+
+    &.version-incompatible {
+      background-color: rgba(211, 47, 47, 0.15);
+      color: #c62828;
+    }
+  }
 }
