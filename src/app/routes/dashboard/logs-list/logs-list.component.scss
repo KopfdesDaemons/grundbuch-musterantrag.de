@@ -145,6 +145,8 @@ section {
     font-size: 0.85em;
     opacity: 0.8;
     font-family: monospace;
+    word-wrap: anywhere;
+    color: var(--font-color);
   }
 }
 
