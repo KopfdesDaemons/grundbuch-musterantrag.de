@@ -22,8 +22,9 @@ RUN apk add --no-cache mysql-client
 # Copy the built application from the builder stage
 COPY --from=builder --chown=node:node /app/dist ./dist
 
-# Copy templates
+# Copy templates and Python UNO worker script
 COPY --chown=node:node ./server/templates /templates
+COPY --chown=node:node ./server/helpers/uno-worker.py ./server/helpers/uno-worker.py
 
 ENV NODE_ENV=production
 
