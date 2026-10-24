@@ -77,8 +77,8 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
       uploadDate = VALUES(uploadDate),
       antragsart = VALUES(antragsart),
       grundbuchamt = VALUES(grundbuchamt),
-      pdfFileDownloadedByUser = VALUES(pdfFileDownloadedByUser),
-      odtFileDownloadedByUser = VALUES(odtFileDownloadedByUser)
+      pdfFileDownloadedByUser = COALESCE(VALUES(pdfFileDownloadedByUser), pdfFileDownloadedByUser),
+      odtFileDownloadedByUser = COALESCE(VALUES(odtFileDownloadedByUser), odtFileDownloadedByUser)
   `;
 
   await db.execute(upsertQuery, [

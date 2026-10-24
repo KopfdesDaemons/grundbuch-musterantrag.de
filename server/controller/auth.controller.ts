@@ -29,11 +29,11 @@ export const handleLogin = async (req: Request, res: Response) => {
   const user: User | null = await getUserByUsername(username);
   if (!user) throw new AuthError('Ungültige Anmeldedaten', 401);
 
+  const { accessToken, refreshToken, accessTokenExpiryDate, refreshTokenExpiryDate } = await login(user, password, userAgent, ip);
+
   if (user.isInitialPassword) {
     return res.status(401).json({ message: 'Passwortänderung erforderlich', userName: user.username });
   }
-
-  const { accessToken, refreshToken, accessTokenExpiryDate, refreshTokenExpiryDate } = await login(user, password, userAgent, ip);
 
   const response: AuthResponse = {
     accessToken: accessToken,

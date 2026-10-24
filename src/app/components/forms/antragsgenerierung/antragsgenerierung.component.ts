@@ -75,18 +75,25 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
       const uploadID = await this.docS.submitForm(this.fs.antrag);
       this.submitIsLoading.set(false);
 
-      try {
-        this.pdfIsLoading.set(true);
-        this.pdf.set(await this.docS.getPdfAfterSubmitForm(uploadID));
-        this.pdfIsLoading.set(false);
-      } catch (error) {
-        this.pdfIsLoading.set(false);
-        if (error instanceof HttpErrorResponse) this.error.set(error);
-      }
-
       this.odtIsLoading.set(true);
-      this.odt.set(await this.docS.getOdtAfterSubmitForm(uploadID));
-      this.odtIsLoading.set(false);
+      this.pdfIsLoading.set(true);
+
+      await Promise.all([
+        this.docS
+          .getOdtAfterSubmitForm(uploadID)
+          .then(odt => this.odt.set(odt))
+          .catch(error => {
+            if (error instanceof HttpErrorResponse) this.error.set(error);
+          })
+          .finally(() => this.odtIsLoading.set(false)),
+        this.docS
+          .getPdfAfterSubmitForm(uploadID)
+          .then(pdf => this.pdf.set(pdf))
+          .catch(error => {
+            if (error instanceof HttpErrorResponse) this.error.set(error);
+          })
+          .finally(() => this.pdfIsLoading.set(false))
+      ]);
     } catch (error) {
       console.log(error);
       if (error instanceof HttpErrorResponse) this.error.set(error);
