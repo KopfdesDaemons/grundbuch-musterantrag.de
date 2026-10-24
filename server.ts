@@ -34,13 +34,17 @@ const angularApp = new AngularNodeAppEngine();
 // To get ip from req
 app.set('trust proxy', true);
 
-logger.info('Server gestartet.');
+const isBuildRouteExtraction = import.meta.url.includes('/.angular/prerender-root/');
 
-// Init functions
-await createStorageFolders();
-await initDatabase();
-initBackupCronJob();
-void initPdfConverter().catch(err => logger.warn('LibreOffice-UNO-Daemon Warmup beim Start fehlgeschlagen:', err));
+if (!isBuildRouteExtraction) {
+  logger.info('Server gestartet.');
+
+  // Init functions
+  await createStorageFolders();
+  await initDatabase();
+  initBackupCronJob();
+  void initPdfConverter().catch(err => logger.warn('LibreOffice-UNO-Daemon Warmup beim Start fehlgeschlagen:', err));
+}
 
 // Middleware for the entire server
 app.use(cookieParser());
