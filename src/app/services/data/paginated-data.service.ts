@@ -83,6 +83,12 @@ export class PaginatedDataService<T> {
     this.pageToLoad.set(value);
   }
 
+  setParams(params: Record<string, string | number | boolean>) {
+    this._items.set([]);
+    this.pageToLoad.set(1);
+    this._params.set(params);
+  }
+
   loadData() {
     if (!this._apiUrl()) {
       console.error('PaginatedDataService not initialized. Call init() first.');

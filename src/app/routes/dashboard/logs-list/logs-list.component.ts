@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, linkedSignal, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, linkedSignal, signal, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Log } from 'common/models/log.model';
 import { LogRow } from 'src/app/interfaces/log-row';
 import { LoggerService } from 'src/app/services/server/logger.service';
@@ -10,15 +11,20 @@ import { Feature, LoggerAction } from 'common/interfaces/user-permission.interfa
 
 @Component({
   selector: 'app-logs-list',
-  imports: [DatePipe, ErrorDisplayComponent, ProgressSpinnerComponent],
+  imports: [DatePipe, FormsModule, ErrorDisplayComponent, ProgressSpinnerComponent],
   templateUrl: './logs-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './logs-list.component.scss'
 })
-export class LogsListComponent {
+export class LogsListComponent implements OnDestroy {
   private readonly userSettingsS = inject(UserSettingsService);
   protected readonly error = signal<Error | null>(null);
   protected readonly loggerS = inject(LoggerService);
+
+  protected readonly selectedLevel = signal<'all' | 'info' | 'warn' | 'error'>('all');
+  protected readonly searchTerm = signal<string>('');
+  protected readonly grouped = signal<boolean>(true);
+  private searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly userHasPermissionsDeleteLogs = this.userSettingsS.getPermissionsSignal({
     feature: Feature.Logger,
@@ -33,15 +39,72 @@ export class LogsListComponent {
         return previous?.value ?? [];
       }
       return logs.map(log => {
-        if (this.rowsMap.has(log.timestamp.toString())) {
-          return this.rowsMap.get(log.timestamp.toString())!;
+        const key = `${String(log.timestamp)}_${log.level}_${log.message}`;
+        if (this.rowsMap.has(key)) {
+          const existing = this.rowsMap.get(key)!;
+          existing.log = log;
+          return existing;
         }
         const newRow: LogRow = { log: log, editMode: false };
-        this.rowsMap.set(log.timestamp.toString(), newRow);
+        this.rowsMap.set(key, newRow);
         return newRow;
       });
     }
   });
+
+  ngOnDestroy(): void {
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+  }
+
+  onLevelChange(level: 'all' | 'info' | 'warn' | 'error') {
+    this.selectedLevel.set(level);
+    this.applyFilters();
+  }
+
+  onGroupedChange(grouped: boolean) {
+    this.grouped.set(grouped);
+    this.applyFilters();
+  }
+
+  onSearchInput(value: string) {
+    this.searchTerm.set(value);
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+    this.searchTimeout = setTimeout(() => {
+      this.applyFilters();
+    }, 250);
+  }
+
+  clearSearch() {
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+    this.searchTerm.set('');
+    this.applyFilters();
+  }
+
+  private applyFilters() {
+    this.error.set(null);
+    this.rowsMap.clear();
+    const params: Record<string, string | number | boolean> = {
+      grouped: this.grouped()
+    };
+    if (this.selectedLevel() !== 'all') {
+      params['level'] = this.selectedLevel();
+    }
+    const trimmedSearch = this.searchTerm().trim();
+    if (trimmedSearch !== '') {
+      params['search'] = trimmedSearch;
+    }
+    this.loggerS.setParams(params);
+  }
+
+  hasDetails(log: Log): boolean {
+    return Boolean(log.stack || log.route || (log.count && log.count > 1));
+  }
 
   addLineBreak(timestamp: string): string {
     const dateAndTime = timestamp.split(' ');

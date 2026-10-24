@@ -9,12 +9,11 @@ export const deleteLogFile = async (req: Request, res: Response) => {
 
 export const getLogFile = async (req: Request, res: Response) => {
   const page = parseInt(req.query['page'] as string, 10) || 1;
+  const level = typeof req.query['level'] === 'string' ? req.query['level'] : undefined;
+  const search = typeof req.query['search'] === 'string' ? req.query['search'] : undefined;
+  const grouped = req.query['grouped'] !== 'false';
 
-  const logs = await getLogs(page);
-
-  if (!logs) {
-    return res.status(204).send('Keine Serverlogs');
-  }
+  const logs = await getLogs(page, { level, search, grouped });
 
   return res.status(200).json(logs);
 };

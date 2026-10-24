@@ -11,10 +11,11 @@ export class LoggerService {
   private readonly http = inject(HttpClient);
   private readonly paginatedDataService = new PaginatedDataService<Log>();
   constructor() {
-    this.paginatedDataService.init('/api/logger', log => log.timestamp.toString());
+    this.paginatedDataService.init('/api/logger', log => `${log.timestamp.toISOString()}_${log.level}_${log.message}`);
   }
 
   setPageToLoad = this.paginatedDataService.setPageToLoad.bind(this.paginatedDataService);
+  setParams = this.paginatedDataService.setParams.bind(this.paginatedDataService);
   loadLogs = this.paginatedDataService.loadData.bind(this.paginatedDataService);
   resetLogs = this.paginatedDataService.resetItems.bind(this.paginatedDataService);
 

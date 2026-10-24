@@ -43,10 +43,10 @@ initBackupCronJob();
 void initPdfConverter().catch(err => logger.warn('LibreOffice-UNO-Daemon Warmup beim Start fehlgeschlagen:', err));
 
 // Middleware for the entire server
-app.use(fileUpload());
-app.use(express.json());
 app.use(cookieParser());
 app.use('/api/', rateLimiter);
+app.use('/api/', fileUpload());
+app.use('/api/', express.json());
 
 // Routes that call a controller
 app.get('/api/amtsgerichtausplz', getAmtsgerichtAusPLZ);
@@ -81,9 +81,15 @@ app.use(
 );
 
 /**
- * Handle all other requests by rendering the Angular application.
+ * Handle all other GET/HEAD requests by rendering the Angular application.
+ * Non-GET/HEAD requests outside /api (e.g. bot POST scans to /admin) are rejected with 404.
  */
 app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.status(404).end();
+    return;
+  }
+
   angularApp
     .handle(req)
     .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))

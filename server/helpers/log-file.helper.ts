@@ -8,6 +8,10 @@ export const clearLogFile = async (): Promise<void> => {
 };
 
 export const readLogFile = async (): Promise<Log[]> => {
+  if (!fs.existsSync(LOG_FILE_PATH)) {
+    return [];
+  }
+
   const data = await fs.promises.readFile(LOG_FILE_PATH, 'utf8');
 
   if (data === '') {

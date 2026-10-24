@@ -13,6 +13,30 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     return res.status(err.statusCode).json({ message: err.message });
   }
 
+  // Typische Bot-/Client-Fehler (kaputte URLs, ungültiges JSON, abgebrochene Requests) ohne Server-Error-Log abweisen
+  if (err instanceof URIError) {
+    return res.status(400).json({ message: 'Invalid URI' });
+  }
+
+  if (err instanceof SyntaxError && 'status' in err && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ message: 'Invalid JSON payload' });
+  }
+
+  if (err?.type === 'entity.too.large') {
+    return res.status(413).json({ message: 'Payload Too Large' });
+  }
+
+  if (err?.type === 'request.aborted' || err?.code === 'ECONNRESET') {
+    if (!res.headersSent) {
+      return res.status(400).end();
+    }
+    return res;
+  }
+
+  if (err instanceof TypeError && typeof err.message === 'string' && err.message.includes('Response body object should not be disturbed or locked')) {
+    return res.status(400).end();
+  }
+
   logger.error('Unhandled Server Error:', {
     message: err.message,
     stack: err.stack,
