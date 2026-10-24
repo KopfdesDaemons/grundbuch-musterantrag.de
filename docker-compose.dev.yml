@@ -16,6 +16,8 @@ services:
       dockerfile: .docker/angular/Dockerfile.dev
     ports:
       - "4200:4200"
+    tmpfs:
+      - /tmp:exec,mode=1777
     volumes:
       - type: bind
         source: .

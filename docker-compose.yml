@@ -9,6 +9,8 @@ services:
       dockerfile: .docker/angular/Dockerfile
     ports:
       - "4000:4000"
+    tmpfs:
+      - /tmp:exec,mode=1777
     volumes:
       - type: bind
         source: ${HOME}/storage # Home-Verzeichnis des Benutzers

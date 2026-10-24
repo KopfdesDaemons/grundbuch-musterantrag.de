@@ -39,7 +39,7 @@ const getTemplate = async (templateFileName: string): Promise<CachedTemplate> =>
   }
   for (const [filename, fileData] of Object.entries(unzipped)) {
     if (filename !== 'mimetype' && filename !== 'content.xml') {
-      baseZipStructure[filename] = [fileData, { level: 1 }];
+      baseZipStructure[filename] = [fileData, { level: 0 }];
     }
   }
 
@@ -99,7 +99,7 @@ export const submitForm = async (req: Request, res: Response) => {
 
   const filesToZip: Zippable = {
     ...baseZipStructure,
-    'content.xml': [strToU8(renderedContent), { level: 1 }]
+    'content.xml': [strToU8(renderedContent), { level: 0 }]
   };
 
   // Generate the output ODT file

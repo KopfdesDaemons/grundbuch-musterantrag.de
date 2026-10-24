@@ -17,6 +17,7 @@ import { userManagementRoutes } from 'server/routes/user-management.routes';
 import { userRoleRoutes } from 'server/routes/user-role.routes';
 import { userSettingsRoutes } from 'server/routes/user-settings.routes';
 import { handleGetOdtAfterSubmitForm, handleGetPdfAfterSubmitForm, submitForm } from 'server/controller/submit-form.controller';
+import { initPdfConverter } from 'server/helpers/file-conversion.helper';
 import { errorHandler } from 'server/middleware/error-handler.middleware';
 import cookieParser from 'cookie-parser';
 import { rateLimiter } from 'server/middleware/rate-limiter';
@@ -39,6 +40,7 @@ logger.info('Server gestartet.');
 await createStorageFolders();
 await initDatabase();
 initBackupCronJob();
+void initPdfConverter().catch(err => logger.warn('LibreOffice-UNO-Daemon Warmup beim Start fehlgeschlagen:', err));
 
 // Middleware for the entire server
 app.use(fileUpload());

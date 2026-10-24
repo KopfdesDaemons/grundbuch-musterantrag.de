@@ -13,8 +13,8 @@ RUN npm run build
 FROM node:26.0.0-alpine AS prod
 WORKDIR /app
 
-# Install LibreOffice
-RUN apk add --no-cache libreoffice openjdk8-jre
+# Install LibreOffice and Python 3 (for persistent UNO daemon)
+RUN apk add --no-cache libreoffice python3 font-liberation
 
 # Install MySQL to use mysqldump
 RUN apk add --no-cache mysql-client
