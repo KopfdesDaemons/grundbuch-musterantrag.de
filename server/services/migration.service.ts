@@ -46,6 +46,7 @@ export const migrateFromAntragToUploadinfo = async (): Promise<void> => {
       if (!upload.pdfFile) {
         upload.pdfFile = await checkFileExists(path.join(UPLOADS_FOLDER_PATH, folder, folder + '.pdf'));
       }
+      upload.finished = true;
 
       await updateUploadData(upload);
     } catch (error) {
@@ -83,6 +84,7 @@ export const migrateFromJSONFilesToDatabase = async (): Promise<void> => {
       uploadJSON.uploadDate = new Date(year, month - 1, day);
 
       Object.assign(upload, uploadJSON);
+      upload.finished = true;
 
       await updateUploadData(upload);
 

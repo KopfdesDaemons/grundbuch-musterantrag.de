@@ -10,14 +10,14 @@ export const getStatisticByType = async (month?: number, year?: number): Promise
   const statistic: Statistic = {};
   const params: number[] = [];
 
-  let query = 'SELECT antragsart, COUNT(*) as anzahl FROM uploads';
+  let query = 'SELECT antragsart, COUNT(*) as anzahl FROM uploads WHERE finished = 1';
 
   // Add filter if both month and year are provided
   if (month !== undefined && year !== undefined) {
-    query += ' WHERE MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
+    query += ' AND MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?';
     params.push(month, year);
   } else if (year !== undefined) {
-    query += ' WHERE YEAR(uploadDate) = ?';
+    query += ' AND YEAR(uploadDate) = ?';
     params.push(year);
   }
 
@@ -53,7 +53,8 @@ export const getUploadCountPerDays = async (options: {
     timeCondition = timeframe === 'week' ? 'uploadDate >= NOW() - INTERVAL 7 DAY' : 'uploadDate >= NOW() - INTERVAL 1 MONTH';
   }
 
-  const query = `SELECT DATE_FORMAT(uploadDate, '%Y-%m-%d') as dateStr, COUNT(*) as count FROM uploads WHERE ${timeCondition} GROUP BY dateStr`;
+  const whereClause = timeCondition ? `finished = 1 AND (${timeCondition})` : 'finished = 1';
+  const query = `SELECT DATE_FORMAT(uploadDate, '%Y-%m-%d') as dateStr, COUNT(*) as count FROM uploads WHERE ${whereClause} GROUP BY dateStr`;
   const [rows] = await db.execute<RowDataPacket[]>(query, params);
 
   const counts = new Map<string, number>();

@@ -72,6 +72,7 @@
                 <th>Datum</th>
                 <th>Antragsart</th>
                 <th>Grundbuchamt</th>
+                <th>Zeit</th>
                 <th>.odt</th>
                 <th>.pdf</th>
                 <th></th>
@@ -86,6 +87,7 @@
                   <td>{{ row.upload.uploadDate | date: "dd.MM.yyyy HH:mm" }}&nbsp;Uhr</td>
                   <td>{{ row.upload.antragsart }}</td>
                   <td class="grundbuchamt">{{ row.upload.grundbuchamt }}</td>
+                  <td>{{ formatDuration(row.upload.totalDurationMs) }}</td>
 
                   <td class="icon-table-cell">
                     @if (row.upload.odtFile && !row.upload.filesDeleted) {
@@ -192,7 +194,7 @@
                 </tr>
                 @if (row.editMode) {
                   <tr class="edit-row">
-                    <td colspan="7">
+                    <td colspan="8">
                       <div class="container">
                         <div class="details">
                           <h3>Details zum Antrag</h3>
@@ -217,7 +219,20 @@
                               <span>Pdf-Datei vom User heruntergeladen: </span
                               ><span>{{ row.upload.pdfFileDownloadedByUser ?? "nicht bekannt" }}</span>
                             </li>
+                            <li>
+                              <span>Bearbeitungszeit gesamt: </span><span>{{ formatDuration(row.upload.totalDurationMs) }}</span>
+                            </li>
                           </ul>
+                          @if (row.upload.sectionTimes && row.upload.sectionTimes.length > 0) {
+                            <h4>Bearbeitungszeit je Formularabschnitt</h4>
+                            <ul>
+                              @for (sectionTime of row.upload.sectionTimes; track sectionTime.section) {
+                                <li>
+                                  <span>{{ getSectionLabel(sectionTime.section) }}: </span><span>{{ formatDuration(sectionTime.durationMs) }}</span>
+                                </li>
+                              }
+                            </ul>
+                          }
                         </div>
                         <div class="controls">
                           <button

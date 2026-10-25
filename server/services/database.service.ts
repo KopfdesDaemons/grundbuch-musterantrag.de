@@ -4,7 +4,7 @@ import mysql, { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import { createRootUser } from './user.service';
 import { createGuestRole, actionsTableMapping, clearUserRoleCache } from './user-role.service';
 
-export const CURRENT_DB_VERSION = 1;
+export const CURRENT_DB_VERSION = 2;
 
 export interface DatabaseMigration {
   version: number;
@@ -179,17 +179,40 @@ const migrations: DatabaseMigration[] = [
         }
       }
     }
+  },
+  {
+    version: 2,
+    description: 'Spalte finished in uploads und Tabelle upload_section_times für Zeitmessung hinzufügen',
+    up: async (connection: PoolConnection) => {
+      const [finishedColumnExists] = await connection.execute<RowDataPacket[]>(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'uploads' AND COLUMN_NAME = 'finished'`
+      );
+
+      if (finishedColumnExists.length === 0) {
+        await connection.execute(`ALTER TABLE uploads ADD COLUMN finished BOOLEAN NOT NULL DEFAULT FALSE`);
+        await connection.execute(`UPDATE uploads SET finished = TRUE`);
+        logger.info('Spalte "finished" in Tabelle "uploads" wurde hinzugefügt.');
+      }
+
+      await connection.execute(`
+        CREATE TABLE IF NOT EXISTS upload_section_times (
+          sectionTimeID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+          uploadID VARCHAR(255) NOT NULL,
+          section VARCHAR(255) NOT NULL,
+          stepOrder INT NOT NULL DEFAULT 0,
+          loadedAt DATETIME(3) NULL,
+          completedAt DATETIME(3) NULL,
+          durationMs BIGINT NOT NULL DEFAULT 0,
+          UNIQUE KEY unique_upload_section (uploadID, section),
+          FOREIGN KEY (uploadID) REFERENCES uploads(uploadID) ON DELETE CASCADE
+        )
+      `);
+
+      await connection.execute(`DELETE FROM upload_section_times WHERE uploadID NOT IN (SELECT uploadID FROM uploads)`);
+      logger.info('Tabelle "upload_section_times" wurde initialisiert.');
+    }
   }
-  /*
-   * Beispiel für zukünftige Migrationen:
-   * {
-   *   version: 2,
-   *   description: 'Neue Spalte xyz in uploads hinzufügen',
-   *   up: async (connection: PoolConnection) => {
-   *     await connection.execute('ALTER TABLE uploads ADD COLUMN xyz VARCHAR(255)');
-   *   }
-   * }
-   */
 ];
 
 /**

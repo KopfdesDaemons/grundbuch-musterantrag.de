@@ -6,7 +6,13 @@ import { OdtTemplater } from 'odt-templater';
 import { TEMPLATES_FOLDER_PATH, UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
 import { Upload } from 'common/models/upload.model';
-import { deleteGeneratedFiles, reportDownloadByUser, updateUploadData } from 'server/services/uploads.service';
+import {
+  completeFormSection,
+  deleteGeneratedFiles,
+  loadFormSection,
+  reportDownloadByUser,
+  updateUploadData
+} from 'server/services/uploads.service';
 import { randomUUID } from 'crypto';
 import { SettingsService } from 'server/services/settings.service';
 import { convertToPdf } from '../helpers/file-conversion.helper';
@@ -70,7 +76,7 @@ const markResponseFinishedAndCleanup = (uploadID: string, type: 'odt' | 'pdf') =
 };
 
 export const submitForm = async (req: Request, res: Response) => {
-  const { antrag } = req.body;
+  const { antrag, uploadID: existingUploadID } = req.body;
 
   if (!antrag) {
     logger.error('Es wurde kein Antrag übermittelt.');
@@ -82,7 +88,7 @@ export const submitForm = async (req: Request, res: Response) => {
     return res.status(400).send('Es wurde kein templateFileName übermittelt.');
   }
 
-  const uploadID = randomUUID();
+  const uploadID = typeof existingUploadID === 'string' && existingUploadID.trim() ? existingUploadID.trim() : randomUUID();
   const uploadFolderPath = path.join(UPLOADS_FOLDER_PATH, uploadID);
   const filePathOdt = path.join(uploadFolderPath, `${uploadID}.odt`);
   const filePathPdf = path.join(uploadFolderPath, `${uploadID}.pdf`);
@@ -110,6 +116,7 @@ export const submitForm = async (req: Request, res: Response) => {
   newUpload.antragsart = antrag.title;
   newUpload.grundbuchamt = antrag.grundbuchamt.name;
   newUpload.uploadDate = new Date();
+  newUpload.finished = true;
 
   await Promise.all([fs.promises.writeFile(filePathOdt, outputBuffer), updateUploadData(newUpload)]);
 
@@ -194,4 +201,37 @@ export const handleReportDownloadByUser = async (req: Request, res: Response) =>
   await reportDownloadByUser(uploadID, fileType);
 
   return res.status(200).send({ message: 'Download erfolgreich gemeldet.' });
+};
+
+export const handleLoadFormSection = async (req: Request, res: Response) => {
+  const { uploadID, antragsart, section, stepOrder } = req.body;
+
+  if (!section || typeof section !== 'string') {
+    return res.status(400).send({ message: 'Ungültiger Formularabschnitt.' });
+  }
+
+  if (!uploadID && (!antragsart || typeof antragsart !== 'string')) {
+    return res.status(400).send({ message: 'Fehlende Antragsart.' });
+  }
+
+  const activeUploadID = await loadFormSection(
+    typeof uploadID === 'string' && uploadID.trim() ? uploadID.trim() : undefined,
+    typeof antragsart === 'string' ? antragsart : '',
+    section,
+    typeof stepOrder === 'number' ? stepOrder : 0
+  );
+
+  return res.status(200).send({ uploadID: activeUploadID });
+};
+
+export const handleCompleteFormSection = async (req: Request, res: Response) => {
+  const { uploadID, section } = req.body;
+
+  if (!uploadID || typeof uploadID !== 'string' || !section || typeof section !== 'string') {
+    return res.status(400).send({ message: 'Ungültige Anfrage.' });
+  }
+
+  await completeFormSection(uploadID, section);
+
+  return res.status(200).send({ message: 'Abschnitt erfolgreich abgeschlossen.' });
 };

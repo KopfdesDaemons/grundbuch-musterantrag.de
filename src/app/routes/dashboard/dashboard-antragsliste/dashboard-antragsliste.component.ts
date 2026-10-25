@@ -4,7 +4,7 @@ import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DatePipe, NgClass } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
 import { FormsModule } from '@angular/forms';
-import { Upload } from 'common/models/upload.model';
+import { FORM_SECTION_LABELS, Upload } from 'common/models/upload.model';
 import { UploadRow } from 'src/app/interfaces/upload-row';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
@@ -57,7 +57,9 @@ export class DashboardAntragslisteComponent {
       }
       return uploads.map(upload => {
         if (this.rowsMap.has(upload.uploadID)) {
-          return this.rowsMap.get(upload.uploadID)!;
+          const existing = this.rowsMap.get(upload.uploadID)!;
+          existing.upload = upload;
+          return existing;
         }
         const newRow: UploadRow = { isChecked: signal(false), upload: upload, editMode: false };
         this.rowsMap.set(upload.uploadID, newRow);
@@ -175,5 +177,20 @@ export class DashboardAntragslisteComponent {
         this.error.set(error);
       }
     }
+  }
+
+  getSectionLabel(section: string): string {
+    return FORM_SECTION_LABELS[section] ?? section;
+  }
+
+  formatDuration(durationMs?: number): string {
+    if (!durationMs || durationMs <= 0) return 'nicht bekannt';
+    const totalSeconds = Math.max(1, Math.round(durationMs / 1000));
+    if (totalSeconds < 60) {
+      return `${totalSeconds} Sek.`;
+    }
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes} Min. ${seconds} Sek.`;
   }
 }

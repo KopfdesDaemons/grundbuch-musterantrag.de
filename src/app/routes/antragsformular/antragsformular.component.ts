@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormService } from 'src/app/services/document/form.service';
 import { Title } from '@angular/platform-browser';
 import { AntragGrundbuchausdruck } from 'src/app/models/antrag/grundbuchausdruck.antrag.model';
@@ -22,7 +22,7 @@ import { HeaderComponent } from '../../components/header/header.component';
   styleUrls: ['./antragsformular.component.scss'],
   imports: [HeaderComponent, NgComponentOutlet, FooterComponent, FileNotFoundComponent]
 })
-export class AntragsformularComponent implements OnInit {
+export class AntragsformularComponent implements OnInit, OnDestroy {
   private titleService = inject(Title);
   private route = inject(ActivatedRoute);
   fs = inject(FormService);
@@ -50,7 +50,13 @@ export class AntragsformularComponent implements OnInit {
     });
   }
 
+  @HostListener('window:pagehide')
+  onPageHide(): void {
+    this.fs.completeActiveSectionBeacon();
+  }
+
   ngOnDestroy(): void {
+    this.fs.completeActiveSection();
     if (this.routeParamsSubscription) {
       this.routeParamsSubscription.unsubscribe();
     }

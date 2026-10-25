@@ -24,14 +24,14 @@
     <p>
       Die Rechtsgrundlage für die Pflichtangaben und Übertagung der IP-Adresse ist das berechtigte Interesse gemäß
       <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) f) DSGVO</a>. Dies begründet sich damit, dass ohne diese
-      Daten kein Antragsgenerierung möglich ist. Die Antragsgenerierung liegt auch im Interesse des Nutzers.
+      Daten keine Antragsgenerierung möglich ist. Die Antragsgenerierung liegt auch im Interesse des Nutzers.
     </p>
     <p>
       Für die optionalen Angaben gilt mit der freiwilligen Angabe eine stillschweigende Einwilligung gemäß
       <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) a) DSGVO</a>.
     </p>
     <p>
-      Nachdem die PDF-Datei vom Server an die Nutzer gesendet wurde, wird die .pdf Datei und auch die .odt Datei gelöscht. Auf dem Server verbleiben
+      Nachdem die Dateien vom Server an die Nutzer gesendet wurden, werden die .pdf Datei und auch die .odt Datei gelöscht. Auf dem Server verbleiben
       folgende Daten ohne Personenbezug:
     </p>
     <h3>Angabe, welche Dateien generiert wurden</h3>
@@ -39,14 +39,19 @@
       Gespeichert wird nur, ob die .odt Datei und die .pdf Datei erfolgreich generiert wurden. Dies dient zur Kontrolle, ob die Generierungen
       erfolgreich sind oder Probleme bestehen.
     </p>
-    <h3>Uploaddatum</h3>
-    <p class="eingerückt">Das Uploaddatum der Datei. Dient zur Übersicht, wann wie viele Anträge generiert wurden.</p>
+    <h3>Datum</h3>
+    <p class="eingerückt">Das Datum der Antragsgenerierung. Dient zur Übersicht, wann wie viele Anträge generiert wurden.</p>
     <h3>Antragsart</h3>
     <p class="eingerückt">Welcher Antrag generiert wurde. Es wird eine Statistik geführt, welche Anträge wie oft generiert wurden.</p>
     <h3>Grundbuchamt</h3>
     <p class="eingerückt">Welches Grundbuchamt zuständig ist. Gespeichert wird nur die Bezeichnung des Grundbuchamts.</p>
+    <h3>Ausfüllzeit des Formulars</h3>
+    <p class="eingerückt">
+      Die Zeit, die zum Ausfüllen des Formulars benötigt wurde sowie die Zeit für die einzelnen Formularabschnitte. Dient zur Optimierung der
+      Nutzererfahrung durch Verbesserungen von zu komplexen Formularen.
+    </p>
     <h3>Dateidownload</h3>
-    <p class="eingerückt">Welche Datei der Nutzer heruntergeladen hat.</p>
+    <p class="eingerückt">Welche Datei der Nutzer heruntergeladen hat (.odt oder .pdf).</p>
     <p>
       Der <a href="https://github.com/KopfdesDaemons/grundbuch-musterantrag.de" target="_blank">Quellcode</a> des ganzen Projekts ist öffentlich
       einsehbar.
@@ -65,7 +70,15 @@
       <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-6-dsgvo/">Art. 6 (1) f) DSGVO</a>.
     </p>
     <h3>Cookie "Farbe"</h3>
-    <p class="eingerückt">Speichert die Auswahl der Farbe der Webseite. Ohne Cookie wird die Farbe blau verwendet.</p>
+    <p class="eingerückt">
+      Speichert die Auswahl der Farbe der Webseite. Ohne Cookie wird die Farbe
+      @if (this.primaryColorString()) {
+        {{ this.primaryColorString() }}
+      } @else {
+        <app-progress-spinner [endless]="true"></app-progress-spinner>
+      }
+      verwendet.
+    </p>
     <p>
       Es ist
       <a class="dsgvo" target="_blank" href="https://www.e-recht24.de/artikel/datenschutz/12962-was-sind-essenzielle-cookies.html">
@@ -127,6 +140,7 @@
         Einwilligung zur Verarbeitung personenbezogener Daten.
         <br />
         <button class="btn-text" (click)="deleteCookies()">Cookies löschen</button>
+        <button class="btn-text" (click)="revokeDisqus()">Disqus-Zustimmung widerrufen</button>
       </li>
       <li>
         gemäß <a class="dsgvo" target="_blank" href="https://dsgvo-gesetz.de/art-13-dsgvo/">Art. 13 (2) d) DSGVO</a> auf Beschwerde bei einer

@@ -1,10 +1,11 @@
-import { inject, Injectable, signal, Type } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, signal, Type } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { ViewportScroller } from '@angular/common';
+import { isPlatformBrowser, ViewportScroller } from '@angular/common';
 import { Antrag } from '../../interfaces/antrag';
 import { TimeHelper } from '../../helpers/time.helper';
+import { DocumentService } from './document.service';
 import { AntragstellerComponent } from 'src/app/components/forms/antragsteller/antragsteller.component';
 import { ErblasserComponent } from 'src/app/components/forms/erblasser/erblasser.component';
 import { GrundstueckComponent } from 'src/app/components/forms/grundstueck/grundstueck.component';
@@ -26,6 +27,15 @@ import { GrundbuchamtComponent } from 'src/app/components/forms/grundbuchamt/gru
 export class FormService {
   private readonly http = inject(HttpClient);
   private readonly scroll = inject(ViewportScroller);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly docS = inject(DocumentService);
+
+  private trackingSession: {
+    uploadID?: string;
+    antragsart: string;
+    activeSection: string | null;
+    queue: Promise<void>;
+  } | null = null;
 
   private _antrag: Antrag | null = null;
   get antrag(): Antrag | null {
@@ -61,9 +71,17 @@ export class FormService {
   }
 
   init(antrag: Antrag) {
+    this.completeActiveSection();
     this._antrag = antrag;
     this._form = antrag.getFormGroup();
     this.requiredComponents = this.getRequiredComponents();
+    this.docS.setUploadID(undefined);
+    this.trackingSession = {
+      uploadID: undefined,
+      antragsart: antrag.title,
+      activeSection: null,
+      queue: Promise.resolve()
+    };
     (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz));
     this.nextStep(1);
   }
@@ -74,7 +92,67 @@ export class FormService {
     return components;
   }
 
+  private getSectionKey(component: Type<any>): string | null {
+    if (component === HinweisComponent) return 'hinweis';
+    const found = this.componentsMapping.find(c => c.component === component);
+    return found ? found.control : null;
+  }
+
+  private loadComponentSection(component: Type<any>, stepOrder: number): void {
+    if (!isPlatformBrowser(this.platformId) || !this.trackingSession) return;
+    const section = this.getSectionKey(component);
+    if (!section) return;
+
+    const session = this.trackingSession;
+    session.activeSection = section;
+    session.queue = session.queue.then(async () => {
+      try {
+        const uploadID = await this.docS.loadFormSection(session.uploadID, session.antragsart, section, stepOrder);
+        session.uploadID = uploadID;
+      } catch (error) {
+        console.error('Fehler beim Starten der Zeitmessung für Abschnitt:', error);
+      }
+    });
+  }
+
+  completeActiveSection(): void {
+    const session = this.trackingSession;
+    if (!isPlatformBrowser(this.platformId) || !session || !session.activeSection) return;
+    const sectionToComplete = session.activeSection;
+    session.activeSection = null;
+
+    session.queue = session.queue.then(async () => {
+      if (!session.uploadID) return;
+      try {
+        await this.docS.completeFormSection(session.uploadID, sectionToComplete);
+      } catch (error) {
+        console.error('Fehler beim Abschließen der Zeitmessung für Abschnitt:', error);
+      }
+    });
+  }
+
+  completeActiveSectionBeacon(): void {
+    const session = this.trackingSession;
+    if (!isPlatformBrowser(this.platformId) || !session || !session.activeSection) return;
+    const sectionToComplete = session.activeSection;
+    session.activeSection = null;
+
+    if (session.uploadID && typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+      const blob = new Blob([JSON.stringify({ uploadID: session.uploadID, section: sectionToComplete })], {
+        type: 'application/json'
+      });
+      navigator.sendBeacon('/api/uploads/section/complete', blob);
+    }
+  }
+
+  async waitForTracking(): Promise<void> {
+    if (!this.trackingSession) return;
+    await this.trackingSession.queue;
+  }
+
   nextStep(step: number = this.step() + 1): void {
+    this.completeActiveSection();
+
     if (step <= this.requiredComponents.length) {
       const nextComponent = this.requiredComponents[step - 1];
       if (this.checkGrundbuchamtSkip(nextComponent)) {
@@ -83,6 +161,7 @@ export class FormService {
       this._currentComponent = nextComponent;
       this.step.set(step);
       this.scroll.scrollToPosition([0, 0]);
+      this.loadComponentSection(nextComponent, step);
     }
 
     // After last step start generating files
@@ -107,12 +186,14 @@ export class FormService {
   }
 
   stepback(step: number = this.step() - 1): void {
-    if (step >= 0) {
+    if (step >= 1) {
+      this.completeActiveSection();
       const previousComponent = this.requiredComponents[step - 1];
       this._currentComponent = previousComponent;
       this.step.set(step);
       this.scroll.scrollToPosition([0, 0]);
       this.setProgress();
+      this.loadComponentSection(previousComponent, step);
     }
   }
 

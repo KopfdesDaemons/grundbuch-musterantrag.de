@@ -1,5 +1,9 @@
 import express from 'express';
-import { handleReportDownloadByUser } from 'server/controller/submit-form.controller';
+import {
+  handleCompleteFormSection,
+  handleLoadFormSection,
+  handleReportDownloadByUser
+} from 'server/controller/submit-form.controller';
 import {
   handleDeleteUpload,
   handleDeleteAllUploads,
@@ -48,3 +52,7 @@ uploadsRoutes.delete(
 uploadsRoutes.get('/getFile', authMiddleware, verifyRole(new UploadManagementPermission([UploadManagementAction.GetFiles])), getUpload);
 
 uploadsRoutes.put('/reportDownloadByUser', handleReportDownloadByUser);
+
+uploadsRoutes.post('/section/load', handleLoadFormSection);
+
+uploadsRoutes.post('/section/complete', handleCompleteFormSection);

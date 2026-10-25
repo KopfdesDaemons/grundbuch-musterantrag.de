@@ -72,6 +72,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
       this.fs.finish();
 
       this.submitIsLoading.set(true);
+      await this.fs.waitForTracking();
       const uploadID = await this.docS.submitForm(this.fs.antrag);
       this.submitIsLoading.set(false);
 

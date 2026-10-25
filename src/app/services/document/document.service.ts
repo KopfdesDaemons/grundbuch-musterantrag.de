@@ -11,12 +11,29 @@ export class DocumentService {
   private readonly _uploadID = signal<string | undefined>(undefined);
   readonly uploadID = this._uploadID.asReadonly();
 
+  setUploadID(uploadID: string | undefined): void {
+    this._uploadID.set(uploadID);
+  }
+
   async submitForm(antrag: Antrag): Promise<string> {
     const url = '/api/submitForm';
-    const response = await lastValueFrom(this.http.post(url, { antrag: antrag }));
+    const response = await lastValueFrom(this.http.post(url, { antrag: antrag, uploadID: this._uploadID() }));
     const { uploadID } = response as { uploadID: string };
     this._uploadID.set(uploadID);
     return uploadID;
+  }
+
+  async loadFormSection(uploadID: string | undefined, antragsart: string, section: string, stepOrder: number): Promise<string> {
+    const url = '/api/uploads/section/load';
+    const response = await lastValueFrom(this.http.post(url, { uploadID, antragsart, section, stepOrder }));
+    const { uploadID: activeUploadID } = response as { uploadID: string };
+    this._uploadID.set(activeUploadID);
+    return activeUploadID;
+  }
+
+  async completeFormSection(uploadID: string, section: string): Promise<void> {
+    const url = '/api/uploads/section/complete';
+    await lastValueFrom(this.http.post(url, { uploadID, section }));
   }
 
   async getPdfAfterSubmitForm(uploadID: string): Promise<Blob> {
