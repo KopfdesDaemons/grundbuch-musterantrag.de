@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const usersRoutes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./rooter/rooter.component').then(m => m.RooterComponent),
+    loadComponent: () => import('./router/router.component').then(m => m.RouterComponent),
     children: [
       {
         path: '',

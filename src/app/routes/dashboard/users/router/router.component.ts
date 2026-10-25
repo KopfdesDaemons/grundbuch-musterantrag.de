@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
+import { TabNavigationComponent } from 'src/app/components/dashboard/tab-navigation/tab-navigation.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-rooter',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
-  templateUrl: './rooter.component.html',
-  styleUrl: './rooter.component.scss'
+  selector: 'app-router',
+  imports: [TabNavigationComponent],
+  templateUrl: './router.component.html',
+  styleUrl: './router.component.scss'
 })
-export class RooterComponent {
+export class RouterComponent {
   router = inject(Router);
 
   tabs = [

@@ -1,6 +1,6 @@
 <nav>
   <ul>
-    @for (tab of tabs; track tab.route) {
+    @for (tab of tabs(); track tab.route) {
       <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a [routerLink]="tab.route">{{ tab.name }}</a>
       </li>

@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { GoogleChartComponent } from '../../../components/google-chart/google-chart.component';
+import { GoogleChartComponent } from '../../../../components/google-chart/google-chart.component';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
-import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
-import { ProgressSpinnerComponent } from '../../../components/progress-spinner/progress-spinner.component';
+import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
+import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
 import { StatisticService } from 'src/app/services/data/statistic.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-statistic',
+  selector: 'app-count',
   imports: [GoogleChartComponent, ErrorDisplayComponent, ProgressSpinnerComponent],
-  templateUrl: './statistic.component.html',
-  styleUrl: './statistic.component.scss'
+  templateUrl: './count.component.html',
+  styleUrl: './count.component.scss'
 })
-export class StatisticComponent {
+export class CountComponent {
   protected readonly gChartsS = inject(GooglechartsService);
   protected readonly statisticS = inject(StatisticService);
 

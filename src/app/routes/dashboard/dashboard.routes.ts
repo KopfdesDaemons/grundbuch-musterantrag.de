@@ -24,7 +24,7 @@ export const dashboardRoutes: Routes = [
       },
       {
         path: 'statistic',
-        loadComponent: () => import('./statistic/statistic.component').then(m => m.StatisticComponent)
+        loadChildren: () => import('./statistic/statistic.routes').then(m => m.statisticRoutes)
       },
       {
         path: 'logs',
