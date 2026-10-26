@@ -17,12 +17,12 @@
         <option value="info">Nur Info</option>
       </select>
 
+      <button (click)="deleteAllLogs()" [disabled]="!userHasPermissionsDeleteLogs()">Alle Logs löschen</button>
+
       <label class="group-toggle">
         <input type="checkbox" [ngModel]="grouped()" (ngModelChange)="onGroupedChange($event)" />
         <span>Gleichartige gruppieren</span>
       </label>
-
-      <button (click)="deleteAllLogs()" [disabled]="!userHasPermissionsDeleteLogs()">Alle Logs löschen</button>
     </div>
     <div class="search-box">
       <input

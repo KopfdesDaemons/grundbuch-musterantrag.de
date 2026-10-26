@@ -1,6 +1,13 @@
 section {
   animation: slide-in-from-top 500ms forwards;
   margin-top: 2em;
+
+  @media only screen and (max-width: 700px) {
+    .content-spacer {
+      margin-top: 2em;
+      padding: 0em;
+    }
+  }
 }
 
 .content-spacer {
@@ -11,6 +18,7 @@ section {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 
   button.icon {
@@ -72,7 +80,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: clamp(300px, 90%, 1400px);
+  width: clamp(300px, 95%, 1400px);
   padding: 0.4em 0.5em;
   box-sizing: border-box;
   font-weight: 500;
@@ -81,7 +89,7 @@ section {
 .horizontal-scroll-container {
   overflow: auto;
   height: 500px;
-  width: clamp(300px, 90%, 1400px);
+  width: clamp(300px, 95%, 1400px);
   resize: vertical;
 
   table {
