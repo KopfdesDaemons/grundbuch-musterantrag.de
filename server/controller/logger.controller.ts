@@ -11,7 +11,7 @@ export const getLogFile = async (req: Request, res: Response) => {
   const page = parseInt(req.query['page'] as string, 10) || 1;
   const level = typeof req.query['level'] === 'string' ? req.query['level'] : undefined;
   const search = typeof req.query['search'] === 'string' ? req.query['search'] : undefined;
-  const grouped = req.query['grouped'] !== 'false';
+  const grouped = req.query['grouped'] === 'true';
 
   const logs = await getLogs(page, { level, search, grouped });
 

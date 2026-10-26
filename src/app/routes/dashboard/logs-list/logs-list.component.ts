@@ -23,7 +23,7 @@ export class LogsListComponent implements OnDestroy {
 
   protected readonly selectedLevel = signal<'all' | 'info' | 'warn' | 'error'>('all');
   protected readonly searchTerm = signal<string>('');
-  protected readonly grouped = signal<boolean>(true);
+  protected readonly grouped = signal<boolean>(false);
   private searchTimeout: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly userHasPermissionsDeleteLogs = this.userSettingsS.getPermissionsSignal({
