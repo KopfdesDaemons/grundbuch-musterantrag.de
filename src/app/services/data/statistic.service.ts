@@ -102,7 +102,7 @@ export class StatisticService {
    */
   private timeTrackingMonth = signal<number | undefined>(new Date().getMonth() + 1);
   private timeTrackingYear = signal<number>(new Date().getFullYear());
-  private timeTrackingStatus = signal<TimeTrackingStatusFilter>('all');
+  private timeTrackingStatus = signal<TimeTrackingStatusFilter>('finished');
 
   private readonly _timeTrackingResource = httpResource<TimeTrackingStatistic[]>(() => ({
     url: '/api/statistic/timeTracking',

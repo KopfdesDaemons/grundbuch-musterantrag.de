@@ -80,27 +80,17 @@
                   </td>
                 </tr>
                 @if (row.editMode) {
-                  <tr class="edit-row">
-                    <td colspan="4">
-                      <div class="container">
-                        <div class="details">
-                          <h4>Ø Bearbeitungszeit je Formularabschnitt</h4>
-                          @if (row.stat.sections && row.stat.sections.length > 0) {
-                            <ul>
-                              @for (section of row.stat.sections; track section.name) {
-                                <li>
-                                  <span>{{ getSectionLabel(section.name) }}: </span>
-                                  <span>{{ formatDuration(section.durationMs) }}</span>
-                                </li>
-                              }
-                            </ul>
-                          } @else {
-                            <p>Keine Abschnittsdaten erfasst</p>
-                          }
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                  @if (row.stat.sections && row.stat.sections.length > 0) {
+                    @for (section of row.stat.sections; track section.name) {
+                      <tr class="edit-row">
+                        <td colspan="2">{{ getSectionLabel(section.name) }}:</td>
+                        <td>{{ formatDuration(section.durationMs) }}</td>
+                        <td></td>
+                      </tr>
+                    }
+                  } @else {
+                    <p>Keine Abschnittsdaten erfasst</p>
+                  }
                 }
               }
             </tbody>

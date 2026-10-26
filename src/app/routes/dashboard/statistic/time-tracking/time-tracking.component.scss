@@ -70,31 +70,10 @@ $table-width: clamp(300px, 100%, 1200px);
 }
 
 .edit-row {
-  .container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5em 1em;
-  }
+  border-bottom: none;
+  background-color: var(--background-variant-darker);
 
-  .details {
-    h4 {
-      margin-top: 0;
-      margin-bottom: 0.5em;
-      font-size: 0.95em;
-    }
-
-    ul {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-
-      li {
-        margin: 0.3em 0;
-
-        span:first-of-type {
-          font-weight: bold;
-        }
-      }
-    }
+  td {
+    padding: 0.5em;
   }
 }
