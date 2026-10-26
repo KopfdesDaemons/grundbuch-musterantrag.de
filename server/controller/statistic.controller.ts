@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { getStatisticByType as getStatisticByType, getUploadCountPerDays } from 'server/services/statistic.service';
-import { Statistic } from 'common/interfaces/statistic.interface';
+import { getStatisticByType as getStatisticByType, getTimeTrackingStatistics, getUploadCountPerDays } from 'server/services/statistic.service';
+import { Statistic, TimeTrackingStatusFilter } from 'common/interfaces/statistic.interface';
 import { isValidTimeFilterOption } from 'server/helpers/type-guards.helper';
 
 export const handleGetTotalStatisticByType = async (req: Request, res: Response) => {
@@ -49,4 +49,30 @@ export const handleGetUploadCountPerDay = async (req: Request, res: Response) =>
 
   const countPerDay = await getUploadCountPerDays(options);
   return res.status(200).json(countPerDay);
+};
+
+export const handleGetTimeTrackingStatistics = async (req: Request, res: Response) => {
+  const monthStr = req.query['month'] as string | undefined;
+  const yearStr = req.query['year'] as string | undefined;
+  const statusStr = req.query['status'] as string | undefined;
+
+  const month = monthStr ? parseInt(monthStr, 10) : undefined;
+  const year = yearStr ? parseInt(yearStr, 10) : undefined;
+
+  const options: { month?: number; year?: number } = {};
+  if (month !== undefined) options.month = month;
+  if (year !== undefined) options.year = year;
+
+  if (!isValidTimeFilterOption(options)) {
+    return res.status(400).send({ message: 'Ungültige Filteroption' });
+  }
+
+  const validStatuses: TimeTrackingStatusFilter[] = ['all', 'finished', 'abandoned'];
+  if (statusStr !== undefined && !validStatuses.includes(statusStr as TimeTrackingStatusFilter)) {
+    return res.status(400).send({ message: 'Ungültige Status-Filteroption' });
+  }
+
+  const status: TimeTrackingStatusFilter = (statusStr as TimeTrackingStatusFilter) ?? 'all';
+  const timeTrackingStats = await getTimeTrackingStatistics(options.month, options.year, status);
+  return res.status(200).json(timeTrackingStats);
 };

@@ -1,5 +1,112 @@
 <section>
   <div class="content-spacer">
-    <p>time-tracking works!</p>
+    <div class="controls-row">
+      <button (click)="reload()" class="icon" title="Aktualisieren">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            fill="currentColor"
+            d="M552 256L408 256C398.3 256 389.5 250.2 385.8 241.2C382.1 232.2 384.1 221.9 391 215L437.7 168.3C362.4 109.7 253.4 115 184.2 184.2C109.2 259.2 109.2 380.7 184.2 455.7C259.2 530.7 380.7 530.7 455.7 455.7C463.9 447.5 471.2 438.8 477.6 429.6C487.7 415.1 507.7 411.6 522.2 421.7C536.7 431.8 540.2 451.8 530.1 466.3C521.6 478.5 511.9 490.1 501 501C401 601 238.9 601 139 501C39.1 401 39 239 139 139C233.3 44.7 382.7 39.4 483.3 122.8L535 71C541.9 64.1 552.2 62.1 561.2 65.8C570.2 69.5 576 78.3 576 88L576 232C576 245.3 565.3 256 552 256z"
+          />
+        </svg>
+      </button>
+
+      <select #monthSelect (change)="monthChanged(monthSelect.value)" aria-label="Monat auswählen">
+        <option [selected]="selectedMonth() === undefined" value="all">Gesamtjahr</option>
+        @for (month of monthNames; track month) {
+          <option [value]="month" [selected]="month === monthNames[selectedMonth() ?? -1]">{{ month }}</option>
+        }
+      </select>
+
+      <select #yearSelect (change)="yearChanged(yearSelect.value)" aria-label="Jahr auswählen">
+        @for (year of years; track year) {
+          <option [value]="year" [selected]="year === selectedYear()">{{ year }}</option>
+        }
+      </select>
+
+      <select #statusSelect (change)="statusChanged(statusSelect.value)" aria-label="Status auswählen">
+        <option value="all" [selected]="selectedStatus() === 'all'">Alle Durchläufe</option>
+        <option value="finished" [selected]="selectedStatus() === 'finished'">Nur Abgeschlossene</option>
+        <option value="abandoned" [selected]="selectedStatus() === 'abandoned'">Nur Abgebrochene</option>
+      </select>
+    </div>
+
+    <div class="tableHeader">
+      <span>Erfasste Durchläufe: {{ totalTrackedCount() }}</span>
+    </div>
+
+    @if (statisticS.timeTrackingResource.error()) {
+      <app-error-display [error]="statisticS.timeTrackingResource.error()"></app-error-display>
+    } @else {
+      <div class="horizontal-scroll-container">
+        @if (statisticS.timeTrackingResource.isLoading()) {
+          <app-progress-spinner [endless]="true"></app-progress-spinner>
+        } @else if (!rows() || rows().length === 0) {
+          <p class="info-text">Keine Zeitdaten für den ausgewählten Zeitraum vorhanden</p>
+        }
+        @if (rows().length > 0) {
+          <table>
+            <thead>
+              <tr>
+                <th>Antragsart</th>
+                <th>Durchläufe</th>
+                <th>Ø Bearbeitungszeit</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of rows(); track row.stat.antragsart) {
+                <tr>
+                  <td>{{ row.stat.antragsart }}</td>
+                  <td>{{ row.stat.count }}</td>
+                  <td>{{ formatDuration(row.stat.totalDurationMs) }}</td>
+                  <td class="toggle">
+                    <button class="btn-icon" (click)="row.editMode = !row.editMode" title="Details">
+                      @if (row.editMode) {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                          <path
+                            fill="currentColor"
+                            d="M297.4 201.4C309.9 188.9 330.2 188.9 342.7 201.4L502.7 361.4C515.2 373.9 515.2 394.2 502.7 406.7C490.2 419.2 469.9 419.2 457.4 406.7L320 269.3L182.6 406.6C170.1 419.1 149.8 419.1 137.3 406.6C124.8 394.1 124.8 373.8 137.3 361.3L297.3 201.3z"
+                          />
+                        </svg>
+                      } @else {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                          <path
+                            fill="currentColor"
+                            d="M297.4 438.6C309.9 451.1 330.2 451.1 342.7 438.6L502.7 278.6C515.2 266.1 515.2 245.8 502.7 233.3C490.2 220.8 469.9 220.8 457.4 233.3L320 370.7L182.6 233.4C170.1 220.9 149.8 220.9 137.3 233.4C124.8 245.9 124.8 266.2 137.3 278.7L297.3 438.7z"
+                          />
+                        </svg>
+                      }
+                    </button>
+                  </td>
+                </tr>
+                @if (row.editMode) {
+                  <tr class="edit-row">
+                    <td colspan="4">
+                      <div class="container">
+                        <div class="details">
+                          <h4>Ø Bearbeitungszeit je Formularabschnitt</h4>
+                          @if (row.stat.sections && row.stat.sections.length > 0) {
+                            <ul>
+                              @for (section of row.stat.sections; track section.name) {
+                                <li>
+                                  <span>{{ getSectionLabel(section.name) }}: </span>
+                                  <span>{{ formatDuration(section.durationMs) }}</span>
+                                </li>
+                              }
+                            </ul>
+                          } @else {
+                            <p>Keine Abschnittsdaten erfasst</p>
+                          }
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    }
   </div>
 </section>

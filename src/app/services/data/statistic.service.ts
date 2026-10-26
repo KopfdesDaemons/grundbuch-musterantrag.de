@@ -1,5 +1,6 @@
 import { httpResource } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
+import { TimeTrackingStatistic, TimeTrackingStatusFilter } from 'common/interfaces/statistic.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +95,34 @@ export class StatisticService {
 
   reloadStatisticByTypAndTimeframe() {
     this._statisticByTypAndTimeframeResource.reload();
+  }
+
+  /**
+   * Time tracking statistic for specific time frame and status
+   */
+  private timeTrackingMonth = signal<number | undefined>(new Date().getMonth() + 1);
+  private timeTrackingYear = signal<number>(new Date().getFullYear());
+  private timeTrackingStatus = signal<TimeTrackingStatusFilter>('all');
+
+  private readonly _timeTrackingResource = httpResource<TimeTrackingStatistic[]>(() => ({
+    url: '/api/statistic/timeTracking',
+    params: {
+      month: this.timeTrackingMonth() ?? '',
+      year: this.timeTrackingYear(),
+      status: this.timeTrackingStatus()
+    }
+  }));
+
+  readonly timeTrackingResource = this._timeTrackingResource.asReadonly();
+
+  setTimeTrackingFilter(month: number | undefined, year: number, status: TimeTrackingStatusFilter = this.timeTrackingStatus()) {
+    this.timeTrackingMonth.set(month);
+    this.timeTrackingYear.set(year);
+    this.timeTrackingStatus.set(status);
+  }
+
+  reloadTimeTracking() {
+    this._timeTrackingResource.reload();
   }
 
   private getObjectArrayForStatisticByTpe(statisticObject: { [key: string]: number } | undefined): { antragsart: string; anzahl: number }[] {

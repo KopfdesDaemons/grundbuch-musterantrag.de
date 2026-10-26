@@ -1,0 +1,100 @@
+section {
+  animation: grow 500ms forwards;
+
+  .content-spacer {
+    max-width: 90em;
+    padding-top: 0;
+  }
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1em;
+  font-size: clamp(10px, 2vw, 14px);
+
+  button.icon {
+    height: 3em;
+    width: 3em;
+  }
+}
+
+$table-width: clamp(300px, 100%, 1200px);
+
+.tableHeader {
+  width: $table-width;
+  padding-left: 0.5em;
+}
+
+.horizontal-scroll-container {
+  height: 500px;
+  width: $table-width;
+  overflow: auto;
+  position: relative;
+  resize: vertical;
+
+  table {
+    margin-top: 0;
+    font-size: clamp(10px, 2vw, 14px);
+    width: 100%;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    th:nth-child(1) {
+      width: 45%; // Antragsart
+    }
+    th:nth-child(2) {
+      width: 20%; // Durchläufe
+    }
+    th:nth-child(3) {
+      width: 25%; // Ø Bearbeitungszeit
+    }
+    th:nth-child(4) {
+      width: 10%; // Toggle Details
+    }
+  }
+
+  app-progress-spinner {
+    margin: auto;
+  }
+
+  .info-text {
+    text-align: center;
+  }
+}
+
+.edit-row {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 1em;
+  }
+
+  .details {
+    h4 {
+      margin-top: 0;
+      margin-bottom: 0.5em;
+      font-size: 0.95em;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      li {
+        margin: 0.3em 0;
+
+        span:first-of-type {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

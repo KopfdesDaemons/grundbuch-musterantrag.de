@@ -1,4 +1,4 @@
-import { Statistic } from 'common/interfaces/statistic.interface';
+import { Statistic, TimeTrackingSectionStatistic, TimeTrackingStatistic, TimeTrackingStatusFilter } from 'common/interfaces/statistic.interface';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2/promise';
 
@@ -99,4 +99,87 @@ export const getUploadCountPerDays = async (options: {
   }
 
   return allDaysInTimeframe;
+};
+
+export const getTimeTrackingStatistics = async (
+  month?: number,
+  year?: number,
+  status: TimeTrackingStatusFilter = 'all'
+): Promise<TimeTrackingStatistic[]> => {
+  const params: number[] = [];
+  const conditions: string[] = ["u.antragsart IS NOT NULL AND u.antragsart != ''", 'ust.durationMs > 0'];
+
+  if (status === 'finished') {
+    conditions.push('u.finished = 1');
+  } else if (status === 'abandoned') {
+    conditions.push('u.finished = 0');
+  }
+
+  if (month !== undefined && year !== undefined) {
+    conditions.push('MONTH(u.uploadDate) = ? AND YEAR(u.uploadDate) = ?');
+    params.push(month, year);
+  } else if (year !== undefined) {
+    conditions.push('YEAR(u.uploadDate) = ?');
+    params.push(year);
+  }
+
+  const whereClause = conditions.join(' AND ');
+
+  const totalsQuery = `
+    SELECT
+      antragsart,
+      COUNT(*) AS count,
+      ROUND(AVG(uploadTotalDurationMs)) AS avgTotalDurationMs
+    FROM (
+      SELECT
+        u.uploadID,
+        u.antragsart,
+        SUM(ust.durationMs) AS uploadTotalDurationMs
+      FROM uploads u
+      INNER JOIN upload_section_times ust ON u.uploadID = ust.uploadID
+      WHERE ${whereClause}
+      GROUP BY u.uploadID, u.antragsart
+    ) AS upload_totals
+    GROUP BY antragsart
+    ORDER BY count DESC, antragsart ASC
+  `;
+
+  const sectionsQuery = `
+    SELECT
+      u.antragsart,
+      ust.section,
+      MIN(ust.stepOrder) AS stepOrder,
+      ROUND(AVG(ust.durationMs)) AS avgDurationMs
+    FROM uploads u
+    INNER JOIN upload_section_times ust ON u.uploadID = ust.uploadID
+    WHERE ${whereClause}
+    GROUP BY u.antragsart, ust.section
+    ORDER BY u.antragsart ASC, stepOrder ASC, ust.section ASC
+  `;
+
+  const [[totalRows], [sectionRows]] = await Promise.all([
+    db.execute<RowDataPacket[]>(totalsQuery, params),
+    db.execute<RowDataPacket[]>(sectionsQuery, params)
+  ]);
+
+  const sectionsByAntragsart = new Map<string, TimeTrackingSectionStatistic[]>();
+  for (const row of sectionRows) {
+    const antragsart = row['antragsart'] as string;
+    const list = sectionsByAntragsart.get(antragsart) ?? [];
+    list.push({
+      name: row['section'] as string,
+      durationMs: Number(row['avgDurationMs'] || 0)
+    });
+    sectionsByAntragsart.set(antragsart, list);
+  }
+
+  return totalRows.map(row => {
+    const antragsart = row['antragsart'] as string;
+    return {
+      antragsart,
+      count: Number(row['count'] || 0),
+      totalDurationMs: Number(row['avgTotalDurationMs'] || 0),
+      sections: sectionsByAntragsart.get(antragsart) ?? []
+    };
+  });
 };

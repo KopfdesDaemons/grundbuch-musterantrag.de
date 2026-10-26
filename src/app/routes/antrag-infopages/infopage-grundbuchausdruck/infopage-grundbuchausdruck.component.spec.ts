@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfopageGrundbuchausdruckComponent } from './home.component';
+import { InfopageGrundbuchausdruckComponent } from './infopage-grundbuchausdruck.component';
 
 describe('InfopageGrundbuchausdruckComponent', () => {
   let component: InfopageGrundbuchausdruckComponent;
