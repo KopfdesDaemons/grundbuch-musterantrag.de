@@ -21,10 +21,21 @@
 .controls {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 
   button.icon {
     height: 3em;
     width: 3em;
+  }
+
+  .multicolor-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    user-select: none;
   }
 }
 

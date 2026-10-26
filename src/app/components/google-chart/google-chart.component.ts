@@ -43,21 +43,45 @@ export class GoogleChartComponent {
   }
 
   private drawChart() {
+    const container = this.chartContainer()?.nativeElement;
+    if (!container) return;
+
     const google = (window as any)['google'];
+    if (!google?.visualization?.[this.chartType()]) return;
+
+    const chartData = this.chartData();
+    if (!chartData) return;
 
     const data = new google.visualization.DataTable();
-
     data.addColumn('string');
     data.addColumn('number');
-    data.addRows(this.chartData());
 
-    const container = this.chartContainer()?.nativeElement;
+    const colors = this.chartOptions()?.colors;
+    const useMultiBar =
+      (this.chartType() === 'BarChart' || this.chartType() === 'ColumnChart') &&
+      Array.isArray(colors) &&
+      colors.length > 1 &&
+      chartData.length > 0;
+
+    if (useMultiBar) {
+      data.addColumn({ type: 'string', role: 'style' });
+      const rows = chartData.map((row, i) => [
+        row[0],
+        row[1],
+        colors[i % colors.length]
+      ]);
+      data.addRows(rows);
+    } else {
+      data.addRows(chartData);
+    }
+
     this.chart.set(new google.visualization[this.chartType()](container));
     this.chart().draw(data, this.chartOptions());
   }
 
   private observeResize() {
-    if (this.resizeObserver) return;
+    const container = this.chartContainer()?.nativeElement;
+    if (!container || this.resizeObserver) return;
     const entriesSeen = new Set<Element>();
 
     this.resizeObserver = new ResizeObserver(entries => {

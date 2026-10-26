@@ -16,6 +16,25 @@ export class CountComponent {
   protected readonly gChartsS = inject(GooglechartsService);
   protected readonly statisticS = inject(StatisticService);
 
+  protected readonly multiColor = this.gChartsS.useMultiColor;
+
+  constructor() {
+    this.gChartsS.setUseMultiColor(false);
+  }
+
+  toggleMultiColor(enabled?: boolean) {
+    const next = enabled !== undefined ? enabled : !this.multiColor();
+    this.gChartsS.setUseMultiColor(next);
+  }
+
+  protected readonly pieChartOptions = computed(() => {
+    return this.gChartsS.getPieChartOptions();
+  });
+
+  protected readonly barChartOptions = computed(() => {
+    return this.gChartsS.getBarChartOptions();
+  });
+
   protected readonly monthNames = [
     'Januar',
     'Februar',

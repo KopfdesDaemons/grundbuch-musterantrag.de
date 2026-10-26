@@ -20,6 +20,15 @@
           <option [value]="year" [selected]="year === selectedYear()">{{ year }}</option>
         }
       </select>
+      <label class="multicolor-toggle">
+        <input
+          #multiColorInput
+          type="checkbox"
+          [checked]="multiColor()"
+          (change)="toggleMultiColor(multiColorInput.checked)"
+        />
+        <span>Multicolor</span>
+      </label>
     </div>
     <div class="grid">
       <div class="chartContainer">
@@ -47,7 +56,7 @@
           <app-google-chart
             chartType="PieChart"
             [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
-            [chartOptions]="gChartsS.getPieChartOptions()"
+            [chartOptions]="pieChartOptions()"
           >
           </app-google-chart>
         }
@@ -62,7 +71,7 @@
           <app-google-chart
             chartType="ColumnChart"
             [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
-            [chartOptions]="gChartsS.getBarChartOptions()"
+            [chartOptions]="barChartOptions()"
           >
           </app-google-chart>
         }

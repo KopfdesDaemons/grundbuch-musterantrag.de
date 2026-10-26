@@ -1,5 +1,5 @@
 import { formatDate, isPlatformBrowser } from '@angular/common';
-import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT, computed, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, LOCALE_ID, Renderer2, DOCUMENT, computed, PLATFORM_ID, signal } from '@angular/core';
 import { ScriptService } from '../utils/script.service';
 import { DesignloaderService } from '../ui/designloader.service';
 import { ColorHelper } from '../../helpers/color.helper';
@@ -16,6 +16,24 @@ export class GooglechartsService {
   private readonly local = inject(LOCALE_ID);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly _useMultiColor = signal(false);
+  readonly useMultiColor = this._useMultiColor.asReadonly();
+
+  setUseMultiColor(value: boolean) {
+    this._useMultiColor.set(value);
+  }
+
+  getColors(): string[] {
+    if (this._useMultiColor()) {
+      return ['#A52121', '#172F9C', '#B8BB09', '#228615', '#9C21A0', '#169B89'];
+    } else {
+      const primaryColor = this.designS.primaryColor() || '#20afdf';
+      return [
+        primaryColor,
+        ...[20, 30, 40, 50, 60].map(v => ColorHelper.darkenHexColor(primaryColor, v))
+      ];
+    }
+  }
 
   async loadGoogleCharts(renderer: Renderer2): Promise<void> {
     if (!this.loadPromise) {
@@ -87,15 +105,13 @@ export class GooglechartsService {
 
   getPieChartOptions() {
     this.designS.darkmode();
-    const fontHEX = this.getFontHex();
-    const primaryColor = this.designS.primaryColor() || '#20afdf';
-    const colors = [primaryColor, ...[20, 30, 40, 50, 60].map(v => ColorHelper.darkenHexColor(primaryColor, v))];
+
     return {
-      legend: { textStyle: { color: fontHEX } },
+      legend: { textStyle: { color: this.getFontHex() } },
       responsive: true,
-      colors,
+      colors: this.getColors(),
       textStyle: {
-        color: fontHEX
+        color: this.getFontHex()
       },
       chartArea: {
         left: 20,
@@ -112,7 +128,6 @@ export class GooglechartsService {
 
   getBarChartOptions() {
     this.designS.darkmode();
-    const fontHEX = this.getFontHex();
     const primaryColor = this.designS.primaryColor() || '#20afdf';
     return {
       legend: 'none',
@@ -120,18 +135,18 @@ export class GooglechartsService {
         duration: 400,
         startup: true
       },
-      colors: [primaryColor],
+      colors: this._useMultiColor() ? this.getColors() : [primaryColor],
       textStyle: {
-        color: fontHEX
+        color: this.getFontHex()
       },
       backgroundColor: {
         fill: 'transparent'
       },
       hAxis: {
-        textStyle: { color: fontHEX }
+        textStyle: { color: this.getFontHex() }
       },
       vAxis: {
-        textStyle: { color: fontHEX }
+        textStyle: { color: this.getFontHex() }
       }
     };
   }
