@@ -57,6 +57,9 @@ export class TimeTrackingComponent {
   });
 
   protected readonly totalTrackedCount = computed(() => {
+    if (this.statisticS.timeTrackingResource.error() || this.statisticS.timeTrackingResource.isLoading()) {
+      return '';
+    }
     const stats = this.statisticS.timeTrackingResource.value() ?? [];
     return stats.reduce((sum, item) => sum + item.count, 0);
   });
