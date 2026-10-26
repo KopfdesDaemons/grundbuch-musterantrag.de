@@ -16,6 +16,7 @@ import {
 import { randomUUID } from 'crypto';
 import { SettingsService } from 'server/services/settings.service';
 import { convertToPdf } from '../helpers/file-conversion.helper';
+import { isCrawlerRequest } from '../helpers/useragent.helper';
 
 interface CachedTemplate {
   baseZipStructure: Zippable;
@@ -204,6 +205,10 @@ export const handleReportDownloadByUser = async (req: Request, res: Response) =>
 };
 
 export const handleLoadFormSection = async (req: Request, res: Response) => {
+  if (isCrawlerRequest(req)) {
+    return res.status(403).send({ message: 'Zugriff für Crawler verweigert.' });
+  }
+
   const { uploadID, antragsart, section, stepOrder } = req.body;
 
   if (!section || typeof section !== 'string') {
@@ -225,6 +230,10 @@ export const handleLoadFormSection = async (req: Request, res: Response) => {
 };
 
 export const handleCompleteFormSection = async (req: Request, res: Response) => {
+  if (isCrawlerRequest(req)) {
+    return res.status(403).send({ message: 'Zugriff für Crawler verweigert.' });
+  }
+
   const { uploadID, section } = req.body;
 
   if (!uploadID || typeof uploadID !== 'string' || !section || typeof section !== 'string') {
