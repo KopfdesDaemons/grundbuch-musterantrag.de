@@ -200,7 +200,7 @@ export class FormService {
   finish() {
     if (!this.antrag) return;
     this._progress.set(100);
-    this.antrag.loadFormValue(this.form.value);
+    this.antrag.loadFormValue(this.form.getRawValue());
     this.antrag.datum = TimeHelper.formatDate();
   }
 

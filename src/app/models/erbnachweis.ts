@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NachlassAktenzeichenValidator } from '../validators/nachlassAktenzeichen.validator';
+import { NachlassAktenzeichenValidator } from '../validators/nachlass-aktenzeichen.validator';
 
 export class Erbnachweis {
   erbnachweis: 'Erbschein' | 'notarielles Testament' = 'Erbschein';

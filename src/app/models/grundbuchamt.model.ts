@@ -1,4 +1,5 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AmtsgerichtValidator } from '../validators/amtsgericht.validator';
 
 export class Grundbuchamt {
   name: string = '';
@@ -9,7 +10,7 @@ export class Grundbuchamt {
   getFormGroup(): FormGroup {
     const formBuilder = new FormBuilder();
     return formBuilder.group({
-      name: [this.name, Validators.required],
+      name: [this.name, { validators: [Validators.required, AmtsgerichtValidator()], updateOn: 'blur' }],
       straße: [this.straße, Validators.required],
       plz: [this.plz, Validators.required],
       ort: [this.ort, Validators.required]

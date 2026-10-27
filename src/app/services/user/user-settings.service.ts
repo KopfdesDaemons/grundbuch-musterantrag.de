@@ -2,7 +2,7 @@ import { computed, inject, Injectable, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { HttpClient, httpResource } from '@angular/common/http';
-import { newPasswordValidator } from 'src/app/validators/newPassword.validator';
+import { newPasswordValidator } from 'src/app/validators/new-password.validator';
 import { AuthService } from './auth.service';
 import { UserPermission } from 'common/interfaces/user-permission.interface';
 

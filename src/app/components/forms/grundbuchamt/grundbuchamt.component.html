@@ -9,8 +9,11 @@
     </div>
     <div class="input-container" id="nameamtsgericht">
       <input formControlName="name" id="nameamtsgerichtinput" type="text" name="nameag" required spellcheck="false" placeholder="&nbsp;" />
-      <label class="placeholder" for="nameamtsgerichtinput">Name des Amtsgerichts</label>
+      <label class="placeholder" for="nameamtsgerichtinput">Amtsgericht (z.B. Amtsgericht Musterstadt)</label>
     </div>
+    @if (form.controls["name"].hasError("amtsgericht")) {
+      <span class="error">{{ form.controls["name"].getError("amtsgericht").message }}</span>
+    }
     <div class="input-container" id="straßeamtsgericht">
       <input formControlName="straße" id="straßeamtsgerichtinput" type="text" name="straßeag" required spellcheck="false" placeholder="&nbsp;" />
       <label class="placeholder" for="straßeamtsgerichtinput">Straße + Hausnummer</label>

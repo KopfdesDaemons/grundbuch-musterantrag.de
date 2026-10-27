@@ -1,6 +1,6 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { BezeichnungRechtAbteilung2Validator } from '../validators/bezeichnungRechtAbteilung2.validator';
-import { RechtIstLoeschbarValidator } from '../validators/rechtIstLoeschbar.validator';
+import { BezeichnungRechtAbteilung2Validator } from '../validators/bezeichnung-recht-abteilung-2.validator';
+import { RechtIstLoeschbarValidator } from '../validators/recht-ist-loeschbar.validator';
 
 export class RechtAbteilung2 {
   bezeichnung: string = '';
