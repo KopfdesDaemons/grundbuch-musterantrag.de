@@ -32,4 +32,9 @@ export class GrundbuchamtComponent {
         '&ort='
     );
   }
+
+  addAmtsgericht() {
+    const name = (this.fs.form.get('grundbuchamt') as FormGroup).get('name')?.value;
+    this.form.controls['name'].setValue('Amtsgericht ' + name.trim());
+  }
 }

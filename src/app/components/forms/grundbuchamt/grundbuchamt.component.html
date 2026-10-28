@@ -12,7 +12,11 @@
       <label class="placeholder" for="nameamtsgerichtinput">z.B. Amtsgericht Musterstadt</label>
     </div>
     @if (form.controls["name"].hasError("amtsgericht")) {
-      <span class="error">{{ form.controls["name"].getError("amtsgericht").message }}</span>
+      <div>
+        <span class="error">{{ form.controls["name"].getError("amtsgericht").message }}</span
+        ><button type="button" (click)="addAmtsgericht()">hinzufügen</button>
+        <button class="btn-text" type="button" (click)="form.controls['name'].setErrors(null)">ignorieren</button>
+      </div>
     }
     <div class="input-container" id="straßeamtsgericht">
       <input formControlName="straße" id="straßeamtsgerichtinput" type="text" name="straßeag" required spellcheck="false" placeholder="&nbsp;" />
