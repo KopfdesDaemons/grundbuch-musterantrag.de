@@ -1,13 +1,23 @@
 import { RowDataPacket } from 'mysql2/promise';
 import { db } from './database.service';
 
-export const updateFeedbackRating = async (rating: number, uploadID?: string): Promise<void> => {
+export const updateFeedbackRating = async (rating: number, uploadID?: string, feedbackText?: string): Promise<void> => {
   if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
     throw new Error('Ungültige Bewertung: Muss eine ganze Zahl zwischen 1 und 5 sein.');
   }
 
   if (uploadID) {
-    await db.execute('UPDATE uploads SET rating = ? WHERE uploadID = ?', [rating, uploadID]);
+    if (feedbackText !== undefined) {
+      await db.execute('UPDATE uploads SET rating = ?, feedbackText = ? WHERE uploadID = ?', [rating, feedbackText.trim(), uploadID]);
+    } else {
+      await db.execute('UPDATE uploads SET rating = ? WHERE uploadID = ?', [rating, uploadID]);
+    }
+  }
+};
+
+export const updateFeedbackText = async (feedbackText: string, uploadID?: string): Promise<void> => {
+  if (uploadID) {
+    await db.execute('UPDATE uploads SET feedbackText = ? WHERE uploadID = ?', [feedbackText.trim(), uploadID]);
   }
 };
 

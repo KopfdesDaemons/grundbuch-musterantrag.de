@@ -4,13 +4,14 @@ import { FormService } from 'src/app/services/document/form.service';
 import { DocumentService } from 'src/app/services/document/document.service';
 import { ProgressSpinnerComponent } from '../../progress-spinner/progress-spinner.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-antragsgenerierung',
   templateUrl: './antragsgenerierung.component.html',
   styleUrl: './antragsgenerierung.component.scss',
-  imports: [ProgressSpinnerComponent]
+  imports: [ProgressSpinnerComponent, FormsModule]
 })
 export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   private fs = inject(FormService);
@@ -25,6 +26,9 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   odtIsLoading = signal<boolean>(false);
   statusMessage = signal<string>('');
   readonly rating = signal<number>(0);
+  readonly feedbackText = signal<string>('');
+  readonly feedbackTextIsLoading = signal<boolean>(false);
+  readonly feedbackTextSent = signal<boolean>(false);
 
   readonly error = signal<HttpErrorResponse | null>(null);
 
@@ -34,6 +38,9 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     this.error.set(null);
     this.pdfIsLoading.set(false);
     this.odtIsLoading.set(false);
+    this.feedbackText.set('');
+    this.feedbackTextIsLoading.set(false);
+    this.feedbackTextSent.set(false);
   }
 
   async ngOnInit(): Promise<void> {
@@ -114,6 +121,20 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
       await this.fs.submitFeedback(star);
     } catch (error) {
       console.error('Fehler beim Speichern des Feedbacks:', error);
+    }
+  }
+
+  async submitFeedbackText() {
+    const text = this.feedbackText().trim();
+    if (!text) return;
+    this.feedbackTextIsLoading.set(true);
+    try {
+      await this.fs.submitFeedbackText(text);
+      this.feedbackTextSent.set(true);
+    } catch (error) {
+      console.error('Fehler beim Speichern des Feedback-Textes:', error);
+    } finally {
+      this.feedbackTextIsLoading.set(false);
     }
   }
 }

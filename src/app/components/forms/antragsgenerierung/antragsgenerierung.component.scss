@@ -57,6 +57,23 @@ span {
 
 .feedback {
   animation: grow 0.5s ease-in-out;
+
+  form {
+    width: 100%;
+    margin-top: 0.5em;
+
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 0.5em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+  }
 }
 
 .stars {
@@ -93,5 +110,12 @@ span {
 
 .danke {
   color: green;
+  animation: grow 0.2s ease-in-out;
+}
+
+.feedback-sent {
+  display: block;
+  color: green;
+  margin-top: 0.5em;
   animation: grow 0.2s ease-in-out;
 }

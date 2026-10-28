@@ -91,9 +91,21 @@
                   <td>{{ formatDuration(row.upload.totalDurationMs) }}</td>
                   <td class="rating-cell">
                     @if (row.upload.rating) {
-                      <span class="rating-badge" [title]="row.upload.rating + ' von 5 Sternen'">
+                      <span
+                        class="rating-badge"
+                        [title]="
+                          row.upload.feedbackText
+                            ? row.upload.rating + ' von 5 Sternen&#10;Feedback: ' + row.upload.feedbackText
+                            : row.upload.rating + ' von 5 Sternen'
+                        "
+                      >
                         {{ row.upload.rating }}&nbsp;★
+                        @if (row.upload.feedbackText) {
+                          &nbsp;💬
+                        }
                       </span>
+                    } @else if (row.upload.feedbackText) {
+                      <span class="rating-badge" [title]="'Feedback: ' + row.upload.feedbackText">💬</span>
                     } @else {
                       <span class="no-rating">-</span>
                     }
@@ -233,9 +245,13 @@
                               <span>Bearbeitungszeit gesamt: </span><span>{{ formatDuration(row.upload.totalDurationMs) }}</span>
                             </li>
                             <li>
-                              <span>Bewertung: </span
-                              ><span>{{ row.upload.rating ? (row.upload.rating + " von 5 Sternen") : "keine Bewertung" }}</span>
+                              <span>Bewertung: </span><span>{{ row.upload.rating ? row.upload.rating + " von 5 Sternen" : "keine Bewertung" }}</span>
                             </li>
+                            @if (row.upload.feedbackText) {
+                              <li>
+                                <span>Feedback-Text: </span><textarea rows="3" readonly>{{ row.upload.feedbackText }}</textarea>
+                              </li>
+                            }
                           </ul>
                           @if (row.upload.sectionTimes && row.upload.sectionTimes.length > 0) {
                             <h4>Bearbeitungszeit je Formularabschnitt</h4>

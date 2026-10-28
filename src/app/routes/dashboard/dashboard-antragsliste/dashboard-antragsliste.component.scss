@@ -107,10 +107,12 @@ $table-width: clamp(300px, 100%, 1200px);
 .edit-row {
   .container {
     display: flex;
-    justify-content: space-between;
+    position: relative;
   }
 
   .details {
+    flex: 1;
+
     h3 {
       margin-top: 0;
     }
@@ -123,10 +125,18 @@ $table-width: clamp(300px, 100%, 1200px);
         font-weight: bold;
       }
     }
+
+    textarea {
+      width: 100%;
+    }
   }
 
   .controls {
     display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
+
     button {
       margin-top: 0;
     }

@@ -4,7 +4,7 @@ import mysql, { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import { createRootUser } from './user.service';
 import { createGuestRole, actionsTableMapping, clearUserRoleCache } from './user-role.service';
 
-export const CURRENT_DB_VERSION = 3;
+export const CURRENT_DB_VERSION = 4;
 
 export interface DatabaseMigration {
   version: number;
@@ -225,6 +225,21 @@ const migrations: DatabaseMigration[] = [
       if (ratingColumnExists.length === 0) {
         await connection.execute(`ALTER TABLE uploads ADD COLUMN rating INT NULL DEFAULT NULL`);
         logger.info('Spalte "rating" in Tabelle "uploads" wurde hinzugefügt.');
+      }
+    }
+  },
+  {
+    version: 4,
+    description: 'Spalte feedbackText in uploads für optionales Text-Feedback hinzufügen',
+    up: async (connection: PoolConnection) => {
+      const [columnExists] = await connection.execute<RowDataPacket[]>(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'uploads' AND COLUMN_NAME = 'feedbackText'`
+      );
+
+      if (columnExists.length === 0) {
+        await connection.execute(`ALTER TABLE uploads ADD COLUMN feedbackText TEXT NULL DEFAULT NULL`);
+        logger.info('Spalte "feedbackText" in Tabelle "uploads" wurde hinzugefügt.');
       }
     }
   }

@@ -34,6 +34,7 @@ export class Upload {
   odtFileDownloadedByUser: boolean | undefined = false;
   finished: boolean = false;
   rating?: number | null = null;
+  feedbackText?: string | null = null;
   sectionTimes: UploadSectionTime[] = [];
   totalDurationMs: number = 0;
 

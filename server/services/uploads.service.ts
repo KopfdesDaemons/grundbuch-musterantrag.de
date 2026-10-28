@@ -13,7 +13,7 @@ export const getUploadsData = async (page: number): Promise<PaginatedApiResponse
   if (page < 1) throw new Error('Die Seitennummer muss größer oder gleich 1 sein.');
 
   const offset = (page - 1) * pageSize;
-  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser, finished, rating
+  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser, finished, rating, feedbackText
                        FROM uploads
                        WHERE finished = 1
                        ORDER BY uploadDate DESC
@@ -33,6 +33,7 @@ export const getUploadsData = async (page: number): Promise<PaginatedApiResponse
     upload.odtFileDownloadedByUser = row['odtFileDownloadedByUser'] === null ? undefined : !!row['odtFileDownloadedByUser'];
     upload.finished = Boolean(row['finished']);
     upload.rating = row['rating'] !== null && row['rating'] !== undefined ? Number(row['rating']) : null;
+    upload.feedbackText = row['feedbackText'] ? String(row['feedbackText']) : null;
     return upload;
   });
 
@@ -85,7 +86,7 @@ export const getUploadsData = async (page: number): Promise<PaginatedApiResponse
 };
 
 export const readUpload = async (UploadID: string): Promise<Upload> => {
-  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser, finished, rating
+  const readQuery = `SELECT uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser, finished, rating, feedbackText
                        FROM uploads WHERE uploadID = ?`;
   const [result] = await db.execute<RowDataPacket[]>(readQuery, [UploadID]);
   const row = result[0];
@@ -102,14 +103,15 @@ export const readUpload = async (UploadID: string): Promise<Upload> => {
   upload.odtFileDownloadedByUser = row['odtFileDownloadedByUser'] === null ? undefined : !!row['odtFileDownloadedByUser'];
   upload.finished = Boolean(row['finished']);
   upload.rating = row['rating'] !== null && row['rating'] !== undefined ? Number(row['rating']) : null;
+  upload.feedbackText = row['feedbackText'] ? String(row['feedbackText']) : null;
   return upload;
 };
 
 export const updateUploadData = async (data: Upload): Promise<void> => {
   const upsertQuery = `
     INSERT INTO uploads (
-      uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser, finished, rating
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      uploadID, odtFile, pdfFile, filesDeleted, uploadDate, antragsart, grundbuchamt, pdfFileDownloadedByUser, odtFileDownloadedByUser, finished, rating, feedbackText
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE
       odtFile = VALUES(odtFile),
       pdfFile = VALUES(pdfFile),
@@ -120,7 +122,8 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
       pdfFileDownloadedByUser = COALESCE(VALUES(pdfFileDownloadedByUser), pdfFileDownloadedByUser),
       odtFileDownloadedByUser = COALESCE(VALUES(odtFileDownloadedByUser), odtFileDownloadedByUser),
       finished = VALUES(finished),
-      rating = COALESCE(VALUES(rating), rating)
+      rating = COALESCE(VALUES(rating), rating),
+      feedbackText = COALESCE(VALUES(feedbackText), feedbackText)
   `;
 
   await db.execute(upsertQuery, [
@@ -134,7 +137,8 @@ export const updateUploadData = async (data: Upload): Promise<void> => {
     data.pdfFileDownloadedByUser ?? null,
     data.odtFileDownloadedByUser ?? null,
     data.finished,
-    data.rating ?? null
+    data.rating ?? null,
+    data.feedbackText ?? null
   ]);
 };
 

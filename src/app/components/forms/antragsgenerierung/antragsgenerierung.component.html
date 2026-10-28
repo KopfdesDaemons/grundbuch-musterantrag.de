@@ -58,6 +58,30 @@
         </div>
         @if (rating() > 0) {
           <span class="danke">Vielen Dank! 🥹</span>
+          @if (feedbackTextSent()) {
+            <span class="feedback-sent">Vielen Dank für Ihre Rückmeldung!</span>
+          } @else {
+            <form (ngSubmit)="submitFeedbackText()">
+              <textarea
+                placeholder="Optionales anonymes nicht öffentliches Feedback"
+                name="feedbackText"
+                rows="3"
+                [(ngModel)]="feedbackText"
+                [disabled]="feedbackTextIsLoading()"
+              ></textarea>
+              <button
+                class="btn-outlined"
+                type="button"
+                [disabled]="feedbackTextIsLoading() || !feedbackText().trim()"
+                (click)="submitFeedbackText()"
+              >
+                Absenden
+                @if (feedbackTextIsLoading()) {
+                  <app-progress-spinner [endless]="true"></app-progress-spinner>
+                }
+              </button>
+            </form>
+          }
         }
       </section>
     }
