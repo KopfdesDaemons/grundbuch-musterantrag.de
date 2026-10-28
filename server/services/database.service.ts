@@ -4,7 +4,7 @@ import mysql, { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import { createRootUser } from './user.service';
 import { createGuestRole, actionsTableMapping, clearUserRoleCache } from './user-role.service';
 
-export const CURRENT_DB_VERSION = 2;
+export const CURRENT_DB_VERSION = 3;
 
 export interface DatabaseMigration {
   version: number;
@@ -211,6 +211,21 @@ const migrations: DatabaseMigration[] = [
 
       await connection.execute(`DELETE FROM upload_section_times WHERE uploadID NOT IN (SELECT uploadID FROM uploads)`);
       logger.info('Tabelle "upload_section_times" wurde initialisiert.');
+    }
+  },
+  {
+    version: 3,
+    description: 'Spalte rating in uploads für Feedback-Bewertung hinzufügen',
+    up: async (connection: PoolConnection) => {
+      const [ratingColumnExists] = await connection.execute<RowDataPacket[]>(
+        `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'uploads' AND COLUMN_NAME = 'rating'`
+      );
+
+      if (ratingColumnExists.length === 0) {
+        await connection.execute(`ALTER TABLE uploads ADD COLUMN rating INT NULL DEFAULT NULL`);
+        logger.info('Spalte "rating" in Tabelle "uploads" wurde hinzugefügt.');
+      }
     }
   }
 ];

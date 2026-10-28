@@ -25,6 +25,7 @@ import { backupRoutes } from 'server/routes/backup.routes';
 import { initBackupCronJob } from 'server/services/backup.service';
 import { createStorageFolders } from 'server/config/path.config';
 import logger from 'server/config/logger.config';
+import { feedbackRoutes } from 'server/routes/feedback.routes';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -69,6 +70,7 @@ app.use('/api/user-management', userManagementRoutes);
 app.use('/api/user-settings', userSettingsRoutes);
 app.use('/api/userrole', userRoleRoutes);
 app.use('/api/backup', backupRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 // 404 for all other API routes
 app.all('/api/*splat', (req, res) => res.status(404).send({ message: 'Route ' + req.url + ' nicht gefunden' }));

@@ -73,6 +73,7 @@
                 <th>Antragsart</th>
                 <th>Grundbuchamt</th>
                 <th>Zeit</th>
+                <th>Sterne</th>
                 <th>.odt</th>
                 <th>.pdf</th>
                 <th></th>
@@ -88,6 +89,15 @@
                   <td>{{ row.upload.antragsart }}</td>
                   <td class="grundbuchamt">{{ row.upload.grundbuchamt }}</td>
                   <td>{{ formatDuration(row.upload.totalDurationMs) }}</td>
+                  <td class="rating-cell">
+                    @if (row.upload.rating) {
+                      <span class="rating-badge" [title]="row.upload.rating + ' von 5 Sternen'">
+                        {{ row.upload.rating }}&nbsp;★
+                      </span>
+                    } @else {
+                      <span class="no-rating">-</span>
+                    }
+                  </td>
 
                   <td class="icon-table-cell">
                     @if (row.upload.odtFile && !row.upload.filesDeleted) {
@@ -194,7 +204,7 @@
                 </tr>
                 @if (row.editMode) {
                   <tr class="edit-row">
-                    <td colspan="8">
+                    <td colspan="9">
                       <div class="container">
                         <div class="details">
                           <h3>Details zum Antrag</h3>
@@ -221,6 +231,10 @@
                             </li>
                             <li>
                               <span>Bearbeitungszeit gesamt: </span><span>{{ formatDuration(row.upload.totalDurationMs) }}</span>
+                            </li>
+                            <li>
+                              <span>Bewertung: </span
+                              ><span>{{ row.upload.rating ? (row.upload.rating + " von 5 Sternen") : "keine Bewertung" }}</span>
                             </li>
                           </ul>
                           @if (row.upload.sectionTimes && row.upload.sectionTimes.length > 0) {

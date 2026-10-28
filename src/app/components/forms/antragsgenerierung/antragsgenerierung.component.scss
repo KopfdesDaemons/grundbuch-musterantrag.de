@@ -1,56 +1,97 @@
 #ende {
   display: flex;
   flex-direction: column;
+}
+
+span {
+  margin-top: 0.5em;
+}
+
+.kachelcontainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1em;
+  gap: 1em;
+}
+
+.kachel {
+  width: 16em;
+  padding: 0 1em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: unset;
+
+  svg {
+    height: 5em;
+    width: 5em;
+    margin: 1rem;
+  }
 
   span {
-    margin-top: 0.5em;
+    font-size: 0.9em;
   }
 
-  .kachelcontainer {
+  app-progress-spinner {
+    margin-left: 1em;
+  }
+}
+
+.status {
+  margin-top: 1rem;
+  border-left: 2px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: var(--background-inputfeld);
+
+  .status-text-row {
     display: flex;
-    flex-wrap: wrap;
-    margin-top: 1em;
     gap: 1em;
-  }
-
-  .kachel {
-    width: 16em;
-    padding: 0 1em;
-    display: flex;
     align-items: center;
-    justify-content: flex-start;
-    height: unset;
+  }
+}
+
+.error-text {
+  color: red;
+}
+
+.feedback {
+  animation: grow 0.5s ease-in-out;
+}
+
+.stars {
+  display: flex;
+  justify-content: start;
+
+  .star-1,
+  .star-2,
+  .star-3,
+  .star-4,
+  .star-5 {
+    cursor: pointer;
+    width: 2em;
+    height: 2em;
 
     svg {
-      height: 5em;
-      width: 5em;
-      margin: 1rem;
+      width: 100%;
+      height: 100%;
     }
 
-    span {
-      font-size: 0.9em;
-    }
-
-    app-progress-spinner {
-      margin-left: 1em;
+    &.selected {
+      color: var(--primary-color);
     }
   }
 
-  .status {
-    margin-top: 1rem;
-    border-left: 2px solid var(--primary-color);
-    border-radius: 4px;
-    padding: 0.5rem;
-    background-color: var(--background-inputfeld);
-
-    .status-text-row {
-      display: flex;
-      gap: 1em;
-      align-items: center;
-    }
+  &:has(.star-1:hover) .star-1,
+  &:has(.star-2:hover) :is(.star-1, .star-2),
+  &:has(.star-3:hover) :is(.star-1, .star-2, .star-3),
+  &:has(.star-4:hover) :is(.star-1, .star-2, .star-3, .star-4),
+  &:has(.star-5:hover) :is(.star-1, .star-2, .star-3, .star-4, .star-5) {
+    color: var(--primary-color);
   }
+}
 
-  .error-text {
-    color: red;
-  }
+.danke {
+  color: green;
+  animation: grow 0.2s ease-in-out;
 }

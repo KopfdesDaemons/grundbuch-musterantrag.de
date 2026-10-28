@@ -241,4 +241,8 @@ export class FormService {
       }
     }
   }
+
+  async submitFeedback(rating: number): Promise<void> {
+    await this.docS.submitFeedback(rating);
+  }
 }

@@ -24,6 +24,7 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
   pdfIsLoading = signal<boolean>(false);
   odtIsLoading = signal<boolean>(false);
   statusMessage = signal<string>('');
+  readonly rating = signal<number>(0);
 
   readonly error = signal<HttpErrorResponse | null>(null);
 
@@ -105,5 +106,14 @@ export class AntragsgenerierungComponent implements OnInit, OnDestroy {
     this.pdfIsLoading.set(false);
     this.odtIsLoading.set(false);
     this.submitIsLoading.set(false);
+  }
+
+  async setRating(star: number) {
+    this.rating.set(star);
+    try {
+      await this.fs.submitFeedback(star);
+    } catch (error) {
+      console.error('Fehler beim Speichern des Feedbacks:', error);
+    }
   }
 }

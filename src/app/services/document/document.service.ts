@@ -77,4 +77,10 @@ export class DocumentService {
     const url = '/api/uploads/reportDownloadByUser';
     await lastValueFrom(this.http.put(url, { uploadID, fileType }));
   }
+
+  async submitFeedback(rating: number, uploadID?: string): Promise<void> {
+    const activeUploadID = uploadID ?? this._uploadID();
+    const url = '/api/feedback/rating';
+    await lastValueFrom(this.http.post(url, { rating, uploadID: activeUploadID }));
+  }
 }

@@ -33,6 +33,7 @@ export class Upload {
   pdfFileDownloadedByUser: boolean | undefined = false;
   odtFileDownloadedByUser: boolean | undefined = false;
   finished: boolean = false;
+  rating?: number | null = null;
   sectionTimes: UploadSectionTime[] = [];
   totalDurationMs: number = 0;
 

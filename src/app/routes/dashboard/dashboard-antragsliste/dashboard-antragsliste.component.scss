@@ -138,3 +138,17 @@ $table-width: clamp(300px, 100%, 1200px);
     }
   }
 }
+
+.rating-cell {
+  text-align: center;
+  white-space: nowrap;
+
+  .rating-badge {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .no-rating {
+    opacity: 0.5;
+  }
+}
