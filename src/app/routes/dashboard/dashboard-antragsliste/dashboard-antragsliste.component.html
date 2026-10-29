@@ -218,68 +218,127 @@
                   <tr class="edit-row">
                     <td colspan="9">
                       <div class="container">
-                        <div class="details">
-                          <h3>Details zum Antrag</h3>
-                          <ul>
-                            <li>
-                              <span>UploadID: </span><span>{{ row.upload.uploadID }}</span>
-                            </li>
-                            <li>
-                              <span>Odt-Datei generiert: </span><span>{{ row.upload.odtFile }}</span>
-                            </li>
-                            <li>
-                              <span>Pdf-Datei generiert: </span><span>{{ row.upload.pdfFile }}</span>
-                            </li>
-                            <li>
-                              <span>Generierte Dateien gelöscht: </span><span>{{ row.upload.filesDeleted }}</span>
-                            </li>
-                            <li>
-                              <span>Odt-Datei vom User heruntergeladen: </span
-                              ><span>{{ row.upload.odtFileDownloadedByUser ?? "nicht bekannt" }}</span>
-                            </li>
-                            <li>
-                              <span>Pdf-Datei vom User heruntergeladen: </span
-                              ><span>{{ row.upload.pdfFileDownloadedByUser ?? "nicht bekannt" }}</span>
-                            </li>
-                            <li>
-                              <span>Bearbeitungszeit gesamt: </span><span>{{ formatDuration(row.upload.totalDurationMs) }}</span>
-                            </li>
-                            <li>
-                              <span>Bewertung: </span><span>{{ row.upload.rating ? row.upload.rating + " von 5 Sternen" : "keine Bewertung" }}</span>
-                            </li>
-                            @if (row.upload.feedbackText) {
-                              <li>
-                                <span>Feedback-Text: </span><textarea rows="3" readonly>{{ row.upload.feedbackText }}</textarea>
-                              </li>
+                        <app-tab-navigation tabsAlign="left">
+                          <app-tab class="files-tab" title="Dateien">
+                            <div class="id-row">
+                              <div class="input-container">
+                                <input
+                                  id="uploadIDInput"
+                                  [value]="row.upload.uploadID"
+                                  readonly
+                                  name="uploadIDInput"
+                                  spellcheck="false"
+                                  placeholder="&nbsp;"
+                                />
+                                <label class="placeholder" for="uploadIDInput">UploadID: </label>
+                              </div>
+                              <button
+                                [disabled]="row.upload.filesDeleted ? true : !userHasPermissionsDeleteGeneratedFiles()"
+                                (click)="deleteGeneratedFiles(row.upload.uploadID)"
+                              >
+                                Generierte Dateien löschen
+                              </button>
+                            </div>
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Datei</th>
+                                  <th>Generiert</th>
+                                  <th>Heruntergeladen</th>
+                                  <th>Gelöscht</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>.odt</td>
+                                  <td>{{ row.upload.odtFile ? "ja" : "nein" }}</td>
+                                  <td>
+                                    {{
+                                      row.upload.odtFileDownloadedByUser
+                                        ? "ja"
+                                        : row.upload.odtFileDownloadedByUser === false
+                                          ? "nein"
+                                          : "nicht bekannt"
+                                    }}
+                                  </td>
+                                  <td>{{ row.upload.filesDeleted ? "ja" : "nein" }}</td>
+                                </tr>
+                                <tr>
+                                  <td>.pdf</td>
+                                  <td>{{ row.upload.pdfFile ? "ja" : "nein" }}</td>
+                                  <td>
+                                    {{
+                                      row.upload.pdfFileDownloadedByUser
+                                        ? "ja"
+                                        : row.upload.pdfFileDownloadedByUser === false
+                                          ? "nein"
+                                          : "nicht bekannt"
+                                    }}
+                                  </td>
+                                  <td>{{ row.upload.filesDeleted ? "ja" : "nein" }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </app-tab>
+
+                          <app-tab class="time-tab" title="Bearbeitungszeit">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>Abschnitt</th>
+                                  <th>Zeit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                @if (row.upload.sectionTimes && row.upload.sectionTimes.length > 0) {
+                                  @for (sectionTime of row.upload.sectionTimes; track sectionTime.section) {
+                                    <tr>
+                                      <td>{{ getSectionLabel(sectionTime.section) }}</td>
+                                      <td>{{ formatDuration(sectionTime.durationMs) }}</td>
+                                    </tr>
+                                  }
+                                } @else {
+                                  <tr>
+                                    <td colspan="2">Keine Abschnittszeiten vorhanden</td>
+                                  </tr>
+                                }
+                                <tr class="total-row">
+                                  <td>Insgesamt</td>
+                                  <td>{{ formatDuration(row.upload.totalDurationMs) }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </app-tab>
+
+                          <app-tab title="Feedback" class="feedback-tab">
+                            @if (row.upload.rating && row.upload.rating > 0) {
+                              <div class="stars" title="{{ row.upload.rating }} von 5 Sternen">
+                                @for (star of [1, 2, 3, 4, 5]; track star) {
+                                  <div [class]="'star'" [class.filled]="star <= row.upload.rating">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                      <path
+                                        fill="currentColor"
+                                        d="M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z"
+                                      />
+                                    </svg>
+                                  </div>
+                                }
+                              </div>
+                            } @else {
+                              <span>Keine Sternebewertung</span>
                             }
-                          </ul>
-                          @if (row.upload.sectionTimes && row.upload.sectionTimes.length > 0) {
-                            <h4>Bearbeitungszeit je Formularabschnitt</h4>
-                            <ul>
-                              @for (sectionTime of row.upload.sectionTimes; track sectionTime.section) {
-                                <li>
-                                  <span>{{ getSectionLabel(sectionTime.section) }}: </span><span>{{ formatDuration(sectionTime.durationMs) }}</span>
-                                </li>
-                              }
-                            </ul>
-                          }
-                        </div>
-                        <div class="controls">
-                          <button
-                            [disabled]="row.upload.filesDeleted ? true : !userHasPermissionsDeleteGeneratedFiles()"
-                            (click)="deleteGeneratedFiles(row.upload.uploadID)"
-                          >
-                            Generierte Dateien löschen
-                          </button>
-                          <button class="delete-btn" (click)="deleteUpload(row.upload.uploadID)" [disabled]="!userHasPermissionsDeleteUpload()">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                              <path
-                                fill="currentColor"
-                                d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
-                              />
-                            </svg>
-                          </button>
-                        </div>
+                            <span>Feedback-Text: </span><textarea rows="3" readonly>{{ row.upload.feedbackText }}</textarea>
+                          </app-tab>
+                        </app-tab-navigation>
+
+                        <button class="delete-btn" (click)="deleteUpload(row.upload.uploadID)" [disabled]="!userHasPermissionsDeleteUpload()">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                            <path
+                              fill="currentColor"
+                              d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"
+                            />
+                          </svg>
+                        </button>
                       </div>
                     </td>
                   </tr>

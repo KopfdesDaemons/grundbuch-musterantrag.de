@@ -6,20 +6,30 @@
 }
 
 nav {
+  width: 100%;
   font-size: clamp(10px, 2.5vw, 1rem);
 
   ul {
     list-style: none;
     display: flex;
     gap: 1em;
+    padding: 0;
+    margin: 0;
 
     li {
-      a {
+      a,
+      button {
         font-size: 1.2em;
         padding: 1em;
         color: var(--font-color);
         text-decoration: none;
         display: flex;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        line-height: inherit;
+        box-shadow: none;
       }
 
       &.active {

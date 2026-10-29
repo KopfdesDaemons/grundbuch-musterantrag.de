@@ -1,12 +1,26 @@
 <nav>
-  <ul>
-    @for (tab of tabs(); track tab.route) {
-      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a [routerLink]="tab.route">{{ tab.name }}</a>
-      </li>
+  <ul [style.justify-content]="tabsAlign()">
+    @if (tabs() && tabs()!.length > 0) {
+      @for (tab of tabs()!; track tab.route) {
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a [routerLink]="tab.route">{{ tab.name }}</a>
+        </li>
+      }
+    } @else {
+      @for (tab of tabPanels(); track $index) {
+        <li [class.active]="$index === activeIndex()">
+          <button type="button" (click)="selectTab($index)">
+            {{ tab.tabTitle }}
+          </button>
+        </li>
+      }
     }
   </ul>
 </nav>
 <div class="content">
-  <router-outlet></router-outlet>
+  @if (tabs() && tabs()!.length > 0) {
+    <router-outlet></router-outlet>
+  } @else {
+    <ng-content></ng-content>
+  }
 </div>

@@ -9,13 +9,15 @@ import { UploadRow } from 'src/app/interfaces/upload-row';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 import { Feature, UploadManagementAction } from 'common/interfaces/user-permission.interface';
+import { TabComponent } from 'src/app/components/dashboard/tab-navigation/tab.component';
+import { TabNavigationComponent } from 'src/app/components/dashboard/tab-navigation/tab-navigation.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard-antragsliste',
   templateUrl: './dashboard-antragsliste.component.html',
   styleUrls: ['./dashboard-antragsliste.component.scss'],
-  imports: [DatePipe, ErrorDisplayComponent, NgClass, FormsModule, ProgressSpinnerComponent]
+  imports: [DatePipe, ErrorDisplayComponent, NgClass, FormsModule, ProgressSpinnerComponent, TabComponent, TabNavigationComponent]
 })
 export class DashboardAntragslisteComponent {
   private readonly userSettingsS = inject(UserSettingsService);

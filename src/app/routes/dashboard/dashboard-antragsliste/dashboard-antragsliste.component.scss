@@ -86,6 +86,20 @@ $table-width: clamp(300px, 100%, 1200px);
   max-width: 15em;
 }
 
+.rating-cell {
+  text-align: center;
+  white-space: nowrap;
+
+  .rating-badge {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  .no-rating {
+    opacity: 0.5;
+  }
+}
+
 .icon-table-cell {
   text-align: center;
 }
@@ -105,60 +119,82 @@ $table-width: clamp(300px, 100%, 1200px);
 }
 
 .edit-row {
+  td {
+    padding: 0;
+  }
+
   .container {
     display: flex;
     position: relative;
   }
+}
 
-  .details {
-    flex: 1;
+.delete-btn {
+  right: 0;
+  top: 0;
+  margin: 0.5em;
+  position: absolute;
+  height: 2.5rem;
+  width: 2.5rem;
+  padding: 0.5rem;
+}
 
-    h3 {
-      margin-top: 0;
+.files-tab {
+  padding: 1em 0;
+
+  .id-row {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      margin: 0.5em 0;
     }
 
-    ul {
-      padding: 0;
-      list-style: none;
-
-      li span:first-of-type {
-        font-weight: bold;
-      }
-    }
-
-    textarea {
-      width: 100%;
+    .input-container {
+      width: 45%;
     }
   }
 
-  .controls {
-    display: flex;
-    position: absolute;
-    right: 0;
-    top: 0;
-
-    button {
-      margin-top: 0;
-    }
-
-    .delete-btn {
-      height: 2.5rem;
-      width: 2.5rem;
-      padding: 0.5rem;
+  table {
+    td,
+    th {
+      text-align: center;
     }
   }
 }
 
-.rating-cell {
-  text-align: center;
-  white-space: nowrap;
-
-  .rating-badge {
-    color: var(--primary-color);
+.time-tab {
+  .total-row {
     font-weight: 600;
   }
+}
 
-  .no-rating {
-    opacity: 0.5;
+.feedback-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  .stars {
+    display: flex;
+    justify-content: start;
+
+    .star {
+      width: 2em;
+      height: 2em;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      &.filled {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  textarea {
+    width: 100%;
+    margin-bottom: 1em;
   }
 }
