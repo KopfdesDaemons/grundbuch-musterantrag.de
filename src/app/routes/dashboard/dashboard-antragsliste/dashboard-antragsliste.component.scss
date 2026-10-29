@@ -119,10 +119,6 @@ $table-width: clamp(300px, 100%, 1200px);
 }
 
 .edit-row {
-  td {
-    padding: 0;
-  }
-
   .container {
     display: flex;
     position: relative;
