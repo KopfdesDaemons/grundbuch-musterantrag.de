@@ -16,7 +16,7 @@ export class ArtikelsidebarComponent {
 
   themen = [
     {
-      name: 'Einleitung Grundbuchrecht',
+      name: 'Einleitung',
       routerLink: '/grundbuchrecht/einleitung',
       unterthemen: [
         { name: 'Definition Grundbuch', fragment: 'definitiongrundbuch' },
@@ -96,7 +96,7 @@ export class ArtikelsidebarComponent {
   }
 
   @HostListener('focusout', ['$event']) onFocusOut(event: FocusEvent) {
-    if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget as Node)) {
+    if (event.relatedTarget && !this.elementRef.nativeElement.contains(event.relatedTarget)) {
       this.closeSidemenu();
     }
   }

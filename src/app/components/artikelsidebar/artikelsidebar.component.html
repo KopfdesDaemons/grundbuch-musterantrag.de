@@ -18,7 +18,7 @@
               />
             </svg>
           </div>
-          <a [routerLink]="thema.routerLink" (click)="dropdown($event)">{{ thema.name }}</a>
+          <a [routerLink]="thema.routerLink" (click)="closeSidemenu()">{{ thema.name }}</a>
         </div>
         <ul>
           @for (unterthema of thema.unterthemen; track unterthema) {
