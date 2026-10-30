@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import logger from 'server/config/logger.config';
-import mysql, { PoolConnection, RowDataPacket } from 'mysql2/promise';
+import mysql, { Pool, PoolConnection, RowDataPacket } from 'mysql2/promise';
 import { createRootUser } from './user.service';
 import { createGuestRole, actionsTableMapping, clearUserRoleCache } from './user-role.service';
 
@@ -12,13 +12,16 @@ export interface DatabaseMigration {
   up: (connection: PoolConnection) => Promise<void>;
 }
 
-export const db = mysql.createPool({
+const GLOBAL_DB_POOL_KEY = Symbol.for('grundbuch.dbPool');
+const globalWithDb = globalThis as typeof globalThis & { [GLOBAL_DB_POOL_KEY]?: Pool };
+
+export const db: Pool = (globalWithDb[GLOBAL_DB_POOL_KEY] ??= mysql.createPool({
   host: 'db',
   user: process.env['MYSQL_USER'],
   password: process.env['MYSQL_PASSWORD'],
   database: 'grundbuch-musterantrag',
   timezone: 'Z'
-});
+}));
 
 interface TableDefinition {
   name: string;

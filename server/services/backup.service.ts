@@ -122,14 +122,10 @@ export const createNewBackup = async () => {
   const backupFileName = `backup_${timestamp}_v${dbVersion}.sql.gz`;
   const backupFilePath = path.join(BACKUP_FOLDER_PATH, backupFileName);
 
-  const dumpProcess = spawn(
-    'mariadb-dump',
-    ['--skip-ssl', '-h', DB_HOST, '-u', DB_USER, DB_NAME],
-    {
-      env: { ...process.env, MYSQL_PWD: DB_PASSWORD },
-      stdio: ['ignore', 'pipe', 'pipe']
-    }
-  );
+  const dumpProcess = spawn('mariadb-dump', ['--skip-ssl', '-h', DB_HOST, '-u', DB_USER, DB_NAME], {
+    env: { ...process.env, MYSQL_PWD: DB_PASSWORD },
+    stdio: ['ignore', 'pipe', 'pipe']
+  });
 
   let stderr = '';
   dumpProcess.stderr.on('data', chunk => {
@@ -148,14 +144,7 @@ export const createNewBackup = async () => {
   });
 
   try {
-    await Promise.all([
-      pipeline(
-        dumpProcess.stdout,
-        zlib.createGzip({ level: 9 }),
-        fs.createWriteStream(backupFilePath)
-      ),
-      exitPromise
-    ]);
+    await Promise.all([pipeline(dumpProcess.stdout, zlib.createGzip({ level: 9 }), fs.createWriteStream(backupFilePath)), exitPromise]);
   } catch (error) {
     if (dumpProcess.exitCode === null && dumpProcess.signalCode === null) {
       dumpProcess.kill('SIGTERM');
@@ -208,14 +197,10 @@ export const restoreBackup = async (backupFilePath: string): Promise<RestoreBack
     // Ignorieren, falls settings-Tabelle noch nicht existiert
   }
 
-  const restoreProcess = spawn(
-    'mariadb',
-    ['--skip-ssl', '-h', DB_HOST, '-u', DB_USER, DB_NAME],
-    {
-      env: { ...process.env, MYSQL_PWD: DB_PASSWORD },
-      stdio: ['pipe', 'ignore', 'pipe']
-    }
-  );
+  const restoreProcess = spawn('mariadb', ['--skip-ssl', '-h', DB_HOST, '-u', DB_USER, DB_NAME], {
+    env: { ...process.env, MYSQL_PWD: DB_PASSWORD },
+    stdio: ['pipe', 'ignore', 'pipe']
+  });
 
   let stderr = '';
   restoreProcess.stderr.on('data', chunk => {
@@ -234,14 +219,7 @@ export const restoreBackup = async (backupFilePath: string): Promise<RestoreBack
   });
 
   try {
-    await Promise.all([
-      pipeline(
-        fs.createReadStream(backupFilePath),
-        zlib.createGunzip(),
-        restoreProcess.stdin
-      ),
-      exitPromise
-    ]);
+    await Promise.all([pipeline(fs.createReadStream(backupFilePath), zlib.createGunzip(), restoreProcess.stdin), exitPromise]);
   } catch (error) {
     if (restoreProcess.exitCode === null && restoreProcess.signalCode === null) {
       restoreProcess.kill('SIGTERM');
@@ -311,11 +289,12 @@ export const deleteBackups = async (fileNames: string[]) => {
   }
 };
 
-let isCronJobInitialized = false;
+const GLOBAL_BACKUP_CRON_KEY = Symbol.for('grundbuch.backupCronInitialized');
+const globalWithBackupCron = globalThis as typeof globalThis & { [GLOBAL_BACKUP_CRON_KEY]?: boolean };
 
 export const initBackupCronJob = () => {
-  if (isCronJobInitialized) return;
-  isCronJobInitialized = true;
+  if (globalWithBackupCron[GLOBAL_BACKUP_CRON_KEY]) return;
+  globalWithBackupCron[GLOBAL_BACKUP_CRON_KEY] = true;
 
   logger.info('Tägliches automatisches Backup eingeplant für 03:00 Uhr (Europe/Berlin).');
 
