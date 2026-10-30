@@ -92,6 +92,7 @@ export class DashboardAntragslisteComponent {
     this.rowsMap.clear();
     this.uploadsS.setPageToLoad(1);
     this.uploadsS.loadUploads();
+    this.uploadsS.reloadFeedback();
     if (this.selectAllInput()) {
       this.selectAllInput()!.nativeElement.checked = false;
     }

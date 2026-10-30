@@ -16,7 +16,7 @@ export const dashboardRoutes: Routes = [
       },
       {
         path: 'antragsliste',
-        loadComponent: () => import('./dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent)
+        loadChildren: () => import('./dashboard-antragsliste/antragsliste.routes').then(m => m.antragslisteRoutes)
       },
       {
         path: 'users',

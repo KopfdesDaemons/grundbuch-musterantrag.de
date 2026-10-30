@@ -1,0 +1,183 @@
+<section>
+  <div class="content-spacer">
+    <div class="controls-row">
+      <button (click)="reload()" class="icon" title="Aktualisieren">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+          <path
+            fill="currentColor"
+            d="M552 256L408 256C398.3 256 389.5 250.2 385.8 241.2C382.1 232.2 384.1 221.9 391 215L437.7 168.3C362.4 109.7 253.4 115 184.2 184.2C109.2 259.2 109.2 380.7 184.2 455.7C259.2 530.7 380.7 530.7 455.7 455.7C463.9 447.5 471.2 438.8 477.6 429.6C487.7 415.1 507.7 411.6 522.2 421.7C536.7 431.8 540.2 451.8 530.1 466.3C521.6 478.5 511.9 490.1 501 501C401 601 238.9 601 139 501C39.1 401 39 239 139 139C233.3 44.7 382.7 39.4 483.3 122.8L535 71C541.9 64.1 552.2 62.1 561.2 65.8C570.2 69.5 576 78.3 576 88L576 232C576 245.3 565.3 256 552 256z"
+          />
+        </svg>
+      </button>
+
+      <select
+        #monthSelect
+        (change)="monthChanged(monthSelect.value)"
+        [disabled]="selectedYear() === undefined"
+        aria-label="Monat auswählen"
+      >
+        <option [selected]="selectedMonth() === undefined" value="all">Gesamtjahr</option>
+        @for (month of monthNames; track month) {
+          <option [value]="month" [selected]="month === monthNames[selectedMonth() ?? -1]">{{ month }}</option>
+        }
+      </select>
+
+      <select #yearSelect (change)="yearChanged(yearSelect.value)" aria-label="Jahr auswählen">
+        <option [selected]="selectedYear() === undefined" value="all">Gesamtzeitraum</option>
+        @for (year of years; track year) {
+          <option [value]="year" [selected]="year === selectedYear()">{{ year }}</option>
+        }
+      </select>
+
+      <select #filterSelect (change)="listFilterChanged(filterSelect.value)" aria-label="Feedback-Filter auswählen">
+        <option value="all" [selected]="listFilter() === 'all'">Alle Feedbacks</option>
+        <option value="withText" [selected]="listFilter() === 'withText'">Nur mit Freitext</option>
+        <option value="5" [selected]="listFilter() === '5'">5 Sterne</option>
+        <option value="4" [selected]="listFilter() === '4'">4 Sterne</option>
+        <option value="3" [selected]="listFilter() === '3'">3 Sterne</option>
+        <option value="2" [selected]="listFilter() === '2'">2 Sterne</option>
+        <option value="1" [selected]="listFilter() === '1'">1 Stern</option>
+      </select>
+    </div>
+
+    @if (uploadsS.feedbackResource.error()) {
+      <app-error-display [error]="uploadsS.feedbackResource.error()"></app-error-display>
+    } @else if (uploadsS.feedbackResource.isLoading()) {
+      <app-progress-spinner [endless]="true"></app-progress-spinner>
+    } @else if (evaluation(); as evalData) {
+      <div class="overview-grid">
+        <div class="card summary-card">
+          <h3>Gesamtbewertung</h3>
+          <div class="average-score">
+            <span class="score-value">
+              {{ evalData.averageRating !== null ? (evalData.averageRating | number: '1.1-2') : '-' }}
+            </span>
+            <span class="score-max">/ 5</span>
+          </div>
+          <div class="stars" [title]="evalData.averageRating ? (evalData.averageRating | number: '1.1-2') + ' von 5 Sternen' : 'Keine Bewertungen'">
+            @for (star of [1, 2, 3, 4, 5]; track star) {
+              <div class="star" [class.filled]="isStarFilled(star, evalData.averageRating)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                  <path
+                    fill="currentColor"
+                    d="M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z"
+                  />
+                </svg>
+              </div>
+            }
+          </div>
+          <div class="summary-meta">
+            <span><b>{{ evalData.totalRatings }}</b> Sternebewertungen ({{ feedbackRate() }}&nbsp;% von {{ evalData.totalUploads }} Anträgen)</span>
+            <span><b>{{ evalData.totalFeedbackTexts }}</b> Freitext-Feedbacks</span>
+          </div>
+        </div>
+
+        <div class="card distribution-card">
+          <h3>Sterne-Verteilung</h3>
+          <div class="distribution-rows">
+            @for (dist of evalData.starDistribution; track dist.stars) {
+              <div class="distribution-row">
+                <span class="star-label">{{ dist.stars }}&nbsp;★</span>
+                <div class="bar-track">
+                  <div class="bar-fill" [style.width.%]="dist.percentage"></div>
+                </div>
+                <span class="count-label">{{ dist.count }} ({{ dist.percentage }}&nbsp;%)</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="tableHeader">
+          <h2>Auswertung nach Antragsart</h2>
+        </div>
+        <div class="table-container">
+          @if (evalData.byAntragsart.length === 0) {
+            <p class="info-text">Keine Bewertungen für den ausgewählten Zeitraum vorhanden</p>
+          } @else {
+            <table>
+              <thead>
+                <tr>
+                  <th>Antragsart</th>
+                  <th>Anträge gesamt</th>
+                  <th>Bewertungen</th>
+                  <th>Freitexte</th>
+                  <th>Ø Sterne</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (entry of evalData.byAntragsart; track entry.antragsart) {
+                  <tr>
+                    <td>{{ entry.antragsart }}</td>
+                    <td>{{ entry.totalCount }}</td>
+                    <td>{{ entry.ratingCount }}</td>
+                    <td>{{ entry.feedbackTextCount }}</td>
+                    <td class="rating-cell">
+                      @if (entry.averageRating !== null) {
+                        <span class="rating-badge">{{ entry.averageRating | number: '1.1-2' }}&nbsp;★</span>
+                      } @else {
+                        <span class="no-rating">-</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="tableHeader">
+          <span>Einträge: {{ filteredItems().length }}</span>
+          <h2>Abgegebene Feedbacks</h2>
+          <span></span>
+        </div>
+        <div class="horizontal-scroll-container">
+          @if (filteredItems().length === 0) {
+            <p class="info-text">Keine Feedbacks für die aktuelle Auswahl vorhanden</p>
+          } @else {
+            <table>
+              <thead>
+                <tr>
+                  <th>Datum</th>
+                  <th>Antragsart</th>
+                  <th>Grundbuchamt</th>
+                  <th>Sterne</th>
+                  <th>Feedback-Text</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of filteredItems(); track item.uploadID) {
+                  <tr>
+                    <td class="date-cell">{{ item.uploadDate | date: 'dd.MM.yyyy HH:mm' }}&nbsp;Uhr</td>
+                    <td>{{ item.antragsart }}</td>
+                    <td class="grundbuchamt">{{ item.grundbuchamt || '-' }}</td>
+                    <td class="rating-cell">
+                      @if (item.rating) {
+                        <span class="rating-badge" [title]="item.rating + ' von 5 Sternen'">
+                          {{ item.rating }}&nbsp;★
+                        </span>
+                      } @else {
+                        <span class="no-rating">-</span>
+                      }
+                    </td>
+                    <td class="feedback-text-cell">
+                      @if (item.feedbackText) {
+                        {{ item.feedbackText }}
+                      } @else {
+                        <span class="no-rating">-</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>
+

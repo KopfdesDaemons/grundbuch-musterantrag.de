@@ -1,9 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { DOCUMENT, inject, Injectable, linkedSignal } from '@angular/core';
+import { HttpClient, HttpParams, httpResource } from '@angular/common/http';
+import { DOCUMENT, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Upload } from 'common/models/upload.model';
 import { PaginatedDataService } from './paginated-data.service';
 import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
+import { FeedbackEvaluation } from 'common/interfaces/feedback.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,28 @@ export class UploadsService {
       return files[0];
     }
   });
+
+  private readonly feedbackMonth = signal<number | undefined>(undefined);
+  private readonly feedbackYear = signal<number | undefined>(undefined);
+
+  private readonly _feedbackResource = httpResource<FeedbackEvaluation>(() => ({
+    url: '/api/uploads/feedback',
+    params: {
+      month: this.feedbackMonth() ?? '',
+      year: this.feedbackYear() ?? ''
+    }
+  }));
+
+  readonly feedbackResource = this._feedbackResource.asReadonly();
+
+  setFeedbackFilter(month: number | undefined, year: number | undefined) {
+    this.feedbackMonth.set(month);
+    this.feedbackYear.set(year);
+  }
+
+  reloadFeedback() {
+    this._feedbackResource.reload();
+  }
 
   async getFile(fileName: string, fileType: 'pdf' | 'odt') {
     fileName = `${fileName}.${fileType}`;

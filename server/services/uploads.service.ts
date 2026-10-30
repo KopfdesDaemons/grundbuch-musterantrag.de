@@ -6,6 +6,7 @@ import { UPLOADS_FOLDER_PATH } from 'server/config/path.config';
 import { db } from './database.service';
 import { RowDataPacket } from 'mysql2/promise';
 import { PaginatedApiResponse } from 'common/interfaces/pagination-data.interface';
+import { FeedbackByAntragsart, FeedbackEvaluation, FeedbackItem, FeedbackStarCount } from 'common/interfaces/feedback.interface';
 
 const pageSize: number = 20;
 
@@ -244,4 +245,111 @@ export const deleteAllGeneratedFiles = async (): Promise<void> => {
 export const reportDownloadByUser = async (uploadID: string, fileType: 'odtFile' | 'pdfFile'): Promise<void> => {
   const updateQuery = `UPDATE uploads SET ${fileType}DownloadedByUser = 1 WHERE uploadID = ?`;
   await db.execute(updateQuery, [uploadID]);
+};
+
+export const getFeedbackEvaluation = async (month?: number, year?: number): Promise<FeedbackEvaluation> => {
+  const params: number[] = [];
+  const conditions: string[] = ['finished = 1'];
+
+  if (month !== undefined && year !== undefined) {
+    conditions.push('MONTH(uploadDate) = ? AND YEAR(uploadDate) = ?');
+    params.push(month, year);
+  } else if (year !== undefined) {
+    conditions.push('YEAR(uploadDate) = ?');
+    params.push(year);
+  }
+
+  const whereClause = conditions.join(' AND ');
+
+  const summaryQuery = `
+    SELECT
+      COUNT(*) AS totalUploads,
+      SUM(CASE WHEN rating IS NOT NULL AND rating BETWEEN 1 AND 5 THEN 1 ELSE 0 END) AS totalRatings,
+      SUM(CASE WHEN feedbackText IS NOT NULL AND TRIM(feedbackText) != '' THEN 1 ELSE 0 END) AS totalFeedbackTexts,
+      ROUND(AVG(CASE WHEN rating IS NOT NULL AND rating BETWEEN 1 AND 5 THEN rating ELSE NULL END), 2) AS averageRating,
+      SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) AS stars5,
+      SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END) AS stars4,
+      SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END) AS stars3,
+      SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END) AS stars2,
+      SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) AS stars1
+    FROM uploads
+    WHERE ${whereClause}
+  `;
+
+  const byAntragsartQuery = `
+    SELECT
+      antragsart,
+      COUNT(*) AS totalCount,
+      SUM(CASE WHEN rating IS NOT NULL AND rating BETWEEN 1 AND 5 THEN 1 ELSE 0 END) AS ratingCount,
+      SUM(CASE WHEN feedbackText IS NOT NULL AND TRIM(feedbackText) != '' THEN 1 ELSE 0 END) AS feedbackTextCount,
+      ROUND(AVG(CASE WHEN rating IS NOT NULL AND rating BETWEEN 1 AND 5 THEN rating ELSE NULL END), 2) AS averageRating
+    FROM uploads
+    WHERE ${whereClause} AND antragsart IS NOT NULL AND antragsart != ''
+    GROUP BY antragsart
+    HAVING ratingCount > 0 OR feedbackTextCount > 0
+    ORDER BY ratingCount DESC, feedbackTextCount DESC, antragsart ASC
+  `;
+
+  const itemsQuery = `
+    SELECT
+      uploadID,
+      uploadDate,
+      antragsart,
+      grundbuchamt,
+      rating,
+      feedbackText
+    FROM uploads
+    WHERE ${whereClause}
+      AND (
+        (rating IS NOT NULL AND rating BETWEEN 1 AND 5)
+        OR (feedbackText IS NOT NULL AND TRIM(feedbackText) != '')
+      )
+    ORDER BY uploadDate DESC
+  `;
+
+  const [[summaryRows], [byAntragsartRows], [itemRows]] = await Promise.all([
+    db.execute<RowDataPacket[]>(summaryQuery, params),
+    db.execute<RowDataPacket[]>(byAntragsartQuery, params),
+    db.execute<RowDataPacket[]>(itemsQuery, params)
+  ]);
+
+  const summary = summaryRows[0] ?? {};
+  const totalUploads = Number(summary['totalUploads'] || 0);
+  const totalRatings = Number(summary['totalRatings'] || 0);
+  const totalFeedbackTexts = Number(summary['totalFeedbackTexts'] || 0);
+  const averageRating =
+    summary['averageRating'] !== null && summary['averageRating'] !== undefined ? Number(summary['averageRating']) : null;
+
+  const starDistribution: FeedbackStarCount[] = [5, 4, 3, 2, 1].map(stars => {
+    const count = Number(summary[`stars${stars}`] || 0);
+    const percentage = totalRatings > 0 ? Math.round((count / totalRatings) * 100) : 0;
+    return { stars, count, percentage };
+  });
+
+  const byAntragsart: FeedbackByAntragsart[] = byAntragsartRows.map(row => ({
+    antragsart: String(row['antragsart']),
+    totalCount: Number(row['totalCount'] || 0),
+    ratingCount: Number(row['ratingCount'] || 0),
+    feedbackTextCount: Number(row['feedbackTextCount'] || 0),
+    averageRating: row['averageRating'] !== null && row['averageRating'] !== undefined ? Number(row['averageRating']) : null
+  }));
+
+  const items: FeedbackItem[] = itemRows.map(row => ({
+    uploadID: String(row['uploadID']),
+    uploadDate: new Date(row['uploadDate']),
+    antragsart: String(row['antragsart'] || ''),
+    grundbuchamt: String(row['grundbuchamt'] || ''),
+    rating: row['rating'] !== null && row['rating'] !== undefined ? Number(row['rating']) : null,
+    feedbackText: row['feedbackText'] ? String(row['feedbackText']) : null
+  }));
+
+  return {
+    totalUploads,
+    totalRatings,
+    totalFeedbackTexts,
+    averageRating,
+    starDistribution,
+    byAntragsart,
+    items
+  };
 };

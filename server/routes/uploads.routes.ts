@@ -10,7 +10,8 @@ import {
   getUpload,
   getUploads,
   handeleDeleteAllGeneratedFiles,
-  handeleDeleteGeneratedFiles
+  handeleDeleteGeneratedFiles,
+  handleGetUploadsFeedback
 } from 'server/controller/uploads.controller';
 import { UploadManagementAction } from 'common/interfaces/user-permission.interface';
 import { authMiddleware } from 'server/middleware/auth.middleware';
@@ -20,6 +21,13 @@ import { UploadManagementPermission } from 'common/models/user-permissions.model
 export const uploadsRoutes = express.Router();
 
 uploadsRoutes.get('/', authMiddleware, verifyRole(new UploadManagementPermission([UploadManagementAction.ReadUploadData])), getUploads);
+
+uploadsRoutes.get(
+  '/feedback',
+  authMiddleware,
+  verifyRole(new UploadManagementPermission([UploadManagementAction.ReadUploadData])),
+  handleGetUploadsFeedback
+);
 
 uploadsRoutes.delete(
   '/',
