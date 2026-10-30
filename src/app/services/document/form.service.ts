@@ -82,7 +82,6 @@ export class FormService {
       activeSection: null,
       queue: Promise.resolve()
     };
-    (this.form.get('grundstueck') as FormGroup).get('plz')?.valueChanges.subscribe(plz => this.sucheGrundbuchamt(plz));
     this.nextStep(1);
   }
 
@@ -204,28 +203,27 @@ export class FormService {
     this.antrag.datum = TimeHelper.formatDate();
   }
 
-  async ortAusPLZ(plz: string): Promise<string | null> {
+  async ortAusPLZ(plz: string): Promise<string[]> {
     const url = 'https://api.zippopotam.us/de/' + plz;
     try {
       const response = await lastValueFrom(this.http.get(url));
-      const json = response as { places: { 'place name': string }[] };
-      if (json.places && json.places.length === 1) {
-        const ort = json.places[0]['place name'];
-        return ort;
-      } else {
-        return null;
+      const json = response as { places?: { 'place name': string }[] };
+      if (json.places && json.places.length > 0) {
+        return [...new Set(json.places.map(place => place['place name']))];
       }
+      return [];
     } catch (error) {
       console.error(error);
-      return null;
+      return [];
     }
   }
 
-  async sucheGrundbuchamt(plz: string) {
-    if (plz.length === 5) {
+  async sucheGrundbuchamt(plz: string, ort = '') {
+    if (plz?.length === 5) {
       try {
         const url = '/api/amtsgerichtausplz';
-        const response = await lastValueFrom(this.http.get(url, { params: new HttpParams().set('plz', plz) }));
+        const params = new HttpParams().set('plz', plz).set('ort', ort);
+        const response = await lastValueFrom(this.http.get(url, { params }));
         const jsonAmtsgerichtDaten = response as { amtsgericht: string; straße: string; plz: string; ort: string };
         const grundbuchamtForm = this.form.get('grundbuchamt') as FormGroup;
 

@@ -26,7 +26,7 @@
         <input formControlName="straße" type="text" id="straßeinput" name="straße" required spellcheck="false" placeholder="&nbsp;" />
         <label class="placeholder" for="straßeinput">Straße + Hausnummer</label>
       </div>
-      <div class="input-container" id="postleitzahl" (keyup)="suchePlz($event)">
+      <div class="input-container" id="postleitzahl">
         <input
           formControlName="plz"
           type="text"
@@ -36,12 +36,44 @@
           required
           spellcheck="false"
           placeholder="&nbsp;"
+          (input)="suchePlz($event)"
+          (blur)="ortDropdownOpen.set(false); activeOrtIndex.set(-1)"
         />
         <label class="placeholder" for="postleitzahlinput">PLZ</label>
       </div>
-      <div class="input-container" id="ort">
-        <input formControlName="ort" type="text" id="ortinput" name="ort" required spellcheck="false" placeholder="&nbsp;" />
+      <div class="input-container" [class.has-dropdown]="orte().length > 1" id="ort">
+        <input
+          formControlName="ort"
+          type="text"
+          id="ortinput"
+          name="ort"
+          required
+          spellcheck="false"
+          placeholder="&nbsp;"
+          (focus)="orte().length > 1 && ortDropdownOpen.set(true)"
+          (keydown)="onOrtKeydown($event)"
+          (input)="ortDropdownOpen.set(false); activeOrtIndex.set(-1)"
+          (blur)="ortDropdownOpen.set(false); activeOrtIndex.set(-1)"
+        />
         <label class="placeholder" for="ortinput">Ort</label>
+        @if (orte().length > 1) {
+          <button
+            type="button"
+            tabindex="-1"
+            class="input-dropdown-toggle"
+            (mousedown)="$event.preventDefault(); ortDropdownOpen.set(!ortDropdownOpen())"
+            aria-label="Ortsauswahl öffnen"
+          >
+            ▼
+          </button>
+          @if (ortDropdownOpen()) {
+            <ul class="input-dropdown">
+              @for (ort of orte(); track ort; let i = $index) {
+                <li [class.active]="i === activeOrtIndex()" (mousedown)="$event.preventDefault(); selectOrt(ort)">{{ ort }}</li>
+              }
+            </ul>
+          }
+        }
       </div>
       <div class="hrdiv">
         <hr />

@@ -25,16 +25,47 @@
       <input
         formControlName="plz"
         id="postleitzahlgrundstückinput"
-        (keyup)="suchePlz($event)"
+        (input)="suchePlz($event)"
+        (blur)="ortDropdownOpen.set(false); activeOrtIndex.set(-1)"
         name="postleitzahlgrundstück"
         spellcheck="false"
         placeholder="&nbsp;"
       />
       <label class="placeholder" for="postleitzahlgrundstückinput">PLZ</label>
     </div>
-    <div class="input-container" id="ortgrundstück">
-      <input formControlName="ort" type="text" id="ortgrundstückinput" name="ortgrundstück" spellcheck="false" placeholder="&nbsp;" />
+    <div class="input-container" [class.has-dropdown]="orte().length > 1" id="ortgrundstück">
+      <input
+        formControlName="ort"
+        type="text"
+        id="ortgrundstückinput"
+        name="ortgrundstück"
+        spellcheck="false"
+        placeholder="&nbsp;"
+        (focus)="orte().length > 1 && ortDropdownOpen.set(true)"
+        (keydown)="onOrtKeydown($event)"
+        (input)="ortDropdownOpen.set(false); activeOrtIndex.set(-1)"
+        (change)="sucheGrundbuchamt()"
+        (blur)="ortDropdownOpen.set(false); activeOrtIndex.set(-1)"
+      />
       <label class="placeholder" for="ortgrundstückinput">Ort</label>
+      @if (orte().length > 1) {
+        <button
+          type="button"
+          tabindex="-1"
+          class="input-dropdown-toggle"
+          (mousedown)="$event.preventDefault(); ortDropdownOpen.set(!ortDropdownOpen())"
+          aria-label="Ortsauswahl öffnen"
+        >
+          ▼
+        </button>
+        @if (ortDropdownOpen()) {
+          <ul class="input-dropdown">
+            @for (ort of orte(); track ort; let i = $index) {
+              <li [class.active]="i === activeOrtIndex()" (mousedown)="$event.preventDefault(); selectOrt(ort)">{{ ort }}</li>
+            }
+          </ul>
+        }
+      }
     </div>
     <div class="input-container" id="flur">
       <input formControlName="flur" type="number" id="flurinput" name="flur" spellcheck="false" placeholder="&nbsp;" />

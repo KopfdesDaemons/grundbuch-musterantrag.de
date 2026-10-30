@@ -1,5 +1,5 @@
-export const amtsgerichtAusPLZ = async (plz: string): Promise<{ amtsgericht: string; straße: string; plz: string; ort: string }> => {
-  const url = `https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=${plz}&ort=`;
+export const amtsgerichtAusPLZ = async (plz: string, ort = ''): Promise<{ amtsgericht: string; straße: string; plz: string; ort: string }> => {
+  const url = `https://www.justizadressen.nrw.de/de/justiz/gericht?ang=grundbuch&plz=${encodeURIComponent(plz)}&ort=${encodeURIComponent(ort)}`;
   const response = await fetch(url);
   const html = await response.text();
 
@@ -15,11 +15,14 @@ export const amtsgerichtAusPLZ = async (plz: string): Promise<{ amtsgericht: str
   const plzOrtMatch = plzOrtRegex.exec(html);
   const plzOrt = plzOrtMatch && plzOrtMatch[1];
 
-  const [plzAmtsgericht, ort] = (plzOrt || '').split(/\s+/).filter(Boolean);
+  const [plzAmtsgericht, ...ortParts] = (plzOrt || '').split(/\s+/).filter(Boolean);
+  const ortAmtsgericht = ortParts.join(' ');
 
-  if (!amtsgericht || !straße || !plzAmtsgericht || !ort) {
-    throw new Error('Die Daten des Grundbuchamts konten nicht aus dem Justizportal geladen werden für die PLZ: ' + plz);
+  if (!amtsgericht || !straße || !plzAmtsgericht || !ortAmtsgericht) {
+    throw new Error(
+      `Die Daten des Grundbuchamts konten nicht aus dem Justizportal geladen werden für die PLZ: ${plz}${ort ? `, Ort: ${ort}` : ''}`
+    );
   }
 
-  return { amtsgericht, straße, plz: plzAmtsgericht, ort };
+  return { amtsgericht, straße, plz: plzAmtsgericht, ort: ortAmtsgericht };
 };
