@@ -33,7 +33,7 @@ export class TimeTrackingComponent {
   ];
   protected readonly years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
   protected selectedMonth = signal<number | undefined>(new Date().getMonth());
-  protected selectedYear = signal<number>(new Date().getFullYear());
+  protected selectedYear = signal<number | undefined>(new Date().getFullYear());
   protected selectedStatus = signal<TimeTrackingStatusFilter>('finished');
 
   private rowsMap = new Map<string, TimeTrackingRow>();
@@ -68,15 +68,21 @@ export class TimeTrackingComponent {
     const newMonth = month === 'all' ? undefined : this.monthNames.indexOf(month);
     this.selectedMonth.set(newMonth);
     this.rowsMap.clear();
-    this.statisticS.setTimeTrackingFilter(newMonth === undefined ? undefined : newMonth + 1, this.selectedYear(), this.selectedStatus());
+    const year = this.selectedYear();
+    this.statisticS.setTimeTrackingFilter(newMonth === undefined || year === undefined ? undefined : newMonth + 1, year, this.selectedStatus());
   }
 
   yearChanged(year: string) {
-    const newYear = Number(year);
+    const newYear = year === 'all' ? undefined : Number(year);
     this.selectedYear.set(newYear);
     this.rowsMap.clear();
-    const month = this.selectedMonth();
-    this.statisticS.setTimeTrackingFilter(month === undefined ? undefined : month + 1, newYear, this.selectedStatus());
+    if (newYear === undefined) {
+      this.selectedMonth.set(undefined);
+      this.statisticS.setTimeTrackingFilter(undefined, undefined, this.selectedStatus());
+    } else {
+      const month = this.selectedMonth();
+      this.statisticS.setTimeTrackingFilter(month === undefined ? undefined : month + 1, newYear, this.selectedStatus());
+    }
   }
 
   statusChanged(status: string) {
@@ -84,7 +90,8 @@ export class TimeTrackingComponent {
     this.selectedStatus.set(newStatus);
     this.rowsMap.clear();
     const month = this.selectedMonth();
-    this.statisticS.setTimeTrackingFilter(month === undefined ? undefined : month + 1, this.selectedYear(), newStatus);
+    const year = this.selectedYear();
+    this.statisticS.setTimeTrackingFilter(month === undefined || year === undefined ? undefined : month + 1, year, newStatus);
   }
 
   reload() {

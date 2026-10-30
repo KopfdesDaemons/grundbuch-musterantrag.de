@@ -10,7 +10,7 @@
         </svg>
       </button>
 
-      <select #monthSelect (change)="monthChanged(monthSelect.value)" aria-label="Monat auswählen">
+      <select #monthSelect (change)="monthChanged(monthSelect.value)" [disabled]="selectedYear() === undefined" aria-label="Monat auswählen">
         <option [selected]="selectedMonth() === undefined" value="all">Gesamtjahr</option>
         @for (month of monthNames; track month) {
           <option [value]="month" [selected]="month === monthNames[selectedMonth() ?? -1]">{{ month }}</option>
@@ -18,6 +18,7 @@
       </select>
 
       <select #yearSelect (change)="yearChanged(yearSelect.value)" aria-label="Jahr auswählen">
+        <option [selected]="selectedYear() === undefined" value="all">Gesamtzeitraum</option>
         @for (year of years; track year) {
           <option [value]="year" [selected]="year === selectedYear()">{{ year }}</option>
         }

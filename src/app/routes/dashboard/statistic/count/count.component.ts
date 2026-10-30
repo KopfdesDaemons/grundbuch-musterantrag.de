@@ -51,7 +51,7 @@ export class CountComponent {
   ];
   protected readonly years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
   protected selectedMonth = signal<number | undefined>(new Date().getMonth());
-  protected selectedYear = signal<number>(new Date().getFullYear());
+  protected selectedYear = signal<number | undefined>(new Date().getFullYear());
 
   protected readonly timeframe = computed(() => {
     return this.selectedMonth() === undefined ? 'year' : 'month';
@@ -68,14 +68,20 @@ export class CountComponent {
   monthChanged(month: string) {
     const newMonth = month === 'all' ? undefined : this.monthNames.indexOf(month);
     this.selectedMonth.set(newMonth);
-    this.statisticS.setStatisticSpecificTimeframe(newMonth === undefined ? undefined : newMonth + 1, this.selectedYear());
+    const year = this.selectedYear();
+    this.statisticS.setStatisticSpecificTimeframe(newMonth === undefined || year === undefined ? undefined : newMonth + 1, year);
   }
 
   yearChanged(year: string) {
-    const newYear = Number(year);
+    const newYear = year === 'all' ? undefined : Number(year);
     this.selectedYear.set(newYear);
-    const month = this.selectedMonth();
-    this.statisticS.setStatisticSpecificTimeframe(month === undefined ? undefined : month + 1, newYear);
+    if (newYear === undefined) {
+      this.selectedMonth.set(undefined);
+      this.statisticS.setStatisticSpecificTimeframe(undefined, undefined);
+    } else {
+      const month = this.selectedMonth();
+      this.statisticS.setStatisticSpecificTimeframe(month === undefined ? undefined : month + 1, newYear);
+    }
   }
 
   reload() {

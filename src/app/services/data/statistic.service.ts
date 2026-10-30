@@ -42,18 +42,18 @@ export class StatisticService {
    * Statistic per day for specific time frame
    */
   private specificTimeFrameMonth = signal<number | undefined>(new Date().getMonth() + 1);
-  private specificTimeFrameYear = signal<number>(new Date().getFullYear());
+  private specificTimeFrameYear = signal<number | undefined>(new Date().getFullYear());
   private readonly _statisticResourceSpecificTimeframe = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/statistic/numberPerDay',
     params: {
       month: this.specificTimeFrameMonth() ?? '',
-      year: this.specificTimeFrameYear()
+      year: this.specificTimeFrameYear() ?? ''
     }
   }));
 
   readonly statisticResourceSpecificTimeframe = this._statisticResourceSpecificTimeframe.asReadonly();
 
-  setStatisticSpecificTimeframe(month: number | undefined, year: number) {
+  setStatisticSpecificTimeframe(month: number | undefined, year: number | undefined) {
     this.specificTimeFrameMonth.set(month);
     this.specificTimeFrameYear.set(year);
   }
@@ -83,7 +83,7 @@ export class StatisticService {
       url: '/api/statistic/typeByTimeframe',
       params: {
         month: this.specificTimeFrameMonth() ?? '',
-        year: this.specificTimeFrameYear()
+        year: this.specificTimeFrameYear() ?? ''
       }
     }),
     {
@@ -101,21 +101,21 @@ export class StatisticService {
    * Time tracking statistic for specific time frame and status
    */
   private timeTrackingMonth = signal<number | undefined>(new Date().getMonth() + 1);
-  private timeTrackingYear = signal<number>(new Date().getFullYear());
+  private timeTrackingYear = signal<number | undefined>(new Date().getFullYear());
   private timeTrackingStatus = signal<TimeTrackingStatusFilter>('finished');
 
   private readonly _timeTrackingResource = httpResource<TimeTrackingStatistic[]>(() => ({
     url: '/api/statistic/timeTracking',
     params: {
       month: this.timeTrackingMonth() ?? '',
-      year: this.timeTrackingYear(),
+      year: this.timeTrackingYear() ?? '',
       status: this.timeTrackingStatus()
     }
   }));
 
   readonly timeTrackingResource = this._timeTrackingResource.asReadonly();
 
-  setTimeTrackingFilter(month: number | undefined, year: number, status: TimeTrackingStatusFilter = this.timeTrackingStatus()) {
+  setTimeTrackingFilter(month: number | undefined, year: number | undefined, status: TimeTrackingStatusFilter = this.timeTrackingStatus()) {
     this.timeTrackingMonth.set(month);
     this.timeTrackingYear.set(year);
     this.timeTrackingStatus.set(status);

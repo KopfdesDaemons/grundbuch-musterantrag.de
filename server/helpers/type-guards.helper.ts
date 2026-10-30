@@ -23,11 +23,16 @@ const isValidTimespan = (value: any): value is ValidTimespan => {
   return ['week', 'month'].includes(value);
 };
 
-export type ValidTimeFilterOption = { timeframe: ValidTimespan } | { month: number; year: number } | { year: number };
+export type ValidTimeFilterOption = { timeframe: ValidTimespan } | { month: number; year: number } | { year: number } | Record<string, never>;
 
 export const isValidTimeFilterOption = (value: any): value is ValidTimeFilterOption => {
   // Basic check
   if (typeof value !== 'object' || value === null) return false;
+
+  // Check for empty object (all time / "Gesamtzeitraum")
+  if (Object.keys(value).length === 0) {
+    return true;
+  }
 
   // Check for "timeframe" variant
   if ('timeframe' in value && Object.keys(value).length === 1) {

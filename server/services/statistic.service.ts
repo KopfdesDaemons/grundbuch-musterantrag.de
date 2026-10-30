@@ -74,13 +74,24 @@ export const getUploadCountPerDays = async (options: {
       startDate = new Date(options.year, options.month - 1, 1);
       endDate = new Date(options.year, options.month, 0);
     }
-  } else {
+  } else if (timeframe) {
     const startDateWeek = new Date(new Date().setDate(new Date().getDate() - 6));
     const startDateMonth = new Date(new Date().setMonth(new Date().getMonth() - 1));
 
     startDate = timeframe === 'week' ? startDateWeek : startDateMonth;
     const todayString = new Date().toLocaleDateString('us-US', { timeZone: 'Europe/Berlin' });
     endDate = new Date(todayString);
+  } else {
+    // Gesamtzeitraum: vom frühesten erfassten Datum bis heute
+    const todayString = new Date().toLocaleDateString('us-US', { timeZone: 'Europe/Berlin' });
+    endDate = new Date(todayString);
+    if (rows.length > 0) {
+      const minDateStr = rows.reduce((min, r) => (r['dateStr'] < min ? r['dateStr'] : min), rows[0]['dateStr'] as string);
+      const [y, m, d] = minDateStr.split('-').map(Number);
+      startDate = new Date(y, m - 1, d);
+    } else {
+      startDate = new Date(endDate.getFullYear(), 0, 1);
+    }
   }
 
   startDate.setHours(0, 0, 0, 0);
