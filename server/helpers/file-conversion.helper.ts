@@ -18,13 +18,29 @@ interface PendingRequest {
   reject: (err: Error) => void;
 }
 
-// State variables for managing the persistent LibreOffice daemon and Python UNO worker processes
-let sofficeDaemon: ChildProcess | null = null;
-let pythonWorker: ChildProcess | null = null;
-let daemonInitPromise: Promise<void> | null = null;
-let daemonReady = false;
-let requestCounter = 0;
-const pendingRequests = new Map<number, PendingRequest>();
+// Persistent state stored on globalThis to survive Vite SSR hot-reloads in development
+interface UnoDaemonState {
+  sofficeDaemon: ChildProcess | null;
+  pythonWorker: ChildProcess | null;
+  daemonInitPromise: Promise<void> | null;
+  daemonReady: boolean;
+  requestCounter: number;
+  pendingRequests: Map<number, PendingRequest>;
+  exitHandlerRegistered: boolean;
+}
+
+const GLOBAL_STATE_KEY = Symbol.for('grundbuch.unoDaemonState');
+const globalWithState = globalThis as typeof globalThis & { [GLOBAL_STATE_KEY]?: UnoDaemonState };
+
+const state: UnoDaemonState = (globalWithState[GLOBAL_STATE_KEY] ??= {
+  sofficeDaemon: null,
+  pythonWorker: null,
+  daemonInitPromise: null,
+  daemonReady: false,
+  requestCounter: 0,
+  pendingRequests: new Map<number, PendingRequest>(),
+  exitHandlerRegistered: false
+});
 
 // Builds the environment variables required for running LibreOffice and the UNO Python bridge headlessly
 const getLibreOfficeEnv = (): typeof process.env => ({
@@ -38,51 +54,62 @@ const getLibreOfficeEnv = (): typeof process.env => ({
 
 // Terminates the worker and daemon processes and rejects all pending conversion requests
 const cleanupDaemon = () => {
-  daemonReady = false;
-  daemonInitPromise = null;
+  state.daemonReady = false;
+  state.daemonInitPromise = null;
 
-  if (pythonWorker) {
-    pythonWorker.kill();
-    pythonWorker = null;
+  if (state.pythonWorker) {
+    state.pythonWorker.removeAllListeners();
+    state.pythonWorker.kill();
+    state.pythonWorker = null;
   }
-  if (sofficeDaemon) {
-    sofficeDaemon.kill();
-    sofficeDaemon = null;
+  if (state.sofficeDaemon) {
+    state.sofficeDaemon.removeAllListeners();
+    state.sofficeDaemon.kill();
+    state.sofficeDaemon = null;
   }
 
   // Reject any pending conversion requests since the daemon has stopped
-  for (const [, req] of pendingRequests) {
+  for (const [, req] of state.pendingRequests) {
     req.reject(new Error('LibreOffice-Daemon wurde unerwartet beendet.'));
   }
-  pendingRequests.clear();
+  state.pendingRequests.clear();
 };
 
 // Ensure child processes and temporary profile files are cleaned up when the Node.js process exits
-process.on('exit', () => {
-  cleanupDaemon();
-  try {
-    fs.rmSync(DAEMON_PROFILE_DIR, { recursive: true, force: true });
-  } catch {
-    // Ignore cleanup errors on exit
-  }
-});
+if (!state.exitHandlerRegistered) {
+  state.exitHandlerRegistered = true;
+  process.on('exit', () => {
+    cleanupDaemon();
+    try {
+      fs.rmSync(DAEMON_PROFILE_DIR, { recursive: true, force: true });
+    } catch {
+      // Ignore cleanup errors on exit
+    }
+  });
+}
 
 // Initializes the persistent LibreOffice daemon and Python UNO worker if not already running
 export const initPdfConverter = (): Promise<void> => {
   // Return immediately if the daemon and worker are already initialized and ready
-  if (daemonReady && pythonWorker && sofficeDaemon) {
+  if (
+    state.daemonReady &&
+    state.pythonWorker &&
+    state.pythonWorker.exitCode === null &&
+    state.sofficeDaemon &&
+    state.sofficeDaemon.exitCode === null
+  ) {
     return Promise.resolve();
   }
   // Return the existing initialization promise if startup is already in progress
-  if (daemonInitPromise) {
-    return daemonInitPromise;
+  if (state.daemonInitPromise) {
+    return state.daemonInitPromise;
   }
 
-  daemonInitPromise = new Promise<void>((resolve, reject) => {
+  state.daemonInitPromise = new Promise<void>((resolve, reject) => {
     const env = getLibreOfficeEnv();
 
     // Start LibreOffice in headless listening mode using a named pipe
-    sofficeDaemon = spawn(
+    const soffice = spawn(
       'soffice',
       [
         `-env:UserInstallation=file://${DAEMON_PROFILE_DIR}`,
@@ -97,37 +124,39 @@ export const initPdfConverter = (): Promise<void> => {
       ],
       { env, stdio: 'ignore' }
     );
+    state.sofficeDaemon = soffice;
 
-    sofficeDaemon.on('error', err => {
+    soffice.on('error', err => {
       cleanupDaemon();
       reject(err);
     });
 
-    sofficeDaemon.on('exit', () => {
-      if (daemonReady) {
+    soffice.on('exit', () => {
+      if (state.daemonReady) {
         logger.warn('LibreOffice-Daemon wurde beendet und wird beim nächsten Request neu gestartet.');
       }
       cleanupDaemon();
     });
 
     // Spawn the Python UNO worker process to communicate with the LibreOffice daemon
-    pythonWorker = spawn('python3', ['-u', PYTHON_UNO_WORKER_PATH, PIPE_NAME], {
+    const worker = spawn('python3', ['-u', PYTHON_UNO_WORKER_PATH, PIPE_NAME], {
       env,
       stdio: ['pipe', 'pipe', 'pipe']
     });
+    state.pythonWorker = worker;
 
     // Collect standard error output from the Python worker for error reporting
     let stderr = '';
-    pythonWorker.stderr?.on('data', data => {
+    worker.stderr?.on('data', data => {
       stderr += data.toString();
     });
 
     // Listen for readiness and conversion results from the Python worker via stdout
-    const rl = readline.createInterface({ input: pythonWorker.stdout! });
+    const rl = readline.createInterface({ input: worker.stdout });
     rl.on('line', line => {
       // Mark the daemon as ready once the warmup sequence finishes
       if (line === 'READY') {
-        daemonReady = true;
+        state.daemonReady = true;
         logger.info('Persistenter LibreOffice-UNO-Daemon ist bereit.');
         resolve();
         return;
@@ -136,9 +165,9 @@ export const initPdfConverter = (): Promise<void> => {
       // Parse JSON response and resolve or reject the corresponding pending request
       try {
         const msg = JSON.parse(line) as { id: number; ok: boolean; error?: string };
-        const pending = pendingRequests.get(msg.id);
+        const pending = state.pendingRequests.get(msg.id);
         if (pending) {
-          pendingRequests.delete(msg.id);
+          state.pendingRequests.delete(msg.id);
           if (msg.ok) {
             pending.resolve();
           } else {
@@ -150,22 +179,22 @@ export const initPdfConverter = (): Promise<void> => {
       }
     });
 
-    pythonWorker.on('error', err => {
+    worker.on('error', err => {
       cleanupDaemon();
       reject(err);
     });
 
-    pythonWorker.on('exit', code => {
-      if (!daemonReady) {
+    worker.on('exit', (code, signal) => {
+      if (!state.daemonReady) {
         cleanupDaemon();
-        reject(new Error(`Python-UNO-Worker konnte nicht gestartet werden (Code ${code}): ${stderr}`));
+        reject(new Error(`Python-UNO-Worker konnte nicht gestartet werden (Code ${code}, Signal ${signal}): ${stderr}`));
       } else {
         cleanupDaemon();
       }
     });
   });
 
-  return daemonInitPromise;
+  return state.daemonInitPromise;
 };
 
 // Fallback method that spawns a one-off LibreOffice CLI process to convert a document to PDF
@@ -224,17 +253,17 @@ export const convertToPdf = async (filePath: string, outputFolderPath: string): 
   try {
     // Ensure the persistent UNO daemon is initialized and ready
     await initPdfConverter();
-    if (!pythonWorker?.stdin) {
+    if (!state.pythonWorker?.stdin) {
       throw new Error('UNO-Worker stdin nicht verfügbar.');
     }
 
     // Send the conversion job to the Python worker and await its completion
-    const id = ++requestCounter;
+    const id = ++state.requestCounter;
     await new Promise<void>((resolve, reject) => {
-      pendingRequests.set(id, { resolve, reject });
-      pythonWorker!.stdin!.write(JSON.stringify({ id, input: filePath, output: outputPdfPath }) + '\n', err => {
+      state.pendingRequests.set(id, { resolve, reject });
+      state.pythonWorker!.stdin!.write(JSON.stringify({ id, input: filePath, output: outputPdfPath }) + '\n', err => {
         if (err) {
-          pendingRequests.delete(id);
+          state.pendingRequests.delete(id);
           reject(err);
         }
       });
