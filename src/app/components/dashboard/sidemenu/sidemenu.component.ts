@@ -23,6 +23,7 @@ export class SidemenuComponent {
   pages = [
     { name: 'Übersicht', route: '/dashboard' },
     { name: 'Anträge', route: '/dashboard/antragsliste' },
+    { name: 'Feedback', route: '/dashboard/feedback' },
     { name: 'Statistik', route: '/dashboard/statistic' },
     { name: 'Users', route: '/dashboard/users' },
     { name: 'Logs', route: '/dashboard/logs' },

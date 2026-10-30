@@ -1,13 +1,13 @@
 section {
-  animation: grow 500ms forwards;
+  animation: slide-in-from-top 500ms forwards;
 
   .content-spacer {
     max-width: 90em;
-    padding-top: 0;
   }
 
   @media only screen and (max-width: 700px) {
     .content-spacer {
+      margin-top: 4em;
       padding: 0em;
     }
   }

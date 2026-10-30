@@ -8,7 +8,8 @@ export enum Feature {
   Migration = 'migration',
   Settings = 'settings',
   UserRoleManagement = 'userRoleManagement',
-  Backup = 'backup'
+  Backup = 'backup',
+  Feedback = 'feedback'
 }
 
 export interface UserPermission {
@@ -22,6 +23,7 @@ export interface UserPermission {
     | SettingsAction
     | UserRoleManagementAction
     | BackupAction
+    | FeedbackAction
   )[];
 }
 
@@ -77,4 +79,8 @@ export enum BackupAction {
   GetBackupList = 'GetBackupList',
   DownloadBackup = 'DownloadBackup',
   DeleteBackup = 'DeleteBackup'
+}
+
+export enum FeedbackAction {
+  ReadFeedback = 'ReadFeedback'
 }

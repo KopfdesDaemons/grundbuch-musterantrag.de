@@ -11,6 +11,7 @@ export const actionsTableMapping = {
   [Feature.UploadManagement]: 'upload_management_actions',
   [Feature.UserManagement]: 'user_management_actions',
   [Feature.Statistic]: 'statistic_actions',
+  [Feature.Feedback]: 'feedback_actions',
   [Feature.Logger]: 'logger_actions',
   [Feature.Migration]: 'migration_actions',
   [Feature.Settings]: 'settings_actions',

@@ -11,12 +11,12 @@ import { TabNavigationComponent } from 'src/app/components/dashboard/tab-navigat
 export class RouterComponent {
   tabs = [
     {
-      name: 'Anträge',
-      route: '/dashboard/antragsliste'
+      name: 'Übersicht',
+      route: '/dashboard/feedback'
     },
     {
-      name: 'Feedback',
-      route: '/dashboard/antragsliste/feedback'
+      name: 'Feedback-Liste',
+      route: '/dashboard/feedback/list'
     }
   ];
 }

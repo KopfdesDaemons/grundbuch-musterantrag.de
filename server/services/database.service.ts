@@ -4,7 +4,7 @@ import mysql, { Pool, PoolConnection, RowDataPacket } from 'mysql2/promise';
 import { createRootUser } from './user.service';
 import { createGuestRole, actionsTableMapping, clearUserRoleCache } from './user-role.service';
 
-export const CURRENT_DB_VERSION = 4;
+export const CURRENT_DB_VERSION = 5;
 
 export interface DatabaseMigration {
   version: number;
@@ -244,6 +244,57 @@ const migrations: DatabaseMigration[] = [
         await connection.execute(`ALTER TABLE uploads ADD COLUMN feedbackText TEXT NULL DEFAULT NULL`);
         logger.info('Spalte "feedbackText" in Tabelle "uploads" wurde hinzugefügt.');
       }
+    }
+  },
+  {
+    version: 5,
+    description: 'Tabelle feedback_actions für Feedback-Berechtigungen hinzufügen',
+    up: async (connection: PoolConnection) => {
+      await connection.execute(`
+        CREATE TABLE IF NOT EXISTS feedback_actions (
+          actionID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+          userPermissionID INT,
+          action_name VARCHAR(255) NOT NULL,
+          FOREIGN KEY (userPermissionID) REFERENCES user_permissions(userPermissionID) ON DELETE CASCADE
+        )
+      `);
+
+      const [roles] = await connection.execute<RowDataPacket[]>(
+        `SELECT userRoleID FROM user_roles WHERE name IN ('Admin', 'Gast')`
+      );
+
+      for (const role of roles) {
+        const roleId = role['userRoleID'] as number;
+        const [existingPerm] = await connection.execute<RowDataPacket[]>(
+          `SELECT userPermissionID FROM user_permissions WHERE userRoleID = ? AND feature = 'feedback'`,
+          [roleId]
+        );
+
+        let permissionId: number;
+        if (existingPerm.length === 0) {
+          const [insertRes]: any = await connection.execute(
+            `INSERT INTO user_permissions (userRoleID, feature) VALUES (?, 'feedback')`,
+            [roleId]
+          );
+          permissionId = insertRes.insertId as number;
+        } else {
+          permissionId = existingPerm[0]['userPermissionID'] as number;
+        }
+
+        const [existingAction] = await connection.execute<RowDataPacket[]>(
+          `SELECT actionID FROM feedback_actions WHERE userPermissionID = ? AND action_name = 'ReadFeedback'`,
+          [permissionId]
+        );
+
+        if (existingAction.length === 0) {
+          await connection.execute(
+            `INSERT INTO feedback_actions (userPermissionID, action_name) VALUES (?, 'ReadFeedback')`,
+            [permissionId]
+          );
+        }
+      }
+
+      logger.info('Tabelle "feedback_actions" und Standard-Feedback-Berechtigungen wurden initialisiert.');
     }
   }
 ];

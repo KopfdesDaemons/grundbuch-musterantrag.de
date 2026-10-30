@@ -156,7 +156,7 @@ $table-width: clamp(300px, 100%, 1200px);
 .tableHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   padding-left: 0.5em;
 
@@ -181,38 +181,6 @@ $table-width: clamp(300px, 100%, 1200px);
   }
 }
 
-.horizontal-scroll-container {
-  max-height: 500px;
-  width: 100%;
-  overflow: auto;
-  position: relative;
-  resize: vertical;
-
-  table {
-    margin-top: 0;
-    font-size: clamp(12px, 2vw, 14px);
-    width: 100%;
-  }
-
-  thead {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-
-  .info-text {
-    text-align: center;
-  }
-}
-
-.date-cell {
-  white-space: nowrap;
-}
-
-.grundbuchamt {
-  max-width: 15em;
-}
-
 .rating-cell {
   text-align: center;
   white-space: nowrap;
@@ -225,11 +193,5 @@ $table-width: clamp(300px, 100%, 1200px);
 
 .no-rating {
   opacity: 0.5;
-}
-
-.feedback-text-cell {
-  white-space: pre-wrap;
-  word-break: break-word;
-  min-width: 16em;
 }
 

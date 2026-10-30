@@ -16,7 +16,6 @@ export interface FeedbackItem {
   uploadID: string;
   uploadDate: Date | string;
   antragsart: string;
-  grundbuchamt: string;
   rating: number | null;
   feedbackText: string | null;
 }

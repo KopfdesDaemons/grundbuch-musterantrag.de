@@ -1,5 +1,5 @@
-import { UploadManagementAction } from 'common/interfaces/user-permission.interface';
-import { UploadManagementPermission } from 'common/models/user-permissions.model';
+import { FeedbackAction } from 'common/interfaces/user-permission.interface';
+import { FeedbackPermission } from 'common/models/user-permissions.model';
 import express from 'express';
 import {
   handleGetFeedbackRating,
@@ -14,7 +14,7 @@ export const feedbackRoutes = express.Router();
 feedbackRoutes.get(
   '/rating',
   authMiddleware,
-  verifyRole(new UploadManagementPermission([UploadManagementAction.ReadUploadData])),
+  verifyRole(new FeedbackPermission([FeedbackAction.ReadFeedback])),
   handleGetFeedbackRating
 );
 

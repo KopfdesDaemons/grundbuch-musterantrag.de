@@ -41,6 +41,9 @@ export class UploadsService {
   private readonly feedbackMonth = signal<number | undefined>(undefined);
   private readonly feedbackYear = signal<number | undefined>(undefined);
 
+  readonly selectedFeedbackMonth = this.feedbackMonth.asReadonly();
+  readonly selectedFeedbackYear = this.feedbackYear.asReadonly();
+
   private readonly _feedbackResource = httpResource<FeedbackEvaluation>(() => ({
     url: '/api/uploads/feedback',
     params: {

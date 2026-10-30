@@ -1,6 +1,7 @@
 import {
   BackupAction,
   Feature,
+  FeedbackAction,
   LoggerAction,
   MigrationAction,
   SettingsAction,
@@ -79,6 +80,15 @@ export class BackupPermission implements UserPermission {
   allowedActions: BackupAction[];
 
   constructor(allowedActions: BackupAction[]) {
+    this.allowedActions = allowedActions;
+  }
+}
+
+export class FeedbackPermission implements UserPermission {
+  feature: Feature = Feature.Feedback;
+  allowedActions: FeedbackAction[];
+
+  constructor(allowedActions: FeedbackAction[]) {
     this.allowedActions = allowedActions;
   }
 }

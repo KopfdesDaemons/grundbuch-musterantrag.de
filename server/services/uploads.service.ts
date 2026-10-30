@@ -295,7 +295,6 @@ export const getFeedbackEvaluation = async (month?: number, year?: number): Prom
       uploadID,
       uploadDate,
       antragsart,
-      grundbuchamt,
       rating,
       feedbackText
     FROM uploads
@@ -338,7 +337,6 @@ export const getFeedbackEvaluation = async (month?: number, year?: number): Prom
     uploadID: String(row['uploadID']),
     uploadDate: new Date(row['uploadDate']),
     antragsart: String(row['antragsart'] || ''),
-    grundbuchamt: String(row['grundbuchamt'] || ''),
     rating: row['rating'] !== null && row['rating'] !== undefined ? Number(row['rating']) : null,
     feedbackText: row['feedbackText'] ? String(row['feedbackText']) : null
   }));

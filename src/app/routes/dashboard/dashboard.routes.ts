@@ -16,7 +16,11 @@ export const dashboardRoutes: Routes = [
       },
       {
         path: 'antragsliste',
-        loadChildren: () => import('./dashboard-antragsliste/antragsliste.routes').then(m => m.antragslisteRoutes)
+        loadComponent: () => import('./dashboard-antragsliste/dashboard-antragsliste.component').then(m => m.DashboardAntragslisteComponent)
+      },
+      {
+        path: 'feedback',
+        loadChildren: () => import('./feedback/feedback.routes').then(m => m.feedbackRoutes)
       },
       {
         path: 'users',

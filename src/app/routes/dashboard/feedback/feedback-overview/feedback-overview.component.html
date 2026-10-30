@@ -28,16 +28,6 @@
           <option [value]="year" [selected]="year === selectedYear()">{{ year }}</option>
         }
       </select>
-
-      <select #filterSelect (change)="listFilterChanged(filterSelect.value)" aria-label="Feedback-Filter auswählen">
-        <option value="all" [selected]="listFilter() === 'all'">Alle Feedbacks</option>
-        <option value="withText" [selected]="listFilter() === 'withText'">Nur mit Freitext</option>
-        <option value="5" [selected]="listFilter() === '5'">5 Sterne</option>
-        <option value="4" [selected]="listFilter() === '4'">4 Sterne</option>
-        <option value="3" [selected]="listFilter() === '3'">3 Sterne</option>
-        <option value="2" [selected]="listFilter() === '2'">2 Sterne</option>
-        <option value="1" [selected]="listFilter() === '1'">1 Stern</option>
-      </select>
     </div>
 
     @if (uploadsS.feedbackResource.error()) {
@@ -116,56 +106,6 @@
                     <td class="rating-cell">
                       @if (entry.averageRating !== null) {
                         <span class="rating-badge">{{ entry.averageRating | number: '1.1-2' }}&nbsp;★</span>
-                      } @else {
-                        <span class="no-rating">-</span>
-                      }
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          }
-        </div>
-      </div>
-
-      <div class="section-block">
-        <div class="tableHeader">
-          <span>Einträge: {{ filteredItems().length }}</span>
-          <h2>Abgegebene Feedbacks</h2>
-          <span></span>
-        </div>
-        <div class="horizontal-scroll-container">
-          @if (filteredItems().length === 0) {
-            <p class="info-text">Keine Feedbacks für die aktuelle Auswahl vorhanden</p>
-          } @else {
-            <table>
-              <thead>
-                <tr>
-                  <th>Datum</th>
-                  <th>Antragsart</th>
-                  <th>Grundbuchamt</th>
-                  <th>Sterne</th>
-                  <th>Feedback-Text</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (item of filteredItems(); track item.uploadID) {
-                  <tr>
-                    <td class="date-cell">{{ item.uploadDate | date: 'dd.MM.yyyy HH:mm' }}&nbsp;Uhr</td>
-                    <td>{{ item.antragsart }}</td>
-                    <td class="grundbuchamt">{{ item.grundbuchamt || '-' }}</td>
-                    <td class="rating-cell">
-                      @if (item.rating) {
-                        <span class="rating-badge" [title]="item.rating + ' von 5 Sternen'">
-                          {{ item.rating }}&nbsp;★
-                        </span>
-                      } @else {
-                        <span class="no-rating">-</span>
-                      }
-                    </td>
-                    <td class="feedback-text-cell">
-                      @if (item.feedbackText) {
-                        {{ item.feedbackText }}
                       } @else {
                         <span class="no-rating">-</span>
                       }

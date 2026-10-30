@@ -5,6 +5,7 @@ import { UserRoleOption } from '../../models/user-role-option.model';
 import {
   BackupAction,
   Feature,
+  FeedbackAction,
   LoggerAction,
   MigrationAction,
   SettingsAction,
@@ -22,7 +23,8 @@ import {
   MigrationPermission,
   SettingsPermission,
   UserRoleManagementPermission,
-  BackupPermission
+  BackupPermission,
+  FeedbackPermission
 } from 'common/models/user-permissions.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserRole } from 'common/interfaces/user-role.interface';
@@ -38,6 +40,7 @@ export class UserroleService {
     new UploadManagementPermission(Object.values(UploadManagementAction)),
     new UserManagementPermission(Object.values(UserManagementAction)),
     new StatisticPermission(Object.values(StatisticAction)),
+    new FeedbackPermission(Object.values(FeedbackAction)),
     new LoggerPermission(Object.values(LoggerAction)),
     new MigrationPermission(Object.values(MigrationAction)),
     new SettingsPermission(Object.values(SettingsAction)),
@@ -53,6 +56,7 @@ export class UserroleService {
     [Feature.UploadManagement]: 'Upload Management',
     [Feature.UserManagement]: 'User Management',
     [Feature.Statistic]: 'Statistic',
+    [Feature.Feedback]: 'Feedback',
     [Feature.Logger]: 'Logger',
     [Feature.Migration]: 'Migration',
     [Feature.Settings]: 'Settings',
@@ -81,6 +85,8 @@ export class UserroleService {
     [UserManagementAction.RevokeSessions]: 'Sitzungen abmelden',
 
     [StatisticAction.ReadStatistic]: 'Statistik lesen',
+
+    [FeedbackAction.ReadFeedback]: 'Feedback lesen',
 
     [LoggerAction.ReadLogFile]: 'Logfile lesen',
     [LoggerAction.ClearLogFile]: 'Logfile leeren',
@@ -214,10 +220,12 @@ export class UserroleService {
               | UploadManagementAction
               | UserManagementAction
               | StatisticAction
+              | FeedbackAction
               | LoggerAction
               | MigrationAction
               | SettingsAction
               | UserRoleManagementAction
+              | BackupAction
             )[]
           });
         }

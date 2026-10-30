@@ -1,0 +1,96 @@
+section {
+  animation: grow 500ms forwards;
+
+  .content-spacer {
+    max-width: 90em;
+    padding-top: 0;
+  }
+
+  @media only screen and (max-width: 700px) {
+    .content-spacer {
+      padding: 0em;
+    }
+  }
+}
+
+$table-width: clamp(300px, 100%, 1200px);
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1em;
+  font-size: clamp(10px, 2vw, 14px);
+
+  button.icon {
+    height: 3em;
+    width: 3em;
+  }
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: $table-width;
+  padding-left: 0.5em;
+
+  h2 {
+    margin: 0.5em;
+    font-size: 1em;
+  }
+}
+
+.horizontal-scroll-container {
+  height: 500px;
+  width: $table-width;
+  overflow: auto;
+  position: relative;
+  resize: vertical;
+
+  table {
+    margin-top: 0;
+    font-size: clamp(12px, 2vw, 14px);
+    width: 100%;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  app-progress-spinner {
+    margin: auto;
+  }
+
+  .info-text {
+    text-align: center;
+  }
+}
+
+.date-cell {
+  white-space: nowrap;
+}
+
+.rating-cell {
+  text-align: center;
+  white-space: nowrap;
+
+  .rating-badge {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+}
+
+.no-rating {
+  opacity: 0.5;
+}
+
+.feedback-text-cell {
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-width: 16em;
+}
+

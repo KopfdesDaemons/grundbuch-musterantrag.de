@@ -1,6 +1,7 @@
 import { UserRole } from 'common/interfaces/user-role.interface';
 import {
   BackupAction,
+  FeedbackAction,
   LoggerAction,
   MigrationAction,
   SettingsAction,
@@ -18,7 +19,8 @@ import {
   UploadManagementPermission,
   UserManagementPermission,
   UserRoleManagementPermission,
-  BackupPermission
+  BackupPermission,
+  FeedbackPermission
 } from './user-permissions.model';
 
 export class Admin implements UserRole {
@@ -42,6 +44,7 @@ export class Admin implements UserRole {
       UserManagementAction.SetInitialPassword
     ]),
     new StatisticPermission([StatisticAction.ReadStatistic]),
+    new FeedbackPermission([FeedbackAction.ReadFeedback]),
     new SettingsPermission([SettingsAction.ReadSettings, SettingsAction.UpdateSettings]),
     new LoggerPermission([LoggerAction.ReadLogFile, LoggerAction.ClearLogFile]),
     new MigrationPermission([
@@ -66,6 +69,7 @@ export class Guest implements UserRole {
     new UploadManagementPermission([UploadManagementAction.ReadUploadData]),
     new UserManagementPermission([UserManagementAction.ReadUser]),
     new StatisticPermission([StatisticAction.ReadStatistic]),
+    new FeedbackPermission([FeedbackAction.ReadFeedback]),
     new SettingsPermission([SettingsAction.ReadSettings]),
     new LoggerPermission([LoggerAction.ReadLogFile]),
     new UserRoleManagementPermission([UserRoleManagementAction.ReadUserRoles])
