@@ -16,8 +16,8 @@ aside {
   }
 }
 
-.darkmode .themenliste,
-.themenliste {
+.darkmode .topics,
+.topics {
   height: calc(100vh - 4em);
   padding-left: 1em;
   box-sizing: border-box;
@@ -46,7 +46,6 @@ aside {
 
   .icon-container {
     padding: 0.5em;
-    // border: 1px solid;
     cursor: pointer;
     border-radius: 8px 0 0 8px;
     display: flex;
@@ -58,7 +57,7 @@ aside {
     }
   }
 
-  .thema {
+  .topic {
     user-select: none;
 
     div {
@@ -112,7 +111,7 @@ aside {
     }
   }
 
-  .unterthema {
+  .subtopic {
     margin: 0.5rem;
 
     a {
@@ -126,12 +125,12 @@ aside {
     }
   }
 
-  .unterthema a:hover {
+  .subtopic a:hover {
     border: 1px solid var(--primary-variant-darker);
   }
 }
 
-.sidebarbutton {
+.sidebar-button {
   display: none;
   position: absolute;
 
@@ -144,11 +143,12 @@ aside {
   aside {
     left: -19em;
     overflow-x: hidden;
-    background: var(--gradient);
+    background: unset;
+    background-color: var(--background-variant);
     display: none;
   }
 
-  .sidebarbutton {
+  .sidebar-button {
     top: 3em;
     left: 0;
     right: 0;
@@ -167,22 +167,13 @@ aside {
     z-index: 1;
     fill: var(--font-color);
   }
-
-  .themenliste {
-    margin-top: 5em;
-    padding: 0 1em;
-  }
-
-  .themenliste a {
-    // background-color: var(--body);
-  }
 }
 
-.sidebarbutton:hover {
+.sidebar-button:hover {
   background-color: var(--primary-variant-much-brighter);
 }
 
-.closingDiv {
+.closing-div {
   position: fixed;
   display: none;
   width: 100vw;

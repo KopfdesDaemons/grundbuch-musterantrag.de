@@ -1,24 +1,23 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-artikelsidebar',
   templateUrl: './artikelsidebar.component.html',
   styleUrls: ['./artikelsidebar.component.scss'],
-  imports: [NgClass, RouterLink]
+  imports: [RouterLink, RouterLinkActive]
 })
 export class ArtikelsidebarComponent {
-  protected readonly router = inject(Router);
+  protected readonly activatedRoute = inject(ActivatedRoute);
   readonly elementRef = inject(ElementRef);
   protected readonly isOpen = signal(false);
 
-  themen = [
+  protected readonly topics = [
     {
       name: 'Einleitung',
       routerLink: '/grundbuchrecht/einleitung',
-      unterthemen: [
+      subtopics: [
         { name: 'Definition Grundbuch', fragment: 'definitiongrundbuch' },
         { name: 'Aufbau des Grundbuchs', fragment: 'aufbau' },
         { name: 'Zuständigkeiten', fragment: 'zuständigkeiten' },
@@ -28,7 +27,7 @@ export class ArtikelsidebarComponent {
     {
       name: 'Das Bestandsverzeichnis',
       routerLink: '/grundbuchrecht/bestandsverzeichnis',
-      unterthemen: [
+      subtopics: [
         { name: 'Defintion Grundstück', fragment: 'definitiongrundstück' },
         { name: 'Definition Flurstück', fragment: 'definitionflurstück' },
         { name: 'Definition Flur', fragment: 'definitionflur' },
@@ -43,7 +42,7 @@ export class ArtikelsidebarComponent {
     {
       name: 'Abteilung I',
       routerLink: '/grundbuchrecht/abteilung1',
-      unterthemen: [
+      subtopics: [
         { name: 'Eigentumsarten', fragment: 'eigentumsarten' },
         { name: 'Grundstückserwerb', fragment: 'grundstückserwerb' }
       ]
@@ -51,7 +50,7 @@ export class ArtikelsidebarComponent {
     {
       name: 'Abteilung II',
       routerLink: '/grundbuchrecht/abteilung2',
-      unterthemen: [
+      subtopics: [
         { name: 'Dauerwohnrecht', fragment: 'dauerwohnrecht' },
         { name: 'Dauernutzungsrecht', fragment: 'dauernutzungsrecht' },
         { name: 'Grunddienstbarkeiten', fragment: 'grunddienstbarkeit' },
@@ -73,7 +72,7 @@ export class ArtikelsidebarComponent {
     {
       name: 'Abteilung III',
       routerLink: '/grundbuchrecht/abteilung3',
-      unterthemen: [
+      subtopics: [
         { name: 'Grundschuld', fragment: 'grundschuld' },
         { name: 'Eigentümergrundschuld', fragment: 'eigentümergrundschuld' },
         { name: 'Rentenschuld', fragment: 'rentenschuld' },
@@ -84,7 +83,7 @@ export class ArtikelsidebarComponent {
 
   dropdown(event: Event): void {
     const element = event.target as Element;
-    element.closest('.thema')!.classList.toggle('open');
+    element.closest('.topic')!.classList.toggle('open');
   }
 
   toggleSidemenu() {
