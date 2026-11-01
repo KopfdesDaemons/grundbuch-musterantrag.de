@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
 import { GoogleChartComponent } from '../../../../components/google-chart/google-chart.component';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
@@ -13,18 +14,43 @@ import { StatisticService } from 'src/app/services/data/statistic.service';
   styleUrl: './count.component.scss'
 })
 export class CountComponent {
+  private readonly platformId = inject(PLATFORM_ID);
   protected readonly gChartsS = inject(GooglechartsService);
   protected readonly statisticS = inject(StatisticService);
+
+  private readonly STORAGE_KEYS = {
+    multiColor: 'statistic_count_multiColor',
+    timeframeViewMode: 'statistic_count_timeframeViewMode',
+    antragsartenChartType: 'statistic_count_antragsartenChartType'
+  } as const;
 
   protected readonly multiColor = this.gChartsS.useMultiColor;
 
   constructor() {
-    this.gChartsS.setUseMultiColor(false);
+    if (isPlatformBrowser(this.platformId)) {
+      const savedMultiColor = localStorage.getItem(this.STORAGE_KEYS.multiColor);
+      this.gChartsS.setUseMultiColor(savedMultiColor === 'true');
+
+      const savedTimeframeMode = localStorage.getItem(this.STORAGE_KEYS.timeframeViewMode);
+      if (savedTimeframeMode === 'LineChart' || savedTimeframeMode === 'Grid') {
+        this.timeframeViewMode.set(savedTimeframeMode);
+      }
+
+      const savedChartType = localStorage.getItem(this.STORAGE_KEYS.antragsartenChartType);
+      if (savedChartType === 'PieChart' || savedChartType === 'ColumnChart') {
+        this.antragsartenChartType.set(savedChartType);
+      }
+    } else {
+      this.gChartsS.setUseMultiColor(false);
+    }
   }
 
   toggleMultiColor(enabled?: boolean) {
     const next = enabled !== undefined ? enabled : !this.multiColor();
     this.gChartsS.setUseMultiColor(next);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.STORAGE_KEYS.multiColor, String(next));
+    }
   }
 
   protected readonly pieChartOptions = computed(() => {
@@ -42,7 +68,11 @@ export class CountComponent {
   };
 
   toggleTimeframeViewMode() {
-    this.timeframeViewMode.update(mode => (mode === 'LineChart' ? 'Grid' : 'LineChart'));
+    const next = this.timeframeViewMode() === 'LineChart' ? 'Grid' : 'LineChart';
+    this.timeframeViewMode.set(next);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.STORAGE_KEYS.timeframeViewMode, next);
+    }
   }
 
   protected readonly weekdayLabels = ['Mo', '', 'Mi', '', 'Fr', '', 'So'];
@@ -121,7 +151,11 @@ export class CountComponent {
   });
 
   toggleChartType() {
-    this.antragsartenChartType.update(type => (type === 'PieChart' ? 'ColumnChart' : 'PieChart'));
+    const next = this.antragsartenChartType() === 'PieChart' ? 'ColumnChart' : 'PieChart';
+    this.antragsartenChartType.set(next);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.STORAGE_KEYS.antragsartenChartType, next);
+    }
   }
 
   protected readonly monthNames = [
