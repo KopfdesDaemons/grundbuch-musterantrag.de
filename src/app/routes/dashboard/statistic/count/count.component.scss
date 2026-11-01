@@ -212,3 +212,61 @@ app-google-chart {
     margin: 0 2px;
   }
 }
+
+@media print {
+  .contribution-grid-scroll {
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .contribution-grid {
+    display: flex;
+    width: 100%;
+  }
+
+  .weeks-container {
+    flex: 1;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .week-column {
+    flex: 1 1 0;
+    max-width: 12px;
+    width: auto;
+    min-width: 0;
+
+    .month-label {
+      font-size: 7pt !important;
+    }
+
+    .week-days {
+      gap: 2px;
+
+      .day-cell {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+      }
+    }
+  }
+
+  .weekday-labels {
+    align-self: stretch;
+    justify-content: space-between;
+    gap: 2px;
+
+    .weekday-label {
+      height: auto;
+      line-height: 1;
+      font-size: 7pt !important;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .contribution-legend span {
+    font-size: 8pt !important;
+  }
+}
