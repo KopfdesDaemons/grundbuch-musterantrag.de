@@ -39,12 +39,53 @@
         } @else if (statisticS.statisticResourceSpecificTimeframe.error()) {
           <app-error-display [error]="statisticS.statisticResourceSpecificTimeframe.error()"></app-error-display>
         } @else {
-          <app-google-chart
-            chartType="LineChart"
-            [chartData]="gChartsS.uploadsTimeframeChartRowsSpecificTimeframe()"
-            [chartOptions]="gChartsS.getLineChartOptions(timeframe())"
-          >
-          </app-google-chart>
+          <span class="chartToggle" (click)="toggleTimeframeViewMode()">{{ timeframeToggleTextMapping[timeframeViewMode()] }}</span>
+          @if (timeframeViewMode() === 'LineChart') {
+            <app-google-chart
+              chartType="LineChart"
+              [chartData]="gChartsS.uploadsTimeframeChartRowsSpecificTimeframe()"
+              [chartOptions]="gChartsS.getLineChartOptions(timeframe())"
+            >
+            </app-google-chart>
+          } @else {
+            <div class="contribution-grid-wrapper">
+              <div class="contribution-grid-scroll">
+                <div class="contribution-grid">
+                  <div class="weekday-labels">
+                    <div class="month-label-spacer"></div>
+                    @for (label of weekdayLabels; track $index) {
+                      <span class="weekday-label">{{ label }}</span>
+                    }
+                  </div>
+                  <div class="weeks-container">
+                    @for (week of contributionGridWeeks(); track $index) {
+                      <div class="week-column">
+                        <div class="month-label">{{ week.monthLabel }}</div>
+                        <div class="week-days">
+                          @for (day of week.days; track $index) {
+                            @if (day) {
+                              <div class="day-cell" [attr.data-level]="day.level" [title]="day.tooltip"></div>
+                            } @else {
+                              <div class="day-cell empty"></div>
+                            }
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="contribution-legend">
+                <span>Weniger</span>
+                <div class="day-cell" data-level="0"></div>
+                <div class="day-cell" data-level="1"></div>
+                <div class="day-cell" data-level="2"></div>
+                <div class="day-cell" data-level="3"></div>
+                <div class="day-cell" data-level="4"></div>
+                <span>Mehr</span>
+              </div>
+            </div>
+          }
         }
       </div>
       <div class="chartContainer">

@@ -89,3 +89,120 @@ app-google-chart {
   width: 100%;
   flex: 1;
 }
+
+.contribution-grid-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  gap: 0.6em;
+}
+
+.contribution-grid-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25em 0.5em;
+}
+
+.contribution-grid {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.4em;
+}
+
+.weekday-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  .month-label-spacer {
+    height: 1.3em;
+  }
+
+  .weekday-label {
+    height: 12px;
+    line-height: 12px;
+    font-size: 0.65em;
+    color: var(--font-color);
+    opacity: 0.75;
+    user-select: none;
+  }
+}
+
+.weeks-container {
+  display: flex;
+  gap: 3px;
+}
+
+.week-column {
+  display: flex;
+  flex-direction: column;
+  width: 12px;
+
+  .month-label {
+    height: 1.3em;
+    font-size: 0.65em;
+    line-height: 1.3em;
+    white-space: nowrap;
+    overflow: visible;
+    color: var(--font-color);
+    opacity: 0.85;
+    user-select: none;
+  }
+
+  .week-days {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+}
+
+.day-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, var(--font-color) 10%, transparent);
+
+  &.empty {
+    visibility: hidden;
+  }
+
+  &[data-level="0"] {
+    background-color: color-mix(in srgb, var(--font-color) 6%, var(--background));
+  }
+
+  &[data-level="1"] {
+    background-color: color-mix(in srgb, var(--primary-color) 30%, var(--background));
+  }
+
+  &[data-level="2"] {
+    background-color: color-mix(in srgb, var(--primary-color) 55%, var(--background));
+  }
+
+  &[data-level="3"] {
+    background-color: color-mix(in srgb, var(--primary-color) 80%, var(--background));
+  }
+
+  &[data-level="4"] {
+    background-color: var(--primary-color);
+  }
+}
+
+.contribution-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7em;
+  color: var(--font-color);
+  opacity: 0.8;
+  user-select: none;
+
+  span {
+    margin: 0 2px;
+  }
+}

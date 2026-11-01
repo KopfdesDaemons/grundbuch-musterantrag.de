@@ -35,6 +35,81 @@ export class CountComponent {
     return this.gChartsS.getBarChartOptions();
   });
 
+  protected readonly timeframeViewMode = signal<'LineChart' | 'Grid'>('LineChart');
+  protected readonly timeframeToggleTextMapping: Record<'LineChart' | 'Grid', string> = {
+    LineChart: 'Linie',
+    Grid: 'Grid'
+  };
+
+  toggleTimeframeViewMode() {
+    this.timeframeViewMode.update(mode => (mode === 'LineChart' ? 'Grid' : 'LineChart'));
+  }
+
+  protected readonly weekdayLabels = ['Mo', '', 'Mi', '', 'Fr', '', 'So'];
+  private readonly shortMonthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+
+  protected readonly contributionGridWeeks = computed(() => {
+    const resource = this.statisticS.statisticResourceSpecificTimeframe;
+    if (resource.isLoading() || resource.error()) {
+      return [];
+    }
+    const rawDays = resource.value() ?? [];
+    if (rawDays.length === 0) {
+      return [];
+    }
+
+    const maxCount = rawDays.reduce((max, day) => Math.max(max, day.count || 0), 0);
+    const weeks: {
+      monthLabel: string;
+      days: ({ count: number; level: 0 | 1 | 2 | 3 | 4; tooltip: string } | null)[];
+    }[] = [];
+
+    let lastLabeledMonthKey = '';
+    const showYearInLabel = this.selectedYear() === undefined;
+
+    for (const item of rawDays) {
+      if (!item?.date) continue;
+      const dateObj = new Date(item.date);
+      const dayOfWeek = (dateObj.getDay() + 6) % 7; // 0 = Montag, 6 = Sonntag
+
+      if (weeks.length === 0 || dayOfWeek === 0) {
+        weeks.push({
+          monthLabel: '',
+          days: [null, null, null, null, null, null, null]
+        });
+      }
+
+      const currentWeek = weeks[weeks.length - 1];
+      const month = dateObj.getMonth();
+      const year = dateObj.getFullYear();
+      const monthKey = `${year}-${month}`;
+
+      if (monthKey !== lastLabeledMonthKey) {
+        const label = showYearInLabel ? `${this.shortMonthNames[month]} '${String(year).slice(-2)}` : this.shortMonthNames[month];
+        if (weeks.length === 2 && weeks[0].monthLabel !== '') {
+          weeks[0].monthLabel = '';
+        }
+        currentWeek.monthLabel = label;
+        lastLabeledMonthKey = monthKey;
+      }
+
+      const count = item.count || 0;
+      let level: 0 | 1 | 2 | 3 | 4 = 0;
+      if (count > 0 && maxCount > 0) {
+        const ratio = count / maxCount;
+        level = ratio <= 0.25 ? 1 : ratio <= 0.5 ? 2 : ratio <= 0.75 ? 3 : 4;
+      }
+
+      const dd = String(dateObj.getDate()).padStart(2, '0');
+      const mm = String(month + 1).padStart(2, '0');
+      const tooltip = `${dd}.${mm}.${year}: ${count} ${count === 1 ? 'Antrag' : 'Anträge'}`;
+
+      currentWeek.days[dayOfWeek] = { count, level, tooltip };
+    }
+
+    return weeks;
+  });
+
   protected readonly antragsartenChartType = signal<'PieChart' | 'ColumnChart'>('PieChart');
   protected readonly toggleTextMapping: Record<'PieChart' | 'ColumnChart', string> = {
     PieChart: 'Kreis',
