@@ -35,6 +35,20 @@ export class CountComponent {
     return this.gChartsS.getBarChartOptions();
   });
 
+  protected readonly antragsartenChartType = signal<'PieChart' | 'ColumnChart'>('PieChart');
+  protected readonly toggleTextMapping: Record<'PieChart' | 'ColumnChart', string> = {
+    PieChart: 'Kreis',
+    ColumnChart: 'Säulen'
+  };
+
+  protected readonly antragsartenChartOptions = computed(() => {
+    return this.antragsartenChartType() === 'PieChart' ? this.pieChartOptions() : this.barChartOptions();
+  });
+
+  toggleChartType() {
+    this.antragsartenChartType.update(type => (type === 'PieChart' ? 'ColumnChart' : 'PieChart'));
+  }
+
   protected readonly monthNames = [
     'Januar',
     'Februar',

@@ -26,6 +26,7 @@ export class GoogleChartComponent {
 
   constructor() {
     effect(async () => {
+      this.chartType();
       this.chartData();
       this.chartOptions();
       if (!isPlatformBrowser(this.platformId)) return;

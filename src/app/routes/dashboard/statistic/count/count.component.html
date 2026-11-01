@@ -54,10 +54,11 @@
         } @else if (statisticS.statisticByTypAndTimeframeResource.error()) {
           <app-error-display [error]="statisticS.statisticByTypAndTimeframeResource.error()"></app-error-display>
         } @else {
+          <span class="chartToggle" (click)="toggleChartType()">{{ toggleTextMapping[antragsartenChartType()] }}</span>
           <app-google-chart
-            chartType="PieChart"
+            [chartType]="antragsartenChartType()"
             [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
-            [chartOptions]="pieChartOptions()"
+            [chartOptions]="antragsartenChartOptions()"
           >
           </app-google-chart>
         }
@@ -69,12 +70,29 @@
         } @else if (statisticS.statisticByTypAndTimeframeResource.error()) {
           <app-error-display [error]="statisticS.statisticByTypAndTimeframeResource.error()"></app-error-display>
         } @else {
-          <app-google-chart
-            chartType="ColumnChart"
-            [chartData]="gChartsS.uploadTypsAndTimeframeChartRows()"
-            [chartOptions]="barChartOptions()"
-          >
-          </app-google-chart>
+          <div class="horizontal-scroll-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Antragsart</th>
+                  <th>Anzahl</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if ((statisticS.statisticByTypAndTimeframeResource.value()?.length ?? 0) === 0) {
+                  <tr>
+                    <td colspan="2" class="noData">Keine Daten vorhanden</td>
+                  </tr>
+                }
+                @for (u of statisticS.statisticByTypAndTimeframeResource.value(); track u.antragsart) {
+                  <tr>
+                    <td class="antragsart">{{ u.antragsart }}</td>
+                    <td>{{ u.anzahl }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
         }
       </div>
     </div>

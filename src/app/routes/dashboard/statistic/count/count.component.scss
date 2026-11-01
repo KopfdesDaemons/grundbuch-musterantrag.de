@@ -54,6 +54,37 @@
   }
 }
 
+.chartToggle {
+  text-align: right;
+  margin-right: 0.5em;
+  cursor: pointer;
+  color: var(--primary-variant-darker);
+  user-select: none;
+}
+
+.horizontal-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+
+  table {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  td,
+  th {
+    padding: 0.5em;
+    font-size: 0.8em;
+  }
+}
+
 app-google-chart {
   width: 100%;
   flex: 1;
