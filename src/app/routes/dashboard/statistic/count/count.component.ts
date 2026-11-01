@@ -49,9 +49,7 @@ export class CountComponent {
   toggleMultiColor(enabled?: boolean) {
     const next = enabled !== undefined ? enabled : !this.multiColor();
     this.gChartsS.setUseMultiColor(next);
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(this.STORAGE_KEYS.multiColor, String(next));
-    }
+    localStorage.setItem(this.STORAGE_KEYS.multiColor, String(next));
   }
 
   protected readonly pieChartOptions = computed(() => {
@@ -71,9 +69,7 @@ export class CountComponent {
   toggleTimeframeViewMode() {
     const next = this.timeframeViewMode() === 'LineChart' ? 'Grid' : 'LineChart';
     this.timeframeViewMode.set(next);
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(this.STORAGE_KEYS.timeframeViewMode, next);
-    }
+    localStorage.setItem(this.STORAGE_KEYS.timeframeViewMode, next);
   }
 
   protected readonly weekdayLabels = ['Mo', '', 'Mi', '', 'Fr', '', 'So'];
@@ -154,9 +150,7 @@ export class CountComponent {
   toggleChartType() {
     const next = this.antragsartenChartType() === 'PieChart' ? 'ColumnChart' : 'PieChart';
     this.antragsartenChartType.set(next);
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem(this.STORAGE_KEYS.antragsartenChartType, next);
-    }
+    localStorage.setItem(this.STORAGE_KEYS.antragsartenChartType, next);
   }
 
   protected readonly monthNames = [
@@ -211,5 +205,9 @@ export class CountComponent {
   reload() {
     this.statisticS.reloadStatisticSpecificTimeframe();
     this.statisticS.reloadStatisticByTypAndTimeframe();
+  }
+
+  print() {
+    window.print();
   }
 }

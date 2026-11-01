@@ -68,6 +68,10 @@ export class FeedbackOverviewComponent {
     this.uploadsS.reloadFeedback();
   }
 
+  print() {
+    window.print();
+  }
+
   isStarFilled(star: number, rating: number | null | undefined): boolean {
     if (!rating) return false;
     return star <= Math.round(rating);

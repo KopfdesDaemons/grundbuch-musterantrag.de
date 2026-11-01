@@ -103,6 +103,10 @@ export class TimeTrackingComponent {
     this.statisticS.reloadTimeTracking();
   }
 
+  print() {
+    window.print();
+  }
+
   getSectionLabel(section: string): string {
     return FORM_SECTION_LABELS[section] ?? section;
   }

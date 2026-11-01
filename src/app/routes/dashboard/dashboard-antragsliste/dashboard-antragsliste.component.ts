@@ -196,4 +196,8 @@ export class DashboardAntragslisteComponent {
     const seconds = totalSeconds % 60;
     return `${minutes} Min. ${seconds} Sek.`;
   }
+
+  print() {
+    window.print();
+  }
 }

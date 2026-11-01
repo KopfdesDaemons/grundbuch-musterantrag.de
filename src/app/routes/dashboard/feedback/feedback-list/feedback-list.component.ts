@@ -114,5 +114,9 @@ export class FeedbackListComponent {
   reload() {
     this.uploadsS.reloadFeedback();
   }
+
+  print() {
+    window.print();
+  }
 }
 

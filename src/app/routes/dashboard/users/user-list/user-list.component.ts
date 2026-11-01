@@ -134,4 +134,8 @@ export class UserListComponent {
       }
     }
   }
+
+  print() {
+    window.print();
+  }
 }

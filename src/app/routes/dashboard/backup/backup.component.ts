@@ -197,4 +197,8 @@ export class BackupComponent {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }
+
+  print() {
+    window.print();
+  }
 }

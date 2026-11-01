@@ -139,4 +139,8 @@ export class LogsListComponent implements OnDestroy {
     await this.loggerS.deleteLogFile();
     this.reloadFiles();
   }
+
+  print() {
+    window.print();
+  }
 }
