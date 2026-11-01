@@ -3,7 +3,7 @@ import { TabNavigationComponent } from 'src/app/components/dashboard/tab-navigat
 
 @Component({
   imports: [TabNavigationComponent],
-  selector: 'app-router',
+  selector: 'app-statistic-router',
   styleUrl: './router.component.scss',
   templateUrl: './router.component.html'
 })

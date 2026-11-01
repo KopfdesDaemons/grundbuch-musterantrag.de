@@ -4,7 +4,7 @@ import { TabNavigationComponent } from 'src/app/components/dashboard/tab-navigat
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TabNavigationComponent],
-  selector: 'app-router',
+  selector: 'app-feedback-router',
   styleUrl: './router.component.scss',
   templateUrl: './router.component.html'
 })
