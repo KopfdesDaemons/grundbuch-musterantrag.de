@@ -5,9 +5,17 @@
   app-sidemenu,
   app-dashboard > header,
   app-tab-navigation > nav,
+  app-disqus,
+  section:has(app-disqus),
+  .artikelButtonDiv,
+  section:has(.artikelButtonDiv),
   th:has(> input[type="checkbox"]),
   td:has(> input[type="checkbox"]),
   button,
+  .btn,
+  .btn-outlined,
+  .btn-text,
+  .btn-icon,
   hr {
     display: none !important;
   }
@@ -46,11 +54,42 @@
 
   app-dashboard > .content,
   app-tab-navigation,
+  .artikelcontent,
+  app-antragsinfos-hero,
+  .content-spacer,
   .content-spacer:first-of-type,
   section {
     margin-top: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  blockquote,
+  table,
+  figure,
+  .musterbvz,
+  .image-zoom-box,
+  img,
+  ul,
+  ol,
+  p,
+  .GB-Abschnitt,
+  .antragsartdiv,
+  app-sachliche-und-ortliche-zustaendigkeit {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   h1 {
