@@ -32,9 +32,13 @@ export class TimeTrackingComponent {
     'Dezember'
   ];
   protected readonly years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
-  protected selectedMonth = signal<number | undefined>(new Date().getMonth());
+  protected selectedMonth = signal<number | undefined>(undefined);
   protected selectedYear = signal<number | undefined>(new Date().getFullYear());
   protected selectedStatus = signal<TimeTrackingStatusFilter>('finished');
+
+  constructor() {
+    this.statisticS.setTimeTrackingFilter(this.selectedMonth(), this.selectedYear(), this.selectedStatus());
+  }
 
   private rowsMap = new Map<string, TimeTrackingRow>();
   rows = linkedSignal<TimeTrackingStatistic[], TimeTrackingRow[]>({

@@ -158,6 +158,10 @@ app-google-chart {
     display: flex;
     flex-direction: column;
     gap: 3px;
+
+    .day-cell:not(.empty):hover {
+      border-color: var(--font-color);
+    }
   }
 }
 

@@ -43,6 +43,7 @@ export class CountComponent {
     } else {
       this.gChartsS.setUseMultiColor(false);
     }
+    this.statisticS.setStatisticSpecificTimeframe(this.selectedMonth(), this.selectedYear());
   }
 
   toggleMultiColor(enabled?: boolean) {
@@ -173,7 +174,7 @@ export class CountComponent {
     'Dezember'
   ];
   protected readonly years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
-  protected selectedMonth = signal<number | undefined>(new Date().getMonth());
+  protected selectedMonth = signal<number | undefined>(undefined);
   protected selectedYear = signal<number | undefined>(new Date().getFullYear());
 
   protected readonly timeframe = computed(() => {

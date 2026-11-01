@@ -41,7 +41,7 @@ export class StatisticService {
   /**
    * Statistic per day for specific time frame
    */
-  private specificTimeFrameMonth = signal<number | undefined>(new Date().getMonth() + 1);
+  private specificTimeFrameMonth = signal<number | undefined>(undefined);
   private specificTimeFrameYear = signal<number | undefined>(new Date().getFullYear());
   private readonly _statisticResourceSpecificTimeframe = httpResource<{ date: string; count: number }[]>(() => ({
     url: '/api/statistic/numberPerDay',
@@ -100,7 +100,7 @@ export class StatisticService {
   /**
    * Time tracking statistic for specific time frame and status
    */
-  private timeTrackingMonth = signal<number | undefined>(new Date().getMonth() + 1);
+  private timeTrackingMonth = signal<number | undefined>(undefined);
   private timeTrackingYear = signal<number | undefined>(new Date().getFullYear());
   private timeTrackingStatus = signal<TimeTrackingStatusFilter>('finished');
 
