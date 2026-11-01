@@ -14,8 +14,10 @@ const DEFAULT_ANTRAGSARTEN: readonly string[] = [
   'Löschung von Lasten und Beschränkungen',
   'Namensberichtigung einer natürlichen Person',
   'Erteilung von Abschriften einer Bewilligung',
-  'Teilungserklärung, Abgeschlossenheits\u00ADbescheinigung, Aufteilungsplan'
+  'Teilungserklärung, Abgeschlossenheitsbescheinigung, Aufteilungsplan'
 ];
+
+const normalizeAntragsart = (value: string): string => value.replace(/\u00AD/g, '');
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,10 +70,10 @@ export class FeedbackListComponent implements OnInit {
     const evalData = this.evaluation();
     const set = new Set<string>(DEFAULT_ANTRAGSARTEN);
     for (const entry of evalData?.byAntragsart ?? []) {
-      if (entry.antragsart) set.add(entry.antragsart);
+      if (entry.antragsart) set.add(normalizeAntragsart(entry.antragsart));
     }
     for (const item of evalData?.items ?? []) {
-      if (item.antragsart) set.add(item.antragsart);
+      if (item.antragsart) set.add(normalizeAntragsart(item.antragsart));
     }
     return Array.from(set);
   });
@@ -82,7 +84,7 @@ export class FeedbackListComponent implements OnInit {
     const filter = this.listFilter();
 
     if (antragsart !== 'all') {
-      items = items.filter(item => item.antragsart === antragsart);
+      items = items.filter(item => normalizeAntragsart(item.antragsart) === antragsart);
     }
 
     if (filter === 'withText') {
