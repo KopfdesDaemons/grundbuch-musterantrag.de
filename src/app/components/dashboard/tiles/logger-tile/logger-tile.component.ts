@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { LoggerService } from 'src/app/services/server/logger.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
@@ -16,7 +17,8 @@ import { Feature, LoggerAction } from 'common/interfaces/user-permission.interfa
   templateUrl: './logger-tile.component.html',
   styleUrl: './logger-tile.component.scss'
 })
-export class LoggerTileComponent {
+export class LoggerTileComponent implements OnInit {
+  private readonly router = inject(Router);
   readonly loggerS = inject(LoggerService);
   readonly userSettingsS = inject(UserSettingsService);
   protected readonly error = signal<Error | HttpErrorResponse | null>(null);
@@ -36,6 +38,12 @@ export class LoggerTileComponent {
     return logs.slice(0, 10);
   });
 
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.reload();
+    }
+  }
+
   async deleteLogFile() {
     try {
       this.error.set(null);
@@ -50,6 +58,7 @@ export class LoggerTileComponent {
 
   reload() {
     this.error.set(null);
+    this.loggerS.setParams({});
     this.loggerS.setPageToLoad(1);
     this.loggerS.resetLogs();
     this.loggerS.loadLogs();

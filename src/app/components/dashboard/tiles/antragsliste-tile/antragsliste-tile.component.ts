@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
 import { DatePipe } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../error-display/error-display.component';
@@ -16,13 +16,20 @@ import { UploadsService } from 'src/app/services/data/uploads.service';
   templateUrl: './antragsliste-tile.component.html',
   styleUrl: './antragsliste-tile.component.scss'
 })
-export class AntragslisteTileComponent {
+export class AntragslisteTileComponent implements OnInit {
+  private readonly router = inject(Router);
   protected readonly statisticS = inject(StatisticService);
   protected readonly uploadsS = inject(UploadsService);
   protected readonly gChartS = inject(GooglechartsService);
 
   protected readonly statisticTimeframe = signal<'week' | 'month'>('month');
   protected readonly toggleTextMapping = { week: 'Woche', month: 'Monat' };
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.reload();
+    }
+  }
 
   reload() {
     this.uploadsS.setPageToLoad(1);

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, signal, viewChild } from '@angular/core';
 import { FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserRoleOption } from 'src/app/models/user-role-option.model';
 import { UserService } from 'src/app/services/user/user.service';
 import { UserroleService } from 'src/app/services/user/userrole.service';
@@ -16,7 +17,8 @@ import { Feature, UserManagementAction } from 'common/interfaces/user-permission
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.scss'
 })
-export class CreateUserComponent {
+export class CreateUserComponent implements OnInit {
+  private readonly router = inject(Router);
   private readonly userSettingsS = inject(UserSettingsService);
   protected readonly userS = inject(UserService);
   protected readonly userroleS = inject(UserroleService);
@@ -36,6 +38,12 @@ export class CreateUserComponent {
   protected readonly form = linkedSignal<FormGroup>(() =>
     this.userS.getNewUserFormGroup(!this.userHasPermissionsCreateUser(), this.userroleS.firstUserRoleID())
   );
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.userroleS.reloadUserRoleOptions();
+    }
+  }
 
   async createUser(): Promise<void> {
     try {

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, linkedSignal, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, linkedSignal, OnInit, signal, viewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
@@ -19,7 +20,8 @@ import { Feature, UserManagementAction } from 'common/interfaces/user-permission
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
+  private readonly router = inject(Router);
   private readonly userSettingsS = inject(UserSettingsService);
   readonly userS = inject(UserService);
   readonly userRoleS = inject(UserroleService);
@@ -50,7 +52,9 @@ export class UserListComponent {
       return users.map(user => {
         const userID = user.userID?.toString() ?? '0';
         if (this.rowsMap.has(userID)) {
-          return this.rowsMap.get(userID)!;
+          const existing = this.rowsMap.get(userID)!;
+          existing.user = user;
+          return existing;
         }
         const newRow: UserRow = {
           isChecked: signal(false),
@@ -65,6 +69,12 @@ export class UserListComponent {
   });
 
   protected readonly selectedRows = computed<UserRow[]>(() => this.rows().filter(row => row.isChecked()));
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.reload();
+    }
+  }
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {
@@ -85,6 +95,7 @@ export class UserListComponent {
     this.rowsMap.clear();
     this.userS.setPageToLoad(1);
     this.userS.loadUsers();
+    this.userRoleS.reloadUserRoleOptions();
     if (this.selectAllInput()) {
       this.selectAllInput()!.nativeElement.checked = false;
     }

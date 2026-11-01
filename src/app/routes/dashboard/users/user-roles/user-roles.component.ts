@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, OnInit, signal } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserroleService } from 'src/app/services/user/userrole.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressSpinnerComponent } from '../../../../components/progress-spinner/progress-spinner.component';
@@ -14,7 +15,8 @@ import { Feature, UserRoleManagementAction } from 'common/interfaces/user-permis
   templateUrl: './user-roles.component.html',
   styleUrl: './user-roles.component.scss'
 })
-export class UserRolesComponent {
+export class UserRolesComponent implements OnInit {
+  private readonly router = inject(Router);
   private readonly userSettingsS = inject(UserSettingsService);
   protected readonly userRoleS = inject(UserroleService);
   protected readonly isNewUserRole = signal(false);
@@ -45,6 +47,13 @@ export class UserRolesComponent {
     const roleInEdit = this.userRoleS.userRoleInEdit.hasValue() ? this.userRoleS.userRoleInEdit.value() : undefined;
     return this.userRoleS.getFormGroup(isDisabled, roleInEdit);
   });
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.userRoleS.reloadUserRoleOptions();
+      this.userRoleS.reloadUserRoleInEdit();
+    }
+  }
 
   selectUserRole(userRoleID: number | undefined): void {
     this.error.set(null);

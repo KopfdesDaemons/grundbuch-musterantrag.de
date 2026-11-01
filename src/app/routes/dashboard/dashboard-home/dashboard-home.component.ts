@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookiesTileComponent } from '../../../components/dashboard/tiles/cookies-tile/cookies-tile.component';
 import { LoggerTileComponent } from '../../../components/dashboard/tiles/logger-tile/logger-tile.component';
 import { AntragslisteTileComponent } from 'src/app/components/dashboard/tiles/antragsliste-tile/antragsliste-tile.component';
@@ -24,6 +25,7 @@ import { UserSettingsService } from 'src/app/services/user/user-settings.service
   styleUrl: './dashboard-home.component.scss'
 })
 export class DashboardHomeComponent implements OnInit {
+  private readonly router = inject(Router);
   userSettingsS = inject(UserSettingsService);
   title = inject(Title);
   greeting = computed(() => {
@@ -35,5 +37,9 @@ export class DashboardHomeComponent implements OnInit {
 
   ngOnInit() {
     this.title.setTitle('Dashboard');
+    if (this.router.navigated) {
+      this.userSettingsS.reloadUsername();
+      this.userSettingsS.reloadUserRole();
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, linkedSignal, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, linkedSignal, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 import { BackupService } from 'src/app/services/data/backup.service';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
 import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
@@ -17,7 +18,8 @@ import { BackupFile } from 'common/interfaces/backup-file.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './backup.component.scss'
 })
-export class BackupComponent {
+export class BackupComponent implements OnInit {
+  private readonly router = inject(Router);
   protected readonly backupS = inject(BackupService);
   protected readonly restoreBackupIsLoading = signal(false);
   protected readonly restoreBackupResponseMessage = signal('');
@@ -73,6 +75,12 @@ export class BackupComponent {
   });
 
   selectedRows = computed<BackupRow[]>(() => this.rows().filter(row => row.isChecked()));
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.reloadBackupList();
+    }
+  }
 
   async createNewBackup() {
     this.restoreBackupIsLoading.set(true);
@@ -164,6 +172,7 @@ export class BackupComponent {
   }
 
   reloadBackupList() {
+    this.rowsMap.clear();
     this.backupS.resetBackupList();
     this.backupS.setPageToLoad(1);
     this.backupS.loadBackupList();

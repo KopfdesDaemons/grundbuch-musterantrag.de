@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, linkedSignal, signal, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, inject, linkedSignal, signal, ChangeDetectionStrategy, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Log } from 'common/models/log.model';
 import { LogRow } from 'src/app/interfaces/log-row';
 import { LoggerService } from 'src/app/services/server/logger.service';
@@ -16,7 +17,8 @@ import { Feature, LoggerAction } from 'common/interfaces/user-permission.interfa
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './logs-list.component.scss'
 })
-export class LogsListComponent implements OnDestroy {
+export class LogsListComponent implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
   private readonly userSettingsS = inject(UserSettingsService);
   protected readonly error = signal<Error | null>(null);
   protected readonly loggerS = inject(LoggerService);
@@ -51,6 +53,13 @@ export class LogsListComponent implements OnDestroy {
       });
     }
   });
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.applyFilters();
+      this.loggerS.loadLogs();
+    }
+  }
 
   ngOnDestroy(): void {
     if (this.searchTimeout) {

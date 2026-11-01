@@ -1,5 +1,6 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FeedbackEvaluation } from 'common/interfaces/feedback.interface';
 import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
@@ -12,7 +13,8 @@ import { UploadsService } from 'src/app/services/data/uploads.service';
   templateUrl: './feedback-overview.component.html',
   styleUrl: './feedback-overview.component.scss'
 })
-export class FeedbackOverviewComponent {
+export class FeedbackOverviewComponent implements OnInit {
+  private readonly router = inject(Router);
   protected readonly uploadsS = inject(UploadsService);
 
   protected readonly monthNames = [
@@ -47,6 +49,12 @@ export class FeedbackOverviewComponent {
     if (!evalData || evalData.totalUploads === 0) return 0;
     return Math.round((evalData.totalRatings / evalData.totalUploads) * 100);
   });
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.reload();
+    }
+  }
 
   monthChanged(month: string) {
     const newMonthIdx = month === 'all' ? undefined : this.monthNames.indexOf(month);

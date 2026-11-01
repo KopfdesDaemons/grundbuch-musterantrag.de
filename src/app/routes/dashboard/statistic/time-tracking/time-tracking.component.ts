@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FORM_SECTION_LABELS } from 'common/models/upload.model';
 import { TimeTrackingStatistic, TimeTrackingStatusFilter } from 'common/interfaces/statistic.interface';
 import { TimeTrackingRow } from 'src/app/interfaces/time-tracking-row';
@@ -14,7 +15,8 @@ import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/pr
   templateUrl: './time-tracking.component.html',
   styleUrl: './time-tracking.component.scss'
 })
-export class TimeTrackingComponent {
+export class TimeTrackingComponent implements OnInit {
+  private readonly router = inject(Router);
   protected readonly statisticS = inject(StatisticService);
 
   protected readonly monthNames = [
@@ -36,8 +38,11 @@ export class TimeTrackingComponent {
   protected selectedYear = signal<number | undefined>(new Date().getFullYear());
   protected selectedStatus = signal<TimeTrackingStatusFilter>('finished');
 
-  constructor() {
+  ngOnInit(): void {
     this.statisticS.setTimeTrackingFilter(this.selectedMonth(), this.selectedYear(), this.selectedStatus());
+    if (this.router.navigated) {
+      this.reload();
+    }
   }
 
   private rowsMap = new Map<string, TimeTrackingRow>();

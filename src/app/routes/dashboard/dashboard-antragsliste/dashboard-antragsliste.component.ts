@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, linkedSignal, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, linkedSignal, OnInit, signal, viewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { UploadsService } from 'src/app/services/data/uploads.service';
 import { DatePipe, NgClass } from '@angular/common';
 import { ErrorDisplayComponent } from '../../../components/error-display/error-display.component';
@@ -19,7 +20,8 @@ import { TabNavigationComponent } from 'src/app/components/dashboard/tab-navigat
   styleUrls: ['./dashboard-antragsliste.component.scss'],
   imports: [DatePipe, ErrorDisplayComponent, NgClass, FormsModule, ProgressSpinnerComponent, TabComponent, TabNavigationComponent]
 })
-export class DashboardAntragslisteComponent {
+export class DashboardAntragslisteComponent implements OnInit {
+  private readonly router = inject(Router);
   private readonly userSettingsS = inject(UserSettingsService);
   protected readonly uploadsS = inject(UploadsService);
   protected readonly error = signal<Error | null>(null);
@@ -72,6 +74,12 @@ export class DashboardAntragslisteComponent {
 
   selectedRows = computed<UploadRow[]>(() => this.rows().filter(row => row.isChecked()));
   selectedRowsWithGeneratedFiles = computed<UploadRow[]>(() => this.selectedRows().filter(row => row.upload.filesDeleted === false));
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.reloadFiles();
+    }
+  }
 
   scroll(element: any) {
     if (element.scrollTop > element.scrollHeight - element.clientHeight - 150) {

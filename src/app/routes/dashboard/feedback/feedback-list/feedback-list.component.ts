@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FeedbackEvaluation, FeedbackItem } from 'common/interfaces/feedback.interface';
 import { ErrorDisplayComponent } from 'src/app/components/error-display/error-display.component';
 import { ProgressSpinnerComponent } from 'src/app/components/progress-spinner/progress-spinner.component';
@@ -23,7 +24,8 @@ const DEFAULT_ANTRAGSARTEN: readonly string[] = [
   templateUrl: './feedback-list.component.html',
   styleUrl: './feedback-list.component.scss'
 })
-export class FeedbackListComponent {
+export class FeedbackListComponent implements OnInit {
+  private readonly router = inject(Router);
   protected readonly uploadsS = inject(UploadsService);
 
   protected readonly monthNames = [
@@ -51,6 +53,12 @@ export class FeedbackListComponent {
 
   protected readonly selectedAntragsart = signal<string>('all');
   protected readonly listFilter = signal<FeedbackListFilter>('all');
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.reload();
+    }
+  }
 
   protected readonly evaluation = computed<FeedbackEvaluation | undefined>(() => {
     return this.uploadsS.feedbackResource.hasValue() ? this.uploadsS.feedbackResource.value() : undefined;

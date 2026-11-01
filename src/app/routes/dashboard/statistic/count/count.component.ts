@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { GoogleChartComponent } from '../../../../components/google-chart/google-chart.component';
 import { GooglechartsService } from 'src/app/services/integration/googlecharts.service';
 import { ErrorDisplayComponent } from '../../../../components/error-display/error-display.component';
@@ -13,8 +14,9 @@ import { StatisticService } from 'src/app/services/data/statistic.service';
   templateUrl: './count.component.html',
   styleUrl: './count.component.scss'
 })
-export class CountComponent {
+export class CountComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
   protected readonly gChartsS = inject(GooglechartsService);
   protected readonly statisticS = inject(StatisticService);
 
@@ -26,7 +28,7 @@ export class CountComponent {
 
   protected readonly multiColor = this.gChartsS.useMultiColor;
 
-  constructor() {
+  ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const savedMultiColor = localStorage.getItem(this.STORAGE_KEYS.multiColor);
       this.gChartsS.setUseMultiColor(savedMultiColor === 'true');
@@ -44,6 +46,9 @@ export class CountComponent {
       this.gChartsS.setUseMultiColor(false);
     }
     this.statisticS.setStatisticSpecificTimeframe(this.selectedMonth(), this.selectedYear());
+    if (this.router.navigated) {
+      this.reload();
+    }
   }
 
   toggleMultiColor(enabled?: boolean) {

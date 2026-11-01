@@ -19,17 +19,20 @@ export class PaginatedDataService<T> {
 
   private readonly _params = signal<Record<string, string | number | boolean>>({});
 
-  private readonly _dataResource = httpResource<PaginatedApiResponse<T>>(() => {
-    const url = this._apiUrl();
-    if (!url) return undefined;
-    return {
-      url,
-      params: {
-        page: this.pageToLoad(),
-        ...this._params()
-      }
-    };
-  });
+  private readonly _dataResource = httpResource<PaginatedApiResponse<T>>(
+    () => {
+      const url = this._apiUrl();
+      if (!url) return undefined;
+      return {
+        url,
+        params: {
+          page: this.pageToLoad(),
+          ...this._params()
+        }
+      };
+    },
+    { equal: () => false }
+  );
 
   readonly data = this._dataResource.asReadonly();
 

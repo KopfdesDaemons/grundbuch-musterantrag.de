@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/user/auth.service';
 import { UserSettingsService } from 'src/app/services/user/user-settings.service';
 import { ProgressSpinnerComponent } from '../../../components/progress-spinner/progress-spinner.component';
@@ -14,7 +15,8 @@ import { SessionsManagerComponent } from 'src/app/components/sessions-manager/se
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.scss'
 })
-export class UserSettingsComponent {
+export class UserSettingsComponent implements OnInit {
+  private readonly router = inject(Router);
   authS = inject(AuthService);
   userSettingsS = inject(UserSettingsService);
   newPasswordForm = this.userSettingsS.getNewPasswordGroup();
@@ -28,6 +30,13 @@ export class UserSettingsComponent {
   newPasswordError = signal(false);
   newUsernameMessage = signal('');
   newUsernameError = signal(false);
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.userSettingsS.reloadUsername();
+      this.userSettingsS.reloadUserRole();
+    }
+  }
 
   async changePassword() {
     try {

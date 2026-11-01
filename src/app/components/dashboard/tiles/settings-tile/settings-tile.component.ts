@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { DashboardTileComponent } from '../../dashboard-tile/dashboard-tile.component';
 import { SettingsService } from 'src/app/services/server/settings.service';
 import { ProgressSpinnerComponent } from '../../../progress-spinner/progress-spinner.component';
@@ -15,7 +16,8 @@ import { Feature, SettingsAction, UploadManagementAction } from 'common/interfac
   templateUrl: './settings-tile.component.html',
   styleUrl: './settings-tile.component.scss'
 })
-export class SettingsTileComponent {
+export class SettingsTileComponent implements OnInit {
+  private readonly router = inject(Router);
   private readonly uploadS = inject(UploadsService);
   protected readonly userSettingsS = inject(UserSettingsService);
   protected readonly settingsS = inject(SettingsService);
@@ -29,6 +31,12 @@ export class SettingsTileComponent {
     feature: Feature.UploadManagement,
     allowedActions: [UploadManagementAction.DeleteAllGeneratedFiles]
   });
+
+  ngOnInit(): void {
+    if (this.router.navigated) {
+      this.settingsS.load();
+    }
+  }
 
   async changeSetting(settingName: string, value: boolean | string): Promise<void> {
     try {
